@@ -1,0 +1,90 @@
+<script src="https://kit.fontawesome.com/63c07008cd.js" crossorigin="anonymous"></script>
+
+<link rel="stylesheet" href="/static/css/reset.css">
+<link rel="stylesheet" href="/static/css/product.css">
+<section class="section">
+    <nav class="section__nav">
+        <script th:src="@{/js/util.js}"></script>
+        <h1>상품보기</h1>
+        <p>
+            HOME
+            <span> > </span>
+            <span>패션·의류·뷰티</span>
+            <span> > </span>
+            <strong>남성의류</strong>
+        </p>
+    </nav>
+
+    <!-- 상품 전체 정보 내용 -->
+    <article class="info">
+        <div class="image">
+            <img src="https://thumbnail7.coupangcdn.com/thumbnails/remote/492x492ex/image/vendor_inventory/82e4/919f32aceb62b66e96ae165129e2f91844a5b458604e3a6bfc492ab5ad2a.jpg"
+                alt="상품이미지" />
+        </div>
+        <div class="summary">
+            <nav class="summary__nav">
+                <h1 class="summary__nav__company">(주)상호명</h1>
+                <h2 class="summary__nav__product">상품번호&nbsp;:&nbsp;<span id="prodNo">1121223123</span></h2>
+            </nav>
+            <nav class="summary__product">
+                <h3>상품명</h3>
+                <p>상품 정보</p>
+                <h5 class="rating"><a href="#" onclick="scrollToSection('changTabBox')"><u>상품평보기</u></a></h5>
+            </nav>
+            <nav class="summary__price">
+                <div class="org_price">
+                    <del id="prodPrice">12000원</del>
+                    <span id="disCount">10%↓</span>
+                </div>
+                <div class="dis_price">
+                    <ins id="disPrice">10000원</ins>
+                </div>
+            </nav>
+            <nav class="summary__delivery">
+                <!-- <span class="delivery">무료배송</span> -->
+                <span class="delivery">배송비: 1000원</span>
+                <span class="arrival" id="arrivalDate">모레 (금) 7/8 도착예정</span>
+                <div class="desc">본 상품은 국내배송만 가능합니다.</ㅇ>
+            </nav>
+            <nav class="summary__card">
+                <span class="card cardFree"><i class="fa-solid fa-credit-card"></i>무이자할부</span>&nbsp;&nbsp;
+                <span class="card cardAdd"><i class="fa-solid fa-credit-card"></i>카드추가혜택</span>
+            </nav>
+            <nav class="summary__origin">
+                <span class="origin">원산지-상세설명 참조</span>
+            </nav>
+
+            <div class="selectedOption">
+                <div class="selectedValue">
+                        <h4>수량</h4>
+                        <div class="count">
+                            <button class="decrease" onclick="changeNumNoOpt(-1)">-</button>
+                            <input class="count__input" type="text" name="num" id="numInput" value="1" oninput="changeNumNoOpt(0)" />
+                            <button class="increase" onclick="changeNumNoOpt(1)">+</button>
+                        </div>
+                </div>
+            </div>
+
+            <div class="total">
+                <span th:if="${OptionDTOs.getOptionMap().size()==0}" name="totalPrice"
+                    th:text="${#numbers.formatInteger((product.prodPrice * (100 - product.prodDiscount) * 0.01), 3, 'COMMA')}"></span>
+                <span th:if="${OptionDTOs.getOptionMap().size()!=0}" name="totalPrice" th:text="0"></span>
+                <span class="total__price-name">총 상품금액</span>
+                <span class="total__price-value">27,000원</span>
+            </div>
+
+            <div class="button-group">
+                <input type="button" onclick="btnOrder()" class="button-group__btn button-group__order" value="구매하기" />
+                <input type="button" onclick="btnCart()" class="button-group__btn button-group__cart" value="장바구니" />
+            </div>
+        </div>
+    </article>
+</section >
+<section class="section">
+    <!-- 상품 정보 내용 -->
+        <nav class="section__nav">
+            <h1>상품정보</h1>
+        </nav>
+        <!-- 상품상세페이지 이미지 -->
+        <img class="section__img" src="https://thumbnail9.coupangcdn.com/thumbnails/remote/q89/image/retail/images/428998748346131-02d256a7-51f3-44c7-a66d-99431f86c7e2.jpg"  alt="상세페이지1">
+</section>

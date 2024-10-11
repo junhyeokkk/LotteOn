@@ -1,0 +1,259 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{/layout/productLayout.html}">
+<!--내용 시작-->
+
+<link rel="stylesheet" href="/static/css/reset.css">
+<link rel="stylesheet" href="/static/css/product.css">
+<style>
+    .sort>.selected {
+        background-color: #f0f0f0;
+        /* 선택된 항목의 배경색을 변경 */
+    }
+</style>
+<script>
+
+    window.onload = function () {
+        setCateCodeInputValue();
+        let currentURL = window.location.href;
+        let splitURL = currentURL.split('?')[1];
+        let sortCode = ""
+        let sortText = '';
+        if (splitURL !== undefined) {
+            let params = new URLSearchParams(window.location.search);
+            sortCode = params.get('sort');
+        }
+        const sortNav = document.getElementsByClassName('sort')[0];
+        const mainSortNav = document.getElementsByClassName('mainSort')[0];
+        const aTag = sortNav.querySelectorAll('a');
+        const mTag = sortNav.querySelectorAll('a');
+
+        switch (sortCode) {
+            case 'prodSold':
+                aTag[0].classList.add('navOn');
+                sortText = ' > 판매많은순';
+                break;
+            case 'prodLowPrice':
+                aTag[1].classList.add('navOn');
+                sortText = ' > 낮은가격순';
+                break;
+            case 'prodHighPrice':
+                aTag[2].classList.add('navOn');
+                sortText = ' > 높은가격순';
+                break;
+            case 'prodScore':
+                aTag[3].classList.add('navOn');
+                sortText = ' > 평점높은순';
+                break;
+            case 'prodReview':
+                aTag[4].classList.add('navOn');
+                sortText = ' > 후기많은순';
+                break;
+            case 'prodRdate':
+                aTag[5].classList.add('navOn');
+                sortText = ' > 최근등록순';
+                break;
+            case 'prodHit-main':
+                sortText = ' > 히트상품';
+                break;
+            case 'prodScore-main':
+                sortText = ' > 추천상품';
+                break;
+            case 'prodRdate-main':
+                sortText = ' > 최신상품';
+                break;
+            case 'prodSold-main':
+                sortText = ' > 인기상품';
+                break;
+            case 'prodDiscount-main':
+                sortText = ' > 할인상품';
+                break;
+            default:
+                sortText = '';
+        }
+
+        document.getElementById('sortText').innerText = sortText;
+
+    }
+
+    function sort(sortType) {
+        const currentUrl = new URL(window.location.href);
+        currentUrl.searchParams.set('sort', sortType);
+        window.location.href = currentUrl.toString();
+    }
+
+    // 상품 상태 확인
+    function checkProdStatus(event) {
+        const button = event.target;
+        const prod = button.closest('a');
+        if (prod.className === "판매중단") {
+            event.preventDefault();
+            alert("판매 중단된 상품입니다.");
+        }
+    }
+
+</script>
+
+<section class="section" layout:fragment="content">
+
+
+    <!-- 제목, 페이지 네비게이션 -->
+    <nav class="section__nav">
+        <h1>상품목록</h1>
+        <p>HOME
+            <span> > </span>
+            <span>패션·의류·뷰티</span>
+            <span> > </span>
+            <span> 남성의류 </span>
+        </p>
+    </nav>
+
+    <!-- 정렬 메뉴 -->
+
+    <ul class="sort">
+        <li><a class="sort__link" href="#" onclick="sort('prodSold')"> 판매많은순</a></li>
+        <li><a class="sort__link href=" #" onclick="sort('prodLowPrice')"> 낮은가격순</a></li>
+        <li><a class="sort__link href=" #" onclick="sort('prodHighPrice')"> 높은가격순</a></li>
+        <li><a class="sort__link href=" #" onclick="sort('prodScore')"> 평점높은순</a></li>
+        <li><a class="sort__link href=" #" onclick="sort('prodReview')"> 후기많은순</a></li>
+        <li><a class="sort__link href=" #" onclick="sort('prodRdate')"> 최근등록순</a></li>
+    </ul>
+
+
+    <!-- 상품목록 -->
+    <section class="productBox">
+        <div class="product">
+            <a href="#" class="product__link">
+                <div class="thumb">
+                    <img class="thumb__img"
+                        src="https://thumbnail7.coupangcdn.com/thumbnails/remote/230x230ex/image/retail/images/3122239138972570-727d95de-ec33-4f85-99db-1a8720ff24f5.jpg"
+                        alt="t1" />
+                </div>
+
+                <div class="prodcut__desc">
+                    <h2>상품명</h2>
+                    <p>상품설명</p>
+                </div>
+
+                <div class="product__price-group">
+                    <div class="org_price">
+                        <del class="org_price__prodPrice">12000</del>
+                        <span class="org_price__discount">10%↓</span>
+                    </div>
+
+                    <div class="dis_price">
+                        <ins class="dis_price__result">10000원</ins>
+                        <span class="free free-delivery">무료배송</span>
+                        <!-- <span class="free" style="background-color: transparent; color: #111">배송비 :
+                                <span>1000원</span>
+                        </span> -->
+                    </div>
+                </div>
+                <div class="score_review">
+                    <b>★ <span>4</span></b>
+                    <b>리뷰 <span>10</span></b>
+                    <span>고객만족우수</span>
+                </div>
+            </a>
+        </div>
+        <div class="product">
+            <a href="#" class="product__link">
+                <div class="thumb">
+                    <img class="thumb__img"
+                        src="https://thumbnail7.coupangcdn.com/thumbnails/remote/230x230ex/image/retail/images/3122239138972570-727d95de-ec33-4f85-99db-1a8720ff24f5.jpg"
+                        alt="t1" />
+                </div>
+
+                <div class="prodcut__desc">
+                    <h2>상품명</h2>
+                    <p>상품설명</p>
+                </div>
+
+                <div class="product__price-group">
+                    <div class="org_price">
+                        <del class="org_price__prodPrice">12000</del>
+                        <span class="org_price__discount">10%↓</span>
+                    </div>
+
+                    <div class="dis_price">
+                        <ins class="dis_price__result">10000원</ins>
+                        <!-- <span class="free free-delivery">무료배송</span> -->
+                        <span class="free" style="background-color: transparent; color: #111">배송비 :
+                                <span>1000원</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="score_review">
+                    <b>★ <span>4</span></b>
+                    <b>리뷰 <span>10</span></b>
+                    <span>고객만족우수</span>
+                </div>
+            </a>
+        </div>
+        <div class="product">
+            <a href="#" class="product__link">
+                <div class="thumb">
+                    <img class="thumb__img"
+                        src="https://thumbnail7.coupangcdn.com/thumbnails/remote/230x230ex/image/retail/images/3122239138972570-727d95de-ec33-4f85-99db-1a8720ff24f5.jpg"
+                        alt="t1" />
+                </div>
+
+                <div class="prodcut__desc">
+                    <h2>상품명</h2>
+                    <p>상품설명</p>
+                </div>
+
+                <div class="product__price-group">
+                    <div class="org_price">
+                        <del class="org_price__prodPrice">12000</del>
+                        <span class="org_price__discount">10%↓</span>
+                    </div>
+
+                    <div class="dis_price">
+                        <ins class="dis_price__result">10000원</ins>
+                        <!-- <span class="free free-delivery">무료배송</span> -->
+                        <span class="free" style="background-color: transparent; color: #111">배송비 :
+                                <span>1000원</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="score_review">
+                    <b>★ <span>4</span></b>
+                    <b>리뷰 <span>10</span></b>
+                    <span>고객만족우수</span>
+                </div>
+            </a>
+        </div>
+    </section>
+
+
+    <!-- 상품목록 페이지번호 -->
+    <div class="paging">
+        <span class="prev" th:if="${productPageResponseDTO.prev}">
+            <a
+                href="#">
+                <&nbsp;이전</a>
+        </span>
+        <span class="paging__num">
+            <a href="#" >1</a>
+        </span>
+        <span class="paging__num">
+            <a href="#" >2</a>
+        </span>
+        <span class="paging__num">
+            <a href="#" >3</a>
+        </span>
+        <span class="paging__num">
+            <a href="#" >4</a>
+        </span>
+        <span class="paging__num">
+            <a href="#" >5</a>
+        </span>
+        <span class="next" th:if="${productPageResponseDTO.next}">
+            <a href="#">다음&nbsp;></a>
+        </span>
+    </div>
+
+</section>
+<!--내용 끝-->
+
+</html>
