@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="/static/css/reset.css">
 <link rel="stylesheet" href="/static/css/product.css">
 <section class="section">
-    <nav class="section__nav">
+    <nav class="section__nav nav-sticky">
         <script th:src="@{/js/util.js}"></script>
         <h1>상품보기</h1>
         <p>
@@ -56,12 +56,13 @@
 
             <div class="selectedOption">
                 <div class="selectedValue">
-                        <h4>수량</h4>
-                        <div class="count">
-                            <button class="decrease" onclick="changeNumNoOpt(-1)">-</button>
-                            <input class="count__input" type="text" name="num" id="numInput" value="1" oninput="changeNumNoOpt(0)" />
-                            <button class="increase" onclick="changeNumNoOpt(1)">+</button>
-                        </div>
+                    <h4>수량</h4>
+                    <div class="count">
+                        <button class="decrease" onclick="changeNumNoOpt(-1)">-</button>
+                        <input class="count__input" type="text" name="num" id="numInput" value="1"
+                            oninput="changeNumNoOpt(0)" />
+                        <button class="increase" onclick="changeNumNoOpt(1)">+</button>
+                    </div>
                 </div>
             </div>
 
@@ -79,12 +80,104 @@
             </div>
         </div>
     </article>
-</section >
-<section class="section">
+
     <!-- 상품 정보 내용 -->
-        <nav class="section__nav">
-            <h1>상품정보</h1>
+    <nav class="section__product-nav">
+        <h1>상품정보</h1>
+    </nav>
+    <!-- 상품상세페이지 이미지 -->
+    <img class="section__product-img"
+        src="https://thumbnail9.coupangcdn.com/thumbnails/remote/q89/image/retail/images/428998748346131-02d256a7-51f3-44c7-a66d-99431f86c7e2.jpg"
+        alt="상세페이지1" />
+
+
+    <article class="notice">
+        <nav class="notice__nav">
+            <h1 class="notice__nav__title">상품 정보 제공 고시</h1>
+            <p class="notice__nav__desc">[전자상거래에 관한 상품정보 제공에 관한 고시] 항목에 의거 등록된 정보입니다.</p>
         </nav>
-        <!-- 상품상세페이지 이미지 -->
-        <img class="section__img" src="https://thumbnail9.coupangcdn.com/thumbnails/remote/q89/image/retail/images/428998748346131-02d256a7-51f3-44c7-a66d-99431f86c7e2.jpg"  alt="상세페이지1">
+        <table style="width:90%; border-collapse: collapse;" border="1">
+            <tr>
+                <td width="20%">상품번호</td>
+                <td>123123</td>
+            </tr>
+            <tr>
+                <td>상품상태</td>
+                <td>새상품</td>
+            </tr>
+            <tr>
+                <td>부가세 면세여부</td>
+                <td>과세상품</td>
+            </tr>
+            <tr>
+                <td>영수증발행</td>
+                <td>발행가능 전표</td>
+            </tr>
+            <tr>
+                <td>사업자구분</td>
+                <td>통신판매업</td>
+            </tr>
+            <tr>
+                <td>브랜드</td>
+                <td>나이키</td>
+            </tr>
+            <tr>
+                <td>원산지</td>
+                <td>중국</td>
+            </tr>
+        </table>
+        <table style="width:90%; border-collapse: collapse; margin-top: 20px;" border="1">
+            <tr>
+                <td width="20%">제품소재</td>
+                <td>컨텐츠 참조</td>
+            </tr>
+            <tr>
+                <td>색상</td>
+                <td>컨텐츠 참조</td>
+            </tr>
+            <tr>
+                <td>치수</td>
+                <td>컨텐츠 참조</td>
+            </tr>
+            <tr>
+                <td>제조자/수입국</td>
+                <td>컨텐츠 참조 / 대한민국</td>
+            </tr>
+            <tr>
+                <td>제조국</td>
+                <td>컨텐츠 참조</td>
+            </tr>
+            <tr>
+                <td>취급시 주의사항</td>
+                <td>제품 사용 설명서 참조</td>
+            </tr>
+            <tr>
+                <td>제조연월</td>
+                <td>컨텐츠 참조</td>
+            </tr>
+            <tr>
+                <td>품질보증기준</td>
+                <td>제품 이상 시 공정거래위원회 고시 소비자분쟁해결기준에 의거 보상합니다.</td>
+            </tr>
+            <tr>
+                <td>A/S 책임자와 전화번호</td>
+                <td> 롯데ON 고객센터(1899-7000) </td>
+            </tr>
+            <tr>
+                <td>주문후 예상 배송기간</td>
+                <td>전국 평균 기준 배송 후 3일 이내 도착</td>
+            </tr>
+            <tr>
+                <td colspan="2">구매, 교환, 반품, 배송, 설치 등과 관련하여 추가비용, 제한조건 등의 특이사항이 있는 경우</td>
+            </tr>
+        </table>
+        <p class="notice__paragraph">
+            소비자가 전자상거래등에서 소비자 보호에 관한 법률 제 17조 제1항 또는 제3항에 따라 청약철회를 하고
+            동법 제 18조 제1항 에 따라 청약철회한 물품을 판매자에게 반환하였음에도 불구 하고 결제 대금의
+            환급이 3영업일을 넘게 지연된 경우, 소비자 는 전자상거래등에서 소비자보호에 관한 법률 제18조
+            제2항 및 동법 시행령 제21조 2에 따라 지연일수에 대하여 전상법 시행령으로 정하는 이율을 곱하여
+            산정한 지연이자(“지연배상금”)를 신청할 수 있습니다. 아울러, 교환∙반품∙보증 및 결제대금의
+            환급신청은 [나의쇼핑정보]에서 하실 수 있으며, 자세한 문의는 개별 판매자에게 연락하여 주시기 바랍니다.
+        </p>
+    </article>
 </section>
