@@ -180,4 +180,76 @@
             환급신청은 [나의쇼핑정보]에서 하실 수 있으며, 자세한 문의는 개별 판매자에게 연락하여 주시기 바랍니다.
         </p>
     </article>
+
+    <!-- 상품 리뷰 내용 -->
+    <nav class="section__review-nav" style="padding-bottom: 0">
+        <h1>상품 리뷰</h1>
+        <!-- <h1 class="btnProdQna" onclick="changeTab()">상품 문의</h1> -->
+    </nav>
+
+    <article class="review" id="prodReview" th:if="${prodReview.dtoList.size()!=0}">
+        <ul>
+            <li class="review__list">
+                <img class="review__list__img" src="https://thumbnail7.coupangcdn.com/thumbnails/remote/492x492ex/image/vendor_inventory/82e4/919f32aceb62b66e96ae165129e2f91844a5b458604e3a6bfc492ab5ad2a.jpg">
+                <div style="width: 780px;">
+                    <div>
+                        <h5 class="rating">4</h5>
+                        <span>2022-01-01</span>
+                        <span>sanghoon******</span>
+                    </div>
+                    <h3style="width: 300px">상품명</h3style=>
+                    <p style="white-space: pre-line;">리뷰 내용</p>
+                </div>
+            </li>
+            <li class="review__list">
+                <img class="review__list__img" src="https://thumbnail7.coupangcdn.com/thumbnails/remote/492x492ex/image/vendor_inventory/82e4/919f32aceb62b66e96ae165129e2f91844a5b458604e3a6bfc492ab5ad2a.jpg">
+                <div style="width: 780px;">
+                    <div>
+                        <h5 class="rating">4</h5>
+                        <span>2022-01-01</span>
+                        <span>sanghoon******</span>
+                    </div>
+                    <h3style="width: 300px">상품명</h3style=>
+                    <p style="white-space: pre-line;">리뷰 내용</p>
+                </div>
+            </li>
+            <li class="review__list">
+                <img class="review__list__img" src="https://thumbnail7.coupangcdn.com/thumbnails/remote/492x492ex/image/vendor_inventory/82e4/919f32aceb62b66e96ae165129e2f91844a5b458604e3a6bfc492ab5ad2a.jpg">
+                <div style="width: 780px;">
+                    <div>
+                        <h5 class="rating">4</h5>
+                        <span>2022-01-01</span>
+                        <span>sanghoon******</span>
+                    </div>
+                    <h3style="width: 300px">상품명</h3style=>
+                    <p style="white-space: pre-line;">리뷰 내용</p>
+                </div>
+            </li>
+        </ul>
+        <div class="review__paging">
+            <span class="prev">
+                <a href="#"><&nbsp;이전</a>
+            </span>
+            <span class="num">
+                <a href="#">1</a>
+            </span>
+            <span class="num">
+                <a href="#">2</a>
+            </span>
+            <span class="num">
+                <a href="#">3</a>
+            </span>
+            <span class="next">
+                <a href="#">다음&nbsp;></a>
+            </span>
+        </div>
+    </article>
+    <article class="review-zero" id="prodReview">
+        <ul>
+            <li style="padding: 20px 0;  border: 0; font-size: 18px"> 작성된 리뷰가 없습니다. </li>
+
+        </ul>
+    </article>
+    <!-- 상품 리뷰 내용 끝 -->
+   
 </section>

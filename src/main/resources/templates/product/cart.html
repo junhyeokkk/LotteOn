@@ -1,0 +1,126 @@
+<link rel="stylesheet" href="/static/css/reset.css" />
+<link rel="stylesheet" href="/static/css/product.css" />
+
+<!-- 장바구니 페이지 시작 -->
+<section class="section cart">
+  <!-- 제목, 페이지 네비게이션 -->
+  <nav class="cart__nav">
+    <h1>장바구니</h1>
+    <p>HOME > <span>패션·의류·뷰티</span> > <strong>장바구니</strong></p>
+  </nav>
+  <div id="cartList">
+    <div style="justify-content: center; align-items: center; padding: 20px 0">
+      <p style="font-size: 16px; font-weight: bold; text-align: center">
+        🛒 장바구니가 비어있습니다. 🛒
+      </p>
+    </div>
+  </div>
+  <div id="cartList">
+    <!-- 장바구니 목록 -->
+    <div class="listForCompany" style="position: relative">
+      <div
+        style="
+          padding: 15px;
+          border-top: 2px solid black;
+          font-size: 12px;
+          font-weight: bold;
+          display: flex;
+        "
+        class="cartProdCompany"
+      >
+        <span style="width: 140px">
+          <input type="checkbox" />
+        </span>
+        <span style="flex: 1">상품명</span>
+        <span style="width: 60px; text-align: center">수량</span>
+        <span style="width: 70px; text-align: center">판매가</span>
+        <span style="width: 40px; text-align: center">할인</span>
+        <span style="width: 50px; text-align: center">포인트</span>
+        <span style="width: 60px; text-align: center">배송비</span>
+        <span style="width: 50px; text-align: center">총합</span>
+      </div>
+
+      <div class="productList">
+        <!--productList를 반복 시키면 됨!!-->
+        <div class="productInfo">
+          <input
+            type="checkbox"
+            name="selectedCart"
+            onclick="calculateTotalPrice()"
+          />
+          <input type="hidden" />
+          <a href="#"
+            ><img
+              th:src="@{/uploads/__${cartProduct.thumb190}__}"
+              alt="aaaa"
+              style="width: 80px" /></a
+          ><!--80*80 사이즈로 변경-->
+          <div>
+            <p><a href="#">상품명</a></p>
+            <p>상품이름</p>
+          </div>
+          <div>12</div>
+          <div>27,000</div>
+          <div>5%</div>
+          <div>270</div>
+          <div>배송비</div>
+          <div>25,650</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button
+    style="
+      width: 100px;
+      height: 40px;
+      margin-top: 10px;
+      background-color: #e6e6e6;
+      border: 1px solid #b5b5b5;
+    "
+  >
+    전체삭제
+  </button>
+
+  <!-- 장바구니 전체합계 -->
+  <div class="total">
+    <h2>전체합계</h2>
+    <table border="0">
+      <tr>
+        <td>상품수</td>
+        <td id="prodCount">0</td>
+      </tr>
+      <tr>
+        <td>상품금액</td>
+        <td id="prodOrgPrice">0</td>
+      </tr>
+      <tr>
+        <td>할인금액</td>
+        <td id="prodDisPrice">- 0</td>
+      </tr>
+      <tr>
+        <td>배송비</td>
+        <td id="prodDelivery">0</td>
+      </tr>
+      <tr>
+        <td>포인트</td>
+        <td id="prodPoint">0</td>
+      </tr>
+      <tr>
+        <td>전체주문금액</td>
+        <td id="prodTotalPrice">0</td>
+      </tr>
+    </table>
+    <form id="buyForm" th:action="@{/product/order}" method="POST">
+      <input type="submit" id="btnOrder" value="주문하기" />
+      <input
+        type="hidden"
+        name="user"
+        id="userForDirect"
+        th:value="${#authentication.principal.user.userId}"
+      />
+      <input type="hidden" name="cartProdNo" id="selectedProd" />
+    </form>
+  </div>
+</section>
+<!-- 장바구니 페이지 끝 -->
