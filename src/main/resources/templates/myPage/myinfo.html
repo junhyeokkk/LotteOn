@@ -4,168 +4,10 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Myinfo</title>
-        <link rel="stylesheet" href="/static/css//header.css">
+        <link rel="stylesheet" href="/static/css/header.css">
         <link rel="stylesheet" href="/static/css/footer.css">
         <link rel="stylesheet" href="/static/css/reset.css">
-        <style>
-            #wrapper{
-                width: 1080px;
-            }
-            .info {
-                display: flex;
-                align-items: flex-start; /* 회원정보 설정과 사이드바를 수평으로 배치 */
-                margin-left: 15px;
-            }
-            .info ul {
-                list-style: none;
-                padding: 0;
-                margin: 0;
-                width: 200px; /* 어사이드 너비 */
-                padding: 10px;
-                border-right: 1px solid #ccc;
-                height: 100%; /* 전체 높이 설정 */
-            }
-            .info ul li {
-                padding: 10px 0;
-            }
-            .info section {
-                margin-top: 20px;
-                margin-left: 20px; /* 어사이드와 간격을 두기 위해 여백 설정 */
-                flex-grow: 1;
-            }
-            .info .infobutton {
-                height: 30px;
-                background-color: #343b4d;
-                color: white;
-                border: none;
-                cursor: pointer;
-                border-radius: 5px
-            }
-            .banner {
-                display: block;
-                margin-bottom: 20px;
-                width: 810px;
-                height: 86px; /* 고정된 크기 */
-                object-fit: cover; /* 이미지가 비율을 유지하며 크기에 맞게 조정되도록 설정 */
-            }
-            input[type="text"],
-            select {
-                height: 30px;
-            }
-            .heighttable{
-                border-collapse: collapse;
-                width: 845px;
-                border-top: 0.4px solid black;
-                border-bottom: 0.4px solid black;
-            }
-            
-            .heighttable tr {
-                height: 47px;
-            }
-            .heighttable th {
-                background-color: #F2F2F2;
-                width: 155px;
-            }
-            .heighttable td {
-                padding-left: 15px;
-            }
-            .heighttable tr:nth-child(5) td input{
-                width: 125px;
-            }
-
-            .heighttable tr:nth-child(6) td input{
-                width: 100px;
-            }
-
-            .heighttable tr:nth-child(7) td input:nth-of-type(1) {
-                width: 185px;
-                margin-bottom: 5px;
-            }
-
-            .heighttable tr:nth-child(7) td input:nth-of-type(2),
-            .heighttable tr:nth-child(7) td input:nth-of-type(3) {
-                margin-bottom: 5px;
-                width: 382px;
-            }
-
-            .memberLeave {
-                padding-top: 14px;
-                text-align: right;
-            }
-            .memberLeave a {
-                font-size: 14px;
-                line-height: 1.64;
-                letter-spacing: -.03em;
-                color: #999;
-                text-decoration: underline;
-            }
-            
-            .myinfosubmitbutton{
-                display: flex; /* 플렉스 박스 활성화 */
-                justify-content: center; /* 가로 중앙 정렬 */
-                gap: 5px;
-                margin-bottom: 10px;
-            }
-            .myinfosubmitbutton button{
-                background-color: #ef2a23;
-                /* 343b4d */
-                border: 0px;
-                width: 133px;
-                height: 40px;
-                color: white;
-                cursor: pointer;
-                border-radius: 5px
-                
-            }
-
-            .myinfotopside {
-                height: 75px; /* 높이 지정 */
-                background-color: #f2f2f2; /* 배경색 설정 */
-                padding: 10x 20px; /* 좌우 여백 추가 */
-            }
-
-            .myinfotopside div {
-                display: flex;
-                align-items: center; /* 세로 가운데 정렬 */
-                justify-content: space-between; /* 좌우로 배치 */
-                margin-left: 10px;
-            }
-            .myinfotopside .shopping-info {
-                flex-grow: 1; /* 공간 차지 */
-                text-align: left;
-                padding-left: 50px; /* 더 안쪽으로 밀어 넣기 */
-                padding-top: 10px;
-            }
-            .myinfotopside ol {
-                display: flex;
-                list-style: none;
-                padding-top: 15px;
-            }
-
-            .myinfotopside ol li {
-                border-right: 0.4px solid #97989b; /* 각 li 요소 간 경계선 */
-                margin-right: 20px; /* 간격 */
-                text-align: center;
-                padding-right: 20px;
-            }
-
-            .myinfotopside ol li:last-child {
-                border-right: none; /* 마지막 항목에는 경계선 제거 */
-            }
-
-            /* 숫자 출력 스타일 */
-            .myinfotopside ol li span {
-                display: block;
-                font-size: 18px; /* 숫자의 크기 */
-                font-weight: bold; /* 숫자 굵게 */
-            }
-
-            .myinfotopside ol li small {
-                display: block;
-                font-size: 14px; /* 설명 텍스트 크기 */
-                color: #555;
-            }
-        </style>
+        <link rel="stylesheet" href="/static/css/my/myinfo.css">
     </head>
 <!--내용 시작-->
 <body>
@@ -228,9 +70,9 @@
         <section>
             <a href="#"><img src="/static/images/image.PNG" alt="패션, 타운 하나로 끝" class="banner"></a> <!-- 810x86 배너 이미지 -->
     
-            <article class="myTableStyle">
-                <h3 class="myTableHead">회원정보 설정</h3>
-                <table border="0" class="heighttable">
+            <article class="myinfomation">
+                <h3>회원정보 설정</h3>
+                <table border="0" class="myinfoheighttable">
                     <tr>
                         <th>사용자 ID</th>
                         <td>chh***</td>
