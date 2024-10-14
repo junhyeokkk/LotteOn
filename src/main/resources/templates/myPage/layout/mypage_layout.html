@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>My Info</title>
+    <link rel="stylesheet" href="/css/my/myinfo.css">
+    <th:block th:if="${cate == 'order' or cate == 'point'}">
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/moment/min/moment.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    </th:block>
+
+</head>
+<body>
+<div id="wrapper">
+    <!-- header -->
+    <header th:replace="~{layout/header::header}"></header>
+
+    <!-- content -->
+        <!-- include nav -->
+        <th:replace th:replace="~{mypage/mypagelayout/mypagenav::nav}"></th:replace>
+
+        <!-- include sidebar and banner -->
+        <div class="info">
+            <div th:replace="~{mypage/mypagelayout/mypagesidebar::sidebar}"></div>
+
+
+        <th:block th:with="path='/myPage/content/' + ${cate}, fragment=${cate}">
+                <!-- dynamic content -->
+                <th:replace th:with="path=${path}, fragment=${fragment}"
+                            th:replace="~{${path}::${fragment}}"></th:replace>
+        </th:block>
+        </div>
+    </th:block>
+
+</div>
+<!-- footer -->
+<footer th:replace="~{layout/footer::footer}"></footer>
+</body>
+</html>
