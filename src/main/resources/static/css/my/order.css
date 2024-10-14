@@ -1,0 +1,245 @@
+.myOrderSearch * {
+    float: left;
+    font-size: 16px;
+    font-family: '돋움';
+    color: #444;
+
+}
+
+.myOrderSearch {
+    /* width: 100%;
+    height: 72px;
+    background-color: skyblue;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly; */
+    width: 100%;
+    height: auto;
+    margin-top: 16px;
+    padding: 16px;
+    background-color: #f7f7f7;
+    border: 1px solid #c7c7c7;
+    box-sizing: border-box;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+     
+
+}
+ 
+/* my - ordered(전체주문내역) */
+/* #my > .ordered {}        
+#my > .ordered > section > article .byDate {
+    width: 100%;
+    height: auto;
+    margin-top: 16px;
+    padding: 16px;
+    background-color: #f7f7f7;
+    border: 1px solid #c7c7c7;
+    box-sizing: border-box;
+    overflow: hidden;            
+}
+#my > .ordered > section > article .byDate > * {
+    float: left;
+}
+
+#my > .ordered > section > article .byDate * {
+    font-family: '돋움';
+    color: #444;
+} */
+#my > .ordered > section > article .byDate > .tit {
+    width: 52px;
+    height: 11px;
+    margin-right: 20px;
+    margin-top: 6px;
+    background: url('/static/images/my/my_sprites.png') no-repeat 0px -227px;
+    font-size: 0;
+}
+
+#my > .ordered > section > article .byDate > ul {
+    background-image: url('/static/images/my/my_sprites.png');
+    
+}
+#my > .ordered > section > article .byDate > ul > li {
+    float: left;
+    width: 54px;
+    height: 100%;            
+    box-sizing: border-box;
+}
+
+#my > .ordered > section > article .byDate > ul a {
+    display: block;
+    width: 54px;
+    height: 27px;
+    text-align: center;
+    line-height: 27px;
+}
+
+#my > .ordered > section > article .byDate > ul a:hover {
+    background: url('/static/images/my/my_sprites.png') no-repeat -377px -908px;
+    color: rgb(255, 255, 255);
+}
+#my > .ordered > section > article .byDate > ul a.on {
+    background: url('/static/images/my/my_sprites.png') no-repeat -377px -908px;
+    color: rgb(255, 255, 255);
+}
+#my > .ordered > section > article .byDate > ul a > em {
+    font-weight: bold;
+    color: #111;
+}
+#my > .ordered > section > article .byDate > ul a:hover > em {color: #fff;}
+#my > .ordered > section > article .byDate > ul a.on > em {color: #fff;}
+
+#my > .ordered > section > article .byDate > .date_3ea {
+    width: 165px;
+    height: 29px;
+    background-position: -485px -908px;
+}
+#my > .ordered > section > article .byDate > .date_5ea {
+    width: 273px;
+    height: 29px;
+    background-position: -377px -937px;
+}        
+
+#my > .ordered > section > article .byDate p {
+    width: 190px;
+    height: 29px;
+    background: url('/static/images/my/my_sprites.png') no-repeat -461px -879px;
+    padding: 5px;
+    box-sizing: border-box;
+}
+#my > .ordered > section > article .byDate p > span {
+    display: inline-block;
+    margin: 0 4px;
+}
+#my > .ordered > section > article .byDate input[type=date] {
+    width: 80px;
+    border: none;
+}
+
+#my > .ordered > section > article .byDate .btnConfirm {
+    width: 69px;
+    height: 27px;
+    border: none;
+    font-size: 0;
+    background: url('/static/images/my/my_sprites.png') no-repeat -491px -80px;
+}        
+
+#my > .ordered > section > article > table {
+    width: 100%;
+    height: auto;
+    border-top: 2px solid #444;
+    margin-top: 6px;
+    border-collapse: collapse;            
+}
+#my > .ordered > section > article > table * {
+    font-family: '돋움';
+    color: #444;
+}
+
+#my > .ordered > section > article > table th {
+    padding: 6px;
+    background-color: #a5a7a5;
+    box-sizing: border-box;
+    color: #fff;
+}
+#my > .ordered > section > article > table td {
+    padding: 10px;            
+    border-left: 1px solid #f1f1f1;
+    border-bottom: 1px solid #aaa;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+#my > .ordered > section > article > table td:first-child {border-left: none;}
+
+/* #my > .ordered > section > article > table >.thumb {
+    width: 120px;
+    height: 115px;
+    float:left;
+} */
+
+#my > .ordered > section > article > table > .thumb {
+    float:left;
+}
+
+#my > .ordered > section > article > table ul {
+    float:left;
+    margin-left: 10px;
+    margin-right: 10px;
+
+}
+#my > .ordered > section > article > table ul > li {
+    margin: 4px 0;
+}        
+#my > .ordered > section > article > table .prodPrice {
+    margin-top: 6px;
+    font-family: '고딕';
+    font-size: 16px;
+    font-weight: bold;
+    color: #222;
+}
+#my > .ordered > section > article > table .prodPrice::after {
+    content: '원';
+    font-size: 12px;            
+}
+#my > .ordered > section > article > table .confirm > a {
+    display: block;
+    width: 90px;
+    height: 19px;            
+    background-image: url('/static/images/my/my_sprites.png');
+    font-size: 0;            
+}
+
+#my > .ordered > section > article > table .receive {
+    background-position: -369px -179px;
+}
+#my > .ordered > section > article > table .review {
+    background-position: -369px -202px;
+}        
+#my > .ordered > section > article > table a.refund {
+    margin-top: 2px;
+    font-family: '돋움';
+    font-size: 11px;
+    color: #676767;
+    text-indent: 5px;
+    line-height: 19px;
+    background-position: -500px -399px;
+}
+#my > .ordered > section > article > table a.exchange {
+    margin-top: 2px;
+    font-family: '돋움';
+    font-size: 11px;
+    color: #676767;
+    text-indent: 5px;
+    line-height: 19px;
+    background-position: -500px -399px;
+}
+
+#my > .ordered > section > article > .page {
+    margin: 20px 0;
+    text-align: center;
+}
+
+#my > .ordered > section > article > .page > a {
+    display: inline-block;
+    width: 19px;
+    height: 19px;            
+    box-sizing: border-box;
+    vertical-align: top;
+    color: #777;
+}
+#my > .ordered > section > article > .page > a.on {
+    font-weight: bold;
+    color: #1179ea;
+}
+
+#my > .ordered > section > article > .page > .prev {
+    background: url('/static/images/my/my_sprites2.png') no-repeat 0 -300px;
+    font-size: 0;
+}
+
+#my > .ordered > section > article > .page > .next {
+    background: url('/static/images/my/my_sprites2.png') no-repeat -120px -300px;
+    font-size: 0;
+}

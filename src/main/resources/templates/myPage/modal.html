@@ -4,216 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ModalPage</title>
-    <style>
-        /* 모달 스타일 */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.4);
-
-        }
-
-        .modal-content {
-            background-color: #fefefe;
-            margin: 15% auto;
-            border: 1px solid #888;
-            width: 80%;
-        }
-        .ordermodal-content {
-            background-color: #fefefe;
-            margin: 15% auto;
-            border: 1px solid #888;
-            height: 630px;
-            width: 930px;
-        }
-        .sellermodal-content {
-            background-color: #fefefe;
-            margin: 15% auto;
-            border: 1px solid #888;
-            height: 540px;
-            width: 735px;
-        }
-        .inquirymodal-content{
-            background-color: #fefefe;
-            margin: 15% auto;
-            border: 1px solid #888;
-            height: 540px;
-            width: 735px;
-        }
-        .receiptConfirmmodal-content{
-
-            background-color: #fefefe;
-            margin: 15% auto;
-            border: 1px solid #888;
-            height: 250px;
-            width: 410px;
-        }
-        .reviewmodal-content{
-            background-color: #fefefe;
-            margin: 15% auto;
-            border: 1px solid #888;
-            height: 540px;
-            width: 735px;
-        }
-        .modal-section {
-            padding: 15px 22.5px 20px 22.5px; /* 위쪽 15px, 좌우 22.5px, 아래쪽 20px */
-        }
-        .modal-close {
-            color: white;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .modal-close:hover, .modal-close:focus {
-            color: #aaa;
-            text-decoration: none;
-        }
-
-        /* nav 스타일: h1과 close 버튼을 같은 줄에 배치 */
-        .modal-nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center; /* 수직 가운데 정렬 */
-            border-bottom: 1px solid #ccc;
-            padding: 10px 22.5px;
-            background-color: #558ED5;
-        }
-
-        .modal-nav h1 {
-            color:white;
-            margin: 0;
-            font-size: 24px;
-        }
-
-        .modal-nav button {
-            background-color: transparent;
-            border: none;
-            font-size: 30px;
-            cursor: pointer;
-        }
-        .widthtable{
-            border-top: 1.7px solid #000000; /* 위쪽 테두리 */
-            border-bottom: 0.4px solid #A6A6A6; /* 아래쪽 테두리 */
-            border-collapse: collapse;
-            width: 100%;
-            text-align: center;
-        }
-        .widthtable th {
-            height: 40px;
-            background-color: #A6A6A6;
-            color: white;
-
-        }
-        .widthtable td{
-            padding: 10px;
-        }
-        .widthtable td:nth-child(3),
-        .widthtable th:nth-child(3) {
-            text-align: left;
-        }
-        .heighttable{
-            border-collapse: collapse;
-            border-spacing: 0;
-            width: 100%;
-        }
-        .heighttable tr {
-            height: 47px;
-        }
-        .heighttable th,
-        .heighttable td {
-            border-top: 0.4px solid #A6A6A6;
-            border-bottom: 0.4px solid #A6A6A6;  /* 보더를 명확히 지정 */
-        }
-        .heighttable th {
-            background-color: #F2F2F2;
-            width:143px;
-        }
-        .heighttable td {
-            padding-left: 15px;
-        }
-        .modalimgsize{
-            width: 100px;
-            height: 95px;
-        }
-        .modalprice-info {
-            text-align: left;
-        }
-
-        .modalprice-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 5px;
-        }
-
-        .modalprice-value {
-            text-align: right;
-        }
-
-        .modaltotal-price {
-            font-weight: bold;
-        }
-        .order-info div {
-            margin-bottom: 5px; /* 항목 간의 간격 설정 */
-        }
-
-        .order-number {
-            display: flex;
-            align-items: center; /* 주문번호와 값이 같은 줄에 오도록 설정 */
-        }
-
-        .product-price {
-            margin-top: 5px; /* 가격에 추가적으로 상단 간격 설정 */
-        }
-        .modalbuttondiv{
-            display: flex; /* 플렉스 박스 활성화 */
-            justify-content: center; /* 가로 중앙 정렬 */
-            gap: 5px;
-
-        }
-        .modalbutton{
-            background-color: #558ED5;
-            border: 0px;
-            width: 133px;
-            height: 40px;
-            color: white;
-        }
-        .modalcanclebutton{
-            background-color: #BFBFBF;
-            border: 0px;
-            width: 133px;
-            height: 40px;
-            color: white;
-        }
-        .modalcontent textarea {
-            margin-top: 5px;
-            width: 98%;
-            resize: none;
-            height: 210px;
-        }
-        .sellermodal-content p{
-            text-align: center;
-        }
-        .receiptConfirmmodal-content p{
-            padding-top: 10px;
-            text-align: center;
-        }
-        .star {
-            font-size: 30px;
-            cursor: pointer;
-            color: #ccc; /* 기본 색상 (회색) */
-        }
-
-        .star.filled {
-            color: gold; /* 클릭 시 색상이 노란색으로 변경 */
-        }
-    </style>
+    <link rel="stylesheet" href="/static/css/my/modal.css">
+    <link rel="stylesheet" href="/static/css/my/myinfo.css">
 </head>
 <body>
 
@@ -239,20 +31,12 @@
                         <th></th>
                         <th>상품정보</th>
                         <th>결제금액</th>
-                        <th>상태</th>
                     </tr>
                     <tr>
                         <td>20xx-01-01</td>
                         <td><img src="/main/resources/static/images/AA.jpg" alt="" class="modalimgsize"></td>
-                        <td class="order-info">
-                            <div class="order-number">
-                                주문번호: <span text="${order.orderNumber}">1012211341</span>
-                            </div>
-                            <div class="company-name" text="${order.companyName}">(주) 상호명</div>
-                            <div class="product-name" text="${order.productName}">상품명</div>
-                            <div>수량 : <span text="${order.quantity}"></span>1 개</div>
-                            <div class="product-price" style="font-size: 18px; font-weight: bold;" text="${order.price}">34,000원</div>
-                        </td>
+                        
+                        
                         <td class="modalprice-info">
                             <div class="modalprice-row">
                                 <span>판매가</span>
@@ -370,7 +154,7 @@
                     </tr>
                     <tr>
                         <th>Email</th>
-                        <td class="email">
+                        <td class="modalemail">
                             <input type="text" name="email" value="chh**@gmail.com"/>
                             <input type="hidden" name="prodNo" class="prodNo">
                             <input type="hidden" name="userId" class="userId">
@@ -444,11 +228,11 @@
                         <td class="ratingTd">
                             <input type="hidden" class="revScore" name="revScore" required>
                             <div class="ratingValue">
-                                <span class="star" data-value="1">&#9733;</span>
-                                <span class="star" data-value="2">&#9733;</span>
-                                <span class="star" data-value="3">&#9733;</span>
-                                <span class="star" data-value="4">&#9733;</span>
-                                <span class="star" data-value="5">&#9733;</span>
+                                <span class="modalstar" data-value="1">&#9733;</span>
+                                <span class="modalstar" data-value="2">&#9733;</span>
+                                <span class="modalstar" data-value="3">&#9733;</span>
+                                <span class="modalstar" data-value="4">&#9733;</span>
+                                <span class="modalstar" data-value="5">&#9733;</span>
                             </div>
                         </td>
                     </tr>
@@ -542,16 +326,16 @@
             }
         }
     };
-    const stars = document.querySelectorAll('.star');
+    const modalstars = document.querySelectorAll('.modalstar');
 
-    stars.forEach((star, index) => {
-        star.addEventListener('click', () => {
+    modalstars.forEach((modalstar, index) => {
+        modalstar.addEventListener('click', () => {
             // 모든 별의 색을 기본 회색으로 초기화
-            stars.forEach(s => s.classList.remove('filled'));
+            modalstars.forEach(s => s.classList.remove('filled'));
 
             // 클릭한 별과 그 이전 별까지 모두 노란색으로 변경
             for (let i = 0; i <= index; i++) {
-                stars[i].classList.add('filled');
+                modalstars[i].classList.add('filled');
             }
         });
     });

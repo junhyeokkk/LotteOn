@@ -1,0 +1,182 @@
+/* 모달 공통 스타일 */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* 모달별 컨텐츠 스타일 */
+.ordermodal-content, 
+.sellermodal-content, 
+.inquirymodal-content, 
+.receiptConfirmmodal-content, 
+.reviewmodal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    border: 1px solid #888;
+    border-radius: 15px;
+}
+/* 상세주문 모달 추가 */
+.ordermodal-content {
+    height: 630px;
+    width: 930px;
+    border: none;
+}
+
+/* 판매자,문의,리뷰 모달 추가 */
+.sellermodal-content,
+.inquirymodal-content,
+.reviewmodal-content {
+    height: 540px;
+    width: 735px;
+}
+
+/* 수취확인 모달 추가 */
+.receiptConfirmmodal-content {
+    height: 250px;
+    width: 410px;
+}
+
+/* 내부 모달 패딩 */
+.modal-section {padding: 15px 22.5px 20px 22.5px;}
+
+/* 모달 헤더 스타일 */
+.modal-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* 수직 가운데 정렬 */
+    border-bottom: 1px solid #ccc;
+    padding: 10px 22.5px;
+    background-color: #ef2a23;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.modal-nav h1 {
+    color: white;
+    margin: 0;
+    font-size: 24px;
+}
+
+.modal-nav button {
+    background-color: transparent;
+    border: none;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+/* 모달 종료 버튼 */
+.modal-close {
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.modal-close:hover, .modal-close:focus {
+    color: #aaa;
+    text-decoration: none;
+}
+
+/* 테이블 스타일 */
+.widthtable td {padding: 10px;}
+.widthtable td:nth-child(3),.widthtable th:nth-child(3) {text-align: left;}
+
+.heighttable {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+}
+
+.heighttable tr {height: 47px;}
+
+.heighttable th, 
+.heighttable td {
+    border-top: 0.4px solid #A6A6A6;
+    border-bottom: 0.4px solid #A6A6A6;
+}
+
+.heighttable th {
+    background-color: #F2F2F2;
+    width: 143px;
+}
+
+.heighttable td {
+    padding-left: 15px;
+}
+
+/* 제품 모달 이미지 크기 */
+.modalimgsize {
+    width: 100px;
+    height: 95px;
+}
+
+/* 주문 상세 모달 정보 스타일 */
+.modalprice-info {text-align: left;}
+
+.modalprice-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.modalprice-value {text-align: right;}
+.modaltotal-price {font-weight: bold;}
+.order-info div {margin-bottom: 5px;}
+.order-number {
+    display: flex;
+    align-items: center;
+}
+.product-price {margin-top: 5px;}
+
+/* 모달 버튼 스타일 */
+.modalbuttondiv {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+}
+
+.modalbutton {
+    background-color: #ef2a23;
+    border: 0;
+    width: 133px;
+    height: 40px;
+    color: white;
+    cursor: pointer;
+}
+
+.modalcanclebutton {
+    background-color: #BFBFBF;
+    border: 0;
+    width: 133px;
+    height: 40px;
+    color: white;
+    cursor: pointer;
+}
+
+/* 기타 모달 스타일 */
+.modalcontent textarea {
+    margin-top: 5px;
+    width: 98%;
+    resize: none;
+    height: 210px;
+}
+
+.sellermodal-content p, 
+.receiptConfirmmodal-content p {text-align: center;}
+.receiptConfirmmodal-content p {padding-top: 10px;}
+
+/* 리뷰 모달 별점 */
+.modalstar {
+    font-size: 30px;
+    cursor: pointer;
+    color: #ccc;
+}
+
+.modalstar.filled {color: gold;}

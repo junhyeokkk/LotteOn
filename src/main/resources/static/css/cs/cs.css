@@ -70,6 +70,7 @@
     margin-top: 6px;
     color: #555;
   }
+
   /* 전체보기 */
   .cs > .main > section > h1 > a::after {
     display: inline-block;
@@ -198,7 +199,6 @@
     color: #0078ff;
   }
 
-
    /* tel style */
   .cs > .main > .tel {
     overflow: hidden;
@@ -299,7 +299,6 @@
   
   
   /* sidebar */
-
   .cs_sidebar > h2 {
     font-size: 20px;
     font-weight: bold;
@@ -460,23 +459,7 @@
     background-image: url("/images/cs/cs_sprites.png");
     background-position: -628px -652px;
   }
-  #cs > .notice > .list > article > .page > .next a {
-    font-size: 16px;
-  }
-  #cs > .notice > .list > article > .page > .prev a {
-    font-size: 16px;
-  }
-  #cs > .notice > .list > article > .page > .num {
-    font-size: 20px;
-  }
-  #cs > .notice > .list > article > .page > .num a{
-    font-size: 15px;
-  }
-  #cs > .notice > .list > article > .page > .on {
-    background: #006cff;
-    border-radius: 17px;
-    color: #fff;
-  }
+
   /* 페이징 */
   .pagingBox {
     display: flex;
@@ -525,9 +508,6 @@
   }
 
   /* notice - 글보기 */
-  .notice > .view {}
-  .notice > .view > .no_article_view {}
-
   .notice > .view > .no_article_view > nav:nth-of-type(1){
     margin-left: 20px;
     border-bottom: 2px solid #111;
@@ -681,7 +661,6 @@
     color: #777;
   }
 
-  .faq > section > aside > ul {}
  .faq > section > aside > ul > li {
     margin-bottom: 16px;
   }
@@ -701,76 +680,76 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
+  }
 
 
-.faq-section {
+  .faq-section {
     max-width: 600px;
     margin: 0 auto;
     background-color: white;
     border-radius: 8px;
     padding: 20px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
+  }
 
-.category {
-    margin-bottom: 20px;
-}
+  .category {
+      margin-bottom: 20px;
+  }
 
-h2 {
-    font-size: 18px;
-    margin-bottom: 15px;
-}
+  h2 {
+      font-size: 18px;
+      margin-bottom: 15px;
+  }
 
-.faq-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-}
+  .faq-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+  }
 
-.question {
-    font-size: 14px;
-    color: #333;
-}
+  .question {
+      font-size: 14px;
+      color: #333;
+  }
 
-.answer {
-    font-size: 14px;
-    color: #007bff;
-}
+  .answer {
+      font-size: 14px;
+      color: #007bff;
+  }
 
-button {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    margin-top: 10px;
-    background-color: #f0f0f0;
-    border: 1px solid #ddd;
-    color: #333;
-    cursor: pointer;
-    border-radius: 4px;
-}
+  button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      background-color: #f0f0f0;
+      border: 1px solid #ddd;
+      color: #333;
+      cursor: pointer;
+      border-radius: 4px;
+  }
 
-button.simple-view {
-    background-color: #e0e0e0;
-}
+  button.simple-view {
+      background-color: #e0e0e0;
+  }
 
-button.more-view {
-    background-color: #e0e0e0;
-    position: relative;
-}
+  button.more-view {
+      background-color: #e0e0e0;
+      position: relative;
+  }
 
-button.more-view .count {
-    background-color: red;
-    color: white;
-    border-radius: 50%;
-    padding: 3px 7px;
-    font-size: 12px;
-    position: absolute;
-    right: 15px;
-    top: 8px;
-}
+  button.more-view .count {
+      background-color: red;
+      color: white;
+      border-radius: 50%;
+      padding: 3px 7px;
+      font-size: 12px;
+      position: absolute;
+      right: 15px;
+      top: 8px;
+  }
   
   /* faq - 글목록 */
   .faq > .list > .faq_article > nav > h1 {
@@ -1163,53 +1142,52 @@ button.more-view .count {
   .qna-section {
     width: 80%;
     margin: 20px auto;
-}
+  }
 
-.qna-item {
-    margin-bottom: 10px;
-}
+  .qna-item {
+      margin-bottom: 10px;
+  }
 
-.qna-question {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    padding: 15px;
-    width: 100%;
-    text-align: left;
-    font-size: 16px;
-    cursor: pointer;
-    outline: none;
-}
+  .qna-question {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      padding: 15px;
+      width: 100%;
+      text-align: left;
+      font-size: 16px;
+      cursor: pointer;
+      outline: none;
+  }
 
-.qna-question:after {
-    content: '\002B'; /* plus sign */
-    float: right;
-}
+  .qna-question:after {
+      content: '\002B'; /* plus sign */
+      float: right;
+  }
 
-.qna-question.active:after {
-    content: '\2212'; /* minus sign */
-}
+  .qna-question.active:after {
+      content: '\2212'; /* minus sign */
+  }
 
-.qna-answer {
-    background-color: #f1f1f1;
-    border: 1px solid #ddd;
-    border-top: none;
-    padding: 15px;
-    display: none;
-}
+  .qna-answer {
+      background-color: #f1f1f1;
+      border: 1px solid #ddd;
+      border-top: none;
+      padding: 15px;
+      display: none;
+  }
 
-.qna-answer p {
-    margin: 0;
-}
+  .qna-answer p {
+      margin: 0;
+  }
 
-.qna-answer ul {
-    padding-left: 20px;
-}
+  .qna-answer ul {
+      padding-left: 20px;
+  }
 
-.qna-answer ul li {
-    list-style-type: disc;
-}
-  .qna > .view {}
-  .qna > .view > .qna_article_view {}
+  .qna-answer ul li {
+      list-style-type: disc;
+  }
+
  .qna > .view > .qna_article_view > nav {
     width: 100%;
     height: auto;
@@ -1313,15 +1291,15 @@ button.more-view .count {
     height: 26px;
   }
   
-  .qna > .write > .qna_article_write table td {
+ .qna > .write > .qna_article_write table td {
     padding: 16px;
     border-bottom: 1px solid #ccc;
     font-size: 16px;
-  }
+ }
   
-  .qna > .write > .qna_article_write table td:first-child {
+ .qna > .write > .qna_article_write table td:first-child {
     width: 100px;
-  }
+ }
   
  .qna > .write > .qna_article_write table input {
     width: 100%;

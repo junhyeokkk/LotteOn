@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>롯데ON 마이페이지</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/static/images/main/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <link rel="stylesheet" href="/static/css/header.css">
+    <link rel="stylesheet" href="/static/css/footer.css">
+    <link rel="stylesheet" href="/static/css/reset.css">
+    <link rel="stylesheet" href="/static/css/my/myinfo.css">
+</head>
+
+<body>
+    <div id="wrapper">
+        <header class="header">
+            <div class="header__top">
+                <div class="center header__top__nav">
+    
+                    <a href="#" th:href="@{/member/login}">로그인</a>
+                    <a href="#" th:href="@{/member/join}">회원가입</a>
+                    <a href="#" th:href="@{/my/home(userId=${#authentication.principal.user.userId})}">마이페이지</a>
+                    <i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;장바구니
+                    </a>
+                    <a href="#" th:href="@{/member/logout}">로그아웃</a>
+                </div>
+            </div>
+            <div class="header__bot">
+                    <div class="header__bot__wrapper center">
+                        <a class="logo" href="#" th:href="@{/}"><img class="logo__img" src="/static/images/header_logo.png"
+                                th:src="@{/images/header_logo.png}" alt="로고" /></a>
+                        <form class="search" action="/lotteon/product/search" method="get">
+                            <input class="search__input" type="text" name="keyword" />
+                            <!-- <input  type="hidden" name="cateCode" id="cateCodeInput" value=""> -->
+                            <button class="search__btn"><img width="18" class="search__btn__img"
+                                    src="/static/images/search.svg" /></button>
+                        </form>
+                    </div>
+            </div>
+        </header>
+<!--내용 시작-->
+<div id="wrapper">
+    <nav class="myinfotopside">
+        <div>
+            <a href="#" class="shopping-info">나의쇼핑정보</a>
+
+            <ol>
+                <li>
+                    <a href="/my/order">주문<br><span>2</span></a>
+                </li>
+                <li>
+                    <a href="/my/coupon">쿠폰<br><span>1</span></a>
+                </li>
+                <li>
+                    <a href="/my/point">포인트<br><span>1,000</span></a>
+                </li>
+                <li>
+                    <a href="/my/qna">문의<br><span>1</span></a>
+                </li>
+            </ol>
+        </div>
+    </nav>
+
+        <div class="info">
+            <!--마이페이지 사이드바-->
+            <ul>
+                <li><a href="#">전체주문내역</a></li>
+                <li><a href="#">포인트내역</a></li>
+                <li><a href="#">쿠폰</a></li>
+                <li><a href="#">나의리뷰</a></li>
+                <li><a href="#">문의하기</a></li>
+                <li><a href="#">나의설정</a></li>
+            </ul>
+
+            <!-- 회원정보 섹션 -->
+        <section>
+            <a href="#"><img src="/static/images/image.PNG" alt="패션, 타운 하나로 끝" class="banner"></a>
+            <!-- 810x86 배너 이미지 -->
+            <article class="latest">
+                    
+                    <!--나의 리뷰 출력-->
+
+                    <!--나의 리뷰가 있을떄-->
+                    <h3>나의리뷰</h3>
+                    <table border="0" class="widthtable">
+                        <tr>
+                            <th>번호</th>
+                            <th>상품명</th>
+                            <th>내용</th>
+                            <th>평점</th>                                
+                            <th>작성일</th>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>상품번호 / 상품명</td>
+                            <td>배송이 빠릅니다. 잘 사용하겠습니다.</td>
+                            <td class="ratingTd">
+                                <input type="hidden" class="revScore" name="revScore" required>
+                                <div class="ratingValue">
+                                    <span class="star" data-value="1">&#9733;</span>
+                                    <span class="star" data-value="2">&#9733;</span>
+                                    <span class="star" data-value="3">&#9733;</span>
+                                    <span class="star" data-value="4">&#9733;</span>
+                                    <span class="star" data-value="5">&#9733;</span>
+                                </div>
+                            </td>
+                            <td>~ 12/31</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>상품번호 / 상품명</td>
+                            <td>배송이 빠릅니다. 잘 사용하겠습니다.</td>
+                            <td class="ratingTd">
+                                <input type="hidden" class="revScore" name="revScore" required>
+                                <div class="ratingValue">
+                                    <span class="star" data-value="1">&#9733;</span>
+                                    <span class="star" data-value="2">&#9733;</span>
+                                    <span class="star" data-value="3">&#9733;</span>
+                                    <span class="star" data-value="4">&#9733;</span>
+                                    <span class="star" data-value="5">&#9733;</span>
+                                </div>
+                            </td>
+                            <td>~ 12/31</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>상품번호 / 상품명</td>
+                            <td>배송이 빠릅니다. 잘 사용하겠습니다.</td>
+                            <td class="ratingTd">
+                                <input type="hidden" class="revScore" name="revScore" required>
+                                <div class="ratingValue">
+                                    <span class="star" data-value="1">&#9733;</span>
+                                    <span class="star" data-value="2">&#9733;</span>
+                                    <span class="star" data-value="3">&#9733;</span>
+                                    <span class="star" data-value="4">&#9733;</span>
+                                    <span class="star" data-value="5">&#9733;</span>
+                                </div>
+                            </td>
+                            <td>~ 12/31</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>상품번호 / 상품명</td>
+                            <td>배송이 빠릅니다. 잘 사용하겠습니다.</td>
+                            <td class="ratingTd">
+                                <input type="hidden" class="revScore" name="revScore" required>
+                                <div class="ratingValue">
+                                    <span class="star" data-value="1">&#9733;</span>
+                                    <span class="star" data-value="2">&#9733;</span>
+                                    <span class="star" data-value="3">&#9733;</span>
+                                    <span class="star" data-value="4">&#9733;</span>
+                                    <span class="star" data-value="5">&#9733;</span>
+                                </div>
+                            </td>
+                            <td>~ 12/31</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>상품번호 / 상품명</td>
+                            <td>배송이 빠릅니다. 잘 사용하겠습니다.</td>
+                            <td class="ratingTd">
+                                <input type="hidden" class="revScore" name="revScore" required>
+                                <div class="ratingValue">
+                                    <span class="star" data-value="1">&#9733;</span>
+                                    <span class="star" data-value="2">&#9733;</span>
+                                    <span class="star" data-value="3">&#9733;</span>
+                                    <span class="star" data-value="4">&#9733;</span>
+                                    <span class="star" data-value="5">&#9733;</span>
+                                </div>
+                            </td>
+                            <td>~ 12/31</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>상품번호 / 상품명</td>
+                            <td>배송이 빠릅니다. 잘 사용하겠습니다.</td>
+                            <td class="ratingTd">
+                                <input type="hidden" class="revScore" name="revScore" required>
+                                <div class="ratingValue">
+                                    <span class="star" data-value="1">&#9733;</span>
+                                    <span class="star" data-value="2">&#9733;</span>
+                                    <span class="star" data-value="3">&#9733;</span>
+                                    <span class="star" data-value="4">&#9733;</span>
+                                    <span class="star" data-value="5">&#9733;</span>
+                                </div>
+                            </td>
+                            <td>~ 12/31</td>
+                        </tr>
+                        
+                    </table>        
+            </article>
+
+            <div class="pagingBox">
+                <div class="pagingList">
+                  <!-- 이전 버튼 -->
+                  <a href="#" class="prev"><</a>
+              
+                  <!-- 페이지 링크 -->
+                  <a href="#">1</a>
+                  <a href="#" class="active">2</a>
+                  <a href="#">3</a>
+                  <a href="#">4</a>
+                  <a href="#">5</a>
+              
+                  <!-- 다음 버튼 -->
+                  <a href="#" class="next">></a>
+                </div>
+            </div>
+
+            </section>
+        </div>
+        </div>
+    </div>
+<!--내용 끝-->
+<footer class="footer">
+    <ul class="footer__links">
+        <li class="footer__link"><a href="#">회사소개</a></li>
+        <li class="footer__link"><a href="#">서비스이용약관</a></li>
+        <li class="footer__link"><a href="#">개인정보처리방침</a></li>
+        <li class="footer__link"><a href="#">전자금융거래약관</a></li>
+        <li class="footer__link"><a href="#">1.0.0</a></li>
+    </ul>
+    <div class="footer__info">
+        <p class="footer__logo"><img src="/static/images/footer_logo.png" alt="로고"></p>
+        <p class="footer__company-info">
+            <strong>(주)LotteON</strong><br>
+            부산시 강남구 테헤란로 152 (역삼동 강남파이낸스센터)<br>
+            대표이사 : 홍길동<br>
+            사업자등록번호 : 220-81-83676 사업자정보확인<br>
+            통신판매업신고 : 강남 10630호 Fax : 02-589-8842
+        </p>
+        <p class="footer__customer-service">
+            <strong>고객센터</strong><br>
+            Tel : 1234-5678 (평일 09:00~18:00)<br>
+            스마일클럽/SVIP 전용 : 1522-5700 (365일 09:00~18:00)<br>
+            경기도 부천시 원미구 부일로 223(상동) 투나빌딩 6층<br>
+            Fax : 051-123-4567 | Mail : LotteON@LotteON.co.kr
+        </p>
+    </div>
+</footer>
+</body>
+</html>
