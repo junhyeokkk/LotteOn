@@ -2624,3 +2624,17 @@
   justify-content: space-between;
   margin-bottom: 4px;
 }
+
+.order__nav {
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2px solid black;
+  padding: 8px 4px;
+  margin-bottom: 12px;
+}
+
+.order__item {
+  height: 120px;
+  border-bottom: 1px solid black;
+}
