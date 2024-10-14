@@ -84,35 +84,40 @@
 
   <!-- 장바구니 전체합계 -->
   <div class="total">
-    <h2>전체합계</h2>
-    <table border="0">
-      <tr>
+    <h2 class="total__head">전체합계</h2>
+    <table style="width: 100%" border="0">
+      <tr class="total__tr">
         <td>상품수</td>
-        <td id="prodCount">0</td>
+        <td id="prodCount">1</td>
       </tr>
-      <tr>
+      <tr class="total__tr">
         <td>상품금액</td>
-        <td id="prodOrgPrice">0</td>
+        <td id="prodOrgPrice">27,000</td>
       </tr>
-      <tr>
+      <tr class="total__tr">
         <td>할인금액</td>
-        <td id="prodDisPrice">- 0</td>
+        <td id="prodDisPrice">-1,350</td>
       </tr>
-      <tr>
+      <tr class="total__tr">
         <td>배송비</td>
         <td id="prodDelivery">0</td>
       </tr>
-      <tr>
+      <tr class="total__tr">
         <td>포인트</td>
-        <td id="prodPoint">0</td>
+        <td id="prodPoint">270</td>
       </tr>
-      <tr>
+      <tr class="total__tr">
         <td>전체주문금액</td>
-        <td id="prodTotalPrice">0</td>
+        <td id="prodTotalPrice">25,650</td>
       </tr>
     </table>
-    <form id="buyForm" th:action="@{/product/order}" method="POST">
-      <input type="submit" id="btnOrder" value="주문하기" />
+    <form class="total__form" id="buyForm" method="POST">
+      <input
+        type="submit"
+        id="btnOrder"
+        value="주문하기"
+        class="total__form__submit"
+      />
       <input
         type="hidden"
         name="user"

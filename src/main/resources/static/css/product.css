@@ -2475,11 +2475,6 @@
   text-align: center;
 }
 
-.total {
-  padding: 8px 0;
-  text-align: right;
-}
-
 .total__price-name {
 }
 
@@ -2595,7 +2590,37 @@
 
 .total {
   width: 280px;
-  height: 240px;
-  padding: 4px;
+  padding: 12px;
   border: 1px solid rgb(176, 176, 176);
+  margin-left: auto;
+  margin-top: -24px;
+}
+
+.total__head {
+  border-bottom: 1px solid #d3d3d3;
+  font-size: 20px;
+  padding-bottom: 4px;
+  margin-bottom: 4px;
+}
+
+.total__form {
+  text-align: center;
+}
+
+.total__form__submit {
+  margin-top: 12px;
+  width: 80%;
+  height: 40px;
+  background-color: rgb(192, 0, 0);
+  color: white;
+  font-size: 18px;
+  border: none;
+  cursor: pointer;
+}
+
+.total__tr {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
 }
