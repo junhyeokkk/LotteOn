@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--내용 시작-->
+<link rel="stylesheet" href="/static/css/company.css">
+<div class="content">
+    <script>
+        window.onload = function () {
+            const blogMainText = document.getElementsByClassName('blogMainText')[0];
+            blogMainText.classList.add('show');
+        };
+
+        let currentIndex = 0;
+        function sloganPrev() {
+            const movingSloganBox = document.getElementsByClassName('movingSloganBox')[0];
+            const movingDivAll = movingSloganBox.querySelectorAll('div');
+
+            switch (currentIndex) {
+                case 0:
+                    movingSloganBox.style.transform += 'translateX(560px)';
+                    movingSloganBox.style.transition = 'transform  0.5s ease';
+                    movingSloganBox.insertAdjacentElement('afterbegin', movingDivAll[3].cloneNode(true));
+                    currentIndex = 3;
+                    break;
+                case 1:
+                    movingSloganBox.style.transform += 'translateX(560px)';
+                    movingSloganBox.style.transition = 'transform  0.5s ease';
+                    movingSloganBox.insertAdjacentElement('afterbegin', movingDivAll[3].cloneNode(true));
+                    currentIndex -= 1;
+                    break;
+                case 2:
+                    movingSloganBox.style.transform += 'translateX(560px)';
+                    movingSloganBox.style.transition = 'transform  0.5s ease';
+                    movingSloganBox.insertAdjacentElement('afterbegin', movingDivAll[3].cloneNode(true));
+                    currentIndex -= 1;
+                    break;
+                case 3:
+                    movingSloganBox.style.transform += 'translateX(560px)';
+                    movingSloganBox.style.transition = 'transform  0.5s ease';
+                    movingSloganBox.insertAdjacentElement('afterbegin', movingDivAll[3].cloneNode(true));
+                    currentIndex -= 1;
+                    break;
+            }
+        }
+
+        function sloganNext() {
+            const movingSloganBox = document.getElementsByClassName('movingSloganBox')[0];
+            const movingDivAll = movingSloganBox.querySelectorAll('div');
+
+            switch (currentIndex) {
+                case 0:
+                    console.log(0)
+                    movingSloganBox.style.transform += 'translateX(-560px)';
+                    movingSloganBox.style.transition = 'transform  0.5s ease';
+                    movingSloganBox.appendChild(movingDivAll[0].cloneNode(true));
+                    currentIndex += 1;
+                    break;
+                case 1:
+                    console.log(1)
+
+                    movingSloganBox.style.transform += 'translateX(-560px)';
+                    movingSloganBox.style.transition = 'transform  0.5s ease';
+                    movingSloganBox.appendChild(movingDivAll[1].cloneNode(true));
+                    currentIndex += 1;
+                    break;
+                case 2:
+                    movingSloganBox.style.transform += 'translateX(-560px)';
+                    movingSloganBox.style.transition = 'transform  0.5s ease';
+                    movingSloganBox.appendChild(movingDivAll[2].cloneNode(true));
+                    currentIndex += 1;
+                    break;
+                case 3:
+                    movingSloganBox.style.transform += 'translateX(-560px)';
+                    movingSloganBox.style.transition = 'transform  0.5s ease';
+                    movingSloganBox.appendChild(movingDivAll[3].cloneNode(true));
+                    currentIndex = 0;
+                    break;
+            }
+        }
+    </script>
+    <div class="headContent" >
+        <div class="logoBox">
+            <a th:href="@{/}"><img th:src="@{/images/header_logo.png}" alt="로고" style="width: 185px;"/></a>
+        </div>
+
+        <div>
+            <a th:href="@{/company/index}">HOME</a>
+            <a class="tabOn" th:href="@{/company/culture}">기업문화</a>
+            <a th:href="@{/company/story}">소식과 이야기</a>
+            <a th:href="@{/company/recruit}">채용</a>
+            <a th:href="@{/company/media}">미디어</a>
+        </div>
+    </div>
+   
+      
+        <div class="companyLogo">
+            <div class="blogMainImage">
+
+            </div>
+        </div>
+
+        <main>
+            <div class="blogMainText">
+                <p>
+                    취향을, 브랜드를, 혜택을 발견하는 즐거움 <br> 지금 롯데온에서 만나요
+                </p>
+            </div>
+
+            <div class="companyIntro" >
+                쇼핑 좀 해본 사람들이 만든 플랫폼,<br>
+                롯데ON은 풍부한 오프라인 쇼핑 인프라, 온라인 쇼핑 노하우,<br>
+                IT기술로 세상에 없던 새로운 쇼핑 경험을 제공하고<br>
+                꼭 이용하고 싶은 온라인 쇼핑 플랫폼으로 발전하고 있어요.
+            </div>
+
+            <div class="contentHead">쇼핑을 새롭게, 세상을 이롭게 만들어나가요.</div>
+
+            <div class="sloganBox">
+                <span class="sloganPrev" onclick="sloganPrev()"></span>
+                <span class="sloganNext" onclick="sloganNext()"></span>
+                <div class="movingSloganBox">
+                    <div>
+                        <img src="/images/company/compnayHome1.png">
+                        <p>
+                            고객이 원하고 만족하는<br>서비스를 만들어요
+                        </p>
+                        <p>롯데ON은 단순히 상품만을 판매하는 플랫폼이 아니라,<br>
+                            상품에 대한 경험을 함께 제공할 수 있는 플랫폼을 목표로 하고 있어요.<br>
+                            해외직구, 뷰티, 그로서리, 선물하기 등 다양한 영역에서<br>
+                            새로운 서비스를 만들어가고 있어요.</p>
+                    </div>
+                    <div>
+                        <img src="/images/company/compnayHome2.JPG">
+                        <p>
+                            하이앤드테크로 온/오프라인<br>시너지를 만들어요
+                        </p>
+                        <p> 많은 전문가들이 MSA, AWS등 최신 기술을 운영하고 있으며, <br>
+                            최신기술과 롯데의 온/오프라인 4000만+ 고객 데이터를 결합하여<br>
+                            롯데 오프라인 매장과 연계한 다양한 서비스로<br>
+                            고객들에게 온-오프라인을 넘나드는 새로운 쇼핑 경험을 드려요.</p>
+                    </div>
+                    <div>
+                        <img src="/images/company/compnayHome3.JPG">
+                        <p>
+                            함께하는 성장,.<br>세상을 더 이롭게 만들어요
+                        </p>
+                        <p>'Dream Together for a Better Earth'를 목표로<br>
+                            ESG를 실천해나가고 있으며, 롯데ON 플랫폼을 활용한<br>
+                            크라우드 펀딩 기부 릴레이, 상품기부 등 이로운 세상을 위한<br>
+                            다양한 사회공헌 활등들을 진행하고 있어요.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contentHead">롯데ON은 이렇게 성장해가고 있어요.</div>
+
+            <div class="companyBlog">
+                <div>
+                    <div class="blogTitle">
+                        <p>2024.04</p>
+                        <a href="/company/story">오늘 주문하면, 내일 도착!! '내일온(ON)다' 론칭!</a>
+                    </div>
+                    <span class="blogBtn">&#5125;</span>
+                </div>
+                <div>
+                    <div class="blogTitle">
+                        <p>2024.04</p>
+                        <a href="/company/story">롯데 4천만 회원과 계열사 혜택이 연결되는 '롯데온세상'!</a>
+                    </div>
+                    <span class="blogBtn">&#5125;</span>
+                </div>
+                <div>
+                    <div class="blogTitle">
+                        <p>2024.04</p>
+                        <a href="/company/story">'온앤더키즈 1주년 파티'서 1주년 성과 기념 역대 최대 혜택!</a>
+                    </div>
+                    <span class="blogBtn">&#5125;</span>
+                </div>
+                <div>
+                    <div class="blogTitle">
+                        <p>2024.04</p>
+                        <a href="company/story">2주년 성과 자축하는 '온앤더뷰티 2주년 생일파티' 개최!</a>
+                    </div>
+                    <span class="blogBtn">&#5125;</span>
+                </div>
+            </div>
+
+            <div class="contentHead">
+                국내 최초의 온라인 종합쇼핑몰로 출발해<br>
+                쇼핑 경험의 변화를 이끌어내고 있어요.
+            </div>
+
+            <div class="companyHistory">
+                <img src="/images/company/기업블로그.png">
+            </div>
+        </main>
+    </div>
+</html>

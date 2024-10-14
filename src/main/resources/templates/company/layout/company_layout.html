@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+
+</head>
+<body>
+  <!-- header -->
+  <header th:replace="~{layout/header::header}"></header>
+  <!-- content -->
+  <th:block th:if="${group == 'company'}">
+    <th:block th:with="path='/company/' + ${cate}, fragment=${cate}">
+      <th:replace th:with="path=${path}, fragment=${fragment}"
+                  th:replace="~{${path}::${fragment}}"></th:replace>
+    </th:block>
+  <!-- footer -->
+  <footer th:replace="~{layout/footer::footer}"></footer>
+</body>
+</html>

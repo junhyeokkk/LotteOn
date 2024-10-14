@@ -1,0 +1,476 @@
+/* 초기화 */
+* {
+    margin: 0;
+    padding: 0;
+    font: normal 12px "Noto Sans CJK KR";
+}
+
+ul,
+ol {
+    list-style: none;
+}
+a {
+    text-decoration: none;
+    color: #111;
+}
+input,
+textarea {
+    outline: none;
+}
+
+#wrapper {
+    width: 100%;
+}
+
+header {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 150px;
+    border-bottom: 2px solid #ef2a23;
+}
+header > div {
+    width: 1200px;
+    margin: 0 auto;
+
+}
+.loginBox {
+    width: 100%;
+    height: 35px;
+    border-bottom: 1px solid #e9e9e9;
+}
+.loginBox > div {
+    width: 1200px;
+    margin: 0 auto;
+    text-align: right;
+}
+.loginBox a {
+    display: inline-block;
+    height: 100%;
+    line-height: 35px;
+    border-left: 1px solid #e9e9e9;
+    padding: 0 10px;
+    color: #646464;
+}
+.headContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 1200px;
+    margin: 0 auto;
+}
+.headContent > div {
+    display: flex;
+    align-items: center;
+    height: 100px;
+}
+.headContent > div > a {
+    padding: 0 10px;
+    font-size: 16px;
+}
+.headContent > div > a:hover {
+    color: #ef2a23;
+}
+.tabOn {
+    color: #ef2a23;
+    font-weight: bold;
+}
+
+
+    /* main */
+main {
+    display: flex;
+    flex-direction: column;
+    width: 1200px;
+    height: auto;
+    margin: 0 auto;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+main > div {
+    display: flex;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 0;
+    margin-bottom: 40px;
+}
+.companyLogo {
+    display: block;
+    max-height: 700px;
+    overflow: hidden;
+}
+.companyLogo > .blogMainImage {
+    height: 700px;
+    width: 100%;
+    background-image: url("../images/company/blog_main.jpg");
+    background-position: center left;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.blogMainText {
+    width: 1200px;
+    margin: 0 auto;
+    padding-left: 50px;
+    position: absolute;
+    bottom: 250px;
+    opacity: 0;
+    transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+}
+.blogMainText > p {
+    font-size: 34px;
+    line-height: 50px;
+    font-weight: bold;
+    color: white;
+}
+.blogMainText.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+.companyIntro {
+    padding-left: 60px;
+    font-size: 22px;
+    line-height: 34px;
+}
+.contentHead {
+    margin-top: 20px;
+    padding-left: 60px;
+    font-size: 30px;
+    font-weight: bold;
+}
+.sloganBox {
+    width: auto;
+    position: relative;
+    margin-left: 40px;
+    margin-right: 40px;
+    overflow: hidden;
+}
+.sloganBox > span {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #999999;
+    line-height: 30px;
+    text-align: center;
+    position: absolute;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 999;
+}
+.sloganBox > span:nth-child(1){top: 150px; left: 0px; font-size: 20px}
+.sloganBox > span:nth-child(2){top: 150px; right: 0px; font-size: 20px}
+.sloganBox > span:nth-child(1):before{content: "\3008";}
+.sloganBox > span:nth-child(2):before{content: "\3009";}
+.movingSloganBox {
+    display: flex;
+    box-sizing: border-box;
+}
+
+.movingSloganBox > div {
+    width: 560px;
+    height: 600px;
+    padding: 0 40px;
+    box-sizing: border-box;
+}
+.movingSloganBox > div > img {
+    width: 480px;
+    height: 300px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+.movingSloganBox > div > p:nth-child(2) {
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 30px;
+}
+.movingSloganBox > div > p:nth-child(3) {
+    margin-top: 20px;
+    font-size: 16px;
+    line-height: 24px;
+}
+.companyBlog {
+    display: flex;
+    flex-direction: column;
+    padding: 0 60px;
+    box-sizing: border-box;
+}
+.companyBlog > div {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;
+    margin: 10px 0;
+    border-bottom: 1px solid #111;
+}
+
+.blogTitle > p {
+    font-size: 16px;
+}
+.blogTitle > a {
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+    margin: 20px 0;
+}
+.blogBtn {
+    width: 50px;
+    height: 50px;
+    font-size: 30px;
+    line-height: 48px;
+    text-align: center;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.companyHistory {
+    display: flex;
+    padding: 0 100px;
+
+}
+.historyGraph {
+    width: 30%;
+}
+
+.historyContent {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+}
+.historyContent > a {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    padding: 5px;
+    box-sizing: border-box;
+}
+.historyContent > a > img {
+    display: block;
+    width: 100px;
+    height: 100px;
+}
+.historyContent > a > div {
+    width: 560px;
+}
+.historyContent > a > div > p:nth-child(1) {font-size: 14px}
+.historyContent > a > div > p:nth-child(2) {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 4px 0;
+}
+.historyContent > a > div > p:nth-child(3) {font-size: 16px}
+
+/* company-story */
+.contentHead{
+    margin-bottom: 0px;
+    font-size: 40px;
+}
+
+
+.contentSub {
+    padding-left: 60px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #999999;
+}
+.storyNav {
+    width: 100%;
+    display: flex;
+    justify-content: left;
+    padding-left: 60px;
+    background-color: white;
+}
+.storyNav > a {
+    font-weight: bold;
+    padding-right: 40px;
+    font-size: 18px;
+}
+.storyNav > a:hover {
+    color: #ef2a23;
+}
+.navOn {
+    color: #ef2a23;
+}
+.noticeForCard {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+}
+.noticeForCard > a {
+    width: 340px;
+    height: 400px;
+    margin: 20px 30px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+}
+.noticeForCard > a > img {
+    width: 100%;
+    height: 240px;
+}
+.noticeForCard > a > p {
+    font-weight: bold;
+    font-size: 20px;
+    max-height: 54px;
+    margin: 30px 20px 10px 20px;
+}
+.noticeForCard > a > span {
+    display: inline-block;
+    width: 300px;
+    margin: 10px 20px;
+    font-size: 16px;
+    color: #999999;
+}
+.logoBox img {
+    width: 185px;
+}
+
+
+/* company-culture */
+.companyLogo > .cultureMainImage {
+    height: 700px;
+    width: 100%;
+    background-image: url("../images/company/Panorama_convert.jpg");
+    background-position: center left;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.cultureWork {
+    display: flex;
+    margin: 0 60px 100px 60px;
+    width: 1080px;
+    height: 300px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 0!important;
+}
+.cultureWork  > div {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    justify-content: center;
+}
+.cultureWork  > div > p {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0 0 0 40px;
+}
+.cultureWork  > div > span {
+    font-size: 16px;
+    line-height: 24px;
+    margin: 20px 0 0 40px;
+}
+
+.cultureSystem {
+    flex-wrap: wrap;
+    padding-left: 60px;
+}
+.cultureSystem > div {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin-bottom: 40px;
+}
+.cultureSystem > div > div {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+.cultureSystem > div img {
+    width: 74px;
+    height: 74px;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+.cultureSystem > div p {
+    font-size: 24px;
+    font-weight: bold;
+}
+.cultureSystem > div > .systemText {
+    font-size: 18px;
+    line-height: 30px;
+    margin: 10px 0;
+}
+
+.companyIntro{
+    margin-top: 20px
+}
+
+
+/* company - media */
+.mediaVideo {
+    padding-left: 60px;
+}
+.mediaVideo  > div {
+    display: flex;
+    flex-direction: column;
+    padding-left: 30px;
+}
+.mediaVideo  > div > p {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 10px 0 20px 0;
+}
+.mediaVideo  > div > span {
+    font-size: 20px;
+}
+
+.contentSubHead{
+    font-size: 18px; 
+    padding-left: 60px;
+}
+
+.mediaHead{
+    margin-top: 20px;
+    padding-left: 60px;
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 0;
+}
+
+/* company - recruit */
+.recruitJoin {
+    color: #ef2a23;
+    font-size: 20px;
+    font-weight: bold;
+    padding-left: 60px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+.recruitment {
+    display: flex;
+    flex-direction: column;
+    padding-left: 60px;
+}
+.recruitTable {
+    display: flex;
+    flex-direction: column;
+}
+.recruitTable > a {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #999999;
+}
+.recruitTable > a p {
+    font-weight: bold;
+    font-size: 24px;
+}
+.recruitTable > a span {
+    display: block;
+    font-size: 16px;
+    padding-top: 10px;
+}
+.recruitTable > a > div {
+    display: block;
+    font-size: 16px;
+    align-self: center;
+}
+
+
+.companyIntro{
+    margin-top: 20px;
+    font-size: 16px
+    
+} 
