@@ -1,0 +1,210 @@
+<link rel="stylesheet" href="/static/css/reset.css" />
+<link rel="stylesheet" href="/static/css/product.css" />
+
+<!-- 결제완료 페이지 시작 -->
+<section class="complete section" layout:fragment="content">
+  <script>
+    window.onload = function () {
+      const totalCost = document.getElementById("allCost");
+      const totalDisCost = document.getElementById("allDisCost");
+      const totalDeliveryCost = document.getElementById("allDeliveryFee");
+
+      let costValue = 0;
+      let disValue = 0;
+      let feeValue = 0;
+      const orderItems = document.querySelectorAll(".orderList");
+
+      orderItems.forEach((orderItem) => {
+        const orgPriceText =
+          orderItem.querySelector(".org_price_value").innerText;
+        const disPriceText =
+          orderItem.querySelector(".dis_price_value").innerText;
+        const sumPriceText = orderItem.querySelector(".sum_price").innerText;
+        const orgPrice = parseInt(
+          orgPriceText.replace(",", "").replace("원", "")
+        );
+        const disPrice = parseInt(
+          disPriceText.replace(",", "").replace("원", "")
+        );
+        const sumPrice = parseInt(
+          sumPriceText.replace(",", "").replace("원", "")
+        );
+        const count = parseInt(orderItem.querySelector(".prodCount").innerText);
+        const feePrice = parseInt(
+          orderItem.querySelector(".delivery_fee").value
+        );
+        console.log(
+          "orgPrice : " +
+            orgPrice +
+            ", disPrice :" +
+            disPrice +
+            ", count : " +
+            count +
+            ", sumPrice : " +
+            sumPrice +
+            ", feePrice : " +
+            feePrice
+        );
+
+        if (orgPrice * count >= 50000) {
+          feeValue += 0;
+        } else {
+          feeValue += feePrice;
+        }
+        costValue += orgPrice * count;
+        disValue += disPrice * count;
+        console.log("del_Fee : " + feeValue);
+      });
+
+      totalCost.textContent = costValue.toLocaleString();
+      totalDisCost.textContent = disValue.toLocaleString();
+      totalDeliveryCost.textContent = feeValue.toLocaleString();
+    };
+  </script>
+
+  <!-- 제목, 페이지 네비게이션 -->
+  <nav class="complete__nav">
+    <h1>주문완료</h1>
+    <p>HOME > 장바구니 > 주문결제 > <strong>주문완료</strong></p>
+  </nav>
+
+  <!-- 완료 멘트 -->
+  <article class="complete__message">
+    <h2>
+      고객님의 주문이 정상적으로 완료되었습니다.<i class="far fa-smile"></i>
+    </h2>
+    <p>즐거운 쇼핑이 되셨습니까? 항상 고객님을 위한 롯데 ON이 되겠습니다.</p>
+  </article>
+
+  <!-- 상품정보 -->
+  <article style="border-top: 2px solid black; margin-bottom: 12px">
+    <table border="0" style="width: 100%; border-collapse: collapse">
+      <tr
+        style="
+          width: 100%;
+          border-bottom: 1px solid rgb(182, 182, 182);
+          height: 40px;
+        "
+      >
+        <th style="width: 5%"><input type="checkbox" /></th>
+        <th style="width: 44%">상품명</th>
+        <th>상품금액</th>
+        <th>할인금액</th>
+        <th>수량</th>
+        <th>주문금액</th>
+      </tr>
+      <tr style="border-bottom: 1px solid rgb(177, 177, 177)">
+        <td align="center"><input type="checkbox" /></td>
+        <td style="display: flex; padding: 12px 0; gap: 12px">
+          <img
+            src="https://thumbnail9.coupangcdn.com/thumbnails/remote/48x48ex/image/rs_quotation_api/cdaevhic/bcb1b4db87db478387ac5a1222e22bb1.jpg"
+            alt="img"
+            height="100%"
+          />
+          <div>
+            <div>상품명</div>
+            <div>상품설명</div>
+          </div>
+        </td>
+        <td align="center">27,000</td>
+        <td align="center">-1,350</td>
+        <td align="center">1</td>
+        <td align="center" style="color: red">25,650</td>
+      </tr>
+    </table>
+    <div
+      style="
+        width: 250px;
+        margin-left: auto;
+        background-color: rgb(235, 235, 235);
+        padding: 24px;
+      "
+    >
+      <div style="display: flex; justify-content: space-between">
+        <span>총상품금액</span>
+        <span>27,000원</span>
+      </div>
+      <div style="display: flex; justify-content: space-between">
+        <span>총할인금액</span>
+        <span>-1,350원</span>
+      </div>
+      <div style="display: flex; justify-content: space-between">
+        <span>배송비</span>
+        <span>0원</span>
+      </div>
+      <div style="display: flex; justify-content: space-between">
+        <span>총결제금액</span>
+        <span> <span style="color: red">25,650</span>원 </span>
+      </div>
+    </div>
+  </article>
+
+  <!-- 주문정보 -->
+  <article class="order">
+    <h1
+      style="
+        border-bottom: 2px solid black;
+        padding-bottom: 4px;
+        margin-bottom: 4px;
+      "
+    >
+      주문정보
+    </h1>
+    <table
+      border="0"
+      style="
+        border-collapse: collapse;
+        width: 100%;
+        border-bottom: 2px solid black;
+        margin-bottom: 24px;
+      "
+    >
+      <tr style="height: 34px">
+        <td style="background-color: rgb(240, 240, 240); width: 100px">
+          주문번호
+        </td>
+        <td>11111</td>
+      </tr>
+      <tr style="height: 34px">
+        <td style="background-color: rgb(240, 240, 240)">결제방법</td>
+        <td>신용카드 결제</td>
+      </tr>
+      <tr style="height: 34px">
+        <td style="background-color: rgb(240, 240, 240)">주문자/연락처</td>
+        <td>이상훈 / 010-1111-2222</td>
+        <td rowspan="3" style="width: 140px">총 결제금액</td>
+        <td rowspan="3"><span style="color: red">1,111</span>원</td>
+      </tr>
+    </table>
+  </article>
+
+  <!-- 배송정보 -->
+  <article class="delivery">
+    <h1
+      style="
+        border-bottom: 2px solid black;
+        padding-bottom: 4px;
+        margin-bottom: 4px;
+      "
+    >
+      배송정보
+    </h1>
+    <table border="0" style="border-collapse: collapse">
+      <tr style="height: 34px">
+        <td style="background-color: rgb(240, 240, 240); width: 100px">
+          수취인
+        </td>
+        <td>홍길동</td>
+      </tr>
+      <tr style="height: 34px">
+        <td style="background-color: rgb(240, 240, 240)">연락처</td>
+        <td>010-1234-1234</td>
+      </tr>
+      <tr style="height: 34px">
+        <td style="background-color: rgb(240, 240, 240)">배송지 주소</td>
+        <td>부산 금정구 123-11 10층</td>
+      </tr>
+    </table>
+  </article>
+</section>
+<!-- 결제완료 페이지 끝 -->
