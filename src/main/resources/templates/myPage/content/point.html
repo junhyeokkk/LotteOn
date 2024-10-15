@@ -1,0 +1,148 @@
+<!-- 회원정보 섹션 -->
+<section th:fragment="point">
+    <a href="#"><img src="/images/image.PNG" alt="패션, 타운 하나로 끝" class="banner"></a>
+    <!-- 810x86 배너 이미지 -->
+    <article class="latest">
+        <h3>포인트내역</h3>
+        <!-- 포인트내역 검색바 -->
+        <div class="myinfoSearch">
+            <p>기간별 조회</p>
+            <a href="/my/point">전체</a>
+            <a href="/my/point?cate=week">일주일</a>
+            <a href="/my/point?cate=halfmonth">15일</a>
+            <a href="/my/point?cate=month">1개월</a>
+            <select id="monthSelect">
+                <option value="">검색 기간 선택</option>
+            </select>
+            <div class="date-wrapper">
+                <div class="start-date-wrapper">
+                    <input type="text" id="startDate" class="start-date" readonly placeholder="시작 날짜 선택">
+                </div>
+
+                <div class="end-date-wrapper">
+                    <input type="text" id="endDate" class="end-date" readonly placeholder="종료 날짜 선택">
+                </div>
+            </div>
+            <button onclick="searchOrders()">검색</button>
+        </div>
+
+        <!-- 포인트 있을 때 -->
+        <h3>포인트적립내역</h3>
+        <table border="0" class="widthtable">
+            <tr>
+                <th>날짜</th>
+                <th>구분</th>
+                <th>주문번호</th>
+                <th>적립금액</th>
+                <th>비고</th>
+                <th>유효기간</th>
+            </tr>
+            <!-- 10개 출력이나 5개만 -->
+            <tr>
+                <td>2022-12-10</td>
+                <td>적립</td>
+                <td>2022121001</td>
+                <td>340</td>
+                <td>상품 구매확정</td>
+                <td>2024-12-10</td>
+            </tr>
+
+            <tr>
+                <td>2022-12-10</td>
+                <td>적립</td>
+                <td>2022121001</td>
+                <td>340</td>
+                <td>상품 구매확정</td>
+                <td>2024-12-10</td>
+            </tr>
+
+        </table>
+
+        <div class="pagingBox">
+            <div class="pagingList">
+                <!-- 이전 버튼 -->
+                <a href="#" class="prev"><</a>
+
+                <!-- 페이지 링크 -->
+                <a href="#">1</a>
+                <a href="#" class="active">2</a>
+                <a href="#">3</a>
+                <a href="#">4</a>
+                <a href="#">5</a>
+
+                <!-- 다음 버튼 -->
+                <a href="#" class="next">></a>
+            </div>
+        </div>
+        <script>
+            // 오늘 달로부터 5개월 전까지의 월 목록을 생성하는 함수
+            function generateMonthOptions() {
+                const select = document.getElementById('monthSelect');
+                const currentDate = new Date();
+                const currentMonth = currentDate.getMonth(); // 현재 월 (0부터 시작)
+                const currentYear = currentDate.getFullYear();
+
+                // 오늘로부터 5개월 전까지의 월 리스트 생성
+                for (let i = 0; i < 6; i++) {
+                    const date = new Date(currentYear, currentMonth - i);
+                    const year = date.getFullYear();
+                    const month = date.getMonth() + 1; // 0부터 시작하므로 +1
+                    const optionText = `${year}년 ${month}월`;
+                    const optionValue = `${year}-${month.toString().padStart(2, '0')}`;
+                    const option = document.createElement('option');
+                    option.value = optionValue;
+                    option.text = optionText;
+                    select.appendChild(option);
+                }
+            }
+
+            $(function () {
+                // 오늘 기준으로 최대 3년 전까지 선택 가능
+                let maxYear = moment().year(); // 현재 년도
+                let minYear = maxYear - 3; // 최대 3년 전까지 허용
+
+                // 시작 날짜 선택
+                $('#startDate').daterangepicker({
+                    singleDatePicker: true,
+                    locale: {
+                        format: 'YYYY-MM-DD',
+                    },
+                    maxDate: new Date(), // 최대 날짜를 오늘로 설정
+                    autoApply: true,
+                    autoUpdateInput: false,
+                    showDropdowns: true,
+                    minYear: minYear,
+                    maxYear: maxYear,
+                }, function (start) {
+                    $('#startDate').val(start.format('YYYY-MM-DD'));
+                    $('#endDate').val(''); // 종료 날짜 초기화
+
+                    // 종료 날짜 선택 창 설정
+                    $('#endDate').daterangepicker({
+                        singleDatePicker: true,
+                        locale: {
+                            format: 'YYYY-MM-DD',
+                        },
+                        minDate: moment(start).subtract(1, 'years'), // 시작 날짜로부터 1년 전까지만 선택 가능
+                        maxDate: start, // 최대 날짜는 시작 날짜로 설정
+                        autoApply: true,
+                        autoUpdateInput: false,
+                        showDropdowns: true,
+                    }, function (end) {
+                        $('#endDate').val(end.format('YYYY-MM-DD'));
+                    });
+                });
+
+                $('#monthSelect').on('change', function () {
+                    if (this.value) {
+                        $('#startDate').val(''); // 시작 날짜 초기화
+                        $('#endDate').val(''); // 종료 날짜 초기화
+                    }
+                });
+            });
+            window.onload = function () {
+                generateMonthOptions(); // 오늘로부터 5개월 전까지의 목록 생성
+            };
+        </script>
+    </article>
+</section>

@@ -12,6 +12,7 @@
 }
 
 /* 모달별 컨텐츠 스타일 */
+.Bannermodal-content,
 .ordermodal-content, 
 .sellermodal-content, 
 .inquirymodal-content, 
@@ -30,6 +31,7 @@
 }
 
 /* 판매자,문의,리뷰 모달 추가 */
+.Bannermodal-content,
 .sellermodal-content,
 .inquirymodal-content,
 .reviewmodal-content {

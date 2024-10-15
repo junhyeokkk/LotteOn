@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ModalPage</title>
-    <link rel="stylesheet" href="/static/css/my/modal.css">
-    <link rel="stylesheet" href="/static/css/my/myinfo.css">
+    <link rel="stylesheet" href="/css/my/modal.css">
+    <link rel="stylesheet" href="/css/my/myinfo.css">
 </head>
 <body>
 
@@ -15,6 +15,7 @@
 <button id="inquiryBtn" class="modal-button">3. 문의하기</button>
 <button id="receiptConfirmBtn" class="modal-button">4. 수취확인</button>
 <button id="reviewBtn" class="modal-button">5. 상품평작성하기</button>
+<button id="bannerSubmitBtn" class="modal-button">6. 배너등록</button>
 <!-- 주문상세 모달 -->
 <div id="orderDetailModal" class="modal">
     <div class="ordermodal-content">
@@ -258,14 +259,65 @@
         </section>
     </div>
 </div>
+<!-- 배너등록 모달 -->
+<div id="bannerModal" class="modal">
+    <div class="Bannermodal-content">
+        <nav class="modal-nav">
+            <h1>배너등록</h1>
+            <button class="modal-close" id="closeBannerModal">&times;</button>
+        </nav>
+        <section class="modal-section">
+            <form action="#" method="post" enctype="multipart/form-data">
+                <table border="0" class="heighttable">
+                    <tr>
+                        <th>배너이름</th>
+                        <td><input type="text" class="bannername" name="bannername"></td>
+                    </tr>
+                    <tr>
+                        <th>배너크기</th>
+                        <td><input type="text" class="bannersize" name="bannersize"></td>
+                    </tr>
+                    <tr>
+                        <th>배경색</th>
+                        <td><input type="text" class="bannercolor" name="bannercolor"></td>
+                    </tr>
+                    <tr>
+                        <th>배너링크</th>
+                        <td><input type="text" class="bannerlink" name="bannerlink"></td>
+                    </tr>
+                    <tr>
+                        <th>배너위치</th>
+                        <td><input type="text" class="bannerplace" name="bannerplace"></td>
+                    </tr>
+                    <tr>
+                        <th>노출날짜</th>
+                        <td><input type="text" class="bannerdate" name="bannerdate"> - 
+                            <input type="text" class="bannerdate" name="bannerdate">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>노출시간</th>
+                        <td><input type="text" class="bannertime" name="bannertime"></td>
+                    </tr>
+                </table>
+                <br>
+                <div class="modalbuttondiv">
+                    <input class="modalbutton" type="submit" value="작성완료"/>
+                    <button class="modalcanclebutton">취소</button>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>
 <script>
-    // 각 모달과 버튼 연결
+    // 모달과 버튼을 객체로 관리
     const modals = {
         orderDetailModal: document.getElementById('orderDetailModal'),
         sellerInfoModal: document.getElementById('sellerInfoModal'),
         inquiryModal: document.getElementById('inquiryModal'),
         receiptConfirmModal: document.getElementById('receiptConfirmModal'),
-        reviewModal: document.getElementById('reviewModal')
+        reviewModal: document.getElementById('reviewModal'),
+        bannerModal: document.getElementById('bannerModal') // 배너 모달 추가
     };
 
     const buttons = {
@@ -273,7 +325,8 @@
         sellerInfoBtn: document.getElementById('sellerInfoBtn'),
         inquiryBtn: document.getElementById('inquiryBtn'),
         receiptConfirmBtn: document.getElementById('receiptConfirmBtn'),
-        reviewBtn: document.getElementById('reviewBtn')
+        reviewBtn: document.getElementById('reviewBtn'),
+        bannerSubmitBtn: document.getElementById('bannerSubmitBtn') // 배너 등록 버튼 추가
     };
 
     const closeButtons = {
@@ -281,7 +334,8 @@
         closeSellerInfo: document.getElementById('closeSellerInfo'),
         closeInquiry: document.getElementById('closeInquiry'),
         closeReceiptConfirm: document.getElementById('closeReceiptConfirm'),
-        closeReview: document.getElementById('closeReview')
+        closeReview: document.getElementById('closeReview'),
+        closeBannerModal: document.getElementById('closeBannerModal') // 배너 모달 닫기 버튼 추가
     };
 
     // 버튼 클릭 시 모달 열기
@@ -300,6 +354,9 @@
     buttons.reviewBtn.onclick = function() {
         modals.reviewModal.style.display = "block";
     };
+    buttons.bannerSubmitBtn.onclick = function() {
+        modals.bannerModal.style.display = "block";
+    };
 
     // 닫기 버튼 클릭 시 모달 닫기
     closeButtons.closeOrderDetail.onclick = function() {
@@ -316,6 +373,9 @@
     };
     closeButtons.closeReview.onclick = function() {
         modals.reviewModal.style.display = "none";
+    };
+    closeButtons.closeBannerModal.onclick = function() {
+        modals.bannerModal.style.display = "none";
     };
 
     // 모달 외부 클릭 시 닫기
