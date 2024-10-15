@@ -2657,3 +2657,97 @@
   text-align: center;
   margin-bottom: 12px;
 }
+
+.search__nav {
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2px solid black;
+  padding: 8px 4px;
+  margin-bottom: 12px;
+}
+
+.search__group {
+  border: 2px solid #d4d4d4;
+  margin-bottom: 24px;
+}
+
+.search__group__head {
+  padding: 12px;
+  border-bottom: 2px solid #d4d4d4;
+}
+
+.search__group__head__searchKeyword,
+.search__group__head__searchResult {
+  color: red;
+}
+
+.search__group__form {
+  padding: 12px;
+  display: flex;
+  height: 54px;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.search__group__form__search-info {
+  margin-right: 4px;
+  height: 100%;
+}
+
+.search__group__form__submit {
+  background-color: #d10000;
+  outline: none;
+  border: none;
+  color: white;
+  padding: 0 12px;
+  margin-right: 22px;
+  height: 100%;
+}
+
+.search__group__form__minPrice-input,
+.search__group__form__maxPrice-input {
+  width: 80px;
+}
+
+.search__sort {
+  border-top: 1px solid black;
+  border-bottom: 1px solid rgb(211, 211, 211);
+  font-size: 12px;
+  padding: 8px;
+  display: flex;
+  gap: 14px;
+  margin: 8px 0;
+}
+
+.search__sort li:not(:last-child)::after {
+  content: "|";
+  margin-left: 0.5em;
+}
+
+.sort-active {
+  font-weight: 900;
+}
+
+.search__item {
+  display: flex;
+  width: 100%;
+  padding: 12px;
+  align-items: center;
+  gap: 20px;
+
+  border-bottom: 2px solid #dadada;
+}
+
+.search__item_discount {
+  color: red;
+  font-weight: 700;
+}
+
+.search__item_discount::after {
+  content: "↓";
+}
+
+.search__item_dis-price {
+  font-weight: 700;
+}
