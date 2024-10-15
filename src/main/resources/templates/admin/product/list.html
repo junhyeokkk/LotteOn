@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>롯데on 관리자 상품현황</title>
+    <link rel="stylesheet" href="/static/css/admin/list.css">
+</head>
+
+<body>
+    <section id="admin-product-list">
+        <!--내용 시작-->
+        <div class="header_wrapper">
+            <header>
+                <a href="#" id="admin_logo">
+                    <img src="/static/images/admin/logo(wh).png" alt="admin_logo" />
+                </a>
+                <div class="home">
+                    <a href="#">HOME | </a>
+                    <a href="#">로그아웃 | </a>
+                    <a href="#">고객센터</a>
+                </div>
+            </header>
+        </div>
+
+        <main>
+
+            <aside>
+                <ul id="admin_sidebar">
+                    <li>
+                        <a href="#"><i class="fa fa-cogs" aria-hidden="true"></i>환경설정</a>
+                        <ol>
+                            <li><a href="#">기본환경정보</a></li>
+                            <li><a href="#">배너관리</a></li>
+                        </ol>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fas fa-store" aria-hidden="true"></i>상점관리</a>
+                        <ol>
+                            <li><a href="#">판매자현황</a></li>
+                        </ol>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-users" aria-hidden="true"></i>회원관리</a>
+                        <ol>
+                            <li><a href="#">회원현황</a></li>
+                            <li><a href="#">포인트관리</a></li>
+                        </ol>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fas fa-box-open" aria-hidden="true"></i>상품관리</a>
+                        <ol>
+                            <li><a href="#">상품현황</a></li>
+                            <li><a href="#">상품등록</a></li>
+                        </ol>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-credit-card" aria-hidden="true"></i>주문관리</a>
+                        <ol>
+                            <li><a href="#">주문현황</a></li>
+                            <li><a href="#">매출현황</a></li>
+                            <li><a href="#">배송관리</a></li>
+                        </ol>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>고객센터</a>
+                        <ol>
+                            <li><a href="#">공지사항</a></li>
+                            <li><a href="#">자주묻는질문</a></li>
+                            <li><a href="#">문의하기</a></li>
+                        </ol>
+                    </li>
+                </ul>
+            </aside>
+
+            <div class="content">
+
+                <div class="dashboard">
+                    <div class="content_header">
+                        <h1>상품 현황</h1>
+                        <p>
+                            HOME > 상품관리 > <strong>상품목록</strong>
+                        </p>
+                    </div>
+
+                    <!-- 상품목록 컨텐츠 시작 -->
+                    <section class="sectionBox">
+                        <div>
+                            <form action="/admin/product/list">
+                                <select name="type">
+                                    <option value="prodName">상품명</option>
+                                    <option value="prodNo">상품번호</option>
+                                    <option value="sellerNo">판매자</option>
+                                    <option value="prodCompany">제조사</option>
+                                </select>
+                                <input class="searchInput" type="text" name="keyword">
+                                <input type="hidden" name="prodSeller" value="ADMIN" readonly>
+                                <input class="searchBtn" type="submit" value="검색">
+                            </form>
+                        </div>
+
+                        <table class="admingraph">
+                            <tr class="admin_title">
+                                <th><input type="checkbox" name="all" /></th>
+                                <th>사진</th>
+                                <th>상품코드</th>
+                                <th>상품명</th>
+                                <th>판매가격</th>
+                                <th>할인율</th>
+                                <th>포인트</th>
+                                <th>재고</th>
+                                <th>판매자</th>
+                                <th>조회</th>
+                                <th>관리</th>
+                            </tr>
+
+                            <tr class="admin_product-list">
+                                <td ><input type="checkbox" name="상품코드" /></td>
+                                <td><img src="/static/images/admin/sample_thumb.jpg" class="thumb"
+                                    style="width: 70px; height: 70px;"></td>
+                                <td>201603292</td>
+
+                                <td>상품명 #1</td>
+
+                                <td>32,000</td>
+                                <td>10%</td>
+                                <td>320</td>
+
+                                <td>1,000</td>
+                                <td>(주) 다파라</td>
+                                <td>조회수</td>
+                                <td>
+                                    <a onclick="modifyProdStatus()" class="product__delete-btn">[삭제]</a>
+                                    <br>
+                                    <a href="/seller/product/option?prodNo=상품코드값">[수정]</a>
+                                </td>
+                            </tr>
+
+                            <tr class="admin_product-list">
+                                <td ><input type="checkbox" name="상품코드" /></td>
+                                <td><img src="/static/images/admin/sample_thumb.jpg" class="thumb"
+                                        style="width: 70px; height: 70px"></td>
+                                <td>201603292</td>
+
+                                <td>상품명 #1</td>
+
+                                <td>32,000</td>
+                                <td>10%</td>
+                                <td>320</td>
+
+                                <td>1,000</td>
+                                <td>(주) 다파라</td>
+                                <td>조회수</td>
+                                <td>
+                                    <a onclick="modifyProdStatus()" class="product__delete-btn">[삭제]</a>
+                                    <br>
+                                    <a href="/seller/product/option?prodNo=상품코드값">[수정]</a>
+                                </td>
+                            </tr>
+
+                            <tr class="admin_product-list">
+                                <td ><input type="checkbox" name="상품코드" /></td>
+                                <td><img src="/static/images/admin/sample_thumb.jpg" class="thumb"
+                                        style="width: 70px; height: 70px"></td>
+                                <td>201603292</td>
+
+                                <td>상품명 #1</td>
+
+                                <td>32,000</td>
+                                <td>10%</td>
+                                <td>320</td>
+
+                                <td>1,000</td>
+                                <td>(주) 다파라</td>
+                                <td>조회수</td>
+                                <td>
+                                    <a onclick="modifyProdStatus()" class="product__delete-btn">[삭제]</a>
+                                    <br>
+                                    <a href="/seller/product/option?prodNo=상품코드값">[수정]</a>
+                                </td>
+                            </tr>
+
+                        </table>
+
+                        <a class="delete_btn">선택삭제</a>
+                        <a class="registration_btn">상품등록</a>
+
+                        <div class="pagingBox">
+                            <div class="pagingList">
+                                <!-- 이전 버튼 -->
+                                <a href="#" class="prev"></a>
+
+                                <!-- 페이지 링크 -->
+                                <a href="#">1</a>
+                                <a href="#" class="active">2</a>
+                                <a href="#">3</a>
+                                <a href="#">4</a>
+                                <a href="#">5</a>
+
+                                <!-- 다음 버튼 -->
+                                <a href="#" class="next">></a>
+                            </div>
+                        </div>
+
+                    </section>
+
+                    <!-- 상품목록 컨텐츠 끝 -->
+    </section>
+
+    <!--내용 끝-->
+    <div class="footer_wrapper" th:fragment="footer">
+        <footer>
+            <div id="version">LotteON ADMINISTRATOR Version 0.0.1</div>
+            <div id="copyright">
+                Copyrightⓒ LotteOn_Team1 All rights reserved.
+            </div>
+        </footer>
+    </div>
+</body>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const sidebar = document.querySelectorAll('#admin_sidebar > li > a');
+        sidebar.forEach(link => {
+            const subMenu = link.nextElementSibling;
+
+            // 마우스가 들어왔을 때(submenu 열기)
+            link.addEventListener('mouseenter', function () {
+                subMenu.style.display = 'block';
+            });
+
+            // 마우스가 나갔을 때(submenu 닫기)
+            link.addEventListener('mouseleave', function () {
+                subMenu.style.display = 'none';
+            });
+
+            // 서브 메뉴 자체에 대해서도 마우스가 나갔을 때 닫히지 않도록 처리
+            subMenu.addEventListener('mouseenter', function () {
+                subMenu.style.display = 'block'; // 유지
+            });
+
+            subMenu.addEventListener('mouseleave', function () {
+                subMenu.style.display = 'none';  // 메뉴 닫기
+            });
+        });
+    });
+</script>
+
+</html>
