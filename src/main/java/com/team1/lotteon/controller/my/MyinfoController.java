@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class MyinfoController {
     @GetMapping("/myPage/home")
     public String home() {
-        return "/myPage/home";
+        return "/myPage/index";
     }
-    @GetMapping("/myPage/layout/{group}/{cate}")
+    @GetMapping("/myPage/include/{group}/{cate}")
     public String myinfoindex(@PathVariable String group, @PathVariable String cate, Model model){
 
         log.info("컨트롤러 들어오니?");

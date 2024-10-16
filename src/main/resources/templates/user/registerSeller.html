@@ -6,73 +6,94 @@
     <title>회원 가입</title>
     <link rel="stylesheet" href="/static/css/header.css">
     <link rel="stylesheet" href="/static/css/user/user_style.css">
-    
+
 </head>
 <body>
-    <header class="header">
-        <div class="header__top">
-            <div class="center header__top__nav">
+<header class="header">
+    <div class="header__top">
+        <div class="center header__top__nav">
 
-                <a href="#" th:href="@{/member/login}">로그인</a>
-                <a href="#" th:href="@{/member/join}">회원가입</a>
-                <a href="#" th:href="@{/my/home(userId=${#authentication.principal.user.userId})}">마이페이지</a>
-                <i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;장바구니
-                </a>
-                <a href="#" th:href="@{/member/logout}">로그아웃</a>
-            </div>
+            <a href="#" th:href="@{/member/login}">로그인</a>
+            <a href="#" th:href="@{/member/join}">회원가입</a>
+            <a href="#" th:href="@{/my/home(userId=${#authentication.principal.user.userId})}">마이페이지</a>
+            <i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;장바구니
+            </a>
+            <a href="#" th:href="@{/member/logout}">로그아웃</a>
         </div>
-        <div class="header__bot">
-            <div class="header__bot__wrapper center">
-                <a class="logo" href="#" th:href="@{/}"><img class="logo__img" src="/static/images/header_logo.png"
-                        th:src="@{/images/header_logo.png}" alt="로고" /></a>
-                <form class="search" action="/lotteon/product/search" method="get">
-                    <input class="search__input" type="text" name="keyword" />
-                    <!-- <input  type="hidden" name="cateCode" id="cateCodeInput" value=""> -->
-                    <button class="search__btn"><img width="18" class="search__btn__img"
-                            src="/static/images/search.svg" /></button>
-                </form>
-            </div>
+    </div>
+    <div class="header__bot">
+        <div class="header__bot__wrapper center">
+            <a class="logo" href="#" th:href="@{/}"><img class="logo__img" src="/static/images/header_logo.png"
+                                                         th:src="@{/images/header_logo.png}" alt="로고" /></a>
+            <form class="search" action="/lotteon/product/search" method="get">
+                <input class="search__input" type="text" name="keyword" />
+                <!-- <input  type="hidden" name="cateCode" id="cateCodeInput" value=""> -->
+                <button class="search__btn"><img width="18" class="search__btn__img"
+                                                 src="/static/images/search.svg" /></button>
+            </form>
         </div>
-    </header>
+    </div>
+</header>
 
-<div class="container">
-    <h2>판매자 회원가입</h2>
-    <hr class="line_rg">
-    <form>
-        <div class="form-content">
-            <div class="label-container">
-                <label for="userid">아이디</label>
-                <label for="password">비밀번호</label>
-                <label for="password-confirm">비밀번호 확인</label>
+<div id="wrapper">
+    <section class="user-section">
+        <h2>판매자 회원가입</h2>
+        <form action="#" method="post">
+            <table border="0" class="heighttable">
+                <tr>
+                    <th>아이디</th>
+                    <td><input type="text"> 영문, 숫자 4~12자 설정</td>
+                </tr>
+                <tr>
+                    <th>비밀번호</th>
+                    <td><input type="password"> 영문, 숫자, 특수문자 8~12자 설정</td>
+                </tr>
+                <tr>
+                    <th>비밀번호 확인</th>
+                    <td><input type="password"></td>
+                </tr>
+            </table>
+            <br>
+            <table border="0" class="heighttable">
+                <tr>
+                    <th>회사명</th>
+                    <td><input type="text" placeholder="상호명입력예 ) (주)"/></td>
+                </tr>
+                <tr>
+                    <th>대표</th>
+                    <td><input type="text" placeholder="이름입력"/></td>
+                </tr>
+                <tr>
+                    <th>사업자등록번호</th>
+                    <td><input type="text" placeholder="사업자등록번호입력"/> - 포함 12 자리 입력</td>
+                </tr>
+                <tr>
+                    <th>통신판매업번호</th>
+                    <td><input type="text" placeholder="통신판매업번호입력"/></td>
+                </tr>
+                <tr>
+                    <th>전화번호</th>
+                    <td><input type="text" placeholder="전화번호입력"/></td>
+                </tr>
+                <tr>
+                    <th>팩스</th>
+                    <td><input type="text" placeholder="팩스번호입력"/></td>
+                </tr>
+                <tr>
+                    <th>주소</th>
+                    <td><input type="text" placeholder="우편번호검색클릭"/>
+                        <button class="infobutton" onclick="searchPostalCode()">주소검색</button><br/>
+                        <input type="text" id="address1" placeholder="기본주소입력" /><br/>
+                        <input type="text" id="address2" placeholder="상세주소입력" />
+                    </td>
+                </tr>
+            </table>
 
-                <label for="nik">회사명</label>
-                <label for="name">대표</label>
-                <label for="email">사업자등록번호</label>
-                <label for="phone">통신판매업번호</label>
-                <label for="call">전화번호</label>
-                <label for="fax">팩스</label>
-                <label for="address">주소</label>
+            <div class="registerbuttondiv">
+                <input class="registerbutton" type="submit" value="등록하기"/>
             </div>
-            <div class="input-container">
-                <input type="text" id="userid" name="userid" placeholder="영문, 숫자 4~12자 설정">
-                <input type="password" id="password" name="password" placeholder="영문, 숫자, 특수문자 8~12자 설정">
-                <input type="password" id="password-confirm" name="password-confirm">
-
-                <input type="text" id="nik" name="nik" placeholder="회사명 입력">
-                <input type="text" id="name" name="name" placeholder="이름 입력">
-
-                <input type="email" id="email" name="email" placeholder="이메일 입력">
-                <input type="tel" id="phone" name="phone" placeholder="휴대폰 입력">
-                <input type="tel" id="call" name="call" placeholder="전화번호 입력">
-                <input type="tel" id="fax" name="fax" placeholder="팩스번호 입력">
-                <input type="search" id="zipcode" name="zipcode" placeholder="우편번호 검색">
-                <input type="text" id="address1" name="address1" placeholder="기본주소 입력">
-                <input type="text" id="address2" name="address2" placeholder="상세주소 입력">
-            </div>
-        </div>
-
-        <button type="submit" class="submit-btn">회원가입</button>
-    </form>
+        </form>
+    </section>
 </div>
 
 </body>
