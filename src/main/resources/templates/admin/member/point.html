@@ -1,192 +1,74 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <title>롯데on 관리자 상품현황</title>
-    <link rel="stylesheet" href="/static/css/admin/list.css">
-</head>
-
-<body>
-    <section id="admin-product-list">
-        <!--내용 시작-->
-        <div class="header_wrapper">
-            <header>
-                <a href="#" id="admin_logo">
-                    <img src="/static/images/admin/logo(wh).png" alt="admin_logo" />
-                </a>
-                <div class="home">
-                    <a href="#">HOME | </a>
-                    <a href="#">로그아웃 | </a>
-                    <a href="#">고객센터</a>
-                </div>
-            </header>
+<div class="content"  th:fragment="point">
+    <link rel="stylesheet" th:href="@{/css/admin/list.css}" />
+    <div class="dashboard">
+        <div class="content_header">
+            <h1>상품 현황</h1>
+            <p>
+                HOME > 회원관리 > <strong>포인트관리</strong>
+            </p>
         </div>
 
-        <main>
-
-            <aside>
-                <ul id="admin_sidebar">
-                    <li>
-                        <a href="#"><i class="fa fa-cogs" aria-hidden="true"></i>환경설정</a>
-                        <ol>
-                            <li><a href="#">기본환경정보</a></li>
-                            <li><a href="#">배너관리</a></li>
-                        </ol>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fas fa-store" aria-hidden="true"></i>상점관리</a>
-                        <ol>
-                            <li><a href="#">판매자현황</a></li>
-                        </ol>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-users" aria-hidden="true"></i>회원관리</a>
-                        <ol>
-                            <li><a href="#">회원현황</a></li>
-                            <li><a href="#">포인트관리</a></li>
-                        </ol>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fas fa-box-open" aria-hidden="true"></i>상품관리</a>
-                        <ol>
-                            <li><a href="#">상품현황</a></li>
-                            <li><a href="#">상품등록</a></li>
-                        </ol>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-credit-card" aria-hidden="true"></i>주문관리</a>
-                        <ol>
-                            <li><a href="#">주문현황</a></li>
-                            <li><a href="#">매출현황</a></li>
-                            <li><a href="#">배송관리</a></li>
-                        </ol>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>고객센터</a>
-                        <ol>
-                            <li><a href="#">공지사항</a></li>
-                            <li><a href="#">자주묻는질문</a></li>
-                            <li><a href="#">문의하기</a></li>
-                        </ol>
-                    </li>
-                </ul>
-            </aside>
-
-            <div class="content">
-
-                <div class="dashboard">
-                    <div class="content_header">
-                        <h1>상품 현황</h1>
-                        <p>
-                            HOME > 회원관리 > <strong>포인트관리</strong>
-                        </p>
-                    </div>
-
-                    <!-- 컨텐츠 시작 -->
-                    <section class="sectionBox">
-                        <div>
-                            <form action="/admin/product/list">
-                                <select name="type">
-                                    <option value="uid">아이디</option>
-                                    <option value="name">이름</option>
-                                    <option value="email">이메일</option>
-                                    <option value="contact">휴대폰</option>
-                                </select>
-                                <input class="searchInput" type="text" name="keyword">
-                                <input type="hidden" name="prodSeller" value="ADMIN" readonly>
-                                <input class="searchBtn" type="submit" value="검색">
-                            </form>
-                        </div>
-
-                        <table class="admingraph">
-                            <tr class="admin_title" style="height: 50px; border-bottom: 1px solid #A6A6A6;">
-                                <th><input type="checkbox" name="all" /></th>
-                                <th>번호</th>
-                                <th>아이디</th>
-                                <th>이름</th>
-                                <th>지급 포인트</th>
-                                <th>잔여 포인트</th>
-                                <th>지급 내용</th>
-                                <th>지급 날짜</th>
-                            </tr>
-
-                            <tr class="admin_point-list" style="height: 50px;">
-                                <td ><input type="checkbox" name="회원코드" /></td>
-
-                                <td>5</td>
-                                <td>abc1234</td>
-                                <td>이상훈</td>
-                                <td>1,000</td>
-                                <td>15,000</td>
-                                <td>구매확정 포인트 지급</td>
-                                <td>2024-10-16</td>
-                                <!-- 년월시일분초 출력 -->
-                            </tr>
-
-                        </table>
-
-                        <a class="delete_btn">선택삭제</a>
-
-                        <div class="pagingBox">
-                            <div class="pagingList">
-                                <!-- 이전 버튼 -->
-                                <a href="#" class="prev"></a>
-
-                                <!-- 페이지 링크 -->
-                                <a href="#">1</a>
-                                <a href="#" class="active">2</a>
-                                <a href="#">3</a>
-                                <a href="#">4</a>
-                                <a href="#">5</a>
-
-                                <!-- 다음 버튼 -->
-                                <a href="#" class="next">></a>
-                            </div>
-                        </div>
-
-                    </section>
-
-                    <!-- 상품목록 컨텐츠 끝 -->
-    </section>
-
-    <!--내용 끝-->
-    <div class="footer_wrapper" th:fragment="footer">
-        <footer>
-            <div id="version">LotteON ADMINISTRATOR Version 0.0.1</div>
-            <div id="copyright">
-                Copyrightⓒ LotteOn_Team1 All rights reserved.
+        <!-- 컨텐츠 시작 -->
+        <section class="sectionBox">
+            <div>
+                <form action="/admin/product/list">
+                    <select name="type">
+                        <option value="uid">아이디</option>
+                        <option value="name">이름</option>
+                        <option value="email">이메일</option>
+                        <option value="contact">휴대폰</option>
+                    </select>
+                    <input class="searchInput" type="text" name="keyword">
+                    <input type="hidden" name="prodSeller" value="ADMIN" readonly>
+                    <input class="searchBtn" type="submit" value="검색">
+                </form>
             </div>
-        </footer>
+
+            <table class="admingraph">
+                <tr class="admin_title" style="height: 50px; border-bottom: 1px solid #A6A6A6;">
+                    <th><input type="checkbox" name="all" /></th>
+                    <th>번호</th>
+                    <th>아이디</th>
+                    <th>이름</th>
+                    <th>지급 포인트</th>
+                    <th>잔여 포인트</th>
+                    <th>지급 내용</th>
+                    <th>지급 날짜</th>
+                </tr>
+
+                <tr class="admin_point-list" style="height: 50px;">
+                    <td ><input type="checkbox" name="회원코드" /></td>
+
+                    <td>5</td>
+                    <td>abc1234</td>
+                    <td>이상훈</td>
+                    <td>1,000</td>
+                    <td>15,000</td>
+                    <td>구매확정 포인트 지급</td>
+                    <td>2024-10-16</td>
+                    <!-- 년월시일분초 출력 -->
+                </tr>
+
+            </table>
+
+            <a class="delete_btn">선택삭제</a>
+
+            <div class="pagingBox">
+                <div class="pagingList">
+                    <!-- 이전 버튼 -->
+                    <a href="#" class="prev"></a>
+
+                    <!-- 페이지 링크 -->
+                    <a href="#">1</a>
+                    <a href="#" class="active">2</a>
+                    <a href="#">3</a>
+                    <a href="#">4</a>
+                    <a href="#">5</a>
+
+                    <!-- 다음 버튼 -->
+                    <a href="#" class="next">></a>
+                </div>
+            </div>
+        </section>
     </div>
-</body>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const sidebar = document.querySelectorAll('#admin_sidebar > li > a');
-        sidebar.forEach(link => {
-            const subMenu = link.nextElementSibling;
-
-            // 마우스가 들어왔을 때(submenu 열기)
-            link.addEventListener('mouseenter', function () {
-                subMenu.style.display = 'block';
-            });
-
-            // 마우스가 나갔을 때(submenu 닫기)
-            link.addEventListener('mouseleave', function () {
-                subMenu.style.display = 'none';
-            });
-
-            // 서브 메뉴 자체에 대해서도 마우스가 나갔을 때 닫히지 않도록 처리
-            subMenu.addEventListener('mouseenter', function () {
-                subMenu.style.display = 'block'; // 유지
-            });
-
-            subMenu.addEventListener('mouseleave', function () {
-                subMenu.style.display = 'none';  // 메뉴 닫기
-            });
-        });
-    });
-</script>
-
-</html>
+</div>

@@ -3,30 +3,30 @@
     <li>
       <a href="#"><i class="fa fa-cogs" aria-hidden="true"></i>환경설정</a>
       <ol class="config">
-        <li><a href="#" class="info">기본환경정보</a></li>
+        <li><a th:href="@{/admin/layout/config/info}" class="info">기본환경정보</a></li>
         <li><a th:href="@{/admin/layout/config/banner}" class="banner">배너관리</a></li>
-        <li><a href="#" class="policy">약관관리</a></li>
-        <li><a href="#" class="version">버전이력</a></li>
+        <li><a th:href="@{/admin/layout/config/policy}" class="policy">약관관리</a></li>
+        <li><a th:href="@{/admin/layout/config/version}" class="version">버전이력</a></li>
       </ol>
     </li>
     <li>
       <a href="#"><i class="fas fa-store" aria-hidden="true"></i>상점관리</a>
       <ol class="shop">
-        <li><a href="#" class="list">상점목록</a></li>
-        <li><a href="#" class="sales">매출현황</a></li>
+        <li><a th:href="@{/admin/layout/shop/list}" class="list">상점목록</a></li>
+        <li><a th:href="@{/admin/layout/shop/sales}" class="sales">매출현황</a></li>
       </ol>
     </li>
     <li>
       <a href="#"><i class="fa fa-users" aria-hidden="true"></i>회원관리</a>
       <ol class="member">
-        <li><a href="#" class="list">회원현황</a></li>
-        <li><a href="#" class="point">포인트관리</a></li>
+        <li><a th:href="@{/admin/layout/member/list}" class="list">회원현황</a></li>
+        <li><a th:href="@{/admin/layout/member/point}" class="point">포인트관리</a></li>
       </ol>
     </li>
     <li>
       <a href="#"><i class="fas fa-box-open" aria-hidden="true"></i>상품관리</a>
       <ol class="product">
-        <li><a href="#" class="list">상품현황</a></li>
+        <li><a th:href="@{/admin/layout/product/list}" class="list">상품현황</a></li>
         <li><a href="#" class="register">상품등록</a></li>
         <li><a th:href="@{/admin/layout/product/category}" class="category">카테고리</a></li>
       </ol>
@@ -42,9 +42,9 @@
     <li>
       <a href="#"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>고객센터</a>
       <ol class="cs">
-        <li><a href="#" class="list">공지사항</a></li>
-        <li><a href="#" class="list">자주묻는질문</a></li>
-        <li><a href="#" class="list">문의하기</a></li>
+        <li><a th:href="@{/admin/layout/cs/notice/list}" class="notice">공지사항</a></li>
+        <li><a th:href="@{/admin/layout/cs/faq/list}" class="faq">자주묻는질문</a></li>
+        <li><a th:href="@{/admin/layout/cs/qna/list}" class="qna">문의하기</a></li>
       </ol>
     </li>
   </ul>

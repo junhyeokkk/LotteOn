@@ -1,0 +1,114 @@
+.list_head {
+    height: 30px;
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.list_head > select {
+    width: 100px;
+    height: 100%;
+    border: 2px solid #343b4d;
+    margin-right: 10px;
+    border-radius: 0;
+}
+
+.list_head > input {
+    width: 150px;
+    height: 90%;
+    border: 2px solid #343b4d;
+    margin-right: 10px;
+    border-radius: 0;
+}
+
+.list_head > button {
+    width: 50px;
+    height: 100%;
+    background-color: #343b4d;
+    margin-right: 10px;
+    border-radius: 0;
+    color: white;
+}
+
+
+.qna_article_write table {
+    width: 100%;
+    border-collapse: collapse;
+    border-top: 2px solid #111;
+}
+.qna_article_write table tr {
+    width: 100%;
+    height: 26px;
+}
+
+.qna_article_write table td {
+    padding: 16px;
+    border-bottom: 1px solid #ccc;
+    font-size: 16px;
+}
+
+.qna_article_write table td:first-child {
+    width: 100px;
+}
+
+.qna_article_write table input {
+    width: 100%;
+    height: 40px;
+    font-size: 16px;
+    box-sizing: border-box;
+    text-indent: 10px;
+}
+
+.qna_article_write table select {
+    width: 100px;
+    height: 40px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.qna_article_write table select * {
+    font-size: inherit;
+}
+
+.qna_article_write table textarea {
+    width: 100%;
+    height: 360px;
+    resize: none;
+    font-size: 16px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+/* 페이징 */
+.pagingBox {
+    display: flex;
+    position: relative;
+    margin-top: 20px;
+    justify-content: center;
+}
+.pagingList > a {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    color: #999;
+    line-height: 26px;
+    margin: 0 2px;
+    text-indent: -1px;
+    font-family: Roboto, NotoSansKR, Malgun Gothic, AppleSDGothicNeo, Helvetica, sans-serif;
+    text-align: center;
+}
+
+.pagingList > a.active {
+    margin: 0 4px;
+    background-color: #343b4d;
+    border: 1px solid #343b4d;
+    color: #fff;
+}
+
+.pagingList > a:hover {
+    background-color: #35373d;
+}
+.on {
+    background-color: #dadada!important;
+}

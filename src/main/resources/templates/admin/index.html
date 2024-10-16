@@ -5,6 +5,7 @@
     <title>admin_main</title>
     <link rel="stylesheet" th:href="@{/css/admin/admin_main.css}" />
     <script type="text/javascript" th:src="@{/js/admin/sidebar.js}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </head>
 <body>
@@ -26,29 +27,32 @@
             <li>
                 <a href="#"><i class="fa fa-cogs" aria-hidden="true"></i>환경설정</a>
                 <ol>
-                    <li><a href="#">기본환경정보</a></li>
-                    <li><a th:href="@{/admin/layout/config/banner}">배너관리</a></li>
+                    <li><a th:href="@{/admin/layout/config/info}" class="info">기본환경정보</a></li>
+                    <li><a th:href="@{/admin/layout/config/banner}" class="banner">배너관리</a></li>
+                    <li><a th:href="@{/admin/layout/config/policy}" class="policy">약관관리</a></li>
+                    <li><a th:href="@{/admin/layout/config/version}" class="version">버전이력</a></li>
                 </ol>
             </li>
             <li>
                 <a href="#"><i class="fas fa-store" aria-hidden="true"></i>상점관리</a>
                 <ol>
-                    <li><a href="#">판매자현황</a></li>
+                    <li><a th:href="@{/admin/layout/shop/list}" class="list">상점목록</a></li>
+                    <li><a th:href="@{/admin/layout/shop/sales}" class="sales">매출현황</a></li>
                 </ol>
             </li>
             <li>
                 <a href="#"><i class="fa fa-users" aria-hidden="true"></i>회원관리</a>
                 <ol>
-                    <li><a href="#">회원현황</a></li>
-                    <li><a href="#">포인트관리</a></li>
+                    <li><a th:href="@{/admin/layout/member/list}" class="list">회원현황</a></li>
+                    <li><a th:href="@{/admin/layout/member/point}" class="sales">포인트관리</a></li>
                 </ol>
             </li>
             <li>
                 <a href="#"><i class="fas fa-box-open" aria-hidden="true"></i>상품관리</a>
-                <ol>
-                    <li><a href="#">상품현황</a></li>
-                    <li><a href="#">상품등록</a></li>
-                    <li><a th:href="@{/admin/layout/product/category}">카테고리</a></li>
+                <ol class="product">
+                    <li><a th:href="@{/admin/layout/product/list}" class="list">상품현황</a></li>
+                    <li><a href="#" class="register">상품등록</a></li>
+                    <li><a th:href="@{/admin/layout/product/category}" class="category">카테고리</a></li>
                 </ol>
             </li>
             <li>
@@ -61,10 +65,10 @@
             </li>
             <li>
                 <a href="#"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>고객센터</a>
-                <ol>
-                    <li><a href="#">공지사항</a></li>
-                    <li><a href="#">자주묻는질문</a></li>
-                    <li><a href="#">문의하기</a></li>
+                <ol class="cs">
+                    <li><a th:href="@{/admin/layout/cs/notice/list}" class="notice">공지사항</a></li>
+                    <li><a th:href="@{/admin/layout/cs/faq/list}" class="faq">자주묻는질문</a></li>
+                    <li><a th:href="@{/admin/layout/cs/qna/list}" class="qna">문의하기</a></li>
                 </ol>
             </li>
         </ul>
@@ -74,6 +78,18 @@
             <div class="content_header">
                 <h1>관리자메인</h1>
                 <p>HOME > 관리자 메인</p>
+            </div>
+            <!-- 집계현황 Section -->
+            <div class="aggregate-status">
+                <h2>집계현황</h2>
+                <div class="charts-container">
+                    <div class="chart">
+                        <canvas id="barChart" width="400" height="400"></canvas>
+                    </div>
+                    <div class="chart">
+                        <canvas id="pieChart" width="400" height="100"></canvas>
+                    </div>
+                </div>
             </div>
             <div class="operation-status">
                 <h2>운영현황</h2>
@@ -107,22 +123,27 @@
                     <div class="status-item">
                         <span>입금대기</span>
                         <strong>101</strong>
+                        <p>오늘: 60 / 어제: 71</p>
                     </div>
                     <div class="status-item">
                         <span>배송준비</span>
                         <strong>124</strong>
+                        <p>오늘: 102 / 어제: 130</p>
                     </div>
                     <div class="status-item">
                         <span>취소요청</span>
                         <strong>14</strong>
+                        <p>오늘: 1 / 어제: 3</p>
                     </div>
                     <div class="status-item">
                         <span>교환요청</span>
                         <strong>7</strong>
+                        <p>오늘: 1 / 어제: 2</p>
                     </div>
                     <div class="status-item">
                         <span>반품요청</span>
                         <strong>24</strong>
+                        <p>오늘: 3 / 어제: 5</p>
                     </div>
                 </div>
             </div>
@@ -131,7 +152,7 @@
                 <div class="notice">
                     <div class="notice_header">
                         <h3>공지사항</h3>
-                        <a href="#">전체보기</a>
+                        <a th:href="@{/admin/layout/cs/notice/list}">전체보기</a>
                     </div>
                     <table>
                         <tr>
@@ -159,7 +180,7 @@
                 <div class="inquiries">
                     <div class="inquiries_header">
                         <h3>고객문의</h3>
-                        <a href="#">전체보기</a>
+                        <a th:href="@{/admin/layout/cs/qna/list}">전체보기</a>
                     </div>
                     <table>
                         <tr>
@@ -192,6 +213,72 @@
             </div>
         </div>
     </div>
+    <script>
+        // Bar chart for orders, payments, and cancellations
+        const ctxBar = document.getElementById('barChart').getContext('2d');
+        const barChart = new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: ['10-11', '10-12', '10-13', '10-14'], // Replace with actual dates
+                datasets: [
+                    {
+                        label: '주문',
+                        data: [120, 150, 170, 130], // Replace with actual order data
+                        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                    },
+                    {
+                        label: '결제',
+                        data: [100, 140, 160, 110], // Replace with actual payment data
+                        backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                    },
+                    {
+                        label: '취소',
+                        data: [20, 30, 15, 25], // Replace with actual cancellation data
+                        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Pie chart for sales categories
+        const ctxPie = document.getElementById('pieChart').getContext('2d');
+        const pieChart = new Chart(ctxPie, {
+            type: 'pie',
+            data: {
+                labels: ['가전', '식품', '의류', '기타'], // Sales categories
+                datasets: [{
+                    label: '주요 매출',
+                    data: [300, 500, 200, 100], // Replace with actual sales data
+                    backgroundColor: [
+                        'rgba(255, 206, 86, 0.6)',
+                        'rgba(75, 192, 192, 0.6)',
+                        'rgba(153, 102, 255, 0.6)',
+                        'rgba(255, 99, 132, 0.6)'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: '주요 매출'
+                    }
+                }
+            }
+        });
+    </script>
+
 </main>
 <div class="footer_wrapper">
     <footer >

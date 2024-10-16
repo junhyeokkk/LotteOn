@@ -6,28 +6,60 @@ document.addEventListener("DOMContentLoaded", function() {
     const path1 = pathArray[pathArray.length - 2];
     const path2 = pathArray[pathArray.length - 1];
 
-    console.log(path1);
-    console.log(path2);
+    // cs 3차분류이기 때문에 따로 처리
+    const path3 = pathArray[pathArray.length - 3];
 
-    // path1에 해당하는 ol 찾기
-    let ol = document.getElementsByClassName(path1)[0]; // .path1 클래스를 가진 ol 찾기
-    console.log("ol:", ol);
+    if(path3 === 'cs'){
+        console.log(path1);
+        console.log(path2);
+        console.log(path3);
 
-    // ol 자식들 중에 path2에 해당하는 li 찾기
-    if (ol) {
-        ol.style.display = 'block'; // ol 표시
-        ol.classList.add('active'); // ol에 active 클래스 추가
+        // path1에 해당하는 ol 찾기
+        let ol = document.getElementsByClassName(path3)[0]; // .path1 클래스를 가진 ol 찾기
+        console.log("ol:", ol);
 
-        let li = ol.getElementsByClassName(path2)[0]; // ol 자식 중에서 path2 클래스를 가진 li 찾기
-        if (li) {
-            li.classList.add('active'); // li에 active 클래스 추가
-            console.log("li:", li);
+
+        if (ol) {
+            ol.style.display = 'block';
+            ol.classList.add('active');
+
+            let li = ol.getElementsByClassName(path1)[0];
+            if (li) {
+                li.classList.add('active');
+                console.log("li:", li);
+            } else {
+                console.log("li not found");
+            }
         } else {
             console.log("li not found");
         }
-    } else {
-        console.log("ol not found");
     }
+    else {
+        console.log(path1);
+        console.log(path2);
+
+        // path1에 해당하는 ol 찾기
+        let ol = document.getElementsByClassName(path1)[0]; // .path1 클래스를 가진 ol 찾기
+        console.log("ol:", ol);
+
+        // ol 자식들 중에 path2에 해당하는 li 찾기
+        if (ol) {
+            ol.style.display = 'block'; // ol 표시
+            ol.classList.add('active'); // ol에 active 클래스 추가
+
+            let li = ol.getElementsByClassName(path2)[0]; // ol 자식 중에서 path2 클래스를 가진 li 찾기
+            if (li) {
+                li.classList.add('active'); // li에 active 클래스 추가
+                console.log("li:", li);
+            } else {
+                console.log("li not found");
+            }
+        } else {
+            console.log("ol not found");
+        }
+    }
+
+
     const sidebarLinks = document.querySelectorAll('#admin_sidebar > li > a');
 
     sidebarLinks.forEach(link => {

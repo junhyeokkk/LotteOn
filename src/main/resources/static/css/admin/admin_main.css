@@ -373,3 +373,31 @@ table td:nth-child(3) {
 .inquiries_header a:hover {
     text-decoration: underline;
 }
+
+.aggregate-status {
+    margin-top: 20px;
+}
+
+.aggregate-status h2 {
+    font-size: 18px;
+    border-bottom: 2px solid #333;
+    padding-bottom: 10px;
+    color: #333;
+}
+
+.charts-container {
+    display: flex; /* Use flexbox to align charts side by side */
+    justify-content: space-between; /* Space out the charts */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+.chart {
+    flex: 1; /* Allow charts to grow equally */
+    margin: 10px; /* Add some margin around the charts */
+}
+
+.chart canvas {
+    max-width: 100%; /* Responsive canvas */
+    height: auto; /* Maintain aspect ratio */
+}
+

@@ -1,71 +1,31 @@
-/* 작업한 css */
-.adminp {
-    height: 40px;
-    display: flex;
-    align-items: center; /* 세로 중앙 정렬 */
+/* 배너관리 */
+.banner_title {
+    font-size: 18px;
+    color: #333333;
+}
+.bannerinsertbtn {
     background-color: #F2F2F2;
-}
-.adminp p {
-    width: 100%; /* p 태그가 가로로 꽉 차도록 설정 */
-    padding-left: 10px; /* 텍스트에 약간의 좌측 padding 추가 */
-}
-.adminwidthtable {
-    width: 100%;
-    margin-top: 10px;
-    border-top: 0.4px solid #A6A6A6;
-    border-bottom: 0.4px solid #A6A6A6;
-    border-collapse: collapse;
-    text-align: center;
-}
-.adminwidthtable th {
-    border-top: 0.4px solid #A6A6A6;
-    background-color: #DCE6F2;
-    color: black;
-    height: 40px;
-    width: 125px;
-}
-.csinfo .adminwidthtable th {
-    border-top: 0.4px solid #A6A6A6;
-    background-color: #DCE6F2;
-    color: black;
-    height: 40px;
-    width: 185px;
-}
-.adminwidthtable td {
-    border-top: 0.4px solid #A6A6A6;
-    padding: 10px;
-    text-align: left;
-}
-.content input[type="text"]{
-    height: 30px;
-    width: 250px;
-}
-.company_info {
-    position: relative;
-}
-.company_info .adminwidthtable tr:nth-child(5) td input {
-    width: 370px;
-}
-.company_info .adminwidthtable tr:nth-child(6) td input {
-    width: 370px;
-}
-.admincopyright .adminwidthtable td input{
-    width: 370px;
-
-}
-.content form {
-    position: relative;
+    height: 50px;
+    flex-direction: column;
 }
 
-.content button {
-    float: right;
-    background-color: #8EB4E3;
-    color: white;
+.bannerinsertbtn button {
+    float: left;
+    background-color: #BFBFBF;
     height: 40px;
-    width: 100px;
     border: none;
-    border-radius: 6px;
     cursor: pointer;
-    margin-top: 10px;
+    margin-top: 5px;
     margin-bottom: 10px;
+    border: 1px solid #BFBFBF;
+    margin-left: 5px;
+}
+
+.bannerinsertbtn button:last-child {
+    margin-right: 0;
+    /* 마지막 버튼은 오른쪽 간격 없음 */
+}
+
+.bannerinsertbtn .on {
+    background-color: white;
 }

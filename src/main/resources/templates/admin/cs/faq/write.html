@@ -1,0 +1,53 @@
+<div class="content" th:fragment="write">
+  <link rel="stylesheet" th:href="@{/css/admin/cs/faq/write.css}" />
+    <div class="dashboard">
+      <div class="content_header">
+        <h1>자주묻는질문 작성</h1>
+        <p>HOME > 고객센터 > 자주묻는질문</p>
+      </div>
+      <article class="qna_article_write">
+        <form>
+          <table>
+            <tr>
+              <td>문의유형</td>
+              <td>
+                <select name="qnaCate" onchange="firstOption()">
+                  <option>1차선택</option>
+                  <option value="user">회원</option>
+                  <option value="coupon">쿠폰/이벤트</option>
+                  <option value="order">주문/결제</option>
+                  <option value="delivery">배송</option>
+                  <option value="cancel">취소/반품/환불</option>
+                  <option value="travel">여행/숙박/항공</option>
+                  <option value="safe">안전결제</option>
+                </select>
+                <select name="qnaType">
+                  <option>2차선택</option>
+                  <option value="regi">고객서비스</option>
+                  <option value="leave">이벤트당첨</option>
+                  <option value="leave">안전거래</option>
+                  <option value="login">위해상품</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td>제목</td>
+              <td>
+                <input type="text" name="qnaTitle" placeholder="제목을 입력하세요." required/>
+              </td>
+            </tr>
+            <tr>
+              <td>내용</td>
+              <td>
+                <textarea name="qnaContent" placeholder="내용을 입력하세요." required></textarea>
+              </td>
+            </tr>
+          </table>
+          <div style="text-align: center; margin-top: 50px">
+            <a th:href="@{/admin/layout/cs/faq/list}"><input type="button" value="취소하기" style="background-color: #9e9e9e; color: white; border: none; padding: 10px 20px; cursor: pointer;"/></a>
+            <input type="submit" value="등록하기" style="background-color: #4291e9; color: white; border: none; padding: 10px 20px; cursor: pointer;"/>
+          </div>
+        </form>
+      </article>
+    </div>
+</div>

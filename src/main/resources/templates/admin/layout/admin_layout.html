@@ -29,6 +29,24 @@
       </th:block>
     </th:block>
 
+    <!-- 상점관리 -->
+    <th:block th:case="'shop'">
+      <th:block th:with="path='/admin/shop/' + ${cate}, fragment=${cate}">
+        <th:replace th:with="path=${path}, fragment=${fragment}"
+                    th:replace="~{${path}::${fragment}}">
+        </th:replace>
+      </th:block>
+    </th:block>
+
+    <!-- 회원관리 -->
+    <th:block th:case="'member'">
+      <th:block th:with="path='/admin/member/' + ${cate}, fragment=${cate}">
+        <th:replace th:with="path=${path}, fragment=${fragment}"
+                    th:replace="~{${path}::${fragment}}">
+        </th:replace>
+      </th:block>
+    </th:block>
+
     <!-- 상품관리 -->
     <th:block th:case="'product'">
       <th:block th:with="path='/admin/product/' + ${cate}, fragment=${cate}">
@@ -38,7 +56,14 @@
       </th:block>
     </th:block>
 
-
+    <!-- 고객센터 -->
+    <th:block th:case="'cs'">
+      <th:block th:with="path='/admin/cs/' + ${cate1}+ '/' + ${cate2}, fragment=${cate2}">
+        <th:replace th:with="path=${path}, fragment=${fragment}"
+                    th:replace="~{${path}::${fragment}}">
+        </th:replace>
+      </th:block>
+    </th:block>
 
   </th:block>
 </main>
