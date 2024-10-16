@@ -7,110 +7,110 @@
                 HOME > 고객센터 > <strong>공지사항</strong>
             </p>
         </div>
-    <section class="sectionBox">
-        <div>
-            <select name="type" onchange="firstOption()">
-                <option>유형선택</option>
-                <option value="all">전체</option>
-                <option value="service">고객서비스</option>
-                <option value="safe">안전거래</option>
-                <option value="danger">위해상품</option>
-                <option value="event">이벤트당첨</option>
-            </select>
-        </div>
-        <table class="admingraph">
-            <tr class="admin_title" style="height: 50px;">
-                <th><input type="checkbox" name="allCheck" /></th>
-                <th>번호</th>
-                <th>유형</th>
-                <th>제목</th>
-                <th>조회</th>
-                <th>날짜</th>
-                <th>관리</th>
-            </tr>
-
-            <tr class="admin_notice-list">
-                <td><input type="checkbox" value="noticeNo" name="RowCheck" /></td>
-                <td>100</td>
-                <td style="white-space: nowrap;">[유형선택]</td>
-                <td style="text-align: left">
-                   <span>
-                        <a th:href="@{/admin/layout/cs/notice/view}">
-                            <span style="white-space: nowrap;">[안내] 제목</span>
-                        </a>
-                    </span>
-                </td>
-                <td>120</td>
-                <td style="white-space: nowrap;">2024-10-14</td>
-                <td>
-                    <a onclick="modifyProdStatus()" class="product__delete-btn">[삭제]</a>
-                    <br>
-                    <a href="">[수정]</a>
-                </td>
-            </tr>
-
-            <tr class="admin_notice-list">
-                <td><input type="checkbox" value="noticeNo" name="RowCheck" /></td>
-                <td>100</td>
-                <td style="white-space: nowrap;">[유형선택]</td>
-                <td style="text-align: left">
-                    <span>
-                        <a th:href="@{/admin/layout/cs/notice/view}">
-                            <span style="white-space: nowrap;">[안내] 제목</span>
-                        </a>
-                    </span>
-                </td>
-                <td>120</td>
-                <td style="white-space: nowrap;">2024-10-14</td>
-                <td>
-                    <a onclick="modifyProdStatus()" class="product__delete-btn">[삭제]</a>
-                    <br>
-                    <a href="">[수정]</a>
-                </td>
-            </tr>
-
-            <tr class="admin_notice-list">
-                <td><input type="checkbox" value="noticeNo" name="RowCheck" /></td>
-                <td>100</td>
-                <td style="white-space: nowrap;">[유형선택]</td>
-                <td style="text-align: left">
-                   <span>
-                        <a th:href="@{/admin/layout/cs/notice/view}">
-                            <span style="white-space: nowrap;">[안내] 제목</span>
-                        </a>
-                   </span>
-                </td>
-                <td>120</td>
-                <td style="white-space: nowrap;">2024-10-14</td>
-                <td>
-                    <a onclick="modifyProdStatus()" class="product__delete-btn">[삭제]</a>
-                    <br>
-                    <a href="">[수정]</a>
-                </td>
-            </tr>
-
-        </table>
-        <a class="delete_btn">선택삭제</a>
-        <a th:href="@{/admin/layout/cs/notice/write}" class="registration_btn">작성하기</a>
-
-        <div class="pagingBox">
-            <div class="pagingList">
-                <!-- 이전 버튼 -->
-                <a href="#" class="prev"></a>
-
-                <!-- 페이지 링크 -->
-                <a href="#">1</a>
-                <a href="#" class="active">2</a>
-                <a href="#">3</a>
-                <a href="#">4</a>
-                <a href="#">5</a>
-
-                <!-- 다음 버튼 -->
-                <a href="#" class="next">></a>
+        <section class="sectionBox">
+            <div>
+                <select name="type" onchange="firstOption()">
+                    <option>유형선택</option>
+                    <option value="all">전체</option>
+                    <option value="service">고객서비스</option>
+                    <option value="safe">안전거래</option>
+                    <option value="danger">위해상품</option>
+                    <option value="event">이벤트당첨</option>
+                </select>
             </div>
-        </div>
+            <table class="admingraph">
+                <tr class="admin_title" style="height: 50px;">
+                    <th><input type="checkbox" name="allCheck" /></th>
+                    <th>번호</th>
+                    <th>유형</th>
+                    <th>제목</th>
+                    <th>조회</th>
+                    <th>날짜</th>
+                    <th>관리</th>
+                </tr>
 
-    </section>
+                <tr class="admin_notice-list">
+                    <td><input type="checkbox" value="noticeNo" name="RowCheck" /></td>
+                    <td>100</td>
+                    <td style="white-space: nowrap;">[유형선택]</td>
+                    <td style="text-align: left">
+                        <span>
+                            <a th:href="@{/admin/layout/cs/notice/view}">
+                                <span style="white-space: nowrap;">[안내] 제목</span>
+                            </a>
+                        </span>
+                    </td>
+                    <td>120</td>
+                    <td style="white-space: nowrap;">2024-10-14</td>
+                    <td>
+                        <a onclick="modifyProdStatus()" class="product__delete-btn">[삭제]</a>
+                        <br>
+                        <a href="">[수정]</a>
+                    </td>
+                </tr>
+
+                <tr class="admin_notice-list">
+                    <td><input type="checkbox" value="noticeNo" name="RowCheck" /></td>
+                    <td>100</td>
+                    <td style="white-space: nowrap;">[유형선택]</td>
+                    <td style="text-align: left">
+                        <span>
+                            <a th:href="@{/admin/layout/cs/notice/view}">
+                                <span style="white-space: nowrap;">[안내] 제목</span>
+                            </a>
+                        </span>
+                    </td>
+                    <td>120</td>
+                    <td style="white-space: nowrap;">2024-10-14</td>
+                    <td>
+                        <a onclick="modifyProdStatus()" class="product__delete-btn">[삭제]</a>
+                        <br>
+                        <a href="">[수정]</a>
+                    </td>
+                </tr>
+
+                <tr class="admin_notice-list">
+                    <td><input type="checkbox" value="noticeNo" name="RowCheck" /></td>
+                    <td>100</td>
+                    <td style="white-space: nowrap;">[유형선택]</td>
+                    <td style="text-align: left">
+                        <span>
+                            <a th:href="@{/admin/layout/cs/notice/view}">
+                                <span style="white-space: nowrap;">[안내] 제목</span>
+                            </a>
+                        </span>
+                    </td>
+                    <td>120</td>
+                    <td style="white-space: nowrap;">2024-10-14</td>
+                    <td>
+                        <a onclick="modifyProdStatus()" class="product__delete-btn">[삭제]</a>
+                        <br>
+                        <a href="">[수정]</a>
+                    </td>
+                </tr>
+
+            </table>
+            <a class="delete_btn">선택삭제</a>
+            <a th:href="@{/admin/layout/cs/notice/write}" class="registration_btn">작성하기</a>
+
+            <div class="pagingBox">
+                <div class="pagingList">
+                    <!-- 이전 버튼 -->
+                    <a href="#" class="prev"></a>
+
+                    <!-- 페이지 링크 -->
+                    <a href="#">1</a>
+                    <a href="#" class="active">2</a>
+                    <a href="#">3</a>
+                    <a href="#">4</a>
+                    <a href="#">5</a>
+
+                    <!-- 다음 버튼 -->
+                    <a href="#" class="next">></a>
+                </div>
+            </div>
+
+        </section>
 
     </div>
 </div>

@@ -10,31 +10,31 @@
 
         <section class="sectionBox">
             <div class="select-container">
-            <div>
-                <select name="type" onchange="firstOption()">
-                    <option>1차선택</option>
-                    <option value="user">회원</option>
-                    <option value="coupon">쿠폰/이벤트</option>
-                    <option value="order">주문/결제</option>
-                    <option value="delivery">배송</option>
-                    <option value="cancel">취소/반품/환불</option>
-                    <option value="travel">여행/숙박/항공</option>
-                    <option value="safe">안전결제</option>
-                </select>
-            </div>
-            <div>
-                <select name="type" onchange="redirectToCateType()">
-                    <option>2차선택</option>
-                    <option value="regi">가입</option>
-                    <option value="leave">탈퇴</option>
-                    <option value="info">회원정보</option>
-                    <option value="login">로그인</option>
+                <div>
+                    <select name="type" onchange="firstOption()">
+                        <option>1차선택</option>
+                        <option value="user">회원</option>
+                        <option value="coupon">쿠폰/이벤트</option>
+                        <option value="order">주문/결제</option>
+                        <option value="delivery">배송</option>
+                        <option value="cancel">취소/반품/환불</option>
+                        <option value="travel">여행/숙박/항공</option>
+                        <option value="safe">안전결제</option>
+                    </select>
+                </div>
+                <div>
+                    <select name="type" onchange="redirectToCateType()">
+                        <option>2차선택</option>
+                        <option value="regi">가입</option>
+                        <option value="leave">탈퇴</option>
+                        <option value="info">회원정보</option>
+                        <option value="login">로그인</option>
 
-                </select>
-            </div>
+                    </select>
+                </div>
             </div>
             <table class="admingraph">
-                <tr class="admin_title" style="height: 50px;">
+                <tr class="admin_title">
                     <th><input type="checkbox" name="allCheck" /></th>
                     <th>번호</th>
                     <th>1차유형</th>
@@ -45,7 +45,7 @@
                     <th>관리</th>
                 </tr>
 
-                <tr class="admin_faq-list" style="height: 50px;">
+                <tr class="admin_list">
                     <td><input type="checkbox" value="noticeNo" name="RowCheck" /></td>
                     <td>10</td>
                     <td style="white-space: nowrap;">[유형선택]</td>
@@ -74,6 +74,7 @@
 
             <div class="pagingBox">
                 <div class="pagingList">
+
                     <!-- 이전 버튼 -->
                     <a href="#" class="prev"></a>
 
@@ -90,5 +91,12 @@
             </div>
 
         </section>
+
+        <!-- 다음 버튼 -->
+        <a href="#" class="next">></a>
     </div>
+</div>
+
+</section>
+</div>
 </div>

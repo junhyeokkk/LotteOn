@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>롯데on 관리자 배송현황</title>
+    <title>롯데on 관리자 문의하기 목록</title>
     <link rel="stylesheet" href="/static/css/reset.css">
     <link rel="stylesheet" href="/static/css/admin/list.css">
 </head>
@@ -81,59 +81,64 @@
 
                 <div class="dashboard">
                     <div class="content_header">
-                        <h1>배송현황</h1>
+                        <h1>문의하기 목록</h1>
                         <p>
-                            HOME > 주문관리 > <strong>배송현황</strong>
+                            HOME > 고객센터 > <strong>문의하기</strong>
                         </p>
                     </div>
 
                     <section class="sectionBox">
-                        <div>
-                            <form action="/admin/order/delivery">
-                                <select name="type">
-                                    <option value="orderNo">송장번호</option>
-                                    <option value="orderId">주문번호</option>
-                                    <option value="orderName">수령인</option>
+                        <div class="select-container">
+                            <div>
+                                <select name="type" onchange="firstOption()">
+                                    <option>1차선택</option>
+                                    <option value="user">회원</option>
+                                    <option value="coupon">쿠폰/이벤트</option>
+                                    <option value="order">주문/결제</option>
+                                    <option value="delivery">배송</option>
+                                    <option value="cancel">취소/반품/환불</option>
+                                    <option value="travel">여행/숙박/항공</option>
+                                    <option value="safe">안전결제</option>
                                 </select>
-                                <input class="searchInput" type="text" name="keyword">
-                                <input type="hidden" name="prodSeller" value="ADMIN" readonly>
-                                <input class="searchBtn" type="submit" value="검색">
-                            </form>
+                            </div>
+                            <div>
+                                <select name="type" onchange="redirectToCateType()">
+                                    <option>2차선택</option>
+                                    <option value="regi">가입</option>
+                                    <option value="leave">탈퇴</option>
+                                    <option value="info">회원정보</option>
+                                    <option value="login">로그인</option>
+
+                                </select>
+                            </div>
                         </div>
-
-
                         <table class="admingraph">
                             <tr class="admin_title">
-                                <th>송장번호</th>
-                                <th>택배사</th>
-                                <th>주문번호</th>
-                                <th>수령인</th>
-                                <th>상품명</th>
-                                <th>건수</th>
-                                <th>물품합계</th>
-                                <th>배송비</th>
-                                <th>배송상태</th>
-                                <th>접수일</th>
+                                <th><input type="checkbox" name="allCheck" /></th>
+                                <th>번호</th>
+                                <th>1차유형</th>
+                                <th>2차유형</th>
+                                <th>제목</th>
+                                <th>작성자</th>
+                                <th>작성일</th>
+                                <th>상태</th>
                             </tr>
 
                             <tr class="admin_list">
-                                <td>
-                                    <a href="">1012121315</a>
+                                <td><input type="checkbox" value="noticeNo" name="RowCheck" /></td>
+                                <td>10</td>
+                                <td style="white-space: nowrap;">[유형선택]</td>
+                                <td style="white-space: nowrap;">[유형선택]</td>
+                                <td style="text-align: left">개인회원과 법인회원에 차이가 있나요 ? </td>
+                                <td>chh**</td>
+                                <td style="white-space: nowrap;">2024-10-14</td>
+                                <td if="${qna.qnaStatus == '검토중'}" text="${qna.qnaStatus}"></td>
+                                <td if="${qna.qnaStatus == '답변완료'}" text="${qna.qnaStatus}" style="color: #4291e9;">
                                 </td>
-                                <td>로젠택배</td>
-                                <td>1021211341</td>
-                                <td>이상훈</td>
-                                <td>ㅇㅇㅇ</td>
-                                <td>3</td>
-                                <td>68,400</td>
-                                <td>무료</td>
-                                <td style="color: blue;">배송준비</td>
-                                <!-- 배송준비,배송 중, 배송완료, 반품요청 -->
-                                <td>2024-10-16</td>
-                                <!-- 연월일시간초 -->
                             </tr>
 
                         </table>
+                        <a class="delete_btn">선택삭제</a>
 
                         <div class="pagingBox">
                             <div class="pagingList">

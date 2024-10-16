@@ -59,7 +59,7 @@ main > section > nav > p {
 /* 상품검색 */
 input {
     width: 200px;
-    padding: 6px;
+    padding: 9px;
     border: 1px solid #D8D8D8;
     font-size: 13px;            
     background-color: #fefefe;
@@ -74,8 +74,8 @@ input {
 }
 
 select[name="type"] {
-    appearance: none;
-    width: 75px;
+    /* appearance: none; */
+    width: 90px;
     height: 35px;
     border: 1px solid #D8D8D8;
     text-align: center;
@@ -94,7 +94,7 @@ input[type="checkbox"] {
 
 .admingraph {
     width: 100%;
-    margin-top: 20px;
+    margin-top: 13px;
     border-top: 2px solid #8798a3;
     border-bottom: 2px solid #BFBFBF;
     background: #fff;
@@ -104,6 +104,12 @@ input[type="checkbox"] {
 }
 
 .admin_title {
+    height: 65px;
+    border-bottom: 1px solid #BFBFBF;
+}
+
+.admin_list {
+    height: 65px;
     border-bottom: 1px solid #BFBFBF;
 }
 
@@ -152,7 +158,7 @@ button[type=submit] {
     border: 1px solid #D9D9D9;
     font-size: 13px;
     text-align: center;
-    background-color: #eaeaea;
+    background-color: #BFBFBF;
     color: #FFFFFF;
     vertical-align: middle;
     box-sizing: border-box;
@@ -190,9 +196,17 @@ button[type=submit] {
 /* 상점목록 */
 .operate {
     display: flex;
+    align-items: center;
     justify-content: flex-end;
-    margin-top: -20px !important;
+    /* margin-top: -20px !important; */
+    
 }
+
+/* 상점목록 운영*/
+.running {color: green;}
+.stopped {color: red;}
+.preparing {color: blue;}
+
 
 /* 리스트 표 */
 

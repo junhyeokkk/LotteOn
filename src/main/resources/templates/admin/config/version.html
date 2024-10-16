@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div class="content" th:fragment="version">
     <link rel="stylesheet" th:href="@{/css/admin/list.css}" />
     <div class="dashboard">
@@ -6,6 +7,34 @@
             <p>
                 HOME > 고객센터 > <strong>버전관리</strong>
             </p>
+=======
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>롯데on 버전관리</title>
+    <link rel="stylesheet" href="/static/css/reset.css">
+    <link rel="stylesheet" href="/static/css/admin/list.css">
+
+</head>
+
+<!--내용 시작-->
+
+<body>
+    <section id="admin-notice-list">
+        <div class="header_wrapper">
+            <header>
+                <a href="#" id="admin_logo">
+                    <img src="/static/images/admin/logo(wh).png" alt="admin_logo" />
+                </a>
+                <div class="home">
+                    <a href="#">HOME | </a>
+                    <a href="#">로그아웃 | </a>
+                    <a href="#">고객센터</a>
+                </div>
+            </header>
+>>>>>>> a0954c2 (fix style : 관리자 목록 관련 스타일 수정)
         </div>
     <section class="sectionBox">
         <h3>버전목록</h3>
@@ -60,8 +89,57 @@
                 <a href="#">4</a>
                 <a href="#">5</a>
 
+<<<<<<< HEAD
                 <!-- 다음 버튼 -->
                 <a href="#" class="next">></a>
+=======
+                        <tr class="admin_list" style="height: 50px; ">
+                            <td><input type="checkbox" value="noticeNo" name="RowCheck" /></td>
+                            <td>1</td>
+                            <td>0.0.1-SNAPSHOP</td>
+                            <td>chhak0503</td>
+                            <td style="white-space: nowrap;">2024-10-14</td>
+                            <td>
+                                <a href="">[확인]</a>
+                            </td>
+                        </tr>
+
+                        <tr class="admin_list" style="height: 50px;">
+                            <td><input type="checkbox" value="noticeNo" name="RowCheck" /></td>
+                            <td>1</td>
+                            <td>0.0.1-SNAPSHOP</td>
+                            <td>chhak0503</td>
+                            <td style="white-space: nowrap;">2024-10-14</td>
+                            <td>
+                                <a href="">[확인]</a>
+                            </td>
+                        </tr>
+
+                    </table>
+                    <a class="delete_btn">선택삭제</a>
+                    <a class="registration_btn">등록</a>
+
+                    <div class="pagingBox">
+                        <div class="pagingList">
+                            <!-- 이전 버튼 -->
+                            <a href="#" class="prev"></a>
+
+                            <!-- 페이지 링크 -->
+                            <a href="#">1</a>
+                            <a href="#" class="active">2</a>
+                            <a href="#">3</a>
+                            <a href="#">4</a>
+                            <a href="#">5</a>
+
+                            <!-- 다음 버튼 -->
+                            <a href="#" class="next">></a>
+                        </div>
+                    </div>
+
+                </section>
+                
+                </div>
+>>>>>>> a0954c2 (fix style : 관리자 목록 관련 스타일 수정)
             </div>
         </div>
     </section>
