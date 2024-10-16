@@ -67,9 +67,6 @@
             </div>
 
             <div class="total">
-                <span th:if="${OptionDTOs.getOptionMap().size()==0}" name="totalPrice"
-                    th:text="${#numbers.formatInteger((product.prodPrice * (100 - product.prodDiscount) * 0.01), 3, 'COMMA')}"></span>
-                <span th:if="${OptionDTOs.getOptionMap().size()!=0}" name="totalPrice" th:text="0"></span>
                 <span class="total__price-name">총 상품금액</span>
                 <span class="total__price-value">27,000원</span>
             </div>
@@ -187,7 +184,7 @@
         <!-- <h1 class="btnProdQna" onclick="changeTab()">상품 문의</h1> -->
     </nav>
 
-    <article class="review" id="prodReview" th:if="${prodReview.dtoList.size()!=0}">
+    <article class="review" id="prodReview">
         <ul>
             <li class="review__list">
                 <img class="review__list__img" src="https://thumbnail7.coupangcdn.com/thumbnails/remote/492x492ex/image/vendor_inventory/82e4/919f32aceb62b66e96ae165129e2f91844a5b458604e3a6bfc492ab5ad2a.jpg">

@@ -1,0 +1,14 @@
+.layout-container{
+    display: flex;
+    margin: 0 auto;
+    width:1200px;
+    gap:8px;
+}
+
+.layout-left{
+    flex-basis: 215px
+}
+
+.layout-right {
+    flex:1
+}

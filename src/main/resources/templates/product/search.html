@@ -1,343 +1,336 @@
 <script
-  src="https://kit.fontawesome.com/63c07008cd.js"
-  crossorigin="anonymous"
+        src="https://kit.fontawesome.com/63c07008cd.js"
+        crossorigin="anonymous"
 ></script>
-<link rel="stylesheet" href="/static/css/reset.css" />
-<link rel="stylesheet" href="/static/css/product.css" />
+<link rel="stylesheet" href="/static/css/reset.css"/>
+<link rel="stylesheet" href="/static/css/product.css"/>
 
 <!-- 상품검색 화면 시작 -->
 <section class="search section" layout:fragment="content">
-  <script>
-    window.onload = function () {
-      setCateCodeInputValue();
-      let currentURL = window.location.href;
-      let splitURL = currentURL.split("?")[1];
-      let sortCode = "";
-      let keywordText = "";
-      let typeText = [];
-      let minText = "";
-      let maxText = "";
-      if (splitURL !== undefined) {
-        let params = new URLSearchParams(window.location.search);
-        sortCode = params.get("sort");
-        keywordText = params.get("keyword");
-        typeText = params.getAll("type");
-        minText = params.get("min");
-        maxText = params.get("max");
-      }
-      const sortNav = document.getElementsByClassName("sort")[0];
-      const aTag = sortNav.querySelectorAll("a");
-      console.log(keywordText);
-      console.log(typeText);
+    <script>
+        window.onload = function () {
+            setCateCodeInputValue();
+            let currentURL = window.location.href;
+            let splitURL = currentURL.split("?")[1];
+            let sortCode = "";
+            let keywordText = "";
+            let typeText = [];
+            let minText = "";
+            let maxText = "";
+            if (splitURL !== undefined) {
+                let params = new URLSearchParams(window.location.search);
+                sortCode = params.get("sort");
+                keywordText = params.get("keyword");
+                typeText = params.getAll("type");
+                minText = params.get("min");
+                maxText = params.get("max");
+            }
+            const sortNav = document.getElementsByClassName("sort")[0];
+            const aTag = sortNav.querySelectorAll("a");
+            console.log(keywordText);
+            console.log(typeText);
 
-      switch (sortCode) {
-        case "prodSold":
-          aTag[0].classList.add("navOn");
-          break;
-        case "prodLowPrice":
-          aTag[1].classList.add("navOn");
-          break;
-        case "prodHighPrice":
-          aTag[2].classList.add("navOn");
-          break;
-        case "prodScore":
-          aTag[3].classList.add("navOn");
-          break;
-        case "prodReview":
-          aTag[4].classList.add("navOn");
-          break;
-        case "prodRdate":
-          aTag[5].classList.add("navOn");
-          break;
-      }
+            switch (sortCode) {
+                case "prodSold":
+                    aTag[0].classList.add("navOn");
+                    break;
+                case "prodLowPrice":
+                    aTag[1].classList.add("navOn");
+                    break;
+                case "prodHighPrice":
+                    aTag[2].classList.add("navOn");
+                    break;
+                case "prodScore":
+                    aTag[3].classList.add("navOn");
+                    break;
+                case "prodReview":
+                    aTag[4].classList.add("navOn");
+                    break;
+                case "prodRdate":
+                    aTag[5].classList.add("navOn");
+                    break;
+            }
 
-      document.getElementById("keywordText").innerText = keywordText;
-      document.getElementById("searchKeyword").innerText = keywordText;
-      document.getElementById("minPrice").value = minText || "";
-      document.getElementById("maxPrice").value = maxText || "";
-      document.getElementById("inputKeyword").value = keywordText || "";
+            document.getElementById("keywordText").innerText = keywordText;
+            document.getElementById("searchKeyword").innerText = keywordText;
+            document.getElementById("minPrice").value = minText || "";
+            document.getElementById("maxPrice").value = maxText || "";
+            document.getElementById("inputKeyword").value = keywordText || "";
 
-      const typeCheckboxes = document.querySelectorAll(".typeCheckbox");
-      typeCheckboxes.forEach((checkbox) => {
-        if (typeText.includes(checkbox.value)) {
-          checkbox.checked = true;
+            const typeCheckboxes = document.querySelectorAll(".typeCheckbox");
+            typeCheckboxes.forEach((checkbox) => {
+                if (typeText.includes(checkbox.value)) {
+                    checkbox.checked = true;
+                }
+            });
+        };
+
+        function removeValue(event) {
+            var clickedElement = event.target;
+            if (clickedElement.classList.contains("searchInfo")) {
+                clickedElement.value = "";
+            }
         }
-      });
-    };
-    function removeValue(event) {
-      var clickedElement = event.target;
-      if (clickedElement.classList.contains("searchInfo")) {
-        clickedElement.value = "";
-      }
-    }
 
-    function sort(sortType) {
-      const currentUrl = new URL(window.location.href);
-      currentUrl.searchParams.set("sort", sortType);
-      window.location.href = currentUrl.toString();
-    }
+        function sort(sortType) {
+            const currentUrl = new URL(window.location.href);
+            currentUrl.searchParams.set("sort", sortType);
+            window.location.href = currentUrl.toString();
+        }
 
-    // 상품 상태 확인
-    function checkProdStatus(event) {
-      const button = event.target;
-      const prod = button.closest("tr");
-      if (prod.className === "판매중단") {
-        event.preventDefault();
-        alert("판매 중단된 상품입니다.");
-      }
-    }
-  </script>
+        // 상품 상태 확인
+        function checkProdStatus(event) {
+            const button = event.target;
+            const prod = button.closest("tr");
+            if (prod.className === "판매중단") {
+                event.preventDefault();
+                alert("판매 중단된 상품입니다.");
+            }
+        }
+    </script>
 
-  <!-- 제목, 페이지 네비게이션 -->
-  <nav class="search__nav">
-    <h1>상품 검색 결과</h1>
-    <p>
-      HOME > <span>상품검색</span> >
-      <strong th:if="${param.keyword != null}" id="keywordText"
-        >검색키워드</strong
-      >
-    </p>
-  </nav>
+    <!-- 제목, 페이지 네비게이션 -->
+    <nav class="search__nav">
+        <h1>상품 검색 결과</h1>
+        <p>
+            HOME > <span>상품검색</span> >
+            <strong th:if="${param.keyword != null}" id="keywordText"
+            >검색키워드</strong
+            >
+        </p>
+    </nav>
 
-  <!-- 검색결과 그룹박스 -->
-  <div class="search__group">
-    <h3 class="search__group__head">
-      <strong class="search__group__head__searchKeyword">셔츠</strong> 검색결과
-      <em
-        >(총&nbsp;:&nbsp;<span class="search__group__head__searchResult">2</span
-        >&nbsp;건)</em
-      >
-    </h3>
-    <form
-      class="search__group__form"
-      action="/lotteon/product/search"
-      method="get"
-    >
-      <div style="display: flex; align-items: center">
-        <input
-          type="text"
-          id="inputKeyword"
-          class="search__group__form__search-info"
-          onfocus="removeValue(event)"
-          name="keyword"
-        />
-        <input class="search__group__form__submit" type="submit" value="검색" />
-      </div>
-      <span style="display: flex; align-items: center; gap: 12px">
+    <!-- 검색결과 그룹박스 -->
+    <div class="search__group">
+        <h3 class="search__group__head">
+            <strong class="search__group__head__searchKeyword">셔츠</strong> 검색결과
+            <em
+            >(총&nbsp;:&nbsp;<span class="search__group__head__searchResult">2</span
+            >&nbsp;건)</em
+            >
+        </h3>
+        <form
+                class="search__group__form"
+                action="/lotteon/product/search"
+                method="get"
+        >
+            <div style="display: flex; align-items: center">
+                <input
+                        type="text"
+                        id="inputKeyword"
+                        class="search__group__form__search-info"
+                        onfocus="removeValue(event)"
+                        name="keyword"
+                />
+                <input class="search__group__form__submit" type="submit" value="검색"/>
+            </div>
+            <span style="display: flex; align-items: center; gap: 12px">
         <label
-          ><input
-            type="checkbox"
-            name="type"
-            value="prodName"
-            class="typeCheckbox"
-          />상품명</label
+        ><input
+                type="checkbox"
+                name="type"
+                value="prodName"
+                class="typeCheckbox"
+        />상품명</label
         >
         <label
-          ><input
-            type="checkbox"
-            name="type"
-            value="prodInfo"
-            class="typeCheckbox"
-          />
+        ><input
+                type="checkbox"
+                name="type"
+                value="prodInfo"
+                class="typeCheckbox"
+        />
           설명
         </label>
         <label
-          ><input
-            type="checkbox"
-            name="type"
-            value="prodPrice"
-            class="typeCheckbox"
-          />
+        ><input
+                type="checkbox"
+                name="type"
+                value="prodPrice"
+                class="typeCheckbox"
+        />
           가격
         </label>
         <input
-          type="text"
-          id="minPrice"
-          class="search__group__form__minPrice-input"
-          onfocus="removeValue(event)"
-          name="min"
+                type="text"
+                id="minPrice"
+                class="search__group__form__minPrice-input"
+                onfocus="removeValue(event)"
+                name="min"
         />
         ~
         <input
-          type="text"
-          class="search__group__form__maxPrice-input"
-          onfocus="removeValue(event)"
-          id="maxPrice"
-          name="max"
+                type="text"
+                class="search__group__form__maxPrice-input"
+                onfocus="removeValue(event)"
+                id="maxPrice"
+                name="max"
         />
       </span>
-      <input type="hidden" name="cateCode" id="cateCode" value="" />
-    </form>
-  </div>
+            <input type="hidden" name="cateCode" id="cateCode" value=""/>
+        </form>
+    </div>
 
-  <!-- 정렬 메뉴 -->
-  <ul class="search__sort">
-    <li class="sort-active">
-      <a href="#" onclick="sort('prodSold')">판매많은순</a>
-    </li>
-    <li>
-      <a href="#" onclick="sort('prodLowPrice')">낮은가격순</a>
-    </li>
-    <li>
-      <a href="#" onclick="sort('prodHighPrice')">높은가격순</a>
-    </li>
-    <li>
-      <a href="#" onclick="sort('prodScore')">평점높은순</a>
-    </li>
-    <li>
-      <a href="#" onclick="sort('prodReview')">후기많은순</a>
-    </li>
-    <li>
-      <a href="#" onclick="sort('prodRdate')">최근등록순</a>
-    </li>
-  </ul>
+    <!-- 정렬 메뉴 -->
+    <ul class="search__sort">
+        <li class="sort-active">
+            <a href="#" onclick="sort('prodSold')">판매많은순</a>
+        </li>
+        <li>
+            <a href="#" onclick="sort('prodLowPrice')">낮은가격순</a>
+        </li>
+        <li>
+            <a href="#" onclick="sort('prodHighPrice')">높은가격순</a>
+        </li>
+        <li>
+            <a href="#" onclick="sort('prodScore')">평점높은순</a>
+        </li>
+        <li>
+            <a href="#" onclick="sort('prodReview')">후기많은순</a>
+        </li>
+        <li>
+            <a href="#" onclick="sort('prodRdate')">최근등록순</a>
+        </li>
+    </ul>
 
-  <!-- 검색목록 -->
-  <table border="0" style="width: 100%">
-    <tr class="search__item">
-      <td>
-        <a
-          href="#"
-          class="thumb"
-          style="
+    <!-- 검색목록 -->
+    <table border="0" style="width: 100%">
+        <tr class="search__item">
+            <td>
+                <a
+                        href="#"
+                        class="thumb"
+                        style="
             display: block;
             max-height: 100px;
             height: 100%;
             aspect-ratio: 1 / 1;
           "
-          ><img
-            style="display: block; width: 100%; height: 100%; object-fit: cover"
-            src="https://image6.coupangcdn.com/image/vendor_inventory/ac9d/2a9996bed6546b523375b0b27929de825b6a1254629b5613199dca774620.jpg"
-            alt="상품이미지"
-        /></a>
-      </td>
-      <td style="flex: 1">
-        <h3 class="name">상품명</h3>
-        <a
-          th:href="@{'/product/view?cateCode=' + ${product.cateCode} + '&sort='+ ${setSortType} + '&prodNo=' +  ${product.prodNo}}"
-          class="desc"
-          onclick="checkProdStatus(event)"
-          >상품설명</a
-        >
-      </td>
-      <td>
-        <ul>
-          <li>
-            <span class="search__item_dis-price">27,000원</span>
-          </li>
-          <li>
-            <del class="org-price">30,000원</del>
-            <span class="search__item_discount">10%</span>
-          </li>
-          <li style="margin-top: 22px">
+                ><img
+                        style="display: block; width: 100%; height: 100%; object-fit: cover"
+                        src="https://image6.coupangcdn.com/image/vendor_inventory/ac9d/2a9996bed6546b523375b0b27929de825b6a1254629b5613199dca774620.jpg"
+                        alt="상품이미지"
+                /></a>
+            </td>
+            <td style="flex: 1">
+                <h3 class="name">상품명</h3>
+                <a
+                        href="#"
+                        class="desc"
+                        onclick="checkProdStatus(event)"
+                >상품설명</a
+                >
+            </td>
+            <td>
+                <ul>
+                    <li>
+                        <span class="search__item_dis-price">27,000원</span>
+                    </li>
+                    <li>
+                        <del class="org-price">30,000원</del>
+                        <span class="search__item_discount">10%</span>
+                    </li>
+                    <li style="margin-top: 22px">
             <span style="padding: 0 8px; font-size: 12px" class="free-delivery"
-              >무료배송</span
+            >무료배송</span
             >
-          </li>
-        </ul>
-      </td>
-      <td style="display: flex; flex-direction: column; gap: 4px">
-        <h4 class="seller"><i class="fas fa-home"></i>&nbsp;그린아카데미</h4>
-        <h5 class="badge power" style="display: inline-block">판매자등급</h5>
-        <h6 class="rating star5">상품평</h6>
-      </td>
-    </tr>
-    <tr class="search__item">
-      <td>
-        <a
-          href="#"
-          class="thumb"
-          style="
+                    </li>
+                </ul>
+            </td>
+            <td style="display: flex; flex-direction: column; gap: 4px">
+                <h4 class="seller"><i class="fas fa-home"></i>&nbsp;그린아카데미</h4>
+                <h5 class="badge power" style="display: inline-block">판매자등급</h5>
+                <h6 class="rating star5">상품평</h6>
+            </td>
+        </tr>
+        <tr class="search__item">
+            <td>
+                <a
+                        href="#"
+                        class="thumb"
+                        style="
             display: block;
             max-height: 100px;
             height: 100%;
             aspect-ratio: 1 / 1;
           "
-          ><img
-            style="display: block; width: 100%; height: 100%; object-fit: cover"
-            src="https://image6.coupangcdn.com/image/vendor_inventory/ac9d/2a9996bed6546b523375b0b27929de825b6a1254629b5613199dca774620.jpg"
-            alt="상품이미지"
-        /></a>
-      </td>
-      <td style="flex: 1">
-        <h3 class="name">상품명</h3>
-        <a
-          th:href="@{'/product/view?cateCode=' + ${product.cateCode} + '&sort='+ ${setSortType} + '&prodNo=' +  ${product.prodNo}}"
-          class="desc"
-          onclick="checkProdStatus(event)"
-          >상품설명</a
-        >
-      </td>
-      <td>
-        <ul>
-          <li>
-            <span class="search__item_dis-price">27,000원</span>
-          </li>
-          <li>
-            <del class="org-price">30,000원</del>
-            <span class="search__item_discount">10%</span>
-          </li>
-          <li style="margin-top: 22px">
+                ><img
+                        style="display: block; width: 100%; height: 100%; object-fit: cover"
+                        src="https://image6.coupangcdn.com/image/vendor_inventory/ac9d/2a9996bed6546b523375b0b27929de825b6a1254629b5613199dca774620.jpg"
+                        alt="상품이미지"
+                /></a>
+            </td>
+            <td style="flex: 1">
+                <h3 class="name">상품명</h3>
+                <a
+                        href="#"
+                        class="desc"
+                        onclick="checkProdStatus(event)"
+                >상품설명</a
+                >
+            </td>
+            <td>
+                <ul>
+                    <li>
+                        <span class="search__item_dis-price">27,000원</span>
+                    </li>
+                    <li>
+                        <del class="org-price">30,000원</del>
+                        <span class="search__item_discount">10%</span>
+                    </li>
+                    <li style="margin-top: 22px">
             <span style="padding: 0 8px; font-size: 12px" class="free-delivery"
-              >무료배송</span
+            >무료배송</span
             >
-          </li>
-        </ul>
-      </td>
-      <td style="display: flex; flex-direction: column; gap: 4px">
-        <h4 class="seller"><i class="fas fa-home"></i>&nbsp;그린아카데미</h4>
-        <h5 class="badge power" style="display: inline-block">판매자등급</h5>
-        <h6 class="rating star5">상품평</h6>
-      </td>
-    </tr>
-  </table>
+                    </li>
+                </ul>
+            </td>
+            <td style="display: flex; flex-direction: column; gap: 4px">
+                <h4 class="seller"><i class="fas fa-home"></i>&nbsp;그린아카데미</h4>
+                <h5 class="badge power" style="display: inline-block">판매자등급</h5>
+                <h6 class="rating star5">상품평</h6>
+            </td>
+        </tr>
+    </table>
 
-  <!-- 상품목록 페이지번호 -->
-  <div class="paging">
-    <span class="prev" th:if="${productPageResponseDTO.prev}">
+    <!-- 상품목록 페이지번호 -->
+    <div class="paging">
+    <span class="prev">
       <a
-        th:href="@{'/product/search?cateCode=' + ${productPageResponseDTO.cateCode} + '&sort=' + ${setSortType} + '&pg=' + ${productPageResponseDTO.start - 1} + '&keyword=' + ${productPageResponseDTO.keyword} + '&type=' + ${productPageResponseDTO.type} + '&min=' + ${productPageResponseDTO.min} + '&max=' + ${productPageResponseDTO.max}}"
-        ><&nbsp;이전</a
+              href="#"
+      ><&nbsp;이전</a
       >
     </span>
-    <span class="num">
+        <span class="num">
       <a
-        th:if="${num != 0}"
-        th:href="@{'/product/search?pg=' + ${num} + '&cateCode=' + ${productPageResponseDTO.cateCode} + '&sort=' + ${setSortType} + '&keyword=' + ${productPageResponseDTO.keyword} + '&type=' + ${productPageResponseDTO.type} + '&min=' + ${productPageResponseDTO.min} + '&max=' + ${productPageResponseDTO.max}}"
-        th:class="${num == productPageResponseDTO.pg} ? 'on' : ''"
-        >1</a
+              href="#"
+      >1</a
       >
     </span>
-    <span class="num">
+        <span class="num">
       <a
-        th:if="${num != 0}"
-        th:href="@{'/product/search?pg=' + ${num} + '&cateCode=' + ${productPageResponseDTO.cateCode} + '&sort=' + ${setSortType} + '&keyword=' + ${productPageResponseDTO.keyword} + '&type=' + ${productPageResponseDTO.type} + '&min=' + ${productPageResponseDTO.min} + '&max=' + ${productPageResponseDTO.max}}"
-        th:class="${num == productPageResponseDTO.pg} ? 'on' : ''"
-        >1</a
+              href="#"
+      >1</a
       >
     </span>
-    <span class="num">
+        <span class="num">
       <a
-        th:if="${num != 0}"
-        th:href="@{'/product/search?pg=' + ${num} + '&cateCode=' + ${productPageResponseDTO.cateCode} + '&sort=' + ${setSortType} + '&keyword=' + ${productPageResponseDTO.keyword} + '&type=' + ${productPageResponseDTO.type} + '&min=' + ${productPageResponseDTO.min} + '&max=' + ${productPageResponseDTO.max}}"
-        th:class="${num == productPageResponseDTO.pg} ? 'on' : ''"
-        >2</a
+              href="#"
+      >2</a
       >
     </span>
-    <span class="num">
+        <span class="num">
       <a
-        th:if="${num != 0}"
-        th:href="@{'/product/search?pg=' + ${num} + '&cateCode=' + ${productPageResponseDTO.cateCode} + '&sort=' + ${setSortType} + '&keyword=' + ${productPageResponseDTO.keyword} + '&type=' + ${productPageResponseDTO.type} + '&min=' + ${productPageResponseDTO.min} + '&max=' + ${productPageResponseDTO.max}}"
-        th:class="${num == productPageResponseDTO.pg} ? 'on' : ''"
-        >3</a
+              href="#"
+      >3</a
       >
     </span>
-    <span class="next" th:if="${productPageResponseDTO.next}">
+        <span class="next" >
       <a
-        th:href="@{'/product/search?cateCode=' + ${productPageResponseDTO.cateCode} + '&sort=' + ${setSortType} + '&pg=' + ${productPageResponseDTO.end + 1} + '&keyword=' + ${productPageResponseDTO.keyword} + '&type=' + ${productPageResponseDTO.type} + '&min=' + ${productPageResponseDTO.min} + '&max=' + ${productPageResponseDTO.max}}"
-        >다음&nbsp;></a
+              href="#"
+      >다음&nbsp;></a
       >
     </span>
-  </div>
+    </div>
 </section>
 <!-- 상품검색 화면 끝 -->

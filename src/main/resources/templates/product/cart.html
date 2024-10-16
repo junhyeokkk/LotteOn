@@ -51,9 +51,9 @@
           <input type="hidden" />
           <a href="#"
             ><img
-              th:src="@{/uploads/__${cartProduct.thumb190}__}"
+              src="https://thumbnail7.coupangcdn.com/thumbnails/remote/230x230ex/image/retail/images/3122239138972570-727d95de-ec33-4f85-99db-1a8720ff24f5.jpg"
               alt="aaaa"
-              style="width: 80px" /></a
+              style="height:100%" /></a
           ><!--80*80 사이즈로 변경-->
           <div>
             <p><a href="#">상품명</a></p>
@@ -122,7 +122,7 @@
         type="hidden"
         name="user"
         id="userForDirect"
-        th:value="${#authentication.principal.user.userId}"
+
       />
       <input type="hidden" name="cartProdNo" id="selectedProd" />
     </form>

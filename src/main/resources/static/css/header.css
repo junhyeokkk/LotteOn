@@ -21,6 +21,7 @@
 .header__bot {
   position: relative;
   border-top: 1px solid rgba(255, 0, 0, 0.247);
+  border-bottom: 1px solid rgba(255, 0, 0, 0.247);
   height: 100px;
 }
 

@@ -14,7 +14,7 @@
       style="
         width: 100%;
         border-collapse: collapse;
-        border-top: 2px solid black;
+        border-top: 1px solid rgb(182, 182, 182);
         margin-bottom: 8px;
       "
     >
@@ -82,7 +82,6 @@
                   name="orderReceiver"
                   id="userOrder"
                   onfocus="removeValue(event)"
-                  th:value="${user.userName}"
                 />
               </td>
               <td>
@@ -92,7 +91,6 @@
                   name="userId"
                   id="userId"
                   onfocus="removeValue(event)"
-                  th:value="${user.userId}"
                 />
               </td>
             </tr>
@@ -105,7 +103,6 @@
                   name="orderHp"
                   id="userHp"
                   onfocus="removeValue(event)"
-                  th:value="${user.userHp}"
                 />
               </td>
             </tr>
@@ -116,7 +113,6 @@
                   type="text"
                   name="orderAddr"
                   id="userZip"
-                  th:value="${user.userZip}"
                 />
                 <input type="button" id="btnZip" value="검색" />
               </td>
@@ -128,7 +124,6 @@
                   type="text"
                   name="orderAddr"
                   id="userAddr1"
-                  th:value="${user.userAddr1}"
                   style="width: 90%"
                 />
               </td>
@@ -140,7 +135,6 @@
                   type="text"
                   name="orderAddr"
                   id="userAddr2"
-                  th:value="${user.userAddr2}"
                   style="width: 90%"
                 />
               </td>

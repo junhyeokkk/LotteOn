@@ -1,6 +1,6 @@
 /* 메인영역 */
 main {
-    width: 1200px;
+    /*width: 1200px;*/
     height: auto;
     margin: 0 auto;
     overflow: hidden;
@@ -12,7 +12,7 @@ main {
     width: 215px;
     height: 100%;
   }
-  main > aside > .category {
+.category {
     position: relative;
     width: 100%;
     height: 425px;
@@ -21,7 +21,7 @@ main {
     border-top: none;
     box-sizing: border-box;
   }
-  main > aside > .category > li {
+.category > li {
     width: 100%;
     height: 40px;
     line-height: 40px;
@@ -29,12 +29,12 @@ main {
     font-size: 13px;    
     box-sizing: border-box;
   }
-  main > aside > .category > li:first-child {
+ .category > li:first-child {
     padding: 0 20px;
     color: #111;
     line-height: 40px;
   }
-  main > aside > .category > li > a {
+.category > li > a {
     display: block;
     padding: 0 20px;
     line-height: 40px;
@@ -42,40 +42,40 @@ main {
     text-decoration: none;
     font-size: 1em;
   }
-  main > aside > .category > li > a:hover {  
+ .category > li > a:hover {
     color: #ef2a23;
     font-weight: bold;
   }
   
   /* 마우스를 올리는 카테고리 메뉴의 서브메뉴 출현 */
-  main > aside > .category > li > a:hover + ol {
+.category > li > a:hover + ol {
     display: block;
   }
   /* 서브메뉴에 마우스가 올라가면 계속 노출 */
-  main > aside > .category ol:hover {
+ .category ol:hover {
     display: block;
   }
   
-  main > aside > .category i {
+ .category i {
     width: 22px;
     font-size: 16px;
     margin-right: 12px;
   }
   
-  main > aside > .category > li i.fa-angle-right {
+ .category > li i.fa-angle-right {
     float: right;
     width: auto;
     margin-top: 10px;
     margin-right: 0;
   }
-  main > aside > .category > li > ol > li  i.fa-angle-right {
+  .category > li > ol > li  i.fa-angle-right {
     float: right;
     width: auto;
     margin-top: 0px;
     margin-right: 20px;
   }
   /*2차 카테고리*/
-  main > aside > .category ol {
+  .category ol {
     position: absolute;
     left: 213px;
     top: 0px;
@@ -90,25 +90,25 @@ main {
     padding-top: 10px;
   }
   
-  main > aside > .category ol > li {
+  .category ol > li {
     width: 100%;
     height: 40px;
     padding: 10px 0;
     box-sizing: border-box;
   }
-  main > aside > .category ol > li > a {
+  .category ol > li > a {
     display: block;
     width: 100%;
     padding: 0 10px;
     font-size: 14px;
     margin: 10px 0;
   }
-  main > aside > .category ol > li > a:hover {
+  .category ol > li > a:hover {
     color: #ef2a23;
     font-weight: bold;
   }
   /* 3차 카테고리 */
-  main > aside > .category ol > li > ol{
+  .category ol > li > ol{
     position: absolute;
     left: 148px;
     top: 0px;
@@ -122,34 +122,34 @@ main {
     z-index: 10000;
     padding-top: 10px;
   }
-  main > aside > .category ol > li > ol > li {
+  .category ol > li > ol > li {
     width: 100%;
     height: 40px;
     padding: 10px;
     box-sizing: border-box;
   }
-  main > aside > .category ol > li > ol > li > a {
+  .category ol > li > ol > li > a {
     display: block;
     width: 100%;
     font-size: 14px;
     margin: 10px 0;
   }
-  main > aside > .category ol > li > ol > li > a:hover {
+  .category ol > li > ol > li > a:hover {
     color: #ef2a23;
     font-weight: bold;
   }
   /* 마우스를 올리는 카테고리 메뉴의 서브메뉴 출현 */
-  main > aside > .category > li > ol > li > a:hover + ol {
+  .category > li > ol > li > a:hover + ol {
     display: block;
   }
   /* 서브메뉴에 마우스가 올라가면 계속 노출 */
-  main > aside > .category ol > li > ol:hover {
+  .category ol > li > ol:hover {
     display: block;
   }
   
   
   /* 베스트 배너 */
-  main > aside > .best {
+  .best {
     width: 215px;
     height: auto;
     margin-top: 6px;
@@ -158,37 +158,37 @@ main {
     box-shadow: 0 0 5px rgba(55, 55, 5, 0.2);
   }
   
-  main > aside > .best > h1 {
+  .best > h1 {
     font-size: 14px;
     font-weight: bold;
     color: #111;
     margin: 6px;
   }
-  main > aside > .best > h1 > i {
+ .best > h1 > i {
     margin-right: 6px;
     font-size: 18px;
   }
   
-  main > aside > .best > ol {
+  .best > ol {
     width: 100%;
   }
-  main > aside > .best > ol > li {
+  .best > ol > li {
     width: 100%;
     padding: 0 6px;
     box-sizing: border-box;
     margin-bottom: 16px;
   }
   
-  main > aside > .best > ol > li > a {
+  .best > ol > li > a {
     display: block;
     width: 100%;
     overflow: hidden;
   }
   
-  main > aside > .best > ol > li > a:hover h2 {
+ .best > ol > li > a:hover h2 {
     text-decoration: underline;
   }
-  main > aside > .best > ol > li > a > .thumb {
+  .best > ol > li > a > .thumb {
     float: left;
     position: relative;
     width: 50px;
@@ -198,7 +198,7 @@ main {
     box-sizing: border-box;
   }
   
-  main > aside > .best > ol > li:first-child > a > .thumb {
+  .best > ol > li:first-child > a > .thumb {
     position: relative;
     float: none;
     width: 100%;
@@ -206,7 +206,7 @@ main {
     overflow: hidden;
     margin: 0 auto;
   }
-  main > aside > .best > ol > li > a > .thumb > i {
+  .best > ol > li > a > .thumb > i {
     position: absolute;
     left: 0;
     top: 0;
@@ -222,23 +222,23 @@ main {
     text-align: center;
     line-height: 18px;
   }
-  main > aside > .best > ol > li:first-child > a > .thumb > i {
+  .best > ol > li:first-child > a > .thumb > i {
     width: 35px;
     height: 26px;
   }
   
-  main > aside > .best > ol > li > a > .thumb > img {
+  .best > ol > li > a > .thumb > img {
     width: 100%;
   }
   
-  main > aside > .best > ol > li > a > article {
+  .best > ol > li > a > article {
     float: left;
     width: 148px;
     padding-left: 6px;
     box-sizing: border-box;
   }
   
-  main > aside > .best > ol > li > a h2 {
+  .best > ol > li > a h2 {
     margin-top: 4px;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -246,35 +246,35 @@ main {
     padding-left: 4px;
     font-weight: bold;
   }
-  main > aside > .best > ol > li > a .org_price {
+  .best > ol > li > a .org_price {
   }
-  main > aside > .best > ol > li > a .org_price > del::after {
+  .best > ol > li > a .org_price > del::after {
     content: "원";
   }
-  main > aside > .best > ol > li > a .org_price > ins::after {
+  .best > ol > li > a .org_price > ins::after {
     content: "원";
   }
-  main > aside > .best > ol > li > a .org_price > del {
+  .best > ol > li > a .org_price > del {
     font-size: 10px;
     color: #aaa;
   }
-  main > aside > .best > ol > li > a .org_price > span {
+  .best > ol > li > a .org_price > span {
     color: #eb000a;
     font-size: 10px;
   }
-  main > aside > .best > ol > li > a .org_price > span::after {
+  .best > ol > li > a .org_price > span::after {
     content: "↓";
   }
-  main > aside > .best > ol > li > a .dis_price {
+  .best > ol > li > a .dis_price {
   }
-  main > aside > .best > ol > li > a .dis_price > ins {
+  .best > ol > li > a .dis_price > ins {
     font-size: 14px;
     text-decoration: none;
   }
-  main > aside > .best > ol > li > a .dis_price > ins::after {
+  .best > ol > li > a .dis_price > ins::after {
     content: "원";
   }
-  main > aside > .best > ol > li > a .dis_price > span {
+  .best > ol > li > a .dis_price > span {
     display: inline-block;
     font-size: 0;
     vertical-align: text-bottom;
@@ -296,133 +296,7 @@ main {
     height: auto;
     overflow: hidden;
   }
-  .productBox {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: left;
-    width: 100%;
-    height: auto;
-  }
-  
-  
-  .productBox > .product {
-    display: flex;
-    width: 230px;
-    height: 330px;
-    box-sizing: border-box;
-    margin: 0 4.125px 60px 4.125px;
-  }
-  .product > a {
-    display: flex;
-    width: 230px;
-    align-items: center;
-    flex-direction: column;
-    box-sizing: border-box;
-  }
-  .product > a > .thumb {
-    width: 200px;
-    height: 200px;
-    overflow: hidden;
-    margin-bottom: 10px;
-  }
-  .product > a > .thumb > img {
-    width: 200px;
-    height: 200px;
-    transition: transform 0.3s ease;
-  }
-  .product > a:hover > .thumb > img {
-    transform: scale(1.2);
-  }
-  .product > a > h2 {
-    width: 210px;
-    font-weight: bold;
-    font-size: 18px;
-    padding: 0 10px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-    align-self: start;
-  }
-  .product > a > .org_price {
-    display: flex;
-    padding: 0 10px;
-    margin: 4px 0;
-    align-self: start;
-  }
-  .product > a > .dis_price {
-    display: flex;
-    padding: 0 10px;
-    margin: 4px 0;
-    align-self: start;
-  }
-  .product > a > .score_review {
-    display: flex;
-    padding: 0 10px;
-    margin: 4px 0;
-    align-self: start;
-  }
-  .product > a > .org_price > del {
-    font-size: 16px;
-    color: #909090;
-    margin-right: 10px;
-  }
-  .product > a > .org_price > del:after {
-    content: '원';
-  }
-  .product > a > .org_price > span {
-    font-size: 16px;
-    font-weight: bold;
-    color: red;
-  }
-  .product > a > .org_price > span:after {
-    content: "↓";
-  }
-  .product > a > .dis_price > ins {
-    font-size: 18px;
-    font-weight: bold;
-    margin-right: 10px;
-    text-decoration: none;
-  }
-  .product > a > .dis_price > ins:after {
-    content: '원';
-  }
-  .product > a > .dis_price > span {
-    font-size: 12px;
-    background-color: #5AB2FF;
-    color: white;
-    border-radius: 6px;
-    padding: 4px 6px;
-  }
-  .product > a > .score_review > b:nth-child(1) {
-    color: #FF9800;
-  }
-  .product > a > .score_review > b {
-    font-size: 14px;
-    font-weight: bold;
-    margin-right: 20px;
-  }
-  .product > a > .score_review > span {
-       font-size: 12px;
-       background-color: #41B06E;
-       color: white;
-       border-radius: 6px;
-       padding: 4px 6px;
-  }
-  .product > a > p {
-    width: 210px;
-    font-size: 14px;
-    padding: 0 10px;
-    color: #909090;
-    margin: 4px 0;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-    align-self: start;
-  }
-  
-  
-  
-  
+
     /* 슬라이더 영역 */
   main > section > .slider {
     width: 100%;

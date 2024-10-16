@@ -2586,14 +2586,13 @@
 .productInfo {
   border-bottom: 1px solid rgb(196, 196, 196);
   padding: 6px;
+  height: 100px;
 }
 
 .total {
-  width: 280px;
+  width: 100%;
   padding: 12px;
-  border: 1px solid rgb(176, 176, 176);
-  margin-left: auto;
-  margin-top: -24px;
+  text-align: end;
 }
 
 .total__head {
@@ -2750,4 +2749,8 @@
 
 .search__item_dis-price {
   font-weight: 700;
+}
+
+.product__link > .thumb {
+  height: 100%;
 }
