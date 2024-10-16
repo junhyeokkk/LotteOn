@@ -11,7 +11,6 @@
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/moment/min/moment.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     </th:block>
-
 </head>
 <body>
 <div id="wrapper">
@@ -24,7 +23,7 @@
 
         <!-- include sidebar and banner -->
         <div class="info">
-            <div th:replace="~{mypage/mypagelayout/mypagesidebar::sidebar}"></div>
+            <div th:replace="~{mypage/include/mypagesidebar::sidebar}"></div>
 
 
         <th:block th:with="path='/myPage/content/' + ${cate}, fragment=${cate}">

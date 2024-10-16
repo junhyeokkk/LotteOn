@@ -1,4 +1,4 @@
-package com.team1.lotteon.controller;
+package com.team1.lotteon.controller.admin;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
@@ -8,15 +8,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @Log4j2
 @Controller
-public class CsConrtroller {
+public class AdminController {
 
-    @GetMapping("/cs/index")
+    @GetMapping(value = {"/admin","/admin/index"})
     public String index(){
 
-        return "cs/index";
+        return "admin/index";
     }
 
-    @GetMapping("/cs/layout/{group}/{cate}")
+    @GetMapping("/admin/layout/{group}/{cate}")
     public String index(@PathVariable String group, @PathVariable String cate, Model model){
 
         log.info("컨트롤러 들어오니?");
@@ -26,9 +26,6 @@ public class CsConrtroller {
         model.addAttribute("cate", cate);
 
 
-        return "cs/layout/cs_layout";
+        return "admin/layout/admin_layout";
     }
-
-
-
 }

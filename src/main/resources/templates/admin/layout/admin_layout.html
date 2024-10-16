@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" th:href="@{/css/admin/include/admin_common.css}" />
+  <link rel="stylesheet" th:href="@{/css/admin/include/admin_header.css}" />
+  <link rel="stylesheet" th:href="@{/css/admin/include/admin_footer.css}" />
+  <link rel="stylesheet" th:href="@{/css/admin/include/admin_sidebar.css}" />
+  <script type="text/javascript" th:src="@{/js/admin/sidebar.js}"></script>
+</head>
+<body>
+
+<!-- header -->
+<th:block th:replace="~{admin/include/admin_header::admin_header}"></th:block>
+<main>
+  <!-- sidebar -->
+  <th:block th:replace="~{admin/include/admin_sidebar::admin_sidebar}"></th:block>
+  <!-- content -->
+  <th:block th:switch="${group}">
+
+    <!-- 환경설정 -->
+    <th:block th:case="'config'">
+      <th:block th:with="path='/admin/config/' + ${cate}, fragment=${cate}">
+        <th:replace th:with="path=${path}, fragment=${fragment}"
+                    th:replace="~{${path}::${fragment}}">
+        </th:replace>
+      </th:block>
+    </th:block>
+
+    <!-- 상품관리 -->
+    <th:block th:case="'product'">
+      <th:block th:with="path='/admin/product/' + ${cate}, fragment=${cate}">
+        <th:replace th:with="path=${path}, fragment=${fragment}"
+                    th:replace="~{${path}::${fragment}}">
+        </th:replace>
+      </th:block>
+    </th:block>
+
+
+
+  </th:block>
+</main>
+<!-- footer -->
+<th:block th:replace="~{admin/include/admin_footer::admin_footer}"></th:block>
+</body>
+</html>

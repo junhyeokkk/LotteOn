@@ -1,10 +1,247 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>롯데ON::대한민국 1등 온라인 쇼핑몰</title>
+    <link rel="stylesheet" th:href="@{/css/my/myinfo.css}">
 </head>
-<body>
 
+<body>
+<div id="wrapper">
+    <header th:replace="~{layout/header::header}"></header>
+    <div>
+        <nav class="myinfotopside">
+            <div>
+                <a href="#" class="shopping-info">나의쇼핑정보</a>
+
+                <ol>
+                    <li>
+                        <a href="/my/order">주문<br><span>2</span></a>
+                    </li>
+                    <li>
+                        <a href="/my/coupon">쿠폰<br><span>1</span></a>
+                    </li>
+                    <li>
+                        <a href="/my/point">포인트<br><span>1,000</span></a>
+                    </li>
+                    <li>
+                        <a href="/my/qna">문의<br><span>1</span></a>
+                    </li>
+                </ol>
+            </div>
+        </nav>
+        <!-- only for info header -->
+        <div class="info">
+            <ul>
+                <li><a href="#">전체주문내역</a></li>
+                <li><a href="#">포인트내역</a></li>
+                <li><a href="#">쿠폰</a></li>
+                <li><a href="#">나의리뷰</a></li>
+                <li><a href="#">문의하기</a></li>
+                <li><a href="#">나의설정</a></li>
+            </ul>
+
+            <section>
+                <a href="#"><img src="/images/my/my_banner1.jpg" alt="패션, 타운 하나로 끝" class="banner"></a>
+
+
+                <!-- 사이드 영역 -->
+                <article class="latest">
+                    <h3>최근주문내역</h3>
+                    <a href="#" class="more">더보기</a>
+                    <table border="0" class="widthtable">
+                        <tr>
+                            <th>날짜</th>
+                            <th></th>
+                            <th>상품정보</th>
+                            <th>상태</th>
+                            <th>확인/신청</th>
+                        </tr>
+                        <block>
+                            <tr>
+                                <td class="date">2022-12-13</td>
+                                <td><a href="#" class="recentproductorderimg"><img src="/images/admin/sample_thumb.jpg" alt="상품이미지"></a></td>
+                                <td class="order-info">
+                                    <div class="order-number">
+                                        주문번호: <span text="${order.orderNumber}">1012211341</span>
+                                    </div>
+                                    <div class="company-name" text="${order.companyName}">(주) 상호명</div>
+                                    <div class="product-name" text="${order.productName}">상품명</div>
+                                    <div>수량 : <span text="${order.quantity}"></span>1 개</div>
+                                    <div class="product-price" style="font-size: 18px; font-weight: bold;" text="${order.price}">34,000원</div>
+                                </td>
+
+                                <td class="status">배송중</td>
+                                <td class="modalbuttondiv">
+                                    <!-- 수취확인 -->
+                                    <button class="receivebutton">수취확인</button><br>
+                                    <button class="receivebutton">상품평쓰기</button><br>
+
+                                    <button class="reviewbutton">반품신청</button><br>
+                                    <button class="reviewbutton">교환신청</button>
+                                </td>
+                            </tr>
+                        </block>
+                    </table>
+                </article>
+
+                <article class="point">
+                    <h3>포인트적립내역</h3>
+                    <a href="#" class="more">더보기</a>
+                    <table border="0" class="widthtable">
+                        <tr>
+                            <th>날짜</th>
+                            <th>구분</th>
+                            <th>주문번호</th>
+                            <th>적립금액</th>
+                            <th>비고</th>
+                            <th>유효기간</th>
+                        </tr>
+                        <tr>
+                            <td>2022-12-10</td>
+                            <td>적립</td>
+                            <td>2022121001</td>
+                            <td>340</td>
+                            <td>상품 구매확정</td>
+                            <td>2024-12-10</td>
+                        </tr>
+                        <tr>
+                            <td>2022-12-10</td>
+                            <td>적립</td>
+                            <td>2022121001</td>
+                            <td>340</td>
+                            <td>상품 구매확정</td>
+                            <td>2024-12-10</td>
+                        </tr>
+                    </table>
+                </article>
+                <article class="review">
+                    <h3>상품평</h3>
+                    <a href="#" class="more">더보기</a>
+                    <table border="0" class="widthtable">
+                        <tr>
+                            <th>번호</th>
+                            <th>상품명</th>
+                            <th>내용</th>
+                            <th>평점</th>
+                            <th>작성일</th>
+                        </tr>
+                        <block each="review , loop:${reviewLimit5}">
+                            <tr>
+                                <td text="${loop.index+1}">1</td>
+                                <td text="${review.prodName}">상품명</td>
+                                <td text="${review.content}">배송이 빠릅니다. 잘 사용하겠습니다.</td>
+                                <td class="score">
+                                    <span class="rating" if="${review.rating == 1}" classappend="star1">평점</span>
+                                    <!-- <span class="rating" if="${review.rating == 2}" classappend="star2">평점</span>
+                                <span class="rating" if="${review.rating == 3}" classappend="star3">평점</span>
+                                <span class="rating" if="${review.rating == 4}" classappend="star4">평점</span>
+                                <span class="rating" if="${review.rating == 5}" classappend="star5">평점</span> -->
+                                </td>
+                                <td text="${review.rdate.toLocalDate()}">2022-12-10</td>
+                            </tr>
+                            <tr>
+                                <td text="${loop.index+1}">2</td>
+                                <td text="${review.prodName}">상품명</td>
+                                <td text="${review.content}">배송이 빠릅니다. 잘 사용하겠습니다.</td>
+                                <td class="score">
+                                    <span class="rating" if="${review.rating == 1}" classappend="star1">평점</span>
+                                </td>
+                                <td text="${review.rdate.toLocalDate()}">2022-12-10</td>
+                            </tr>
+                            <tr>
+                                <td text="${loop.index+1}">3</td>
+                                <td text="${review.prodName}">상품명</td>
+                                <td text="${review.content}">배송이 빠릅니다. 잘 사용하겠습니다.</td>
+                                <td class="score">
+                                    <span class="rating" if="${review.rating == 1}" classappend="star1">평점</span>
+                                </td>
+                                <td text="${review.rdate.toLocalDate()}">2022-12-10</td>
+                            </tr>
+                        </block>
+                    </table>
+                </article>
+
+                <article class="qna">
+                    <h3>문의내역</h3>
+                    <a href="#" class="more">더보기</a>
+                    <table border="0" class="widthtable">
+                        <tr>
+                            <th>번호</th>
+                            <th>문의채널</th>
+                            <th>문의유형</th>
+                            <th>제목</th>
+                            <th>작성일</th>
+                            <th>상태</th>
+                        </tr>
+                        <block each="qna,loop:${qnaLimit5}">
+                            <tr>
+                                <td text="${loop.index+1}">5</td>
+                                <block if="${qna.cate1 == qna}">
+                                    <td class="channel">고객센터</td>
+                                </block>
+                                <block if="${qna.cate1 != qna}">
+                                    <td class="channel">판매자게시판</td>
+                                </block>
+                                <!-- <td text="${qna.detail}">주문/결제</td> -->
+                                <td text="${qna.title}">신용카드 결제 중 오류가 난 경우 어떻게 하나요?</td>
+                                <td text="${qna.rdate.toLocalDate()}">2024-12-12</td>
+                                <td class="status">
+                                    <block if="${qna.comment ==1}">
+                                        <span class="answered">답변완료</span>
+                                    </block>
+                                    <block if="${qna.comment ==0}">
+                                        <span class="answered">검토중</span>
+                                    </block>
+                                </td>
+                            </tr>
+                        </block>
+                    </table>
+                </article>
+
+                <h3>나의설정</h3>
+                <article class="myinfo">
+
+                    <div class="myinfosetting">
+                        <div class="address">
+                            <span>기본 배송지설정</span>
+                            <a href="#" class="setting">&nbsp;&nbsp;변경</a>
+                            <p>
+                                <span text="${'우편번호 : '+member.zip}">부산광역시</span><br />
+                                <span text="${'상세주소 :'+member.addr1 +' '+member.addr2}">서면</span><br />
+                                <!-- (최종수정일 <span text="${member.rdate.toLocalDate()}">2021-12-10</span>) -->
+                            </p>
+
+                        </div>
+                        <div class="email">
+                            <span>email 설정</span>
+                            <a href="#" class="setting">&nbsp;&nbsp;변경</a>
+                            <p>
+                                <span text="${member.email}">abc123@gmail.com</span><br />
+                                (최종수정일 <span text="${member.rdate.toLocalDate()}">2021-12-10</span>)
+                            </p>
+                        </div>
+                        <div class="hp">
+                            <span>휴대폰 설정</span>
+                            <a href="#" class="setting">&nbsp;&nbsp;변경</a>
+                            <p>
+                                <span text="${member.hp}">abc123@gmail.com</span><br />
+                                (최종수정일 <span text="${member.rdate.toLocalDate()}">2021-12-10</span>)
+                            </p>
+                        </div>
+                    </div>
+
+
+                </article>
+
+            </section>
+
+        </div>
+    </div>
+
+    <footer th:replace="~{layout/footer::footer}"></footer>
+</div>
 </body>
+
 </html>

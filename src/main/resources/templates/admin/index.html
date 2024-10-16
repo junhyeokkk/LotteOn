@@ -2,9 +2,204 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>admin_main</title>
+    <link rel="stylesheet" th:href="@{/css/admin/admin_main.css}" />
+    <script type="text/javascript" th:src="@{/js/admin/sidebar.js}"></script>
+
 </head>
 <body>
+<div class="header_wrapper">
+    <header>
+        <a href="#" id="admin_logo">
+            <img th:src="@{/images/admin/logo(wh).png}" alt="admin_logo"/>
+        </a>
+        <div class="home">
+            <a href="#">HOME | </a>
+            <a href="#">로그아웃 | </a>
+            <a href="#">고객센터</a>
+        </div>
+    </header>
+</div>
+<main>
+    <aside>
+        <ul id="admin_sidebar">
+            <li>
+                <a href="#"><i class="fa fa-cogs" aria-hidden="true"></i>환경설정</a>
+                <ol>
+                    <li><a href="#">기본환경정보</a></li>
+                    <li><a th:href="@{/admin/layout/config/banner}">배너관리</a></li>
+                </ol>
+            </li>
+            <li>
+                <a href="#"><i class="fas fa-store" aria-hidden="true"></i>상점관리</a>
+                <ol>
+                    <li><a href="#">판매자현황</a></li>
+                </ol>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-users" aria-hidden="true"></i>회원관리</a>
+                <ol>
+                    <li><a href="#">회원현황</a></li>
+                    <li><a href="#">포인트관리</a></li>
+                </ol>
+            </li>
+            <li>
+                <a href="#"><i class="fas fa-box-open" aria-hidden="true"></i>상품관리</a>
+                <ol>
+                    <li><a href="#">상품현황</a></li>
+                    <li><a href="#">상품등록</a></li>
+                    <li><a th:href="@{/admin/layout/product/category}">카테고리</a></li>
+                </ol>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-credit-card" aria-hidden="true"></i>주문관리</a>
+                <ol>
+                    <li><a href="#">주문현황</a></li>
+                    <li><a href="#">매출현황</a></li>
+                    <li><a href="#">배송관리</a></li>
+                </ol>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>고객센터</a>
+                <ol>
+                    <li><a href="#">공지사항</a></li>
+                    <li><a href="#">자주묻는질문</a></li>
+                    <li><a href="#">문의하기</a></li>
+                </ol>
+            </li>
+        </ul>
+    </aside>
+    <div class="content">
+        <div class="dashboard">
+            <div class="content_header">
+                <h1>관리자메인</h1>
+                <p>HOME > 관리자 메인</p>
+            </div>
+            <div class="operation-status">
+                <h2>운영현황</h2>
+                <div class="status-grid">
+                    <div class="status-item">
+                        <span>주문건수</span>
+                        <strong>131</strong>
+                    </div>
+                    <div class="status-item">
+                        <span>주문금액</span>
+                        <strong>1,130,000</strong>
+                    </div>
+                    <div class="status-item">
+                        <span>회원가입</span>
+                        <strong>1,014</strong>
+                    </div>
+                    <div class="status-item">
+                        <span>방문자 수</span>
+                        <strong>1,014</strong>
+                    </div>
+                    <div class="status-item">
+                        <span>신규 게시물</span>
+                        <strong>14</strong>
+                    </div>
+                </div>
+            </div>
 
+            <div class="order-status">
+                <h2>주문현황</h2>
+                <div class="status-grid">
+                    <div class="status-item">
+                        <span>입금대기</span>
+                        <strong>101</strong>
+                    </div>
+                    <div class="status-item">
+                        <span>배송준비</span>
+                        <strong>124</strong>
+                    </div>
+                    <div class="status-item">
+                        <span>취소요청</span>
+                        <strong>14</strong>
+                    </div>
+                    <div class="status-item">
+                        <span>교환요청</span>
+                        <strong>7</strong>
+                    </div>
+                    <div class="status-item">
+                        <span>반품요청</span>
+                        <strong>24</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tables">
+                <div class="notice">
+                    <div class="notice_header">
+                        <h3>공지사항</h3>
+                        <a href="#">전체보기</a>
+                    </div>
+                    <table>
+                        <tr>
+                            <td>[안내] 해외 결제사 칩 문자주의</td>
+                            <td>22.10.31</td>
+                        </tr>
+                        <tr>
+                            <td>[안내] 로젠택배 반품/교환 수거지</td>
+                            <td>22.10.31</td>
+                        </tr>
+                        <tr>
+                            <td>[안내] 위치정보 이용약관 개정</td>
+                            <td>22.10.31</td>
+                        </tr>
+                        <tr>
+                            <td>[안내] 구매 회원 이용약관 개정</td>
+                            <td>22.10.31</td>
+                        </tr>
+                        <tr>
+                            <td>[안내] 시스템 점검 예정</td>
+                            <td>22.10.31</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="inquiries">
+                    <div class="inquiries_header">
+                        <h3>고객문의</h3>
+                        <a href="#">전체보기</a>
+                    </div>
+                    <table>
+                        <tr>
+                            <td>[가입] 가입 문의 내용</td>
+                            <td>chh**</td>
+                            <td>22.10.31</td>
+                        </tr>
+                        <tr>
+                            <td>[탈퇴] 탈퇴 문의 내용</td>
+                            <td>chh**</td>
+                            <td>22.10.31</td>
+                        </tr>
+                        <tr>
+                            <td>[회원정보] 회원 정보 문의</td>
+                            <td>chh**</td>
+                            <td>22.10.31</td>
+                        </tr>
+                        <tr>
+                            <td>[회원정보] 회원 정보 문의</td>
+                            <td>chh**</td>
+                            <td>22.10.31</td>
+                        </tr>
+                        <tr>
+                            <td>[회원정보] 회원 정보 문의</td>
+                            <td>chh**</td>
+                            <td>22.10.31</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<div class="footer_wrapper">
+    <footer >
+        <div id="version">LotteON ADMINISTRATOR Version 0.0.1</div>
+        <div id="copyright">
+            Copyrightⓒ LotteOn_Team1 All rights reserved.
+        </div>
+    </footer>
+</div>
 </body>
 </html>

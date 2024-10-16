@@ -1,0 +1,73 @@
+/* 초기화 */
+ul,ol {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: #111;
+}
+
+input, textarea {
+    outline: none;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font: normal 12px "noto sans korean";
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    background-color: #fff  ;
+}
+
+/* 메인 구조 */
+main {
+    width: 1200px;
+    height: auto;
+    margin: 0 auto;
+    overflow: hidden;
+}
+main > aside {
+    float: left;
+    width: 250px;
+    height: 100vh;
+    box-sizing: border-box;
+    background-color: #2c3e50;
+}
+
+main > .content {
+    float: right;
+    width: 950px;
+    height: auto;
+}
+
+/* contents header */
+.dashboard {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.content_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+    border-bottom: 1px solid #c0c0c0;
+}
+
+.content_header h1 {
+    font-size: 24px;
+    color: #333;
+}
+
+.content_header p {
+    color: #888;
+}
