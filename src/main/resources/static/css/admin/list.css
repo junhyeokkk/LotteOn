@@ -210,7 +210,7 @@ main > section > nav > p {
 .pagingBox {
     display: flex;
     position: relative;
-    margin-top: 40px;
+    margin-top: 40px !important;
     justify-content: center;
 }
 
@@ -297,7 +297,7 @@ input[type="checkbox"] {
 }
 
 .sectionBox > div {
-    margin-top: 35px;
+    margin-top: 20px;
     margin-bottom: 10px;
 }
 
@@ -369,6 +369,24 @@ button[type=submit] {
     cursor: pointer;
 }
 
+/* 버전관리 #1 */
+.adminp {
+    height: 40px;
+    display: flex;
+    align-items: center; /* 세로 중앙 정렬 */
+    background-color: #F2F2F2;
+}
+.adminp p {
+    width: 100%; /* p 태그가 가로로 꽉 차도록 설정 */
+    padding-left: 10px; /* 텍스트에 약간의 좌측 padding 추가 */
+}
+
+/* 상점목록 */
+.operate {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: -20px !important;
+}
 
 /* 리스트 표 */
 
@@ -382,7 +400,6 @@ button[type=submit] {
 .admin_product-list > td:nth-child(7) {width: 60px;}
 .admin_product-list > td:nth-child(8) {width: 50px;}
 .admin_product-list > td:nth-child(9) {width: 80px;}
-
 
 /* 공지사항  */
 .admin_notice-list > td:nth-child(1) {width: 20px;}
@@ -412,3 +429,4 @@ button[type=submit] {
 .admin_faq-list > td:nth-child(6) {width: 80px;}
 .admin_faq-list > td:nth-child(7) {width: 80px;}
 .admin_faq-list > td:nth-child(8) {width: 80px;}
+
