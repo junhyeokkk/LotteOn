@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>약관 동의</title>
+    <link rel="stylesheet" href="/static/css/header.css">
+    <link rel="stylesheet" href="/static/css/user/user_style.css">
+
+</head>
+<body>
+    
+    <header class="header">
+        <div class="header__top">
+            <div class="center header__top__nav">
+
+                <a href="#" th:href="@{/member/login}">로그인</a>
+                <a href="#" th:href="@{/member/join}">회원가입</a>
+                <a href="#" th:href="@{/my/home(userId=${#authentication.principal.user.userId})}">마이페이지</a>
+                <i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;장바구니
+                </a>
+                <a href="#" th:href="@{/member/logout}">로그아웃</a>
+            </div>
+        </div>
+        <div class="header__bot">
+            <div class="header__bot__wrapper center">
+                <a class="logo" href="#" th:href="@{/}"><img class="logo__img" src="/static/images/header_logo.png"
+                        th:src="@{/images/header_logo.png}" alt="로고" /></a>
+                <form class="search" action="/lotteon/product/search" method="get">
+                    <input class="search__input" type="text" name="keyword" />
+                    <!-- <input  type="hidden" name="cateCode" id="cateCodeInput" value=""> -->
+                    <button class="search__btn"><img width="18" class="search__btn__img"
+                            src="/static/images/search.svg" /></button>
+                </form>
+            </div>
+        </div>
+    </header>
+
+<div id="wrapper">
+<h2>약관동의</h2>
+<hr class="line" size="2px" color="black">
+
+<form class="sighup">
+    <!-- 필수 항목 1: 이용약관 -->
+    <div class="form-group">
+        <label><span style="color: red;">(필수)</span> 이용약관</label>
+        <textarea id="terms1" readonly>.</textarea>
+        <div class="checkbox-container">
+            <input type="checkbox" id="agree1" required>
+            <label for="agree1">동의하기</label>
+        </div>
+    </div>
+
+    <!-- 필수 항목 2: 전자금융 이용약관 -->
+    <div class="form-group">
+        <label><span style="color: red;">(필수)</span> 전자금융 이용약관</label>
+        <textarea id="terms2" readonly>.</textarea>
+        <div class="checkbox-container">
+            <input type="checkbox" id="agree2" required>
+            <label for="agree2">동의하기</label>
+        </div>
+    </div>
+
+    <!-- 필수 항목 3: 개인정보 수집 동의 -->
+    <div class="form-group">
+        <label><span style="color: red;">(필수)</span> 개인정보 수집 동의</label>
+        <textarea id="terms3" readonly>.</textarea>
+        <div class="checkbox-container">
+            <input type="checkbox" id="agree3" required>
+            <label for="agree3">동의하기</label>
+        </div>
+    </div>
+
+    <!-- 선택 항목 4: 위치정보 이용약관 -->
+    <div class="form-group">
+        <label><span style="color: blue;">(선택)</span> 위치정보 이용약관</label>
+        <textarea id="terms4" readonly>.</textarea>
+        <div class="checkbox-container">
+            <input type="checkbox" id="agree4">
+            <label for="agree4">동의하기</label>
+        </div>
+    </div>
+
+    <!-- 동의 버튼 -->
+    <button type="submit" class="submit-btn">동의하기</button>
+</form>
+</div>
+</body>
+</html>

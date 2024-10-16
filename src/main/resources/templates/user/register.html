@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원 가입</title>
+    <link rel="stylesheet" href="/static/css/header.css">
+    <link rel="stylesheet" href="/static/css/user/user_style.css">
+
+</head>
+<body>
+    <header class="header">
+        <div class="header__top">
+            <div class="center header__top__nav">
+
+                <a href="#" th:href="@{/member/login}">로그인</a>
+                <a href="#" th:href="@{/member/join}">회원가입</a>
+                <a href="#" th:href="@{/my/home(userId=${#authentication.principal.user.userId})}">마이페이지</a>
+                <i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;장바구니
+                </a>
+                <a href="#" th:href="@{/member/logout}">로그아웃</a>
+            </div>
+        </div>
+        <div class="header__bot">
+            <div class="header__bot__wrapper center">
+                <a class="logo" href="#" th:href="@{/}"><img class="logo__img" src="/static/images/header_logo.png"
+                        th:src="@{/images/header_logo.png}" alt="로고" /></a>
+                <form class="search" action="/lotteon/product/search" method="get">
+                    <input class="search__input" type="text" name="keyword" />
+                    <!-- <input  type="hidden" name="cateCode" id="cateCodeInput" value=""> -->
+                    <button class="search__btn"><img width="18" class="search__btn__img"
+                            src="/static/images/search.svg" /></button>
+                </form>
+            </div>
+        </div>
+    </header>
+
+<div class="container">
+    <h2>일반 회원가입</h2>
+    <hr class="line_rg">
+    <form>
+        <div class="form-content">
+            <div class="label-container">
+                <label for="userid">아이디</label>
+                <label for="password">비밀번호</label>
+                <label for="password-confirm">비밀번호 확인</label>
+                <label for="name">이름</label>
+                <label>성별</label>
+                <label for="email">EMAIL</label>
+                <label for="phone">휴대폰</label>
+                <label for="address">주소</label>
+            </div>
+            <div class="input-container">
+                <input type="text" id="userid" name="userid" placeholder="영문, 숫자 4~12자 설정">
+                <input type="password" id="password" name="password" placeholder="영문, 숫자, 특수문자 8~12자 설정">
+                <input type="password" id="password-confirm" name="password-confirm">
+                <input type="text" id="name" name="name" placeholder="이름 입력">
+                <div class="gender">
+                    <input type="radio" id="male" name="gender" value="male"> 남
+                    <input type="radio" id="female" name="gender" value="female"> 여
+                </div>
+                <input type="email" id="email" name="email" placeholder="이메일 입력">
+                <input type="tel" id="phone" name="phone" placeholder="휴대폰 입력">
+                <input type="search" id="zipcode" name="zipcode" placeholder="우편번호 검색">
+                <input type="text" id="address1" name="address1" placeholder="기본주소 입력">
+                <input type="text" id="address2" name="address2" placeholder="상세주소 입력">
+            </div>
+        </div>
+
+        <button type="submit" class="submit-btn">회원가입</button>
+    </form>
+</div>
+
+</body>
+</html>

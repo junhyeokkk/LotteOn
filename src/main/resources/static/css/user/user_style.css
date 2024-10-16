@@ -1,0 +1,349 @@
+    /* login */
+
+    .line {
+        width: 100%;
+    }
+
+    .loginContent {
+        padding-top: 60px;
+        width: 900px;
+        margin: auto
+    }
+
+    .loginWrap .loginForm .inputSet:last-child {
+        margin-top: 10px
+    }
+
+    .loginWrap .autoLogin {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        margin-top: 20px;
+        width: 100%;
+    }
+
+    .loginWrap .autoLogin label {
+        padding-left: 8px;
+        font-size: 14px;
+        letter-spacing: -.023em
+    }
+
+    .signupSpeed.lineType {
+        padding-top: 10px;
+        margin-top: 20px;
+    }
+
+    .inputSet.login input {
+        height: 50px;
+        width: 380px;
+        border: 0;
+        background: #f5f5f5;
+        font-size: 16px;
+        line-height: 1.5;
+        color: #333
+    }
+
+    .inputSet input {
+        border: 1px solid #ddd;
+        height: 44px;
+        border-radius: 4px;
+        padding: 0 14px;
+        color: #333;
+        font-size: 14px
+    }
+
+    .loginWrap .titLogin {
+        font-size: 25px;
+    }
+
+    button {
+        border: none;
+        background: none;
+        padding: 0;
+        margin: 0
+    }
+
+    .socialSignupWrap {
+        margin-top: 20px
+    }
+
+    .socialSignupWrap .btnLoginGroup {
+        display: flex;
+        justify-content: center
+    }
+
+    .socialSignupWrap .btnLoginGroup button {
+        display: inline-block;
+        margin: 0 10px;
+        padding-top: 58px;
+        width: 50px;
+        font-size: 15px;
+        color: #000;
+        background-repeat: no-repeat;
+        background-size: 50px 50px;
+        cursor: pointer;
+    }
+
+    .socialSignupWrap .kakaoLoginBtn {
+        background-image: url(//static.lotteon.com/p/member/assets/img/icon_easy_kakao.svg)
+    }
+
+    .socialSignupWrap .naverLoginBtn {
+        background-image: url(//static.lotteon.com/p/member/assets/img/icon_easy_naver.svg)
+    }
+
+    .socialSignupWrap .googleLoginBtn {
+        background-image: url(/static/images/member/google-img.png)
+    }
+
+    .loginButtonWithImage {
+        height: 100px;
+        /* 버튼 높이를 입력창과 동일하게 설정 */
+        width: 80px;
+        background-color: #ef2a23;
+        color: white;
+        font-size: 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        float: right;
+    }
+
+    .loginImage {
+        width: 300px;
+        /* 이미지 너비 */
+        height: 300px;
+        /* 이미지 높이 */
+        margin-left: 70px;
+        /* 다른 요소와 간격 */
+        object-fit: contain;
+        /* 이미지 비율 유지 */
+    }
+
+    .section_input_loginForm {
+        width: 100%;
+        display: flex;
+        justify-content: space-evenly;
+    }
+
+    .loginFormWrapper {
+        max-height: 300px;
+        padding: 40px 0;
+        display: flex;
+        border-bottom: 2px solid #d8d8d8;
+    }
+
+    .login-left {
+        flex: 6;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .login-right {
+        flex: 4;
+    }
+
+    .login-right__img {
+        width: 100%;
+        height:100%;
+        object-fit: contain;
+    }
+
+    .awards-container {
+        height:100px;
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        padding: 16px 0;
+    }
+
+/* join */
+
+.title-join{
+    text-align: center;
+    margin-top: 50px;
+}
+
+.wel-join {
+    text-align: center;
+}
+
+.membership-options {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10%;
+}
+
+.option-join {
+    width: 300px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin: 0 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.red-bg {
+    font-size: 1rem;
+    padding: 10px;
+    color: white;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background-color: #ef2a23;
+    width: 280px;
+}
+
+.blue-bg {
+    font-size: 1rem;
+    padding: 10px;
+    color: white;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background-color: #114c5e;
+    width: 280px;
+}
+
+.content-join {
+    padding: 20px;   
+}
+
+.gray-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1.1rem;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    background-color: #d2d6da;
+    color: black;
+    margin-top: 10px;
+}
+
+.gray-text {
+    color: #808080; /* 회색 */
+}
+
+/* signup */
+body {
+    text-align: center;
+}
+
+/* wrapper를 중앙에 배치 */
+#wrapper {
+    width: 1020px;
+    margin: 0 auto; /* 가로 방향으로 중앙에 위치 */
+    text-align: left; /* 내부 텍스트는 왼쪽 정렬로 유지 */
+}
+
+.line{
+    width: 1020px;
+}
+
+.sighup{
+    width: 1020px;
+    
+}
+.form-group {
+    margin-bottom: 20px;
+}
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+.form-group textarea {
+    width: 100%;
+    height: 105px;
+    resize: none;
+    margin-bottom: 10px;
+    background-color: #f0f0f0; 
+}
+/* 체크박스와 레이블을 오른쪽으로 배치 */
+.checkbox-container {
+    display: flex;
+    justify-content: flex-end;
+}
+.form-group input[type="checkbox"] {
+    margin-right: 10px;
+}
+.submit-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+}
+.submit-btn:hover {
+    background-color: #ff3333;
+}
+
+.hr-line{
+    font-weight: bold;
+}
+
+/* register */
+
+.line_rg{
+ width: 600PX;   
+}
+
+.container {
+    width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+}
+form {
+    display: flex;
+    flex-direction: column;
+}
+.form-content {
+    display: flex;
+}
+.label-container {
+    width: 30%;
+    background-color: #f0f0f0; /* 연한 회색 배경 */
+    padding: 10px;
+    box-sizing: border-box;
+}
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+.input-container {
+    width: 65%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+input[type="text"], input[type="password"], input[type="email"], input[type="tel"], input[type="search"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+.gender {
+    margin-bottom: 10px;
+}
+.gender label {
+    margin-right: 10px;
+}
+input[type="radio"] {
+    margin-right: 5px;
+}
+.submit-btn {
+    background-color: rgb(209, 38, 38);
+    color: white;
+    padding: 10px;
+    margin-top: 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+.submit-btn:hover {
+    background-color: darkred;
+}

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LotteOn 회원가입</title>
+    <link rel="stylesheet" href="/static/css/header.css">
+    <link rel="stylesheet" href="/static/css/footer.css">
+    <link rel="stylesheet" href="/static/css/user/user_style.css">
+
+</head>
+
+<body>
+
+    <header class="header">
+            <div class="header__top">
+                <div class="center header__top__nav">
+
+                    <a href="#" th:href="@{/member/login}">로그인</a>
+                    <a href="#" th:href="@{/member/join}">회원가입</a>
+                    <a href="#" th:href="@{/my/home(userId=${#authentication.principal.user.userId})}">마이페이지</a>
+                    <i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;장바구니
+                    </a>
+                    <a href="#" th:href="@{/member/logout}">로그아웃</a>
+                </div>
+            </div>
+            <div class="header__bot">
+                <div class="header__bot__wrapper center">
+                    <a class="logo" href="#" th:href="@{/}"><img class="logo__img" src="/static/images/header_logo.png"
+                            th:src="@{/images/header_logo.png}" alt="로고" /></a>
+                    <form class="search" action="/lotteon/product/search" method="get">
+                        <input class="search__input" type="text" name="keyword" />
+                        <!-- <input  type="hidden" name="cateCode" id="cateCodeInput" value=""> -->
+                        <button class="search__btn"><img width="18" class="search__btn__img"
+                                src="/static/images/search.svg" /></button>
+                    </form>
+                </div>
+            </div>
+    </header>
+
+
+<div class="main-join">
+    <div class="container-join">
+        <p class="title-join">대한민국 1등 온라인 인터넷 쇼핑</p>
+        <h3 class="wel-join"><strong>롯데 ON</strong> 에 오신 것을 환영합니다.</h3>
+
+        <div class="membership-options">
+            <div class="option-join">
+                <div class="header red-bg">일반회원가입</div>
+                <div class="content-join">
+                    <p>개인구매회원 (외국인포함)</p>
+                    <p><span class="gray-text">만 14세 이상 가능</span></p>
+                    <a href="#" class="btn gray-btn">회원가입</a>
+                </div>
+            </div>
+            <div class="option-join">
+                <div class="header blue-bg">판매회원가입</div>
+                <div class="content-join">
+                    <p>사업자판매회원</p>
+                    <p><span class="gray-text">사업자등록증을 보유한 회원</span></p>
+                    <a href="#" class="btn gray-btn">회원가입</a>
+                </div>
+            </div>
+        
+    </div>
+</div>
+    <!-- 푸터영역 -->
+    <footer class="footer">
+        <ul class="footer__links">
+            <li class="footer__link"><a href="#">회사소개</a></li>
+            <li class="footer__link"><a href="#">서비스이용약관</a></li>
+            <li class="footer__link"><a href="#">개인정보처리방침</a></li>
+            <li class="footer__link"><a href="#">전자금융거래약관</a></li>
+            <li class="footer__link"><a href="#">1.0.0</a></li>
+        </ul>
+        <div class="footer__info">
+            <p class="footer__logo"><img src="/static/images/footer_logo.png" alt="로고"></p>
+            <p class="footer__company-info">
+                <strong>(주)LotteON</strong><br>
+                부산시 강남구 테헤란로 152 (역삼동 강남파이낸스센터)<br>
+                대표이사 : 홍길동<br>
+                사업자등록번호 : 220-81-83676 사업자정보확인<br>
+                통신판매업신고 : 강남 10630호 Fax : 02-589-8842
+            </p>
+            <p class="footer__customer-service">
+                <strong>고객센터</strong><br>
+                Tel : 1234-5678 (평일 09:00~18:00)<br>
+                스마일클럽/SVIP 전용 : 1522-5700 (365일 09:00~18:00)<br>
+                경기도 부천시 원미구 부일로 223(상동) 투나빌딩 6층<br>
+                Fax : 051-123-4567 | Mail : LotteON@LotteON.co.kr
+            </p>
+        </div>
+    </footer>
+</body>
+</html>

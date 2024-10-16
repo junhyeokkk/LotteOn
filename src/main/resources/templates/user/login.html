@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko" style="--actual-width: 1536px;">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LotteOn 로그인</title>
+    <link rel="stylesheet" href="/static/css/header.css">
+    <link rel="stylesheet" href="/static/css/footer.css">
+    <link rel="stylesheet" href="/static/css/user/user_style.css">
+</head>
+
+
+<header class="header">
+    <div class="header__top">
+        <div class="center header__top__nav">
+
+            <a href="#" th:href="@{/member/login}">로그인</a>
+            <a href="#" th:href="@{/member/join}">회원가입</a>
+            <a href="#" th:href="@{/my/home(userId=${#authentication.principal.user.userId})}">마이페이지</a>
+            <i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;장바구니
+            </a>
+            <a href="#" th:href="@{/member/logout}">로그아웃</a>
+        </div>
+    </div>
+    <div class="header__bot">
+        <div class="header__bot__wrapper center">
+            <a class="logo" href="#" th:href="@{/}"><img class="logo__img" src="/static/images/header_logo.png"
+                    th:src="@{/images/header_logo.png}" alt="로고" /></a>
+            <form class="search" action="/lotteon/product/search" method="get">
+                <input class="search__input" type="text" name="keyword" />
+                <!-- <input  type="hidden" name="cateCode" id="cateCodeInput" value=""> -->
+                <button class="search__btn"><img width="18" class="search__btn__img"
+                        src="/static/images/search.svg" /></button>
+            </form>
+        </div>
+    </div>
+</header>
+
+<main id="content" role="main" class="contentArea on">
+    <div class="loginContent withAd vertical">
+        <div class="loginWrap lotteOn">
+            <h2 class="titLogin">
+                <span class="tit">로그인</span>
+            </h2>
+            <hr class="line" size="2px" color="black">
+            <div class="loginFormWrapper">
+                <div class="login-left">
+                    <div class="section_input_loginForm">
+                        <div>
+                            <div class="inputSet login">
+                                <input name="inId" type="text" placeholder="아이디" id="inId" title="아이디 또는 이메일 입력">
+                            </div>
+
+                            <div class="inputSet login">
+                                <div class="passwordWrap">
+                                    <input id="Password" type="password" placeholder="비밀번호"
+                                        name="Password" autocomplete="new-password"
+                                        title="비밀번호 입력 (8~15자리 영문+숫자+특수문자 조합)">
+
+                                </div>
+                            </div>
+                        </div>
+                        <button class="loginButtonWithImage" type="button">
+                            <span class="btnLogin">로그인</span>
+                        </button>
+                    </div>
+
+                    <div class="autoLogin">
+                        <div class="checkboxSet">
+                            <input id="checkbox1" type="checkbox" name="checkbox1" checked="checked">
+                            <label for="checkbox1">자동로그인</label>
+                        </div>
+                        <input id="checkbox11" type="hidden" name="checkbox" value="N">
+                        <div class="btnFindIdPasswordWrap">
+                            <button class="findIdPassword">아이디 찾기</button> |
+                            <button class="findIdPassword">비밀번호 찾기</button> |
+                            <button class="movejoin">회원가입</button>
+                        </div>
+                    </div>
+
+                    <div class="signupSpeed lineType">
+                        <div class="socialSignupWrap">
+                            <div class="btnLoginGroup">
+                                <button type="button" class="naverLoginBtn">네이버</button>
+                                <button type="button" class="kakaoLoginBtn">카카오</button>
+                                <button type="button" class="googleLoginBtn">구글</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="login-right">
+                    <img class="login-right__img" src="/static/images/member/login_ad.jpg" alt="샘플광고" class="loginImage">
+                </div>
+            </div>
+            <div class="awards-container">
+                <img src="https://png.pngtree.com/png-clipart/20191121/original/pngtree-awards-ceremony-golden-wheat-ear-logo-png-image_5137378.jpg" alt="awards img" />
+                <img src="https://png.pngtree.com/png-clipart/20191121/original/pngtree-awards-ceremony-golden-wheat-ear-logo-png-image_5137378.jpg" alt="awards img" />
+                <img src="https://png.pngtree.com/png-clipart/20191121/original/pngtree-awards-ceremony-golden-wheat-ear-logo-png-image_5137378.jpg" alt="awards img" />
+                <img src="https://png.pngtree.com/png-clipart/20191121/original/pngtree-awards-ceremony-golden-wheat-ear-logo-png-image_5137378.jpg" alt="awards img" />
+            </div>
+        </div>
+               
+    </div>
+</main>
+
+<footer class="footer">
+    <ul class="footer__links">
+        <li class="footer__link"><a href="#">회사소개</a></li>
+        <li class="footer__link"><a href="#">서비스이용약관</a></li>
+        <li class="footer__link"><a href="#">개인정보처리방침</a></li>
+        <li class="footer__link"><a href="#">전자금융거래약관</a></li>
+        <li class="footer__link"><a href="#">1.0.0</a></li>
+    </ul>
+    <div class="footer__info">
+        <p class="footer__logo"><img src="/static/images/footer_logo.png" alt="로고"></p>
+        <p class="footer__company-info">
+            <strong>(주)LotteON</strong><br>
+            부산시 강남구 테헤란로 152 (역삼동 강남파이낸스센터)<br>
+            대표이사 : 홍길동<br>
+            사업자등록번호 : 220-81-83676 사업자정보확인<br>
+            통신판매업신고 : 강남 10630호 Fax : 02-589-8842
+        </p>
+        <p class="footer__customer-service">
+            <strong>고객센터</strong><br>
+            Tel : 1234-5678 (평일 09:00~18:00)<br>
+            스마일클럽/SVIP 전용 : 1522-5700 (365일 09:00~18:00)<br>
+            경기도 부천시 원미구 부일로 223(상동) 투나빌딩 6층<br>
+            Fax : 051-123-4567 | Mail : LotteON@LotteON.co.kr
+        </p>
+    </div>
+</footer>
+</body>
+</html>
