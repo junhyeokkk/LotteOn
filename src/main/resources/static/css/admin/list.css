@@ -57,7 +57,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 0;
+    padding: 10px 0;
     border-bottom: 1px solid #c0c0c0;
 }
 
@@ -301,6 +301,22 @@ input[type="checkbox"] {
     margin-bottom: 10px;
 }
 
+.admingraph {
+    width: 100%;
+    margin-top: 20px;
+    border-top: 2px solid #8798a3;
+    border-bottom: 2px solid #BFBFBF;
+    background: #fff;
+    text-align: center;
+    box-sizing: border-box;
+    border-collapse: collapse;
+}
+
+.admin_title {
+    border-bottom: 1px solid #BFBFBF;
+}
+
+/* 버튼 */
 .searchBtn {
     width: 45px;
     background-color: #D8D8D8;
@@ -319,20 +335,19 @@ button[type=submit] {
     vertical-align: middle;
 }
 
-.admingraph {
-    width: 100%;
-    margin-top: 20px;
-    border-top: 2px solid #8798a3;
-    border-bottom: 2px solid #8798a3;
-    background: #fff;
-    text-align: center;
-    box-sizing: border-box;
-}
-
 .product__delete-btn {
     cursor: pointer;
     text-decoration: none;
     color: #ff0000;
+}
+
+/* admin > order > list 배송하기 버튼 */
+.deliveryBtn {
+    color: #0070C0;
+    background-color:  #FFFFFF;
+    border: 1px solid #0070C0;
+    padding: 5px;
+
 }
 
 
