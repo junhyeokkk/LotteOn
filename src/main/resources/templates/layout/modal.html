@@ -4,8 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ModalPage</title>
-    <link rel="stylesheet" href="/css/my/modal.css">
-    <link rel="stylesheet" href="/css/my/myinfo.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/moment/min/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" href="/resources/static/css/my/modal.css">
+    <link rel="stylesheet" href="/resources/static/css/my/myinfo.css">
 </head>
 <body>
 
@@ -15,9 +19,12 @@
 <button id="inquiryBtn" class="modal-button">3. 문의하기</button>
 <button id="receiptConfirmBtn" class="modal-button">4. 수취확인</button>
 <button id="reviewBtn" class="modal-button">5. 상품평작성하기</button>
-<button id="bannerSubmitBtn" class="modal-button">6. 배너등록</button>
+<button id="refundBtn" class="modal-button">6. 반품 신청</button>
+<button id="returnBtn" class="modal-button">7. 교환 신청</button><br>
+
+
 <!-- 주문상세 모달 -->
-<div id="orderDetailModal" class="modal">
+<div id="orderDetailModal" class="modal user">
     <div class="ordermodal-content">
         <nav class="modal-nav">
             <h1>주문상세</h1>
@@ -32,12 +39,18 @@
                         <th></th>
                         <th>상품정보</th>
                         <th>결제금액</th>
+                        <th>상태</th>
                     </tr>
                     <tr>
                         <td>20xx-01-01</td>
                         <td><img src="/main/resources/static/images/AA.jpg" alt="" class="modalimgsize"></td>
-                        
-                        
+                        <td class="modalprice-info">
+                                <span>주문번호 : 101221341</span><br>
+                                <span>(주) 상호명</span><br>
+                                <span>상품평</span><br>
+                                <span>수량 : 1개</span><br>
+                                <span class="modaltotal-price">34,000원</span>
+                        </td>
                         <td class="modalprice-info">
                             <div class="modalprice-row">
                                 <span>판매가</span>
@@ -51,7 +64,6 @@
                                 <span>결제금액</span>
                                 <span class="modaltotal-price">31,000원</span>
                             </div>
-
                         </td>
                         <td>배송완료</td>
                     </tr>
@@ -83,7 +95,7 @@
 </div>
 
 <!-- 판매자정보 모달 -->
-<div id="sellerInfoModal" class="modal">
+<div id="sellerInfoModal" class="modal user">
     <div class="sellermodal-content">
         <nav class="modal-nav">
             <h1>판매자 정보</h1>
@@ -134,7 +146,7 @@
 </div>
 
 <!-- 문의하기 모달 -->
-<div id="inquiryModal" class="modal">
+<div id="inquiryModal" class="modal user">
     <div class="inquirymodal-content">
         <nav class="modal-nav">
             <h1>문의하기</h1>
@@ -185,7 +197,7 @@
 </div>
 
 <!-- 수취확인 모달 -->
-<div id="receiptConfirmModal" class="modal">
+<div id="receiptConfirmModal" class="modal user">
     <div class="receiptConfirmmodal-content">
         <nav class="modal-nav">
             <h1>수취확인</h1>
@@ -207,7 +219,7 @@
 </div>
 
 <!-- 상품평작성하기 모달 -->
-<div id="reviewModal" class="modal">
+<div id="reviewModal" class="modal user">
     <div class="reviewmodal-content">
         <nav class="modal-nav">
             <h1>상품평 작성하기</h1>
@@ -259,56 +271,171 @@
         </section>
     </div>
 </div>
-<!-- 배너등록 모달 -->
-<div id="bannerModal" class="modal">
-    <div class="Bannermodal-content">
+<!-- 반품신청 모달 -->
+<div id="refundModal" class="modal user">
+    <div class="refundModal-content">
         <nav class="modal-nav">
-            <h1>배너등록</h1>
-            <button class="modal-close" id="closeBannerModal">&times;</button>
+            <h1>반품신청</h1>
+            <button class="modal-close" id="closerefundModal">&times;</button>
         </nav>
         <section class="modal-section">
             <form action="#" method="post" enctype="multipart/form-data">
-                <table border="0" class="heighttable">
-                    <tr>
-                        <th>배너이름</th>
-                        <td><input type="text" class="bannername" name="bannername"></td>
-                    </tr>
-                    <tr>
-                        <th>배너크기</th>
-                        <td><input type="text" class="bannersize" name="bannersize"></td>
-                    </tr>
-                    <tr>
-                        <th>배경색</th>
-                        <td><input type="text" class="bannercolor" name="bannercolor"></td>
-                    </tr>
-                    <tr>
-                        <th>배너링크</th>
-                        <td><input type="text" class="bannerlink" name="bannerlink"></td>
-                    </tr>
-                    <tr>
-                        <th>배너위치</th>
-                        <td><input type="text" class="bannerplace" name="bannerplace"></td>
-                    </tr>
-                    <tr>
-                        <th>노출날짜</th>
-                        <td><input type="text" class="bannerdate" name="bannerdate"> - 
-                            <input type="text" class="bannerdate" name="bannerdate">
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>노출시간</th>
-                        <td><input type="text" class="bannertime" name="bannertime"></td>
-                    </tr>
-                </table>
+                <article>
+                    <h3>주문정보</h3>
+                    <table border="0" class="widthtable">
+                        <tr>
+                            <th>날짜</th>
+                            <th></th>
+                            <th>상품정보</th>
+                            <th>결제금액</th>
+                            <th>상태</th>
+                        </tr>
+                        <tr>
+                            <td>20xx-01-01</td>
+                            <td><img src="/main/resources/static/images/AA.jpg" alt="" class="modalimgsize"></td>
+    
+                            <td class="modalprice-info">
+                                <span>주문번호 : 101221341</span><br>
+                                <span>(주) 상호명</span><br>
+                                <span>상품평</span><br>
+                                <span>수량 : 1개</span><br>
+                                <span class="modaltotal-price">34,000원</span>
+                            </td>
+                            <td class="modalprice-info">
+                                <div class="modalprice-row">
+                                    <span>판매가</span>
+                                    <span class="modalprice-value">34,000원</span>
+                                </div>
+                                <div class="modalprice-row">
+                                    <span>할인</span>
+                                    <span class="modalprice-value">-3,000원</span>
+                                </div><br>
+                                <div class="modalprice-row total-price">
+                                    <span>결제금액</span>
+                                    <span class="modaltotal-price">31,000원</span>
+                                </div>
+    
+                            </td>
+                            <td>배송완료</td>
+                        </tr>
+                    </table>
+                </article>
+                <article>
+                    <h3>반품사유 작성</h3>
+                    <table border="0" class="heighttable">
+                        <tr>
+                            <th>반품유형</th>
+                            <td>
+                                <input type="radio" name="refundreason" value="simple">단순 교환
+                                <input type="radio" name="refundreason" value="broken">파손 및 불량
+                                <input type="radio" name="refundreason" value="mistake">주문 실수
+                                <input type="radio" name="refundreason" value="other">기타
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>사유 입력</th>
+                            <td class="modalcontent2">
+                                <textarea placeholder="변경내역작성하기" required></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>사진첨부(선택)</th>
+                            <td><input type="file"></td>
+                        </tr>
+                    </table>
+                </article>
                 <br>
                 <div class="modalbuttondiv">
-                    <input class="modalbutton" type="submit" value="작성완료"/>
+                    <input class="modalbutton" type="submit" value="반품신청"/>
                     <button class="modalcanclebutton">취소</button>
                 </div>
             </form>
         </section>
     </div>
 </div>
+
+<!-- 교환신청 모달 -->
+<div id="returnModal" class="modal user">
+    <div class="returnModal-content">
+        <nav class="modal-nav">
+            <h1>교환신청</h1>
+            <button class="modal-close" id="closereturnModal">&times;</button>
+        </nav>
+        <section class="modal-section">
+            <form action="#" method="post" enctype="multipart/form-data">
+                <article>
+                    <h3>주문정보</h3>
+                    <table border="0" class="widthtable">
+                        <tr>
+                            <th>날짜</th>
+                            <th></th>
+                            <th>상품정보</th>
+                            <th>결제금액</th>
+                            <th>상태</th>
+                        </tr>
+                        <tr>
+                            <td>20xx-01-01</td>
+                            <td><img src="/main/resources/static/images/AA.jpg" alt="" class="modalimgsize"></td>
+    
+                            <td class="modalprice-info">
+                                <span>주문번호 : 101221341</span><br>
+                                <span>(주) 상호명</span><br>
+                                <span>상품평</span><br>
+                                <span>수량 : 1개</span><br>
+                                <span class="modaltotal-price">34,000원</span>
+                            </td>
+                            <td class="modalprice-info">
+                                <div class="modalprice-row">
+                                    <span>판매가</span>
+                                    <span class="modalprice-value">34,000원</span>
+                                </div>
+                                <div class="modalprice-row">
+                                    <span>할인</span>
+                                    <span class="modalprice-value">-3,000원</span>
+                                </div><br>
+                                <div class="modalprice-row total-price">
+                                    <span>결제금액</span>
+                                    <span class="modaltotal-price">31,000원</span>
+                                </div>
+    
+                            </td>
+                            <td>배송완료</td>
+                        </tr>
+                    </table>
+                </article>
+                <article>
+                    <h3>반품사유 작성</h3>
+                    <table border="0" class="heighttable">
+                        <tr>
+                            <th>반품유형</th>
+                            <td>
+                                <input type="radio" name="refundreason" value="otherproduct">오배송
+                                <input type="radio" name="refundreason" value="broken">파손 및 불량
+                                <input type="radio" name="refundreason" value="other">기타
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>사유 입력</th>
+                            <td class="modalcontent2">
+                                <textarea placeholder="변경내역작성하기" required></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>사진첨부(선택)</th>
+                            <td><input type="file"></td>
+                        </tr>
+                    </table>
+                </article>
+                <br>
+                <div class="modalbuttondiv">
+                    <input class="modalbutton" type="submit" value="교환신청"/>
+                    <button class="modalcanclebutton">취소</button>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>
+
 <script>
     // 모달과 버튼을 객체로 관리
     const modals = {
@@ -317,7 +444,8 @@
         inquiryModal: document.getElementById('inquiryModal'),
         receiptConfirmModal: document.getElementById('receiptConfirmModal'),
         reviewModal: document.getElementById('reviewModal'),
-        bannerModal: document.getElementById('bannerModal') // 배너 모달 추가
+        refundModal:document.getElementById('refundModal'),
+        returnModal:document.getElementById('returnModal')
     };
 
     const buttons = {
@@ -326,7 +454,8 @@
         inquiryBtn: document.getElementById('inquiryBtn'),
         receiptConfirmBtn: document.getElementById('receiptConfirmBtn'),
         reviewBtn: document.getElementById('reviewBtn'),
-        bannerSubmitBtn: document.getElementById('bannerSubmitBtn') // 배너 등록 버튼 추가
+        refundBtn: document.getElementById('refundBtn'),
+        returnBtn: document.getElementById('returnBtn')
     };
 
     const closeButtons = {
@@ -335,7 +464,8 @@
         closeInquiry: document.getElementById('closeInquiry'),
         closeReceiptConfirm: document.getElementById('closeReceiptConfirm'),
         closeReview: document.getElementById('closeReview'),
-        closeBannerModal: document.getElementById('closeBannerModal') // 배너 모달 닫기 버튼 추가
+        closerefundModal: document.getElementById('closerefundModal'),
+        closereturnModal: document.getElementById('closereturnModal')
     };
 
     // 버튼 클릭 시 모달 열기
@@ -354,8 +484,11 @@
     buttons.reviewBtn.onclick = function() {
         modals.reviewModal.style.display = "block";
     };
-    buttons.bannerSubmitBtn.onclick = function() {
-        modals.bannerModal.style.display = "block";
+    buttons.refundBtn.onclick = function() {
+        modals.refundModal.style.display = "block";
+    };
+    buttons.returnBtn.onclick = function() {
+        modals.returnModal.style.display = "block";
     };
 
     // 닫기 버튼 클릭 시 모달 닫기
@@ -374,12 +507,16 @@
     closeButtons.closeReview.onclick = function() {
         modals.reviewModal.style.display = "none";
     };
-    closeButtons.closeBannerModal.onclick = function() {
-        modals.bannerModal.style.display = "none";
+    closeButtons.closerefundModal.onclick = function() {
+        modals.refundModal.style.display = "none";
+    };
+    closeButtons.closereturnModal.onclick = function() {
+        modals.returnModal.style.display = "none";
     };
 
+
     // 모달 외부 클릭 시 닫기
-    window.onclick = function(event) {
+    window.onmousedown  = function(event) {
         for (const modal of Object.values(modals)) {
             if (event.target == modal) {
                 modal.style.display = "none";
@@ -387,7 +524,8 @@
         }
     };
     const modalstars = document.querySelectorAll('.modalstar');
-
+    
+    //별
     modalstars.forEach((modalstar, index) => {
         modalstar.addEventListener('click', () => {
             // 모든 별의 색을 기본 회색으로 초기화
@@ -397,6 +535,18 @@
             for (let i = 0; i <= index; i++) {
                 modalstars[i].classList.add('filled');
             }
+        });
+    });
+    // 시간 선택
+    document.addEventListener('DOMContentLoaded', function() {
+        const today = new Date().toISOString().split('T')[0];
+        const startDateInput = document.querySelector('input[name="bannerdate-start"]');
+        const endDateInput = document.querySelector('input[name="bannerdate-end"]');
+
+        startDateInput.setAttribute('min', today); // 첫 번째 날짜는 오늘 이후만 선택 가능
+
+        startDateInput.addEventListener('change', function() {
+            endDateInput.setAttribute('min', this.value); // 두 번째 날짜는 첫 번째 날짜 이후만 선택 가능
         });
     });
 </script>

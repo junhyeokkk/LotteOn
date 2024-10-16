@@ -12,11 +12,17 @@
 }
 
 /* 모달별 컨텐츠 스타일 */
+.returnModal-content,
+.refundModal-content,
+.userchangemodal-content,
+.sellerinsertmodal-content,
+.versioninsertmodal-content,
+.VersionCheckmodal-content,
 .Bannermodal-content,
-.ordermodal-content, 
-.sellermodal-content, 
-.inquirymodal-content, 
-.receiptConfirmmodal-content, 
+.ordermodal-content,
+.sellermodal-content,
+.inquirymodal-content,
+.receiptConfirmmodal-content,
 .reviewmodal-content {
     background-color: #fefefe;
     margin: 15% auto;
@@ -24,13 +30,23 @@
     border-radius: 15px;
 }
 /* 상세주문 모달 추가 */
+
 .ordermodal-content {
     height: 630px;
     width: 930px;
     border: none;
 }
+/* 반품 교환 신청 */
+.returnModal-content,
+.refundModal-content{
+    height: 690px;
+    width: 930px;
+    border: none;
+}
 
 /* 판매자,문의,리뷰 모달 추가 */
+.versioninsertmodal-content,
+.VersionCheckmodal-content,
 .Bannermodal-content,
 .sellermodal-content,
 .inquirymodal-content,
@@ -45,6 +61,15 @@
     width: 410px;
 }
 
+
+.sellerinsertmodal-content{
+    height: 750px;
+    width: 700px;
+}
+.userchangemodal-content{
+    height: 850px;
+    width: 700px;
+}
 /* 내부 모달 패딩 */
 .modal-section {padding: 15px 22.5px 20px 22.5px;}
 
@@ -59,14 +84,34 @@
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
 }
-
+.adminmodal-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* 수직 가운데 정렬 */
+    border-bottom: 1px solid #ccc;
+    padding: 10px 22.5px;
+    background-color: #34495e;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
 .modal-nav h1 {
+    color: white;
+    margin: 0;
+    font-size: 24px;
+}
+.adminmodal-nav h1 {
     color: white;
     margin: 0;
     font-size: 24px;
 }
 
 .modal-nav button {
+    background-color: transparent;
+    border: none;
+    font-size: 30px;
+    cursor: pointer;
+}
+.adminmodal-nav button {
     background-color: transparent;
     border: none;
     font-size: 30px;
@@ -80,7 +125,12 @@
     font-weight: bold;
     cursor: pointer;
 }
-
+.adminmodal-close {
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
 .modal-close:hover, .modal-close:focus {
     color: #aaa;
     text-decoration: none;
@@ -98,7 +148,7 @@
 
 .heighttable tr {height: 47px;}
 
-.heighttable th, 
+.heighttable th,
 .heighttable td {
     border-top: 0.4px solid #A6A6A6;
     border-bottom: 0.4px solid #A6A6A6;
@@ -110,6 +160,7 @@
 }
 
 .heighttable td {
+
     padding-left: 15px;
 }
 
@@ -152,7 +203,14 @@
     color: white;
     cursor: pointer;
 }
-
+.adminmodalbutton {
+    background-color: #34495e;
+    border: 0;
+    width: 133px;
+    height: 40px;
+    color: white;
+    cursor: pointer;
+}
 .modalcanclebutton {
     background-color: #BFBFBF;
     border: 0;
@@ -168,9 +226,19 @@
     width: 98%;
     resize: none;
     height: 210px;
+    border: 0.4px solid #34495e; /* 테두리 색상 */
+    border-radius: 5px; /* 둥근 모서리로 부드러운 느낌 */
+}
+.modalcontent2 textarea {
+    margin-top: 5px;
+    width: 98%;
+    resize: none;
+    height: 105px;
+    border: 0.4px solid #34495e; /* 테두리 색상 */
+    border-radius: 5px; /* 둥근 모서리로 부드러운 느낌 */
 }
 
-.sellermodal-content p, 
+.sellermodal-content p,
 .receiptConfirmmodal-content p {text-align: center;}
 .receiptConfirmmodal-content p {padding-top: 10px;}
 
@@ -182,3 +250,48 @@
 }
 
 .modalstar.filled {color: gold;}
+.modal input[type="text"],
+.modal input[type="date"],
+.modal input[type="password"],
+.modal select
+{
+    height: 30px;
+    line-height: 30px;
+    padding: 0 10px;
+    box-sizing: border-box;
+    border: 0.4px solid #34495e; /* 테두리 색상 */
+    border-radius: 5px; /* 둥근 모서리로 부드러운 느낌 */
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
+.modal select {
+    height: 30px;
+}
+/* 포커스 시 스타일 */
+.admin input[type="text"]:focus,
+.admin input[type="date"]:focus,
+.admin input[type="password"]:focus,
+.admin select:focus,
+.admin textarea:focus{
+    outline: none; /* 기본 아웃라인 제거 */
+    border-color: #2980b9; /* 포커스 시 테두리 색상 변경 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 포커스 시 더 강조된 그림자 */
+    background-color: #ffffff; /* 선택 시 배경색 강조 */
+
+}
+.user input[type="text"]:focus,
+.user input[type="date"]:focus,
+.user select:focus,
+.user textarea:focus{
+    outline: none; /* 기본 아웃라인 제거 */
+    border-color: gray; /* 포커스 시 테두리 색상 변경 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 포커스 시 그림자 강조 */
+    background-color: #ffffff; /* 포커스 시 배경 강조 */
+}
+#address1,
+#address2 {
+    width: 335px; /* 원하는 비율로 설정 (여기서는 100%로 설정해 부모의 전체 너비를 사용) */
+    box-sizing: border-box; /* padding이 너비에 포함되도록 설정 */
+
+}
