@@ -1,0 +1,130 @@
+
+
+<!-- 회원정보 섹션 -->
+<section th:fragment="ordered">
+    <a href="#"><img src="/images/image.PNG" alt="패션, 타운 하나로 끝" class="banner"></a>
+    <!-- 810x86 배너 이미지 -->
+    <article class="latest">
+        <h3>전체주문내역</h3>
+        <!-- 주문내역 검색바 -->
+        <div class="myinfoSearch">
+            <p>기간별 조회</p>
+            <a href="/my/order">전체</a>
+            <a href="/my/order?cate=week">일주일</a>
+            <a href="/my/order?cate=halfmonth">15일</a>
+            <a href="/my/order?cate=month">1개월</a>
+            <select id="monthSelect">
+                <option value="">검색 기간 선택</option>
+            </select>
+            <div class="date-wrapper">
+                <div class="start-date-wrapper">
+                    시작날짜 : <input type="date" id="startDate" class="start-date" placeholder="시작 날짜 선택">
+                </div>
+
+                <div class="end-date-wrapper">
+                    종료날짜 : <input type="date" id="endDate" class="end-date" placeholder="종료 날짜 선택" >
+                </div>
+            </div>
+            <button onclick="searchOrders()">검색</button>
+        </div>
+        <h3>최근주문내역</h3>
+        <table border="0" class="widthtable">
+            <tr>
+                <th>날짜</th>
+                <th></th>
+                <th>상품정보</th>
+                <th>상태</th>
+                <th>확인/신청</th>
+            </tr>
+            <block>
+                <tr>
+                    <td class="date">2022-12-13</td>
+                    <td><a href="#" class="recentproductorderimg"><img src="/images/admin/sample_thumb.jpg" alt="상품이미지"></a></td>
+                    <td class="order-info">
+                        <div class="order-number">
+                            주문번호: <span text="${order.orderNumber}">1012211341</span>
+                        </div>
+                        <div class="company-name" text="${order.companyName}">(주) 상호명</div>
+                        <div class="product-name" text="${order.productName}">상품명</div>
+                        <div>수량 : <span text="${order.quantity}"></span>1 개</div>
+                        <div class="product-price" style="font-size: 18px; font-weight: bold;" text="${order.price}">34,000원</div>
+                    </td>
+
+                    <td class="status">배송중</td>
+                    <td class="modalbuttondiv">
+                        <!-- 수취확인 -->
+                        <button class="receivebutton">수취확인</button><br>
+                        <button class="receivebutton">상품평쓰기</button><br>
+
+                        <button class="reviewbutton">반품신청</button><br>
+                        <button class="reviewbutton">교환신청</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="date">2022-12-13</td>
+                    <td><a href="#" class="recentproductorderimg"><img src="/images/admin/sample_thumb.jpg" alt="상품이미지"></a></td>
+                    <td class="order-info">
+                        <div class="order-number">
+                            주문번호: <span text="${order.orderNumber}">1012211341</span>
+                        </div>
+                        <div class="company-name" text="${order.companyName}">(주) 상호명</div>
+                        <div class="product-name" text="${order.productName}">상품명</div>
+                        <div>수량 : <span text="${order.quantity}"></span>1 개</div>
+                        <div class="product-price" style="font-size: 18px; font-weight: bold;" text="${order.price}">34,000원</div>
+                    </td>
+
+                    <td class="status">배송중</td>
+                    <td class="modalbuttondiv">
+                        <!-- 수취확인 -->
+                        <button class="receivebutton">수취확인</button><br>
+                        <button class="receivebutton">상품평쓰기</button><br>
+
+                        <button class="reviewbutton">반품신청</button><br>
+                        <button class="reviewbutton">교환신청</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="date">2022-12-13</td>
+                    <td><a href="#" class="recentproductorderimg"><img src="/images/admin/sample_thumb.jpg" alt="상품이미지"></a></td>
+                    <td class="order-info">
+                        <div class="order-number">
+                            주문번호: <span text="${order.orderNumber}">1012211341</span>
+                        </div>
+                        <div class="company-name" text="${order.companyName}">(주) 상호명</div>
+                        <div class="product-name" text="${order.productName}">상품명</div>
+                        <div>수량 : <span text="${order.quantity}"></span>1 개</div>
+                        <div class="product-price" style="font-size: 18px; font-weight: bold;" text="${order.price}">34,000원</div>
+                    </td>
+
+                    <td class="status">배송중</td>
+                    <td class="modalbuttondiv">
+                        <!-- 수취확인 -->
+                        <button class="receivebutton">수취확인</button><br>
+                        <button class="receivebutton">상품평쓰기</button><br>
+
+                        <button class="reviewbutton">반품신청</button><br>
+                        <button class="reviewbutton">교환신청</button>
+                    </td>
+                </tr>
+            </block>
+        </table>
+    </article>
+
+    <div class="pagingBox">
+        <div class="pagingList">
+            <!-- 이전 버튼 -->
+            <a href="#" class="prev"><</a>
+
+            <!-- 페이지 링크 -->
+            <a href="#">1</a>
+            <a href="#" class="active">2</a>
+            <a href="#">3</a>
+            <a href="#">4</a>
+            <a href="#">5</a>
+
+            <!-- 다음 버튼 -->
+            <a href="#" class="next">></a>
+        </div>
+    </div>
+
+</section>

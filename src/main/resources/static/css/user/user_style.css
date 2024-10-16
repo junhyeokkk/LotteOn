@@ -1,162 +1,143 @@
-    /* login */
+/* login */
+#wrapper {
+    width: 1020px;
+    margin: 0 auto; /* 가운데 정렬 */
+}
+.line {
+    width: 100%;
+}
 
-    .line {
-        width: 100%;
-    }
+.loginContent {
+    padding-top: 60px;
+    width: 900px;
+    margin: auto
+}
 
-    .loginContent {
-        padding-top: 60px;
-        width: 900px;
-        margin: auto
-    }
+.loginWrap .userinfoservice {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+    width: 90%;
+}
 
-    .loginWrap .loginForm .inputSet:last-child {
-        margin-top: 10px
-    }
+.inputSet input {
+    border: 1px solid #ddd;
+    height: 44px;
+    border-radius: 4px;
+    padding: 0 14px;
+    color: #333;
+    font-size: 14px
+}
+.loginFormWrapper input[type="text"],
+.loginFormWrapper input[type="password"],
+.loginFormWrapper input[type="email"],
+.loginFormWrapper input[type="tel"],
+.loginFormWrapper input[type="search"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+.loginWrap .titLogin {
+    font-size: 25px;
+}
 
-    .loginWrap .autoLogin {
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-        margin-top: 20px;
-        width: 100%;
-    }
+button {
+    border: none;
+    background: none;
+    padding: 0;
+    margin: 0
+}
 
-    .loginWrap .autoLogin label {
-        padding-left: 8px;
-        font-size: 14px;
-        letter-spacing: -.023em
-    }
+.socialSignupWrap {
+    padding-top: 10px;
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+}
 
-    .signupSpeed.lineType {
-        padding-top: 10px;
-        margin-top: 20px;
-    }
+.socialSignupWrap button {
+    display: inline-block;
+    margin: 0 10px;
+    padding-top: 58px;
+    width: 50px;
+    font-size: 15px;
+    color: #000;
+    background-repeat: no-repeat;
+    background-size: 50px 50px;
+    cursor: pointer;
+}
 
-    .inputSet.login input {
-        height: 50px;
-        width: 380px;
-        border: 0;
-        background: #f5f5f5;
-        font-size: 16px;
-        line-height: 1.5;
-        color: #333
-    }
+.socialSignupWrap .kakaoLoginBtn {
+    background-image: url(//static.lotteon.com/p/member/assets/img/icon_easy_kakao.svg)
+}
 
-    .inputSet input {
-        border: 1px solid #ddd;
-        height: 44px;
-        border-radius: 4px;
-        padding: 0 14px;
-        color: #333;
-        font-size: 14px
-    }
+.socialSignupWrap .naverLoginBtn {
+    background-image: url(//static.lotteon.com/p/member/assets/img/icon_easy_naver.svg)
+}
 
-    .loginWrap .titLogin {
-        font-size: 25px;
-    }
+.socialSignupWrap .googleLoginBtn {
+    background-image: url(/static/images/member/google-img.png)
+}
 
-    button {
-        border: none;
-        background: none;
-        padding: 0;
-        margin: 0
-    }
+.loginButtonWithImage {
+    height: 100px;
+    /* 버튼 높이를 입력창과 동일하게 설정 */
+    width: 80px;
+    background-color: #ef2a23;
+    color: white;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    float: right;
+}
 
-    .socialSignupWrap {
-        margin-top: 20px
-    }
+.loginImage {
+    width: 300px;/* 이미지 너비 */
+    height: 300px;/* 이미지 높이 */
+    margin-left: 70px;/* 다른 요소와 간격 */
+    object-fit: contain;/* 이미지 비율 유지 */
+}
 
-    .socialSignupWrap .btnLoginGroup {
-        display: flex;
-        justify-content: center
-    }
+.section_input_loginForm {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+}
 
-    .socialSignupWrap .btnLoginGroup button {
-        display: inline-block;
-        margin: 0 10px;
-        padding-top: 58px;
-        width: 50px;
-        font-size: 15px;
-        color: #000;
-        background-repeat: no-repeat;
-        background-size: 50px 50px;
-        cursor: pointer;
-    }
+.loginFormWrapper {
+    max-height: 300px;
+    padding: 40px 0;
+    display: flex;
+    border-bottom: 2px solid #d8d8d8;
+}
 
-    .socialSignupWrap .kakaoLoginBtn {
-        background-image: url(//static.lotteon.com/p/member/assets/img/icon_easy_kakao.svg)
-    }
+.login-left {
+    flex: 6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
 
-    .socialSignupWrap .naverLoginBtn {
-        background-image: url(//static.lotteon.com/p/member/assets/img/icon_easy_naver.svg)
-    }
+.login-right {
+    flex: 4;
+}
 
-    .socialSignupWrap .googleLoginBtn {
-        background-image: url(/static/images/member/google-img.png)
-    }
+.login-right__img {
+    width: 100%;
+    height:100%;
+    object-fit: contain;
+}
 
-    .loginButtonWithImage {
-        height: 100px;
-        /* 버튼 높이를 입력창과 동일하게 설정 */
-        width: 80px;
-        background-color: #ef2a23;
-        color: white;
-        font-size: 16px;
-        border-radius: 4px;
-        cursor: pointer;
-        float: right;
-    }
-
-    .loginImage {
-        width: 300px;
-        /* 이미지 너비 */
-        height: 300px;
-        /* 이미지 높이 */
-        margin-left: 70px;
-        /* 다른 요소와 간격 */
-        object-fit: contain;
-        /* 이미지 비율 유지 */
-    }
-
-    .section_input_loginForm {
-        width: 100%;
-        display: flex;
-        justify-content: space-evenly;
-    }
-
-    .loginFormWrapper {
-        max-height: 300px;
-        padding: 40px 0;
-        display: flex;
-        border-bottom: 2px solid #d8d8d8;
-    }
-
-    .login-left {
-        flex: 6;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-    }
-
-    .login-right {
-        flex: 4;
-    }
-
-    .login-right__img {
-        width: 100%;
-        height:100%;
-        object-fit: contain;
-    }
-
-    .awards-container {
-        height:100px;
-        display: flex;
-        justify-content: center;
-        gap: 12px;
-        padding: 16px 0;
-    }
+.awards-container {
+    height:100px;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    padding: 16px 0;
+}
 
 /* join */
 
@@ -205,7 +186,7 @@
 }
 
 .content-join {
-    padding: 20px;   
+    padding: 20px;
 }
 
 .gray-btn {
@@ -225,24 +206,10 @@
 }
 
 /* signup */
-body {
-    text-align: center;
-}
-
-/* wrapper를 중앙에 배치 */
-#wrapper {
-    width: 1020px;
-    margin: 0 auto; /* 가로 방향으로 중앙에 위치 */
-    text-align: left; /* 내부 텍스트는 왼쪽 정렬로 유지 */
-}
-
-.line{
-    width: 1020px;
-}
 
 .sighup{
     width: 1020px;
-    
+
 }
 .form-group {
     margin-bottom: 20px;
@@ -257,7 +224,7 @@ body {
     height: 105px;
     resize: none;
     margin-bottom: 10px;
-    background-color: #f0f0f0; 
+    background-color: #f0f0f0;
 }
 /* 체크박스와 레이블을 오른쪽으로 배치 */
 .checkbox-container {
@@ -286,64 +253,90 @@ body {
 }
 
 /* register */
-
-.line_rg{
- width: 600PX;   
-}
-
-.container {
-    width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-}
-form {
-    display: flex;
-    flex-direction: column;
-}
-.form-content {
-    display: flex;
-}
-.label-container {
-    width: 30%;
-    background-color: #f0f0f0; /* 연한 회색 배경 */
-    padding: 10px;
-    box-sizing: border-box;
-}
-label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 20px;
-}
-.input-container {
-    width: 65%;
-    padding: 10px;
-    box-sizing: border-box;
-}
-input[type="text"], input[type="password"], input[type="email"], input[type="tel"], input[type="search"] {
+.heighttable {
+    border-collapse: collapse;
+    border-spacing: 0;
     width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    box-sizing: border-box;
 }
-.gender {
-    margin-bottom: 10px;
+
+.heighttable tr {height: 47px;}
+
+.heighttable th,
+.heighttable td {
+    border-top: 0.4px solid #A6A6A6;
+    border-bottom: 0.4px solid #A6A6A6;
 }
-.gender label {
-    margin-right: 10px;
+
+.heighttable th {
+    background-color: #F2F2F2;
+    width: 143px;
 }
-input[type="radio"] {
-    margin-right: 5px;
+
+.heighttable td {
+    padding-left: 15px;
 }
-.submit-btn {
-    background-color: rgb(209, 38, 38);
+.modal-section {padding: 15px 22.5px 20px 22.5px;}
+.registerbuttondiv {
+    display: flex;
+    justify-content: center;
+}
+.registerbutton {
+    background-color: #ef2a23;
+    border: none;
+    width: 100%;
+    height: 40px;
     color: white;
-    padding: 10px;
-    margin-top: 20px;
+    cursor: pointer;
+
+}
+.user-section{
+    padding-top: 40px;
+    width: 650px;
+    text-align: center;
+    margin: 0 auto;
+}
+.user-section td{
+    text-align: left;
+}
+.user-section input[type="text"],
+.user-section input[type="date"],
+.user-section input[type="password"],
+.user-section select
+{
+    height: 30px;
+    line-height: 30px;
+    padding: 0 10px;
+    box-sizing: border-box;
+    border: 0.4px solid #555c63; /* 테두리 색상 */
+    border-radius: 5px; /* 둥근 모서리로 부드러운 느낌 */
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+.user-section input[type="text"]:focus,
+.user-section input[type="date"]:focus,
+.user-section input[type="password"]:focus,
+.user-section select:focus,
+.user-section textarea:focus{
+    outline: none; /* 기본 아웃라인 제거 */
+    border-color: gray; /* 포커스 시 테두리 색상 변경 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 포커스 시 그림자 강조 */
+    background-color: #ffffff; /* 포커스 시 배경 강조 */
+}
+.infobutton {
+    height: 30px;
+    width: 60px;
+    background-color: #343b4d;
+    color: white;
     border: none;
     cursor: pointer;
-    font-size: 16px;
+    border-radius: 5px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    line-height: 30px;
 }
-.submit-btn:hover {
-    background-color: darkred;
+#address1,
+#address2 {
+    width: 335px; /* 원하는 비율로 설정 (여기서는 100%로 설정해 부모의 전체 너비를 사용) */
+    box-sizing: border-box; /* padding이 너비에 포함되도록 설정 */
+
 }

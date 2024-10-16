@@ -13,31 +13,31 @@
 
 <body>
 
-    <header class="header">
-            <div class="header__top">
-                <div class="center header__top__nav">
+<header class="header">
+    <div class="header__top">
+        <div class="center header__top__nav">
 
-                    <a href="#" th:href="@{/member/login}">로그인</a>
-                    <a href="#" th:href="@{/member/join}">회원가입</a>
-                    <a href="#" th:href="@{/my/home(userId=${#authentication.principal.user.userId})}">마이페이지</a>
-                    <i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;장바구니
-                    </a>
-                    <a href="#" th:href="@{/member/logout}">로그아웃</a>
-                </div>
-            </div>
-            <div class="header__bot">
-                <div class="header__bot__wrapper center">
-                    <a class="logo" href="#" th:href="@{/}"><img class="logo__img" src="/static/images/header_logo.png"
-                            th:src="@{/images/header_logo.png}" alt="로고" /></a>
-                    <form class="search" action="/lotteon/product/search" method="get">
-                        <input class="search__input" type="text" name="keyword" />
-                        <!-- <input  type="hidden" name="cateCode" id="cateCodeInput" value=""> -->
-                        <button class="search__btn"><img width="18" class="search__btn__img"
-                                src="/static/images/search.svg" /></button>
-                    </form>
-                </div>
-            </div>
-    </header>
+            <a href="#" th:href="@{/member/login}">로그인</a>
+            <a href="#" th:href="@{/member/join}">회원가입</a>
+            <a href="#" th:href="@{/my/home(userId=${#authentication.principal.user.userId})}">마이페이지</a>
+            <i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;장바구니
+            </a>
+            <a href="#" th:href="@{/member/logout}">로그아웃</a>
+        </div>
+    </div>
+    <div class="header__bot">
+        <div class="header__bot__wrapper center">
+            <a class="logo" href="#" th:href="@{/}"><img class="logo__img" src="/static/images/header_logo.png"
+                                                         th:src="@{/images/header_logo.png}" alt="로고" /></a>
+            <form class="search" action="/lotteon/product/search" method="get">
+                <input class="search__input" type="text" name="keyword" />
+                <!-- <input  type="hidden" name="cateCode" id="cateCodeInput" value=""> -->
+                <button class="search__btn"><img width="18" class="search__btn__img"
+                                                 src="/static/images/search.svg" /></button>
+            </form>
+        </div>
+    </div>
+</header>
 
 
 <div class="main-join">
@@ -62,9 +62,9 @@
                     <a href="#" class="btn gray-btn">회원가입</a>
                 </div>
             </div>
-        
+
+        </div>
     </div>
-</div>
     <!-- 푸터영역 -->
     <footer class="footer">
         <ul class="footer__links">

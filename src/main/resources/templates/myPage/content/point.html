@@ -16,11 +16,11 @@
             </select>
             <div class="date-wrapper">
                 <div class="start-date-wrapper">
-                    <input type="text" id="startDate" class="start-date" readonly placeholder="시작 날짜 선택">
+                    시작날짜 : <input type="date" id="startDate" class="start-date" placeholder="시작 날짜 선택">
                 </div>
 
                 <div class="end-date-wrapper">
-                    <input type="text" id="endDate" class="end-date" readonly placeholder="종료 날짜 선택">
+                    종료날짜 : <input type="date" id="endDate" class="end-date" placeholder="종료 날짜 선택" >
                 </div>
             </div>
             <button onclick="searchOrders()">검색</button>
@@ -61,7 +61,7 @@
         <div class="pagingBox">
             <div class="pagingList">
                 <!-- 이전 버튼 -->
-                <a href="#" class="prev"><</a>
+                <a href="#" class="prev"></a>
 
                 <!-- 페이지 링크 -->
                 <a href="#">1</a>
@@ -75,74 +75,30 @@
             </div>
         </div>
         <script>
-            // 오늘 달로부터 5개월 전까지의 월 목록을 생성하는 함수
-            function generateMonthOptions() {
-                const select = document.getElementById('monthSelect');
-                const currentDate = new Date();
-                const currentMonth = currentDate.getMonth(); // 현재 월 (0부터 시작)
-                const currentYear = currentDate.getFullYear();
+            document.addEventListener('DOMContentLoaded', function() {
+                const today = new Date().toISOString().split('T')[0]; // 오늘 날짜
+                const startDateInput = document.getElementById('startDate');
+                const endDateInput = document.getElementById('endDate');
 
-                // 오늘로부터 5개월 전까지의 월 리스트 생성
-                for (let i = 0; i < 6; i++) {
-                    const date = new Date(currentYear, currentMonth - i);
-                    const year = date.getFullYear();
-                    const month = date.getMonth() + 1; // 0부터 시작하므로 +1
-                    const optionText = `${year}년 ${month}월`;
-                    const optionValue = `${year}-${month.toString().padStart(2, '0')}`;
-                    const option = document.createElement('option');
-                    option.value = optionValue;
-                    option.text = optionText;
-                    select.appendChild(option);
-                }
-            }
+                // 시작 날짜는 오늘 날짜 이전만 선택 가능하게 설정
+                startDateInput.setAttribute('max', today);
 
-            $(function () {
-                // 오늘 기준으로 최대 3년 전까지 선택 가능
-                let maxYear = moment().year(); // 현재 년도
-                let minYear = maxYear - 3; // 최대 3년 전까지 허용
+                startDateInput.addEventListener('change', function() {
+                    const selectedStartDate = new Date(this.value);
 
-                // 시작 날짜 선택
-                $('#startDate').daterangepicker({
-                    singleDatePicker: true,
-                    locale: {
-                        format: 'YYYY-MM-DD',
-                    },
-                    maxDate: new Date(), // 최대 날짜를 오늘로 설정
-                    autoApply: true,
-                    autoUpdateInput: false,
-                    showDropdowns: true,
-                    minYear: minYear,
-                    maxYear: maxYear,
-                }, function (start) {
-                    $('#startDate').val(start.format('YYYY-MM-DD'));
-                    $('#endDate').val(''); // 종료 날짜 초기화
+                    // 종료 날짜는 시작 날짜 이후부터 3년 내로 설정, 그리고 오늘 날짜를 넘을 수 없음
+                    const maxEndDate = new Date(selectedStartDate);
+                    maxEndDate.setFullYear(maxEndDate.getFullYear() + 3);
 
-                    // 종료 날짜 선택 창 설정
-                    $('#endDate').daterangepicker({
-                        singleDatePicker: true,
-                        locale: {
-                            format: 'YYYY-MM-DD',
-                        },
-                        minDate: moment(start).subtract(1, 'years'), // 시작 날짜로부터 1년 전까지만 선택 가능
-                        maxDate: start, // 최대 날짜는 시작 날짜로 설정
-                        autoApply: true,
-                        autoUpdateInput: false,
-                        showDropdowns: true,
-                    }, function (end) {
-                        $('#endDate').val(end.format('YYYY-MM-DD'));
-                    });
-                });
+                    const formattedMaxEndDate = maxEndDate.toISOString().split('T')[0];
+                    const minEndDate = this.value;
 
-                $('#monthSelect').on('change', function () {
-                    if (this.value) {
-                        $('#startDate').val(''); // 시작 날짜 초기화
-                        $('#endDate').val(''); // 종료 날짜 초기화
-                    }
+                    // 종료 날짜는 시작 날짜 이후부터 선택 가능하고, 오늘 날짜와 3년 후 날짜 중 더 이른 날짜까지만 선택 가능
+                    endDateInput.setAttribute('min', minEndDate);
+                    endDateInput.setAttribute('max', formattedMaxEndDate < today ? formattedMaxEndDate : today);
+                    endDateInput.removeAttribute('readonly'); // 종료 날짜 필드 활성화
                 });
             });
-            window.onload = function () {
-                generateMonthOptions(); // 오늘로부터 5개월 전까지의 목록 생성
-            };
         </script>
     </article>
 </section>
