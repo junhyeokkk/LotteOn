@@ -1,0 +1,64 @@
+<div class="company" th:fragment="lotteon">
+    <html xmlns:th="http://www.thymeleaf.org">
+    <link rel="stylesheet" th:href="@{/css/company.css}">
+    <div class="headContent" >
+        <div class="logoBox">
+            <a th:href="@{/}"><img th:src="@{/images/header_logo.png}" alt="로고" style="width: 185px;"/></a>
+        </div>
+
+        <div>
+            <a th:href="@{/company/index}">HOME</a>
+            <a th:href="@{/company/content/culture}">기업문화</a>
+            <a class="tabOn" th:href="@{/company/content/story}">소식과 이야기</a>
+            <a th:href="@{/company/content/recruit}">채용</a>
+            <a th:href="@{/company/content/media}">미디어</a>
+        </div>
+    </div>
+        <main>
+            <div class="contentHead" >롯데ON을 더 알고 싶다면!</div>
+
+            <div class="contentSub">우리의 다양한 이야기를 소개합니다</div>
+
+            <div class="storyNav">
+                <a th:href="@{/company/content/story}">전체보기</a>
+                <a th:href="@{/company/story/culture}">기업문화</a>
+                <a th:href="@{/company/story/interview}">인터뷰</a>
+                <a th:href="@{/company/story/recruit}">채용</a>
+                <a class="tabOn" th:href="@{/company/story/lotteon}">롯데ON</a>
+                <a th:href="@{/company/story/report}">보도자료</a>
+                <a th:href="@{/company/story/ESG}">ESG</a>
+            </div>
+            <div class="noticeForCard">
+                <a href="#">
+                    <img th:src="@{/images/company/Lotteon1.jpg}" alt="사진">
+                    <p>2024년 개인정보 중장기 목표</p>
+                    <span>롯데쇼핑e커머스 정보보호정책 공유</span>
+                </a>
+                <a href="#">
+                    <img th:src="@{/images/company/Lotteon2.jpg}" alt="사진">
+                    <p>롯데e커머스 뷰티 서비스 ‘온앤더뷰티’ 런칭</p>
+                    <span >온라인으로 프리미엄 뷰티 전문관 온앤더뷰티를 경험해 보세요!</span>
+                </a>
+                <a href="#">
+                    <img th:src="@{/images/company/Lotteon3.jpg}" alt="사진">
+                    <p>글로벌 1위의 소통 비결이 궁금하다면?</p>
+                    <span >Slack Tour 2022에 참가하여, 글로벌 소통 1위의 비결을 들어보세요.</span>
+                </a>
+                <a href="#">
+                    <img th:src="@{/images/company/Lotteon4.jpg}" alt="사진">
+                    <p>지구를 위한 이로온 캠페인!</p>
+                    <span>ESG경영?! 어렵지 않아요. 롯데ON에 참여하여 200년 후 지구를 생각하세요.</span>
+                </a>
+                <a href="#">
+                    <img th:src="@{/images/company/Lotteon5.jpg}" alt="사진">
+                    <p>도심 속의 마이크로풀필먼트</p>
+                    <span>퇴근길에 주문한 과일이, 바로배송된다구?</span>
+                </a>
+                <a href="#">
+                    <img th:src="@{/images/company/Lotteon6.jpg}" alt="사진">
+                    <p>롯데ON, 유통의 미래를 만들어갑니다.</p>
+                    <span >롯데ON에서 유통의 과거와 현재, 그리고 미래를 함께하세요.</span>
+                </a>
+            </div>
+        </main>
+</html>

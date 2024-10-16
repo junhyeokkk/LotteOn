@@ -16,16 +16,26 @@ public class PageController {
         return "company/index";
     }
 
-    @GetMapping("/company/layout/{group}/{cate}")
+    @GetMapping("/company/{group}/{cate}")
     public String index(@PathVariable String group, @PathVariable String cate, Model model){
 
-        log.info("컨트롤러 들어오니?");
-        log.info("ggggggggg" + group);
-        log.info(cate);
+        log.info("Controller accessed");
+        log.info("Group: " + group);
+        log.info("Category: " + cate);
+
+        // Add a conditional check for 'story' in cate or group
+        String category = "content"; // Default is content
+        if ("story".equalsIgnoreCase(cate) || "story".equalsIgnoreCase(group)) {
+            category = "story";
+        }
+
         model.addAttribute("group", group);
         model.addAttribute("cate", cate);
-
+        model.addAttribute("category", category); // Pass the determined category
 
         return "company/layout/company_layout";
     }
 }
+
+
+

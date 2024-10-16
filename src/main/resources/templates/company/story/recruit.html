@@ -1,0 +1,71 @@
+<div class="story" th:fragment="recruit">
+    <html xmlns:th="http://www.thymeleaf.org">
+    <link rel="stylesheet" th:href="@{/css/company.css}">
+    <div class="headContent" >
+        <div class="logoBox">
+            <a th:href="@{/}"><img th:src="@{/images/header_logo.png}" alt="로고" style="width: 185px;"/></a>
+        </div>
+
+        <div>
+            <a th:href="@{/company/index}">HOME</a>
+            <a th:href="@{/company/content/culture}">기업문화</a>
+            <a class="tabOn" th:href="@{/company/content/story}">소식과 이야기</a>
+            <a th:href="@{/company/content/recruit}">채용</a>
+            <a th:href="@{/company/content/media}">미디어</a>
+        </div>
+    </div>
+        <main>
+            <div class="contentHead" >롯데ON을 더 알고 싶다면!</div>
+
+            <div class="contentSub">우리의 다양한 이야기를 소개합니다</div>
+
+            <div class="storyNav">
+                <a th:href="@{/company/content/story}">전체보기</a>
+                <a th:href="@{/company/story/culture}">기업문화</a>
+                <a th:href="@{/company/story/interview}">인터뷰</a>
+                <a class="tabOn" th:href="@{/company/story/recruit}">채용</a>
+                <a th:href="@{/company/story/lotteon}">롯데ON</a>
+                <a th:href="@{/company/story/report}">보도자료</a>
+                <a th:href="@{/company/story/ESG}">ESG</a>
+            </div>
+
+            <div class="noticeForCard">
+                <a th:href="@{/}">
+                    <img th:src="@{/images/company/recruit1.jpg}" alt="사진">
+                    <p>2023년 IT개발 채용연계형 교육생을 모집합니다!</p>
+                    <span >롯데e커머스에서 IT개발직무 채용 연계형 교육생을 모집합니다!</span>
+                </a>
+                <a th:href="@{/}">
+                    <img th:src="@{/images/company/recruit2.jpg}" alt="사진">
+                    <p>롯데e커머스에는 교복처럼 입는 옷이 있다?!</p>
+                    <span>블라인드, 잡플래닛 등 인터넷 속 이야기들에 대해 가감없이 솔직하게 현직자가 직접 대답해 드립니다!</span>
+                </a>
+                <a th:href="@{/}">
+                    <img th:src="@{/images/company/recruit3.jpg}" alt="사진">
+                    <p>IT/UX 신입사원, 어떻게 입사했을까?</p>
+                    <span >밸런스 게임을 통해 알아본 인턴 최종 전환까지의 여정</span>
+                </a>
+                <a th:href="@{/}">
+                    <img th:src="@{/images/company/recruit4.jpg}" alt="사진">
+                    <p>IT개발 채용연계형 교육생을 모집합니다!</p>
+                    <span >롯데e커머스에서 IT개발직무 채용 연계형 교육생을 모집합니다!</span>
+                </a>
+                <a th:href="@{/}">
+                    <img th:src="@{/images/company/recruit5.jpg}" alt="사진">
+                    <p>메타버스 채용설명회에 초대합니다!</p>
+                    <span>롯데e커머스 채용이 궁금하다면?
+                        메타버스에서 만나요!</span>
+                </a>
+                <a th:href="@{/}">
+                    <img th:src="@{/images/company/recruit6.jpg}" alt="사진">
+                    <p>롯데e커머스 채용이 궁금해요!</p>
+                    <span >채용 담당자가 알려주는 롯데e커머스 채용 활용서</span>
+                </a>
+                <a th:href="@{/}">
+                    <img th:src="@{/images/company/recruit7.jpg}" alt="사진">
+                    <p>롯데ON에서 쇼핑 좀 해 본 인재를 찾습니다!</p>
+                    <span >롯데ON과 함께 성장하고 싶다면!</span>
+                </a>
+            </div>
+        </main>
+</html>

@@ -1,0 +1,74 @@
+<div class="story" th:fragment="culture">
+        <html xmlns:th="http://www.thymeleaf.org">
+
+        <!--내용 시작-->
+
+        <link rel="stylesheet" th:href="@{/css/company.css}">
+        <div class="headContent" >
+            <div class="logoBox">
+                <a th:href="@{/}"><img th:src="@{/images/header_logo.png}" alt="로고" style="width: 185px;"/></a>
+            </div>
+
+            <div>
+                <a th:href="@{/company/index}">HOME</a>
+                <a th:href="@{/company/content/culture}">기업문화</a>
+                <a class="tabOn" th:href="@{/company/content/story}">소식과 이야기</a>
+                <a th:href="@{/company/content/recruit}">채용</a>
+                <a th:href="@{/company/content/media}">미디어</a>
+            </div>
+        </div>
+
+        <main>
+            <div class="contentHead" >롯데ON을 더 알고 싶다면!</div>
+
+            <div class="contentSub">우리의 다양한 이야기를 소개합니다</div>
+
+
+
+            <div class="storyNav">
+                <a th:href="@{/company/content/story}">전체보기</a>
+                <a class="tabOn" th:href="@{/company/story/culture}">기업문화</a>
+                <a th:href="@{/company/story/interview}">인터뷰</a>
+                <a th:href="@{/company/story/recruit}">채용</a>
+                <a th:href="@{/company/story/lotteon}">롯데ON</a>
+                <a th:href="@{/company/story/report}">보도자료</a>
+                <a th:href="@{/company/story/ESG}">ESG</a>
+            </div>
+
+            <div class="noticeForCard">
+                <a th:href="@{/}">
+                    <img th:src="@{/images/company/culture1.jpg}" alt="사진">
+                    <p>롯데e커머스 사람들 시리즈 19</p>
+                    <span >8월 M.O.M 대상 최원준 님의 패션MD 이야기 함께 들어보아요😄</span>
+                </a>
+                <a href="#">
+                    <img th:src="@{/images/company/culture2.jpg}" alt="사진">
+                    <p>NEW-START Day!</p>
+                    <span >롯데ON이 새로운 공간에서 새롭게 출발합니다🙌🏻</span>
+                </a>
+                <a href="#">
+                    <img th:src="@{/images/company/culture3.jpg}" alt="사진">
+                    <p>Adieu 2023, Next Page 2024</p>
+                    <span >
+                        기업문화
+                        Adieu 2023, Next Page 2024
+                        롯데ON의 종무식과 취임식의 현장을 함께 살펴보아요!🎉</span>
+                </a>
+                <a href="#">
+                    <img th:src="@{/images/company/culture4.jpg}" alt="사진">
+                    <p>2022년 하반기 IT 신규입사자 1st Anniversary!</p>
+                    <span >2022년 하반기 IT 주니어 입사 1주년 기념 행사의 현장으로!</span>
+                </a>
+                <a href="#">
+                    <img th:src="@{/images/company/culture5.jpg}" alt="사진">
+                    <p>2023년 여가친화기업 선정</p>
+                    <span >롯데e커머스가 2023년 여가친화기업으로 선정되었어요🏆</span>
+                </a>
+                <a href="#">
+                    <img th:src="@{/images/company/culture6.jpg}" alt="사진">
+                    <p>주니어 팀장 타운홀 미팅</p>
+                    <span >열정 가득 주니어 팀장님들과 진행한 타운홀 미팅 함께 살펴보아요🙌🏻</span>
+                </a>
+            </div>
+        </main>
+</html>

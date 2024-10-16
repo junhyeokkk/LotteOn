@@ -120,6 +120,8 @@ main > div {
     font-size: 34px;
     line-height: 50px;
     font-weight: bold;
+    position: absolute;
+    top: 20px;
     color: white;
 }
 .blogMainText.show {
@@ -260,8 +262,8 @@ main > div {
 
 /* company-story */
 .contentHead{
-    margin-bottom: 0px;
-    font-size: 40px;
+    margin-bottom: 10px;
+    font-size: 30px;
 }
 
 

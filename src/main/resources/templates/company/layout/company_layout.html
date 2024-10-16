@@ -1,21 +1,40 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Title</title>
-
+  <link rel="stylesheet" th:href="@{/css/company.css}" />
 </head>
+
 <body>
-  <!-- header -->
-  <header th:replace="~{layout/header::header}"></header>
-  <!-- content -->
-  <th:block th:if="${group == 'company'}">
-    <th:block th:with="path='/company/' + ${cate}, fragment=${cate}">
+
+<!-- content -->
+
+<th:block th:switch="${group}">
+
+  <th:block th:case="'story'">
+    <th:block th:with="path='/company/story/' + ${cate}, fragment=${cate}">
       <th:replace th:with="path=${path}, fragment=${fragment}"
                   th:replace="~{${path}::${fragment}}"></th:replace>
     </th:block>
-  <!-- footer -->
-  <footer th:replace="~{layout/footer::footer}"></footer>
+  </th:block>
+
+
+  <th:block th:switch="${group}">
+  <th:block th:case="'content'">
+    <th:block th:with="path='/company/content/' + ${cate}, fragment=${cate}">
+      <th:replace th:with="path=${path}, fragment=${fragment}"
+                  th:replace="~{${path}::${fragment}}"></th:replace>
+    </th:block>
+  </th:block>
+
+
+
+</th:block>
+
+<!-- footer -->
+<footer th:replace="~{layout/footer1::footer}"></footer>
+
 </body>
 </html>

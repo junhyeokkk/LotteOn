@@ -1,9 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
+<div class="content" th:fragment="media">
+    <html xmlns:th="http://www.thymeleaf.org">
+    <link rel="stylesheet" th:href="@{/css/company.css}">
 <!--내용 시작-->
-<link rel="stylesheet" href="/css/company.css">
-<link rel="stylesheet" href="/static/css/footer.css" th:href="@{/css/footer.css}">
-<link rel="stylesheet" href="/css/footer.css">
+<div class="headContent" >
+    <div class="logoBox">
+        <a th:href="@{/}"><img th:src="@{/images/header_logo.png}" alt="로고" style="width: 185px;"/></a>
+    </div>
+
+    <div>
+        <a th:href="@{/company/index}">HOME</a>
+        <a th:href="@{/company/content/culture}">기업문화</a>
+        <a th:href="@{/company/content/story}">소식과 이야기</a>
+        <a th:href="@{/company/content/recruit}">채용</a>
+        <a class="tabOn" th:href="@{/company/content/media}">미디어</a>
+    </div>
+</div>
+
 
         <main>
 

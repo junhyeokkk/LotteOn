@@ -1,0 +1,61 @@
+<div class="story" th:fragment="report">
+    <html xmlns:th="http://www.thymeleaf.org">
+    <link rel="stylesheet" th:href="@{/css/company.css}">
+    <div class="headContent" >
+        <div class="logoBox">
+            <a th:href="@{/}"><img th:src="@{/images/header_logo.png}" alt="로고" style="width: 185px;"/></a>
+        </div>
+
+        <div>
+            <a th:href="@{/company/index}">HOME</a>
+            <a th:href="@{/company/content/culture}">기업문화</a>
+            <a class="tabOn" th:href="@{/company/content/story}">소식과 이야기</a>
+            <a th:href="@{/company/content/recruit}">채용</a>
+            <a th:href="@{/company/content/media}">미디어</a>
+        </div>
+    </div>
+        <main>
+            <div class="contentHead" >롯데ON을 더 알고 싶다면!</div>
+
+            <div class="contentSub">우리의 다양한 이야기를 소개합니다</div>
+
+            <div class="storyNav">
+                <a th:href="@{/company/content/story}">전체보기</a>
+                <a th:href="@{/company/story/culture}">기업문화</a>
+                <a th:href="@{/company/story/interview}">인터뷰</a>
+                <a th:href="@{/company/story/recruit}">채용</a>
+                <a th:href="@{/company/story/lotteon}">롯데ON</a>
+                <a class="tabOn" th:href="@{/company/story/report}">보도자료</a>
+                <a th:href="@{/company/story/ESG}">ESG</a>
+            </div>
+
+            <div class="noticeForCard">
+                <a href="#">
+                    <img th:src="@{/images/company/report1.jpg}" alt="사진">
+                    <p>롯데온, ‘갤럭시워치 FE 골프패키지’ 선착순 한정 판매</p>
+                    <span >롯데온이 18일 ‘갤럭시워치 FE 골프패키지’ 출시를 기념해 300명의 고객에게만 선착순</span>
+                </a>
+                <a href="#">
+                    <img th:src="@{/images/company/report2.jpg}" alt="사진">
+                    <p>‘대명아임레디’ 라이프 서비스 론칭 기념 단독 혜택!</p>
+                    <span >롯데온이 상품 다변화를 통해 라이프스타일 플랫폼으로 도약에 나선다.</span>
+                </a>
+                <a href="#">
+                    <img th:src="@{/images/company/report3.png}" alt="사진">
+                    <p>‘릴레이 뷰티 데이즈’서 ‘트렌드 뷰티’ 최대 혜택!</p>
+                    <span >럭셔리에서 트렌드까지 뷰티 영역 확대 나선 롯데온!</span>
+                </a>
+                <a href="#">
+                    <img th:src="@{/images/company/report4.jpeg}" alt="사진">
+                    <p>롯데온 ‘복날위크’서 무더위 날리고 기력 보충하세요!</p>
+                    <span >“복날 몸보신은 고기 VS 간편하게 챙기는 건강식품?”</span>
+                </a>
+                <a href="#">
+                    <img th:src="@{/images/company/report5.jpg}" alt="사진">
+                    <p>AI 기반 개인화 추천형 광고 솔루션 ‘스마트매출업’ 론칭!</p>
+                    <span >“파트너사 마케팅 돕고, 고객 쇼핑 만족도 높인다!”</span>
+                </a>
+              
+            </div>
+        </main>
+</html>
