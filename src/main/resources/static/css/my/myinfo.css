@@ -1,5 +1,6 @@
 #wrapper {
-    width: 1080px;
+    width: 1200px; /* 원하는 너비로 설정 */
+    margin: 0 auto; /* 가운데 정렬 */
 }
 
 /* 나의 쇼핑정보 */
@@ -282,7 +283,7 @@
 .myinfoSearch input,
 .myinfoSearch button,
 .myinfoSearch a {
-    width: 70px;
+    width: 60px;
     height: 35px;
     padding: 5px 0px;
     border: 1px solid #ccc;
@@ -435,6 +436,7 @@ table.widthtable tr:last-child td {
 .memberLeave {
     padding-top: 14px;
     text-align: right;
+    padding-right: 120px;
 }
 
 .memberLeave a {
