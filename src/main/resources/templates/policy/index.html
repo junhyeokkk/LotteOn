@@ -14,8 +14,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LotteON 서비스 이용약관</title>
 
-
-
 </head>
 <script>
     function toggleContent(element) {
@@ -34,10 +32,8 @@
 
         <body>
 
-
-
-
         <main>
+
             <h1>LotteON 서비스 이용약관</h1>
 
             <div class="terms-tabs">
@@ -50,35 +46,24 @@
                 <a th:href="@{/policy/finance}">
                     <img th:src="@{/images/policy/termsicon3.png}" alt="전자금융 약관"/>
                 </a>
-                <a th:href="@{/policy/privacy}">
-                    <img th:src="@{/images/policy/termsicon4.png}" alt="개인정보 처리방침"/>
-                </a>
                 <a th:href="@{/policy/location}">
-                    <img th:src="@{/images/policy/termsicon5.png}" alt="위치정보 약관"/>
+                    <img th:src="@{/images/policy/termsicon4.png}" alt="위치정보 약관"/>
                 </a>
+                <a th:href="@{/policy/privacy}">
+                    <img th:src="@{/images/policy/termsicon5.png}" alt="개인정보 처리방침"/>
+                </a>
+
             </div>
+
 
             <section class="terms-section">
                 <div class="terms-title" onclick="toggleContent(this)">
-                    <h3>위치정보 이용약관</h3>
+                    <h3>[[${terms}]]</h3>
                     <span class="toggle-button">펼치기</span>
                 </div>
                 <div class="terms-content" style="display: none;">
-                    <h3>제 2 조 (약관의 명시, 효력과 개정)</h3>
-                    <p>[[${terms}]]</p>
-
-
-                    <h3>제 2 조 (약관의 명시, 효력과 개정)</h3>
-                    <p>약관 내용이 계속됩니다...</p>
-
-                    <h3>제 3 조</h3>
-                    <p>약관 내용이 계속됩니다...</p>
-
-                    <h3>제 4 조</h3>
-                    <p>약관 내용이 계속됩니다...</p>
-
-                    <h3>제 5 조</h3>
-                    <p>약관 내용이 계속됩니다...</p>
+                    <h3>제 1 조 (목적)</h3>
+                     <p>[[${termsDetail}]]</p>
             </section>
         </main>
 

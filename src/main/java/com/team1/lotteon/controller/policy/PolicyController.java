@@ -18,26 +18,33 @@ public class PolicyController {
     @GetMapping("/policy/{cate}")
     public String terms(@PathVariable String cate, Model model) {
         String buy;
+        String termsDetail;
 
         // switch-case로 카테고리별 약관 설정
         switch (cate) {
             case "buyer":
-                buy = "구매이용약관";
+                buy = "구매회원 이용약관";
+                termsDetail = "구매회원 이용약관의 세부 내용입니다...";
                 break;
             case "seller":
-                buy = "판매회원약관";
+                buy = "판매회원 이용약관";
+                termsDetail = "판매회원 이용약관의 세부 내용입니다...";
                 break;
             case "finance":
-                buy = "전자금융약관";
+                buy = "전자금융거래 이용약관";
+                termsDetail = "전자금융거래에 대한 세부 내용입니다...";
                 break;
             case "privacy":
-                buy = "개인정보처리";
+                buy = "개인정보처리방침";
+                termsDetail = "개인정보처리방침의 세부 내용입니다...";
                 break;
             case "location":
-                buy = "위치정보약관";
+                buy = "위치정보 이용약관";
+                termsDetail = "위치정보 이용약관의 세부 내용입니다...";
                 break;
             default:
-                buy = "기본 약관"; // 카테고리가 일치하지 않을 때 기본값 설정
+                buy = "기본 약관";
+                termsDetail = "기본 약관의 세부 내용입니다...";
                 break;
         }
 
@@ -46,7 +53,8 @@ public class PolicyController {
 
         // 모델에 데이터 추가
         model.addAttribute("terms", buy);
+        model.addAttribute("termsDetail", termsDetail);
 
-        return "/policy/index";
+        return "policy/index";
     }
 }

@@ -23,15 +23,15 @@ public class PageController {
         log.info("Group: " + group);
         log.info("Category: " + cate);
 
-        // Add a conditional check for 'story' in cate or group
-        String category = "content"; // Default is content
+
+        String category = "content";
         if ("story".equalsIgnoreCase(cate) || "story".equalsIgnoreCase(group)) {
             category = "story";
         }
 
         model.addAttribute("group", group);
         model.addAttribute("cate", cate);
-        model.addAttribute("category", category); // Pass the determined category
+        model.addAttribute("category", category);
 
         return "company/layout/company_layout";
     }
