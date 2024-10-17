@@ -4,3 +4,5 @@ spring:
     profiles:
         active: dev
         include: local
+    thymeleaf:
+        prefix: classpath:/templates/

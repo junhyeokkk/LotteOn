@@ -14,7 +14,7 @@
 <th:block th:switch="${group}">
 
   <th:block th:case="'story'">
-    <th:block th:with="path='/company/story/' + ${cate}, fragment=${cate}">
+    <th:block th:with="path='company/story/' + ${cate}, fragment=${cate}">
       <th:replace th:with="path=${path}, fragment=${fragment}"
                   th:replace="~{${path}::${fragment}}"></th:replace>
     </th:block>
@@ -23,7 +23,7 @@
 
   <th:block th:switch="${group}">
   <th:block th:case="'content'">
-    <th:block th:with="path='/company/content/' + ${cate}, fragment=${cate}">
+    <th:block th:with="path='company/content/' + ${cate}, fragment=${cate}">
       <th:replace th:with="path=${path}, fragment=${fragment}"
                   th:replace="~{${path}::${fragment}}"></th:replace>
     </th:block>
