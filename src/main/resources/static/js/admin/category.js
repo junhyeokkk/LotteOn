@@ -66,7 +66,6 @@ document.querySelectorAll('.category-header').forEach(header => {
 });
 
 
-
 // 페이지 로드 시 서브 카테고리 숨기기
 document.querySelectorAll('.subcategory-list').forEach(list => list.style.display = 'none');
 
@@ -134,7 +133,6 @@ document.querySelectorAll('.add-btn').forEach(addBtn => {
         addSubcategorySection.style.display = addSubcategorySection.style.display === 'none' ? 'block' : 'none';
     });
 });
-
 
 
 // 각 2차 카테고리 추가 버튼에 클릭 이벤트 추가

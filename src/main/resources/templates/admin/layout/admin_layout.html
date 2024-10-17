@@ -56,6 +56,15 @@
       </th:block>
     </th:block>
 
+    <!-- 주문관리 -->
+    <th:block th:case="'order'">
+      <th:block th:with="path='/admin/order/' + ${cate}, fragment=${cate}">
+        <th:replace th:with="path=${path}, fragment=${fragment}"
+                    th:replace="~{${path}::${fragment}}">
+        </th:replace>
+      </th:block>
+    </th:block>
+
     <!-- 고객센터 -->
     <th:block th:case="'cs'">
       <th:block th:with="path='/admin/cs/' + ${cate1}+ '/' + ${cate2}, fragment=${cate2}">

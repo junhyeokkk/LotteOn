@@ -122,6 +122,7 @@ main > .content {
     float: right;
     width: 950px;
     height: auto;
+    margin-bottom: 20px;
 }
 
 /*사이드바*/

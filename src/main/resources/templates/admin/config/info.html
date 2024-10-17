@@ -6,138 +6,153 @@
             <p>HOME > 환경설정 > <b>기본설정</b></p>
         </div>
         <div class="content">
-            <section>
-                <article class="version">
-                    <h3>최근주문내역</h3>
-                    <div class="adminp">
-                        <p>현재 사이트 버전 입니다.</p>
-                    </div>
-
-                    <table class="adminwidthtable">
+            <div class="config_info">
+                <!-- 최근 주문내역 -->
+                <div class="section">
+                    <h2>최근주문내역</h2>
+                    <p>현재 사이트 버전입니다.</p>
+                    <table class="form-table">
                         <tr>
-                            <th>사이트 버전</th>
+                            <td><label>사이트 버전</label></td>
                             <td>0.0.1-RELEASE</td>
                         </tr>
                     </table>
-                </article>
-                <article class="site">
-                    <h3>사이트</h3>
-                    <div class="adminp">
-                        <p>브라우저 탭, 헤더 및 푸터 노출 정보 입니다.</p>
-                    </div>
-                    <table class="adminwidthtable">
+                </div>
+
+                <!-- 사이트 -->
+                <div class="section">
+                    <h2>사이트</h2>
+                    <p>브라우저 탭, 헤더 및 푸터 노출 정보입니다.</p>
+                    <table class="form-table">
                         <tr>
-                            <th>제목</th>
-                            <td><input type="text" placeholder="롯데 ON"></td>
+                            <td><label>제목</label></td>
+                            <td><input type="text" name="site_name" value="롯데 ON"></td>
                         </tr>
                         <tr>
-                            <th>부제</th>
-                            <td><input type="text" placeholder="더나은쇼핑을위한선택"></td>
+                            <td><label>부제</label></td>
+                            <td><input type="text" name="site_sub_name" value="더 나은 쇼핑을 위한 선택"></td>
                         </tr>
                     </table>
-                </article>
-                <article class="logo">
-                    <h3>로고</h3>
-                    <div class="adminp">
-                        <p>브라우저 탭, 헤더 및 푸터 노출 로고 입니다.</p>
+                    <div class="submit-section">
+                        <button type="submit" class="submit-btn">수정하기</button>
                     </div>
+                </div>
 
-                    <table class="adminwidthtable">
+                <!-- 로고 -->
+                <div class="section">
+                    <h2>로고</h2>
+                    <p>브라우저 탭, 헤더 및 푸터 노출 로고입니다.</p>
+                    <table class="form-table">
                         <tr>
-                            <th>헤더 로고</th>
-                            <td><input type="file">크기 370x76권장</td>
+                            <td><label>헤더 로고</label></td>
+                            <td>
+                                <input type="file" id="file1" name="file1" style="display: none; " onchange="updateFileName(this, 'file1-span')">
+                                <label for="file1" class="file-label">파일 선택</label>
+                                <span id="file1-span" style="margin-right: 10px;">선택된 파일 없음</span>
+                                크기 190 × 190   상품 목록에 출력될 이미지 입니다.
+                            </td>
                         </tr>
                         <tr>
-                            <th>푸터 로고</th>
-                            <td><input type="file">크기 155x36권장</td>
+                            <td><label>푸터 로고</label></td>
+                            <td>
+                                <input type="file" id="file2" name="file2" style="display: none;" onchange="updateFileName(this, 'file2-span')">
+                                <label for="file2" class="file-label">파일 선택</label>
+                                <span id="file2-span" style="margin-right: 10px;">선택된 파일 없음</span>
+                                크기 230 × 230   상품 메일에 출력 될 이미지 입니다.
+                            </td>
                         </tr>
                         <tr>
-                            <th>파비콘</th>
-                            <td><input type="file">크기 32x32권장</td>
+                            <td><label>파비콘</label></td>
+                            <td>
+                                <input type="file" id="file3" name="file3" style="display: none;" onchange="updateFileName(this, 'file3-span')">
+                                <label for="file3" class="file-label">파일 선택</label>
+                                <span id="file3-span" style="margin-right: 10px;">선택된 파일 없음</span>
+                                크기 456 × 456   상품 상세 페이지 출력 될 이미지 입니다.
+                            </td>
                         </tr>
                     </table>
-                </article>
-                <article class="company_info">
-                    <h3>기업 정보</h3>
-                    <div class="adminp">
-                        <p>푸터에 노출되는 기업 정보 입니다.</p>
+                    <div class="submit-section">
+                        <button type="submit" class="submit-btn">수정하기</button>
                     </div>
+                </div>
 
-                    <form action="#" method="POST">
-                        <table class="adminwidthtable">
-                            <tr>
-                                <th>상호명</th>
-                                <td><input type="text" name="company_name" placeholder="롯데쇼핑주식회사"></td>
-                            </tr>
-                            <tr>
-                                <th>대표이사</th>
-                                <td><input type="text" name="ceo_name" placeholder="홍길동"></td>
-                            </tr>
-                            <tr>
-                                <th>사업자등록번호</th>
-                                <td><input type="text" name="business_number" placeholder="123-12-12345"></td>
-                            </tr>
-                            <tr>
-                                <th>통신판매업신고</th>
-                                <td><input type="text" name="license_number" placeholder="2024-서울강남-1234"></td>
-                            </tr>
-                            <tr>
-                                <th>기본주소</th>
-                                <td><input type="text" name="base_address" placeholder="서울특별시강남구테헤란로 507"></td>
-                            </tr>
-                            <tr>
-                                <th>상세주소</th>
-                                <td><input type="text" name="detail_address" placeholder="(상섬동, WeWork 빌딩) 7층"></td>
-                            </tr>
-                        </table>
-                        <button type="submit">수정하기</button>
-                    </form>
-                </article>
-                <article class="csinfo">
-                    <h3>고객센터 정보</h3>
-                    <div class="adminp">
-                        <p>푸터에 노출되는 고객센터 정보 입니다.</p>
+                <!-- 기업정보 -->
+                <div class="section">
+                    <h2>기업 정보</h2>
+                    <p>푸터에 노출되는 기업 정보입니다.</p>
+                    <table class="form-table">
+                        <tr>
+                            <td><label>상호명</label></td>
+                            <td><input type="text" name="company_name" value="롯데쇼핑주식회사"></td>
+                        </tr>
+                        <tr>
+                            <td><label>대표이사</label></td>
+                            <td><input type="text" name="company_ceo" value="홍길동"></td>
+                        </tr>
+                        <tr>
+                            <td><label>사업자등록번호</label></td>
+                            <td><input type="text" name="company_num" value="123-12-12345"></td>
+                        </tr>
+                        <tr>
+                            <td><label>통신판매업신고</label></td>
+                            <td><input type="text" name="company_phone" value="2024-서울강남-1234"></td>
+                        </tr>
+                        <tr>
+                            <td><label>기본주소</label></td>
+                            <td><input type="text" name="company_addr1" value="서울특별시 강남구 테헤란로 507"></td>
+                        </tr>
+                        <tr>
+                            <td><label>상세주소</label></td>
+                            <td><input type="text" name="company_addr2" value="(삼성동, WeWork 빌딩) 7층"></td>
+                        </tr>
+                    </table>
+                    <div class="submit-section">
+                        <button type="submit" class="submit-btn">수정하기</button>
                     </div>
+                </div>
 
-                    <form action="#" method="POST">
-                        <table class="adminwidthtable">
-                            <tr>
-                                <th>전화번호</th>
-                                <td><input type="text" name="company_hp" placeholder="02-1234-5678"></td>
-                            </tr>
-                            <tr>
-                                <th>업무시간</th>
-                                <td><input type="text" name="company_work_time" placeholder="평일 09:00 ~ 18:00"></td>
-                            </tr>
-                            <tr>
-                                <th>이메일</th>
-                                <td><input type="text" name="company_email" placeholder="lotteon@lotte.net"></td>
-                            </tr>
-                            <tr>
-                                <th>전자금융거래 분쟁담당</th>
-                                <td><input type="text" name="EFT_number" placeholder="1234-1234"></td>
-                            </tr>
-                        </table>
-                        <button type="submit">수정하기</button>
-                    </form>
-                </article>
-                <article class="admincopyright">
-                    <h3>카피라이트</h3>
-                    <div class="adminp">
-                        <p>푸터에 노출되는 카피라이트 정보 입니다.</p>
+                <!-- 고객센터 정보 -->
+                <div class="section">
+                    <h2>고객센터 정보</h2>
+                    <p>푸터에 노출되는 고객센터 정보입니다.</p>
+                    <table class="form-table">
+                        <tr>
+                            <td><label>전화번호</label></td>
+                            <td><input type="text" name="cs_phone" value="롯데쇼핑주식회사"></td>
+                        </tr>
+                        <tr>
+                            <td><label>업무시간</label></td>
+                            <td><input type="text" name="time" value="홍길동"></td>
+                        </tr>
+                        <tr>
+                            <td><label>이메일</label></td>
+                            <td><input type="text" name="email" value="123-12-12345"></td>
+                        </tr>
+                        <tr>
+                            <td><label>전자금융거래 분쟁담당</label></td>
+                            <td><input type="text" name="act" value="2024-서울강남-1234"></td>
+                        </tr>
+                    </table>
+                    <div class="submit-section">
+                        <button type="submit" class="submit-btn">수정하기</button>
                     </div>
+                </div>
 
-                    <form action="#" method="POST">
-                        <table class="adminwidthtable">
-                            <tr>
-                                <th>카피라이트</th>
-                                <td><input type="text" name="company_hp" placeholder="Copyright LotteON. All rights reserved"></td>
-                            </tr>
-                        </table>
-                        <button type="submit">수정하기</button>
-                    </form>
-                </article>
-            </section>
+                <!-- 카피라이트 정보 -->
+                <div class="section">
+                    <h2>카피라이트 정보</h2>
+                    <p>푸터에 노출되는 카피라이트 정보입니다.</p>
+                    <table class="form-table">
+                        <tr>
+                            <td><label>카피라이트</label></td>
+                            <td><input type="text" name="copyright" value="Copyright®LotteOn. All rights reserved"></td>
+                        </tr>
+                    </table>
+                    <div class="submit-section">
+                        <button type="submit" class="submit-btn">수정하기</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

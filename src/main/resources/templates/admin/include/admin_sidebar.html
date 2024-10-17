@@ -6,7 +6,8 @@
         <li><a th:href="@{/admin/layout/config/info}" class="info">기본환경정보</a></li>
         <li><a th:href="@{/admin/layout/config/banner}" class="banner">배너관리</a></li>
         <li><a th:href="@{/admin/layout/config/policy}" class="policy">약관관리</a></li>
-        <li><a th:href="@{/admin/layout/config/version}" class="version">버전이력</a></li>
+        <li><a th:href="@{/admin/layout/config/category}" class="category">카테고리</a></li>
+        <li><a th:href="@{/admin/layout/config/version}" class="version">버전관리</a></li>
       </ol>
     </li>
     <li>
@@ -27,16 +28,15 @@
       <a href="#"><i class="fas fa-box-open" aria-hidden="true"></i>상품관리</a>
       <ol class="product">
         <li><a th:href="@{/admin/layout/product/list}" class="list">상품현황</a></li>
-        <li><a href="#" class="register">상품등록</a></li>
-        <li><a th:href="@{/admin/layout/product/category}" class="category">카테고리</a></li>
+        <li><a th:href="@{/admin/layout/product/register}" class="register">상품등록</a></li>
       </ol>
     </li>
     <li>
       <a href="#"><i class="fa fa-credit-card" aria-hidden="true"></i>주문관리</a>
-      <ol>
-        <li><a href="#">주문현황</a></li>
+      <ol class="order">
+        <li><a th:href="@{/admin/layout/order/list}" class="list">주문현황</a></li>
         <li><a href="#">매출현황</a></li>
-        <li><a href="#">배송관리</a></li>
+        <li><a th:href="@{/admin/layout/order/delivery}" class="delivery">배송관리</a></li>
       </ol>
     </li>
     <li>
