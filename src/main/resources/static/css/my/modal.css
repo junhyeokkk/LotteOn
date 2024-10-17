@@ -12,7 +12,7 @@
 }
 
 /* 모달별 컨텐츠 스타일 */
-.content{
+.modalcontent{
     background-color: #fefefe;
     margin: 15% auto;
     border: 1px solid #888;
