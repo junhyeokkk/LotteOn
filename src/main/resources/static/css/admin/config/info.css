@@ -1,71 +1,171 @@
-/* 작업한 css */
-.adminp {
-    height: 40px;
+/* Main content */
+.dashboard {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.content_header {
     display: flex;
-    align-items: center; /* 세로 중앙 정렬 */
-    background-color: #F2F2F2;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+    border-bottom: 1px solid #c0c0c0;
 }
-.adminp p {
-    width: 100%; /* p 태그가 가로로 꽉 차도록 설정 */
-    padding-left: 10px; /* 텍스트에 약간의 좌측 padding 추가 */
+
+.content_header h1 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
 }
-.adminwidthtable {
-    width: 100%;
+
+.content_header p {
+    color: #888;
+}
+
+.operation-status, .order-status {
+    margin-top: 20px;
+}
+
+p {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 10px;
+}
+
+.section {
+    margin-bottom: 30px;
+}
+
+h2 {
+    font-size: 20px;
+    color: black;
+    font-weight: bold;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #2c3e50;
+    padding-bottom: 5px;
+}
+
+.config_info {
     margin-top: 10px;
-    border-top: 0.4px solid #A6A6A6;
-    border-bottom: 0.4px solid #A6A6A6;
+}
+
+.form-table {
+    width: 100%;
     border-collapse: collapse;
+}
+
+.form-table tr {
+    border-bottom: 1px dotted #2c3e50;
+}
+
+.form-table td {
+    padding: 10px;
+}
+
+label , strong{
+    font-size: 13px;
+    font-family: 'Arial', sans-serif;
+}
+
+
+.submit-section {
+    margin-top: 30px; /* Increase space below the submit button */
+}
+
+.form-table tr:nth-of-type(1) > td:nth-of-type(1) {
+    border-top: 1px solid #46667c;
+}
+
+.form-table tr:nth-of-type(1) > td:nth-of-type(2) {
+    border-top: 1px dotted #46667c;
+}
+
+.form-table td:first-child {
+    width: 25%;
+    background-color: #46667c; /* Simple dark background for title cells */
+    color: #ecf0f1;
     text-align: center;
 }
-.adminwidthtable th {
-    border-top: 0.4px solid #A6A6A6;
-    background-color: #DCE6F2;
-    color: black;
-    height: 40px;
-    width: 125px;
-}
-.csinfo .adminwidthtable th {
-    border-top: 0.4px solid #A6A6A6;
-    background-color: #DCE6F2;
-    color: black;
-    height: 40px;
-    width: 185px;
-}
-.adminwidthtable td {
-    border-top: 0.4px solid #A6A6A6;
+
+/* Input Fields Styling */
+input[type="text"],
+select {
+    width: 80%;
     padding: 10px;
-    text-align: left;
-}
-.content input[type="text"]{
-    height: 30px;
-    width: 250px;
-}
-.company_info {
-    position: relative;
-}
-.company_info .adminwidthtable tr:nth-child(5) td input {
-    width: 370px;
-}
-.company_info .adminwidthtable tr:nth-child(6) td input {
-    width: 370px;
-}
-.admincopyright .adminwidthtable td input{
-    width: 370px;
-
-}
-.content form {
-    position: relative;
+    border: 1px solid #7f8c8d; /* Enhanced border */
+    border-radius: 4px;
+    color: #2b3335;
+    font-family: 'Arial', sans-serif; /* Modern font */
+    font-size: 14px; /* Adjust font size */
+    transition: border-color 0.3s; /* Smooth transition for focus effect */
 }
 
-.content button {
-    float: right;
-    background-color: #8EB4E3;
-    color: white;
-    height: 40px;
-    width: 100px;
+input[type="text"]:focus,
+select:focus {
+    border-color: #2ecc71; /* Change color on focus */
+    outline: none;
+}
+
+/* File Label Styling */
+.file-label {
+    background-color: #46667c; /* Button background color */
     border: none;
-    border-radius: 6px;
+    padding: 10px 15px;
+    color: #ecf0f1; /* Text color */
     cursor: pointer;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: background-color 0.3s;
+    margin-bottom: 5px; /* Space below the button */
+    display: inline-block; /* Ensure proper spacing and alignment */
+}
+
+.file-label:hover {
+    background-color: #34495e; /* Darker color on hover */
+}
+
+/* Button Styling */
+button[type="button"],
+button[type="submit"] {
+    background-color: #46667c;
+    border: none;
+    padding: 10px 15px;
+    color: #ecf0f1;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+button[type="button"]:hover,
+button[type="submit"]:hover {
+    background-color: #3b556f;
+}
+
+.submit-section {
+    margin-top: 30px;
+    margin-bottom: 20px;
+    text-align: right;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #7f8c8d;
+    border-radius: 4px;
+    background-color: #34495e;
+    color: #ecf0f1;
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+}
+
+@media (max-width: 768px) {
+    .form-table td:first-child {
+        width: 100%;
+    }
+
+    .form-table td {
+        display: block;
+        width: 100%;
+    }
 }

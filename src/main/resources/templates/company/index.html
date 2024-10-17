@@ -1,8 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<!--내용 시작-->
-<link rel="stylesheet" href="/static/css/company.css">
-<div class="content">
+<div class="company" th:fragment="index">
+    <html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/company.css}"/>
+
+</head>
+
+
     <script>
         window.onload = function () {
             const blogMainText = document.getElementsByClassName('blogMainText')[0];
@@ -79,19 +84,19 @@
     </script>
     <div class="headContent" >
         <div class="logoBox">
-            <a th:href="@{/}"><img th:src="@{/images/header_logo.png}" alt="로고" style="width: 185px;"/></a>
+            <a th:href="@{/static}"><img th:src="@{/images/header_logo.png}" alt="로고" style="width: 185px;"/></a>
         </div>
 
         <div>
-            <a th:href="@{/company/index}">HOME</a>
-            <a class="tabOn" th:href="@{/company/culture}">기업문화</a>
-            <a th:href="@{/company/story}">소식과 이야기</a>
-            <a th:href="@{/company/recruit}">채용</a>
-            <a th:href="@{/company/media}">미디어</a>
+            <a class="tabOn" th:href="@{/company/index}">HOME</a>
+            <a th:href="@{/company/content/culture}">기업문화</a>
+            <a th:href="@{/company/content/story}">소식과 이야기</a>
+            <a th:href="@{/company/content/recruit}">채용</a>
+            <a th:href="@{/company/content/media}">미디어</a>
         </div>
     </div>
-   
-      
+
+
         <div class="companyLogo">
             <div class="blogMainImage">
 
@@ -119,7 +124,7 @@
                 <span class="sloganNext" onclick="sloganNext()"></span>
                 <div class="movingSloganBox">
                     <div>
-                        <img src="/images/company/compnayHome1.png">
+                        <img th:src="@{/images/company/compnayHome1.png}">
                         <p>
                             고객이 원하고 만족하는<br>서비스를 만들어요
                         </p>
@@ -129,7 +134,7 @@
                             새로운 서비스를 만들어가고 있어요.</p>
                     </div>
                     <div>
-                        <img src="/images/company/compnayHome2.JPG">
+                        <img th:src="@{/images/company/compnayHome2.JPG}">
                         <p>
                             하이앤드테크로 온/오프라인<br>시너지를 만들어요
                         </p>
@@ -139,7 +144,7 @@
                             고객들에게 온-오프라인을 넘나드는 새로운 쇼핑 경험을 드려요.</p>
                     </div>
                     <div>
-                        <img src="/images/company/compnayHome3.JPG">
+                        <img th:src="@{/images/company/compnayHome3.JPG}">
                         <p>
                             함께하는 성장,.<br>세상을 더 이롭게 만들어요
                         </p>
@@ -157,28 +162,28 @@
                 <div>
                     <div class="blogTitle">
                         <p>2024.04</p>
-                        <a href="/company/story">오늘 주문하면, 내일 도착!! '내일온(ON)다' 론칭!</a>
+                        <a th:href="@{/company/story}">오늘 주문하면, 내일 도착!! '내일온(ON)다' 론칭!</a>
                     </div>
                     <span class="blogBtn">&#5125;</span>
                 </div>
                 <div>
                     <div class="blogTitle">
                         <p>2024.04</p>
-                        <a href="/company/story">롯데 4천만 회원과 계열사 혜택이 연결되는 '롯데온세상'!</a>
+                        <a th:href="@{/company/story}">롯데 4천만 회원과 계열사 혜택이 연결되는 '롯데온세상'!</a>
                     </div>
                     <span class="blogBtn">&#5125;</span>
                 </div>
                 <div>
                     <div class="blogTitle">
                         <p>2024.04</p>
-                        <a href="/company/story">'온앤더키즈 1주년 파티'서 1주년 성과 기념 역대 최대 혜택!</a>
+                        <a th:href="@{company/story}">'온앤더키즈 1주년 파티'서 1주년 성과 기념 역대 최대 혜택!</a>
                     </div>
                     <span class="blogBtn">&#5125;</span>
                 </div>
                 <div>
                     <div class="blogTitle">
                         <p>2024.04</p>
-                        <a href="company/story">2주년 성과 자축하는 '온앤더뷰티 2주년 생일파티' 개최!</a>
+                        <a th:href="@{company/story}">2주년 성과 자축하는 '온앤더뷰티 2주년 생일파티' 개최!</a>
                     </div>
                     <span class="blogBtn">&#5125;</span>
                 </div>
@@ -190,8 +195,9 @@
             </div>
 
             <div class="companyHistory">
-                <img src="/images/company/기업블로그.png">
+                <img th:src="@{/images/company/기업블로그.png}">
             </div>
         </main>
+        <footer th:replace="~{layout/footer1::footer}"></footer>
     </div>
 </html>

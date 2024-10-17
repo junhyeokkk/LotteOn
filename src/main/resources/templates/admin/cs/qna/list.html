@@ -1,5 +1,5 @@
 <div class="content" th:fragment="list">
-    <link rel="stylesheet" th:href="@{/css/admin/list.css}" />
+    <link rel="stylesheet" th:href="@{/css/admin/cs/qna/list.css}" />
     <div class="dashboard">
         <div class="content_header">
             <h1>문의하기 목록</h1>
@@ -34,7 +34,7 @@
                 </div>
             </div>
             <table class="admingraph">
-                <tr class="admin_title" style="height: 50px;">
+                <tr class="admin_title">
                     <th><input type="checkbox" name="allCheck" /></th>
                     <th>번호</th>
                     <th>1차유형</th>
@@ -45,17 +45,17 @@
                     <th>상태</th>
                 </tr>
 
-                <tr class="admin_faq-list" style="height: 50px;">
+                <tr class="admin_list">
                     <td><input type="checkbox" value="noticeNo" name="RowCheck" /></td>
                     <td>10</td>
                     <td style="white-space: nowrap;">[유형선택]</td>
                     <td style="white-space: nowrap;">[유형선택]</td>
                     <td style="text-align: left">
-                         <span>
-                        <a th:href="@{/admin/layout/cs/qna/reply}">
-                            <span style="white-space: nowrap;">개인회원과 법인회원에 차이가 있나요?</span>
-                        </a>
-                    </span>
+                        <span>
+                            <a th:href="@{/admin/layout/cs/qna/reply}">
+                                <span style="white-space: nowrap;">개인회원과 법인회원에 차이가 있나요?</span>
+                            </a>
+                        </span>
                     </td>
                     <td>chh**</td>
                     <td style="white-space: nowrap;">2024-10-14</td>
@@ -65,23 +65,23 @@
                    <td if="${qna.qnaStatus == '검토중'}" text="${qna.qnaStatus}"></td>
                    <td if="${qna.qnaStatus == '답변완료'}" text="${qna.qnaStatus}" style="color: #4291e9;"></td>
                    <-->
-               </tr>
+                </tr>
 
-                <tr class="admin_faq-list" style="height: 50px;">
+                <tr class="admin_list">
                     <td><input type="checkbox" value="noticeNo" name="RowCheck" /></td>
-                    <td>9</td>
-                    <td style="white-space: nowrap;">[유형선택]</td>
-                    <td style="white-space: nowrap;">[유형선택]</td>
+                    <td>10</td>
+                    <td style="white-space: nowrap;">회원</td>
+                    <td style="white-space: nowrap;">가입</td>
                     <td style="text-align: left">
-                         <span>
-                        <a th:href="@{/admin/layout/cs/qna/view}">
-                            <span style="white-space: nowrap;">개인회원과 법인회원에 차이가 있나요?</span>
-                        </a>
-                    </span>
+                        <span>
+                            <a th:href="@{/admin/layout/cs/qna/reply}">
+                                <span style="white-space: nowrap;">개인회원과 법인회원에 차이가 있나요?</span>
+                            </a>
+                        </span>
                     </td>
                     <td>chh**</td>
                     <td style="white-space: nowrap;">2024-10-14</td>
-                    <td style="color: #4291e9;">답변완료</td>
+                    <td style="color: #2e8de5">답변완료</td>
                     <!-- 기능 구현시 밑에 로직 참고해서 사용 -->
                     <!--
                    <td if="${qna.qnaStatus == '검토중'}" text="${qna.qnaStatus}"></td>
@@ -89,13 +89,15 @@
                    <-->
                 </tr>
 
-            </table>
-           <a class="delete_btn">선택삭제</a>
 
-           <div class="pagingBox">
-               <div class="pagingList">
-                   <!-- 이전 버튼 -->
-                    <a href="#" class="prev"></a>
+
+            </table>
+            <a class="delete_btn">선택삭제</a>
+
+            <div class="pagingBox">
+                <div class="pagingList">
+                    <!-- 이전 버튼 -->
+                    <a href="#" class="prev"><</a>
 
                     <!-- 페이지 링크 -->
                     <a href="#">1</a>

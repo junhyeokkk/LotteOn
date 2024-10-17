@@ -1,6 +1,6 @@
 <div class="content" th:fragment="banner">
     <link rel="stylesheet" th:href="@{/css/admin/config/banner.css}" />
-    <link rel="stylesheet" th:href="@{/css/admin/list.css}" />
+    <link rel="stylesheet" th:href="@{/css/admin/config/list.css}" />
 
     <div class="dashboard">
         <div class="content_header">
@@ -9,6 +9,7 @@
                 HOME > 환경설정 > <strong>배너관리</strong>
             </p>
         </div>
+
         <div class="bannerinsertbtn">
             <button class="on">메인 상단 베너</button>
             <button>메인 슬라이더 배너</button>
@@ -16,13 +17,14 @@
             <button>회원로그인 배너</button>
             <button>마이페이지 배너</button>
         </div>
+
         <section class="sectionBox">
             <div>
                 <h3 class="banner_title">메인 상단배너</h3>
             </div>
 
             <table class="admingraph">
-                <tr class="admin_title" style="height: 50px; border-bottom: 1px solid #A6A6A6;">
+                <tr class="admin_title">
                     <th><input type="checkbox" name="allCheck" /></th>
                     <th>번호</th>
                     <th>이미지</th>
@@ -35,11 +37,11 @@
                     <th>관리</th>
                 </tr>
 
-                <tr class="admin_config-banner">
-                    <td ><input type="checkbox" name="상품코드" /></td>
+                <tr class="admin_list">
+                    <td><input type="checkbox" name="상품코드" /></td>
                     <td>1</td>
                     <td><img th:src="@{/images/admin/sample_thumb.jpg}" class="thumb"
-                        style="width: 70px; height: 70px;"></td>
+                            style="width: 70px; height: 70px;"></td>
                     <td style="text-align: left;">
                         <p>배너명</p>
                         <p>크기 : 1200 x 80</p>
@@ -57,11 +59,11 @@
                         <a href="">[비활성]</a>
                     </td>
                 </tr>
-                <tr class="admin_config-banner">
-                    <td ><input type="checkbox" name="상품코드" /></td>
+                <tr class="admin_list">
+                    <td><input type="checkbox" name="상품코드" /></td>
                     <td>1</td>
                     <td><img th:src="@{/images/admin/sample_thumb.jpg}" class="thumb"
-                        style="width: 70px; height: 70px;"></td>
+                            style="width: 70px; height: 70px;"></td>
                     <td style="text-align: left;">
                         <p>배너명</p>
                         <p>크기 : 1200 x 80</p>
@@ -88,7 +90,7 @@
             <div class="pagingBox">
                 <div class="pagingList">
                     <!-- 이전 버튼 -->
-                    <a href="#" class="prev"></a>
+                    <a href="#" class="prev"><</a>
 
                     <!-- 페이지 링크 -->
                     <a href="#">1</a>
@@ -99,9 +101,7 @@
 
                     <!-- 다음 버튼 -->
                     <a href="#" class="next">></a>
-                </div>
-            </div>
-        </section>
 
+        </section>
     </div>
 </div>

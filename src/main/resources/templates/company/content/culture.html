@@ -1,16 +1,14 @@
-
-<!DOCTYPE html>
-<html lang="en">
-<!--내용 시작-->
-<link rel="stylesheet" href="/css/company.css" th:href="@{/css/company.css}">
-<link rel="stylesheet" href="/static/css/footer.css" th:href="@{/css/footer.css}">
-
+<div class="content" th:fragment="culture">
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/css/company.css}">
     <script>
         window.onload = function () {
             const blogMainText = document.getElementsByClassName('blogMainText')[0];
             blogMainText.classList.add('show');
         };
     </script>
+
+
 <div class="headContent" >
     <div class="logoBox">
         <a th:href="@{/}"><img th:src="@{/images/header_logo.png}" alt="로고" style="width: 185px;"/></a>
@@ -18,10 +16,10 @@
 
     <div>
         <a th:href="@{/company/index}">HOME</a>
-        <a class="tabOn" th:href="@{/company/culture}">기업문화</a>
-        <a th:href="@{/company/story}">소식과 이야기</a>
-        <a th:href="@{/company/recruit}">채용</a>
-        <a th:href="@{/company/media}">미디어</a>
+        <a class="tabOn" th:href="@{/company/content/culture}">기업문화</a>
+        <a th:href="@{/company/content/story}">소식과 이야기</a>
+        <a th:href="@{/company/content/recruit}">채용</a>
+        <a th:href="@{/company/content/media}">미디어</a>
     </div>
 </div>
         <div class="companyLogo">
@@ -49,7 +47,7 @@
 
             <div class="cultureWork">
                 <div>
-                    <img src="/images/company/cultureWork1.png">
+                    <img th:src="@{/images/company/cultureWork1.png}">
                 </div>
                 <div>
                     <p>스스로 책임지고 자율적으로 일해요</p>
@@ -72,13 +70,13 @@
                     </span>
                 </div>
                 <div>
-                    <img src="/images/company/cultureWork2.png">
+                    <img th:src="@{/images/company/cultureWork2.png}">
                 </div>
             </div>
 
             <div class="cultureWork">
                 <div>
-                    <img src="/images/company/cultureWork3.webp">
+                    <img th:src="@{/images/company/cultureWork3.webp}">
                 </div>
                 <div>
                     <p>함께하면 할 수 있다고 믿어요.</p>
@@ -99,7 +97,7 @@
             <div class="cultureSystem">
                 <div>
                     <div>
-                        <img src="/images/company/icon01.png">
+                        <img th:src="@{/images/company/icon01.png}">
                         <p>수평적인 문화</p>
                     </div>
                     <div class="systemText">
@@ -113,7 +111,7 @@
 
                 <div>
                     <div>
-                        <img src="/images/company/icon02.png">
+                        <img th:src="@{/images/company/icon02.png}">
                         <p>수평적인 문화</p>
                     </div>
                     <div class="systemText">
@@ -127,7 +125,7 @@
 
                 <div>
                     <div>
-                        <img src="/images/company/icon03.png">
+                        <img th:src="@{/images/company/icon03.png}">
                         <p>수평적인 문화</p>
                     </div>
                     <div class="systemText">
@@ -141,7 +139,7 @@
 
                 <div>
                     <div>
-                        <img src="/images/company/icon04.png">
+                        <img th:src="@{/images/company/icon04.png}">
                         <p>수평적인 문화</p>
                     </div>
                     <div class="systemText">

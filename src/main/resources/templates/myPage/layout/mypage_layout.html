@@ -21,7 +21,7 @@
         <div th:replace="~{mypage/include/mypagesidebar::sidebar}"></div>
 
 
-        <th:block th:with="path='/myPage/content/' + ${cate}, fragment=${cate}">
+        <th:block th:with="path='myPage/content/' + ${cate}, fragment=${cate}">
             <!-- dynamic content -->
             <th:replace th:with="path=${path}, fragment=${fragment}"
                         th:replace="~{${path}::${fragment}}"></th:replace>

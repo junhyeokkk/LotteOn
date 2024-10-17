@@ -1,0 +1,138 @@
+<div class="content" th:fragment="register">
+  <link rel="stylesheet" th:href="@{/css/admin/product/register.css}" />
+  <script type="text/javascript" th:src="@{/js/admin/register.js}"></script>
+    <div class="dashboard">
+      <div class="content_header">
+        <h1>상품등록</h1>
+        <p>HOME > 상품관리 > 상품등록</p>
+      </div>
+      <div class="product_register">
+        <form action="/submit" method="POST">
+          <!-- 상품 분류 -->
+          <div class="section">
+            <h2>상품분류</h2>
+            <p>1차, 2차 카테고리 기본분류는 반드시 선택하셔야 합니다.</p>
+            <table class="form-table">
+              <tr>
+                <td><label for="category1">1차 분류</label></td>
+                <td>
+                  <select id="category1" name="category1">
+                    <option>1차분류 선택</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td><label for="category2">2차 분류</label></td>
+                <td>
+                  <select id="category2" name="category2">
+                    <option>2차분류 선택</option>
+                  </select>
+                </td>
+              </tr>
+            </table>
+          </div>
+
+          <!-- 기본 정보 -->
+          <div class="section">
+            <h2>기본정보</h2>
+            <p>기본정보는 반드시 선택하셔야 합니다.</p>
+            <table class="form-table">
+              <tr>
+                <td><label for="productName">상품명</label></td>
+                <td><input type="text" id="productName" name="productName"></td>
+              </tr>
+              <tr>
+                <td><label for="basicDesc">기본설명</label></td>
+                <td><input type="text" id="basicDesc" name="basicDesc"></td>
+              </tr>
+              <tr>
+                <td><label for="manufacturer">제조사</label></td>
+                <td><input type="text" id="manufacturer" name="manufacturer"></td>
+              </tr>
+              <tr>
+                <td><label for="productPrice">상품금액</label></td>
+                <td><input type="text" id="productPrice" name="productPrice" placeholder="원"></td>
+              </tr>
+              <tr>
+                <td><label for="discountRate">할인율</label></td>
+                <td><input type="text" id="discountRate" name="discountRate" placeholder="%"></td>
+              </tr>
+              <tr>
+                <td><label for="points">포인트</label></td>
+                <td><input type="text" id="points" name="points" placeholder="원"></td>
+              </tr>
+              <tr>
+                <td><label for="stockCount">재고수량</label></td>
+                <td><input type="text" id="stockCount" name="stockCount" placeholder="개"></td>
+              </tr>
+              <tr>
+                <td><label for="deliveryFee">배송비</label></td>
+                <td><input type="text" id="deliveryFee" name="deliveryFee" placeholder="원"></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>
+                  <input type="file" id="file1" name="file1" style="display: none; " onchange="updateFileName(this, 'file1-span')">
+                  <label for="file1" class="file-label">파일 선택</label>
+                  <span id="file1-span" style="margin-right: 10px;">선택된 파일 없음</span>
+                 크기 190 × 190   상품 목록에 출력될 이미지 입니다.
+                </td>
+              </tr>
+              <tr>
+                <td><strong>상품 이미지</strong></td>
+                <td>
+                  <input type="file" id="file2" name="file2" style="display: none;" onchange="updateFileName(this, 'file2-span')">
+                  <label for="file2" class="file-label">파일 선택</label>
+                  <span id="file2-span" style="margin-right: 10px;">선택된 파일 없음</span>
+                  크기 230 × 230   상품 메일에 출력 될 이미지 입니다.
+                </td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>
+                  <input type="file" id="file3" name="file3" style="display: none;" onchange="updateFileName(this, 'file3-span')">
+                  <label for="file3" class="file-label">파일 선택</label>
+                  <span id="file3-span" style="margin-right: 10px;">선택된 파일 없음</span>
+                  크기 456 × 456   상품 상세 페이지 출력 될 이미지 입니다.
+                </td>
+              </tr>
+
+            </table>
+          </div>
+
+          <!-- 전자상거래 상품정보 제공공시 -->
+          <div class="section">
+            <h2>전자상거래 상품정보 제공공시</h2>
+            <p>[ 전자상거래에 관한 상품정보 제공에 관한 고시 ] 항목에 의거 등록해야 되는 정보입니다.</p>
+            <table class="form-table">
+              <tr>
+                <td><label for="productStatus">상품상태</label></td>
+                <td><input type="text" id="productStatus" name="productStatus"></td>
+              </tr>
+              <tr>
+                <td><label for="warranty">부가세 면세여부</label></td>
+                <td><input type="text" id="warranty" name="warranty"></td>
+              </tr>
+              <tr>
+                <td><label for="receiptMethod">영수증 발행</label></td>
+                <td><input type="text" id="receiptMethod" name="receiptMethod"></td>
+              </tr>
+              <tr>
+                <td><label for="businessType">사업자구분</label></td>
+                <td><input type="text" id="businessType" name="businessType"></td>
+              </tr>
+              <tr>
+                <td><label for="origin">원산지</label></td>
+                <td><input type="text" id="origin" name="origin"></td>
+              </tr>
+            </table>
+          </div>
+
+          <!-- 등록하기 버튼 -->
+          <div class="submit-section">
+            <button type="submit" class="submit-btn">등록하기</button>
+          </div>
+        </form>
+      </div>
+    </div>
+</div>

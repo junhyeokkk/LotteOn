@@ -1,0 +1,107 @@
+/* 유형선택 */
+.select-container {
+    display: flex;
+    gap: 10px; /* 간격을 원하는 만큼 조정 가능 */
+}
+select[name="type"] {
+    width: 81px;
+    height: 40px;
+    border: 1px solid #D8D8D8;
+    text-align: center;
+    outline: none;
+}
+/* 유형선택 */
+.sectionBox > div {
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+/* 검색창 */
+input {
+    width: 200px;
+    height: 40px;
+    padding: 9px;
+    border: 1px solid #D8D8D8;
+    font-size: 13px;
+    background-color: #fefefe;
+    color: #333;
+    vertical-align: middle;
+    box-sizing: border-box;
+}
+
+/* 검색바 */
+.search_bar {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/*표*/
+.admingraph {
+    width: 100%;
+    margin-top: 13px;
+    border-top: 2px solid #8798a3;
+    border-bottom: 2px solid #BFBFBF;
+    background: #fff;
+    text-align: center;
+    box-sizing: border-box;
+    border-collapse: collapse;
+}
+/*표 상단*/
+.admin_title {
+    height: 65px;
+    border-bottom: 1px solid #BFBFBF;
+}
+/*표 제목 텍스트*/
+.admin_title th {
+    font-weight: bolder;
+}
+/*표 내용*/
+.admin_list {
+    height: 65px;
+    border-bottom: 1px solid #BFBFBF;
+}
+/*체크*/
+input[type="checkbox"] {
+    width: auto;
+    margin-right: 6px;
+}
+
+
+/* 버튼 */
+
+/*검색*/
+.searchBtn {
+    width: 45px;
+    background-color: #D8D8D8;
+    color: #FFFFFF;
+}
+
+
+/* 페이징 */
+.pagingBox {
+    display: flex;
+    position: relative;
+    margin-top: 40px;
+    justify-content: center;
+}
+.pagingList>a {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    color: #999;
+    line-height: 26px;
+    margin: 0 2px;
+    text-indent: -1px;
+    font-family: Roboto, NotoSansKR, Malgun Gothic, AppleSDGothicNeo, Helvetica, sans-serif;
+    text-align: center;
+}
+.pagingList>a.active {
+    margin: 0 4px;
+    background-color: #343b4d;
+    border: 1px solid #343b4d;
+    color: #fff;
+}
+.pagingList>a:hover {
+    background-color: #35373d;
+}

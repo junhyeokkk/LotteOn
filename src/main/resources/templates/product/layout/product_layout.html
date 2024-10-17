@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" th:href="@{/css/reset.css}"/>
-    <link rel="stylesheet" th:href="@{/css/product.css}"/>
-    <link rel="stylesheet" th:href="@{/css/layout.css}"/>
+    <link rel="stylesheet" th:href="@{/css/include/reset.css}"/>
+    <link rel="stylesheet" th:href="@{/css/product/product.css}"/>
+    <link rel="stylesheet" th:href="@{/css/include/layout.css}"/>
 </head>
 <body>
 <!-- header -->
@@ -22,7 +22,7 @@
     </div>
     <div class="layout-right">
         <!-- content -->
-        <th:block th:with="path='/product/' + ${cate}">
+        <th:block th:with="path='product/' + ${cate}">
             <th:block th:replace="~{${path}}"></th:block>
 
             <!--  <th:block th:replace="~{product/list::list}"></th:block>-->
