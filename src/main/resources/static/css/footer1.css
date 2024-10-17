@@ -56,3 +56,28 @@
 
 
 }
+
+/* 스크롤 최상단 버튼 스타일 */
+.scroll-top-btn {
+    display: none;  /* 기본적으로 버튼을 숨김 */
+    position: fixed;  /* 화면에 고정 */
+    bottom: 20px;  /* 아래에서 20px */
+    right: 60px;   /* 오른쪽에서 20px */
+    z-index: 100;  /* 다른 요소보다 위에 위치 */
+
+    color: #333;  /* 텍스트 색상 */
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;  /* 둥근 모서리 */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);  /* 그림자 효과 */
+
+}
+.scroll-top-btn img{
+    width: 30px;  /* 이미지 크기 조정 */
+    height: auto; /* 이미지 비율 유지 */
+}
+.scroll-top-btn:hover {
+    background-color: #ddd;  /* 마우스 호버 시 배경색 변경 */
+}

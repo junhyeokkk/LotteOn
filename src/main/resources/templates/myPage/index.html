@@ -5,11 +5,12 @@
     <meta charset="UTF-8">
     <title>롯데ON::대한민국 1등 온라인 쇼핑몰</title>
     <link rel="stylesheet" th:href="@{/css/my/myinfo.css}">
+    <header th:replace="~{layout/header::header}"></header>
 </head>
 
 <body>
 <div id="wrapper">
-    <header th:replace="~{layout/header::header}"></header>
+
     <div>
         <nav class="myinfotopside">
             <div>
@@ -191,9 +192,9 @@
                                     <block if="${qna.comment ==1}">
                                         <span class="answered">답변완료</span>
                                     </block>
-                                    <block if="${qna.comment ==0}">
-                                        <span class="answered">검토중</span>
-                                    </block>
+<!--                                    <block if="${qna.comment ==0}">-->
+<!--                                        <span class="answered">검토중</span>-->
+<!--                                    </block>-->
                                 </td>
                             </tr>
                         </block>
@@ -240,8 +241,9 @@
         </div>
     </div>
 
-    <footer th:replace="~{layout/footer::footer}"></footer>
+
 </div>
+<footer th:replace="~{layout/footer::footer}"></footer>
 </body>
 
 </html>

@@ -6,6 +6,7 @@
             const blogMainText = document.getElementsByClassName('blogMainText')[0];
             blogMainText.classList.add('show');
         };
+
     </script>
 
 
@@ -27,8 +28,10 @@
 
             </div>
         </div>
-
-
+        <!-- 스크롤 최상단 버튼 -->
+        <button id="scrollTopBtn" class="scroll-top-btn" onclick="scrollToTop()">
+            <img src="/images/up.png" alt="print" />
+        </button>
         <main>
             <div class="blogMainText">
                 <p>
@@ -151,6 +154,9 @@
                     </div>
                 </div>
             </div>
+
+
         </main>
+        <script th:src="@{/js/scrollToTop.js}"></script>
     </div>
 </html>
