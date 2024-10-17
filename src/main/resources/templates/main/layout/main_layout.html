@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <title>main</title>
-    <link rel="stylesheet" th:href="@{/css/reset.css}"/>
-    <link rel="stylesheet" th:href="@{/css/main.css}"/>
-    <link rel="stylesheet" th:href="@{/css/layout.css}"/>
+    <link rel="stylesheet" th:href="@{/css/include/reset.css}"/>
+    <link rel="stylesheet" th:href="@{/css/main/main.css}"/>
+    <link rel="stylesheet" th:href="@{/css/include/layout.css}"/>
 </head>
 <body>
 <!-- header -->
@@ -14,11 +14,11 @@
 <header th:replace="~{layout/header-nav}"></header>
 
 <div class="layout-container">
-    <!-- aside -->
+    <!-- aside  -->
     <div class="layout-left">
-        <th:block th:replace="~{layout/aside-cate}"></th:block>
         <th:block th:replace="~{layout/aside-best}"></th:block>
     </div>
+
     <div class="layout-right">
         <!-- content -->
         <th:block th:replace="~{main/index}"></th:block>

@@ -1,21 +1,29 @@
-<link rel="stylesheet" href="/static/css/header-nav.css" th:href="@{/css/header-nav.css}">
-<link rel="stylesheet" href="/static/css/common.css" th:href="@{/css/common.css}">
-<link rel="stylesheet" href="/static/css/reset.css" th:href="@{/css/reset.css}">
+<link rel="stylesheet" href="/css/include/header-nav.css" th:href="@{/css/include/header-nav.css}">
+<link rel="stylesheet" href="/css/include/reset.css" th:href="@{/css/include/reset.css}">
 
-<nav class="header-nav">
-    <div class="wrapper center header-nav__flex">
-        <div class="header-nav__flex__left">
-            <a href="#">키즈상품</a>
-            <a href="#">추천상품</a>
-            <a href="#">최신상품</a>
-            <a href="#">인기상품</a>
-            <a href="#">할인상품</a>
-        </div>
-        <div class="header-nav__flex__right">
-            <a href="#">공지사항</a>
-            <a href="#">자주하는질문</a>
-            <a href="#">문의하기</a>
-            <a href="#">고객센터</a>
-        </div>
-    </div>
+<nav class="nav-bar">
+    <ul class="nav-items">
+        <li class="nav-item menu">
+            메뉴
+            <ul class="dropdown level-1">
+                <li class="dropdown-item">1차 카테고리 1
+                    <ul class="dropdown level-2">
+                        <li class="dropdown-item">2차 카테고리 1
+                            <ul class="dropdown level-3">
+                                <li class="dropdown-item">3차 카테고리 1</li>
+                                <li class="dro  pdown-item">3차 카테고리 2</li>
+                            </ul>
+                        </li>
+                        <li class="dropdown-item">2차 카테고리 2</li>
+                    </ul>
+                </li>
+                <li class="dropdown-item">1차 카테고리 2</li>
+            </ul>
+        </li>
+        <li class="nav-item">히트상품</li>
+        <li class="nav-item">추천상품</li>
+        <li class="nav-item">최신상품</li>
+        <li class="nav-item">인기상품</li>
+        <li class="nav-item">할인상품</li>
+    </ul>
 </nav>
