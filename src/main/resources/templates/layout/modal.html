@@ -8,8 +8,8 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/moment/min/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-    <link rel="stylesheet" href="/resources/static/css/my/modal.css">
-    <link rel="stylesheet" href="/resources/static/css/my/myinfo.css">
+    <link rel="stylesheet" href="/static/css/my/modal.css">
+    <link rel="stylesheet" href="/static/css/my/myinfo.css">
 </head>
 <body>
 
@@ -25,10 +25,10 @@
 
 <!-- 주문상세 모달 -->
 <div id="orderDetailModal" class="modal user">
-    <div class="ordermodal-content">
+    <div class="ordermodal-content modalcontent">
         <nav class="modal-nav">
             <h1>주문상세</h1>
-            <button class="modal-close" id="closeOrderDetail">&times;</button>
+            <button class="modal-close" id="closeModal">&times;</button>
         </nav>
         <section class="modal-section">
             <article>
@@ -43,7 +43,7 @@
                     </tr>
                     <tr>
                         <td>20xx-01-01</td>
-                        <td><img src="/main/resources/static/images/AA.jpg" alt="" class="modalimgsize"></td>
+                        <td><img src="/static/images/AA.jpg" alt="" class="modalimgsize"></td>
                         <td class="modalprice-info">
                                 <span>주문번호 : 101221341</span><br>
                                 <span>(주) 상호명</span><br>
@@ -96,10 +96,10 @@
 
 <!-- 판매자정보 모달 -->
 <div id="sellerInfoModal" class="modal user">
-    <div class="sellermodal-content">
+    <div class="sellermodal-content modalcontent">
         <nav class="modal-nav">
             <h1>판매자 정보</h1>
-            <button class="modal-close" id="closeSellerInfo">&times;</button>
+            <button class="modal-close" id="closeModal">&times;</button>
         </nav>
         <section class="modal-section">
             <table border="0" class="heighttable">
@@ -147,10 +147,10 @@
 
 <!-- 문의하기 모달 -->
 <div id="inquiryModal" class="modal user">
-    <div class="inquirymodal-content">
+    <div class="inquirymodal-content modalcontent">
         <nav class="modal-nav">
             <h1>문의하기</h1>
-            <button class="modal-close" id="closeInquiry">&times;</button>
+            <button class="modal-close" id="closeModal">&times;</button>
         </nav>
         <section class="modal-section">
             <form action="#" method="post">
@@ -198,10 +198,10 @@
 
 <!-- 수취확인 모달 -->
 <div id="receiptConfirmModal" class="modal user">
-    <div class="receiptConfirmmodal-content">
+    <div class="receiptConfirmmodal-content modalcontent">
         <nav class="modal-nav">
             <h1>수취확인</h1>
-            <button class="modal-close" id="closeReceiptConfirm">&times;</button>
+            <button class="modal-close" id="closeModal">&times;</button>
         </nav>
         <section class="modal-section">
             <p>
@@ -220,10 +220,10 @@
 
 <!-- 상품평작성하기 모달 -->
 <div id="reviewModal" class="modal user">
-    <div class="reviewmodal-content">
+    <div class="reviewmodal-content modalcontent">
         <nav class="modal-nav">
             <h1>상품평 작성하기</h1>
-            <button class="modal-close" id="closeReview">&times;</button>
+            <button class="modal-close" id="closeModal">&times;</button>
         </nav>
         <section class="modal-section">
             <form action="#" method="post" enctype="multipart/form-data">
@@ -273,10 +273,10 @@
 </div>
 <!-- 반품신청 모달 -->
 <div id="refundModal" class="modal user">
-    <div class="refundModal-content">
+    <div class="refundModal-content modalcontent">
         <nav class="modal-nav">
             <h1>반품신청</h1>
-            <button class="modal-close" id="closerefundModal">&times;</button>
+            <button class="modal-close" id="closeModal">&times;</button>
         </nav>
         <section class="modal-section">
             <form action="#" method="post" enctype="multipart/form-data">
@@ -356,10 +356,10 @@
 
 <!-- 교환신청 모달 -->
 <div id="returnModal" class="modal user">
-    <div class="returnModal-content">
+    <div class="returnModal-content modalcontent">
         <nav class="modal-nav">
             <h1>교환신청</h1>
-            <button class="modal-close" id="closereturnModal">&times;</button>
+            <button class="modal-close" id="closeModal">&times;</button>
         </nav>
         <section class="modal-section">
             <form action="#" method="post" enctype="multipart/form-data">
@@ -437,118 +437,92 @@
 </div>
 
 <script>
-    // 모달과 버튼을 객체로 관리
-    const modals = {
-        orderDetailModal: document.getElementById('orderDetailModal'),
-        sellerInfoModal: document.getElementById('sellerInfoModal'),
-        inquiryModal: document.getElementById('inquiryModal'),
-        receiptConfirmModal: document.getElementById('receiptConfirmModal'),
-        reviewModal: document.getElementById('reviewModal'),
-        refundModal:document.getElementById('refundModal'),
-        returnModal:document.getElementById('returnModal')
-    };
+    document.addEventListener('DOMContentLoaded', function() {
 
-    const buttons = {
-        orderDetailBtn: document.getElementById('orderDetailBtn'),
-        sellerInfoBtn: document.getElementById('sellerInfoBtn'),
-        inquiryBtn: document.getElementById('inquiryBtn'),
-        receiptConfirmBtn: document.getElementById('receiptConfirmBtn'),
-        reviewBtn: document.getElementById('reviewBtn'),
-        refundBtn: document.getElementById('refundBtn'),
-        returnBtn: document.getElementById('returnBtn')
-    };
+        // 모달과 버튼을 객체로 관리
+        const modals = {
+            orderDetailModal: document.getElementById('orderDetailModal'),
+            sellerInfoModal: document.getElementById('sellerInfoModal'),
+            inquiryModal: document.getElementById('inquiryModal'),
+            receiptConfirmModal: document.getElementById('receiptConfirmModal'),
+            reviewModal: document.getElementById('reviewModal'),
+            refundModal: document.getElementById('refundModal'),
+            returnModal: document.getElementById('returnModal')
+        };
 
-    const closeButtons = {
-        closeOrderDetail: document.getElementById('closeOrderDetail'),
-        closeSellerInfo: document.getElementById('closeSellerInfo'),
-        closeInquiry: document.getElementById('closeInquiry'),
-        closeReceiptConfirm: document.getElementById('closeReceiptConfirm'),
-        closeReview: document.getElementById('closeReview'),
-        closerefundModal: document.getElementById('closerefundModal'),
-        closereturnModal: document.getElementById('closereturnModal')
-    };
+        const buttons = {
+            orderDetailBtn: document.getElementById('orderDetailBtn'),
+            sellerInfoBtn: document.getElementById('sellerInfoBtn'),
+            inquiryBtn: document.getElementById('inquiryBtn'),
+            receiptConfirmBtn: document.getElementById('receiptConfirmBtn'),
+            reviewBtn: document.getElementById('reviewBtn'),
+            refundBtn: document.getElementById('refundBtn'),
+            returnBtn: document.getElementById('returnBtn')
+        };
 
-    // 버튼 클릭 시 모달 열기
-    buttons.orderDetailBtn.onclick = function() {
-        modals.orderDetailModal.style.display = "block";
-    };
-    buttons.sellerInfoBtn.onclick = function() {
-        modals.sellerInfoModal.style.display = "block";
-    };
-    buttons.inquiryBtn.onclick = function() {
-        modals.inquiryModal.style.display = "block";
-    };
-    buttons.receiptConfirmBtn.onclick = function() {
-        modals.receiptConfirmModal.style.display = "block";
-    };
-    buttons.reviewBtn.onclick = function() {
-        modals.reviewModal.style.display = "block";
-    };
-    buttons.refundBtn.onclick = function() {
-        modals.refundModal.style.display = "block";
-    };
-    buttons.returnBtn.onclick = function() {
-        modals.returnModal.style.display = "block";
-    };
+        // 버튼 클릭 시 모달 열기
+        buttons.orderDetailBtn.onclick = function() {
+            modals.orderDetailModal.style.display = "block";
+        };
+        buttons.sellerInfoBtn.onclick = function() {
+            modals.sellerInfoModal.style.display = "block";
+        };
+        buttons.inquiryBtn.onclick = function() {
+            modals.inquiryModal.style.display = "block";
+        };
+        buttons.receiptConfirmBtn.onclick = function() {
+            modals.receiptConfirmModal.style.display = "block";
+        };
+        buttons.reviewBtn.onclick = function() {
+            modals.reviewModal.style.display = "block";
+        };
+        buttons.refundBtn.onclick = function() {
+            modals.refundModal.style.display = "block";
+        };
+        buttons.returnBtn.onclick = function() {
+            modals.returnModal.style.display = "block";
+        };
 
-    // 닫기 버튼 클릭 시 모달 닫기
-    closeButtons.closeOrderDetail.onclick = function() {
-        modals.orderDetailModal.style.display = "none";
-    };
-    closeButtons.closeSellerInfo.onclick = function() {
-        modals.sellerInfoModal.style.display = "none";
-    };
-    closeButtons.closeInquiry.onclick = function() {
-        modals.inquiryModal.style.display = "none";
-    };
-    closeButtons.closeReceiptConfirm.onclick = function() {
-        modals.receiptConfirmModal.style.display = "none";
-    };
-    closeButtons.closeReview.onclick = function() {
-        modals.reviewModal.style.display = "none";
-    };
-    closeButtons.closerefundModal.onclick = function() {
-        modals.refundModal.style.display = "none";
-    };
-    closeButtons.closereturnModal.onclick = function() {
-        modals.returnModal.style.display = "none";
-    };
-
-
-    // 모달 외부 클릭 시 닫기
-    window.onmousedown  = function(event) {
-        for (const modal of Object.values(modals)) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-    };
-    const modalstars = document.querySelectorAll('.modalstar');
-    
-    //별
-    modalstars.forEach((modalstar, index) => {
-        modalstar.addEventListener('click', () => {
-            // 모든 별의 색을 기본 회색으로 초기화
-            modalstars.forEach(s => s.classList.remove('filled'));
-
-            // 클릭한 별과 그 이전 별까지 모두 노란색으로 변경
-            for (let i = 0; i <= index; i++) {
-                modalstars[i].classList.add('filled');
+        // 이벤트 위임을 통해 closeModal 처리
+        document.addEventListener('click', function(event) {
+            if (event.target && event.target.id === 'closeModal') {
+                const modal = event.target.closest('.modal');  // 클릭한 닫기 버튼이 속한 모달 찾기
+                if (modal) {
+                    modal.style.display = 'none';
+                }
             }
         });
-    });
-    // 시간 선택
-    document.addEventListener('DOMContentLoaded', function() {
+
+        // 모달 외부 클릭 시 닫기
+        window.onclick = function(event) {
+            for (const modal of Object.values(modals)) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        };
+
+        // 별 클릭 이벤트 (기존 코드 유지)
+        const modalstars = document.querySelectorAll('.modalstar');
+        modalstars.forEach((modalstar, index) => {
+            modalstar.addEventListener('click', () => {
+                modalstars.forEach(s => s.classList.remove('filled'));
+                for (let i = 0; i <= index; i++) {
+                    modalstars[i].classList.add('filled');
+                }
+            });
+        });
+
+        // 시간 선택 처리 (기존 코드 유지)
         const today = new Date().toISOString().split('T')[0];
         const startDateInput = document.querySelector('input[name="bannerdate-start"]');
         const endDateInput = document.querySelector('input[name="bannerdate-end"]');
-
-        startDateInput.setAttribute('min', today); // 첫 번째 날짜는 오늘 이후만 선택 가능
-
+        startDateInput.setAttribute('min', today);
         startDateInput.addEventListener('change', function() {
-            endDateInput.setAttribute('min', this.value); // 두 번째 날짜는 첫 번째 날짜 이후만 선택 가능
+            endDateInput.setAttribute('min', this.value);
         });
     });
+
 </script>
 </body>
 </html>

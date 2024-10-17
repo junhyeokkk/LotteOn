@@ -32,6 +32,27 @@
 
 
 </th:block>
+  <!-- 스크롤 최상단 버튼 -->
+  <button id="scrollTopBtn" class="scroll-top-btn" onclick="scrollToTop()">
+    <img src="/images/up.png" alt="print" />
+  </button>
+
+  <script>
+    // 스크롤 이벤트 리스너로 버튼 표시 제어
+    window.onscroll = function() {
+      var scrollTopBtn = document.getElementById("scrollTopBtn");
+      var footer = document.querySelector("footer");  // 푸터 요소 선택
+      var footerRect = footer.getBoundingClientRect();  // 푸터의 위치 정보
+
+      // 현재 스크롤 위치와 푸터의 위치를 기반으로 버튼 표시 제어
+      if ((document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) && footerRect.top > window.innerHeight) {
+        scrollTopBtn.style.display = "block";  // 버튼 표시
+      } else {
+        scrollTopBtn.style.display = "none";   // 버튼 숨김
+      }
+    };
+  </script>
+
 
 <!-- footer -->
 <footer th:replace="~{layout/footer1::footer}"></footer>

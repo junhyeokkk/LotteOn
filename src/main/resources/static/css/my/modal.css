@@ -12,39 +12,33 @@
 }
 
 /* 모달별 컨텐츠 스타일 */
-.returnModal-content,
-.refundModal-content,
-.userchangemodal-content,
-.sellerinsertmodal-content,
-.versioninsertmodal-content,
-.VersionCheckmodal-content,
-.Bannermodal-content,
-.ordermodal-content,
-.sellermodal-content,
-.inquirymodal-content,
-.receiptConfirmmodal-content,
-.reviewmodal-content {
+.modalcontent{
     background-color: #fefefe;
     margin: 15% auto;
     border: 1px solid #888;
     border-radius: 15px;
 }
-/* 상세주문 모달 추가 */
-
+/* 상세주문 모달 */
 .ordermodal-content {
     height: 630px;
     width: 930px;
     border: none;
 }
 /* 반품 교환 신청 */
+
 .returnModal-content,
 .refundModal-content{
     height: 690px;
     width: 930px;
     border: none;
 }
-
+.orderinfomodal-content {
+    width: 930px; /* 너비는 고정 */
+    max-height: 80vh; /* 최대 높이를 뷰포트 높이의 80%로 설정 */
+    overflow-y: auto; /* 높이가 넘치면 스크롤이 나타남 */
+}
 /* 판매자,문의,리뷰 모달 추가 */
+.adressinputmodal-content,
 .versioninsertmodal-content,
 .VersionCheckmodal-content,
 .Bannermodal-content,
@@ -294,4 +288,25 @@
     width: 335px; /* 원하는 비율로 설정 (여기서는 100%로 설정해 부모의 전체 너비를 사용) */
     box-sizing: border-box; /* padding이 너비에 포함되도록 설정 */
 
+}
+
+#orderinfomodal .modal-section {
+    display: flex;
+    flex-direction: column; /* 수직으로 정렬 */
+}
+#orderinfomodal .modalprice-value{
+    padding: 10px;
+    background-color: #c8daee6e;
+    width: 300px;
+    border: 0.4px solid #A6A6A6;
+    text-align: right;
+    float: right;
+}
+#orderinfomodal .modalprice-value div {
+    display: flex;
+    justify-content: space-between;
+    padding: 3px;
+}
+#orderinfomodal .modalprice-value div:last-child span:last-child {
+    color: red; /* 마지막 span의 글자색을 빨간색으로 변경 */
 }
