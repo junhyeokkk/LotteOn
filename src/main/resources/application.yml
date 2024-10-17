@@ -1,3 +1,6 @@
 spring:
     application:
         name: lotteon
+    profiles:
+        active: dev
+        include: local
