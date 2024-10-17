@@ -1,8 +1,8 @@
 <div class="content"  th:fragment="point">
-    <link rel="stylesheet" th:href="@{/css/admin/list.css}" />
+    <link rel="stylesheet" th:href="@{/css/admin/member/list.css}" />
     <div class="dashboard">
         <div class="content_header">
-            <h1>상품 현황</h1>
+            <h1>포인트관리</h1>
             <p>
                 HOME > 회원관리 > <strong>포인트관리</strong>
             </p>
@@ -11,7 +11,7 @@
         <!-- 컨텐츠 시작 -->
         <section class="sectionBox">
             <div>
-                <form action="/admin/product/list">
+                <form action="/admin/product/list" class="search_bar">
                     <select name="type">
                         <option value="uid">아이디</option>
                         <option value="name">이름</option>
@@ -56,7 +56,7 @@
             <div class="pagingBox">
                 <div class="pagingList">
                     <!-- 이전 버튼 -->
-                    <a href="#" class="prev"></a>
+                    <a href="#" class="prev"><</a>
 
                     <!-- 페이지 링크 -->
                     <a href="#">1</a>

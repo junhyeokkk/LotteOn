@@ -3,9 +3,8 @@
     display: flex;
     gap: 10px; /* 간격을 원하는 만큼 조정 가능 */
 }
-
 select[name="type"] {
-    width: 80px;
+    width: 81px;
     height: 40px;
     border: 1px solid #D8D8D8;
     text-align: center;
@@ -15,6 +14,25 @@ select[name="type"] {
 .sectionBox > div {
     margin-top: 30px;
     margin-bottom: 10px;
+}
+/* 검색창 */
+input {
+    width: 200px;
+    height: 40px;
+    padding: 9px;
+    border: 1px solid #D8D8D8;
+    font-size: 13px;
+    background-color: #fefefe;
+    color: #333;
+    vertical-align: middle;
+    box-sizing: border-box;
+}
+
+/* 검색바 */
+.search_bar {
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
 /*표*/
@@ -50,64 +68,13 @@ input[type="checkbox"] {
 
 
 /* 버튼 */
-/* [삭제] */
-.cs_delete-btn {
-    cursor: pointer;
-    text-decoration: none;
-    color: #ff0000;
-}
-/* [수정] */
-.cs_modify-btn{
-    cursor: pointer;
-    text-decoration: none;
-    color: #2e8de5;
-}
 
-/* 삭제버튼 */
-.delete_btn {
-    float: left;
-    width: 100px;
-    height: 37px;
-    padding: 6px;
-    margin-top: 10px;
-    border: 1px solid #D9D9D9;
-    font-size: 13px;
-    text-align: center;
-    background-color: #BFBFBF;
+/*검색*/
+.searchBtn {
+    width: 45px;
+    background-color: #D8D8D8;
     color: #FFFFFF;
-    vertical-align: middle;
-    box-sizing: border-box;
-    cursor: pointer;
 }
-/* 등록버튼 */
-.registration_btn {
-    float: right;
-    width: 100px;
-    height: 37px;
-    padding: 6px;
-    margin-top: 10px;
-    border: 1px solid #D9D9D9;
-    font-size: 13px;
-    text-align: center;
-    background-color: #8EB4E3;
-    color: #FFFFFF;
-    vertical-align: middle;
-    box-sizing: border-box;
-    cursor: pointer;
-}
-
-
-/* 리스트 표 */
-
-/* 자주묻는질문 */
-.admin_faq-list > td:nth-child(1) {width: 20px;}
-.admin_faq-list > td:nth-child(2) {width: 80px;}
-.admin_faq-list > td:nth-child(3) {width: 80px;}
-.admin_faq-list > td:nth-child(4) {width: 80px;}
-.admin_faq-list > td:nth-child(5) {width: auto; text-align: left;}
-.admin_faq-list > td:nth-child(6) {width: 80px;}
-.admin_faq-list > td:nth-child(7) {width: 80px;}
-.admin_faq-list > td:nth-child(8) {width: 80px;}
 
 
 /* 페이징 */

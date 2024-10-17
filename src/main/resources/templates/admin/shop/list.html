@@ -1,5 +1,5 @@
 <div class="content" th:fragment="list">
-    <link rel="stylesheet" th:href="@{/css/admin/list.css}" />
+    <link rel="stylesheet" th:href="@{/css/admin/shop/list.css}" />
     <div class="dashboard">
         <div class="content_header">
             <h1>상점목록</h1>
@@ -10,7 +10,7 @@
 
         <section class="sectionBox">
             <div>
-                <form action="/admin/shop/list">
+                <form action="/admin/shop/list" class="search_bar">
                     <select name="type">
                         <option value="companyName">상호명</option>
                         <option value="representative">대표자</option>
@@ -25,9 +25,9 @@
                 </form>
             </div>
             <div class="operate">
-                <tr>● 운영중</tr>
-                <tr>● 운영 중지</tr>
-                <tr>● 운영 준비</tr>
+                <p class="running">● 운영중</p>
+                <p class="stopped">&nbsp;● 운영 중지</p>
+                <p class="preparing">&nbsp;● 운영 준비</p>
             </div>
             <table class="admingraph">
                 <tr class="admin_title">
@@ -49,10 +49,24 @@
                     <td>이상훈</td>
                     <td>112-12-12345</td>
                     <td>2024-서울강남-04433</td>
-                    <td>010-1234-1001-</td>
-                    <td>●</td>
+                    <td>010-1234-1001</td>
+                    <td style="color: green">●</td>
                     <td>
                         <a href="">[중단]</a>
+                    </td>
+                </tr>
+
+                <tr class="admin_list">
+                    <td><input type="checkbox" value="noticeNo" name="RowCheck" /></td>
+                    <td>1</td>
+                    <td>(주)합천</td>
+                    <td>이상훈</td>
+                    <td>112-12-12345</td>
+                    <td>2024-서울강남-04433</td>
+                    <td>010-1234-1001</td>
+                    <td style="color: red">●</td>
+                    <td>
+                        <a href="">[재개]</a>
                     </td>
                 </tr>
 
@@ -63,7 +77,7 @@
             <div class="pagingBox">
                 <div class="pagingList">
                     <!-- 이전 버튼 -->
-                    <a href="#" class="prev"></a>
+                    <a href="#" class="prev"><</a>
 
                     <!-- 페이지 링크 -->
                     <a href="#">1</a>

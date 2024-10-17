@@ -1,70 +1,15 @@
 <div class="content" th:fragment="banner">
     <link rel="stylesheet" th:href="@{/css/admin/config/banner.css}" />
-    <link rel="stylesheet" th:href="@{/css/admin/list.css}" />
+    <link rel="stylesheet" th:href="@{/css/admin/config/list.css}" />
 
-<<<<<<< HEAD
     <div class="dashboard">
         <div class="content_header">
             <h1>배너관리</h1>
             <p>
                 HOME > 환경설정 > <strong>배너관리</strong>
             </p>
-=======
-<head>
-    <meta charset="UTF-8">
-    <title>롯데on 관리자 회원목록</title>
-    <link rel="stylesheet" href="/static/css/reset.css">
-    <link rel="stylesheet" href="/static/css/admin/list.css">
-    
-
-    <style>
-        /* 배너관리 */
-        .bannerinsertbtn {
-            background-color: #F2F2F2;
-            height: 50px;
-            flex-direction: column;
-        }
-
-        .bannerinsertbtn button {
-            float: left;
-            background-color: #BFBFBF;
-            height: 40px;
-            border: none;
-            cursor: pointer;
-            margin-top: 5px;
-            margin-bottom: 10px;
-            border: 1px solid #BFBFBF;
-            margin-left: 5px;
-        }
-
-        .bannerinsertbtn button:last-child {
-            margin-right: 0;
-            /* 마지막 버튼은 오른쪽 간격 없음 */
-        }
-
-        .bannerinsertbtn .on {
-            background-color: white;
-        }
-    </style>
-</head>
-
-<!--내용 시작-->
-
-<body>
-    <section id="admin-notice-list">
-        <div class="header_wrapper">
-            <header>
-                <a href="#" id="admin_logo">
-                    <img src="/static/images/admin/logo(wh).png" alt="admin_logo" />
-                </a>
-                <div class="home">
-                    <a href="#">HOME | </a>
-                    <a href="#">로그아웃 | </a>
-                    <a href="#">고객센터</a>
-                </div>
-            </header>
->>>>>>> a0954c2 (fix style : 관리자 목록 관련 스타일 수정)
         </div>
+
         <div class="bannerinsertbtn">
             <button class="on">메인 상단 베너</button>
             <button>메인 슬라이더 배너</button>
@@ -72,13 +17,14 @@
             <button>회원로그인 배너</button>
             <button>마이페이지 배너</button>
         </div>
+
         <section class="sectionBox">
             <div>
                 <h3 class="banner_title">메인 상단배너</h3>
             </div>
 
             <table class="admingraph">
-                <tr class="admin_title" style="height: 50px; border-bottom: 1px solid #A6A6A6;">
+                <tr class="admin_title">
                     <th><input type="checkbox" name="allCheck" /></th>
                     <th>번호</th>
                     <th>이미지</th>
@@ -91,11 +37,11 @@
                     <th>관리</th>
                 </tr>
 
-                <tr class="admin_config-banner">
-                    <td ><input type="checkbox" name="상품코드" /></td>
+                <tr class="admin_list">
+                    <td><input type="checkbox" name="상품코드" /></td>
                     <td>1</td>
                     <td><img th:src="@{/images/admin/sample_thumb.jpg}" class="thumb"
-                        style="width: 70px; height: 70px;"></td>
+                            style="width: 70px; height: 70px;"></td>
                     <td style="text-align: left;">
                         <p>배너명</p>
                         <p>크기 : 1200 x 80</p>
@@ -113,11 +59,11 @@
                         <a href="">[비활성]</a>
                     </td>
                 </tr>
-                <tr class="admin_config-banner">
-                    <td ><input type="checkbox" name="상품코드" /></td>
+                <tr class="admin_list">
+                    <td><input type="checkbox" name="상품코드" /></td>
                     <td>1</td>
                     <td><img th:src="@{/images/admin/sample_thumb.jpg}" class="thumb"
-                        style="width: 70px; height: 70px;"></td>
+                            style="width: 70px; height: 70px;"></td>
                     <td style="text-align: left;">
                         <p>배너명</p>
                         <p>크기 : 1200 x 80</p>
@@ -144,176 +90,18 @@
             <div class="pagingBox">
                 <div class="pagingList">
                     <!-- 이전 버튼 -->
-                    <a href="#" class="prev"></a>
+                    <a href="#" class="prev"><</a>
 
-<<<<<<< HEAD
                     <!-- 페이지 링크 -->
                     <a href="#">1</a>
                     <a href="#" class="active">2</a>
                     <a href="#">3</a>
                     <a href="#">4</a>
                     <a href="#">5</a>
-=======
-            <aside>
-                <ul id="admin_sidebar">
-                    <li>
-                        <a href="#"><i class="fa fa-cogs" aria-hidden="true"></i>환경설정</a>
-                        <ol>
-                            <li><a href="#">기본환경정보</a></li>
-                            <li><a href="#">배너관리</a></li>
-                        </ol>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fas fa-store" aria-hidden="true"></i>상점관리</a>
-                        <ol>
-                            <li><a href="#">판매자현황</a></li>
-                        </ol>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-users" aria-hidden="true"></i>회원관리</a>
-                        <ol>
-                            <li><a href="#">회원현황</a></li>
-                            <li><a href="#">포인트관리</a></li>
-                        </ol>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fas fa-box-open" aria-hidden="true"></i>상품관리</a>
-                        <ol>
-                            <li><a href="#">상품현황</a></li>
-                            <li><a href="#">상품등록</a></li>
-                        </ol>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-credit-card" aria-hidden="true"></i>주문관리</a>
-                        <ol>
-                            <li><a href="#">주문현황</a></li>
-                            <li><a href="#">매출현황</a></li>
-                            <li><a href="#">배송관리</a></li>
-                        </ol>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>고객센터</a>
-                        <ol>
-                            <li><a href="#">공지사항</a></li>
-                            <li><a href="#">자주묻는질문</a></li>
-                            <li><a href="#">문의하기</a></li>
-                        </ol>
-                    </li>
-                </ul>
-            </aside>
-            <div class="content">
-
-                <div class="dashboard">
-                    <div class="content_header">
-                        <h1>배너관리</h1>
-                        <p>
-                            HOME > 환경설정 > <strong>배너관리</strong>
-                        </p>
-                    </div>
-                    
-
-                    <div class="bannerinsertbtn">
-                        <button class="on">메인 상단 베너</button>
-                        <button>메인 슬라이더 배너</button>
-                        <button>상품 상세보기 배너</button>
-                        <button>회원로그인 배너</button>
-                        <button>마이페이지 배너</button>
-                    </div>
-
-                    <section class="sectionBox">
-                        <div>
-                            <h3>메인 상단배너</h3>
-                        </div>
-                    
-                        <table class="admingraph">
-                            <tr class="admin_title">
-                                <th><input type="checkbox" name="allCheck" /></th>
-                                <th>번호</th>
-                                <th>이미지</th>
-                                <th>배너정보</th>
-                                <th>배너위치</th>
-                                <th>시작일</th>
-                                <th>종료일</th>
-                                <th>시작시간</th>
-                                <th>종료시간</th>
-                                <th>관리</th>
-                            </tr>
-
-                            <tr class="admin_list">
-                                <td ><input type="checkbox" name="상품코드" /></td>
-                                <td>1</td>
-                                <td><img src="/static/images/admin/sample_thumb.jpg" class="thumb"
-                                    style="width: 70px; height: 70px;"></td>
-                                <td style="text-align: left; line-height: 25px;">
-                                    <p>배너명</p>
-                                    <p>크기 : 1200 x 80</p>
-                                    <p>배경색 : #FFFFF</p>
-                                    <p>배너링크</p>
-                                </td>
-                                <td>MAIN1</td>
-                                <td>2024/10/16</td>
-                                <td>2024/10/18</td>
-                                <td>13:00</td>
-                                <td>15:00</td>
-                                <td>
-                                    <a href="">[활성]</a>
-                                    <br>
-                                    <a href="">[비활성]</a>
-                                </td>
-                            </tr>
-                            
-                            <tr class="admin_list">
-                                <td ><input type="checkbox" name="상품코드" /></td>
-                                <td>1</td>
-                                <td><img src="/static/images/admin/sample_thumb.jpg" class="thumb"
-                                    style="width: 70px; height: 70px;"></td>
-                                <td style="text-align: left; line-height: 25px;">
-                                    <p>배너명</p>
-                                    <p>크기 : 1200 x 80</p>
-                                    <p>배경색 : #FFFFF</p>
-                                    <p>배너링크</p>
-                                </td>
-                                <td>MAIN1</td>
-                                <td>2024/10/16</td>
-                                <td>2024/10/18</td>
-                                <td>13:00</td>
-                                <td>15:00</td>
-                                <td>
-                                    <a href="">[활성]</a>
-                                    <br>
-                                    <a href="">[비활성]</a>
-                                </td>
-                            </tr>
-
-                        </table>
-                        <a class="delete_btn">선택삭제</a>
-                        <a class="registration_btn">배너등록</a>
-
-
-                        <div class="pagingBox">
-                            <div class="pagingList">
-                                <!-- 이전 버튼 -->
-                                <a href="#" class="prev"></a>
-
-                                <!-- 페이지 링크 -->
-                                <a href="#">1</a>
-                                <a href="#" class="active">2</a>
-                                <a href="#">3</a>
-                                <a href="#">4</a>
-                                <a href="#">5</a>
-
-                                <!-- 다음 버튼 -->
-                                <a href="#" class="next">></a>
-                            </div>
-                        </div>
-                    </section>
->>>>>>> a0954c2 (fix style : 관리자 목록 관련 스타일 수정)
 
                     <!-- 다음 버튼 -->
                     <a href="#" class="next">></a>
-                </div>
-            </div>
-        </section>
 
+        </section>
     </div>
 </div>

@@ -1,5 +1,5 @@
 <div class="content" th:fragment="list">
-    <link rel="stylesheet" th:href="@{/css/admin/list.css}" />
+    <link rel="stylesheet" th:href="@{/css/admin/product/list.css}" />
     <div class="dashboard">
         <div class="content_header">
             <h1>상품 현황</h1>
@@ -11,7 +11,7 @@
         <!-- 상품목록 컨텐츠 시작 -->
         <section class="sectionBox">
             <div>
-                <form action="/admin/product/list">
+                <form action="/admin/product/list" class="search_bar">
                     <select name="type">
                         <option value="prodName">상품명</option>
                         <option value="prodNo">상품번호</option>
@@ -39,10 +39,10 @@
                     <th>관리</th>
                 </tr>
 
-                <tr class="admin_product-list">
-                    <td ><input type="checkbox" name="상품코드" /></td>
-                    <td><img th:src="@{/images/admin/sample_thumb.jpg}" class="thumb"
-                        style="width: 70px; height: 70px;"></td>
+                <tr class="admin_list">
+                    <td><input type="checkbox" name="상품코드" /></td>
+                    <td><img th:src="@{/images/admin/sample_thumb.jpg}" class="thumb" style="width: 70px; height: 70px">
+                    </td>
                     <td>201603292</td>
 
                     <td>상품명 #1</td>
@@ -53,18 +53,18 @@
 
                     <td>1,000</td>
                     <td>(주) 다파라</td>
-                    <td>조회수</td>
-                    <td>
-                        <a onclick="modifyProdStatus()" class="product__delete-btn">[삭제]</a>
+                    <td>120</td>
+                    <td style="line-height: 20px">
+                        <a onclick="modifyProdStatus()" class="cs_delete-btn">[삭제]</a>
                         <br>
-                        <a href="/seller/product/option?prodNo=상품코드값">[수정]</a>
+                        <a href="/seller/product/option?prodNo=상품코드값" class="cs_modify-btn">[수정]</a>
                     </td>
                 </tr>
 
-                <tr class="admin_product-list">
-                    <td ><input type="checkbox" name="상품코드" /></td>
-                    <td><img th:src="@{/images/admin/sample_thumb.jpg}" class="thumb"
-                            style="width: 70px; height: 70px"></td>
+                <tr class="admin_list">
+                    <td><input type="checkbox" name="상품코드" /></td>
+                    <td><img th:src="@{/images/admin/sample_thumb.jpg}" class="thumb" style="width: 70px; height: 70px">
+                    </td>
                     <td>201603292</td>
 
                     <td>상품명 #1</td>
@@ -75,18 +75,18 @@
 
                     <td>1,000</td>
                     <td>(주) 다파라</td>
-                    <td>조회수</td>
-                    <td>
-                        <a onclick="modifyProdStatus()" class="product__delete-btn">[삭제]</a>
+                    <td>300</td>
+                    <td style="line-height: 20px">
+                        <a onclick="modifyProdStatus()" class="cs_delete-btn">[삭제]</a>
                         <br>
-                        <a href="/seller/product/option?prodNo=상품코드값">[수정]</a>
+                        <a href="/seller/product/option?prodNo=상품코드값" class="cs_modify-btn">[수정]</a>
                     </td>
                 </tr>
 
-                <tr class="admin_product-list">
-                    <td ><input type="checkbox" name="상품코드" /></td>
-                    <td><img th:src="@{/images/admin/sample_thumb.jpg}" class="thumb"
-                            style="width: 70px; height: 70px"></td>
+                <tr class="admin_list">
+                    <td><input type="checkbox" name="상품코드" /></td>
+                    <td><img th:src="@{/images/admin/sample_thumb.jpg}" class="thumb" style="width: 70px; height: 70px">
+                    </td>
                     <td>201603292</td>
 
                     <td>상품명 #1</td>
@@ -97,11 +97,11 @@
 
                     <td>1,000</td>
                     <td>(주) 다파라</td>
-                    <td>조회수</td>
-                    <td>
-                        <a onclick="modifyProdStatus()" class="product__delete-btn">[삭제]</a>
+                    <td>120</td>
+                    <td style="line-height: 20px">
+                        <a onclick="modifyProdStatus()" class="cs_delete-btn">[삭제]</a>
                         <br>
-                        <a href="/seller/product/option?prodNo=상품코드값">[수정]</a>
+                        <a href="/seller/product/option?prodNo=상품코드값" class="cs_modify-btn">[수정]</a>
                     </td>
                 </tr>
 
@@ -128,7 +128,4 @@
             </div>
         </section>
     </div>
- </div>
-
-
-
+</div>

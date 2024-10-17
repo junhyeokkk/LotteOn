@@ -1,310 +1,50 @@
-/*헤더*/
-.header_wrapper {
-    width: 100%;
-    height: 60px;
-    border-bottom: 1px solid #aca7a7;
-    display: flex;         
-    justify-content: center;
-  }
-  header {
-    position: relative;
-    width: 100%;
-    height: 60px;
-    background-color: white;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #2c3e50;
-  }
-  
-  /*헤더 로고*/
-  #admin_logo {
-    width: 170px;
-    height: 35px;
-    margin-left: 50px;
-  }
-  
-  .home {
-    position: absolute;
-    top: 13px;
-    right: 12px;
-  }
-
-  .home > a {
-    color: white;
-  }
-  
-  .home > #admin_logo {
-    color: white  !important;
-    font-style: inherit;
-    font-size: 12px;
-  }
-
-  #admin_logo > img {
-    width: 100%; 
-    height: 100%;
-    object-fit: cover; 
-    display: block; 
-}
-
-.dashboard {
-    width: 90%;
-    margin: 0 auto;
-}
-
-.content_header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 0;
-    border-bottom: 1px solid #c0c0c0;
-}
-
-.content_header h1 {
-    font-size: 24px;
-    color: #333;
-}
-
-.content_header p {
-    color: #888;
-}
-
-/* 메인 */
-main {
-    width: 1200px;
-    height: auto;
-    margin: 0 auto;
-    overflow: hidden;
-}
-main > aside {
-    float: left;
-    width: 250px;
-    height: auto;
-    box-sizing: border-box;
-}
-main > .content {
-    float: right;
-    width: 950px;
-    height: auto;
-}
-
-/* 카테고리>카테고리 */
-main > section > nav > p {
-    position: absolute;
-    right: 0;
-    /* bottom: 10px; */
-}
-
-
-/*사이드바*/
-#admin_sidebar {
-    width: 175px;
-    height: auto;
-    background-color: #2c3e50; 
-    font-family: 'Arial', sans-serif;
-    box-sizing: border-box;
-    justify-content: center;
-    align-items: center;
-}
-
-#admin_sidebar > li {
-    width: 80%;
-    min-height: 66px;
-    border-top: 1px solid #34495e;
-    box-sizing: border-box;
-    margin-left: 20%;
-    transition: background-color 0.3s;
-}
-
-#admin_sidebar > li:hover {
-    background-color: #34495e; 
-}
-
-#admin_sidebar > li:nth-child(1) {
-    border-top: none;
-}
-
-#admin_sidebar > li:last-child {
-    border-bottom: 1px solid #34495e;
-}
-
-#admin_sidebar > li > a {
-    display: block;
-    width: 100%;
-    height: 66px;
-    font-size: 16px; 
-    font-weight: bold;
-    color: #ecf0f1; 
-    line-height: 66px;
-    text-indent: 20px; 
-    text-decoration: none;
-    transition: color 0.3s, padding-left 0.3s; 
-}
-
-#admin_sidebar > li > a:hover {
-    color: #1abc9c; 
-    padding-left: 30px;
-}
-
-#admin_sidebar > li > a > i {
-    margin-right: 10px;
-    font-size: 20px;
-}
-
-#admin_sidebar ol {
-    display: none;
-    width: 100%;
-    height: auto;
-    background-color: #34495e; 
-    transition: height 0.3s ease-out; 
-}
-
-#admin_sidebar > li.active ol {
-    display: block;
-}
-
-#admin_sidebar ol > li {
-    width: 100%;
-    height: 40px;
-    transition: background-color 0.3s; 
-}
-
-#admin_sidebar ol > li > a {
-    display: block;
-    width: 100%;
-    height: 100%;
-    font-size: 14px; 
-    color: #bdc3c7; 
-    line-height: 40px;
-    text-indent: 40px; 
-    text-decoration: none;
-    transition: color 0.3s, padding-left 0.3s; 
-}
-
-#admin_sidebar ol > li > a:hover {
-    color: #1abc9c; 
-    padding-left: 50px; 
-}
-
-
-/* 아이콘 색상 */
-#admin_sidebar > li > a > i, 
-#admin_sidebar ol > li > a > i {
-    color: #ecf0f1;
-}
-
-
-/* 서브메뉴에서 hover 시 배경색 변화 */
-#admin_sidebar ol > li:hover {
-    background-color: #3b4f61;
-}
-
-/* 활성화된 서브 메뉴 링크 스타일 */
-#admin_sidebar ol > li > a.active {
-    background-color: #1abc9c; /* 원하는 배경색 */
-    color: #fff; /* 원하는 텍스트 색상 */
-}
-
-/* 페이징 */
-.pagingBox {
-    display: flex;
-    position: relative;
-    margin-top: 40px;
-    justify-content: center;
-}
-
-.pagingList>a {
-    display: inline-block;
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    color: #999;
-    line-height: 26px;
-    margin: 0 2px;
-    text-indent: -1px;
-    font-family: Roboto, NotoSansKR, Malgun Gothic, AppleSDGothicNeo, Helvetica, sans-serif;
-    text-align: center;
-}
-
-.pagingList>a.active {
-    margin: 0 4px;
-    background-color: #343b4d;
-    border: 1px solid #343b4d;
-    color: #fff;
-}
-
-.pagingList>a:hover {
-    background-color: #35373d;
-}
-
-
-/* 푸터 */
-.footer_wrapper {
-    display: flex;
-    /* width: 1200px; */
-    height: 41px;
-    background-color: #2c3e50;
-    margin-top: 10px;
-}
-
-footer {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row;
-    align-items: center;
-    color: white;
-}
-#version {
-    margin-left: 12px;
-}
-
-#copyright {
-    margin-right: 12px;
-}
-
-
-/* 상품검색 */
-input {
-    width: 200px;
-    padding: 6px;
-    border: 1px solid #D8D8D8;
-    font-size: 13px;            
-    background-color: #fefefe;
-    color: #333;
-    vertical-align: middle;
-    box-sizing: border-box;
-}
-
+/* 유형선택 */
 .select-container {
     display: flex;
     gap: 10px; /* 간격을 원하는 만큼 조정 가능 */
 }
-
 select[name="type"] {
-    appearance: none;
-    width: 75px;
-    height: 35px;
+    width: 80px;
+    height: 40px;
     border: 1px solid #D8D8D8;
     text-align: center;
     outline: none;
 }
-
-input[type="checkbox"] {
-    width: auto;
-    margin-right: 6px;
-}
-
+/* 유형선택 */
 .sectionBox > div {
-    margin-top: 35px;
+    margin-top: 30px;
     margin-bottom: 10px;
 }
 
-.searchBtn {
-    width: 45px;
-    background-color: #D8D8D8;
-    color: #FFFFFF;
+/*표*/
+.admingraph {
+    width: 100%;
+    margin-top: 13px;
+    border-top: 2px solid #8798a3;
+    border-bottom: 2px solid #BFBFBF;
+    background: #fff;
+    text-align: center;
+    box-sizing: border-box;
+    border-collapse: collapse;
+}
+/*표 상단*/
+.admin_title {
+    height: 65px;
+    border-bottom: 1px solid #BFBFBF;
+}
+/*표 제목 텍스트*/
+.admin_title th {
+    font-weight: bolder;
+}
+/*표 내용*/
+.admin_list {
+    height: 65px;
+    border-bottom: 1px solid #BFBFBF;
+}
+/*체크*/
+input[type="checkbox"] {
+    width: auto;
+    margin-right: 6px;
 }
 
 button[type=submit] {
@@ -312,31 +52,30 @@ button[type=submit] {
     height: 26px;
     margin-right: 246px;
     padding: 0 15px;
-    background-color: #a8b2c5;            
+    background-color: #a8b2c5;
     border: 1px solid #D8D8D8;
-    font-size: 12px;            
-    color: #fff;            
+    font-size: 12px;
+    color: #fff;
     vertical-align: middle;
 }
 
-.admingraph {
-    width: 100%;
-    margin-top: 20px;
-    border-top: 2px solid #8798a3;
-    border-bottom: 2px solid #8798a3;
-    background: #fff;
-    text-align: center;
-    box-sizing: border-box;
-}
 
-.product__delete-btn {
+/* 버튼 */
+
+/* [삭제] */
+.cs_delete-btn {
     cursor: pointer;
     text-decoration: none;
     color: #ff0000;
 }
+/* [수정] */
+.cs_modify-btn{
+    cursor: pointer;
+    text-decoration: none;
+    color: blue;
+}
 
-
-/* 선택삭제, 상품등록 */
+/* 삭제버튼 */
 .delete_btn {
     float: left;
     width: 100px;
@@ -346,13 +85,13 @@ button[type=submit] {
     border: 1px solid #D9D9D9;
     font-size: 13px;
     text-align: center;
-    background-color: #eaeaea;
+    background-color: #BFBFBF;
     color: #FFFFFF;
     vertical-align: middle;
     box-sizing: border-box;
     cursor: pointer;
 }
-
+/* 등록버튼 */
 .registration_btn {
     float: right;
     width: 100px;
@@ -372,43 +111,42 @@ button[type=submit] {
 
 /* 리스트 표 */
 
-/* 상품현황 */
-.admin_product-list > td:nth-child(1) {width: 20px;}
-.admin_product-list > td:nth-child(2) {width: 20px;}
-.admin_product-list > td:nth-child(3) {width: 30px;}
-.admin_product-list > td:nth-child(4) {width: 250px;}
-.admin_product-list > td:nth-child(5) {width: 70px;}
-.admin_product-list > td:nth-child(6) {width: 40px;}
-.admin_product-list > td:nth-child(7) {width: 60px;}
-.admin_product-list > td:nth-child(8) {width: 50px;}
-.admin_product-list > td:nth-child(9) {width: 80px;}
-
-
-/* 공지사항  */
-.admin_notice-list > td:nth-child(1) {width: 20px;}
-.admin_notice-list > td:nth-child(2) {width: 80px;}
-.admin_notice-list > td:nth-child(3) {width: 80px;}
-.admin_notice-list > td:nth-child(4) {width: auto; text-align: left;}
-.admin_notice-list > td:nth-child(5) {width: 80px;}
-.admin_notice-list > td:nth-child(6) {width: 80px;}
-.admin_notice-list > td:nth-child(7) {width: 80px;}
-
-/* 자주묻는질문 */
-.admin_faq-list > td:nth-child(1) {width: 20px;}
-.admin_faq-list > td:nth-child(2) {width: 80px;}
-.admin_faq-list > td:nth-child(3) {width: 80px;}
-.admin_faq-list > td:nth-child(4) {width: 80px;}
-.admin_faq-list > td:nth-child(5) {width: auto; text-align: left;}
-.admin_faq-list > td:nth-child(6) {width: 80px;}
-.admin_faq-list > td:nth-child(7) {width: 80px;}
-.admin_faq-list > td:nth-child(8) {width: 80px;}
-
 /* 문의하기 */
-.admin_faq-list > td:nth-child(1) {width: 20px;}
-.admin_faq-list > td:nth-child(2) {width: 80px;}
-.admin_faq-list > td:nth-child(3) {width: 80px;}
-.admin_faq-list > td:nth-child(4) {width: 80px;}
-.admin_faq-list > td:nth-child(5) {width: auto; text-align: left;}
-.admin_faq-list > td:nth-child(6) {width: 80px;}
-.admin_faq-list > td:nth-child(7) {width: 80px;}
-.admin_faq-list > td:nth-child(8) {width: 80px;}
+.admin_qna-list > td:nth-child(1) {width: 20px;}
+.admin_qna-list > td:nth-child(2) {width: 80px;}
+.admin_qna-list > td:nth-child(3) {width: 80px;}
+.admin_qna-list > td:nth-child(4) {width: 80px;}
+.admin_qna-list > td:nth-child(5) {width: auto; text-align: left;}
+.admin_qna-list > td:nth-child(6) {width: 80px;}
+.admin_qna-list > td:nth-child(7) {width: 80px;}
+.admin_qna-list > td:nth-child(8) {width: 80px;}
+
+
+/* 페이징 */
+.pagingBox {
+    display: flex;
+    position: relative;
+    margin-top: 40px;
+    justify-content: center;
+}
+.pagingList>a {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    color: #999;
+    line-height: 26px;
+    margin: 0 2px;
+    text-indent: -1px;
+    font-family: Roboto, NotoSansKR, Malgun Gothic, AppleSDGothicNeo, Helvetica, sans-serif;
+    text-align: center;
+}
+.pagingList>a.active {
+    margin: 0 4px;
+    background-color: #343b4d;
+    border: 1px solid #343b4d;
+    color: #fff;
+}
+.pagingList>a:hover {
+    background-color: #35373d;
+}

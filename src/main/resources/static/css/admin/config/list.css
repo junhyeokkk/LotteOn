@@ -1,20 +1,22 @@
-/* 유형선택 */
-.select-container {
-    display: flex;
-    gap: 10px; /* 간격을 원하는 만큼 조정 가능 */
+/* 배너관리 , 버전이력 */
+
+/*버전 */
+.sectionBox > div {
+    margin-top: 20px;
+    margin-bottom: 10px;
 }
 
-select[name="type"] {
-    width: 80px;
+/* 버전관리 #1 */
+.adminp {
     height: 40px;
-    border: 1px solid #D8D8D8;
-    text-align: center;
-    outline: none;
+    display: flex;
+    align-items: center; /* 세로 중앙 정렬 */
+    background-color: #F2F2F2;
 }
-/* 유형선택 */
-.sectionBox > div {
-    margin-top: 30px;
-    margin-bottom: 10px;
+/*사이트 버전목록 입니다.*/
+.adminp p {
+    width: 100%; /* p 태그가 가로로 꽉 차도록 설정 */
+    padding-left: 10px; /* 텍스트에 약간의 좌측 padding 추가 */
 }
 
 /*표*/
@@ -49,19 +51,8 @@ input[type="checkbox"] {
 }
 
 
+
 /* 버튼 */
-/* [삭제] */
-.cs_delete-btn {
-    cursor: pointer;
-    text-decoration: none;
-    color: #ff0000;
-}
-/* [수정] */
-.cs_modify-btn{
-    cursor: pointer;
-    text-decoration: none;
-    color: #2e8de5;
-}
 
 /* 삭제버튼 */
 .delete_btn {
@@ -97,24 +88,13 @@ input[type="checkbox"] {
 }
 
 
-/* 리스트 표 */
-
-/* 자주묻는질문 */
-.admin_faq-list > td:nth-child(1) {width: 20px;}
-.admin_faq-list > td:nth-child(2) {width: 80px;}
-.admin_faq-list > td:nth-child(3) {width: 80px;}
-.admin_faq-list > td:nth-child(4) {width: 80px;}
-.admin_faq-list > td:nth-child(5) {width: auto; text-align: left;}
-.admin_faq-list > td:nth-child(6) {width: 80px;}
-.admin_faq-list > td:nth-child(7) {width: 80px;}
-.admin_faq-list > td:nth-child(8) {width: 80px;}
 
 
 /* 페이징 */
 .pagingBox {
     display: flex;
     position: relative;
-    margin-top: 40px;
+    margin-top: 40px !important;
     justify-content: center;
 }
 .pagingList>a {

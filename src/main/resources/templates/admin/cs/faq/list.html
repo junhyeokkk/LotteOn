@@ -1,5 +1,5 @@
 <div class="content" th:fragment="list">
-    <link rel="stylesheet" th:href="@{/css/admin/list.css}" />
+    <link rel="stylesheet" th:href="@{/css/admin/cs/faq/list.css}" />
     <div class="dashboard">
         <div class="content_header">
             <h1>자주묻는질문 목록</h1>
@@ -61,10 +61,10 @@
                     </td>
                     <td>120</td>
                     <td style="white-space: nowrap;">2024-10-14</td>
-                    <td>
-                        <a onclick="modifyProdStatus()" class="product__delete-btn">[삭제]</a>
+                    <td style="line-height: 20px">
+                        <a onclick="modifyProdStatus()" class="cs_delete-btn">[삭제]</a>
                         <br>
-                        <a href="">[수정]</a>
+                        <a href="" class="cs_modify-btn">[수정]</a>
                     </td>
                 </tr>
 
@@ -76,7 +76,7 @@
                 <div class="pagingList">
 
                     <!-- 이전 버튼 -->
-                    <a href="#" class="prev"></a>
+                    <a href="#" class="prev"><</a>
 
                     <!-- 페이지 링크 -->
                     <a href="#">1</a>
@@ -92,11 +92,5 @@
 
         </section>
 
-        <!-- 다음 버튼 -->
-        <a href="#" class="next">></a>
     </div>
-</div>
-
-</section>
-</div>
 </div>

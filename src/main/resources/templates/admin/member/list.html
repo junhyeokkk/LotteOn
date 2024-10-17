@@ -1,5 +1,5 @@
 <div class="content" th:fragment="list">
-    <link rel="stylesheet" th:href="@{/css/admin/list.css}" />
+    <link rel="stylesheet" th:href="@{/css/admin/member/list.css}" />
     <div class="dashboard">
         <div class="content_header">
             <h1>회원목록</h1>
@@ -10,7 +10,7 @@
 
         <section class="sectionBox">
             <div>
-                <form action="/admin/member/list">
+                <form action="/admin/member/list" class="search_bar">
                     <select name="type">
                         <option value="uid">아이디</option>
                         <option value="name">이름</option>
@@ -60,9 +60,10 @@
                     <td>0000-00-00</td>
                     <td>정상</td>
                     <!-- 정상, 중지, 휴면, 탈퇴 -->
-                    <td>
-                        <a href="">[수정]</a>
-                        <a href="">[중지]</a>
+                    <td style="line-height: 20px">
+                        <a href="" class="cs_modify-btn">[수정]</a>
+                        <br>
+                        <a href="" class="cs_delete-btn">[중지]</a>
                         <!-- <a href="">[휴면]</a>
                         <a href="">[재개]</a>
                         <a href="">[비활성]</a> -->
@@ -75,7 +76,7 @@
             <div class="pagingBox">
                 <div class="pagingList">
                     <!-- 이전 버튼 -->
-                    <a href="#" class="prev"></a>
+                    <a href="#" class="prev"><</a>
 
                     <!-- 페이지 링크 -->
                     <a href="#">1</a>
