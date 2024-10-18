@@ -2,6 +2,13 @@
 
 <!-- 회원정보 섹션 -->
 <section th:fragment="ordered">
+    <div th:replace="layout/modal :: #orderDetailModal"></div>
+    <div th:replace="layout/modal :: #sellerInfoModal"></div>
+    <div th:replace="layout/modal :: #sellerInfoModal"></div>
+    <div th:replace="layout/modal :: #receiptConfirmModal"></div>
+    <div th:replace="layout/modal :: #reviewModal"></div>
+    <div th:replace="layout/modal :: #refundModal"></div>
+    <div th:replace="layout/modal :: #returnModal"></div>
     <a href="#"><img src="/images/my/my_banner_sample.png" alt="롯데ON에서 드리는 다양한 결제혜택" class="banner"></a>
     <!-- 810x86 배너 이미지 -->
     <article class="latest">
@@ -42,22 +49,22 @@
                     <td><a href="#" class="recentproductorderimg"><img src="/images/my/my_sample_thumb.png" alt="상품이미지"></a></td>
                     <td class="order-info">
                         <div class="order-number">
-                            주문번호: <a href="#">/1022134123</a>
+                            주문번호: <a href="#" data-modal="orderDetailModal">1022134123</a>
                         </div>
-                        <div class="company-name" text="${order.companyName}">실바니안패밀리</div>
+                        <div class="company-name" text="${order.companyName}" data-modal="sellerInfoModal">실바니안패밀리</div>
                         <div class="product-name" text="${order.productName}">플로라 토끼 남매의 꽃 가꾸기</div>
                         <div>수량 : <span text="${order.quantity}"></span>1 개</div>
                         <div class="product-price" style="font-size: 18px; font-weight: bold;" text="${order.price}">25,900원</div>
                     </td>
 
                     <td class="status">배송중</td>
-                    <td class="modalbuttondiv">
+                    <td >
                         <!-- 수취확인 -->
-                        <button class="receivebutton">수취확인</button><br>
-                        <button class="receivebutton">상품평쓰기</button><br>
+                        <button class="receivebutton" data-modal="receiptConfirmModal">수취확인</button><br>
+                        <button class="receivebutton" data-modal="reviewModal">상품평쓰기</button><br>
 
-                        <button class="reviewbutton">반품신청</button><br>
-                        <button class="reviewbutton">교환신청</button>
+                        <button class="reviewbutton" data-modal="refundModal">반품신청</button><br>
+                        <button class="reviewbutton" data-modal="returnModal">교환신청</button>
                     </td>
                 </tr>
 
@@ -75,7 +82,7 @@
                     </td>
 
                     <td class="status">배송완료</td>
-                    <td class="modalbuttondiv">
+                    <td >
                         <!-- 수취확인 -->
                         <button class="receivebutton">수취확인</button><br>
                         <button class="receivebutton">상품평쓰기</button><br>

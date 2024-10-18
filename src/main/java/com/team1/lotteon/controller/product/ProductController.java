@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RequiredArgsConstructor
 public class ProductController {
     private final UserService userService;
+
     @GetMapping("/product/{cate}")
     public String index(@PathVariable String cate, Model model){
 

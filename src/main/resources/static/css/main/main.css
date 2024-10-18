@@ -487,3 +487,25 @@ main {
     border: none;
     cursor: pointer;
   }
+
+  .productBox {
+      display: flex;
+      gap:12px;
+      margin-bottom: 20px;
+  }
+
+
+  .product__free {
+      background-color: #5274ff;
+      color:white;
+      padding: 2px;
+      border-radius: 4px;
+      margin-right: 12px;
+      display: block;
+      width: fit-content;
+  }
+
+  .dis_price{
+      display: flex;
+      justify-content: space-between;
+  }
