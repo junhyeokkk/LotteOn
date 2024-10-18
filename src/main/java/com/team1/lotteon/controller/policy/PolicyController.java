@@ -43,9 +43,9 @@ public class PolicyController {
                 termsDetail = "위치정보 이용약관의 세부 내용입니다...";
                 break;
             default:
-                buy = "기본 약관";
-                termsDetail = "기본 약관의 세부 내용입니다...";
-                break;
+                // cate 값이 올바르지 않은 경우 처리
+                log.error("잘못된 카테고리 요청: " + cate);
+                return "error/404"; // 404 페이지 또는 다른 에러 페이지로 리다이렉트
         }
 
         // 로그 출력

@@ -36,6 +36,10 @@ header {
 .logo img {
   width: 120px;
 }
+.cultureWork img {
+
+}
+
 
 .search-bar input {
   padding: 5px;
@@ -211,5 +215,10 @@ footer {
   background-color: #ddd;  /* 마우스 호버 시 배경색 변경 */
 }
 
-
+.terms-title h3{
+  margin: 0;
+}
+.toggle-button{
+  margin: 0;
+}
 

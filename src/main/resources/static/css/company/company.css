@@ -77,7 +77,7 @@ header > div {
 }
 
 
-    /* main */
+/* main */
 main {
     display: flex;
     flex-direction: column;
@@ -102,7 +102,7 @@ main > div {
 .companyLogo > .blogMainImage {
     height: 700px;
     width: 100%;
-    background-image: url("../images/company/blog_main.jpg");
+    background-image: url("../../images/company/blog_main.jpg");
     background-position: center left;
     background-repeat: no-repeat;
     background-size: cover;
@@ -330,7 +330,7 @@ main > div {
 .companyLogo > .cultureMainImage {
     height: 700px;
     width: 100%;
-    background-image: url("../images/company/Panorama_convert.jpg");
+    background-image: url("../../images/company/Panorama_convert.jpg");
     background-position: center left;
     background-repeat: no-repeat;
     background-size: cover;
@@ -418,7 +418,7 @@ main > div {
 }
 
 .contentSubHead{
-    font-size: 18px; 
+    font-size: 18px;
     padding-left: 60px;
 }
 
@@ -470,9 +470,12 @@ main > div {
     align-self: center;
 }
 
+.systemText img{
+    margin: 0;
+}
 
 .companyIntro{
     margin-top: 20px;
     font-size: 16px
-    
-} 
+
+}

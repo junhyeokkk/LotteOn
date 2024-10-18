@@ -1,27 +1,19 @@
 <footer class="footer" th:fragment="footer1">
-    <link rel="stylesheet" href="/css/include/footer.css" th:href="@{/css/footer1.css}">
+    <link rel="stylesheet" href="/css/company/footer1.css" th:href="@{/css/company/footer1.css}">
     <link rel="stylesheet" href="/css/include/reset.css" th:href="@{/css/include/reset.css}">
 
-
-    <div class="footer__info">
+    <div class="footer__all">
         <p class="footer__logo"><img src="/static/images/footer_logo.png" th:src="@{/images/footer_logo.png}" alt="로고"></p>
 
-
-
+        <div class="footer__a">
+            <ul class="footer__links">
+                <li class="footer__link"><a th:href="@{/company/index}">HOME</a></li>
+                <li class="footer__link"><a th:href="@{/company/content/culture}">기업문화</a></li>
+                <li class="footer__link"> <a th:href="@{/company/content/story}">소식과 이야기</a></li>
+                <li class="footer__link"><a th:href="@{/company/content/recruit}">채용</a></li>
+                <li class="footer__link"> <a th:href="@{/company/content/media}">미디어</a></li>
+            </ul>
+            <p>Copyright © LotteON All rights Reserved</p>
+        </div>
     </div>
-    <div class="footer__a">
-        <ul class="footer__links">
-            <li class="footer__link"><a th:href="@{/company/index}">HOME</a></li>
-            <li class="footer__link"><a th:href="@{/company/content/culture}">기업문화</a></li>
-            <li class="footer__link"> <a th:href="@{/company/content/story}">소식과 이야기</a></li>
-            <li class="footer__link"><a th:href="@{/company/content/recruit}">채용</a></li>
-            <li class="footer__link"> <a th:href="@{/company/content/media}">미디어</a></li>
-        </ul>
-        <p>Copyright © LotteON All rights Reserved</p>
-    </div>
-
-
-
-
-
-
+</footer>
