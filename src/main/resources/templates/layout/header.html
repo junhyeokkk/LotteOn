@@ -4,10 +4,10 @@
     <link rel="stylesheet" href="/css/include/reset.css" th:href="@{/css/include/reset.css}">
     <div class="header__top">
         <div class="center header__top__nav">
-            
-                <a href="#" th:href="@{/member/login}">로그인</a>
-                <a href="#" th:href="@{/member/join}">회원가입</a>
-                <a th:href="@{/admin}">관리자</a>
+
+                <a th:href="@{/user/login}">로그인</a>
+                <a th:href="@{/user/join}">회원가입</a>
+                <a th:href="@{/myPage/home}">마이페이지</a>
                     <i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;장바구니
                 </a>
                 <a href="#" th:href="@{/myPage/home}">마이페이지</a>
@@ -42,6 +42,5 @@
                 <button class="search__btn"><img width="18" class="search__btn__img" src="/static/images/search.svg" th:src="@{/images/search.svg}" /></button>
             </form>
         </div>
-
     </div>
 </header>

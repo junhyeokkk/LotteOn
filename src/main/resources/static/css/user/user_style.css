@@ -78,19 +78,26 @@ button {
 }
 
 .socialSignupWrap .googleLoginBtn {
-    background-image: url(/static/images/member/google-img.png)
+    background-image: url(/images/member/google-img.png)
 }
 
 .loginButtonWithImage {
-    height: 100px;
-    /* 버튼 높이를 입력창과 동일하게 설정 */
-    width: 80px;
-    background-color: #ef2a23;
-    color: white;
-    font-size: 16px;
-    border-radius: 4px;
-    cursor: pointer;
-    float: right;
+    display: flex; /* Flexbox를 사용하여 정렬 */
+    justify-content: center; /* 가로 방향 중앙 정렬 */
+    align-items: center; /* 세로 방향 중앙 정렬 */
+    height: 100px; /* 버튼 높이 */
+    width: 80px; /* 버튼 너비 */
+    background-color: #ef2a23; /* 배경색 */
+    color: white; /* 텍스트 색상 */
+    font-size: 16px; /* 텍스트 크기 */
+    border-radius: 4px; /* 모서리 둥글게 */
+    cursor: pointer; /* 마우스 커서 */
+    text-decoration: none; /* 링크 밑줄 없애기 */
+}
+
+.btnLogin {
+    margin: 0; /* 텍스트 주변 여백 없애기 */
+    padding: 0; /* 패딩 제거 */
 }
 
 .loginImage {
@@ -144,10 +151,12 @@ button {
 .title-join{
     text-align: center;
     margin-top: 50px;
+    margin-bottom: 10px;
 }
 
 .wel-join {
     text-align: center;
+    margin-bottom: 50px;
 }
 
 .membership-options {
@@ -257,6 +266,7 @@ button {
     border-collapse: collapse;
     border-spacing: 0;
     width: 100%;
+    margin-top: 30px;
 }
 
 .heighttable tr {height: 47px;}
@@ -270,12 +280,14 @@ button {
 .heighttable th {
     background-color: #F2F2F2;
     width: 143px;
+    font-size: 13px;
 }
 
 .heighttable td {
     padding-left: 15px;
 }
 .modal-section {padding: 15px 22.5px 20px 22.5px;}
+
 .registerbuttondiv {
     display: flex;
     justify-content: center;
@@ -287,8 +299,9 @@ button {
     height: 40px;
     color: white;
     cursor: pointer;
-
+    margin-top: 10px;
 }
+
 .user-section{
     padding-top: 40px;
     width: 650px;
