@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     // <a href="#" data-modal="versioncheckModal">[확인]</a>
     // 모달 닫기 버튼들 (.closeModalBtn 클래스를 가진 모든 버튼에 이벤트 등록)
-    document.querySelectorAll('#closeModal').forEach(function (button) {
+    document.querySelectorAll('#closeModal, .modalcanclebutton').forEach(function (button) {
         button.addEventListener('click', function () {
             const modal = button.closest('.modal');  // 가장 가까운 모달 요소를 찾음
             closeModal(modal.id);

@@ -12,12 +12,7 @@
 }
 
 /* 모달별 컨텐츠 스타일 */
-.modalcontent{
-    background-color: #fefefe;
-    margin: 15% auto;
-    border: 1px solid #888;
-    border-radius: 15px;
-}
+
 /* 상세주문 모달 */
 .ordermodal-content {
     height: 630px;
@@ -195,7 +190,9 @@
     justify-content: center;
     gap: 5px;
 }
-
+#receiptConfirmModal .modalbuttondiv {
+    padding-top: 20px;
+}
 .modalbutton {
     background-color: #ef2a23;
     border: 0;
@@ -220,7 +217,11 @@
     color: white;
     cursor: pointer;
 }
-
+.modalcontent{
+    background-color: #fefefe;
+    margin: 15% auto;
+    border-radius: 15px;
+}
 /* 기타 모달 스타일 */
 .modalcontent textarea {
     margin-top: 5px;

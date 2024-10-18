@@ -14,36 +14,10 @@
     <div id="wrapper">
         <header th:replace="~{layout/header::header}"></header>
         <div>
-            <nav class="myinfotopside">
-                <div>
-                    <a href="#" class="shopping-info">나의쇼핑정보</a>
-        
-                    <ol>
-                        <li>
-                            <a href="/my/order">주문<br><span>2</span></a>
-                        </li>
-                        <li>
-                            <a href="/my/coupon">쿠폰<br><span>1</span></a>
-                        </li>
-                        <li>
-                            <a href="/my/point">포인트<br><span>1,000</span></a>
-                        </li>
-                        <li>
-                            <a href="/my/qna">문의<br><span>1</span></a>
-                        </li>
-                    </ol>
-                </div>
-            </nav>
+            <th:replace th:replace="~{mypage/include/mypagenav::nav}"></th:replace>
             <!-- only for info header -->
             <div class="info">
-                <ul>
-                    <li><a th:href="@{/myPage/include/content/ordered}">전체주문내역</a></li>
-                    <li><a th:href="@{myPage/include/content/point}">포인트내역</a></li>
-                    <li><a th:href="@{myPage/include/content/coupon}">쿠폰</a></li>
-                    <li><a th:href="@{myPage/include/content/review}">나의리뷰</a></li>
-                    <li><a th:href="@{myPage/include/content/qna}">문의하기</a></li>
-                    <li><a th:href="@{myPage/include/content/info}">나의설정</a></li>
-                </ul>
+                <div th:replace="~{mypage/include/mypagesidebar::sidebar}"></div>
 
                 <section>
                     <a href="#"><img src="/images/my/my_banner_sample.png" alt="롯데ON에서 드리는 다양한 결제혜택" class="banner"></a>
@@ -75,7 +49,7 @@
                                     </td>
 
                                     <td class="status">배송중</td>
-                                    <td class="modalbuttondiv">
+                                    <td >
                                         <!-- 수취확인 -->
                                         <button class="receivebutton">수취확인</button><br>
                                         <button class="receivebutton">상품평쓰기</button><br>

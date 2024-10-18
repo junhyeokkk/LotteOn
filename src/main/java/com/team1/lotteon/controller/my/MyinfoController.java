@@ -14,13 +14,11 @@ public class MyinfoController {
         return "/myPage/home";
     }
 
-    @GetMapping("/myPage/include/{group}/{cate}")
-    public String myinfoindex(@PathVariable String group, @PathVariable String cate, Model model){
+    @GetMapping("/myPage/{cate}")
+    public String myinfoindex(@PathVariable String cate, Model model){
 
         log.info("컨트롤러 들어오니?");
-        log.info("ggggggggg" + group);
         log.info(cate);
-        model.addAttribute("group", group);
         model.addAttribute("cate", cate);
 
 

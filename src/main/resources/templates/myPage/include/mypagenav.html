@@ -1,11 +1,11 @@
 <nav class="myinfotopside" th:fragment="nav">
     <div>
-        <a href="#" class="shopping-info">나의쇼핑정보</a>
+        <a th:href="@{/myPage/home}" class="shopping-info">나의쇼핑정보</a>
         <ol>
-            <li><a href="/my/order">주문<br><span>2</span></a></li>
-            <li><a href="/my/coupon">쿠폰<br><span>1</span></a></li>
-            <li><a href="/my/point">포인트<br><span>1,000</span></a></li>
-            <li><a href="/my/qna">문의<br><span>1</span></a></li>
+            <li><a th:href="@{/myPage/ordered}">주문<br><span>2</span></a></li>
+            <li><a th:href="@{/myPage/coupon}">쿠폰<br><span>1</span></a></li>
+            <li><a th:href="@{/myPage/point}">포인트<br><span>1,000</span></a></li>
+            <li><a th:href="@{/myPage/qna}">문의<br><span>1</span></a></li>
         </ol>
     </div>
 </nav>
