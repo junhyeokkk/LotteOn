@@ -51,6 +51,31 @@
     border-radius: 5px
 }
 
+
+.myinfotopside {
+    height: 75px;
+    /* 높이 지정 */
+}
+
+.myinfotopside div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: 10px;
+}
+
+.myinfotopside ol {
+    display: flex;
+    list-style: none;
+    margin-left: auto;
+}
+
+.myinfotopside ol li {
+    margin-right: 20px;
+    /* 각 li 요소 간의 간격 */
+}
+
+
 .myinfotopside {
     height: 75px;
     /* 높이 지정 */
@@ -60,14 +85,7 @@
     /* 좌우 여백 추가 */
 }
 
-.myinfotopside div {
-    display: flex;
-    align-items: center;
-    /* 세로 가운데 정렬 */
-    justify-content: space-between;
-    /* 좌우로 배치 */
-    margin-left: 10px;
-}
+
 
 .myinfotopside .shopping-info {
     flex-grow: 1;
@@ -166,29 +184,6 @@
 }
 
 
-.myinfotopside {
-    height: 75px;
-    /* 높이 지정 */
-}
-
-.myinfotopside div {
-    display: flex;
-    align-items: center;
-    /* 세로 가운데 정렬 */
-    justify-content: space-between;
-    /* 좌우로 배치 */
-}
-
-.myinfotopside ol {
-    display: flex;
-    list-style: none;
-    margin-left: auto;
-}
-
-.myinfotopside ol li {
-    margin-right: 20px;
-    /* 각 li 요소 간의 간격 */
-}
 
 /* 최근주문내역, 전체주문내역 상품정보 이미지 */
 .myinfotopside img {

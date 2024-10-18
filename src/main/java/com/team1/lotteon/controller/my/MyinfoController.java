@@ -9,10 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Log4j2
 @Controller
 public class MyinfoController {
-
     @GetMapping("/myPage/home")
     public String home() {
-
         return "/myPage/home";
     }
 
@@ -25,7 +23,7 @@ public class MyinfoController {
         model.addAttribute("group", group);
         model.addAttribute("cate", cate);
 
+
         return "/myPage/layout/mypage_layout";
     }
-
 }
