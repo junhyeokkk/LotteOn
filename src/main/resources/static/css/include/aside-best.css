@@ -1,0 +1,143 @@
+main > aside {
+    float: left;
+    width: 215px;
+    height: 100%;
+}
+
+
+/* 베스트 배너 */
+.best {
+    width: 205px;
+    height: auto;
+    margin-top: 6px;
+    border: 1px solid #dbdbdb;
+    box-sizing: border-box;
+    box-shadow: 0 0 5px rgba(55, 55, 5, 0.2);
+    position: fixed;
+    top: 300px;
+}
+
+.best > h1 {
+    font-size: 14px;
+    font-weight: bold;
+    color: #111;
+    margin: 6px;
+}
+.best > h1 > i {
+    margin-right: 6px;
+    font-size: 18px;
+}
+
+.best > ol {
+    width: 100%;
+}
+.best > ol > li {
+    width: 100%;
+    padding: 0 6px;
+    box-sizing: border-box;
+    margin-bottom: 16px;
+}
+
+.best > ol > li > a {
+    display: block;
+    width: 100%;
+    overflow: hidden;
+}
+
+.best > ol > li > a:hover h2 {
+    text-decoration: underline;
+}
+.best > ol > li > a > .thumb {
+    float: left;
+    position: relative;
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.best > ol > li:first-child > a > .thumb {
+    position: relative;
+    float: none;
+    width: 100%;
+    height: 210px;
+    overflow: hidden;
+    margin: 0 auto;
+}
+.best > ol > li > a > .thumb > i {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: inline-block;
+    width: 16px;
+    height: 20px;
+    font-size: 14px;
+    padding: 0;
+    color: #ef3e42;
+    border-bottom: 1px solid #ef3e42;
+    font-weight: bold;
+    font-style: italic;
+    text-align: center;
+    line-height: 18px;
+}
+.best > ol > li:first-child > a > .thumb > i {
+    width: 35px;
+    height: 26px;
+}
+
+.best > ol > li > a > .thumb > img {
+    width: 100%;
+}
+
+.best > ol > li > a > article {
+    float: left;
+    width: 148px;
+    padding-left: 6px;
+    box-sizing: border-box;
+}
+
+.best > ol > li > a h2 {
+    margin-top: 4px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    padding-left: 4px;
+    font-weight: bold;
+}
+.best > ol > li > a .org_price {
+}
+.best > ol > li > a .org_price > del::after {
+    content: "원";
+}
+.best > ol > li > a .org_price > ins::after {
+    content: "원";
+}
+.best > ol > li > a .org_price > del {
+    font-size: 10px;
+    color: #aaa;
+}
+.best > ol > li > a .org_price > span {
+    color: #eb000a;
+    font-size: 10px;
+}
+.best > ol > li > a .org_price > span::after {
+    content: "↓";
+}
+.best > ol > li > a .dis_price {
+}
+.best > ol > li > a .dis_price > ins {
+    font-size: 14px;
+    text-decoration: none;
+}
+.best > ol > li > a .dis_price > ins::after {
+    content: "원";
+}
+.best > ol > li > a .dis_price > span {
+    display: inline-block;
+    font-size: 0;
+    vertical-align: text-bottom;
+    width: 55px;
+    height: 13px;
+    background: url("../images/ico_freeshipping.gif") no-repeat;
+}

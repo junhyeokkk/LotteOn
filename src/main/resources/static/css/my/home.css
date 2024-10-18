@@ -155,7 +155,6 @@
     margin-bottom: 3px;
     border-radius: 5px
 }
-
 .reviewbutton {
     background-color: #BFBFBF;
     border: 0px;
@@ -206,17 +205,6 @@
 .myinfosetting div>span:first-child {
     font-weight: bold;
     font-size: 16px;
-}
-
-/* 쿠폰사용제한안내 */
-.couponinfo {
-    width: 100%;
-    font-family: '돋움';
-    font-size: 11px;
-    color: #777;
-    letter-spacing: 3px;
-    word-spacing: 2px;
-    padding-bottom: 8px;
 }
 
 /* 검색기능 (전체주문내역, 포인트내역) */
@@ -315,34 +303,7 @@ table.widthtable tr:last-child td {
     /* 클릭 시 색상이 노란색으로 변경 */
 }
 
-/* 페이징 */
-.pagingBox {
-    display: flex;
-    position: relative;
-    margin-top: 20px;
-    justify-content: center;
-}
-.pagingList>a {
-    display: inline-block;
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    color: #999;
-    line-height: 26px;
-    margin: 0 2px;
-    text-indent: -1px;
-    font-family: Roboto, NotoSansKR, Malgun Gothic, AppleSDGothicNeo, Helvetica, sans-serif;
-    text-align: center;
-}
-.pagingList>a.active {
-    margin: 0 4px;
-    background-color: #343b4d;
-    border: 1px solid #343b4d;
-    color: #fff;
-}
-.pagingList>a:hover {
-    background-color: #35373d;
-}
+
 .myinfoheighttable {
     border-collapse: collapse;
     width: 845px;
@@ -389,6 +350,7 @@ table.widthtable tr:last-child td {
     text-decoration: underline;
 }
 
+/* 버튼 */
 .myinfosubmitbutton {
     display: flex;
     /* 플렉스 박스 활성화 */
@@ -397,7 +359,6 @@ table.widthtable tr:last-child td {
     gap: 5px;
     margin-bottom: 10px;
 }
-
 .myinfosubmitbutton button {
     background-color: #ef2a23;
     /* 343b4d */
@@ -412,4 +373,33 @@ table.widthtable tr:last-child td {
 .myinfomation input[type="text"],
 .myinfomation select {
     height: 30px;
+}
+
+/* 페이징 */
+.pagingBox {
+    display: flex;
+    position: relative;
+    margin-top: 40px;
+    justify-content: center;
+}
+.pagingList>a {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    color: #999;
+    line-height: 26px;
+    margin: 0 2px;
+    text-indent: -1px;
+    font-family: Roboto, NotoSansKR, Malgun Gothic, AppleSDGothicNeo, Helvetica, sans-serif;
+    text-align: center;
+}
+.pagingList>a.active {
+    margin: 0 4px;
+    background-color: #343b4d;
+    border: 1px solid #343b4d;
+    color: #fff;
+}
+.pagingList>a:hover {
+    background-color: #35373d;
 }

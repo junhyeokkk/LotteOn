@@ -5,19 +5,27 @@
 <head>
     <meta charset="UTF-8">
     <title>롯데ON::대한민국 1등 온라인 쇼핑몰</title>
-    <link rel="stylesheet" th:href="@{/css/my/home.css}">
+    <link rel="stylesheet" th:href="@{/css/my/home.css}"/>
     <link rel="stylesheet" th:href="@{/css/reset.css}" />
-
+    <link rel="stylesheet" th:href="@{/css/my/modal.css}">
+    <script type="text/javascript" th:src="@{/js/modal/modal.js}"></script>
+    <div th:replace="layout/modal :: #orderDetailModal"></div>
+    <div th:replace="layout/modal :: #sellerInfoModal"></div>
+    <div th:replace="layout/modal :: #inquiryModal"></div>
+    <div th:replace="layout/modal :: #receiptConfirmModal"></div>
+    <div th:replace="layout/modal :: #reviewModal"></div>
+    <div th:replace="layout/modal :: #refundModal"></div>
+    <div th:replace="layout/modal :: #returnModal"></div>
 </head>
 
 <body>
     <div id="wrapper">
         <header th:replace="~{layout/header::header}"></header>
         <div>
-            <th:replace th:replace="~{mypage/include/mypagenav::nav}"></th:replace>
+            <th:replace th:replace="~{myPage/include/mypagenav::nav}"></th:replace>
             <!-- only for info header -->
             <div class="info">
-                <div th:replace="~{mypage/include/mypagesidebar::sidebar}"></div>
+                <div th:replace="~{myPage/include/mypagesidebar::sidebar}"></div>
 
                 <section>
                     <a href="#"><img src="/images/my/my_banner_sample.png" alt="롯데ON에서 드리는 다양한 결제혜택" class="banner"></a>
@@ -25,7 +33,7 @@
                     <!-- 사이드 영역 -->
                     <article class="latest">
                         <h3>최근주문내역</h3>
-                        <a th:href="@{/myPage/include/content/ordered}" class="more">더보기 &gt;</a>
+                        <a th:href="@{/myPage/ordered}" class="more">더보기 &gt;</a>
                         <table border="0" class="widthtable">
                             <tr>
                                 <th>날짜</th>
@@ -40,9 +48,9 @@
                                     <td><a href="#" class="recentproductorderimg"><img src="/images/my/my_sample_thumb.png" alt="상품이미지"></a></td>
                                     <td class="order-info">
                                         <div class="order-number">
-                                            주문번호: <a href="#">/1022134123</a>
+                                            주문번호: <a href="#" data-modal="orderDetailModal">1022134123</a>
                                         </div>
-                                        <div class="company-name" text="${order.companyName}">실바니안패밀리</div>
+                                        <div class="company-name" text="${order.companyName}" data-modal="sellerInfoModal">실바니안패밀리</div>
                                         <div class="product-name" text="${order.productName}">플로라 토끼 남매의 꽃 가꾸기</div>
                                         <div>수량 : <span text="${order.quantity}"></span>1 개</div>
                                         <div class="product-price" style="font-size: 18px; font-weight: bold;" text="${order.price}">25,900원</div>
@@ -51,11 +59,11 @@
                                     <td class="status">배송중</td>
                                     <td >
                                         <!-- 수취확인 -->
-                                        <button class="receivebutton">수취확인</button><br>
-                                        <button class="receivebutton">상품평쓰기</button><br>
-                                    
-                                        <button class="reviewbutton">반품신청</button><br>
-                                        <button class="reviewbutton">교환신청</button>
+                                        <button class="receivebutton" data-modal="receiptConfirmModal">수취확인</button><br>
+                                        <button class="receivebutton" data-modal="reviewModal">상품평쓰기</button><br>
+
+                                        <button class="reviewbutton" data-modal="refundModal">반품신청</button><br>
+                                        <button class="reviewbutton" data-modal="returnModal">교환신청</button>
                                     </td>
                                 </tr>
                             </block>
@@ -64,7 +72,7 @@
 
                     <article class="point">
                         <h3>포인트적립내역</h3>
-                        <a th:href="@{myPage/include/content/point}" class="more">더보기 &gt;</a>
+                        <a th:href="@{/myPage/point}" class="more">더보기 &gt;</a>
                         <table border="0" class="widthtable">
                             <tr>
                                 <th>날짜</th>
@@ -94,7 +102,7 @@
                     </article>
                     <article class="review">
                         <h3>상품평</h3>
-                        <a th:href="@{myPage/include/content/review}" class="more">더보기 &gt;</a>
+                        <a th:href="@{/myPage/review}" class="more">더보기 &gt;</a>
                         <table border="0" class="widthtable">
                             <tr>
                                 <th>번호</th>
@@ -141,7 +149,7 @@
 
                     <article class="qna">
                         <h3>문의내역</h3>
-                        <a th:href="@{myPage/include/content/qna}" class="more">더보기 &gt;</a>
+                        <a th:href="@{/myPage/qna}" class="more">더보기 &gt;</a>
                         <table border="0" class="widthtable">
                             <tr>
                                 <th>번호</th>
@@ -182,7 +190,7 @@
                         <div class="myinfosetting">
                             <div class="address">
                                 <span>기본 배송지설정</span>
-                                <a th:href="@{myPage/include/content/info}" class="setting">&nbsp;&nbsp;변경</a>
+                                <a th:href="@{/myPage/info}" class="setting">&nbsp;&nbsp;변경</a>
                                 <p>
                                     <span text="${'우편번호 : '+member.zip}">부산광역시</span><br />
                                     <span text="${'상세주소 :'+member.addr1 +' '+member.addr2}">서면</span><br />
@@ -192,7 +200,7 @@
                             </div>
                             <div class="email">
                                 <span>email 설정</span>
-                                <a th:href="@{myPage/include/content/info}" class="setting">&nbsp;&nbsp;변경</a>
+                                <a th:href="@{/myPage/info}" class="setting">&nbsp;&nbsp;변경</a>
                                 <p>
                                     <span text="${member.email}">abc123@gmail.com</span><br />
                                     (최종수정일 <span text="${member.rdate.toLocalDate()}">2021-12-10</span>)
@@ -200,7 +208,7 @@
                             </div>
                             <div class="hp">
                                 <span>휴대폰 설정</span>
-                                <a th:href="@{myPage/include/content/info}" class="setting">&nbsp;&nbsp;변경</a>
+                                <a th:href="@{/myPage/info}" class="setting">&nbsp;&nbsp;변경</a>
                                 <p>
                                     <span text="${member.hp}">abc123@gmail.com</span><br />
                                     (최종수정일 <span text="${member.rdate.toLocalDate()}">2021-12-10</span>)

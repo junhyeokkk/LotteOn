@@ -4,10 +4,9 @@
 
     <ul class="footer__links">
         <li class="footer__link"><a th:href="@{/company/index}">회사소개</a></li>
-        <li class="footer__link"><a href="#">서비스이용약관</a></li>
-        <li class="footer__link"><a href="#">개인정보처리방침</a></li>
-        <li class="footer__link"><a href="#">전자금융거래약관</a></li>
-        <li class="footer__link"><a href="#">1.0.0</a></li>
+        <li class="footer__link"><a th:href="@{/policy/index}">서비스이용약관</a></li>
+        <li class="footer__link"><a th:href="@{/policy/privacy}">개인정보처리방침</a></li>
+        <li class="footer__link"><a th:href="@{/policy/finance}">전자금융거래약관</a></li>
     </ul>
     <div class="footer__info">
         <p class="footer__logo"><img src="/static/images/footer_logo.png" th:src="@{/images/footer_logo.png}" alt="로고"></p>
@@ -20,10 +19,13 @@
         </p>
         <p class="footer__customer-service">
             <strong>고객센터</strong><br>
+        <div style="font-size: 11px; line-height: 15px; color: #676767;">
             Tel : 1234-5678 (평일 09:00~18:00)<br>
             스마일클럽/SVIP 전용 : 1522-5700 (365일 09:00~18:00)<br>
             경기도 부천시 원미구 부일로 223(상동) 투나빌딩 6층<br>
-            Fax : 051-123-4567 | Mail : LotteON@LotteON.co.kr
+            Fax : 051-123-4567 | Mail : LotteON@LotteON.co.kr<br>
+            <span th:text="|Version: ${@environment.getProperty('app.version')}|">Version : 1.11..</span>
+        </div>
         </p>
     </div>
 </footer>

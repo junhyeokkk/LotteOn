@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class MyinfoController {
     @GetMapping("/myPage/home")
     public String home() {
-        return "/myPage/home";
+        return "myPage/home";
     }
 
     @GetMapping("/myPage/{cate}")
@@ -22,6 +22,6 @@ public class MyinfoController {
         model.addAttribute("cate", cate);
 
 
-        return "/myPage/layout/mypage_layout";
+        return "myPage/layout/mypage_layout";
     }
 }

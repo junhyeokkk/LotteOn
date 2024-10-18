@@ -719,7 +719,7 @@
       color: #007bff;
   }
 
-  button {
+ .simple-view, .more-view {
       display: block;
       width: 100%;
       padding: 10px;
