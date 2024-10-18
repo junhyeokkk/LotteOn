@@ -22,6 +22,6 @@ public class MyinfoController {
         model.addAttribute("cate", cate);
 
 
-        return "/myPage/layout/mypage_layout";
+        return "myPage/layout/mypage_layout";
     }
 }
