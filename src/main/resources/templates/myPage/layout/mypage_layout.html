@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <title>My Info</title>
-    <link rel="stylesheet" href="/css/my/myinfo.css">
+    <link rel="stylesheet" th:href="@{/css/my/myinfo.css}">
+    <link rel="stylesheet" th:href="@{/css/my/modal.css}">
+    <script type="text/javascript" th:src="@{/js/modal/modal.js}"></script>
 </head>
 <body>
 <header th:replace="~{layout/header::header}"></header>

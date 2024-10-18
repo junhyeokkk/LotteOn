@@ -32,13 +32,14 @@
     width: 930px;
     border: none;
 }
+.deliverinfomodal-content,
 .orderinfomodal-content {
     width: 930px; /* 너비는 고정 */
     max-height: 80vh; /* 최대 높이를 뷰포트 높이의 80%로 설정 */
     overflow-y: auto; /* 높이가 넘치면 스크롤이 나타남 */
 }
 /* 판매자,문의,리뷰 모달 추가 */
-.adressinputmodal-content,
+
 .versioninsertmodal-content,
 .VersionCheckmodal-content,
 .Bannermodal-content,
@@ -54,7 +55,13 @@
     height: 250px;
     width: 410px;
 }
-
+.couponinsertmodal-content,
+.couponinfomodal-content,
+.couponmodal-content,
+.adressinputmodal-content{
+    height: 630px;
+    width: 700px;
+}
 
 .sellerinsertmodal-content{
     height: 750px;
