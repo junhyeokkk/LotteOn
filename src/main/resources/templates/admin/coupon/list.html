@@ -1,0 +1,97 @@
+<div class="content"  th:fragment="list">
+  <link rel="stylesheet" th:href="@{/css/admin/coupon/list.css}" />
+  <div class="dashboard">
+    <div class="content_header">
+      <h1>쿠폰목록</h1>
+      <p>
+        HOME > 쿠폰관리 > <strong>쿠폰목록</strong>
+      </p>
+    </div>
+
+    <section class="sectionBox">
+      <div>
+        <form action="/admin/coupon/list" class="search_bar">
+          <select name="type">
+            <option value="orderNo">쿠폰번호</option>
+            <option value="orderId">쿠폰명</option>
+            <option value="orderName">발급자</option>
+          </select>
+          <input class="searchInput" type="text" name="keyword">
+          <input type="hidden" name="prodSeller" value="ADMIN" readonly>
+          <input class="searchBtn" type="submit" value="검색">
+        </form>
+      </div>
+      <table class="admingraph">
+        <tr class="admin_title">
+          <th>쿠폰번호</th>
+          <th>쿠폰종류</th>
+          <th>쿠폰명</th>
+          <th>혜택</th>
+          <th>사용기간</th>
+          <th>발급자</th>
+          <th>발급수</th>
+          <th>사용수</th>
+          <th>상태</th>
+          <th>발급일</th>
+          <th>관리</th>
+        </tr>
+
+        <tr class="admin_list">
+          <td>
+            <a href="">10121211341</a>
+          </td>
+          <td>개별상품 할인</td>
+          <td>10월 한달 감사 쿠폰</td>
+          <td>2,000원 할인</td>
+          <td>0000-00-00 ~ 0000-00-00</td>
+          <td>(주) 다있어</td>
+          <td>102</td>
+          <td>43</td>
+          <td style="color: green;">발급중</td>
+          <td>2024-10-16 00:00:00</td>
+          <td>
+            <a class="deliveryBtn">종료</a>
+          </td>
+        </tr>
+
+        <tr class="admin_list">
+          <td>
+            <a href="">10121211341</a>
+          </td>
+          <td>개별상품 할인</td>
+          <td>10월 한달 감사 쿠폰</td>
+          <td>2,000원 할인</td>
+          <td>0000-00-00 ~ 0000-00-00</td>
+          <td>(주) 다있어</td>
+          <td>102</td>
+          <td>43</td>
+          <td style="color: grey;">종료</td>
+          <td>2024-10-16 00:00:00</td>
+          <td>
+            <a class="deliveryBtn" style="color: white; background-color: grey" >종료</a>
+          </td>
+        </tr>
+
+      </table>
+
+      <div class="pagingBox">
+        <div class="pagingList">
+          <!-- 이전 버튼 -->
+          <a href="#" class="prev"><</a>
+
+          <!-- 페이지 링크 -->
+          <a href="#">1</a>
+          <a href="#" class="active">2</a>
+          <a href="#">3</a>
+          <a href="#">4</a>
+          <a href="#">5</a>
+
+          <!-- 다음 버튼 -->
+          <a href="#" class="next">></a>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+</div>
