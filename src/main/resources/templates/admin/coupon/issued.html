@@ -1,0 +1,88 @@
+<div class="content"  th:fragment="issued">
+  <link rel="stylesheet" th:href="@{/css/admin/coupon/issued.css}" />
+  <div class="dashboard">
+    <div class="content_header">
+      <h1>쿠폰발급현황</h1>
+      <p>
+        HOME > 쿠폰관리 > <strong>쿠폰발급현황</strong>
+      </p>
+    </div>
+
+    <section class="sectionBox">
+      <div>
+        <form action="/admin/coupon/list" class="search_bar">
+          <select name="type">
+            <option value="orderNo">발급번호</option>
+            <option value="orderId">쿠폰번호</option>
+            <option value="orderName">쿠폰명</option>
+          </select>
+          <input class="searchInput" type="text" name="keyword">
+          <input type="hidden" name="prodSeller" value="ADMIN" readonly>
+          <input class="searchBtn" type="submit" value="검색">
+        </form>
+      </div>
+      <table class="admingraph">
+        <tr class="admin_title">
+          <th>발급번호</th>
+          <th>쿠폰번호</th>
+          <th>쿠폰종류</th>
+          <th>쿠폰명</th>
+          <th>사용자</th>
+          <th>상태</th>
+          <th>사용일</th>
+          <th>관리</th>
+        </tr>
+
+        <tr class="admin_list">
+          <td>
+            <a href="">10121211341</a>
+          </td>
+          <td>1012121456</td>
+          <td>개별상품 할인</td>
+          <td>10월 한달 감사 쿠폰</td>
+          <td>akwe121</td>
+          <td style="color: red;">미사용</td>
+          <td>2024-10-16 00:00:00</td>
+          <td>
+            <a class="deliveryBtn">중단</a>
+          </td>
+        </tr>
+
+        <tr class="admin_list">
+          <td>
+            <a href="">10121211341</a>
+          </td>
+          <td>1012121456</td>
+          <td>개별상품 할인</td>
+          <td>10월 한달 감사 쿠폰</td>
+          <td>akwe121</td>
+          <td style="color: green;">사용</td>
+          <td>2024-10-16 00:00:00</td>
+          <td>
+            <a class="deliveryBtn" style="color: white; background-color: grey" >중단</a>
+          </td>
+        </tr>
+
+      </table>
+
+      <div class="pagingBox">
+        <div class="pagingList">
+          <!-- 이전 버튼 -->
+          <a href="#" class="prev"><</a>
+
+          <!-- 페이지 링크 -->
+          <a href="#">1</a>
+          <a href="#" class="active">2</a>
+          <a href="#">3</a>
+          <a href="#">4</a>
+          <a href="#">5</a>
+
+          <!-- 다음 버튼 -->
+          <a href="#" class="next">></a>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+</div>

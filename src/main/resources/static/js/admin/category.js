@@ -11,6 +11,7 @@ categoryList.addEventListener('dragstart', function(event) {
         draggedElement.classList.add('dragging'); // 드래그 클래스 추가
     }
 });
+
 // 드래그 오버
 categoryList.addEventListener('dragover', function(event) {
     event.preventDefault();
@@ -31,13 +32,26 @@ categoryList.addEventListener('drop', function(event) {
     const targetElement = event.target.closest('.category-item, .subcategory-item');
 
     if (targetElement && draggedElement) {
-        if (targetElement !== draggedElement) {
-            if (targetElement.classList.contains('subcategory-item')) {
+        // 같은 계층끼리만 드래그 앤 드롭 가능하게 체크
+        if (draggedElement.classList.contains('category-item') && targetElement.classList.contains('category-item')) {
+            // 1차 카테고리끼리만 이동
+            categoryList.insertBefore(draggedElement, targetElement.nextSibling);
+        } else if (draggedElement.classList.contains('subcategory-item') && targetElement.classList.contains('subcategory-item')) {
+            // 2차 카테고리끼리만 이동
+            const draggedParentCategory = draggedElement.closest('.category-item'); // 드래그된 2차 카테고리의 상위 1차 카테고리
+            const targetParentCategory = targetElement.closest('.category-item'); // 드롭될 2차 카테고리의 상위 1차 카테고리
+
+            // 같은 1차 카테고리 내에서만 2차 카테고리를 이동할 수 있도록 제한
+            if (draggedParentCategory === targetParentCategory) {
                 const subcategoryList = targetElement.closest('.subcategory-list');
                 subcategoryList.insertBefore(draggedElement, targetElement.nextSibling);
             } else {
-                categoryList.insertBefore(draggedElement, targetElement.nextSibling);
+                // 다른 1차 카테고리로 이동 시도 시 경고 메시지
+                alert("2차 카테고리는 다른 1차 카테고리로 이동할 수 없습니다.");
             }
+        } else {
+            // 다른 계층 간 이동 시 경고 메시지
+            alert("다른 계층 간에는 이동할 수 없습니다.");
         }
     }
 
@@ -47,6 +61,8 @@ categoryList.addEventListener('drop', function(event) {
         draggedElement = null; // 드래그한 요소를 초기화
     }
 });
+
+
 
 
 // 카테고리 열기/닫기 기능
