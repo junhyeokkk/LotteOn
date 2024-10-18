@@ -1,6 +1,7 @@
 #wrapper {
     width: 1200px; /* 원하는 너비로 설정 */
     margin: 0 auto; /* 가운데 정렬 */
+
 }
 
 /* 나의 쇼핑정보 */
@@ -11,7 +12,6 @@
     margin-left: 15px;
     margin-bottom: 10px;
 }
-
 .info ul {
     list-style: none;
     padding: 0;
@@ -23,23 +23,16 @@
     height: 1200px
     /* 전체 높이 설정 */
 }
-
 .info ul li {
     padding: 20px 0;
     text-align: center;
     font-weight: bold;
-
-
-
 }
-
 .info section {
     margin-top: 20px;
     margin-left: 20px;
-    /* 어사이드와 간격을 두기 위해 여백 설정 */
     flex-grow: 1;
 }
-
 .info .infobutton {
     height: 30px;
     background-color: #343b4d;
@@ -49,42 +42,18 @@
     border-radius: 5px
 }
 
-
+/*나의 정보 상단 사이드*/
 .myinfotopside {
     height: 75px;
-    /* 높이 지정 */
+    background-color: #f2f2f2;
+    padding: 10x 20px;
 }
-
 .myinfotopside div {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-left: 10px;
 }
-
-.myinfotopside ol {
-    display: flex;
-    list-style: none;
-    margin-left: auto;
-}
-
-.myinfotopside ol li {
-    margin-right: 20px;
-    /* 각 li 요소 간의 간격 */
-}
-
-
-.myinfotopside {
-    height: 75px;
-    /* 높이 지정 */
-    background-color: #f2f2f2;
-    /* 배경색 설정 */
-    padding: 10x 20px;
-    /* 좌우 여백 추가 */
-}
-
-
-
 .myinfotopside .shopping-info {
     flex-grow: 1;
     /* 공간 차지 */
@@ -95,56 +64,39 @@
     font-size: 25px;
     font-weight: bold;
 }
-
-
 /* 마이페이지 메뉴 */
 .myinfotopside ol {
     display: flex;
     list-style: none;
     padding-top: 15px;
+    margin-left: auto;
 }
-
 .myinfotopside ol li {
     border-right: 0.4px solid #97989b;
-    /* 각 li 요소 간 경계선 */
     margin-right: 20px;
-    /* 간격 */
     text-align: center;
     padding-right: 20px;
 }
-
 .myinfotopside ol li:last-child {
     border-right: none;
     /* 마지막 항목에는 경계선 제거 */
 }
+/* 최근주문내역, 전체주문내역 상품정보 이미지 */
+.myinfotopside img {
+    height: 75px;
+}
+
 
 /* 광고배너 */
 .banner {
     display: block;
+    margin: 0 auto;
     margin-bottom: 20px;
     width: 810px;
     height: 86px;
     object-fit: cover;
     /* 이미지가 비율을 유지하며 크기에 맞게 조정되도록 설정 */
-    margin: 0 auto;
 }
-
-/* 숫자 출력 스타일 */
-.myinfotopside ol li span {
-    display: block;
-    font-size: 18px;
-    /* 숫자의 크기 */
-    font-weight: bold;
-    /* 숫자 굵게 */
-}
-
-.myinfotopside ol li small {
-    display: block;
-    font-size: 14px;
-    /* 설명 텍스트 크기 */
-    color: #555;
-}
-
 /* 더보기 */
 .more {
     float: right;
@@ -156,7 +108,17 @@
     font-weight: bolder;
 }
 
-/* 사이드영역 */
+/*상품정보*/
+/* 숫자 출력 스타일 */
+.myinfotopside ol li span {
+    display: block;
+    font-size: 18px;
+    /* 숫자의 크기 */
+    font-weight: bold;
+    /* 숫자 굵게 */
+}
+
+/* 테이블 */
 .widthtable {
     border-top: 1.7px solid #000000;
     /* 위쪽 테두리 */
@@ -165,27 +127,17 @@
     border-collapse: collapse;
     width: 100%;
     text-align: center;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
-
 .widthtable th {
     height: 40px;
     background-color: #A6A6A6;
     color: white;
     width: auto;
     text-align: center;
-
 }
-
 .widthtable td {
     padding: 10px;
-}
-
-
-
-/* 최근주문내역, 전체주문내역 상품정보 이미지 */
-.myinfotopside img {
-    height: 75px;
 }
 
 .recentproductorderimg img {
@@ -222,9 +174,7 @@
     border: 1px solid #e5e5e5;
     margin: 10px 0;
     overflow: hidden;
-
 }
-
 .address {
     float: left;
     width: 33.33%;
@@ -234,7 +184,6 @@
     border-left: 1px solid #fdfdfd;
     box-sizing: border-box;
 }
-
 .email {
     float: left;
     width: 33.33%;
@@ -244,7 +193,6 @@
     border-left: 1px solid #fdfdfd;
     box-sizing: border-box;
 }
-
 .hp {
     float: left;
     width: 33.33%;
@@ -362,7 +310,6 @@ table.widthtable tr:last-child td {
     color: #ccc;
     /* 기본 색상 (회색) */
 }
-
 .star.filled {
     color: gold;
     /* 클릭 시 색상이 노란색으로 변경 */
@@ -375,7 +322,6 @@ table.widthtable tr:last-child td {
     margin-top: 20px;
     justify-content: center;
 }
-
 .pagingList>a {
     display: inline-block;
     width: 28px;
@@ -388,51 +334,41 @@ table.widthtable tr:last-child td {
     font-family: Roboto, NotoSansKR, Malgun Gothic, AppleSDGothicNeo, Helvetica, sans-serif;
     text-align: center;
 }
-
 .pagingList>a.active {
     margin: 0 4px;
     background-color: #343b4d;
     border: 1px solid #343b4d;
     color: #fff;
 }
-
 .pagingList>a:hover {
     background-color: #35373d;
 }
-
 .myinfoheighttable {
     border-collapse: collapse;
     width: 845px;
     border-top: 0.4px solid black;
     border-bottom: 0.4px solid black;
 }
-
 .myinfoheighttable tr {
     height: 47px;
 }
-
 .myinfoheighttable th {
     background-color: #F2F2F2;
     width: 155px;
 }
-
 .myinfoheighttable td {
     padding-left: 15px;
 }
-
 .myinfoheighttable tr:nth-child(5) td input {
     width: 125px;
 }
-
 .myinfoheighttable tr:nth-child(6) td input {
     width: 100px;
 }
-
 .myinfoheighttable tr:nth-child(7) td input:nth-of-type(1) {
     width: 185px;
     margin-bottom: 5px;
 }
-
 .myinfoheighttable tr:nth-child(7) td input:nth-of-type(2),
 .myinfoheighttable tr:nth-child(7) td input:nth-of-type(3) {
     margin-bottom: 5px;
