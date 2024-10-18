@@ -66,14 +66,14 @@
                 </div>
             </div>
 
-            <div class="total">
+            <div class="total" style="border:none">
                 <span class="total__price-name">총 상품금액</span>
                 <span class="total__price-value">27,000원</span>
             </div>
 
             <div class="button-group">
-                <input type="button" onclick="btnOrder()" class="button-group__btn button-group__order" value="구매하기" />
-                <input type="button" onclick="btnCart()" class="button-group__btn button-group__cart" value="장바구니" />
+                <input  onclick="(function(){window.location.href='/product/order'})()" type="button"  class="button-group__btn button-group__order" value="구매하기" />
+                <input  onclick="(function(){window.location.href='/product/cart'})()" type="button"  class="button-group__btn button-group__cart" value="장바구니" />
             </div>
         </div>
     </article>
