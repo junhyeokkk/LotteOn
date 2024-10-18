@@ -11,7 +11,7 @@ public class UserController {
     @GetMapping("/user/join")
     public String joinPage() {
 
-        return "/user/join";
+        return "user/join";
     }
 
     @GetMapping("/user/login")
@@ -23,19 +23,19 @@ public class UserController {
     @GetMapping("/user/register")
     public String registerPage() {
 
-        return "/user/register";
+        return "user/register";
     }
 
     @GetMapping("/user/registerSeller")
     public String registerSellerPage() {
 
-        return "/user/registerSeller";
+        return "user/registerSeller";
     }
 
     @GetMapping("/user/signup")
     public String sighupPage() {
 
-        return "/user/signup";
+        return "user/signup";
     }
 
 
