@@ -37,12 +37,12 @@
             <!-- only for info header -->
             <div class="info">
                 <ul>
-                    <li><a href="#">전체주문내역</a></li>
-                    <li><a href="#">포인트내역</a></li>
-                    <li><a href="#">쿠폰</a></li>
-                    <li><a href="#">나의리뷰</a></li>
-                    <li><a href="#">문의하기</a></li>
-                    <li><a href="#">나의설정</a></li>
+                    <li><a th:href="@{/myPage/include/content/ordered}">전체주문내역</a></li>
+                    <li><a th:href="@{myPage/include/content/point}">포인트내역</a></li>
+                    <li><a th:href="@{myPage/include/content/coupon}">쿠폰</a></li>
+                    <li><a th:href="@{myPage/include/content/review}">나의리뷰</a></li>
+                    <li><a th:href="@{myPage/include/content/qna}">문의하기</a></li>
+                    <li><a th:href="@{myPage/include/content/info}">나의설정</a></li>
                 </ul>
 
                 <section>
@@ -51,7 +51,7 @@
                     <!-- 사이드 영역 -->
                     <article class="latest">
                         <h3>최근주문내역</h3>
-                        <a href="#" class="more">더보기 &gt;</a>
+                        <a th:href="@{/myPage/include/content/ordered}" class="more">더보기 &gt;</a>
                         <table border="0" class="widthtable">
                             <tr>
                                 <th>날짜</th>
@@ -63,15 +63,15 @@
                             <block>
                                 <tr>
                                     <td class="date">2022-12-13</td>
-                                    <td><a href="#" class="recentproductorderimg"><img src="/images/admin/sample_thumb.jpg" alt="상품이미지"></a></td>
+                                    <td><a href="#" class="recentproductorderimg"><img src="/images/my/my_sample_thumb.png" alt="상품이미지"></a></td>
                                     <td class="order-info">
                                         <div class="order-number">
-                                            주문번호: <a href="#">/???????????????????</a>
+                                            주문번호: <a href="#">/1022134123</a>
                                         </div>
-                                        <div class="company-name" text="${order.companyName}">(주) 상호명</div>
-                                        <div class="product-name" text="${order.productName}">상품명</div>
+                                        <div class="company-name" text="${order.companyName}">실바니안패밀리</div>
+                                        <div class="product-name" text="${order.productName}">플로라 토끼 남매의 꽃 가꾸기</div>
                                         <div>수량 : <span text="${order.quantity}"></span>1 개</div>
-                                        <div class="product-price" style="font-size: 18px; font-weight: bold;" text="${order.price}">34,000원</div>
+                                        <div class="product-price" style="font-size: 18px; font-weight: bold;" text="${order.price}">25,900원</div>
                                     </td>
 
                                     <td class="status">배송중</td>
@@ -90,7 +90,7 @@
 
                     <article class="point">
                         <h3>포인트적립내역</h3>
-                        <a href="#" class="more">더보기 &gt;</a>
+                        <a th:href="@{myPage/include/content/point}" class="more">더보기 &gt;</a>
                         <table border="0" class="widthtable">
                             <tr>
                                 <th>날짜</th>
@@ -120,7 +120,7 @@
                     </article>
                     <article class="review">
                         <h3>상품평</h3>
-                        <a href="#" class="more">더보기 &gt;</a>
+                        <a th:href="@{myPage/include/content/review}" class="more">더보기 &gt;</a>
                         <table border="0" class="widthtable">
                             <tr>
                                 <th>번호</th>
@@ -167,7 +167,7 @@
 
                     <article class="qna">
                         <h3>문의내역</h3>
-                        <a href="#" class="more">더보기 &gt;</a>
+                        <a th:href="@{myPage/include/content/qna}" class="more">더보기 &gt;</a>
                         <table border="0" class="widthtable">
                             <tr>
                                 <th>번호</th>
@@ -208,7 +208,7 @@
                         <div class="myinfosetting">
                             <div class="address">
                                 <span>기본 배송지설정</span>
-                                <a href="#" class="setting">&nbsp;&nbsp;변경</a>
+                                <a th:href="@{myPage/include/content/info}" class="setting">&nbsp;&nbsp;변경</a>
                                 <p>
                                     <span text="${'우편번호 : '+member.zip}">부산광역시</span><br />
                                     <span text="${'상세주소 :'+member.addr1 +' '+member.addr2}">서면</span><br />
@@ -218,7 +218,7 @@
                             </div>
                             <div class="email">
                                 <span>email 설정</span>
-                                <a href="#" class="setting">&nbsp;&nbsp;변경</a>
+                                <a th:href="@{myPage/include/content/info}" class="setting">&nbsp;&nbsp;변경</a>
                                 <p>
                                     <span text="${member.email}">abc123@gmail.com</span><br />
                                     (최종수정일 <span text="${member.rdate.toLocalDate()}">2021-12-10</span>)
@@ -226,7 +226,7 @@
                             </div>
                             <div class="hp">
                                 <span>휴대폰 설정</span>
-                                <a href="#" class="setting">&nbsp;&nbsp;변경</a>
+                                <a th:href="@{myPage/include/content/info}" class="setting">&nbsp;&nbsp;변경</a>
                                 <p>
                                     <span text="${member.hp}">abc123@gmail.com</span><br />
                                     (최종수정일 <span text="${member.rdate.toLocalDate()}">2021-12-10</span>)

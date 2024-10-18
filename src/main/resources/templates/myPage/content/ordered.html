@@ -2,7 +2,7 @@
 
 <!-- 회원정보 섹션 -->
 <section th:fragment="ordered">
-    <a href="#"><img src="/images/image.PNG" alt="패션, 타운 하나로 끝" class="banner"></a>
+    <a href="#"><img src="/images/my/my_banner_sample.png" alt="롯데ON에서 드리는 다양한 결제혜택" class="banner"></a>
     <!-- 810x86 배너 이미지 -->
     <article class="latest">
         <h3>전체주문내역</h3>
@@ -39,38 +39,15 @@
             <block>
                 <tr>
                     <td class="date">2022-12-13</td>
-                    <td><a href="#" class="recentproductorderimg"><img src="/images/admin/sample_thumb.jpg" alt="상품이미지"></a></td>
+                    <td><a href="#" class="recentproductorderimg"><img src="/images/my/my_sample_thumb.png" alt="상품이미지"></a></td>
                     <td class="order-info">
                         <div class="order-number">
-                            주문번호:<a href="#" data-modal="versioncheckModal">1012211341</a>
+                            주문번호: <a href="#">/1022134123</a>
                         </div>
-                        <div class="company-name" text="${order.companyName}">(주) 상호명</div>
-                        <div class="product-name" text="${order.productName}">상품명</div>
+                        <div class="company-name" text="${order.companyName}">실바니안패밀리</div>
+                        <div class="product-name" text="${order.productName}">플로라 토끼 남매의 꽃 가꾸기</div>
                         <div>수량 : <span text="${order.quantity}"></span>1 개</div>
-                        <div class="product-price" style="font-size: 18px; font-weight: bold;" text="${order.price}">34,000원</div>
-                    </td>
-
-                    <td class="status">배송완료</td>
-                    <td class="modalbuttondiv">
-                        <!-- 수취확인 -->
-                        <button class="receivebutton">구매확정</button><br>
-                        <button class="receivebutton">상품평쓰기</button><br>
-
-                        <button class="reviewbutton">반품신청</button><br>
-                        <button class="reviewbutton">교환신청</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="date">2022-12-13</td>
-                    <td><a href="#" class="recentproductorderimg"><img src="/images/admin/sample_thumb.jpg" alt="상품이미지"></a></td>
-                    <td class="order-info">
-                        <div class="order-number">
-                            주문번호: <span text="${order.orderNumber}">1012211341</span>
-                        </div>
-                        <div class="company-name" text="${order.companyName}">(주) 상호명</div>
-                        <div class="product-name" text="${order.productName}">상품명</div>
-                        <div>수량 : <span text="${order.quantity}"></span>1 개</div>
-                        <div class="product-price" style="font-size: 18px; font-weight: bold;" text="${order.price}">34,000원</div>
+                        <div class="product-price" style="font-size: 18px; font-weight: bold;" text="${order.price}">25,900원</div>
                     </td>
 
                     <td class="status">배송중</td>
@@ -83,20 +60,21 @@
                         <button class="reviewbutton">교환신청</button>
                     </td>
                 </tr>
+
                 <tr>
                     <td class="date">2022-12-13</td>
-                    <td><a href="#" class="recentproductorderimg"><img src="/images/admin/sample_thumb.jpg" alt="상품이미지"></a></td>
+                    <td><a href="#" class="recentproductorderimg"><img src="/images/my/my_sample_thumb2.png" alt="상품이미지"></a></td>
                     <td class="order-info">
                         <div class="order-number">
                             주문번호: <span text="${order.orderNumber}">1012211341</span>
                         </div>
-                        <div class="company-name" text="${order.companyName}">(주) 상호명</div>
-                        <div class="product-name" text="${order.productName}">상품명</div>
+                        <div class="company-name" text="${order.companyName}">오로라월드</div>
+                        <div class="product-name" text="${order.productName}">[보리보리/오로라월드]부르르 딸기 가방쏙 아기토끼</div>
                         <div>수량 : <span text="${order.quantity}"></span>1 개</div>
-                        <div class="product-price" style="font-size: 18px; font-weight: bold;" text="${order.price}">34,000원</div>
+                        <div class="product-price" style="font-size: 18px; font-weight: bold;" text="${order.price}">13,900원</div>
                     </td>
 
-                    <td class="status">배송중</td>
+                    <td class="status">배송완료</td>
                     <td class="modalbuttondiv">
                         <!-- 수취확인 -->
                         <button class="receivebutton">수취확인</button><br>

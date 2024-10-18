@@ -1,7 +1,6 @@
 #wrapper {
     width: 1200px; /* 원하는 너비로 설정 */
     margin: 0 auto; /* 가운데 정렬 */
-
 }
 
 /* 나의 쇼핑정보 */
@@ -14,7 +13,6 @@
 }
 
 .info ul {
-
     list-style: none;
     padding: 0;
     margin: 0;
@@ -126,9 +124,9 @@
     margin-bottom: 20px;
     width: 810px;
     height: 86px;
-    /* 고정된 크기 */
     object-fit: cover;
     /* 이미지가 비율을 유지하며 크기에 맞게 조정되도록 설정 */
+    margin: 0 auto;
 }
 
 /* 숫자 출력 스타일 */
