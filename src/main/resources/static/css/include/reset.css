@@ -58,3 +58,7 @@
 .scroll-top-btn:hover {
   background-color: #ddd;  /* 마우스 호버 시 배경색 변경 */
 }
+
+.center{
+  margin: 0 auto;
+}
