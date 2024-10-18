@@ -8,7 +8,7 @@
     <p>HOME > 장바구니 > <strong>주문결제</strong></p>
   </nav>
 
-  <form id="buyForm" action="#">
+  <form id="buyForm" th:action="@{/product/complete}" th:method="GET">
     <!-- 주문 상품 목록 -->
     <table
       style="
@@ -297,7 +297,7 @@
             </tr>
           </table>
           <input
-            type="button"
+            type="submit"
             id="btnOrder"
             value="결제하기"
             style="

@@ -111,7 +111,7 @@
         <td id="prodTotalPrice">25,650</td>
       </tr>
     </table>
-    <form class="total__form" id="buyForm" method="POST">
+    <form class="total__form" id="buyForm" method="GET" th:action="@{/product/order}">
       <input
         type="submit"
         id="btnOrder"

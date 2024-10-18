@@ -11,13 +11,13 @@
 <body>
 <!-- header -->
 <header th:replace="~{layout/header::header}"></header>
+<header th:replace="~{layout/header-nav}"></header>
 
 
 
 <div class="layout-container">
     <!-- aside -->
     <div class="layout-left">
-        <th:block th:replace="~{layout/aside-cate}"></th:block>
         <th:block th:replace="~{layout/aside-best}"></th:block>
     </div>
     <div class="layout-right">

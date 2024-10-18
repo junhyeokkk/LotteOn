@@ -2590,7 +2590,9 @@
 }
 
 .total {
-  width: 100%;
+  margin-left:auto;
+  border: 1px solid black;
+  width: 34%;
   padding: 12px;
   text-align: end;
 }
