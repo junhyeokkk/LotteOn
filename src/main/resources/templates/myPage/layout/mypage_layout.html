@@ -16,11 +16,11 @@
 
     <!-- content -->
     <!-- include nav -->
-    <th:replace th:replace="~{mypage/include/mypagenav::nav}"></th:replace>
+    <th:replace th:replace="~{myPage/include/mypagenav::nav}"></th:replace>
 
     <!-- include sidebar and banner -->
     <div class="info">
-        <div th:replace="~{mypage/include/mypagesidebar::sidebar}"></div>
+        <div th:replace="~{myPage/include/mypagesidebar::sidebar}"></div>
 
 
         <th:block th:with="path='myPage/content/' + ${cate}, fragment=${cate}">
