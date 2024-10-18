@@ -10,7 +10,20 @@
     overflow: auto;
     background-color: rgba(0, 0, 0, 0.4);
 }
+/* 웹킷 브라우저 (Chrome, Safari)에서 스크롤바 숨기기 */
+.modal::-webkit-scrollbar {
+    display: none;
+}
 
+/* Firefox에서 스크롤바 숨기기 */
+.modal {
+    scrollbar-width: none; /* Firefox에서 스크롤바 숨김 */
+}
+
+/* Edge와 IE를 위한 대응 */
+.modal {
+    -ms-overflow-style: none; /* IE에서 스크롤바 숨김 */
+}
 /* 모달별 컨텐츠 스타일 */
 
 /* 상세주문 모달 */
