@@ -5,7 +5,9 @@
     <meta charset="UTF-8">
     <title>롯데ON::대한민국 1등 온라인 쇼핑몰</title>
     <link rel="stylesheet" th:href="@{/css/my/myinfo.css}">
+  <link rel="stylesheet" th:href="@{/css/my/modal.css}"/>
     <header th:replace="~{layout/header::header}"></header>
+    <script type="text/javascript" th:src="@{/js/modal/modal.js}"></script>
 </head>
 
 <body>
@@ -34,6 +36,7 @@
         </nav>
         <!-- only for info header -->
         <div class="info">
+            <div th:replace="/layout/modal :: #orderDetailBtn"></div>
             <ul>
                 <li><a href="#">전체주문내역</a></li>
                 <li><a href="#">포인트내역</a></li>
@@ -65,7 +68,7 @@
                                 <td><a href="#" class="recentproductorderimg"><img src="/images/admin/sample_thumb.jpg" alt="상품이미지"></a></td>
                                 <td class="order-info">
                                     <div class="order-number">
-                                        주문번호: <span text="${order.orderNumber}">1012211341</span>
+                                        주문번호: <a href="#" data-modal="bannerModal"><span text="${order.orderNumber}">???????????</span></a>
                                     </div>
                                     <div class="company-name" text="${order.companyName}">(주) 상호명</div>
                                     <div class="product-name" text="${order.productName}">상품명</div>
@@ -74,11 +77,10 @@
                                 </td>
 
                                 <td class="status">배송중</td>
-                                <td class="modalbuttondiv">
+                                <td >
                                     <!-- 수취확인 -->
                                     <button class="receivebutton">수취확인</button><br>
                                     <button class="receivebutton">상품평쓰기</button><br>
-
                                     <button class="reviewbutton">반품신청</button><br>
                                     <button class="reviewbutton">교환신청</button>
                                 </td>

@@ -7,7 +7,7 @@
             
                 <a href="#" th:href="@{/member/login}">로그인</a>
                 <a href="#" th:href="@{/member/join}">회원가입</a>
-                <a href="#">마이페이지</a>
+                <a th:href="@{/admin}">관리자</a>
                     <i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;장바구니
                 </a>
                 <a href="#" th:href="@{/member/logout}">로그아웃</a>
@@ -17,20 +17,20 @@
         <div class="header__bot__wrapper center">
             <a class="logo" href="#" th:href="@{/}"><img class="logo__img" src="/static/images/header_logo.png" th:src="@{/images/header_logo.png}" alt="로고"/></a>
             <div class="header_item">
-                <a href="#">
+                <a th:href="@{/cs/layout/notice/list}">
                     <img th:src="@{/images/main/main_notice.png}" alt="공지사항" style="width: 40px; height: 40px;">
                     NOTICE
                 </a>
-                <a href="#">
+                <a th:href="@{/cs/layout/qna/list}">
                     <img th:src="@{/images/main/main_faq.png}" alt="자주묻는질문" style="width: 40px; height: 40px;">
                      FAQ
                 </a>
-                <a href="#">
+                <a th:href="@{/myPage/home}">
                     <img th:src="@{/images/main/main_mypage.png}" alt="마이페이지" style="width: 40px; height: 40px;">
                     MyPage
                 </a>
-                <a href="#">
-                    <img th:src="@{/images/main/main_cart.png}" alt="마이페이지" style="width: 40px; height: 40px;">
+                <a th:href="@{/product/cart}">
+                    <img th:src="@{/images/main/main_cart.png}" alt="장바구니" style="width: 40px; height: 40px;">
                     CART
                 </a>
             </div>

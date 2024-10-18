@@ -16,6 +16,7 @@
   font-size: 12px;
   width: 1200px;
   height: 100%;
+  margin: 0 auto;
 }
 
 .header__bot {
@@ -38,6 +39,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin: 0 auto;
 }
 
 .logo__img {
