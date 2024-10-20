@@ -1,6 +1,7 @@
 <!-- 회원정보 섹션 -->
 <section th:fragment="point">
-    <a href="#"><img src="/images/image.PNG" alt="패션, 타운 하나로 끝" class="banner"></a>
+    <link rel="stylesheet" th:href="@{/css/my/point.css}"/>
+    <a href="#"><img src="/images/my/my_banner_sample.png" alt="롯데ON에서 드리는 다양한 결제혜택" class="banner"></a>
     <!-- 810x86 배너 이미지 -->
     <article class="latest">
         <h3>포인트내역</h3>
@@ -74,31 +75,31 @@
                 <a href="#" class="next">></a>
             </div>
         </div>
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const today = new Date().toISOString().split('T')[0]; // 오늘 날짜
-                const startDateInput = document.getElementById('startDate');
-                const endDateInput = document.getElementById('endDate');
+<!--        <script>-->
+<!--            document.addEventListener('DOMContentLoaded', function() {-->
+<!--                const today = new Date().toISOString().split('T')[0]; // 오늘 날짜-->
+<!--                const startDateInput = document.getElementById('startDate');-->
+<!--                const endDateInput = document.getElementById('endDate');-->
 
-                // 시작 날짜는 오늘 날짜 이전만 선택 가능하게 설정
-                startDateInput.setAttribute('max', today);
+<!--                // 시작 날짜는 오늘 날짜 이전만 선택 가능하게 설정-->
+<!--                startDateInput.setAttribute('max', today);-->
 
-                startDateInput.addEventListener('change', function() {
-                    const selectedStartDate = new Date(this.value);
+<!--                startDateInput.addEventListener('change', function() {-->
+<!--                    const selectedStartDate = new Date(this.value);-->
 
-                    // 종료 날짜는 시작 날짜 이후부터 3년 내로 설정, 그리고 오늘 날짜를 넘을 수 없음
-                    const maxEndDate = new Date(selectedStartDate);
-                    maxEndDate.setFullYear(maxEndDate.getFullYear() + 3);
+<!--                    // 종료 날짜는 시작 날짜 이후부터 3년 내로 설정, 그리고 오늘 날짜를 넘을 수 없음-->
+<!--                    const maxEndDate = new Date(selectedStartDate);-->
+<!--                    maxEndDate.setFullYear(maxEndDate.getFullYear() + 3);-->
 
-                    const formattedMaxEndDate = maxEndDate.toISOString().split('T')[0];
-                    const minEndDate = this.value;
+<!--                    const formattedMaxEndDate = maxEndDate.toISOString().split('T')[0];-->
+<!--                    const minEndDate = this.value;-->
 
-                    // 종료 날짜는 시작 날짜 이후부터 선택 가능하고, 오늘 날짜와 3년 후 날짜 중 더 이른 날짜까지만 선택 가능
-                    endDateInput.setAttribute('min', minEndDate);
-                    endDateInput.setAttribute('max', formattedMaxEndDate < today ? formattedMaxEndDate : today);
-                    endDateInput.removeAttribute('readonly'); // 종료 날짜 필드 활성화
-                });
-            });
-        </script>
+<!--                    // 종료 날짜는 시작 날짜 이후부터 선택 가능하고, 오늘 날짜와 3년 후 날짜 중 더 이른 날짜까지만 선택 가능-->
+<!--                    endDateInput.setAttribute('min', minEndDate);-->
+<!--                    endDateInput.setAttribute('max', formattedMaxEndDate < today ? formattedMaxEndDate : today);-->
+<!--                    endDateInput.removeAttribute('readonly'); // 종료 날짜 필드 활성화-->
+<!--                });-->
+<!--            });-->
+<!--        </script>-->
     </article>
 </section>

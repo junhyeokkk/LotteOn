@@ -1,7 +1,6 @@
 #wrapper {
     width: 1200px; /* 원하는 너비로 설정 */
     margin: 0 auto; /* 가운데 정렬 */
-
 }
 
 /* 나의 쇼핑정보 */
@@ -42,6 +41,7 @@
     border-radius: 5px
 }
 
+
 /*나의 정보 상단 사이드*/
 .myinfotopside {
     height: 75px;
@@ -81,10 +81,6 @@
     border-right: none;
     /* 마지막 항목에는 경계선 제거 */
 }
-/* 최근주문내역, 전체주문내역 상품정보 이미지 */
-.myinfotopside img {
-    height: 75px;
-}
 
 
 /* 광고배너 */
@@ -98,22 +94,6 @@
     /* 이미지가 비율을 유지하며 크기에 맞게 조정되도록 설정 */
 }
 
-
-/* 검색기능 (전체주문내역, 포인트내역) */
-.myinfoSearch {
-    margin-top: 10px;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    flex-wrap: nowrap;
-    background-color: #f2f2f2;
-    padding-left: 15px;
-    width: 100%;
-    height: 75px;
-}
-
-
 /*상품정보*/
 /* 숫자 출력 스타일 */
 .myinfotopside ol li span {
@@ -124,15 +104,17 @@
     /* 숫자 굵게 */
 }
 
+
 /* 테이블 */
 .widthtable {
-    margin-top: 10px;
-    margin-bottom: 20px;
     border-top: 1.7px solid #000000;
+    /* 위쪽 테두리 */
     border-bottom: 0.4px solid #A6A6A6;
+    /* 아래쪽 테두리 */
     border-collapse: collapse;
     width: 100%;
     text-align: center;
+    margin-bottom: 20px;
 }
 .widthtable th {
     height: 40px;
@@ -144,30 +126,20 @@
 .widthtable td {
     padding: 10px;
 }
-.recentproductorderimg img {
-    height: 120px;
-    width: 115px;
-}
 
-/* 주문내역 확인/신청 */
-.receivebutton {
-    background-color: #558ED5;
-    border: 0px;
-    width: 133px;
-    height: 40px;
-    color: white;
-    margin-bottom: 3px;
-    border-radius: 5px
-}
 
-.reviewbutton {
-    background-color: #BFBFBF;
-    border: 0px;
-    width: 133px;
-    height: 40px;
-    color: white;
-    margin-bottom: 3px;
-    border-radius: 5px
+/* 검색기능 (전체주문내역, 포인트내역) */
+.myinfoSearch {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    /* 요소 간의 간격 */
+    flex-wrap: nowrap;
+    /* 모든 요소를 한 줄에 유지 */
+    background-color: #f2f2f2;
+    padding-left: 15px;
+    width: 100%;
+    height: 75px;
 }
 
 
@@ -211,7 +183,6 @@
     justify-content: space-between;
     gap: 3px;
 }
-
 #startDate,
 #endDate {
     text-align: center;
@@ -220,6 +191,7 @@
     border: 1px solid #ccc;
     border-radius: 6px;
 }
+
 
 /* 라벨 스타일 */
 .myinfoSearch label {
@@ -231,41 +203,12 @@
 /* widthtable 클래스가 적용된 테이블의 모든 tr에 얇은 하단 선 추가 */
 table.widthtable tr td {
     border-bottom: 0.4px solid #ccc;
-    /* 얇은 하단 선 */
 }
-
 /* widthtable 클래스가 적용된 테이블의 마지막 tr에 두꺼운 하단 선 추가 */
 table.widthtable tr:last-child td {
     border-bottom: 1px solid #333;
-    /* 마지막 행에 두꺼운 하단 선 */
-
 }
 
-
-.myinfosubmitbutton {
-    display: flex;
-    /* 플렉스 박스 활성화 */
-    justify-content: center;
-    /* 가로 중앙 정렬 */
-    gap: 5px;
-    margin-bottom: 10px;
-}
-
-.myinfosubmitbutton button {
-    background-color: #ef2a23;
-    /* 343b4d */
-    border: 0px;
-    width: 133px;
-    height: 40px;
-    color: white;
-    cursor: pointer;
-    border-radius: 5px
-}
-
-.myinfomation input[type="text"],
-.myinfomation select {
-    height: 30px;
-}
 
 /* 페이징 */
 .pagingBox {

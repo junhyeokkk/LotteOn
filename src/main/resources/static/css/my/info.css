@@ -14,7 +14,6 @@
 }
 
 .info ul {
-
     list-style: none;
     padding: 0;
     margin: 0;
@@ -30,9 +29,6 @@
     padding: 20px 0;
     text-align: center;
     font-weight: bold;
-
-
-
 }
 
 .info section {
@@ -96,7 +92,6 @@
     text-align: center;
     padding-right: 20px;
 }
-
 .myinfotopside ol li:last-child {
     border-right: none;
     /* 마지막 항목에는 경계선 제거 */
@@ -105,8 +100,6 @@
 /* 광고배너 */
 .banner {
     display: block;
-
-
     margin-bottom: 20px;
     width: 810px;
     height: 86px;
@@ -131,16 +124,6 @@
     color: #555;
 }
 
-/* 더보기 */
-.more {
-    float: right;
-    display: inline-block;
-    width: 62px;
-    margin-top: -10px;
-    font-size: 15px;
-    margin-bottom: 10px;
-    font-weight: bolder;
-}
 
 /* 사이드영역 */
 .widthtable {
@@ -153,16 +136,13 @@
     text-align: center;
     margin-bottom: 15px;
 }
-
 .widthtable th {
     height: 40px;
     background-color: #A6A6A6;
     color: white;
     width: auto;
     text-align: center;
-
 }
-
 .widthtable td {
     padding: 10px;
 }
@@ -170,58 +150,22 @@
 
 .myinfotopside {
     height: 75px;
-    /* 높이 지정 */
 }
-
 .myinfotopside div {
     display: flex;
     align-items: center;
-    /* 세로 가운데 정렬 */
     justify-content: space-between;
-    /* 좌우로 배치 */
 }
-
 .myinfotopside ol {
     display: flex;
     list-style: none;
     margin-left: auto;
 }
-
 .myinfotopside ol li {
     margin-right: 20px;
     /* 각 li 요소 간의 간격 */
 }
 
-/* 최근주문내역, 전체주문내역 상품정보 이미지 */
-.myinfotopside img {
-    height: 75px;
-}
-
-.recentproductorderimg img {
-    height: 120px;
-    width: 115px;
-}
-
-/* 주문내역 확인/신청 */
-.receivebutton {
-    background-color: #558ED5;
-    border: 0px;
-    width: 133px;
-    height: 40px;
-    color: white;
-    margin-bottom: 3px;
-    border-radius: 5px
-}
-
-.reviewbutton {
-    background-color: #BFBFBF;
-    border: 0px;
-    width: 133px;
-    height: 40px;
-    color: white;
-    margin-bottom: 3px;
-    border-radius: 5px
-}
 
 /* 나의 설정 */
 .myinfo {
@@ -243,7 +187,6 @@
     border-left: 1px solid #fdfdfd;
     box-sizing: border-box;
 }
-
 .email {
     float: left;
     width: 33.33%;
@@ -253,7 +196,6 @@
     border-left: 1px solid #fdfdfd;
     box-sizing: border-box;
 }
-
 .hp {
     float: left;
     width: 33.33%;
@@ -269,30 +211,6 @@
     font-size: 16px;
 }
 
-/* 쿠폰사용제한안내 */
-.couponinfo {
-    width: 100%;
-    font-family: '돋움';
-    font-size: 11px;
-    color: #777;
-    letter-spacing: 3px;
-    word-spacing: 2px;
-    padding-bottom: 8px;
-}
-
-/* 검색기능 (전체주문내역, 포인트내역) */
-.myinfoSearch {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    /* 요소 간의 간격 */
-    flex-wrap: nowrap;
-    /* 모든 요소를 한 줄에 유지 */
-    background-color: #f2f2f2;
-    padding-left: 15px;
-    width: 100%;
-    height: 75px;
-}
 
 /* 공통 스타일 */
 .myinfoSearch input,
@@ -329,21 +247,6 @@
     cursor: pointer;
 }
 
-.date-wrapper {
-    display: flex;
-    justify-content: space-between;
-    gap: 3px;
-}
-
-#startDate,
-#endDate {
-    text-align: center;
-    width: 100px;
-    /* 원하는 너비로 설정 */
-    border: 1px solid #ccc;
-    border-radius: 6px;
-}
-
 /* 라벨 스타일 */
 .myinfoSearch label {
     font-weight: bold;
@@ -364,18 +267,6 @@ table.widthtable tr:last-child td {
 
 }
 
-/* 나의 리뷰 평점 */
-.star {
-    font-size: 15px;
-    cursor: pointer;
-    color: #ccc;
-    /* 기본 색상 (회색) */
-}
-
-.star.filled {
-    color: gold;
-    /* 클릭 시 색상이 노란색으로 변경 */
-}
 
 /* 페이징 */
 .pagingBox {
