@@ -1,18 +1,5 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{/admin/layout/adminlayout}">
-
-<!-- index.html 고유 CSS 추가 -->
-<th:block layout:fragment="css">
+<div class="content"  th:fragment="list">
     <link rel="stylesheet" th:href="@{/css/admin/order/list.css}" />
-</th:block>
-<!-- index.html 고유 스크립트 추가 -->
-<th:block layout:fragment="script">
-</th:block>
-
-<div class="content" layout:fragment="content">
     <div class="dashboard">
         <div class="content_header">
             <h1>주문현황</h1>
@@ -20,75 +7,77 @@
                 HOME > 주문관리 > <strong>주문현황</strong>
             </p>
         </div>
+        <div th:replace="admin/include/admin_modal :: #orderinfomodal"></div>
 
-        <section class="sectionBox">
-            <div>
-                <form action="/admin/order/list" class="search_bar">
-                    <select name="type">
-                        <option value="orderNo">주문번호</option>
-                        <option value="orderId">주문자</option>
-                        <option value="orderName">주문자명</option>
-                    </select>
-                    <input class="searchInput" type="text" name="keyword">
-                    <input type="hidden" name="prodSeller" value="ADMIN" readonly>
-                    <input class="searchBtn" type="submit" value="검색">
-                </form>
-            </div>
-            <table class="admingraph">
-                <tr class="admin_title">
-                    <th>주문번호</th>
-                    <th>주문자</th>
-                    <th>주문자명</th>
-                    <th>상품명</th>
-                    <th>주문건수</th>
-                    <th>주문합계</th>
-                    <th>결제수단</th>
-                    <th>주문상태</th>
-                    <th>주문일</th>
-                    <th>배송</th>
-                </tr>
+                    <section class="sectionBox">
+                        <div>
+                            <form action="/admin/order/list" class="search_bar">
+                                <select name="type">
+                                    <option value="orderNo">주문번호</option>
+                                    <option value="orderId">주문자</option>
+                                    <option value="orderName">주문자명</option>
+                                </select>
+                                <input class="searchInput" type="text" name="keyword">
+                                <input type="hidden" name="prodSeller" value="ADMIN" readonly>
+                                <input class="searchBtn" type="submit" value="검색">
+                            </form>
+                        </div>
+                        <table class="admingraph">
+                            <tr class="admin_title">
+                                <th>주문번호</th>
+                                <th>주문자</th>
+                                <th>주문자명</th>
+                                <th>상품명</th>
+                                <th>주문건수</th>
+                                <th>주문합계</th>
+                                <th>결제수단</th>
+                                <th>주문상태</th>
+                                <th>주문일</th>
+                                <th>배송</th>
+                            </tr>
 
-                <tr class="admin_list">
-                    <td>
-                        <a href="">1012121341</a>
-                    </td>
-                    <td>sanghun43</td>
-                    <td>이상훈</td>
-                    <td>ㅇㅇㅇ</td>
-                    <td>2</td>
-                    <td>102,900</td>
-                    <td>신용카드</td>
-                    <!-- 신용카드, 계좌이체, 휴대폰 등등 -->
-                    <td style="color: green;">결제완료</td>
-                    <!-- 결제완료, 결제대기, 주문취소 -->
-                    <td>2024-10-16</td>
-                    <!-- 연월일시간초 -->
-                    <td>
-                        <a class="deliveryBtn">배송하기</a>
-                        <!-- 배송하기, 입력완료, 주문취소 -->
-                    </td>
-                </tr>
+                            <tr class="admin_list">
+                                <td>
+                                    <a href="#" data-modal="orderinfomodal">1012121341</a>
+                                </td>
 
-                <tr class="admin_list">
-                    <td>
-                        <a href="">1012121341</a>
-                    </td>
-                    <td>sanghun43</td>
-                    <td>이상훈</td>
-                    <td>ㅇㅇㅇ</td>
-                    <td>2</td>
-                    <td>102,900</td>
-                    <td>계좌이체</td>
-                    <!-- 신용카드, 계좌이체, 휴대폰 등등 -->
-                    <td style="color: red;">주문취소</td>
-                    <!-- 결제완료, 결제대기, 주문취소 -->
-                    <td>2024-10-16</td>
-                    <!-- 연월일시간초 -->
-                    <td>
-                        <a>주문취소</a>
-                        <!-- 배송하기, 입력완료, 주문취소 -->
-                    </td>
-                </tr>
+                                <td>sanghun43</td>
+                                <td>이상훈</td>
+                                <td>ㅇㅇㅇ</td>
+                                <td>2</td>
+                                <td>102,900</td>
+                                <td>신용카드</td>
+                                <!-- 신용카드, 계좌이체, 휴대폰 등등 -->
+                                <td style="color: green;">결제완료</td>
+                                <!-- 결제완료, 결제대기, 주문취소 -->
+                                <td>2024-10-16</td>
+                                <!-- 연월일시간초 -->
+                                <td>
+                                    <a class="deliveryBtn">배송하기</a>
+                                    <!-- 배송하기, 입력완료, 주문취소 -->
+                                </td>
+                            </tr>
+
+                            <tr class="admin_list">
+                                <td>
+                                    <a href="#" data-modal="orderinfomodal">1012121341</a>
+                                </td>
+                                <td>sanghun43</td>
+                                <td>이상훈</td>
+                                <td>ㅇㅇㅇ</td>
+                                <td>2</td>
+                                <td>102,900</td>
+                                <td>계좌이체</td>
+                                <!-- 신용카드, 계좌이체, 휴대폰 등등 -->
+                                <td style="color: red;">주문취소</td>
+                                <!-- 결제완료, 결제대기, 주문취소 -->
+                                <td>2024-10-16</td>
+                                <!-- 연월일시간초 -->
+                                <td>
+                                    <a>주문취소</a>
+                                    <!-- 배송하기, 입력완료, 주문취소 -->
+                                </td>
+                            </tr>
 
             </table>
 
@@ -113,4 +102,3 @@
 
     </div>
 </div>
-</html>

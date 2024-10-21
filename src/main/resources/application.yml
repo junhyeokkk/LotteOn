@@ -4,7 +4,6 @@ app:
 spring:
     application:
         name: lotteon
-        version: ${version}
     profiles:
         active: dev
         include: local

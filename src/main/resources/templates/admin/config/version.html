@@ -43,7 +43,8 @@
                     <td>chhak0503</td>
                     <td style="white-space: nowrap;">2024-10-14</td>
                     <td>
-                        <a href="">[확인]</a>
+                        <div th:replace="admin/include/admin_modal :: #versioncheckModal"></div>
+                        <a href="#" data-modal="versioncheckModal">[확인]</a>
                     </td>
                 </tr>
 
@@ -54,13 +55,16 @@
                     <td>chhak0503</td>
                     <td style="white-space: nowrap;">2024-10-14</td>
                     <td>
-                        <a href="#">[확인]</a>
+                        <div th:replace="admin/include/admin_modal :: #versioncheckModal"></div>
+                        <a href="#" data-modal="versioncheckModal">[확인]</a>
                     </td>
                 </tr>
 
             </table>
             <a class="delete_btn">선택삭제</a>
-            <a class="registration_btn">등록</a>
+
+            <div th:replace="admin/include/admin_modal :: #versioninsertModal"></div>
+            <a href="#" data-modal="versioninsertModal" class="registration_btn">등록</a>
 
             <div class="pagingBox">
                 <div class="pagingList">

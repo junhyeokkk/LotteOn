@@ -74,7 +74,8 @@
                     <td>정상</td>
                     <!-- 정상, 중지, 휴면, 탈퇴 -->
                     <td style="line-height: 20px">
-                        <a href="" class="cs_modify-btn">[수정]</a>
+                        <div th:replace="admin/include/admin_modal :: #userchangemodal"></div>
+                        <a href="#" data-modal="userchangemodal" class="cs_modify-btn">[수정]</a>
                         <br>
                         <a href="" class="cs_delete-btn">[중지]</a>
                         <!-- <a href="">[휴면]</a>

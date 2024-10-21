@@ -85,7 +85,10 @@
 
             </table>
             <a class="delete_btn">선택삭제</a>
-            <a class="registration_btn">상점등록</a>
+            <div th:replace="admin/include/admin_modal :: #sellerinsertmodal"></div>
+            <a href="#" data-modal="sellerinsertmodal" class="registration_btn">상점등록</a>
+
+
 
             <div class="pagingBox">
                 <div class="pagingList">

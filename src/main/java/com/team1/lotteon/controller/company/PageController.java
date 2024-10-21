@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class PageController {
 
     @GetMapping("/company/index")
-    public String index(){
+    public String index() {
         return "company/index";
     }
 

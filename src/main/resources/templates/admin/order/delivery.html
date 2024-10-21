@@ -1,18 +1,5 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{/admin/layout/adminlayout}">
-
-<!-- index.html 고유 CSS 추가 -->
-<th:block layout:fragment="css">
+<div class="content"  th:fragment="delivery">
     <link rel="stylesheet" th:href="@{/css/admin/order/delivery.css}" />
-</th:block>
-<!-- index.html 고유 스크립트 추가 -->
-<th:block layout:fragment="script">
-</th:block>
-
-<div class="content" layout:fragment="content">
     <div class="dashboard">
         <div class="content_header">
             <h1>배송현황</h1>
@@ -20,20 +7,21 @@
                 HOME > 주문관리 > <strong>배송현황</strong>
             </p>
         </div>
-        <!-- 컨텐츠 시작 -->
-        <section class="sectionBox">
-            <div>
-                <form action="/admin/order/delivery" class="search_bar">
-                    <select name="type">
-                        <option value="orderNo">송장번호</option>
-                        <option value="orderId">주문번호</option>
-                        <option value="orderName">수령인</option>
-                    </select>
-                    <input class="searchInput" type="text" name="keyword">
-                    <input type="hidden" name="prodSeller" value="ADMIN" readonly>
-                    <input class="searchBtn" type="submit" value="검색">
-                </form>
-            </div>
+        <div th:replace="admin/include/admin_modal :: #adressinputmodal"></div>
+                    <!-- 컨텐츠 시작 -->
+                    <section class="sectionBox">
+                        <div>
+                            <form action="/admin/order/delivery" class="search_bar">
+                                <select name="type">
+                                    <option value="orderNo">송장번호</option>
+                                    <option value="orderId">주문번호</option>
+                                    <option value="orderName">수령인</option>
+                                </select>
+                                <input class="searchInput" type="text" name="keyword">
+                                <input type="hidden" name="prodSeller" value="ADMIN" readonly>
+                                <input class="searchBtn" type="submit" value="검색">
+                            </form>
+                        </div>
 
 
             <table class="admingraph">
@@ -52,7 +40,7 @@
 
                 <tr class="admin_list">
                     <td>
-                        <a href="">1012121315</a>
+                        <a href="#" data-modal="adressinputmodal">1012121341</a>
                     </td>
                     <td>로젠택배</td>
                     <td>1021211341</td>
@@ -88,4 +76,3 @@
         </section>
     </div>
 </div>
-</html>
