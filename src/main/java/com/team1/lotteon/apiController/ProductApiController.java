@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/user")
-public class ProductController {
+public class ProductApiController {
     @GetMapping("/login")
     public List<Object> getPRoduct() {
         List<Object> list = new ArrayList<Object>();
