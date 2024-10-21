@@ -23,7 +23,4 @@ public class Shop {
     @Embedded
     private Address address;
     private boolean isActive;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "member_id")
-    private Member member;
 }
