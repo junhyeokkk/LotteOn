@@ -10,6 +10,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @SuperBuilder
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class InquiryDTO extends ArticleDTO {
     private String type2;
     private String answer;

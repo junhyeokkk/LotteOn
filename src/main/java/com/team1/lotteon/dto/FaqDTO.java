@@ -10,6 +10,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @SuperBuilder
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class FaqDTO extends ArticleDTO{
     private String type2;
 
