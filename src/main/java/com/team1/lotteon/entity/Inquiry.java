@@ -13,8 +13,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Inquiry extends  Article {
-    private InquiryType1 inquiryType1;
-    private InquiryType2 inquiryType2;
+public class Inquiry extends Article {
+    private String type2;
     private String answer;
 }

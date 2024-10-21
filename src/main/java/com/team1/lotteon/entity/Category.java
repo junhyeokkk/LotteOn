@@ -1,5 +1,6 @@
 package com.team1.lotteon.entity;
 
+import com.team1.lotteon.entity.enums.CateLevel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,6 +21,10 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String name;
+    @Enumerated(EnumType.STRING)
+    private CateLevel level;
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "parent")
     private Category parent;
@@ -28,17 +33,22 @@ public class Category {
     @OneToMany(mappedBy = "parent", cascade = CascadeType.REMOVE)
     private List<Category> children = new ArrayList<>();
 
-    private void changeParent(Category parent) {
+    public void setParent(Category parent) {
         this.parent = parent;
     }
 
     public void addChild(Category child) {
         this.children.add(child);
-        child.changeParent(this);
+        child.setParent(this);
     }
 
     public void removeChild(Category child) {
         this.children.remove(child);
-        child.changeParent(null);
+        child.setParent(null);
     }
+
+    public void changeName(String name) {
+        this.name = name;
+    }
+
 }

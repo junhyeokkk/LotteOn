@@ -1,4 +1,4 @@
-package com.team1.lotteon.dto;
+package com.team1.lotteon.dto.category;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CategoryDTO {
+public class CategoryWithParentResponseDTO {
     private Long id;
-
+    private String name;
+    private CategoryWithParentResponseDTO parent;
 }

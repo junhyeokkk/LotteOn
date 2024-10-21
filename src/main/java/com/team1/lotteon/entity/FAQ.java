@@ -14,6 +14,5 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FAQ extends Article {
-    private FaqType1 faqType1;
-    private FaqType2 faqType2;
+    private String type2;
 }

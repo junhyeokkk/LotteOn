@@ -22,6 +22,8 @@ public abstract class Article extends BaseEntity {
     private String content;
     private int views;
 
+    private String type1;
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "member_id")
     private Member member;

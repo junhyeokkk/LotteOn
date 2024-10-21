@@ -1,3 +1,7 @@
+logging:
+  level:
+    com: trace
+
 spring:
   servlet:
     multipart:
