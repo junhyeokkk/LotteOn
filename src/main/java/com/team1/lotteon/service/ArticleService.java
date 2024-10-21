@@ -30,7 +30,7 @@ public interface ArticleService {
     InquiryDTO updateInquiry(Long id, InquiryDTO inquiryDTO);
     void deleteInquiry(Long id);
 
-    // Notice 관련 메서드 -> ArticleDTO 사용
+    // Notice
     NoticeDTO createNotice(NoticeDTO noticeDTO);
     NoticeDTO getNoticeById(Long id);
     List<NoticeDTO> getAllNotices();
