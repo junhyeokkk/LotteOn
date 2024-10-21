@@ -9,3 +9,15 @@ spring:
         include: local
     thymeleaf:
         prefix: classpath:/templates/
+    datasource:
+        url: jdbc:mysql://localhost:3306/lotteon
+        username: root
+        password: 1234
+        jpa:
+            hibernate:
+                ddl-auto: create
+            properties:
+                hibernate:
+                    show_sql: true
+                    format_sql: true
+                    dialect: org.hibernate.dialect.MySQLDialect
