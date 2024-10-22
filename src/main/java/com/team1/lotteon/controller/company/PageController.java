@@ -12,7 +12,6 @@ public class PageController {
 
     @GetMapping("/company/index")
     public String index(){
-
         return "company/index";
     }
 
@@ -23,7 +22,6 @@ public class PageController {
         log.info("Group: " + group);
         log.info("Category: " + cate);
 
-
         String category = "content";
         if ("story".equalsIgnoreCase(cate) || "story".equalsIgnoreCase(group)) {
             category = "story";
@@ -32,7 +30,6 @@ public class PageController {
         model.addAttribute("group", group);
         model.addAttribute("cate", cate);
         model.addAttribute("category", category);
-
         return "company/layout/company_layout";
     }
 }

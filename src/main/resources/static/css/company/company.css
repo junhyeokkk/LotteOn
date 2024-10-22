@@ -479,3 +479,9 @@ main > div {
     font-size: 16px
 
 }
+
+.culture__banner > img {
+    width: 1200px;
+    height: 150px; /* 높이를 더 크게 설정 */
+    object-fit: cover; /* 이미지 비율 유지하면서 배너에 맞추기 */
+}

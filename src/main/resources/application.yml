@@ -1,8 +1,6 @@
-app:
-    version: '0.0.1-SNAPSHOT'
-
 spring:
     application:
+        version: '0.0.1-SNAPSHOT'
         name: lotteon
     profiles:
         active: dev

@@ -6,21 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>약관 동의</title>
     <link rel="stylesheet" th:href="@{/css/user/user_style.css}">
-
 </head>
 <body>
 
 <header th:replace="~{layout/header::header}"></header>
 
 <div id="wrapper">
-    <h2>약관동의</h2>
+    <h2>약관 동의</h2>
     <hr class="line" size="2px" color="black">
 
-    <form class="sighup">
+    <form class="signup">
         <!-- 필수 항목 1: 이용약관 -->
         <div class="form-group">
             <label><span style="color: red;">(필수)</span> 이용약관</label>
-            <textarea id="terms1" readonly>.</textarea>
+            <textarea id="terms1" readonly th:text="${terms.buyer}"></textarea>
             <div class="checkbox-container">
                 <input type="checkbox" id="agree1" required>
                 <label for="agree1">동의하기</label>
@@ -30,7 +29,7 @@
         <!-- 필수 항목 2: 전자금융 이용약관 -->
         <div class="form-group">
             <label><span style="color: red;">(필수)</span> 전자금융 이용약관</label>
-            <textarea id="terms2" readonly>.</textarea>
+            <textarea id="terms2" readonly th:text="${terms.finance}"></textarea>
             <div class="checkbox-container">
                 <input type="checkbox" id="agree2" required>
                 <label for="agree2">동의하기</label>
@@ -40,7 +39,8 @@
         <!-- 필수 항목 3: 개인정보 수집 동의 -->
         <div class="form-group">
             <label><span style="color: red;">(필수)</span> 개인정보 수집 동의</label>
-            <textarea id="terms3" readonly>.</textarea>
+            <div th:utext="${privacy}"></div> <!-- 개인정보 처리 방침 내용 -->
+            <textarea id="terms3" readonly th:text="${terms.privacy}"></textarea>
             <div class="checkbox-container">
                 <input type="checkbox" id="agree3" required>
                 <label for="agree3">동의하기</label>
@@ -50,7 +50,7 @@
         <!-- 선택 항목 4: 위치정보 이용약관 -->
         <div class="form-group">
             <label><span style="color: blue;">(선택)</span> 위치정보 이용약관</label>
-            <textarea id="terms4" readonly>.</textarea>
+            <textarea id="terms4" readonly th:text="${terms.location}"></textarea>
             <div class="checkbox-container">
                 <input type="checkbox" id="agree4">
                 <label for="agree4">동의하기</label>
