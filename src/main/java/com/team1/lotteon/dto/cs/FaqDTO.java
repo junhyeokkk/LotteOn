@@ -1,4 +1,4 @@
-package com.team1.lotteon.dto;
+package com.team1.lotteon.dto.cs;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -11,7 +11,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class FaqDTO extends ArticleDTO{
+public class FaqDTO extends ArticleDTO {
     private String type2;
 
 }

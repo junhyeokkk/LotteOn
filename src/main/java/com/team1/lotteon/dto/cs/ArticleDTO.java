@@ -1,4 +1,4 @@
-package com.team1.lotteon.dto;
+package com.team1.lotteon.dto.cs;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;

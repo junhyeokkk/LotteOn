@@ -1,9 +1,9 @@
-package com.team1.lotteon.service;
+package com.team1.lotteon.service.article;
 
-import com.team1.lotteon.dto.ArticleDTO;
-import com.team1.lotteon.dto.FaqDTO;
-import com.team1.lotteon.dto.InquiryDTO;
-import com.team1.lotteon.dto.NoticeDTO;
+import com.team1.lotteon.dto.cs.ArticleDTO;
+import com.team1.lotteon.dto.cs.FaqDTO;
+import com.team1.lotteon.dto.cs.InquiryDTO;
+import com.team1.lotteon.dto.cs.NoticeDTO;
 
 import java.util.List;
 
