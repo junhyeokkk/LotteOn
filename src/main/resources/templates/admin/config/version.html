@@ -14,6 +14,8 @@
 </th:block>
 
 <div class="content" layout:fragment="content">
+    <div th:replace="admin/include/admin_modal :: #versioncheckModal"></div>
+    <div th:replace="admin/include/admin_modal :: #versioninsertModal"></div>
     <div class="dashboard">
         <div class="content_header">
             <h1>버전이력</h1>
@@ -55,7 +57,6 @@
                     <td>chhak0503</td>
                     <td style="white-space: nowrap;">2024-10-14</td>
                     <td>
-                        <div th:replace="admin/include/admin_modal :: #versioncheckModal"></div>
                         <a href="#" data-modal="versioncheckModal">[확인]</a>
                     </td>
                 </tr>
@@ -63,7 +64,6 @@
             </table>
             <a class="delete_btn">선택삭제</a>
 
-            <div th:replace="admin/include/admin_modal :: #versioninsertModal"></div>
             <a href="#" data-modal="versioninsertModal" class="registration_btn">등록</a>
 
             <div class="pagingBox">

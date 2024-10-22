@@ -13,6 +13,7 @@
 </th:block>
 
 <div class="content" layout:fragment="content">
+    <div th:replace="admin/include/admin_modal :: #sellerinsertmodal"></div>
     <div class="dashboard">
         <div class="content_header">
             <h1>상점목록</h1>
@@ -85,7 +86,6 @@
 
             </table>
             <a class="delete_btn">선택삭제</a>
-            <div th:replace="admin/include/admin_modal :: #sellerinsertmodal"></div>
             <a href="#" data-modal="sellerinsertmodal" class="registration_btn">상점등록</a>
 
 

@@ -17,8 +17,7 @@
 </th:block>
 
 <div class="content" layout:fragment="content">
-    <!-- 모달 사용-->
-    <!-- <div th:replace="/admin/include/admin_modal :: #bannerModal"></div> -->
+    <div th:replace="admin/include/admin_modal :: #bannerModal"></div>
     <div class="dashboard">
         <div class="content_header">
             <h1>배너관리</h1>
@@ -102,7 +101,8 @@
             </table>
             <a class="delete_btn">선택삭제</a>
             <!-- 모달 버튼 출력 -->
-            <a class="registration_btn" data-modal="bannerModal">배너등록</a>
+
+            <a href="#" data-modal="bannerModal" class="registration_btn">배너등록</a>
 
             <div class="pagingBox">
                 <div class="pagingList">

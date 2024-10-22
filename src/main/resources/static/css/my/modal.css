@@ -146,6 +146,23 @@
 }
 
 /* 테이블 스타일 */
+.widthtable {
+    border-top: 1.7px solid #000000;
+    /* 위쪽 테두리 */
+    border-bottom: 0.4px solid #A6A6A6;
+    /* 아래쪽 테두리 */
+    border-collapse: collapse;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 15px;
+}
+.widthtable th {
+    height: 40px;
+    background-color: #A6A6A6;
+    color: white;
+    width: auto;
+    text-align: center;
+}
 .widthtable td {padding: 10px;}
 .widthtable td:nth-child(3),.widthtable th:nth-child(3) {text-align: left;}
 

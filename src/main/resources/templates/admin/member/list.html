@@ -13,6 +13,7 @@
 </th:block>
 
 <div class="content" layout:fragment="content">
+    <div th:replace="admin/include/admin_modal :: #userchangemodal"></div>
     <div class="dashboard">
         <div class="content_header">
             <h1>회원목록</h1>
@@ -74,7 +75,6 @@
                     <td>정상</td>
                     <!-- 정상, 중지, 휴면, 탈퇴 -->
                     <td style="line-height: 20px">
-                        <div th:replace="admin/include/admin_modal :: #userchangemodal"></div>
                         <a href="#" data-modal="userchangemodal" class="cs_modify-btn">[수정]</a>
                         <br>
                         <a href="" class="cs_delete-btn">[중지]</a>

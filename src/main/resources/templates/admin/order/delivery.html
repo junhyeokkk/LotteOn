@@ -1,13 +1,33 @@
-<div class="content"  th:fragment="delivery">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/admin/layout/adminlayout}">
+
+<!-- index.html 고유 CSS 추가 -->
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/admin/config/banner.css}"/>
+    <link rel="stylesheet" th:href="@{/css/admin/config/list.css}"/>
     <link rel="stylesheet" th:href="@{/css/admin/order/delivery.css}" />
+</th:block>
+<!-- index.html 고유 스크립트 추가 -->
+<th:block layout:fragment="script">
+    <script type="text/javascript" th:src="@{/js/admin/config/info.js}"></script>
+    <script type="text/javascript" th:src="@{/js/modal/modal.js}"></script>
+</th:block>
+
+<div class="content" layout:fragment="content">
+
+    <div th:replace="admin/include/admin_modal :: #deliverinfomodal"></div>
+
     <div class="dashboard">
         <div class="content_header">
+
             <h1>배송현황</h1>
             <p>
                 HOME > 주문관리 > <strong>배송현황</strong>
             </p>
         </div>
-        <div th:replace="admin/include/admin_modal :: #adressinputmodal"></div>
                     <!-- 컨텐츠 시작 -->
                     <section class="sectionBox">
                         <div>
@@ -40,7 +60,7 @@
 
                 <tr class="admin_list">
                     <td>
-                        <a href="#" data-modal="adressinputmodal">1012121341</a>
+                        <a href="#" data-modal="deliverinfomodal">1012121341</a>
                     </td>
                     <td>로젠택배</td>
                     <td>1021211341</td>

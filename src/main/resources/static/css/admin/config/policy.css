@@ -41,7 +41,8 @@
     cursor: pointer;
     float: right;
     margin-top: 5px;
-    border: 1px solid #95bbec;
+    border: 1px solid #46667c;
+    margin-bottom: 10px;
 }
 
 .sighup{
