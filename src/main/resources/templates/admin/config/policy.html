@@ -8,133 +8,82 @@
 <th:block layout:fragment="css">
     <link rel="stylesheet" th:href="@{/css/admin/config/policy.css}" />
 </th:block>
-<!-- index.html 고유 스크립트 추가 -->
-<th:block layout:fragment="script">
 
-</th:block>
+<div class="content" layout:fragment="content">
+    <div class="dashboard">
+        <div class="content_header">
+            <h1>약관 관리</h1>
+            <p>HOME > 환경설정 > 약관 관리</p>
+        </div>
 
-    <div class="content" layout:fragment="content">
-        <div class="dashboard">
-            <div class="content_header">
-                <h1>약관관리</h1>
-                <p>HOME > 환경설정 > 약관관리</p>
-            </div>
-
-            <div class="content">
-                <!-- 구매회원 약관 -->
-                <form class="sighup">
-                    <article class="version">
-                        <h3>구매회원 약관</h3>
-                        <div class="adminp">
-                            <p>회원가입 및 정책 페이지 노출 약관 입니다.</p>
-                        </div>
-
-                        <table class="adminwidthtable">
-                            <tr>
-                                <th>약관내용</th>
-                                <td>
-                                            <textarea class="textarea_1">제 1조 (목적) &#10;이 약관은 주식회사롯데쇼핑몰(이하회사라함)가 운영하는 롯데ON” 인터넷오픈마켓사이트(www.LotteON.co.kr, 이하롯데“ON”이라함)와 스마트폰등이 동통신기기를 통해 제공되는 롯데ON’ 모바일애플리케이션(이하모바일롯데“ON”이라고합니다)을 통해서 제공하는 전자상거래관련서비스 및 기타서비스(이하서비스라함“” )를 이용하는자간의 권리, 의무를 확정하고 이를 이행함으로써 상호발전을 도모하는것을 그 목적으로 합니다.
-                                            </textarea>
-                                </td>
-                            </tr>
-                        </table>
-                        <div class="infobuttondiv">
-                            <button class="lnfoButton" type="button">수정하기</button>
-                        </div>
-                    </article>
-                </form>
-                <!-- 판매회원 약관 -->
-                <form class="sighup">
-                    <article class="version">
-                        <h3>판매회원 약관</h3>
-                        <div class="adminp">
-                            <p>회원가입 및 정책 페이지 노출 약관 입니다.</p>
-                        </div>
-
-                        <table class="adminwidthtable">
-                            <tr>
-                                <th>약관내용</th>
-                                <td>
-                                            <textarea class="textarea_1">제 1조 (목적) &#10;이 약관은 주식회사롯데쇼핑몰(이하회사라함)가 운영하는 롯데ON” 인터넷오픈마켓사이트(www.LotteON.co.kr, 이하롯데“ON”이라함)와 스마트폰등이 동통신기기를 통해 제공되는 롯데ON’ 모바일애플리케이션(이하모바일롯데“ON”이라고합니다)을 통해서 제공하는 전자상거래관련서비스 및 기타서비스(이하서비스라함“” )를 이용하는자간의 권리, 의무를 확정하고 이를 이행함으로써 상호발전을 도모하는것을 그 목적으로 합니다.
-                                            </textarea>
-                                </td>
-                            </tr>
-                        </table>
-                        <div class="infobuttondiv">
-                            <button class="lnfoButton" type="button">수정하기</button>
-                        </div>
-                    </article>
-                </form>
-
-                <!-- 전자금융거래 약관 -->
-                <form class="sighup">
-                    <article class="version">
-                        <h3>전자금융거래 약관</h3>
-                        <div class="adminp">
-                            <p>회원가입 및 정책 페이지 노출 약관 입니다.</p>
-                        </div>
-
-                        <table class="adminwidthtable">
-                            <tr>
-                                <th>약관내용</th>
-                                <td>
-                                            <textarea class="textarea_1">제 1조 (목적) &#10;이 약관은 주식회사롯데쇼핑몰(이하회사라함)가 운영하는 롯데ON” 인터넷오픈마켓사이트(www.LotteON.co.kr, 이하롯데“ON”이라함)와 스마트폰등이 동통신기기를 통해 제공되는 롯데ON’ 모바일애플리케이션(이하모바일롯데“ON”이라고합니다)을 통해서 제공하는 전자상거래관련서비스 및 기타서비스(이하서비스라함“” )를 이용하는자간의 권리, 의무를 확정하고 이를 이행함으로써 상호발전을 도모하는것을 그 목적으로 합니다.
-                                            </textarea>
-                                </td>
-                            </tr>
-                        </table>
-                        <div class="infobuttondiv">
-                            <button class="lnfoButton" type="button">수정하기</button>
-                        </div>
-                    </article>
-                </form>
-
-                <!-- 위치정보 이용약관 -->
-                <form class="sighup">
-                    <article class="version">
-                        <h3>위치정보 이용약관</h3>
-                        <div class="adminp">
-                            <p>회원가입 및 정책 페이지 노출 약관 입니다.</p>
-                        </div>
-
-                        <table class="adminwidthtable">
-                            <tr>
-                                <th>약관내용</th>
-                                <td>
-                                            <textarea class="textarea_1">제 1조 (목적) &#10;이 약관은 주식회사롯데쇼핑몰(이하회사라함)가 운영하는 롯데ON” 인터넷오픈마켓사이트(www.LotteON.co.kr, 이하롯데“ON”이라함)와 스마트폰등이 동통신기기를 통해 제공되는 롯데ON’ 모바일애플리케이션(이하모바일롯데“ON”이라고합니다)을 통해서 제공하는 전자상거래관련서비스 및 기타서비스(이하서비스라함“” )를 이용하는자간의 권리, 의무를 확정하고 이를 이행함으로써 상호발전을 도모하는것을 그 목적으로 합니다.
-                                            </textarea>
-                                </td>
-                            </tr>
-                        </table>
-                        <div class="infobuttondiv">
-                            <button class="lnfoButton" type="button">수정하기</button>
-                        </div>
-                    </article>
-                </form>
-
-                <!-- 개인정보처리방침 -->
-                <form class="sighup">
-                    <article class="version">
-                        <h3>개인정보처리방침</h3>
-                        <div class="adminp">
-                            <p>회원가입 및 정책 페이지 노출 약관 입니다.</p>
-                        </div>
-
-                        <table class="adminwidthtable">
-                            <tr>
-                                <th>약관내용</th>
-                                <td>
-                                            <textarea class="textarea_1">제 1조 (목적) &#10;이 약관은 주식회사롯데쇼핑몰(이하회사라함)가 운영하는 롯데ON” 인터넷오픈마켓사이트(www.LotteON.co.kr, 이하롯데“ON”이라함)와 스마트폰등이 동통신기기를 통해 제공되는 롯데ON’ 모바일애플리케이션(이하모바일롯데“ON”이라고합니다)을 통해서 제공하는 전자상거래관련서비스 및 기타서비스(이하서비스라함“” )를 이용하는자간의 권리, 의무를 확정하고 이를 이행함으로써 상호발전을 도모하는것을 그 목적으로 합니다.
-                                            </textarea>
-                                </td>
-                            </tr>
-                        </table>
-                        <div class="infobuttondiv">
-                            <button class="lnfoButton" type="button">수정하기</button>
-                        </div>
-                    </article>
-                </form>
-            </div>
+        <div class="content">
+            <!-- 약관 관리 폼 -->
+            <form method="post" th:action="@{/admin/policy/update}">
+                <article class="version">
+                    <h3>구매회원 약관</h3>
+                    <div class="adminp">
+                        <p>회원가입 및 정책 페이지 노출 약관입니다.</p>
+                    </div>
+                    <table class="adminwidthtable">
+                        <tr>
+                            <th>약관내용</th>
+                            <td>
+                                <textarea name="content" class="textarea_1" th:text="${userTerms.content}"></textarea>
+                                <input type="hidden" name="termCode" value="user_terms" />
+                            </td>
+                        </tr>
+                    </table>
+                </article>
+                <article class="version">
+                    <h3>판매회원 약관</h3>
+                    <div class="adminp">
+                        <p>회원가입 및 정책 페이지 노출 약관입니다.</p>
+                    </div>
+                    <table class="adminwidthtable">
+                        <tr>
+                            <th>약관내용</th>
+                            <td>
+                                <textarea name="content" class="textarea_1" th:text="${sellerTerms.content}"></textarea>
+                                <input type="hidden" name="termCode" value="seller_terms" />
+                            </td>
+                        </tr>
+                    </table>
+                </article>
+                <article class="version">
+                    <h3>전자금융 거래 약관</h3>
+                    <div class="adminp">
+                        <p>회원가입 및 정책 페이지 노출 약관입니다.</p>
+                    </div>
+                    <table class="adminwidthtable">
+                        <tr>
+                            <th>약관내용</th>
+                            <td>
+                                <textarea name="content" class="textarea_1" th:text="${financeTerms.content}"></textarea>
+                                <input type="hidden" name="termCode" value="finance" />
+                            </td>
+                        </tr>
+                    </table>
+                </article>
+                <article class="version">
+                    <h3>개인정보 처리방침</h3>
+                    <div class="adminp">
+                        <p>회원가입 및 정책 페이지 노출 약관입니다.</p>
+                    </div>
+                    <table class="adminwidthtable">
+                        <tr>
+                            <th>약관내용</th>
+                            <td>
+                                <textarea name="content" class="textarea_1" th:text="${privacyTerms.content}"></textarea>
+                                <input type="hidden" name="termCode" value="privacy" />
+                            </td>
+                        </tr>
+                    </table>
+                </article>
+                <div class="infobuttondiv">
+                    <button class="lnfoButton" type="submit">수정하기</button>
+                </div>
+            </form>
         </div>
     </div>
+</div>
 </html>

@@ -1,30 +1,66 @@
 package com.team1.lotteon.controller.user;
 
+import com.team1.lotteon.entity.Term;
+import com.team1.lotteon.service.PolicyService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.Optional;
+
 @Log4j2
 @Controller
 public class SignupController {
 
-    //회원가입시 동의하기 화면 출력(판매자, 일반회원)
+    private final PolicyService policyService;
+
+    // 생성자 주입을 통해 PolicyService를 주입
+    public SignupController(PolicyService policyService) {
+        this.policyService = policyService;
+    }
+
+    // 회원가입 시 동의하기 화면 출력 (판매자, 일반회원)
     @GetMapping("/user/signup/{member}")
     public String signupPage(@PathVariable String member, Model model) {
-        // 회원 유형에 따라 처리할 데이터를 다르게 설정
+        String termCode; // 약관 코드를 위한 변수 선언
+
         if (member.equals("user")) {
-            // 일반회원 가입 데이터 처리
+            // 일반회원 데이터 처리
             model.addAttribute("membershipType", "일반회원가입");
             model.addAttribute("description", "개인구매회원 (외국인포함)");
+            termCode = "user_terms"; // 일반회원 약관 코드
         } else if (member.equals("seller")) {
-            // 판매회원 가입 데이터 처리
+            // 판매회원 데이터 처리
             model.addAttribute("membershipType", "판매회원가입");
             model.addAttribute("description", "사업자판매회원");
+            termCode = "seller_terms"; // 판매자 약관 코드
+        } else {
+            // 잘못된 회원 유형에 대한 처리 (필요시 추가)
+            model.addAttribute("error", "잘못된 회원 유형입니다.");
+            return "error"; // 에러 페이지로 이동 (필요 시)
         }
-        log.info(member);
+
+        // 약관 데이터 DB에서 조회
+        Optional<Term> termsOpt = Optional.ofNullable(policyService.getTermsByCategory(termCode));
+        if (termsOpt.isPresent()) {
+            model.addAttribute("terms", termsOpt.get().getContent());
+        } else {
+            model.addAttribute("terms", "약관을 찾을 수 없습니다.");
+        }
+
+        // 공통 약관 추가
+        model.addAttribute("finance", policyService.getTermsByCategory("finance").getContent());
+        model.addAttribute("privacy", policyService.getTermsByCategory("privacy").getContent());
+
+        // 일반회원만 위치정보 약관 제공
+        if (member.equals("user")) {
+            model.addAttribute("location", policyService.getTermsByCategory("location").getContent());
+        }
+
+        log.info("회원 유형: " + member);
         model.addAttribute("member", member);
-        return "user/signup";  // 같은 뷰를 반환하되 데이터를 다르게 렌더링
+        return "user/signup"; // 사용자 정의 뷰로 이동
     }
 }

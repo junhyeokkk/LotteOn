@@ -23,4 +23,13 @@ public class PolicyService {
         Optional<Term> termOptional = policyRepository.findByTermCode(termCode); // termCode를 기준으로 조회
         return termOptional.orElse(null); // 존재하지 않으면 null 반환
     }
+
+    public void updateTerm(Term term) {
+        if (term != null) {
+            policyRepository.save(term); // JPA를 사용하여 DB에 저장
+        } else {
+            // 예외 처리 또는 로깅 추가
+            throw new IllegalArgumentException("Term cannot be null");
+        }
+    }
 }

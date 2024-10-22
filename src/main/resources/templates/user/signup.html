@@ -6,21 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>약관 동의</title>
     <link rel="stylesheet" th:href="@{/css/user/user_style.css}">
-
 </head>
 <body>
 
 <header th:replace="~{layout/header::header}"></header>
 
 <div id="wrapper">
-    <h2>약관동의</h2>
+    <h2 th:text="${membershipType}">약관동의</h2>
+    <p th:text="${description}"></p>
     <hr class="line" size="2px" color="black">
     <input type="hidden" id="memberType" th:value="${member}">
+
     <form class="sighup">
         <!-- 필수 항목 1: 이용약관 -->
         <div class="form-group">
             <label><span style="color: red;">(필수)</span> 이용약관</label>
-            <textarea id="terms1" readonly>.</textarea>
+            <textarea id="terms1" readonly th:text="${terms}"></textarea>
             <div class="checkbox-container">
                 <input type="checkbox" id="agree1" required>
                 <label for="agree1">동의하기</label>
@@ -30,7 +31,7 @@
         <!-- 필수 항목 2: 전자금융 이용약관 -->
         <div class="form-group">
             <label><span style="color: red;">(필수)</span> 전자금융 이용약관</label>
-            <textarea id="terms2" readonly>.</textarea>
+            <textarea id="terms2" readonly th:text="${finance}"></textarea>
             <div class="checkbox-container">
                 <input type="checkbox" id="agree2" required>
                 <label for="agree2">동의하기</label>
@@ -40,17 +41,17 @@
         <!-- 필수 항목 3: 개인정보 수집 동의 -->
         <div class="form-group">
             <label><span style="color: red;">(필수)</span> 개인정보 수집 동의</label>
-            <textarea id="terms3" readonly>.</textarea>
+            <textarea id="terms3" readonly th:text="${privacy}"></textarea>
             <div class="checkbox-container">
                 <input type="checkbox" id="agree3" required>
                 <label for="agree3">동의하기</label>
             </div>
         </div>
 
-        <!-- 선택 항목 4: 위치정보 이용약관 -->
-        <div class="form-group">
+        <!-- 선택 항목 4: 위치정보 이용약관 (일반회원만 출력) -->
+        <div class="form-group" th:if="${member == 'user'}">
             <label><span style="color: blue;">(선택)</span> 위치정보 이용약관</label>
-            <textarea id="terms4" readonly>.</textarea>
+            <textarea id="terms4" readonly th:text="${location}"></textarea>
             <div class="checkbox-container">
                 <input type="checkbox" id="agree4">
                 <label for="agree4">동의하기</label>
@@ -63,14 +64,13 @@
 
     <script>
         function checkAgreements() {
-            // 필수 약관 체크 확인
             var agree1 = document.getElementById('agree1').checked;
             var agree2 = document.getElementById('agree2').checked;
             var agree3 = document.getElementById('agree3').checked;
 
+            // 필수 약관이 모두 체크되었는지 확인
             if (agree1 && agree2 && agree3) {
-                // 필수 약관 동의 시 회원 유형에 따라 이동
-                var member = /*[[${member}]]*/ document.getElementById('memberType').value;
+                var member = document.getElementById('memberType').value;
                 window.location.href = '/user/register/' + member;
             } else {
                 alert('모든 필수 약관에 동의해 주세요.');
