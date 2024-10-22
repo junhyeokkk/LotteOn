@@ -24,291 +24,46 @@
       <p>쇼핑몰 메인, 상품 페이지 사이드 카테고리 메뉴입니다.</p>
 
       <ul class="category-list" id="categoryList">
-        <li class="category-item" draggable="true">
+        <li th:each="category : ${categories}" class="category-item" draggable="true">
           <div class="category-header">
             <span class="toggle-icon">▶</span>
-            <span>여성패션</span>
+            <span th:text="${category.name}">카테고리 이름</span>
             <button class="delete-btn">삭제</button>
           </div>
-          <ul class="subcategory-list">
-            <li class="subcategory-item" draggable="true">
+
+          <!-- 2차 카테고리 -->
+          <ul th:if="${category.children.size() > 0}" class="subcategory-list">
+            <li th:each="subCategory : ${category.children}" class="subcategory-item" draggable="true">
               <div class="subcategory-header">
                 <span class="toggle-icon">▶</span>
-                <span>브랜드의류</span>
+                <span th:text="${subCategory.name}">2차 카테고리 이름</span>
                 <button class="delete-btn">삭제</button>
               </div>
-              <ul class="tertiary-category-list" style="display:none;">
-                <li class="tertiary-category-item" draggable="true">
-                  <span>스포츠웨어</span>
+
+              <!-- 3차 카테고리 -->
+              <ul th:if="${subCategory.children.size() > 0}" class="tertiary-category-list">
+                <li th:each="tertiaryCategory : ${subCategory.children}" class="tertiary-category-item" draggable="true">
+                  <span th:text="${tertiaryCategory.name}">3차 카테고리 이름</span>
                   <button class="delete-btn">삭제</button>
                 </li>
-                <li class="tertiary-category-item" draggable="true">
-                  <span>캐주얼웨어</span>
-                  <button class="delete-btn">삭제</button>
-                </li>
-                <button class="add-btn add-tertiary-btn">+ 3차 카테고리 추가</button>
-                <div class="add-tertiary-section" style="display: none;">
-                  <input type="text" class="newTertiaryInput" placeholder="3차 카테고리 이름을 입력하세요" />
-                  <button class="add-tertiary-btn">+ 추가</button>
-                </div>
               </ul>
-            </li>
-            <li class="subcategory-item" draggable="true">
-              <div class="subcategory-header">
-                <span class="toggle-icon">▶</span>
-                <span>브랜드가방</span>
-                <button class="delete-btn">삭제</button>
+
+              <!-- 3차 카테고리 추가 버튼 -->
+              <button class="add-btn add-tertiary-btn">+ 3차 카테고리 추가</button>
+              <div class="add-tertiary-section" style="display: none;">
+                <input type="text" class="newTertiaryInput" placeholder="3차 카테고리 이름을 입력하세요" />
+                <button class="add-tertiary-btn">+ 추가</button>
               </div>
-              <ul class="tertiary-category-list" style="display:none;">
-                <button class="add-btn add-tertiary-btn">+ 3차 카테고리 추가</button>
-                <div class="add-tertiary-section" style="display: none;">
-                  <input type="text" class="newTertiaryInput" placeholder="3차 카테고리 이름을 입력하세요" />
-                  <button class="add-tertiary-btn">+ 추가</button>
-                </div>
-              </ul>
             </li>
-            <li class="subcategory-item" draggable="true">
-              <div class="subcategory-header">
-                <span class="toggle-icon">▶</span>
-                <span>브랜드신발</span>
-                <button class="delete-btn">삭제</button>
-              </div>
-              <ul class="tertiary-category-list" style="display:none;">
-                <button class="add-btn add-tertiary-btn">+ 3차 카테고리 추가</button>
-                <div class="add-tertiary-section" style="display: none;">
-                  <input type="text" class="newTertiaryInput" placeholder="3차 카테고리 이름을 입력하세요" />
-                  <button class="add-tertiary-btn">+ 추가</button>
-                </div>
-              </ul>
-            </li>
-            <li class="subcategory-item" draggable="true">
-              <div class="subcategory-header">
-                <span class="toggle-icon">▶</span>
-                <span>브랜드잡화</span>
-                <button class="delete-btn">삭제</button>
-              </div>
-              <ul class="tertiary-category-list" style="display:none;">
-                <button class="add-btn add-tertiary-btn">+ 3차 카테고리 추가</button>
-                <div class="add-tertiary-section" style="display: none;">
-                  <input type="text" class="newTertiaryInput" placeholder="3차 카테고리 이름을 입력하세요" />
-                  <button class="add-tertiary-btn">+ 추가</button>
-                </div>
-              </ul>
-            </li>
-            <button class="add-btn">+ 2차 카테고리 추가</button>
           </ul>
+
+          <!-- 2차 카테고리 추가 버튼 -->
+          <button class="add-btn">+ 2차 카테고리 추가</button>
           <div class="add-subcategory-section" style="display: none;">
             <input type="text" class="newSubcategoryInput" placeholder="2차 카테고리 이름을 입력하세요" />
             <button class="add-subcategory-btn">+ 추가</button>
           </div>
         </li>
-
-        <li class="category-item" draggable="true">
-          <div class="category-header">
-            <span class="toggle-icon">▶</span>
-            <span>남성패션</span>
-            <button class="delete-btn">삭제</button>
-          </div>
-          <ul class="subcategory-list">
-            <li class="subcategory-item" draggable="true">
-              <div class="subcategory-header">
-                <span class="toggle-icon">▶</span>
-                <span>브랜드의류</span>
-                <button class="delete-btn">삭제</button>
-              </div>
-              <ul class="tertiary-category-list" style="display:none;">
-                <li class="tertiary-category-item" draggable="true">
-                  <span>스포츠웨어</span>
-                  <button class="delete-btn">삭제</button>
-                </li>
-                <li class="tertiary-category-item" draggable="true">
-                  <span>캐주얼웨어</span>
-                  <button class="delete-btn">삭제</button>
-                </li>
-                <button class="add-btn add-tertiary-btn">+ 3차 카테고리 추가</button>
-                <div class="add-tertiary-section" style="display: none;">
-                  <input type="text" class="newTertiaryInput" placeholder="3차 카테고리 이름을 입력하세요" />
-                  <button class="add-tertiary-btn">+ 추가</button>
-                </div>
-              </ul>
-            </li>
-            <li class="subcategory-item" draggable="true">
-              <span>브랜드가방</span>
-              <button class="delete-btn">삭제</button>
-            </li>
-            <li class="subcategory-item" draggable="true">
-              <span>브랜드신발</span>
-              <button class="delete-btn">삭제</button>
-            </li>
-            <li class="subcategory-item" draggable="true">
-              <span>브랜드잡화</span>
-              <button class="delete-btn">삭제</button>
-            </li>
-            <button class="add-btn">+ 2차 카테고리 추가</button>
-          </ul>
-          <div class="add-subcategory-section" style="display: none;">
-            <input type="text" class="newSubcategoryInput" placeholder="2차 카테고리 이름을 입력하세요" />
-            <button class="add-subcategory-btn">+ 추가</button>
-          </div>
-        </li>
-
-        <li class="category-item" draggable="true">
-          <div class="category-header">
-            <span class="toggle-icon">▶</span>
-            <span>식품</span>
-            <button class="delete-btn">삭제</button>
-          </div>
-          <ul class="subcategory-list">
-            <li class="subcategory-item" draggable="true">
-              <div class="subcategory-header">
-                <span class="toggle-icon">▶</span>
-                <span>브랜드의류</span>
-                <button class="delete-btn">삭제</button>
-              </div>
-              <ul class="tertiary-category-list" style="display:none;">
-                <li class="tertiary-category-item" draggable="true">
-                  <span>스포츠웨어</span>
-                  <button class="delete-btn">삭제</button>
-                </li>
-                <li class="tertiary-category-item" draggable="true">
-                  <span>캐주얼웨어</span>
-                  <button class="delete-btn">삭제</button>
-                </li>
-                <button class="add-btn add-tertiary-btn">+ 3차 카테고리 추가</button>
-                <div class="add-tertiary-section" style="display: none;">
-                  <input type="text" class="newTertiaryInput" placeholder="3차 카테고리 이름을 입력하세요" />
-                  <button class="add-tertiary-btn">+ 추가</button>
-                </div>
-              </ul>
-            </li>
-            <li class="subcategory-item" draggable="true">
-              <span>브랜드가방</span>
-              <button class="delete-btn">삭제</button>
-            </li>
-            <li class="subcategory-item" draggable="true">
-              <span>브랜드신발</span>
-              <button class="delete-btn">삭제</button>
-            </li>
-            <li class="subcategory-item" draggable="true">
-              <span>브랜드잡화</span>
-              <button class="delete-btn">삭제</button>
-            </li>
-            <button class="add-btn">+ 2차 카테고리 추가</button>
-          </ul>
-          <div class="add-subcategory-section" style="display: none;">
-            <input type="text" class="newSubcategoryInput" placeholder="2차 카테고리 이름을 입력하세요" />
-            <button class="add-subcategory-btn">+ 추가</button>
-          </div>
-        </li>
-
-        <li class="category-item" draggable="true">
-          <div class="category-header">
-            <span class="toggle-icon">▶</span>
-            <span>생활/건강</span>
-            <button class="delete-btn">삭제</button>
-          </div>
-          <ul class="subcategory-list">
-            <li class="subcategory-item" draggable="true">
-              <div class="subcategory-header">
-                <span class="toggle-icon">▶</span>
-                <span>브랜드의류</span>
-                <button class="delete-btn">삭제</button>
-              </div>
-              <ul class="tertiary-category-list" style="display:none;">
-                <li class="tertiary-category-item" draggable="true">
-                  <span>스포츠웨어</span>
-                  <button class="delete-btn">삭제</button>
-                </li>
-                <li class="tertiary-category-item" draggable="true">
-                  <span>캐주얼웨어</span>
-                  <button class="delete-btn">삭제</button>
-                </li>
-                <button class="add-btn add-tertiary-btn">+ 3차 카테고리 추가</button>
-                <div class="add-tertiary-section" style="display: none;">
-                  <input type="text" class="newTertiaryInput" placeholder="3차 카테고리 이름을 입력하세요" />
-                  <button class="add-tertiary-btn">+ 추가</button>
-                </div>
-              </ul>
-            </li>
-            <li class="subcategory-item" draggable="true">
-              <span>브랜드가방</span>
-              <button class="delete-btn">삭제</button>
-            </li>
-            <li class="subcategory-item" draggable="true">
-              <span>브랜드신발</span>
-              <button class="delete-btn">삭제</button>
-            </li>
-            <li class="subcategory-item" draggable="true">
-              <span>브랜드잡화</span>
-              <button class="delete-btn">삭제</button>
-            </li>
-            <button class="add-btn">+ 2차 카테고리 추가</button>
-          </ul>
-          <div class="add-subcategory-section" style="display: none;">
-            <input type="text" class="newSubcategoryInput" placeholder="2차 카테고리 이름을 입력하세요" />
-            <button class="add-subcategory-btn">+ 추가</button>
-          </div>
-        </li>
-
-        <li class="category-item" draggable="true">
-          <div class="category-header">
-            <span class="toggle-icon">▶</span>
-            <span>기타</span>
-            <button class="delete-btn">삭제</button>
-          </div>
-          <ul class="subcategory-list">
-            <li class="subcategory-item" draggable="true">
-              <div class="subcategory-header">
-                <span class="toggle-icon">▶</span>
-                <span>브랜드의류</span>
-                <button class="delete-btn">삭제</button>
-              </div>
-              <ul class="tertiary-category-list" style="display:none;">
-                <li class="tertiary-category-item" draggable="true">
-                  <span>스포츠웨어</span>
-                  <button class="delete-btn">삭제</button>
-                </li>
-                <li class="tertiary-category-item" draggable="true">
-                  <span>캐주얼웨어</span>
-                  <button class="delete-btn">삭제</button>
-                </li>
-                <button class="add-btn add-tertiary-btn">+ 3차 카테고리 추가</button>
-                <div class="add-tertiary-section" style="display: none;">
-                  <input type="text" class="newTertiaryInput" placeholder="3차 카테고리 이름을 입력하세요" />
-                  <button class="add-tertiary-btn">+ 추가</button>
-                </div>
-              </ul>
-            </li>
-            <li class="subcategory-item" draggable="true">
-              <span>브랜드가방</span>
-              <button class="delete-btn">삭제</button>
-            </li>
-            <li class="subcategory-item" draggable="true">
-              <span>브랜드신발</span>
-              <button class="delete-btn">삭제</button>
-            </li>
-            <li class="subcategory-item" draggable="true">
-              <span>브랜드잡화</span>
-              <button class="delete-btn">삭제</button>
-            </li>
-            <button class="add-btn">+ 2차 카테고리 추가</button>
-          </ul>
-          <div class="add-subcategory-section" style="display: none;">
-            <input type="text" class="newSubcategoryInput" placeholder="2차 카테고리 이름을 입력하세요" />
-            <button class="add-subcategory-btn">+ 추가</button>
-          </div>
-        </li>
-
-        <div class="add-category-section">
-          <input type="text" id="newCategoryInput" placeholder="1차 카테고리 이름을 입력하세요" />
-          <button class="add-category-btn" id="addCategoryBtn">+ 1차 카테고리 추가</button>
-        </div>
-
-        <div class="info-box">
-          <p>카테고리 메뉴 순서를 변경할 때 드래그 앤 드롭으로 1차, 2차 카테고리 메뉴 이동 후 수정하기를 클릭합니다.</p>
-        </div>
-
-        <button class="submit-btn">수정하기</button>
       </ul>
     </div>
   </div>

@@ -55,7 +55,7 @@ ul {
 
 .subcategory-list,
 .tertiary-category-list {
-    display: none; /* Initially hide subcategories */
+    /*display: none; !* Initially hide subcategories *!*/
     padding-left: 20px; /* Indent subcategories */
 }
 
@@ -201,13 +201,13 @@ button {
 }
 
 .subcategory-list {
-    display: none; /* Initially hide subcategories */
+    /*display: none; !* Initially hide subcategories *!*/
     padding-left: 20px; /* Indent 2차 카테고리 */
     margin-top: 5px; /* Spacing between categories */
 }
 
 .tertiary-category-list {
-    display: none; /* Initially hide 3차 카테고리 */
+    /*display: none; !* Initially hide 3차 카테고리 *!*/
     padding-left: 20px; /* Further indent 3차 카테고리 */
     margin-top: 5px; /* Spacing between 2차 and 3차 카테고리 */
 }
