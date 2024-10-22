@@ -1,8 +1,6 @@
 package com.team1.lotteon.apiController.category;
 
-import com.team1.lotteon.dto.category.CategoryCreateDTO;
-import com.team1.lotteon.dto.category.CategoryIdResponseDTO;
-import com.team1.lotteon.dto.category.CategoryWithChildrenResponseDTO;
+import com.team1.lotteon.dto.category.*;
 import com.team1.lotteon.entity.Category;
 import com.team1.lotteon.service.CategoryService;
 import jakarta.transaction.Transactional;
@@ -35,5 +33,27 @@ public class CategoryApiController {
         return ResponseEntity.status(HttpStatus.CREATED).body(new CategoryIdResponseDTO(category.getId().toString()));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<CategoryWithParentAndChildrenResponseDTO> getDetailCategory(@PathVariable Long id) {
+        CategoryWithParentAndChildrenResponseDTO detailCategory = categoryService.getDetailById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(detailCategory);
+    }
 
+    @PatchMapping("/{id}/name")
+    public ResponseEntity<Void> updateCateName(@PathVariable Long id, @RequestBody CategoryUpdateNameDTO body) {
+        categoryService.updateCategoryName(id, body.getName());
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @PatchMapping("/{id}/parent/{parentId}")
+    public ResponseEntity<Void> updateCateParent(@PathVariable Long id, @PathVariable Long parentId) {
+        categoryService.updateCategoryParent(id, parentId);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
+        categoryService.deleteCategory(id);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 }

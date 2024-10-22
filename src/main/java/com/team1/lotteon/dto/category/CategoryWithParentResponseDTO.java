@@ -16,6 +16,10 @@ public class CategoryWithParentResponseDTO {
     private CategoryWithParentResponseDTO parent;
 
     public static CategoryWithParentResponseDTO fromEntity(Category category) {
+        if(category == null) {
+            return null;
+        }
+
         return CategoryWithParentResponseDTO.builder()
                 .id(category.getId())
                 .name(category.getName())

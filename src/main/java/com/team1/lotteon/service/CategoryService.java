@@ -5,6 +5,7 @@ import com.team1.lotteon.dto.category.CategoryResponseDTO;
 import com.team1.lotteon.dto.category.CategoryWithChildrenResponseDTO;
 import com.team1.lotteon.dto.category.CategoryWithParentAndChildrenResponseDTO;
 import com.team1.lotteon.entity.Category;
+import com.team1.lotteon.entity.enums.CateLevel;
 import com.team1.lotteon.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +25,7 @@ public class CategoryService {
     }
 
     public CategoryWithParentAndChildrenResponseDTO getDetailById(Long id) {
-        Category category = categoryRepository.findWithChildrenAndParentById(id);
+        Category category = categoryRepository.findWithChildrenAndParentById(id).orElseThrow(() -> new IllegalArgumentException("카테고리를 찾을 수 없습니다."));
         return CategoryWithParentAndChildrenResponseDTO.fromEntity(category);
     }
 
@@ -34,16 +35,10 @@ public class CategoryService {
 
         if (categoryCreateDTO.getParentId() != null) {
             Category parentCategory = categoryRepository.findById(Long.valueOf(categoryCreateDTO.getParentId())).orElse(null);
-            category.setParent(parentCategory);
+            category.changeParent(parentCategory);
         }
 
         return category;
-    }
-
-    public CategoryResponseDTO getCategoryById(Long id) {
-        Category category = categoryRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 카테고리가 없습니다."));
-        return CategoryResponseDTO.fromEntity(category);
     }
 
     public void updateCategoryName(Long productId, String newName) {
@@ -51,7 +46,18 @@ public class CategoryService {
         category.changeName(newName);
     }
 
+    public void updateCategoryParent(Long productId, Long parentId) {
+        Category category = categoryRepository.findById(productId).orElseThrow(() -> new IllegalArgumentException("해당 카테고리가 없습니다."));
+        Category parentCategory = categoryRepository.findById(parentId).orElseThrow(() -> new IllegalArgumentException("해당 카테고리가 없습니다."));
+
+        category.changeParent(parentCategory);
+    }
+
+
     public void deleteCategory(Long id) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 카테고리가 없습니다."));
+
         categoryRepository.deleteById(id);
     }
 }

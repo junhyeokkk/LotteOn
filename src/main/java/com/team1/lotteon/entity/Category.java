@@ -33,22 +33,28 @@ public class Category {
     @OneToMany(mappedBy = "parent", cascade = CascadeType.REMOVE)
     private List<Category> children = new ArrayList<>();
 
-    public void setParent(Category parent) {
+    public void changeParent(Category parent) {
+        // 기존 부모에서 자식 목록에서 자신을 제거
+        if (this.parent != null) {
+            this.parent.getChildren().remove(this);
+        }
+
+        // 새로운 부모 설정
         this.parent = parent;
+
+        // 새로운 부모가 null이 아닌 경우 자식 목록에 자신을 추가
+        if (parent != null && !parent.getChildren().contains(this)) {
+            parent.getChildren().add(this);
+        }
     }
 
-    public void addChild(Category child) {
-        this.children.add(child);
-        child.setParent(this);
-    }
-
-    public void removeChild(Category child) {
-        this.children.remove(child);
-        child.setParent(null);
-    }
 
     public void changeName(String name) {
         this.name = name;
+    }
+
+    public void changeLevel(CateLevel level) {
+        this.level = level;
     }
 
 }
