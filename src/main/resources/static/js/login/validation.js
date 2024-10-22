@@ -3,7 +3,6 @@
 const reUid = /^[a-z]+[a-z0-9]{4,19}$/g;
 const rePass = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{5,16}$/;
 const reName = /^[가-힣]{2,10}$/
-const reNick = /^[a-zA-Zㄱ-힣0-9][a-zA-Zㄱ-힣0-9]*$/;
 const reEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 const reHp = /^01(?:0|1|[6-9])-(?:\d{4})-\d{4}$/;
 
@@ -11,30 +10,34 @@ const reHp = /^01(?:0|1|[6-9])-(?:\d{4})-\d{4}$/;
 let isUidOk = false;
 let isPassOk = false;
 let isNameOk = false;
-let isNickOk = false;
 let isEmailOk = false;
 let isHpOk = false;
-
+let isGenderOk = false;
+let isAddressOk = false;
 
 window.onload=function () {
 
 	const btnCheckUid = document.getElementById('btnCheckUid');
-	const btnCheckNick = document.getElementById('btnCheckNick');
+	const registerForm = document.getElementsByClassName('sendForm')[0];
 
-	const registerForm = document.getElementsByTagName('form')[0];
 
-	const resultId = document.getElementsByClassName('resultId')[0];
+	const userUidInput = document.querySelector('input[name="uid"]');
+	const genderInputs = document.querySelectorAll('input[name="gender"]');
+	const resultId = document.querySelector('.resultId');
+
+	const passInput = document.getElementsByName('pass')[0];
+	const pass2Input = document.getElementsByName('pass2')[0];
+	const Name = document.getElementsByName('name')[0];
 	const resultPass = document.getElementsByClassName('resultPass')[0];
 	const resultName = document.getElementsByClassName('resultName')[0];
-	const resultNick = document.getElementsByClassName('resultNick')[0];
 	const resultHp = document.getElementsByClassName('resultHp')[0];
 
 
-	// 1.아이디 유효성 검사
+	// 아이디 유효성 검사
 	btnCheckUid.onclick = async function (e) {
 
-		const type = registerForm.uidbtn.dataset.type;
-		const value = registerForm.userUid.value;
+		const type = btnCheckUid.dataset.type; // data-type 속성 값
+		const value = userUidInput.value; // userUid 입력 값
 
 		console.log(type + value);
 
@@ -45,7 +48,7 @@ window.onload=function () {
 			return;
 		}
 
-		const data = await fetchGet(`/user/UserRegister/${type}/${value}`)
+		const data = await fetchGet(`/user/Register/${type}/${value}`)
 		console.log(data.result)
 
 		if (data.result > 0) {
@@ -60,11 +63,11 @@ window.onload=function () {
 	}
 
 
-	// 2.비밀번호 유효성 검사
-	registerForm.pass2.addEventListener('focusout', function(){
+	// 비밀번호 유효성 검사
+	pass2Input.addEventListener('focusout', function(){
 
-		const pass = registerForm.userPass.value;
-		const pass2 = registerForm.pass2.value;
+		const pass = passInput.value;
+		const pass2 = pass2Input.value;
 
 		if(!pass.match(rePass)){
 			resultPass.innerText = "비밀번호가 유효하지 않습니다.";
@@ -83,10 +86,10 @@ window.onload=function () {
 		}
 	});
 
-	// 3.이름 유효성 검사
-	registerForm.userName.addEventListener('focusout', function(){
+	// 이름 유효성 검사
+	Name.addEventListener('focusout', function(){
 
-		const name = registerForm.userName.value;
+		const name = Name.value;
 
 		if(!name.match(reName)){
 			resultName.innerText = "이름이 유효하지 않습니다.";
@@ -98,34 +101,10 @@ window.onload=function () {
 		}
 	});
 
-	// 4.별명 유효성 검사
-	btnCheckNick.addEventListener('click', async function (){
-		const value = registerForm.userNick.value;
-		const type = registerForm.btnnick.dataset.type;
-
-		if(!value.match(reNick)){
-			resultNick.innerText = '별명이 유효하지 않습니다.';
-			resultNick.style.color = 'red';
-			return;
-		}
-
-		const data = await fetchGet(`/user/UserRegister/${type}/${value}`)
-		console.log(data.result)
-
-		if(data.result > 0){
-			resultNick.innerText = '이미 사용중인 별명입니다.';
-			resultNick.style.color = 'red';
-			isNickOk = false;
-		}else{
-			resultNick.innerText = '사용 가능한 별명입니다.';
-			resultNick.style.color = 'green';
-			isNickOk = true;
-		}
-	})
-
 	// 이메일 유효성 검사
 
-	const btnSendEmail = document.querySelector('#btnSendEmail')
+	const btnSendEmail = document.querySelector('#btnSendEmail');
+	const EmailInput = document.querySelector('input[name="email"]');
 	const btnAuthEmail = document.getElementById('btnAuthEmail');
 
 	const resultEmail = document.getElementById('resultEmail');
@@ -133,8 +112,8 @@ window.onload=function () {
 
 	btnSendEmail.addEventListener('click', async function (){
 
-		const type = registerForm.btnEmail.dataset.type;
-		const value = registerForm.userEmail.value;
+		const type = btnSendEmail.dataset.type;
+		const value = EmailInput.value;
 
 		if (!value.match(reEmail)) {
 			showResultInvalid(resultEmail, '이메일 형식이 맞지 않습니다.');
@@ -142,7 +121,7 @@ window.onload=function () {
 			return;
 		}
 
-		const data = await fetchGet(`/user/UserRegister/${type}/${value}`);
+		const data = await fetchGet(`/user/Register/${type}/${value}`);
 
 		if(data.result > 0){
 			showResultInvalid(resultEmail, '이미 사용중인 이메일 입니다.');
@@ -157,6 +136,11 @@ window.onload=function () {
 
 	})
 
+	genderInputs.forEach(function(input) {
+		input.addEventListener('change', function() {
+			isGenderOk = true; // 성별이 선택되었을 때 true로 설정
+		});
+	});
 
 	// 이메일 인증코드 확인
 	btnAuthEmail.onclick = async function (){
@@ -164,9 +148,9 @@ window.onload=function () {
 
 		const jsonData = {"code": userauth.value};
 
-		const data = await fetchPost(`/user/UserRegister/email`, jsonData);
+		const data = await fetchPost(`/user/Register/email`, jsonData);
 
-		console.log(data+data.result)
+		console.log(data.result);
 
 		if(!data.result){
 			showResultInvalid(resultEmail, '인증코드가 일치하지 않습니다.');
@@ -177,11 +161,12 @@ window.onload=function () {
 		}
 	}
 
-	// 6.휴대폰 유효성 검사
-	registerForm.userHp.addEventListener('focusout', async function(){
+	// 휴대폰 유효성 검사
+	const phnumber = document.getElementById('ph');
+	phnumber.addEventListener('focusout', async function(){
 
-		const value = registerForm.userHp.value;
-		const type = 'hp'
+		const value = phnumber.value;
+		const type = 'ph'
 
 		if(!value.match(reHp)){
 			resultHp.innerText = '전화번호가 유효하지 않습니다.';
@@ -189,7 +174,7 @@ window.onload=function () {
 			return;
 		}
 
-		const data = await fetchGet(`/user/UserRegister/${type}/${value}`);
+		const data = await fetchGet(`/user/Register/${type}/${value}`);
 		console.log(data.result)
 
 		if(data.result > 0){
@@ -202,8 +187,25 @@ window.onload=function () {
 			isHpOk = true;
 		}
 	});
+	// 주소 유효성 검사 추가
+	const address1Input = document.getElementById('address1');
+	const address2Input = document.getElementById('address2');
+	const resultaddr = document.querySelector('.resultaddr');
+	address2Input.addEventListener('focusout', function() {
+		const address1 = address1Input.value;
+		const address2 = address2Input.value;
 
-	// 최종 폼 전송 유효성 검사
+		if (address1 !== '' && address2 !== '') {
+			resultaddr.innerText = "";
+			isAddressOk = true;
+		} else {
+			resultaddr.innerText = '주소를 입력해주세요';
+			resultaddr.style.color = 'red';
+			isAddressOk = false;
+		}
+	});
+
+	//최종 폼 전송 유효성 검사
 	registerForm.onsubmit = function () {
 
 		// 아이디 유효성 검사 완료 여부
@@ -223,13 +225,11 @@ window.onload=function () {
 			alert('이름이 유효하지 않습니다.');
 			return false; // 폼 전송 취소
 		}
-
-		// 별명 유효성 검사 완료 여부
-		if (!isNickOk) {
-			alert('별명이 유효하지 않습니다.');
+		// 성별 유효성 검사 완료 여부 (필수 추가)
+		if (!isGenderOk) {
+			alert('성별을 선택해주세요.');
 			return false; // 폼 전송 취소
 		}
-
 		// 이메일 유효성 검사 완료 여부
 		if (!isEmailOk) {
 			alert('이메일이 유효하지 않습니다.');
@@ -242,7 +242,13 @@ window.onload=function () {
 			return false; // 폼 전송 취소
 		}
 
-		return true; // 폼 전송
-	}
+		// 주소 유효성 검사 완료 여부
+		if (!isAddressOk) {
+			alert('주소가 유효하지 않습니다.');
+			return false; // 폼 전송 취소
+		}
+		return true;
+	};
+
 
 }

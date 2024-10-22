@@ -17,4 +17,12 @@ public class GeneralMemberService {
     public void insertGeneralMember(GeneralMember generalMember) {
         generalMemberRepository.save(generalMember);
     }
+
+    // 이메일 중복 확인
+    public boolean isEmailExist(String email) {
+        return generalMemberRepository.existsByEmail(email);
+    }
+    public boolean isphExist(String ph){
+        return generalMemberRepository.existsByph(ph);
+    }
 }

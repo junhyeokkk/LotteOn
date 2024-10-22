@@ -6,12 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LotteOn 로그인</title>
     <link rel="stylesheet" th:href="@{/css/user/user_style.css}">
+    <script type="text/javascript" th:inline="javascript">
+        // 페이지 로드 시 successMessage가 존재하면 알림창을 띄운다.
+        window.onload = function () {
+            /* 서버에서 전달된 successMessage를 가져온다. */
+            let successMessage = [[${successMessage}]];
+            if (successMessage) {
+                alert(successMessage);  // 알림창 띄우기
+            }
+        };
+    </script>
 </head>
 
 
 <header th:replace="~{layout/header::header}"></header>
 
 <main id="content" role="main" class="contentArea on">
+
     <div class="loginContent withAd vertical">
         <div class="loginWrap lotteOn">
             <h2 class="titLogin">

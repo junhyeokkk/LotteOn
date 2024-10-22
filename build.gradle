@@ -30,6 +30,7 @@ dependencies {
     implementation 'org.modelmapper:modelmapper:3.2.0'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
     testImplementation 'org.springframework.security:spring-security-test'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
@@ -46,6 +47,9 @@ dependencies {
     // 모델 mapper 의존성 추가
     // https://mvnrepository.com/artifact/org.modelmapper/modelmapper
     implementation group: 'org.modelmapper', name: 'modelmapper', version: '3.2.1'
+
+
+
 }
 jar {
     enabled = false
