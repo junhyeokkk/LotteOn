@@ -1,5 +1,18 @@
-<div class="content" th:fragment="list">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/admin/layout/adminlayout}">
+
+<!-- index.html 고유 CSS 추가 -->
+<th:block layout:fragment="css">
     <link rel="stylesheet" th:href="@{/css/admin/cs/notice/list.css}" />
+</th:block>
+<!-- index.html 고유 스크립트 추가 -->
+<th:block layout:fragment="script">
+</th:block>
+
+<div class="content" layout:fragment="content">
     <div class="dashboard">
         <div class="content_header">
             <h1>공지사항 목록</h1>
@@ -35,7 +48,7 @@
                     <td style="white-space: nowrap;">[유형선택]</td>
                     <td style="text-align: left">
                         <span>
-                            <a th:href="@{/admin/layout/cs/notice/view}">
+                            <a th:href="@{/admin/cs/notice/view}">
                                 <span style="white-space: nowrap;">[안내] 제목</span>
                             </a>
                         </span>
@@ -55,7 +68,7 @@
                     <td style="white-space: nowrap;">[유형선택]</td>
                     <td style="text-align: left">
                         <span>
-                            <a th:href="@{/admin/layout/cs/notice/view}">
+                            <a th:href="@{/admin/cs/notice/view}">
                                 <span style="white-space: nowrap;">[안내] 제목</span>
                             </a>
                         </span>
@@ -71,7 +84,7 @@
 
             </table>
             <a class="delete_btn">선택삭제</a>
-            <a th:href="@{/admin/layout/cs/notice/write}" class="registration_btn">작성하기</a>
+            <a th:href="@{/admin/cs/notice/write}" class="registration_btn">작성하기</a>
 
             <div class="pagingBox">
                 <div class="pagingList">
@@ -94,3 +107,4 @@
 
     </div>
 </div>
+</html>

@@ -26,5 +26,5 @@ public class Order {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "member_id")
-    private Member member;
+    private GeneralMember member;
 }

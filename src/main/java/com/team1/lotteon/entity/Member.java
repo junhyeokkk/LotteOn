@@ -10,7 +10,8 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public abstract class Member extends BaseEntity {
+@DiscriminatorColumn(name = "role")
+public class Member extends BaseEntity {
     @Id
     private String uid;
     private String pass;

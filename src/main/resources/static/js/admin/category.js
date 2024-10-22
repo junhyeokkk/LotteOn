@@ -63,13 +63,13 @@ categoryList.addEventListener('drop', function(event) {
 });
 
 
-
-
-// 카테고리 열기/닫기 기능
-document.querySelectorAll('.category-header').forEach(header => {
-    header.addEventListener('click', function() {
-        const subcategoryList = this.nextElementSibling;
-        const toggleIcon = this.querySelector('.toggle-icon');
+// 카테고리 열기/닫기 기능 (1차 및 2차 카테고리)
+document.getElementById('categoryList').addEventListener('click', function(event) {
+    // 1차 카테고리 토글
+    const categoryHeader = event.target.closest('.category-header');
+    if (categoryHeader) {
+        const subcategoryList = categoryHeader.nextElementSibling;
+        const toggleIcon = categoryHeader.querySelector('.toggle-icon');
 
         const isHidden = subcategoryList.style.display === 'none' || subcategoryList.style.display === '';
 
@@ -78,7 +78,22 @@ document.querySelectorAll('.category-header').forEach(header => {
 
         // 토글 아이콘 변경
         toggleIcon.textContent = isHidden ? '▼' : '▶';
-    });
+    }
+
+    // 2차 카테고리 토글
+    const subcategoryHeader = event.target.closest('.subcategory-header');
+    if (subcategoryHeader) {
+        const tertiaryCategoryList = subcategoryHeader.nextElementSibling;
+        const toggleIcon = subcategoryHeader.querySelector('.toggle-icon');
+
+        const isHidden = tertiaryCategoryList.style.display === 'none' || tertiaryCategoryList.style.display === '';
+
+        // 3차 카테고리 보이기/숨기기
+        tertiaryCategoryList.style.display = isHidden ? 'block' : 'none';
+
+        // 토글 아이콘 변경
+        toggleIcon.textContent = isHidden ? '▼' : '▶';
+    }
 });
 
 
@@ -153,7 +168,6 @@ document.querySelectorAll('.add-btn').forEach(addBtn => {
 
 // 각 2차 카테고리 추가 버튼에 클릭 이벤트 추가
 document.addEventListener('click', function(event) {
-
     if (event.target.classList.contains('add-subcategory-btn')) {
         const subcategoryInput = event.target.previousElementSibling;
         const subcategoryName = subcategoryInput.value.trim();
@@ -167,17 +181,35 @@ document.addEventListener('click', function(event) {
         const newSubcategoryItem = document.createElement('li');
         newSubcategoryItem.classList.add('subcategory-item');
         newSubcategoryItem.innerHTML = `
-                    <span>${subcategoryName}</span>
-                    <button class="delete-btn">삭제</button>
-                `;
+            <div class="subcategory-header">
+                <span class="toggle-icon">▶</span>
+                <span>${subcategoryName}</span>
+                <button class="delete-btn">삭제</button>
+            </div>
+            <ul class="tertiary-category-list" style="display:none;">
+                <button class="add-btn">+ 3차 카테고리 추가</button>
+            </ul>
+        `;
 
         // 해당 서브 카테고리 리스트에 추가
         const subcategoryList = event.target.closest('.category-item').querySelector('.subcategory-list');
-
-        // 마지막 자식 요소 앞에 새로운 서브 카테고리 추가
         const lastChild = subcategoryList.lastElementChild; // 마지막 자식 요소
         subcategoryList.insertBefore(newSubcategoryItem, lastChild); // 마지막 자식 요소 앞에 추가
 
+        // 3차 카테고리 토글 기능 추가
+        const subcategoryHeader = newSubcategoryItem.querySelector('.subcategory-header');
+        subcategoryHeader.addEventListener('click', function() {
+            const tertiaryCategoryList = this.nextElementSibling;
+            const toggleIcon = this.querySelector('.toggle-icon');
+
+            const isHidden = tertiaryCategoryList.style.display === 'none' || tertiaryCategoryList.style.display === '';
+
+            // 3차 카테고리 보이기/숨기기
+            tertiaryCategoryList.style.display = isHidden ? 'block' : 'none';
+
+            // 토글 아이콘 변경
+            toggleIcon.textContent = isHidden ? '▼' : '▶';
+        });
 
         // 입력 필드와 버튼 숨기기
         const addSubcategorySection = event.target.closest('.add-subcategory-section');
@@ -187,6 +219,7 @@ document.addEventListener('click', function(event) {
         subcategoryInput.value = '';
     }
 });
+
 
 // 카테고리 및 서브 카테고리 삭제 기능 추가
 document.addEventListener('click', function(event) {

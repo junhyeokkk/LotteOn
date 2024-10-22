@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
+@DiscriminatorValue("General")
 public class GeneralMember extends Member {
     private String name;
     @Enumerated(EnumType.STRING)

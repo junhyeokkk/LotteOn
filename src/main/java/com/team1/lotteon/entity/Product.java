@@ -43,7 +43,7 @@ public class Product extends BaseEntity {
     private Shop shop;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "member_id")
-    private Member member;
+    private GeneralMember member;
 }
 
 
