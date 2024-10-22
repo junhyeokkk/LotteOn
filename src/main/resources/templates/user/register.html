@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원 가입</title>
     <link rel="stylesheet" th:href="@{/css/user/user_style.css}">
+    <script th:src="@{//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js}"></script>
     <script th:src="@{/js/login/postcode.js}"></script>
     <script th:src="@{/js/login/utils.js}"></script>
     <script th:src="@{/js/login/validation.js}"></script>
@@ -17,57 +18,82 @@
 
     <section class="user-section">
         <h3>일반 회원가입</h3>
-        <form th:action="@{user/}" method="post">
+        <form class="sendForm" th:action="@{/user/register/user}" method="post">
             <table class="heighttable">
                 <tr>
-                    <th>아이디</th>
-                    <td><input type="text" name="uid" placeholder="아이디 입력">
-                        <button type="button" class="infobutton" name="uidbtn" data-type="uid">중복확인</button><br/>
+                    <th>아이디<span class="required">*</span></th>
+                    <td>
+                        <input type="text" name="uid" placeholder="아이디 입력"/>
+                        <button type="button" id="btnCheckUid" name="uidbtn" data-type="uid" class="infobutton">중복확인</button>
                         <span class="resultId"></span>
                     </td>
-
                 </tr>
                 <tr>
-                    <th>비밀번호</th>
-                    <td><input type="password"> 영문, 숫자, 특수문자 8~12자 설정</td>
+                    <th>비밀번호<span class="required">*</span></th>
+                    <td><input type="password" name="pass"></td>
                 </tr>
                 <tr>
                     <th>비밀번호 확인</th>
-                    <td><input type="password"></td>
+                    <td>
+                        <input type="password" name="pass2">
+                        <span class="resultPass"></span>
+                    </td>
                 </tr>
             </table>
             <br>
-            <table border="0" class="heighttable">
+            <table class="heighttable">
                 <tr>
-                    <th>이름</th>
-                    <td><input type="text" placeholder="이름입력"/></td>
-                </tr>
-                <tr>
-                    <th>성별</th>
-                    <td><input type="radio" class=""/>남자
-                        <input type="radio" />여자
+                    <th>이름<span class="required">*</span></th>
+                    <td><input type="text" name="name" placeholder="이름입력"/>
+                        <span class="resultName"></span>
                     </td>
                 </tr>
                 <tr>
-                    <th>EMAIL</th>
-                    <td><input type="text" placeholder="이메일입력"/> - 포함 12 자리 입력</td>
+                    <th>성별<span class="required">*</span></th>
+                    <td>
+                        <input type="radio" name="gender" value="MALE"/>남자
+                        <input type="radio" name="gender" value="FEMALE"/>여자
+                    </td>
                 </tr>
                 <tr>
-                    <th>휴대폰</th>
-                    <td><input type="text" placeholder="전화번호입력"/> - 포함 12 자리 입력</td>
+                    <th>EMAIL<span class="required">*</span></th>
+                    <td>
+                        <input type="email" name="email" placeholder="이메일입력"/>
+                        <button type="button" id="btnSendEmail" name="btnEmail" data-type="email" class="infobutton">인증번호 받기</button>
+                        <span id="resultEmail"></span>
+                        <div class="auth" style="display:none">
+                            <input type="text" name="userauth" class="userauth" placeholder="인증번호 입력" />
+                            <button type="button" id="btnAuthEmail"  class="infobutton">인증확인</button>
+                        </div>
+                    </td>
                 </tr>
                 <tr>
-                    <th>주소</th>
-                    <td><input type="text" placeholder="우편번호검색클릭"/>
-                        <button class="infobutton" onclick="searchPostalCode()">주소검색</button><br/>
-                        <input type="text" id="address1" placeholder="기본주소입력" /><br/>
-                        <input type="text" id="address2" placeholder="상세주소입력" />
+                    <th>휴대폰<span class="required">*</span></th>
+                    <td>
+                        <input type="text" id="ph" name="ph" placeholder="- 포함 13자리 입력" minlength="13" maxlength="13" />
+                        <span class="resultHp"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>주소<span class="required">*</span></th>
+                    <td>
+                        <div>
+                            <input type="text" name="zip" id="zip" placeholder="우편번호" readonly/>
+                            <button type="button" class="btnZip infobutton" onclick="postcode()">검색</button>
+                        </div>
+                        <div>
+                            <input type="text" name="addr1" id="address1" placeholder="주소를 검색하세요." readonly/>
+                        </div>
+                        <div>
+                            <input type="text" name="addr2" id="address2" placeholder="상세주소를 입력하세요."/>
+                            <span class="resultaddr"></span>
+                        </div>
                     </td>
                 </tr>
             </table>
 
             <div class="registerbuttondiv">
-                <a th:href="@{/user/login}" class="registerbutton" type="submit" value="등록하기">등록하기</a>
+                <button class="registerbutton" type="submit">등록하기</button>
             </div>
         </form>
     </section>

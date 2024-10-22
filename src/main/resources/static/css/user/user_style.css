@@ -33,7 +33,8 @@
 .loginFormWrapper input[type="password"],
 .loginFormWrapper input[type="email"],
 .loginFormWrapper input[type="tel"],
-.loginFormWrapper input[type="search"] {
+.loginFormWrapper input[type="search"],
+.loginFormWrapper input[type="email"]{
     width: 100%;
     padding: 8px;
     margin-bottom: 10px;
@@ -300,11 +301,13 @@ button {
     color: white;
     cursor: pointer;
     margin-top: 10px;
+    line-height: 40px;
+    font-size: 15px;
 }
 
 .user-section{
     padding-top: 40px;
-    width: 650px;
+    width: 670px;
     text-align: center;
     margin: 0 auto;
 }
@@ -314,6 +317,7 @@ button {
 .user-section input[type="text"],
 .user-section input[type="date"],
 .user-section input[type="password"],
+.user-section input[type="email"],
 .user-section select
 {
     height: 30px;
@@ -328,6 +332,7 @@ button {
 .user-section input[type="text"]:focus,
 .user-section input[type="date"]:focus,
 .user-section input[type="password"]:focus,
+.user-section input[type="email"]:focus,
 .user-section select:focus,
 .user-section textarea:focus{
     outline: none; /* 기본 아웃라인 제거 */
@@ -337,7 +342,7 @@ button {
 }
 .infobutton {
     height: 30px;
-    width: 60px;
+    width: 90px;
     background-color: #343b4d;
     color: white;
     border: none;
@@ -351,5 +356,8 @@ button {
 #address2 {
     width: 335px; /* 원하는 비율로 설정 (여기서는 100%로 설정해 부모의 전체 너비를 사용) */
     box-sizing: border-box; /* padding이 너비에 포함되도록 설정 */
-
+}
+.required {
+    color: red;
+    font-weight: bold;
 }

@@ -23,7 +23,7 @@ public class GeneralMember extends Member {
     @Enumerated(EnumType.STRING)
     private Gender gender;
     @Enumerated(EnumType.STRING)
-    private Grade grade;
+    private Grade grade = Grade.E;
     private int points;
     private String email;
     private String ph;
@@ -32,4 +32,8 @@ public class GeneralMember extends Member {
     private Address address;
     private LocalDateTime lastLoginDate;
     private String etc;
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
 }
