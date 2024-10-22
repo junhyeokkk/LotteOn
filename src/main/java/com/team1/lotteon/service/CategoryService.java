@@ -3,6 +3,7 @@ package com.team1.lotteon.service;
 import com.team1.lotteon.dto.category.CategoryCreateDTO;
 import com.team1.lotteon.dto.category.CategoryResponseDTO;
 import com.team1.lotteon.dto.category.CategoryWithChildrenResponseDTO;
+import com.team1.lotteon.dto.category.CategoryWithParentAndChildrenResponseDTO;
 import com.team1.lotteon.entity.Category;
 import com.team1.lotteon.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,10 +18,14 @@ import java.util.List;
 public class CategoryService {
     private final CategoryRepository categoryRepository;
 
-    public List<CategoryWithChildrenResponseDTO> getAllCategories() {
-        List<Category> allCate = categoryRepository.findAllWithCategory();
-        log.debug("all cate size: {}", allCate.size());
+    public List<CategoryWithChildrenResponseDTO> getAllRootCategories() {
+        List<Category> allCate = categoryRepository.findAllRootWithChildren();
         return allCate.stream().map(CategoryWithChildrenResponseDTO::fromEntity).toList();
+    }
+
+    public CategoryWithParentAndChildrenResponseDTO getDetailById(Long id) {
+        Category category = categoryRepository.findWithChildrenAndParentById(id);
+        return CategoryWithParentAndChildrenResponseDTO.fromEntity(category);
     }
 
     public Category createCategory(CategoryCreateDTO categoryCreateDTO) {

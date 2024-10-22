@@ -2,7 +2,6 @@ package com.team1.lotteon.apiController.category;
 
 import com.team1.lotteon.dto.category.CategoryCreateDTO;
 import com.team1.lotteon.dto.category.CategoryIdResponseDTO;
-import com.team1.lotteon.dto.category.CategoryResponseDTO;
 import com.team1.lotteon.dto.category.CategoryWithChildrenResponseDTO;
 import com.team1.lotteon.entity.Category;
 import com.team1.lotteon.service.CategoryService;
@@ -25,8 +24,7 @@ public class CategoryApiController {
 
     @GetMapping
     public ResponseEntity<List<CategoryWithChildrenResponseDTO>> getAllCategory() {
-        List<CategoryWithChildrenResponseDTO> allCategories = categoryService.getAllCategories();
-        log.info("all cate size : {}", allCategories.size());
+        List<CategoryWithChildrenResponseDTO> allCategories = categoryService.getAllRootCategories();
         return ResponseEntity.status(HttpStatus.OK).body(allCategories);
     }
 
