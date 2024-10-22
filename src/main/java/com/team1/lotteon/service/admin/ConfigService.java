@@ -15,12 +15,11 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.UUID;
 
 @Log4j2
 @RequiredArgsConstructor
 @Service
-public class InfoService {
+public class ConfigService {
 
     private final ConfigRepository configRepository;
     private final ModelMapper modelMapper;

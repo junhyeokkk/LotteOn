@@ -1,7 +1,6 @@
 package com.team1.lotteon.controller.admin.config;
 
-import com.team1.lotteon.dto.ConfigDTO;
-import com.team1.lotteon.service.admin.InfoService;
+import com.team1.lotteon.service.admin.ConfigService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -17,7 +16,7 @@ import java.util.Map;
 @RequestMapping("/admin/config")
 public class InfoController {
 
-    private final InfoService infoService;
+    private final ConfigService configService;
 
     // 사이트 정보수정
     @PatchMapping("/updateSite")
@@ -26,7 +25,7 @@ public class InfoController {
             String title = payload.get("title");
             String subTitle = payload.get("sub_title");
 
-            infoService.updateSiteInfo(title, subTitle);
+            configService.updateSiteInfo(title, subTitle);
             return ResponseEntity.ok(Map.of("success", true));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("success", false));
@@ -44,7 +43,7 @@ public class InfoController {
             String addr1 = payload.get("addr1");
             String addr2 = payload.get("addr2");
 
-            infoService.updateComInfo(b_name, ceo,b_num, b_report, addr1, addr2);
+            configService.updateComInfo(b_name, ceo,b_num, b_report, addr1, addr2);
             return ResponseEntity.ok(Map.of("success", true));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("success", false));
@@ -60,7 +59,7 @@ public class InfoController {
             String cs_email = payload.get("cs_email");
             String dispute = payload.get("dispute");
 
-            infoService.updateCsInfo(cs_num, cs_time, cs_email, dispute);
+            configService.updateCsInfo(cs_num, cs_time, cs_email, dispute);
             return ResponseEntity.ok(Map.of("success", true));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("success", false));
@@ -73,7 +72,7 @@ public class InfoController {
         try {
             String copyright = payload.get("copyright");
 
-            infoService.updateCopyInfo(copyright);
+            configService.updateCopyInfo(copyright);
             return ResponseEntity.ok(Map.of("success", true));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("success", false));
@@ -87,7 +86,7 @@ public class InfoController {
         try {
 
             // Service에서 파일 업로드 로직 호출
-            infoService.uploadLogos(headerLogo, footerLogo, favicon);
+            configService.uploadLogos(headerLogo, footerLogo, favicon);
             return ResponseEntity.ok().body("{\"success\": true}");
         } catch (Exception e) {
             e.printStackTrace();

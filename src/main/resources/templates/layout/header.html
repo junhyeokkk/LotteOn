@@ -22,7 +22,7 @@
     </div>
     <div class="header__bot">
         <div class="header__bot__wrapper center">
-            <a class="logo" href="#" th:href="@{/}"><img class="logo__img" src="/static/images/header_logo.png" th:src="@{/images/header_logo.png}" alt="로고"/></a>
+            <a class="logo" href="#" th:href="@{/}"><img class="logo__img" th:src="@{'/'+${appInfo.uploadDir}+'logo/'+${config.headerlogo}}" alt="로고"/></a>
             <div class="header_item">
                 <a th:href="@{/cs/layout/notice/list}">
                     <img th:src="@{/images/main/main_notice.png}" alt="공지사항" style="width: 40px; height: 40px;">

@@ -1,10 +1,10 @@
 package com.team1.lotteon.controller.admin.config;
 
 import com.team1.lotteon.dto.ConfigDTO;
+import com.team1.lotteon.service.admin.ConfigService;
 import com.team1.lotteon.dto.VersionDTO;
 import com.team1.lotteon.dto.category.CategoryWithChildrenResponseDTO;
 import com.team1.lotteon.service.CategoryService;
-import com.team1.lotteon.service.admin.InfoService;
 import com.team1.lotteon.service.admin.VersionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -23,25 +23,26 @@ import java.util.List;
 @RequiredArgsConstructor
 @Controller
 public class ConfigPageController {
+
+    private final ConfigService configService;
     private final CategoryService categoryService;
-    private final InfoService infoService;
     private final VersionService versionService;
 
     // info 페이지 이동시 config 정보 담기
     @GetMapping("/admin/config/info")
     public String info(Model model){
 
-        ConfigDTO config = infoService.getCompanyInfo();
+        ConfigDTO config = configService.getCompanyInfo();
         model.addAttribute("config", config);
 
         return "admin/config/info";
     }
 
-//    @GetMapping("/admin/config/policy")
-//    public String policy(){
-//
-//        return "admin/config/policy";
-//    }
+    @GetMapping("/admin/config/policy")
+    public String policy(){
+
+        return "admin/config/policy";
+    }
 
     @GetMapping("/admin/config/version")
     public String version(@RequestParam(defaultValue = "0") int page, Model model) {
@@ -51,7 +52,6 @@ public class ConfigPageController {
         model.addAttribute("totalPages", versionPage.getTotalPages()); // 총 페이지 수
         return "admin/config/version"; // 뷰 이름
     }
-
 
     @GetMapping("/admin/config/banner")
     public String banner(){

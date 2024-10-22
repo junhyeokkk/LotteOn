@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Value;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class    AppInfo {
+public class AppInfo {
 
-    @Value("${spring.application.version}")
+    @Value("${app.version}")
     private String appVersion;
 
 
@@ -19,16 +19,7 @@ public class    AppInfo {
     private String appName;
 
 
-
-//    @Value("${spring.application.name}")
-//    private String appName;
-//
-//    @Value("${spring.application.version}")
-//    private String appVersion;
-
-
-
-
-
+    @Value("${spring.servlet.multipart.location}")
+    private String uploadDir; // YAML에서 설정한 파일 업로드 경로
 }
 

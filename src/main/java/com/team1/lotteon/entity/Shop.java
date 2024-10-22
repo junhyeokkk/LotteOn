@@ -22,7 +22,7 @@ public class Shop {
     private Address address;
     private boolean isActive;
 
-    @OneToOne(mappedBy = "shop")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "shop")
     private SellerMember sellerMember;
 
 }
