@@ -8,13 +8,11 @@
 
 h1 {
     font-size: 24px;
-
     color: #2c3e50;
     text-align: center;
 }
 
 p {
-
     color: #666;
     text-align: center;
     font-size: 14px;
@@ -55,14 +53,13 @@ ul {
     color: #ecf0f1;
 }
 
-.subcategory-list {
-    margin-left: 20px;
-    margin-top: 10px;
-    display: none;
+.subcategory-list,
+.tertiary-category-list {
+    display: none; /* Initially hide subcategories */
+    padding-left: 20px; /* Indent subcategories */
 }
 
 .subcategory-item {
-    display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 8px;
@@ -75,10 +72,9 @@ button {
     cursor: pointer;
     padding: 8px 12px;
     font-size: 14px;
-    transition: background-color 0.3s, color 0.3s;
 }
 
-/* 포인트 컬러 #1abc9c을 사용한 버튼 */
+/* Button styles */
 .delete-btn {
     background-color: #1abc9c;
     color: white;
@@ -88,7 +84,6 @@ button {
     background-color: #16a085;
 }
 
-/* 보조 색상 및 추가 버튼 */
 .add-btn, .add-category-btn {
     background-color: #bdc3c7;
     color: #2c3e50;
@@ -124,7 +119,6 @@ button {
     text-align: center;
 }
 
-/* 추가된 입력 필드와 버튼 스타일 */
 .add-category-section {
     display: flex;
     align-items: center;
@@ -190,19 +184,64 @@ button {
     background-color: #0056b3; /* Darker shade on hover */
 }
 
-
 .category-item, .subcategory-item {
-    user-select: none; /* 텍스트 선택을 방지 */
+    user-select: none; /* Prevent text selection */
 }
 
 .dragging {
-    opacity: 0.5; /* 드래그 중인 요소의 불투명도 */
-    background-color: #f0f0f0; /* 드래그 중인 요소의 배경색 */
+    opacity: 0.5; /* Opacity of dragging element */
+    background-color: #f0f0f0; /* Background color of dragging element */
 }
 
 .category-item.dragging,
 .subcategory-item.dragging {
-    opacity: 0.5; /* 투명도 낮춤 */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* 그림자 추가 */
-    transition: all 0.2s ease; /* 부드러운 전환 효과 */
+    opacity: 0.5; /* Reduce opacity */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Add shadow */
+    transition: all 0.2s ease; /* Smooth transition effect */
 }
+
+.subcategory-list {
+    display: none; /* Initially hide subcategories */
+    padding-left: 20px; /* Indent 2차 카테고리 */
+    margin-top: 5px; /* Spacing between categories */
+}
+
+.tertiary-category-list {
+    display: none; /* Initially hide 3차 카테고리 */
+    padding-left: 20px; /* Further indent 3차 카테고리 */
+    margin-top: 5px; /* Spacing between 2차 and 3차 카테고리 */
+}
+
+.subcategory-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    padding: 8px;
+    background-color: #34495e; /* Use a different color for visibility */
+    color: #ffffff;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+}
+
+.subcategory-header:hover {
+    background-color: #1abc9c; /* Change on hover */
+}
+
+.toggle-icon {
+    font-weight: bold;
+    margin-right: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    color: #ecf0f1;
+}
+
+/* Additional hover effect for 3차 카테고리 items */
+.tertiary-category-item {
+    padding: 5px 0;
+}
+
+.tertiary-category-item:hover {
+    background-color: #f0f0f0; /* Change background on hover */
+}
+

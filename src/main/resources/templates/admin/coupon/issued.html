@@ -1,5 +1,18 @@
-<div class="content"  th:fragment="issued">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/admin/layout/adminlayout}">
+
+<!-- index.html 고유 CSS 추가 -->
+<th:block layout:fragment="css">
   <link rel="stylesheet" th:href="@{/css/admin/coupon/issued.css}" />
+</th:block>
+<!-- index.html 고유 스크립트 추가 -->
+<th:block layout:fragment="script">
+</th:block>
+
+<div class="content" layout:fragment="content">
   <div class="dashboard">
     <div class="content_header">
       <h1>쿠폰발급현황</h1>
@@ -81,8 +94,7 @@
           <a href="#" class="next">></a>
         </div>
       </div>
-
     </section>
-
   </div>
 </div>
+</html>
