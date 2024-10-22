@@ -1,9 +1,24 @@
-<div class="content" th:fragment="banner">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/admin/layout/adminlayout}">
 
+<!-- index.html 고유 CSS 추가 -->
+<th:block layout:fragment="css">
     <link rel="stylesheet" th:href="@{/css/admin/config/banner.css}" />
     <link rel="stylesheet" th:href="@{/css/admin/config/list.css}" />
-<!--    모달 사용-->
-    <div th:replace="admin/include/admin_modal :: #bannerModal"></div>
+    <link rel="stylesheet" th:href="@{/css/my/modal.css}" />
+</th:block>
+<!-- index.html 고유 스크립트 추가 -->
+<th:block layout:fragment="script">
+    <script type="text/javascript" th:src="@{/js/admin/config/info.js}"></script>
+    <script type="text/javascript" th:src="@{/js/modal/modal.js}"></script>
+</th:block>
+
+<div class="content" layout:fragment="content">
+    <!-- 모달 사용-->
+    <!-- <div th:replace="/admin/include/admin_modal :: #bannerModal"></div> -->
     <div class="dashboard">
         <div class="content_header">
             <h1>배너관리</h1>
@@ -43,7 +58,7 @@
                     <td><input type="checkbox" name="상품코드" /></td>
                     <td>1</td>
                     <td><img th:src="@{/images/admin/sample_thumb.jpg}" class="thumb"
-                            style="width: 70px; height: 70px;"></td>
+                             style="width: 70px; height: 70px;"></td>
                     <td style="text-align: left;">
                         <p>배너명</p>
                         <p>크기 : 1200 x 80</p>
@@ -65,7 +80,7 @@
                     <td><input type="checkbox" name="상품코드" /></td>
                     <td>1</td>
                     <td><img th:src="@{/images/admin/sample_thumb.jpg}" class="thumb"
-                            style="width: 70px; height: 70px;"></td>
+                             style="width: 70px; height: 70px;"></td>
                     <td style="text-align: left;">
                         <p>배너명</p>
                         <p>크기 : 1200 x 80</p>
@@ -103,7 +118,9 @@
 
                     <!-- 다음 버튼 -->
                     <a href="#" class="next">></a>
-
+                </div>
+            </div>
         </section>
     </div>
 </div>
+</html>

@@ -1,5 +1,19 @@
-<div class="content" th:fragment="info">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/admin/layout/adminlayout}">
+
+<!-- index.html 고유 CSS 추가 -->
+<th:block layout:fragment="css">
     <link rel="stylesheet" th:href="@{/css/admin/config/info.css}" />
+</th:block>
+<!-- index.html 고유 스크립트 추가 -->
+<th:block layout:fragment="script">
+    <script type="text/javascript" th:src="@{/js/admin/config/info.js}"></script>
+</th:block>
+
+<div class="content" layout:fragment="content">
     <div class="dashboard">
         <div class="content_header">
             <h1>기본설정</h1>
@@ -9,7 +23,7 @@
             <div class="config_info">
                 <!-- 최근 주문내역 -->
                 <div class="section">
-                    <h2>최근주문내역</h2>
+                    <h2>기본설정</h2>
                     <p>현재 사이트 버전입니다.</p>
                     <table class="form-table">
                         <tr>
@@ -19,22 +33,23 @@
                     </table>
                 </div>
 
-                <!-- 사이트 -->
+                <!-- 사이트  -->
                 <div class="section">
                     <h2>사이트</h2>
                     <p>브라우저 탭, 헤더 및 푸터 노출 정보입니다.</p>
                     <table class="form-table">
                         <tr>
                             <td><label>제목</label></td>
-                            <td><input type="text" name="site_name" value="롯데 ON"></td>
+                            <td><input type="text" id="title" name="title" th:value="${config.title}" readonly></td>
                         </tr>
                         <tr>
                             <td><label>부제</label></td>
-                            <td><input type="text" name="site_sub_name" value="더 나은 쇼핑을 위한 선택"></td>
+                            <td><input type="text" id="sub_title" name="sub_title" th:value="${config.sub_title}" readonly></td>
                         </tr>
                     </table>
                     <div class="submit-section">
-                        <button type="submit" class="submit-btn">수정하기</button>
+                        <button type="button" id="site_button" class="submit-btn" onclick="enableSiteEditing('site_button', ['title', 'sub_title'], 'apply_site_button')">수정하기</button>
+                        <button type="button" id="apply_site_button" class="submit-btn" style="display:none;" onclick="patchSiteInfo()">적용하기</button>
                     </div>
                 </div>
 
@@ -42,38 +57,38 @@
                 <div class="section">
                     <h2>로고</h2>
                     <p>브라우저 탭, 헤더 및 푸터 노출 로고입니다.</p>
-                    <table class="form-table">
-                        <tr>
-                            <td><label>헤더 로고</label></td>
-                            <td>
-                                <input type="file" id="file1" name="file1" style="display: none; " onchange="updateFileName(this, 'file1-span')">
-                                <label for="file1" class="file-label">파일 선택</label>
-                                <span id="file1-span" style="margin-right: 10px;">선택된 파일 없음</span>
-                                크기 190 × 190   상품 목록에 출력될 이미지 입니다.
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><label>푸터 로고</label></td>
-                            <td>
-                                <input type="file" id="file2" name="file2" style="display: none;" onchange="updateFileName(this, 'file2-span')">
-                                <label for="file2" class="file-label">파일 선택</label>
-                                <span id="file2-span" style="margin-right: 10px;">선택된 파일 없음</span>
-                                크기 230 × 230   상품 메일에 출력 될 이미지 입니다.
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><label>파비콘</label></td>
-                            <td>
-                                <input type="file" id="file3" name="file3" style="display: none;" onchange="updateFileName(this, 'file3-span')">
-                                <label for="file3" class="file-label">파일 선택</label>
-                                <span id="file3-span" style="margin-right: 10px;">선택된 파일 없음</span>
-                                크기 456 × 456   상품 상세 페이지 출력 될 이미지 입니다.
-                            </td>
-                        </tr>
-                    </table>
-                    <div class="submit-section">
-                        <button type="submit" class="submit-btn">수정하기</button>
-                    </div>
+                    <form id="logoForm" enctype="multipart/form-data">
+                        <table class="form-table">
+                            <tr>
+                                <td><label>헤더 로고</label></td>
+                                <td>
+                                    <input type="file" id="headerlogo" name="file1" onchange="updateFileName(this, 'file1-span')">
+                                    <span id="file1-span" style="margin-right: 10px;">선택된 파일 없음</span>
+                                    크기 190 × 190
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label>푸터 로고</label></td>
+                                <td>
+                                    <input type="file" id="footerlogo" name="file2" onchange="updateFileName(this, 'file2-span')">
+                                    <span id="file2-span" style="margin-right: 10px;">선택된 파일 없음</span>
+                                    크기 230 × 230
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label>파비콘</label></td>
+                                <td>
+                                    <input type="file" id="favicon" name="file3" onchange="updateFileName(this, 'file3-span')">
+                                    <span id="file3-span" style="margin-right: 10px;">선택된 파일 없음</span>
+                                    크기 456 × 456
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="submit-section">
+                            <button type="button" id="logo_button" class="submit-btn" onclick="enableLogoEditing('logo_button', ['headerlogo', 'footerlogo', 'favicon'])">수정하기</button>
+                            <button type="button" id="upload_button" class="submit-btn" style="display:none;">업로드</button>
+                        </div>
+                    </form>
                 </div>
 
                 <!-- 기업정보 -->
@@ -83,31 +98,32 @@
                     <table class="form-table">
                         <tr>
                             <td><label>상호명</label></td>
-                            <td><input type="text" name="company_name" value="롯데쇼핑주식회사"></td>
+                            <td><input type="text" id="b_name" name="company_name" th:value="${config.b_name}" readonly></td>
                         </tr>
                         <tr>
                             <td><label>대표이사</label></td>
-                            <td><input type="text" name="company_ceo" value="홍길동"></td>
+                            <td><input type="text" id="ceo" name="company_ceo" th:value="${config.ceo}" readonly></td>
                         </tr>
                         <tr>
                             <td><label>사업자등록번호</label></td>
-                            <td><input type="text" name="company_num" value="123-12-12345"></td>
+                            <td><input type="text" id="b_num" name="company_num" th:value="${config.b_num}" readonly></td>
                         </tr>
                         <tr>
                             <td><label>통신판매업신고</label></td>
-                            <td><input type="text" name="company_phone" value="2024-서울강남-1234"></td>
+                            <td><input type="text" id="b_report" name="company_phone" th:value="${config.b_report}" readonly></td>
                         </tr>
                         <tr>
                             <td><label>기본주소</label></td>
-                            <td><input type="text" name="company_addr1" value="서울특별시 강남구 테헤란로 507"></td>
+                            <td><input type="text" id="addr1" name="company_addr1" th:value="${config.addr1}" readonly></td>
                         </tr>
                         <tr>
                             <td><label>상세주소</label></td>
-                            <td><input type="text" name="company_addr2" value="(삼성동, WeWork 빌딩) 7층"></td>
+                            <td><input type="text" id="addr2" name="company_addr2" th:value="${config.addr2}" readonly></td>
                         </tr>
                     </table>
                     <div class="submit-section">
-                        <button type="submit" class="submit-btn">수정하기</button>
+                        <button type="button" id="com_button" class="submit-btn" onclick="enableSiteEditing('com_button', ['b_name', 'ceo','b_num', 'b_report', 'addr1' , 'addr2'], 'apply_com_button')">수정하기</button>
+                        <button type="button" id="apply_com_button" class="submit-btn" style="display:none;" onclick="patchComInfo()">적용하기</button>
                     </div>
                 </div>
 
@@ -118,23 +134,24 @@
                     <table class="form-table">
                         <tr>
                             <td><label>전화번호</label></td>
-                            <td><input type="text" name="cs_phone" value="롯데쇼핑주식회사"></td>
+                            <td><input type="text" id="cs_num" name="cs_phone" th:value="${config.cs_num}" readonly></td>
                         </tr>
                         <tr>
                             <td><label>업무시간</label></td>
-                            <td><input type="text" name="time" value="홍길동"></td>
+                            <td><input type="text" id="cs_time" name="time" th:value="${config.cs_time}" readonly></td>
                         </tr>
                         <tr>
                             <td><label>이메일</label></td>
-                            <td><input type="text" name="email" value="123-12-12345"></td>
+                            <td><input type="text" id="cs_email" name="email" th:value="${config.cs_email}" readonly></td>
                         </tr>
                         <tr>
                             <td><label>전자금융거래 분쟁담당</label></td>
-                            <td><input type="text" name="act" value="2024-서울강남-1234"></td>
+                            <td><input type="text" id="dispute" name="act" th:value="${config.dispute}" readonly></td>
                         </tr>
                     </table>
                     <div class="submit-section">
-                        <button type="submit" class="submit-btn">수정하기</button>
+                        <button type="button" id="cs_button" class="submit-btn" onclick="enableSiteEditing('cs_button', ['cs_num', 'cs_time','cs_email', 'dispute'], 'apply_cs_button')">수정하기</button>
+                        <button type="button" id="apply_cs_button" class="submit-btn" style="display:none;" onclick="patchComInfo()">적용하기</button>
                     </div>
                 </div>
 
@@ -145,14 +162,16 @@
                     <table class="form-table">
                         <tr>
                             <td><label>카피라이트</label></td>
-                            <td><input type="text" name="copyright" value="Copyright®LotteOn. All rights reserved"></td>
+                            <td><input type="text" id="copyright" name="copyright" th:value="${config.copyright}" readonly></td>
                         </tr>
                     </table>
                     <div class="submit-section">
-                        <button type="submit" class="submit-btn">수정하기</button>
+                        <button type="button" id="copy_button" class="submit-btn" onclick="enableSiteEditing('copy_button', ['copyright'], 'apply_copy_button')">수정하기</button>
+                        <button type="button" id="apply_copy_button" class="submit-btn" style="display:none;" onclick="patchCopyInfo()">적용하기</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+</html>

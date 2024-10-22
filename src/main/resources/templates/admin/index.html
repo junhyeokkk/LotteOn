@@ -27,55 +27,54 @@
             <li>
                 <a href="#"><i class="fa fa-cogs" aria-hidden="true"></i>환경설정</a>
                 <ol>
-                    <li><a th:href="@{/admin/layout/config/info}" class="info">기본환경정보</a></li>
-                    <li><a th:href="@{/admin/layout/config/banner}" class="banner">배너관리</a></li>
-                    <li><a th:href="@{/admin/layout/config/policy}" class="policy">약관관리</a></li>
-                    <li><a th:href="@{/admin/layout/config/category}" class="category">카테고리</a></li>
-                    <li><a th:href="@{/admin/layout/config/version}" class="version">버전관리</a></li>
+                    <li><a th:href="@{/admin/config/info}" class="info">기본환경정보</a></li>
+                    <li><a th:href="@{/admin/config/banner}" class="banner">배너관리</a></li>
+                    <li><a th:href="@{/admin/config/policy}" class="policy">약관관리</a></li>
+                    <li><a th:href="@{/admin/config/category}" class="category">카테고리</a></li>
+                    <li><a th:href="@{/admin/config/version}" class="version">버전관리</a></li>
                 </ol>
             </li>
             <li>
                 <a href="#"><i class="fas fa-store" aria-hidden="true"></i>상점관리</a>
                 <ol>
-                    <li><a th:href="@{/admin/layout/shop/list}" class="list">상점목록</a></li>
-                    <li><a th:href="@{/admin/layout/shop/sales}" class="sales">매출현황</a></li>
+                    <li><a th:href="@{/admin/shop/list}" class="list">상점목록</a></li>
+                    <li><a th:href="@{/admin/shop/sales}" class="sales">매출현황</a></li>
                 </ol>
             </li>
             <li>
                 <a href="#"><i class="fa fa-users" aria-hidden="true"></i>회원관리</a>
                 <ol>
-                    <li><a th:href="@{/admin/layout/member/list}" class="list">회원현황</a></li>
-                    <li><a th:href="@{/admin/layout/member/point}" class="sales">포인트관리</a></li>
+                    <li><a th:href="@{/admin/member/list}" class="list">회원현황</a></li>
+                    <li><a th:href="@{/admin/member/point}" class="sales">포인트관리</a></li>
                 </ol>
             </li>
             <li>
                 <a href="#"><i class="fas fa-box-open" aria-hidden="true"></i>상품관리</a>
                 <ol class="product">
-                    <li><a th:href="@{/admin/layout/product/list}" class="list">상품현황</a></li>
-                    <li><a th:href="@{/admin/layout/product/register}" class="register">상품등록</a></li>
+                    <li><a th:href="@{/admin/product/list}" class="list">상품현황</a></li>
+                    <li><a th:href="@{/admin/product/register}" class="register">상품등록</a></li>
                 </ol>
             </li>
             <li>
                 <a href="#"><i class="fa fa-credit-card" aria-hidden="true"></i>주문관리</a>
                 <ol class="order">
-                    <li><a th:href="@{/admin/layout/order/list}" class="list">주문현황</a></li>
-                    <li><a href="#">매출현황</a></li>
-                    <li><a th:href="@{/admin/layout/order/delivery}" class="delivery">배송현황</a></li>
+                    <li><a th:href="@{/admin/order/list}" class="list">주문현황</a></li>
+                    <li><a th:href="@{/admin/order/delivery}" class="delivery">배송현황</a></li>
                 </ol>
             </li>
             <li>
                 <a href="#"><i class="fa fa-credit-card" aria-hidden="true"></i>쿠폰관리</a>
                 <ol class="coupon">
-                    <li><a th:href="@{/admin/layout/coupon/list}" class="list">쿠폰목록</a></li>
-                    <li><a th:href="@{/admin/layout/coupon/issued}" class="issued">쿠폰발급현황</a></li>
+                    <li><a th:href="@{/admin/coupon/list}" class="list">쿠폰목록</a></li>
+                    <li><a th:href="@{/admin/coupon/issued}" class="issued">쿠폰발급현황</a></li>
                 </ol>
             </li>
             <li>
                 <a href="#"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>고객센터</a>
                 <ol class="cs">
-                    <li><a th:href="@{/admin/layout/cs/notice/list}" class="notice">공지사항</a></li>
-                    <li><a th:href="@{/admin/layout/cs/faq/list}" class="faq">자주묻는질문</a></li>
-                    <li><a th:href="@{/admin/layout/cs/qna/list}" class="qna">문의하기</a></li>
+                    <li><a th:href="@{/admin/cs/notice/list}" class="notice">공지사항</a></li>
+                    <li><a th:href="@{/admin/cs/faq/list}" class="faq">자주묻는질문</a></li>
+                    <li><a th:href="@{/admin/cs/qna/list}" class="qna">문의하기</a></li>
                 </ol>
             </li>
         </ul>

@@ -1,5 +1,18 @@
-<div class="content" th:fragment="list">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/admin/layout/adminlayout}">
+
+<!-- index.html 고유 CSS 추가 -->
+<th:block layout:fragment="css">
     <link rel="stylesheet" th:href="@{/css/admin/member/list.css}" />
+</th:block>
+<!-- index.html 고유 스크립트 추가 -->
+<th:block layout:fragment="script">
+</th:block>
+
+<div class="content" layout:fragment="content">
     <div class="dashboard">
         <div class="content_header">
             <h1>회원목록</h1>
@@ -46,13 +59,13 @@
                     <td>이상훈</td>
                     <td>M</td>
                     <td>
-                    <select>
-                        <option value="vvip">VVIP</option>
-                        <option value="vip">VIP</option>
-                        <option value="gold">GOLD</option>
-                        <option value="silver">SILVER</option>
-                        <option value="family">FAMILY</option>
-                    </select>
+                        <select>
+                            <option value="vvip">VVIP</option>
+                            <option value="vip">VIP</option>
+                            <option value="gold">GOLD</option>
+                            <option value="silver">SILVER</option>
+                            <option value="family">FAMILY</option>
+                        </select>
                     </td>
                     <td>15,000</td>
                     <td>xxxx@gmail.com</td>
@@ -93,3 +106,4 @@
 
     </div>
 </div>
+</html>

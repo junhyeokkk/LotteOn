@@ -1,5 +1,18 @@
-<div class="content" th:fragment="list">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/admin/layout/adminlayout}">
+
+<!-- index.html 고유 CSS 추가 -->
+<th:block layout:fragment="css">
     <link rel="stylesheet" th:href="@{/css/admin/cs/qna/list.css}" />
+</th:block>
+<!-- index.html 고유 스크립트 추가 -->
+<th:block layout:fragment="script">
+</th:block>
+
+<div class="content" layout:fragment="content">
     <div class="dashboard">
         <div class="content_header">
             <h1>문의하기 목록</h1>
@@ -52,7 +65,7 @@
                     <td style="white-space: nowrap;">[유형선택]</td>
                     <td style="text-align: left">
                         <span>
-                            <a th:href="@{/admin/layout/cs/qna/reply}">
+                            <a th:href="@{/admin/cs/qna/reply}">
                                 <span style="white-space: nowrap;">개인회원과 법인회원에 차이가 있나요?</span>
                             </a>
                         </span>
@@ -74,7 +87,7 @@
                     <td style="white-space: nowrap;">가입</td>
                     <td style="text-align: left">
                         <span>
-                            <a th:href="@{/admin/layout/cs/qna/reply}">
+                            <a th:href="@{/admin/cs/qna/reply}">
                                 <span style="white-space: nowrap;">개인회원과 법인회원에 차이가 있나요?</span>
                             </a>
                         </span>
@@ -114,3 +127,4 @@
         </section>
     </div>
 </div>
+</html>
