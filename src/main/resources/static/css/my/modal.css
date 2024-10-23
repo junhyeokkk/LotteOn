@@ -79,6 +79,10 @@
     height: 850px;
     width: 700px;
 }
+.employmodal-content{
+    height: 630px;
+    width: 700px;
+}
 /* 내부 모달 패딩 */
 .modal-section {padding: 15px 22.5px 20px 22.5px;}
 

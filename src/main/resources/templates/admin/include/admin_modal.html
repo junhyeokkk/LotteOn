@@ -9,6 +9,7 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/moment/min/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script type="text/javascript" src=""></script>
     <link rel="stylesheet" href="/static/css/my/modal.css">
     <link rel="stylesheet" href="/static/css/my/myinfo.css">
 </head>
@@ -27,6 +28,7 @@
     <button id="couponinfomodalBtn" class="modal-button">쿠폰정보</button>
     <button id="couponinsertmodalBtn" class="modal-button">쿠폰등록</button>
     <button id="couponmodalBtn" class="modal-button">쿠폰사용자전달정보</button>
+    <button id="employmodalBtn" class="modal-button">채용등록</button>
     
     <!-- 관리자 -->
     <!-- 배너등록 모달 -->
@@ -725,8 +727,8 @@
                         <tr>
                             <th>사용기간</th>
                             <td>
-                                <input type="date" class="bannerdate" name="bannerdate-start"> -
-                                <input type="date" class="bannerdate" name="bannerdate-end"><br>
+                                <input type="date" class="bannerdate" name="coupondate-start"> -
+                                <input type="date" class="bannerdate" name="coupondate-end"><br>
                                 발급일로부터 <input type="text"> 이내
                             </td>
                         </tr>
@@ -808,6 +810,75 @@
             </section>
         </div>
     </div>
+
+    <!-- 채용등록 모달 -->
+    <div id="employmodal" class="modal admin"> 
+        <div class="employmodal-content modalcontent">
+            <nav class="adminmodal-nav">
+                <h1>채용등록</h1>
+                <button class="adminmodal-close" id="closeModal">&times;</button>
+            </nav>
+            <section class="modal-section">
+                <article>
+                    <table border="0" class="heighttable">
+                        <tr>
+                            <th>제목</th>
+                            <td><input type="text"></td>
+                        </tr>
+                        <tr>
+                            <th>채용부서</th>
+                            <td>
+                                <select name="couponname">
+                                    <option value="">경영</option>
+                                    <option value="">운영</option>
+                                    <option value="">IT</option>
+                                    <option value="">광고사업</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>경력사항</th>
+                            <td>
+                                <select name="couponname">
+                                    <option value="">신입</option>
+                                    <option value="">무관</option>
+                                    <option value="">경력 2~15년</option>
+                                    <option value="">경력 4~15년</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>채용형태  </th>
+                            <td>
+                                <select name="couponname">
+                                    <option value="">계약직</option>
+                                    <option value="">정규직</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>모집기간</th>
+                            <td>
+                                <input type="date" class="bannerdate" name="employdate-start"> -
+                                <input type="date" class="bannerdate" name="employdate-end"><br>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>비고</th>
+                            <td class="modalcontent2">
+                                <textarea placeholder="변경내역작성하기"></textarea>
+                            </td>
+                        </tr>
+                    </table>
+                    <br>
+                    <div class="modalbuttondiv">
+                        <input class="adminmodalbutton" type="submit" value="등록하기" />
+                        <button class="modalcanclebutton">취소</button>
+                    </div>
+                </article>
+            </section>
+        </div>
+    </div>
     
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -823,7 +894,8 @@
                 deliverinfomodal: document.getElementById('deliverinfomodal'),
                 couponmodal: document.getElementById('couponmodal'),
                 couponinfomodal: document.getElementById('couponinfomodal'),
-                couponinsertmodal: document.getElementById('couponinsertmodal')
+                couponinsertmodal: document.getElementById('couponinsertmodal'),
+                employmodal: document.getElementById('employmodal')
             };
 
             const buttons = {
@@ -837,7 +909,8 @@
                 deliverinfomodalBtn: document.getElementById('deliverinfomodalBtn'),
                 couponmodalBtn: document.getElementById('couponmodalBtn'),
                 couponinfomodalBtn : document.getElementById('couponinfomodalBtn'),
-                couponinsertmodalBtn: document.getElementById('couponinsertmodalBtn')
+                couponinsertmodalBtn: document.getElementById('couponinsertmodalBtn'),
+                employmodalBtn: document.getElementById('employmodalBtn')
             };
 
             // 버튼 클릭 시 모달 열기
@@ -874,6 +947,9 @@
             buttons.couponinsertmodalBtn.onclick = function() {
                 modals.couponinsertmodal.style.display = "block";
             };
+            buttons.employmodalBtn.onclick = function() {
+                modals.employmodal.style.display = "block";
+            };
             
             // 닫기 버튼 클릭 시 모달 닫기 (공통 클래스 기반)
             document.querySelectorAll('#closeModal').forEach(function (closeBtn) {
@@ -903,13 +979,24 @@
                 });
             });
 
-            // 시간 선택 처리 (기존 코드 유지)
+            
+            // 날짜 선택 처리 (쿠폰 등록 및 채용 등록)
             const today = new Date().toISOString().split('T')[0];
-            const startDateInput = document.querySelector('input[name="bannerdate-start"]');
-            const endDateInput = document.querySelector('input[name="bannerdate-end"]');
-            startDateInput.setAttribute('min', today);
-            startDateInput.addEventListener('change', function () {
-                endDateInput.setAttribute('min', this.value);
+
+             // 쿠폰 등록 날짜 처리
+            const couponStartDateInput = document.querySelector('input[name="coupondate-start"]');
+            const couponEndDateInput = document.querySelector('input[name="coupondate-end"]');
+            couponStartDateInput.setAttribute('min', today);
+            couponStartDateInput.addEventListener('change', function () {
+                couponEndDateInput.setAttribute('min', this.value);
+            });
+
+            // 채용 등록 날짜 처리
+            const employStartDateInput = document.querySelector('input[name="employdate-start"]');
+            const employEndDateInput = document.querySelector('input[name="employdate-end"]');
+            employStartDateInput.setAttribute('min', today);
+            employStartDateInput.addEventListener('change', function () {
+                employEndDateInput.setAttribute('min', this.value);
             });
         });
 
