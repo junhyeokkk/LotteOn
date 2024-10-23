@@ -23,9 +23,10 @@ public class SecurityConfig {
 
         //로그인 설정
         http.formLogin(login -> login
-                .loginPage("/main/index")
+                .loginPage("/user/login")
+                .loginProcessingUrl("/user/logincheck") // 로그인 폼 제출 시 처리될 경로
                 .defaultSuccessUrl("/")//컨트롤러 요청 주소
-                .failureUrl("/user/login") // 실패 시 핸들러 추가
+                .failureHandler(new CustomAuthenticationFailureHandler()) // 실패 시 핸들러 추가
                 .usernameParameter("uid")
                 .passwordParameter("pass"));
 

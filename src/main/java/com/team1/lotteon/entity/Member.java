@@ -10,13 +10,16 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@DiscriminatorColumn(name = "role")
 public class Member extends BaseEntity {
     @Id
     private String uid;
     private String pass;
+    private String role;
 
     public void setPass(String pass) {
         this.pass = pass;
+    }
+    public void setRole(String role) {
+        this.role = role;
     }
 }

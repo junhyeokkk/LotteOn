@@ -1,5 +1,7 @@
 package com.team1.lotteon.controller.user;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,8 +22,12 @@ public class UserController {
     }
     //로그인 화면
     @GetMapping("/user/login")
-    public String loginPage() {
-
+    public String loginPage(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        String alertMessage = (String) session.getAttribute("AlertMessage");
+        if (alertMessage != null) {
+            session.removeAttribute("AlertMessage");
+        }
         return "user/login";
     }
 }

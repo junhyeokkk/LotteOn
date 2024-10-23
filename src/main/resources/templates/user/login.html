@@ -6,19 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LotteOn 로그인</title>
     <link rel="stylesheet" th:href="@{/css/user/user_style.css}">
-    <script type="text/javascript" th:inline="javascript">
-        // 페이지 로드 시 successMessage가 존재하면 알림창을 띄운다.
+    <script type="text/javascript">
         window.onload = function () {
-            /* 서버에서 전달된 successMessage를 가져온다. */
-            let successMessage = [[${successMessage}]];
-            if (successMessage) {
-                alert(successMessage);  // 알림창 띄우기
+            // URL에서 쿼리 파라미터 가져오기
+            const params = new URLSearchParams(window.location.search);
+            const alertMessage = params.get('message');
+
+            if (alertMessage) {
+                alert(decodeURIComponent(alertMessage));
+
+                // 쿼리 파라미터를 제거한 새 URL로 브라우저 상태를 업데이트
+                const url = new URL(window.location);
+                url.searchParams.delete('message');
+                window.history.replaceState({}, document.title, url);
             }
         };
     </script>
 </head>
 
-
+<!-- 세션 메시지를 보관할 숨겨진 div -->
 <header th:replace="~{layout/header::header}"></header>
 
 <main id="content" role="main" class="contentArea on">
@@ -31,19 +37,21 @@
             <hr class="line" size="2px" color="black">
             <div class="loginFormWrapper">
                 <div class="login-left">
-                    <div class="section_input_loginForm">
-                        <div class="inputSet">
-                            <input name="inId" type="text" placeholder="아이디" id="inId" title="아이디 또는 이메일 입력">
-                            <input id="Password" type="password" placeholder="비밀번호"
-                                   name="Password" autocomplete="new-password"
-                                   title="비밀번호 입력 (8~15자리 영문+숫자+특수문자 조합)">
+                    <form th:action="@{/user/logincheck}" method="post">
+                        <div class="section_input_loginForm">
+                            <div class="inputSet">
+                                <input name="uid" type="text" placeholder="아이디" id="inId" title="아이디 또는 이메일 입력">
+                                <input id="pass" type="password" placeholder="비밀번호"
+                                       name="pass" autocomplete="new-password"
+                                       title="비밀번호 입력 (8~15자리 영문+숫자+특수문자 조합)">
+                            </div>
+
+                            <!-- 로그인 버튼을 form 안으로 이동 -->
+                            <button type="submit" class="loginButtonWithImage">
+                                <span class="btnLogin">로그인</span>
+                            </button>
                         </div>
-
-                            <a th:href="@{/myPage/home}" class="loginButtonWithImage">
-                            <span class="btnLogin">로그인</span>
-                            </a>
-
-                    </div>
+                    </form>
 
                     <div class="userinfoservice">
                         <div>

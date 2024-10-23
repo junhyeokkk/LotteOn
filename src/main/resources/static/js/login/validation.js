@@ -1,254 +1,218 @@
+window.onload = function () {
+	// 유효성 검사에 사용할 상태변수
+	let isUidOk = false;
+	let isPassOk = false;
+	let isNameOk = false;
+	let isEmailOk = false;
+	let isHpOk = false;
+	let isGenderOk = false;
+	let isAddressOk = false;
+	let isEmailVerified = false;  // 이메일 인증 여부 추가
 
-// 유효성 검사에 사용할 정규표현식
-const reUid = /^[a-z]+[a-z0-9]{4,19}$/g;
-const rePass = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{5,16}$/;
-const reName = /^[가-힣]{2,10}$/
-const reEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-const reHp = /^01(?:0|1|[6-9])-(?:\d{4})-\d{4}$/;
-
-// 유효성 검사에 사용할 상태변수
-let isUidOk = false;
-let isPassOk = false;
-let isNameOk = false;
-let isEmailOk = false;
-let isHpOk = false;
-let isGenderOk = false;
-let isAddressOk = false;
-
-window.onload=function () {
-
-	const btnCheckUid = document.getElementById('btnCheckUid');
-	const registerForm = document.getElementsByClassName('sendForm')[0];
-
-
-	const userUidInput = document.querySelector('input[name="uid"]');
-	const genderInputs = document.querySelectorAll('input[name="gender"]');
+	const registerForm = document.querySelector('.sendForm');
 	const resultId = document.querySelector('.resultId');
+	const resultPass = document.querySelector('.resultPass');
+	const resultName = document.querySelector('.resultName');
+	const resultHp = document.querySelector('.resultHp');
+	const resultEmail = document.getElementById('resultEmail');
+	const auth = document.querySelector('.auth');
+	const resultaddr = document.querySelector('.resultaddr');
 
-	const passInput = document.getElementsByName('pass')[0];
-	const pass2Input = document.getElementsByName('pass2')[0];
-	const Name = document.getElementsByName('name')[0];
-	const resultPass = document.getElementsByClassName('resultPass')[0];
-	const resultName = document.getElementsByClassName('resultName')[0];
-	const resultHp = document.getElementsByClassName('resultHp')[0];
+	// 유효성 검사에 사용할 정규표현식
+	const patterns = {
+		uid: /^[a-z]+[a-z0-9]{4,19}$/g,
+		pass: /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{5,16}$/,
+		name: /^[가-힣]{2,10}$/,
+		email: /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i,
+		hp: /^01(?:0|1|[6-9])-(?:\d{4})-\d{4}$/
+	};
 
+	// 함수: 유효성 검사 결과 표시
+	const showResult = (element, message, isValid) => {
+		element.innerText = message;
+		element.style.color = isValid ? 'green' : 'red';
+	};
 
 	// 아이디 유효성 검사
-	btnCheckUid.onclick = async function (e) {
-
-		const type = btnCheckUid.dataset.type; // data-type 속성 값
-		const value = userUidInput.value; // userUid 입력 값
-
-		console.log(type + value);
-
-		// 아이디 유효성 검사
-		if (!value.match(reUid)) {
-			resultId.innerText = '아이디가 유효하지 않습니다.';
-			resultId.style.color = 'red';
+	document.getElementById('btnCheckUid').onclick = async function (e) {
+		e.preventDefault(); // 기본 제출 동작 막기
+		const userUidInput = document.querySelector('input[name="uid"]');
+		const value = userUidInput.value;
+		if (!value.match(patterns.uid)) {
+			showResult(resultId, '아이디가 유효하지 않습니다.', false);
 			return;
 		}
-
-		const data = await fetchGet(`/user/Register/${type}/${value}`)
-		console.log(data.result)
-
-		if (data.result > 0) {
-			resultId.innerText ='이미 사용중인 아이디입니다.';
-			resultId.style.color = 'red';
+		const data = await fetchGet(`/user/Register/uid/${value}`);
+		if (data.result) {
+			showResult(resultId, '이미 사용중인 아이디입니다.', false);
 			isUidOk = false;
 		} else {
-			resultId.innerText ='사용 가능한 아이디입니다.';
-			resultId.style.color = 'green';
+			showResult(resultId, '사용 가능한 아이디입니다.', true);
 			isUidOk = true;
 		}
-	}
-
+	};
 
 	// 비밀번호 유효성 검사
-	pass2Input.addEventListener('focusout', function(){
-
-		const pass = passInput.value;
-		const pass2 = pass2Input.value;
-
-		if(!pass.match(rePass)){
-			resultPass.innerText = "비밀번호가 유효하지 않습니다.";
-			resultPass.style.color = 'red';
-			return;
-		}
-
-		if(pass == pass2){
-			resultPass.innerText = "비밀번호가 일치합니다.";
-			resultPass.style.color = 'green';
+	const passInput = document.getElementsByName('pass')[0];
+	const pass2Input = document.getElementsByName('pass2')[0];
+	pass2Input.addEventListener('focusout', function () {
+		if (!passInput.value.match(patterns.pass)) {
+			showResult(resultPass, "비밀번호가 유효하지 않습니다.", false);
+			isPassOk = false;
+		} else if (passInput.value === pass2Input.value) {
+			showResult(resultPass, "비밀번호가 일치합니다.", true);
 			isPassOk = true;
-		}else{
-			resultPass.innerText = "비밀번호가 일치하지 않습니다.";
-			resultPass.style.color = 'red';
+		} else {
+			showResult(resultPass, "비밀번호가 일치하지 않습니다.", false);
 			isPassOk = false;
 		}
 	});
 
 	// 이름 유효성 검사
-	Name.addEventListener('focusout', function(){
-
-		const name = Name.value;
-
-		if(!name.match(reName)){
-			resultName.innerText = "이름이 유효하지 않습니다.";
-			resultName.style.color = 'red';
+	const NameInput = document.getElementsByName('name')[0];
+	NameInput.addEventListener('focusout', function () {
+		const name = NameInput.value;
+		if (!name.match(patterns.name)) {
+			showResult(resultName, "이름이 유효하지 않습니다.", false);
 			isNameOk = false;
-		}else{
-			resultName.innerText = "";
+		} else {
+			resultName.innerText = "";  // 메시지 지우기
 			isNameOk = true;
 		}
 	});
 
-	// 이메일 유효성 검사
-
-	const btnSendEmail = document.querySelector('#btnSendEmail');
+	// 이메일 유효성 검사 및 인증코드 발송
+	const btnSendEmail = document.getElementById('btnSendEmail');
 	const EmailInput = document.querySelector('input[name="email"]');
 	const btnAuthEmail = document.getElementById('btnAuthEmail');
+	const authInput = document.querySelector('.userauth'); // 인증 코드 입력 필드
 
-	const resultEmail = document.getElementById('resultEmail');
-	const auth = document.getElementsByClassName('auth')[0];
-
-	btnSendEmail.addEventListener('click', async function (){
-
-		const type = btnSendEmail.dataset.type;
+	btnSendEmail.addEventListener('click', async function (e) {
+		e.preventDefault(); // 기본 제출 동작 막기
 		const value = EmailInput.value;
-
-		if (!value.match(reEmail)) {
-			showResultInvalid(resultEmail, '이메일 형식이 맞지 않습니다.');
+		if (!value.match(patterns.email)) {
+			showResult(resultEmail, '이메일 형식이 맞지 않습니다.', false);
 			isEmailOk = false;
 			return;
 		}
-
-		const data = await fetchGet(`/user/Register/${type}/${value}`);
-
-		if(data.result > 0){
-			showResultInvalid(resultEmail, '이미 사용중인 이메일 입니다.');
+		const data = await fetchGet(`/user/Register/email/${value}`);
+		if (data.result) {
+			showResult(resultEmail, '이미 사용중인 이메일 입니다.', false);
 			isEmailOk = false;
-		}else{
-			showResultValid(resultEmail, '인증코드가 발송 되었습니다.');
-			// 인증코드 입력 필드 활성화
-				auth.style.display = 'block';
-
-			isEmailOk = false;
+		} else {
+			showResult(resultEmail, '인증코드가 발송되었습니다.', true);
+			auth.style.display = 'block';  // 인증 필드 활성화
+			isEmailOk = true;
 		}
-
-	})
-
-	genderInputs.forEach(function(input) {
-		input.addEventListener('change', function() {
-			isGenderOk = true; // 성별이 선택되었을 때 true로 설정
-		});
 	});
 
 	// 이메일 인증코드 확인
-	btnAuthEmail.onclick = async function (){
-		const userauth = document.querySelector('.userauth');
-
-		const jsonData = {"code": userauth.value};
-
+	btnAuthEmail.addEventListener('click', async function (e) {
+		e.preventDefault();
+		const code = authInput.value;  // 사용자가 입력한 인증 코드
+		const jsonData = {"code": code};
 		const data = await fetchPost(`/user/Register/email`, jsonData);
 
-		console.log(data.result);
-
-		if(!data.result){
-			showResultInvalid(resultEmail, '인증코드가 일치하지 않습니다.');
-			isEmailOk = false;
-		}else{
-			showResultValid(resultEmail, '이메일이 인증되었습니다.');
-			isEmailOk = true;
+		if (!data.result) {
+			showResult(resultEmail, '인증코드가 일치하지 않습니다.', false);
+			isEmailVerified = false;
+		} else {
+			showResult(resultEmail, '이메일이 인증되었습니다.', true);
+			isEmailVerified = true;
 		}
-	}
+	});
 
-	// 휴대폰 유효성 검사
-	const phnumber = document.getElementById('ph');
-	phnumber.addEventListener('focusout', async function(){
-
-		const value = phnumber.value;
-		const type = 'ph'
-
-		if(!value.match(reHp)){
-			resultHp.innerText = '전화번호가 유효하지 않습니다.';
-			resultHp.style.color = 'red';
+	// 휴대폰 번호 유효성 검사
+	const phInput = document.getElementById('ph');
+	phInput.addEventListener('focusout', async function () {
+		const value = phInput.value;
+		if (!value.match(patterns.hp)) {
+			showResult(resultHp, '전화번호가 유효하지 않습니다.', false);
+			isHpOk = false;
 			return;
 		}
-
-		const data = await fetchGet(`/user/Register/${type}/${value}`);
-		console.log(data.result)
-
-		if(data.result > 0){
-			resultHp.innerText = '이미 사용중인 휴대폰번호 입니다.';
-			resultHp.style.color = 'red';
+		const data = await fetchGet(`/user/Register/ph/${value}`);
+		if (data.result) {
+			showResult(resultHp, '이미 사용중인 휴대폰번호입니다.', false);
 			isHpOk = false;
-		}else{
-			resultHp.innerText = '사용할 수 있는 번호입니다.';
-			resultHp.style.color = 'green';
+		} else {
+			showResult(resultHp, '사용할 수 있는 번호입니다.', true);
 			isHpOk = true;
 		}
 	});
-	// 주소 유효성 검사 추가
+
+	// 주소 유효성 검사
 	const address1Input = document.getElementById('address1');
 	const address2Input = document.getElementById('address2');
-	const resultaddr = document.querySelector('.resultaddr');
-	address2Input.addEventListener('focusout', function() {
-		const address1 = address1Input.value;
-		const address2 = address2Input.value;
-
-		if (address1 !== '' && address2 !== '') {
-			resultaddr.innerText = "";
+	address2Input.addEventListener('focusout', function () {
+		if (address1Input.value !== '' && address2Input.value !== '') {
+			resultaddr.innerText = "";  // 메시지 지우기
 			isAddressOk = true;
 		} else {
-			resultaddr.innerText = '주소를 입력해주세요';
-			resultaddr.style.color = 'red';
+			showResult(resultaddr, '주소를 입력해주세요.', false);
 			isAddressOk = false;
 		}
 	});
 
-	//최종 폼 전송 유효성 검사
-	registerForm.onsubmit = function () {
+	// 성별 유효성 검사
+	const genderInputs = document.querySelectorAll('input[name="gender"]');
+	genderInputs.forEach(input => {
+		input.addEventListener('change', function () {
+			isGenderOk = true;  // 성별이 선택되었을 때 true로 설정
+		});
+	});
 
+	// 최종 폼 전송 유효성 검사
+	registerForm.onsubmit = function (e) {
 		// 아이디 유효성 검사 완료 여부
 		if (!isUidOk) {
 			alert('아이디가 유효하지 않습니다.');
-			return false; // 폼 전송 취소
+			e.preventDefault(); // 폼 전송 취소
+			return false;
 		}
 
 		// 비밀번호 유효성 검사 완료 여부
 		if (!isPassOk) {
 			alert('비밀번호가 유효하지 않습니다.');
-			return false; // 폼 전송 취소
+			e.preventDefault(); // 폼 전송 취소
+			return false;
 		}
 
 		// 이름 유효성 검사 완료 여부
 		if (!isNameOk) {
 			alert('이름이 유효하지 않습니다.');
-			return false; // 폼 전송 취소
+			e.preventDefault(); // 폼 전송 취소
+			return false;
 		}
-		// 성별 유효성 검사 완료 여부 (필수 추가)
+
+		// 성별 유효성 검사 완료 여부
 		if (!isGenderOk) {
 			alert('성별을 선택해주세요.');
-			return false; // 폼 전송 취소
+			e.preventDefault(); // 폼 전송 취소
+			return false;
 		}
+
 		// 이메일 유효성 검사 완료 여부
-		if (!isEmailOk) {
-			alert('이메일이 유효하지 않습니다.');
-			return false; // 폼 전송 취소
+		if (!isEmailOk || !isEmailVerified) {
+			alert('이메일이 인증되지 않았습니다.');
+			e.preventDefault(); // 폼 전송 취소
+			return false;
 		}
 
 		// 휴대폰 유효성 검사 완료 여부
 		if (!isHpOk) {
 			alert('휴대폰 번호가 유효하지 않습니다.');
-			return false; // 폼 전송 취소
+			e.preventDefault(); // 폼 전송 취소
+			return false;
 		}
 
 		// 주소 유효성 검사 완료 여부
 		if (!isAddressOk) {
 			alert('주소가 유효하지 않습니다.');
-			return false; // 폼 전송 취소
+			e.preventDefault(); // 폼 전송 취소
+			return false;
 		}
+
 		return true;
-	};
-
-
+	}
 }
