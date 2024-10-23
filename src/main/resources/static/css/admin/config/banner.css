@@ -29,3 +29,32 @@
 .bannerinsertbtn .on {
     background-color: white;
 }
+
+/* 페이징 */
+.pagingBox {
+    display: flex;
+    position: relative;
+    margin-top: 40px !important;
+    justify-content: center;
+}
+.pagingList>span > a {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    color: #999;
+    line-height: 26px;
+    margin: 0 2px;
+    text-indent: -1px;
+    font-family: Roboto, NotoSansKR, Malgun Gothic, AppleSDGothicNeo, Helvetica, sans-serif;
+    text-align: center;
+}
+.pagingList>span>a.active {
+    margin: 0 4px;
+    background-color: #343b4d;
+    border: 1px solid #343b4d;
+    color: #fff;
+}
+.pagingList>span>a:hover {
+    background-color: #35373d;
+}

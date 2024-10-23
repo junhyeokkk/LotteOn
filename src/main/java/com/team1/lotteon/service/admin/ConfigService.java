@@ -1,14 +1,20 @@
 package com.team1.lotteon.service.admin;
 
+import com.team1.lotteon.dto.BannerDTO;
 import com.team1.lotteon.dto.ConfigDTO;
+import com.team1.lotteon.entity.Banner;
 import com.team1.lotteon.entity.Config;
+import com.team1.lotteon.repository.BannerRepository;
 import com.team1.lotteon.repository.ConfigRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -22,6 +28,7 @@ import java.nio.file.Paths;
 public class ConfigService {
 
     private final ConfigRepository configRepository;
+    private final BannerRepository bannerRepository;
     private final ModelMapper modelMapper;
 
     @Value("${spring.servlet.multipart.location}")

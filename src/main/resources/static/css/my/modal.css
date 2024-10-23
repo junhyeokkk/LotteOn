@@ -301,6 +301,10 @@
     margin-bottom: 3px;
 }
 
+.bannerlink, .bannercolor, .bannersize, .bannername{
+    width: 250px;
+}
+
 .modal select {
     height: 30px;
 }

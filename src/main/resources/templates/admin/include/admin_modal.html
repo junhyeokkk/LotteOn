@@ -39,37 +39,45 @@
                 <button class="adminmodal-close" id="closeModal">&times;</button>
             </nav>
             <section class="modal-section">
-                <form action="#" method="post" enctype="multipart/form-data">
+                <form id="bannerForm" enctype="multipart/form-data">
                     <table border="0" class="heighttable">
                         <tr>
                             <th>배너이름</th>
-                            <td><input type="text" class="bannername" name="bannername"></td>
+                            <td><input type="text" class="bannername" name="name"></td>
                         </tr>
                         <tr>
                             <th>배너이미지</th>
-                            <td><input type="file" class="bannerfile" name="bannerfile"></td>
+                            <td><input type="file" class="bannerfile" name="banner_img"></td>
                         </tr>
                         <tr>
                             <th>배너크기</th>
-                            <td><input type="text" class="bannersize" name="bannersize" readonly></td>
+                            <td><input type="text" class="bannersize" name="size" readonly></td>
                         </tr>
                         <tr>
                             <th>배경색</th>
-                            <td><input type="text" class="bannercolor" name="bannercolor"></td>
+                            <td><input type="text" class="bannercolor" name="backgroundColor"></td>
                         </tr>
                         <tr>
                             <th>배너링크</th>
-                            <td><input type="text" class="bannerlink" name="bannerlink"></td>
+                            <td><input type="text" class="bannerlink" name="backgroundLink" readonly></td>
                         </tr>
                         <tr>
                             <th>배너위치</th>
-                            <td><input type="text" class="bannerplace" name="bannerplace"></td>
+                            <td>
+                                <select name="position" class="bannerplace">
+                                    <option value="Main">메인 상단 배너</option>
+                                    <option value="Silder">메인 슬라이더 배너</option>
+                                    <option value="Product">상품 상세보기 배너</option>
+                                    <option value="Login">회원 로그인 배너</option>
+                                    <option value="Mypage">마이 페이지 배너</option>
+                                </select>
+                            </td>
                         </tr>
                         <tr>
                             <th>노출날짜</th>
                             <td>
-                                <input type="date" class="bannerdate" name="bannerdate-start"> -
-                                <input type="date" class="bannerdate" name="bannerdate-end">
+                                <input type="date" class="bannerdate" name="displayStartDate"> -
+                                <input type="date" class="bannerdate" name="displayEndDate">
                             </td>
                         </tr>
                         <tr>
@@ -110,7 +118,7 @@
                                     <option value="50">50</option>
                                 </select> 분
                                 ~
-                                <select name="hour" class="bannertime">
+                                <select name="endHour" class="bannertime">
                                     <option value="00">00</option>
                                     <option value="01">01</option>
                                     <option value="02">02</option>
@@ -136,7 +144,7 @@
                                     <option value="22">22</option>
                                     <option value="23">23</option>
                                 </select> 시
-                                <select name="minute" class="bannertime">
+                                <select name="endminute" class="bannertime">
                                     <option value="00">00</option>
                                     <option value="10">10</option>
                                     <option value="20">20</option>
@@ -144,13 +152,17 @@
                                     <option value="40">40</option>
                                     <option value="50">50</option>
                                 </select> 분
+
+                                <!-- 숨겨진 필드 -->
+                                <input type="hidden" name="displayStartTime" id="displayStartTime">
+                                <input type="hidden" name="displayEndTime" id="displayEndTime">
                             </td>
                         </tr>
                     </table>
                     <br>
                     <div class="modalbuttondiv">
-                        <input class="adminmodalbutton" type="submit" value="작성완료" />
-                        <button class="modalcanclebutton">취소</button>
+                        <input class="adminmodalbutton" type="button" value="작성완료" />
+                        <button type="button" id="bannermodalclose" class="modalcanclebutton">취소</button>
                     </div>
                 </form>
             </section>

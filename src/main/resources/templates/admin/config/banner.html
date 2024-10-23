@@ -2,20 +2,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{admin/layout/adminlayout}">
-
-<!-- index.html 고유 CSS 추가 -->
-<th:block layout:fragment="css">
-    <link rel="stylesheet" th:href="@{/css/admin/config/banner.css}" />
-    <link rel="stylesheet" th:href="@{/css/admin/config/list.css}" />
-    <link rel="stylesheet" th:href="@{/css/my/modal.css}" />
-</th:block>
-<!-- index.html 고유 스크립트 추가 -->
-<th:block layout:fragment="script">
-    <script type="text/javascript" th:src="@{/js/admin/config/info.js}"></script>
-    <script type="text/javascript" th:src="@{/js/modal/modal.js}"></script>
-</th:block>
-
+      layout:decorate="~{/admin/layout/adminlayout}">
+<head>
+    <!-- index.html 고유 CSS 추가 -->
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/admin/config/banner.css}" />
+        <link rel="stylesheet" th:href="@{/css/admin/config/list.css}" />
+        <link rel="stylesheet" th:href="@{/css/my/modal.css}" />
+    </th:block>
+    <!-- index.html 고유 스크립트 추가 -->
+    <th:block layout:fragment="script">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script type="text/javascript" th:src="@{/js/modal/modal.js}"></script>
+        <script type="text/javascript" th:src="@{/js/admin/banner/banner.js}"></script>
+    </th:block>
+</head>
+<body>
 <div class="content" layout:fragment="content">
     <div th:replace="admin/include/admin_modal :: #bannerModal"></div>
     <div class="dashboard">
@@ -27,11 +30,11 @@
         </div>
 
         <div class="bannerinsertbtn">
-            <button class="on">메인 상단 베너</button>
-            <button>메인 슬라이더 배너</button>
-            <button>상품 상세보기 배너</button>
-            <button>회원로그인 배너</button>
-            <button>마이페이지 배너</button>
+            <button class="Main">메인 상단 베너</button>
+            <button class="Silder">메인 슬라이더 배너</button>
+            <button class="Product">상품 상세보기 배너</button>
+            <button class="Login">회원로그인 배너</button>
+            <button class="Mypage">마이페이지 배너</button>
         </div>
 
         <section class="sectionBox">
@@ -52,51 +55,11 @@
                     <th>종료시간</th>
                     <th>관리</th>
                 </tr>
-
-                <tr class="admin_list">
-                    <td><input type="checkbox" name="상품코드" /></td>
-                    <td>1</td>
-                    <td><img th:src="@{/images/admin/sample_thumb.jpg}" class="thumb"
-                             style="width: 70px; height: 70px;"></td>
-                    <td style="text-align: left;">
-                        <p>배너명</p>
-                        <p>크기 : 1200 x 80</p>
-                        <p>배경색 : #FFFFF</p>
-                        <p>배너링크</p>
-                    </td>
-                    <td>MAIN1</td>
-                    <td>2024/10/16</td>
-                    <td>2024/10/18</td>
-                    <td>13:00</td>
-                    <td>15:00</td>
-                    <td>
-                        <a href="">[활성]</a>
-                        <br>
-                        <a href="">[비활성]</a>
-                    </td>
-                </tr>
-                <tr class="admin_list">
-                    <td><input type="checkbox" name="상품코드" /></td>
-                    <td>1</td>
-                    <td><img th:src="@{/images/admin/sample_thumb.jpg}" class="thumb"
-                             style="width: 70px; height: 70px;"></td>
-                    <td style="text-align: left;">
-                        <p>배너명</p>
-                        <p>크기 : 1200 x 80</p>
-                        <p>배경색 : #FFFFF</p>
-                        <p>배너링크</p>
-                    </td>
-                    <td>MAIN1</td>
-                    <td>2024/10/16</td>
-                    <td>2024/10/18</td>
-                    <td>13:00</td>
-                    <td>15:00</td>
-                    <td>
-                        <a href="">[활성]</a>
-                        <br>
-                        <a href="">[비활성]</a>
-                    </td>
-                </tr>
+                <tbody class="admin_list">
+                <!-- 배너 출력 내용 -->
+                </tbody>
+                <tfoot>
+                </tfoot>
 
             </table>
             <a class="delete_btn">선택삭제</a>
@@ -107,17 +70,13 @@
             <div class="pagingBox">
                 <div class="pagingList">
                     <!-- 이전 버튼 -->
-                    <a href="#" class="prev"><</a>
+                    <a href="#" class="prev" id="prevBtn"><</a>
 
-                    <!-- 페이지 링크 -->
-                    <a href="#">1</a>
-                    <a href="#" class="active">2</a>
-                    <a href="#">3</a>
-                    <a href="#">4</a>
-                    <a href="#">5</a>
+                    <!-- 페이지 링크는 JavaScript에서 동적으로 생성 -->
+                    <span id="pageNumbers"></span>
 
                     <!-- 다음 버튼 -->
-                    <a href="#" class="next">></a>
+                    <a href="#" class="next" id="nextBtn">></a>
                 </div>
             </div>
         </section>
