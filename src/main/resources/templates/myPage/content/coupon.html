@@ -1,6 +1,16 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/myPage/layout/mypage_layout2}">
 <!-- 회원정보 섹션 -->
-<section th:fragment="coupon">
+<th:block layout:fragment="css">
     <link rel="stylesheet" th:href="@{/css/my/coupon.css}"/>
+</th:block>
+<th:block layout:fragment="script">
+</th:block>
+<section class="content" layout:fragment="content">
+
     <a href="#"><img src="/images/my/my_banner_sample.png" alt="롯데ON에서 드리는 다양한 결제혜택" class="banner"></a>
     <!-- 810x86 배너 이미지 -->
     <article class="latest">
@@ -43,5 +53,4 @@
 
     </article>
 </section>
-</div>
-</div>
+</html>

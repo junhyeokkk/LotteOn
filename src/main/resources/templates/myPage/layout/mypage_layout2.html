@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lagn="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<!--<link rel="stylesheet" th:href="@{/css/my/modal.css}">-->
+<!--<script type="text/javascript" th:src="@{/js/modal/modal.js}"></script>-->
+<!--<script type="text/javascript" th:src="@{/js/my/searchPeriod.js}"></script>-->
+<head>
+    <meta charset="UTF-8">
+    <title>My Info</title>
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1, user-scalable=yes,initial-scale=1.0" />
+    <!-- content script -->
+    <th:block layout:fragment="css"></th:block>
+    <!-- content script -->
+    <th:block layout:fragment="script"></th:block>
+</head>
+<body>
+    <header th:replace="~{layout/header::header}"></header>
+<div id="wrapper">
+    <th:replace th:replace="~{myPage/include/mypagenav::nav}"></th:replace>
+    <div class="info">
+        <th:replace th:replace="~{myPage/include/mypagesidebar::sidebar}"></th:replace>
+        <th:block layout:fragment="content" ></th:block>
+    </div>
+</div>
+    <footer th:replace="~{layout/footer::footer}"></footer>
+</body>
+</html>

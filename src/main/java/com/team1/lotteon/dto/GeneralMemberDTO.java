@@ -2,6 +2,7 @@ package com.team1.lotteon.dto;
 
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -24,4 +25,5 @@ public class GeneralMemberDTO {
     private String zip;
     private String gender;
     private String grade;
+    private LocalDate birth;
 }

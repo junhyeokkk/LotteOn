@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -17,7 +18,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-@DiscriminatorValue("General")
 public class GeneralMember extends Member {
     private String name;
     @Enumerated(EnumType.STRING)
@@ -28,6 +28,7 @@ public class GeneralMember extends Member {
     private String email;
     private String ph;
     private Status status;
+    private LocalDate birth;
     @Embedded
     private Address address;
     private LocalDateTime lastLoginDate;

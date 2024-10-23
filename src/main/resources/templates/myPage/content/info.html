@@ -1,88 +1,99 @@
-<section th:fragment="info">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/myPage/layout/mypage_layout2}">
+<!-- index.html 고유 CSS 추가 -->
+<th:block layout:fragment="css">
     <link rel="stylesheet" th:href="@{/css/my/info.css}"/>
+</th:block>
+<th:block layout:fragment="script">
+</th:block>
+
+    <section class="content" layout:fragment="content">
     <a href="#"><img src="/images/my/my_banner_sample.png" alt="롯데ON에서 드리는 다양한 결제혜택" class="banner"></a>
 
-    <article class="myinfomation">
-        <h3>회원정보 설정</h3>
-        <table border="0" class="myinfoheighttable">
-            <tr>
-                <th>사용자 ID</th>
-                <td>chh***</td>
-            </tr>
-            <tr>
-                <th>비밀번호</th>
-                <td><button class="infobutton">비밀번호수정</button></td>
-            </tr>
-            <tr>
-                <th>이름</th>
-                <td>김*학</td>
-            </tr>
-            <tr>
-                <th>생년월일</th>
-                <td>1983년 05월 03일</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>
-                    <input type="text" id="emailLocalPart" placeholder="이메일 아이디" />@
-                    <input type="text" id="emailDomain" placeholder="이메일 도메인" />
-                    <select id="domainSelect">
-                        <option value="직접 입력">직접 입력</option>
-                        <option value="naver.com">naver.com</option>
-                        <option value="gmail.com">gmail.com</option>
-                        <option value="daum.net">daum.net</option>
-                    </select>
-                    <button class="infobutton" onclick="updateEmail()">변경</button>
-                </td>
-            </tr>
-            <tr>
-                <th>휴대폰</th>
-                <td>
-                    <input type="text" id="phone1" maxlength="3" placeholder="010" /> - 
-                    <input type="text" id="phone2" maxlength="4" placeholder="1234" /> - 
-                    <input type="text" id="phone3" maxlength="4" placeholder="5678" />
-                    <button class="infobutton" onclick="updatePhone()">변경</button>
-                </td>
-            </tr>
-            <tr>
-                <th>주소</th>
-                <td>
-                    <input type="text" id="postalCode" placeholder="우편번호" />
-                    <button class="infobutton" onclick="searchPostalCode()">주소검색</button><br/>
-                    <input type="text" id="address1" placeholder="기본주소입력" /><br/>
-                    <input type="text" id="address2" placeholder="상세주소입력" />
-                </td>
-            </tr>
-        </table>
-    </article>
+            <article class="myinfomation">
+                <h3>회원정보 설정</h3>
+                <table border="0" class="myinfoheighttable">
+                    <tr>
+                        <th>사용자 ID</th>
+                        <td>chh***</td>
+                    </tr>
+                    <tr>
+                        <th>비밀번호</th>
+                        <td><button class="infobutton">비밀번호수정</button></td>
+                    </tr>
+                    <tr>
+                        <th>이름</th>
+                        <td>김*학</td>
+                    </tr>
+                    <tr>
+                        <th>생년월일</th>
+                        <td>1983년 05월 03일</td>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td>
+                            <input type="text" id="emailLocalPart" placeholder="이메일 아이디" />@
+                            <input type="text" id="emailDomain" placeholder="이메일 도메인" />
+                            <select id="domainSelect">
+                                <option value="직접 입력">직접 입력</option>
+                                <option value="naver.com">naver.com</option>
+                                <option value="gmail.com">gmail.com</option>
+                                <option value="daum.net">daum.net</option>
+                            </select>
+                            <button class="infobutton" onclick="updateEmail()">변경</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>휴대폰</th>
+                        <td>
+                            <input type="text" id="phone1" maxlength="3" placeholder="010" /> -
+                            <input type="text" id="phone2" maxlength="4" placeholder="1234" /> -
+                            <input type="text" id="phone3" maxlength="4" placeholder="5678" />
+                            <button class="infobutton" onclick="updatePhone()">변경</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>주소</th>
+                        <td>
+                            <input type="text" id="postalCode" placeholder="우편번호" />
+                            <button class="infobutton" onclick="searchPostalCode()">주소검색</button><br/>
+                            <input type="text" id="address1" placeholder="기본주소입력" /><br/>
+                            <input type="text" id="address2" placeholder="상세주소입력" />
+                        </td>
+                    </tr>
+                </table>
+            </article>
 
-    <div class="memberLeave">
-        <a href="#">탈퇴하기</a>
-    </div>
+            <div class="memberLeave">
+                <a href="#">탈퇴하기</a>
+            </div>
 
-    <div class="myinfosubmitbutton">
-        <button>수정하기</button>
-    </div>
-    <script>
-        document.getElementById('domainSelect').addEventListener('change', function() {
-            var emailDomainInput = document.getElementById('emailDomain');
-            if (this.value === '직접 입력') {
-                emailDomainInput.value = '';
-                emailDomainInput.readOnly = false;  // Enable manual input
-            } else {
-                emailDomainInput.value = this.value;
-                emailDomainInput.readOnly = true;  // Prevent editing when auto-populating
-            }
-        });
+            <div class="myinfosubmitbutton">
+                <button>수정하기</button>
+            </div>
+            <script>
+                document.getElementById('domainSelect').addEventListener('change', function() {
+                    var emailDomainInput = document.getElementById('emailDomain');
+                    if (this.value === '직접 입력') {
+                        emailDomainInput.value = '';
+                        emailDomainInput.readOnly = false;  // Enable manual input
+                    } else {
+                        emailDomainInput.value = this.value;
+                        emailDomainInput.readOnly = true;  // Prevent editing when auto-populating
+                    }
+                });
 
-        function updateEmail() {
-            var emailLocalPart = document.getElementById('emailLocalPart').value;
-            var emailDomain = document.getElementById('emailDomain').value;
-            var fullEmail = emailLocalPart + "@" + emailDomain;
-            alert('Updated email: ' + fullEmail);
-        }
-    </script>
-</section>
+                function updateEmail() {
+                    var emailLocalPart = document.getElementById('emailLocalPart').value;
+                    var emailDomain = document.getElementById('emailDomain').value;
+                    var fullEmail = emailLocalPart + "@" + emailDomain;
+                    alert('Updated email: ' + fullEmail);
+                }
+            </script>
+    </section>
 
-
+</html>
 
