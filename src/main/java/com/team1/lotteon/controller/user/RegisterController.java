@@ -14,6 +14,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,48 +37,71 @@ public class RegisterController {
         }
         return "user/login";
     }
+
+    //입력받은 정보를 기반으로 DB 저장
     @PostMapping("/user/register/{role}")
-    public String UserRegister(@PathVariable("role") String roleType, GeneralMemberDTO generalMemberDTO, MemberDTO memberDTO, RedirectAttributes redirectAttributes) {
+    public String UserRegister(@PathVariable("role") String roleType,
+                               GeneralMemberDTO generalMemberDTO, MemberDTO memberDTO,
+                               HttpServletRequest request) {
+        HttpSession session = request.getSession();
 
-        if ("user".equals(roleType)) {
-            // 일반 사용자 회원가입 처리
-            memberService.insertGeneralMember(generalMemberDTO, memberDTO);
-            redirectAttributes.addFlashAttribute("successMessage", "회원가입이 성공적으로 완료되었습니다.");
+        try {
+            if ("user".equals(roleType)) {
+                // 일반 사용자 회원가입 처리
+                memberService.insertGeneralMember(generalMemberDTO, memberDTO);
+                return "redirect:/user/login?success=" + URLEncoder.encode("회원가입이 성공적으로 완료되었습니다.", "UTF-8");
 
-        } else if ("seller".equals(roleType)) {
-            // 판매자 회원가입 처리
-//            memberService.insertSellerMember(generalMemberDTO, memberDTO);
-//            redirectAttributes.addFlashAttribute("successMessage", "판매자 회원가입이 성공적으로 완료되었습니다.");
+            } else if ("seller".equals(roleType)) {
+                // 판매자 회원가입 처리
+                // memberService.insertSellerMember(generalMemberDTO, memberDTO);
+                return "redirect:/user/login?success=" + URLEncoder.encode("판매자 회원가입이 성공적으로 완료되었습니다.", "UTF-8");
 
-        } else {
-            // 잘못된 role 값 처리
-            redirectAttributes.addFlashAttribute("errorMessage", "잘못된 요청입니다.");
-            return "redirect:/error";
+            } else {
+                // 잘못된 role 값 처리
+                return "redirect:/error?error=" + URLEncoder.encode("잘못된 요청입니다.", "UTF-8");
+            }
+        } catch (UnsupportedEncodingException e) {
+            // 인코딩 예외 처리
+            e.printStackTrace();
+            // 인코딩 예외 발생 시 고정된 오류 메시지 반환
+            return "redirect:/error?error=encoding_error";
         }
-
-        return "redirect:/user/login";
     }
-    // 아이디 중복 확인
+
+    //중복확인
     @GetMapping("/user/Register/{type}/{value}")
     @ResponseBody
-    public boolean checkUserRegister(HttpSession session, @PathVariable String type, @PathVariable String value) {
+    public Map<String, Boolean> checkUserRegister(HttpSession session, @PathVariable String type, @PathVariable String value) {
+        Map<String, Boolean> response = new HashMap<>();
+
         log.info("Type: " + type + ", Value: " + value);
 
-        if(type.equals("uid")){
-            return memberService.isUidExist(value);
+        if (type.equals("uid")) {
+            boolean exists = memberService.isUidExist(value);
+            response.put("result", exists);
+            return response;
         }
-        if(type.equals("email")){
-            boolean count = generalMemberService.isEmailExist(value);
-            if(!count){
+
+        if (type.equals("email")) {
+            boolean exists = generalMemberService.isEmailExist(value);
+            if (!exists) {
+                // 이메일 중복이 없으면 이메일 코드 전송
                 memberService.sendEmailCode(session, value);
             }
-            return count;
+            response.put("result", exists);
+            return response;
         }
-        if(type.equals("ph")){
-            return generalMemberService.isphExist(value);
+
+        if (type.equals("ph")) {
+            boolean exists = generalMemberService.isphExist(value);
+            response.put("result", exists);
+            return response;
         }
-        return false;
+
+        response.put("result", false); // 기본값
+        return response;
     }
+
 
     // 이메일 인증 코드 검사
     @ResponseBody
