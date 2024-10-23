@@ -1,21 +1,15 @@
-package com.team1.lotteon.entity;
+package com.team1.lotteon.dto.product;
 
+import com.team1.lotteon.entity.Category;
+import com.team1.lotteon.entity.GeneralMember;
+import com.team1.lotteon.entity.Shop;
 import com.team1.lotteon.entity.enums.ProductStatus;
-import jakarta.persistence.*;
-import jakarta.persistence.Entity;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
-@Entity
-@Getter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class Product extends BaseEntity {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class ProductResponseDTO {
     private Long id;    // id
     private int views;  // 조회수
     private String productImg1; // 상품 이미지1
@@ -44,10 +38,4 @@ public class Product extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "member_id")
     private GeneralMember member;
-
-    public void changeCategory(Category category) {
-        this.category = category;
-    }
 }
-
-

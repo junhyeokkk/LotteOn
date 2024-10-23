@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -27,6 +28,12 @@ public class CategoryService {
     public CategoryWithParentAndChildrenResponseDTO getDetailById(Long id) {
         Category category = categoryRepository.findWithChildrenAndParentById(id).orElseThrow(() -> new IllegalArgumentException("카테고리를 찾을 수 없습니다."));
         return CategoryWithParentAndChildrenResponseDTO.fromEntity(category);
+    }
+
+    public List<CategoryResponseDTO> getChildrenById(Long id) {
+        Category parentcategory = categoryRepository.findWithChildrenById(id).orElseThrow(() -> new IllegalArgumentException("해당 카테고리는 존재하지 않습니다."));
+        List<Category> children = parentcategory.getChildren();
+        return children.stream().map(CategoryResponseDTO::fromEntity).toList();
     }
 
     public Category createCategory(CategoryCreateDTO categoryCreateDTO) {

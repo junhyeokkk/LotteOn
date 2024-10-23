@@ -39,6 +39,12 @@ public class CategoryApiController {
         return ResponseEntity.status(HttpStatus.OK).body(detailCategory);
     }
 
+    @GetMapping("/{id}/children")
+    public ResponseEntity<List<CategoryResponseDTO>> getCategoryChildren(@PathVariable Long id) {
+        List<CategoryResponseDTO> categoryChildren = categoryService.getChildrenById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(categoryChildren);
+    }
+
     @PatchMapping("/{id}/name")
     public ResponseEntity<Void> updateCateName(@PathVariable Long id, @RequestBody CategoryUpdateNameDTO body) {
         categoryService.updateCategoryName(id, body.getName());
