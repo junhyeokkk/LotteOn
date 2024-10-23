@@ -1,9 +1,12 @@
 package com.team1.lotteon.service.article;
 
+import com.team1.lotteon.dto.PageResponseDTO;
 import com.team1.lotteon.dto.cs.ArticleDTO;
 import com.team1.lotteon.dto.cs.FaqDTO;
 import com.team1.lotteon.dto.cs.InquiryDTO;
 import com.team1.lotteon.dto.cs.NoticeDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -26,14 +29,14 @@ public interface ArticleService {
     // Inquiry
     InquiryDTO createInquiry(InquiryDTO inquiryDTO);
     InquiryDTO getInquiryById(Long id);
-    List<InquiryDTO> getAllInquiries();
+    PageResponseDTO<InquiryDTO> getAllInquiries(Pageable pageable);
     InquiryDTO updateInquiry(Long id, InquiryDTO inquiryDTO);
     void deleteInquiry(Long id);
 
     // Notice
     NoticeDTO createNotice(NoticeDTO noticeDTO);
     NoticeDTO getNoticeById(Long id);
-    List<NoticeDTO> getAllNotices();
+    Page<NoticeDTO> getAllNotices(Pageable pageable);
     NoticeDTO updateNotice(Long id, NoticeDTO noticeDTO);
     void deleteNotice(Long id);
 

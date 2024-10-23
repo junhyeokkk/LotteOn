@@ -22,12 +22,12 @@
         <h1>회원</h1>
         <h2>회원 관련 문의 내용 입니다.</h2>
       </nav>
-      <form>
+      <form th:method="post">
         <table>
           <tr>
             <td>문의유형</td>
             <td>
-              <select name="qnaCate" onchange="firstOption()">
+              <select name="type1" onchange="firstOption()">
                 <option>1차선택</option>
                 <option value="user">회원</option>
                 <option value="coupon">쿠폰/이벤트</option>
@@ -37,7 +37,7 @@
                 <option value="travel">여행/숙박/항공</option>
                 <option value="safe">안전결제</option>
               </select>
-              <select name="qnaType">
+              <select name="type2">
                 <option>2차선택</option>
                 <option value="regi">고객서비스</option>
                 <option value="leave">이벤트당첨</option>
@@ -49,13 +49,13 @@
           <tr>
             <td>제목</td>
             <td>
-              <input type="text" name="qnaTitle" placeholder="제목을 입력하세요." required/>
+              <input type="text" name="title" placeholder="제목을 입력하세요." required/>
             </td>
           </tr>
           <tr>
             <td>내용</td>
             <td>
-              <textarea name="qnaContent" placeholder="내용을 입력하세요." required></textarea>
+              <textarea name="content" placeholder="내용을 입력하세요." required></textarea>
             </td>
           </tr>
         </table>

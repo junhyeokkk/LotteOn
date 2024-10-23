@@ -23,65 +23,51 @@
         <h2>회원 관련 문의내용 입니다.</h2>
       </nav>
       <table>
+        <thead>
         <tr>
-          <td>
-            <a th:href="@{/cs/layout/qna/view}">[회원] 가입문의내용</a>
-          </td>
-          <td>검토 중</td>
-          <td>chh***</td>
-          <td style="text-align: right;">22.10.31</td>
+          <th>제목</th>
+          <th>상태</th>
+          <th>작성자</th>
+          <th style="text-align: right;">작성일</th>
         </tr>
-        <tr>
+        </thead>
+        <tbody>
+        <!-- 문의사항 목록 동적 처리 -->
+        <tr th:each="inquiry : ${inquiries}">
           <td>
-            <a th:href="@{/cs/layout/qna/view}">[회원] 가입문의내용</a>
+            <a th:href="@{/cs/layout/qna/view/{id}(id=${inquiry.id})}" th:text="${inquiry.title}">[회원] 문의내용</a>
           </td>
-          <td  style="color: #4291e9;">답변 완료</td>
-          <td>chh***</td>
-          <td style="text-align: right;">22.10.31</td>
+          <!-- 답변 여부 처리 -->
+          <td th:text="${inquiry.answer != null ? '답변 완료' : '검토 중'}"
+              th:classappend="${inquiry.answer != null ? 'done' : 'ing'}"></td>
+          <td th:text="${inquiry.memberId != null ? inquiry.memberId : '비회원'}">작성자</td>
+          <td style="text-align: right;" th:text="${#temporals.format(inquiry.createdAt, 'yy.MM.dd')}">22.10.31</td>
         </tr>
-        <tr>
-          <td>
-            <a th:href="@{/cs/layout/qna/view}">[회원] 가입문의내용</a>
-          </td>
-          <td class="ing">검토 중</td>
-          <td>chh***</td>
-          <td style="text-align: right;">22.10.31</td>
-        </tr>
-        <tr>
-          <td>
-            <a th:href="@{/cs/layout/qna/view}">[회원] 가입문의내용</a>
-          </td>
-          <td class="done" style="color: #4291e9;">답변 완료</td>
-          <td>chh***</td>
-          <td style="text-align: right;">22.10.31</td>
-        </tr>
-        <tr>
-          <td>
-            <a th:href="@{/cs/layout/qna/view}">[회원] 가입문의내용</a>
-          </td>
-          <td>검토 중</td>
-          <td>chh***</td>
-          <td style="text-align: right;">22.10.31</td>
-        </tr>
+        </tbody>
       </table>
 
       <div class="pagingBox">
         <div class="pagingList">
           <!-- 이전 버튼 -->
-          <a href="#" class="prev"><</a>
+          <a th:unless="${currentPage == 0}"
+             th:href="@{/cs/layout/qna/list(page=${currentPage - 1}, size=${pageSize})}"
+             class="prev">‹</a>
 
-          <!-- 페이지 링크 -->
-          <a href="#">1</a>
-          <a href="#" class="active">2</a>
-          <a href="#">3</a>
-          <a href="#">4</a>
-          <a href="#">5</a>
+          <!-- 페이지 번호 링크 동적 처리 -->
+          <a th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}"
+             th:href="@{/cs/layout/qna/list(page=${pageNum}, size=${pageSize})}"
+             th:text="${pageNum + 1}"
+             th:classappend="${pageNum == currentPage} ? 'active'">1</a>
 
           <!-- 다음 버튼 -->
-          <a href="#" class="next">></a>
+          <a th:if="${!isLast}"
+             th:href="@{/cs/layout/qna/list(page=${currentPage + 1}, size=${pageSize})}"
+             class="next">›</a>
         </div>
+        <!-- 문의하기 버튼 -->
         <a th:href="@{/cs/layout/qna/write}" class="ask">문의하기</a>
       </div>
+
     </article>
   </section>
 </div>

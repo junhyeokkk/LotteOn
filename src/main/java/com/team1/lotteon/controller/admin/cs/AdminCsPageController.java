@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class CsPageController {
+public class AdminCsPageController {
 
     // notice
     @GetMapping("/admin/cs/notice/list")

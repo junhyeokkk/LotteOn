@@ -1,5 +1,6 @@
 package com.team1.lotteon.service.article;
 
+import com.team1.lotteon.dto.PageResponseDTO;
 import com.team1.lotteon.dto.cs.ArticleDTO;
 import com.team1.lotteon.dto.cs.FaqDTO;
 import com.team1.lotteon.dto.cs.InquiryDTO;
@@ -10,6 +11,8 @@ import com.team1.lotteon.repository.InquiryRepository;
 import com.team1.lotteon.repository.Memberrepository.MemberRepository;
 import com.team1.lotteon.repository.NoticeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -110,11 +113,9 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<InquiryDTO> getAllInquiries() {
-        List<Inquiry> inquiries = inquiryRepository.findAll();
-        return inquiries.stream()
-                .map(this::convertToInquiryDTO)
-                .collect(Collectors.toList());
+    public PageResponseDTO<InquiryDTO> getAllInquiries(Pageable pageable) {
+        Page<Inquiry> inquiries = inquiryRepository.findAll(pageable);
+        return PageResponseDTO.fromPage(inquiries.map(this::convertToInquiryDTO));
     }
 
     @Override
@@ -153,11 +154,9 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<NoticeDTO> getAllNotices() {
-        List<Notice> notices = noticeRepository.findAll();
-        return notices.stream()
-                .map(this::convertToNoticeDTO)
-                .collect(Collectors.toList());
+    public Page<NoticeDTO> getAllNotices(Pageable pageable) {
+        Page<Notice> notices = noticeRepository.findAll(pageable);
+        return notices.map(this::convertToNoticeDTO);
     }
 
     @Override
@@ -187,6 +186,7 @@ public class ArticleServiceImpl implements ArticleService {
                 .id(faq.getId())
                 .title(faq.getTitle())
                 .content(faq.getContent())
+                .type1(faq.getType1())
                 .type2(faq.getType2())
                 .createdAt(faq.getCreatedAt())
                 .updatedAt(faq.getUpdatedAt())
@@ -199,6 +199,7 @@ public class ArticleServiceImpl implements ArticleService {
                 .id(faqDTO.getId())
                 .title(faqDTO.getTitle())
                 .content(faqDTO.getContent())
+                .type1(faqDTO.getType1())
                 .type2(faqDTO.getType2())
                 .createdAt(faqDTO.getCreatedAt())
                 .updatedAt(faqDTO.getUpdatedAt())
@@ -212,6 +213,7 @@ public class ArticleServiceImpl implements ArticleService {
                 .id(inquiry.getId())
                 .title(inquiry.getTitle())
                 .content(inquiry.getContent())
+                .type1(inquiry.getType1())
                 .type2(inquiry.getType2())
                 .createdAt(inquiry.getCreatedAt())
                 .updatedAt(inquiry.getUpdatedAt())
@@ -225,6 +227,7 @@ public class ArticleServiceImpl implements ArticleService {
                 .id(inquiryDTO.getId())
                 .title(inquiryDTO.getTitle())
                 .content(inquiryDTO.getContent())
+                .type1(inquiryDTO.getType1())
                 .type2(inquiryDTO.getType2())
                 .createdAt(inquiryDTO.getCreatedAt())
                 .updatedAt(inquiryDTO.getUpdatedAt())
@@ -238,6 +241,7 @@ public class ArticleServiceImpl implements ArticleService {
                 .id(notice.getId())
                 .title(notice.getTitle())
                 .content(notice.getContent())
+                .type1(notice.getType1())
                 .createdAt(notice.getCreatedAt())
                 .updatedAt(notice.getUpdatedAt())
                 .memberId(notice.getMember().getUid() !=null ? notice.getMember().getUid() : null)
@@ -249,6 +253,7 @@ public class ArticleServiceImpl implements ArticleService {
                 .id(noticeDTO.getId())
                 .title(noticeDTO.getTitle())
                 .content(noticeDTO.getContent())
+                .type1(noticeDTO.getType1())
                 .createdAt(noticeDTO.getCreatedAt())
                 .updatedAt(noticeDTO.getUpdatedAt())
                 .member(member)
