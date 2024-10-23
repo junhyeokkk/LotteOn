@@ -196,16 +196,16 @@
                 <button class="adminmodal-close" id="closeModal">&times;</button>
             </nav>
             <section class="modal-section">
-                <form action="#" method="post">
+                <form id="versionForm">
                     <table border="0" class="heighttable">
                         <tr>
                             <th>버전</th>
-                            <td><input type="text" placeholder="버전입력하기" /></td>
+                            <td><input type="text" name="version" placeholder="버전입력하기" /></td>
                         </tr>
                         <tr>
                             <th>변경내역</th>
                             <td class="modalcontent">
-                                <textarea placeholder="변경내역작성하기" required></textarea>
+                                <textarea name="content" placeholder="변경내역작성하기" required></textarea>
                             </td>
                         </tr>
                     </table>
