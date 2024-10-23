@@ -71,7 +71,6 @@
     text-align: left;
     padding-left: 50px;
     /* 더 안쪽으로 밀어 넣기 */
-    padding-top: 10px;
     font-size: 25px;
     font-weight: bold;
 }
@@ -81,7 +80,6 @@
 .myinfotopside ol {
     display: flex;
     list-style: none;
-    padding-top: 15px;
 }
 
 .myinfotopside ol li {
@@ -100,12 +98,11 @@
 /* 광고배너 */
 .banner {
     display: block;
+    margin: 0 auto;
     margin-bottom: 20px;
     width: 810px;
     height: 86px;
-    /* 고정된 크기 */
     object-fit: cover;
-    /* 이미지가 비율을 유지하며 크기에 맞게 조정되도록 설정 */
 }
 
 /* 숫자 출력 스타일 */

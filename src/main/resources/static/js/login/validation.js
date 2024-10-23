@@ -8,6 +8,7 @@ window.onload = function () {
 	let isGenderOk = false;
 	let isAddressOk = false;
 	let isEmailVerified = false;  // 이메일 인증 여부 추가
+	let isBirthOk = false; // 생년월일 유효성 검사 추가
 
 	const registerForm = document.querySelector('.sendForm');
 	const resultId = document.querySelector('.resultId');
@@ -17,6 +18,7 @@ window.onload = function () {
 	const resultEmail = document.getElementById('resultEmail');
 	const auth = document.querySelector('.auth');
 	const resultaddr = document.querySelector('.resultaddr');
+	const resultBirth = document.getElementById('resultBirth');
 
 	// 유효성 검사에 사용할 정규표현식
 	const patterns = {
@@ -78,6 +80,19 @@ window.onload = function () {
 		} else {
 			resultName.innerText = "";  // 메시지 지우기
 			isNameOk = true;
+		}
+	});
+
+	// 생년월일 유효성 검사
+	const birthInput = document.getElementsByName('birth')[0];
+	birthInput.addEventListener('focusout', function () {
+		const birthValue = birthInput.value;
+		if (!birthValue) {
+			showResult(resultBirth, '생년월일을 입력해주세요.', false);
+			isBirthOk = false;
+		} else {
+			resultBirth.innerText = '';  // 오류 메시지 지우기
+			isBirthOk = true;
 		}
 	});
 
@@ -192,6 +207,12 @@ window.onload = function () {
 			return false;
 		}
 
+		// 생년월일 유효성 검사 완료 여부
+		if (!isBirthOk) {
+			alert('생년월일을 입력해주세요.');
+			e.preventDefault(); // 폼 전송 취소
+			return false;
+		}
 		// 이메일 유효성 검사 완료 여부
 		if (!isEmailOk || !isEmailVerified) {
 			alert('이메일이 인증되지 않았습니다.');

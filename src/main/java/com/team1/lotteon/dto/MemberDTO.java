@@ -1,5 +1,6 @@
 package com.team1.lotteon.dto;
 
+import com.team1.lotteon.entity.GeneralMember;
 import lombok.*;
 
 import java.time.LocalDateTime;

@@ -14,14 +14,38 @@ public class MyinfoController {
         return "myPage/home";
     }
 
-    @GetMapping("/myPage/{cate}")
-    public String myinfoindex(@PathVariable String cate, Model model){
-
-        log.info("컨트롤러 들어오니?");
-        log.info(cate);
-        model.addAttribute("cate", cate);
-
-
-        return "myPage/layout/mypage_layout";
+//    @GetMapping("/myPage/{cate}")
+//    public String myinfoindex(@PathVariable String cate, Model model){
+//
+//        log.info("컨트롤러 들어오니?");
+//        log.info(cate);
+//        model.addAttribute("cate", cate);
+//
+//
+//        return "myPage/layout/mypage_layout";
+//    }
+    @GetMapping("/myPage/info")
+    public String myinfo(Model model){
+        return "myPage/content/info";
+    }
+    @GetMapping("/myPage/coupon")
+    public String mycoupon(Model model){
+        return "myPage/content/coupon";
+    }
+    @GetMapping("/myPage/ordered")
+    public String myordered(Model model){
+        return "myPage/content/ordered";
+    }
+    @GetMapping("/myPage/point")
+    public String mypoint(Model model){
+        return "myPage/content/point";
+    }
+    @GetMapping("/myPage/qna")
+    public String myqna(Model model){
+        return "myPage/content/qna";
+    }
+    @GetMapping("/myPage/review")
+    public String myreview(Model model){
+        return "myPage/content/review";
     }
 }

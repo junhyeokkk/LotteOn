@@ -44,7 +44,7 @@ public class SecurityConfig {
 
         // 인가 설정
         http.authorizeHttpRequests(authorize -> authorize
-//                .requestMatchers("/userinfo/**").authenticated()
+          //      .requestMatchers("/myPage/**").authenticated()
 //                .requestMatchers("/admin/**").hasRole("ADMIN")
 //
 //                .requestMatchers("/crop/*/CropWrite").authenticated()
