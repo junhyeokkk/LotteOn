@@ -8,17 +8,12 @@
 <th:block layout:fragment="css">
     <link rel="stylesheet" th:href="@{/css/admin/product/list.css}" />
 </th:block>
-<!-- index.html 고유 스크립트 추가 -->
-<th:block layout:fragment="script">
-</th:block>
 
 <div class="content" layout:fragment="content">
     <div class="dashboard">
         <div class="content_header">
             <h1>상품 현황</h1>
-            <p>
-                HOME > 상품관리 > <strong>상품목록</strong>
-            </p>
+            <p>HOME > 상품관리 > <strong>상품목록</strong></p>
         </div>
 
         <!-- 상품목록 컨텐츠 시작 -->
@@ -31,9 +26,8 @@
                         <option value="sellerNo">판매자</option>
                         <option value="prodCompany">제조사</option>
                     </select>
-                    <input class="searchInput" type="text" name="keyword">
-                    <input type="hidden" name="prodSeller" value="ADMIN" readonly>
-                    <input class="searchBtn" type="submit" value="검색">
+                    <input class="searchInput" type="text" name="keyword" />
+                    <input class="searchBtn" type="submit" value="검색" />
                 </form>
             </div>
 
@@ -45,6 +39,7 @@
                     <th>상품명</th>
                     <th>판매가격</th>
                     <th>할인율</th>
+                    <th>할인된 가격</th>
                     <th>포인트</th>
                     <th>재고</th>
                     <th>판매자</th>
@@ -52,91 +47,48 @@
                     <th>관리</th>
                 </tr>
 
-                <tr class="admin_list">
-                    <td><input type="checkbox" name="상품코드" /></td>
-                    <td><img th:src="@{/images/admin/sample_thumb.jpg}" class="thumb" style="width: 70px; height: 70px">
-                    </td>
-                    <td>201603292</td>
-
-                    <td>상품명 #1</td>
-
-                    <td>32,000</td>
-                    <td>10%</td>
-                    <td>320</td>
-
-                    <td>1,000</td>
-                    <td>(주) 다파라</td>
-                    <td>120</td>
+                <!-- 상품 리스트를 동적으로 출력 -->
+                <tr class="admin_list" th:each="product : ${products.content}">
+                    <td><input type="checkbox" th:name="'productCode' + ${product.id}" /></td>
+                    <td><img th:src="${product.imageUrl}" class="thumb" style="width: 70px; height: 70px" /></td>
+                    <td th:text="${product.id}">상품코드</td>
+                    <td th:text="${product.name}">상품명</td>
+                    <td th:text="${product.price} + '원'">32,000원</td>
+                    <td th:text="${product.discountRate} + '%'">10%</td>
+                    <td th:text="${product.discountedPrice} + '원'">28,800원</td>
+                    <td th:text="${product.point}">320</td>
+                    <td th:text="${product.stock}">1,000</td>
+                    <td th:text="${product.sellerName}">(주) 다파라</td>
+                    <td th:text="${product.views}">120</td>
                     <td style="line-height: 20px">
                         <a onclick="modifyProdStatus()" class="cs_delete-btn">[삭제]</a>
-                        <br>
-                        <a href="/seller/product/option?prodNo=상품코드값" class="cs_modify-btn">[수정]</a>
+                        <br />
+                        <a th:href="@{/seller/product/option(prodNo=${product.id})}" class="cs_modify-btn">[수정]</a>
                     </td>
                 </tr>
-
-                <tr class="admin_list">
-                    <td><input type="checkbox" name="상품코드" /></td>
-                    <td><img th:src="@{/images/admin/sample_thumb.jpg}" class="thumb" style="width: 70px; height: 70px">
-                    </td>
-                    <td>201603292</td>
-
-                    <td>상품명 #1</td>
-
-                    <td>32,000</td>
-                    <td>10%</td>
-                    <td>320</td>
-
-                    <td>1,000</td>
-                    <td>(주) 다파라</td>
-                    <td>300</td>
-                    <td style="line-height: 20px">
-                        <a onclick="modifyProdStatus()" class="cs_delete-btn">[삭제]</a>
-                        <br>
-                        <a href="/seller/product/option?prodNo=상품코드값" class="cs_modify-btn">[수정]</a>
-                    </td>
-                </tr>
-
-                <tr class="admin_list">
-                    <td><input type="checkbox" name="상품코드" /></td>
-                    <td><img th:src="@{/images/admin/sample_thumb.jpg}" class="thumb" style="width: 70px; height: 70px">
-                    </td>
-                    <td>201603292</td>
-
-                    <td>상품명 #1</td>
-
-                    <td>32,000</td>
-                    <td>10%</td>
-                    <td>320</td>
-
-                    <td>1,000</td>
-                    <td>(주) 다파라</td>
-                    <td>120</td>
-                    <td style="line-height: 20px">
-                        <a onclick="modifyProdStatus()" class="cs_delete-btn">[삭제]</a>
-                        <br>
-                        <a href="/seller/product/option?prodNo=상품코드값" class="cs_modify-btn">[수정]</a>
-                    </td>
-                </tr>
-
             </table>
 
             <a class="delete_btn">선택삭제</a>
-            <a class="registration_btn">상품등록</a>
+            <a class="registration_btn" href="/admin/product/register">상품등록</a>
 
+            <!-- 페이지네이션 -->
             <div class="pagingBox">
                 <div class="pagingList">
                     <!-- 이전 버튼 -->
-                    <a href="#" class="prev"></a>
+                    <a th:if="${products.currentPage > 0}"
+                       th:href="@{/admin/product/list(page=${products.currentPage - 1})}"
+                       class="prev">이전</a>
 
-                    <!-- 페이지 링크 -->
-                    <a href="#">1</a>
-                    <a href="#" class="active">2</a>
-                    <a href="#">3</a>
-                    <a href="#">4</a>
-                    <a href="#">5</a>
+                    <!-- 페이지 번호 -->
+                    <a th:each="i : ${#numbers.sequence(1, products.totalPages)}"
+                       th:href="@{/admin/product/list(page=${i - 1})}"
+                       th:text="${i}"
+                       th:classappend="${products.currentPage + 1 == i} ? 'active' : ''">1</a>
 
                     <!-- 다음 버튼 -->
-                    <a href="#" class="next">></a>
+                    <a th:if="${products.currentPage + 1 < products.totalPages}"
+                       th:href="@{/admin/product/list(page=${products.currentPage + 1})}"
+                       class="next">다음</a>
                 </div>
             </div>
         </section>

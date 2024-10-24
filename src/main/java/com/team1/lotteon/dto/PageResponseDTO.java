@@ -18,6 +18,7 @@ public class PageResponseDTO<T> {
     private int totalPages;
     private long totalElements; // 총 요소 수
     private int pageSize; // 페이지 당 요소
+    private boolean isFirst; // 첫 페이지 여부
     private boolean isLast; // 마지막 페이지 여부
 
     public static <T> PageResponseDTO<T> fromPage(Page<T> page) {
@@ -27,6 +28,7 @@ public class PageResponseDTO<T> {
                 .totalPages(page.getTotalPages())
                 .totalElements(page.getTotalElements())
                 .pageSize(page.getSize())
+                .isFirst(page.isFirst())
                 .isLast(page.isLast())
                 .build();
     }

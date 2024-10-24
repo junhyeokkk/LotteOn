@@ -20,25 +20,37 @@
       <p>HOME > 상품관리 > 상품등록</p>
     </div>
     <div class="product_register">
-      <form action="/submit" method="POST">
+      <form method="POST">
+        <!-- 상품 분류 -->
         <!-- 상품 분류 -->
         <div class="section">
           <h2>상품분류</h2>
-          <p>1차, 2차 카테고리 기본분류는 반드시 선택하셔야 합니다.</p>
+          <p>1차, 2차, 3차 카테고리 기본분류는 반드시 선택하셔야 합니다.</p>
           <table class="form-table">
             <tr>
               <td><label for="category1">1차 분류</label></td>
               <td>
-                <select id="category1" name="category1">
-                  <option>1차분류 선택</option>
+                <select id="category1"  onchange="loadSubCategories(this.value, 'category2')">
+                  <option value="">1차분류 선택</option>
+                  <!-- 1차 카테고리 옵션 -->
                 </select>
               </td>
             </tr>
             <tr>
               <td><label for="category2">2차 분류</label></td>
               <td>
-                <select id="category2" name="category2">
-                  <option>2차분류 선택</option>
+                <select id="category2"  onchange="loadSubCategories(this.value, 'category3')">
+                  <option value="">2차분류 선택</option>
+                  <!-- 2차 카테고리 옵션 -->
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td><label for="category3">3차 분류</label></td>
+              <td>
+                <select id="category3" name="categoryId">
+                  <option value="">3차분류 선택</option>
+                  <!-- 3차 카테고리 옵션 -->
                 </select>
               </td>
             </tr>
@@ -52,11 +64,11 @@
           <table class="form-table">
             <tr>
               <td><label for="productName">상품명</label></td>
-              <td><input type="text" id="productName" name="productName"></td>
+              <td><input type="text" id="productName" name="name"></td>
             </tr>
             <tr>
               <td><label for="basicDesc">기본설명</label></td>
-              <td><input type="text" id="basicDesc" name="basicDesc"></td>
+              <td><input type="text" id="basicDesc" name="description"></td>
             </tr>
             <tr>
               <td><label for="manufacturer">제조사</label></td>
@@ -64,7 +76,7 @@
             </tr>
             <tr>
               <td><label for="productPrice">상품금액</label></td>
-              <td><input type="text" id="productPrice" name="productPrice" placeholder="원"></td>
+              <td><input type="text" id="productPrice" name="price" placeholder="원"></td>
             </tr>
             <tr>
               <td><label for="discountRate">할인율</label></td>
@@ -72,11 +84,11 @@
             </tr>
             <tr>
               <td><label for="points">포인트</label></td>
-              <td><input type="text" id="points" name="points" placeholder="원"></td>
+              <td><input type="text" id="points" name="point" placeholder="원"></td>
             </tr>
             <tr>
               <td><label for="stockCount">재고수량</label></td>
-              <td><input type="text" id="stockCount" name="stockCount" placeholder="개"></td>
+              <td><input type="text" id="stockCount" name="stock" placeholder="개"></td>
             </tr>
             <tr>
               <td><label for="deliveryFee">배송비</label></td>
@@ -149,4 +161,7 @@
     </div>
   </div>
 </div>
+<script>
+
+</script>
 </html>

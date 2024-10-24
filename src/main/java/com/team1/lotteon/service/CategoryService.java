@@ -5,14 +5,12 @@ import com.team1.lotteon.dto.category.CategoryResponseDTO;
 import com.team1.lotteon.dto.category.CategoryWithChildrenResponseDTO;
 import com.team1.lotteon.dto.category.CategoryWithParentAndChildrenResponseDTO;
 import com.team1.lotteon.entity.Category;
-import com.team1.lotteon.entity.enums.CateLevel;
 import com.team1.lotteon.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service

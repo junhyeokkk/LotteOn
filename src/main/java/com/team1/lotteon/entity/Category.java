@@ -1,6 +1,5 @@
 package com.team1.lotteon.entity;
 
-import com.team1.lotteon.entity.enums.CateLevel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,8 +21,7 @@ public class Category {
     private Long id;
 
     private String name;
-    @Enumerated(EnumType.STRING)
-    private CateLevel level;
+    private int level;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "parent")
@@ -53,7 +51,7 @@ public class Category {
         this.name = name;
     }
 
-    public void changeLevel(CateLevel level) {
+    public void changeLevel(int level) {
         this.level = level;
     }
 

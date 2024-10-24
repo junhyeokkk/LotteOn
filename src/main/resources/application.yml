@@ -4,6 +4,10 @@ app:
 spring:
     application:
         name: lotteon
+    jpa:
+        properties:
+            hibernate:
+                default_batch_fetch_size: 100
     profiles:
         active: dev
         include: local

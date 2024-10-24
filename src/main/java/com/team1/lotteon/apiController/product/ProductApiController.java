@@ -1,16 +1,17 @@
 package com.team1.lotteon.apiController.product;
 
 
-import com.team1.lotteon.dto.product.CreateProductDTO;
-import com.team1.lotteon.entity.Product;
+import com.team1.lotteon.dto.PageResponseDTO;
+import com.team1.lotteon.dto.product.ProductCreateDTO;
+import com.team1.lotteon.dto.product.ProductResponseDTO;
+import com.team1.lotteon.dto.product.ProductSummaryResponseDTO;
 import com.team1.lotteon.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,8 +20,15 @@ public class ProductApiController {
     private final ProductService productService;
 
     @PostMapping
-    public ResponseEntity<Void> createProduct(@RequestBody CreateProductDTO createProductDTO) {
-        productService.createProduct(createProductDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<ProductResponseDTO> createProduct(@RequestBody ProductCreateDTO productCreateDTO) {
+        ProductResponseDTO product = productService.createProduct(productCreateDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(product);
+    }
+
+    @GetMapping
+    public ResponseEntity<PageResponseDTO<ProductSummaryResponseDTO>> getProducts(@PageableDefault Pageable pageable) {
+        System.out.println("pageable = " + pageable);
+        PageResponseDTO<ProductSummaryResponseDTO> products = productService.getProducts(pageable);
+        return ResponseEntity.status(HttpStatus.OK).body(products);
     }
 }

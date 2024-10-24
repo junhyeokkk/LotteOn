@@ -23,7 +23,7 @@ public class Product extends BaseEntity {
     private String productImg3; // 상품 이미지3
     private String detailImage; // 상세정보 이미지
     private String productName; // 상품명
-    private String basicDescription;    // 기본설명
+    private String description;    // 기본설명
     private String manufacturer;    // 제조사
     private int price;  // 가격
     private int discountRate;   // 할인률
@@ -43,7 +43,7 @@ public class Product extends BaseEntity {
     private Shop shop;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "member_id")
-    private GeneralMember member;
+    private SellerMember member;
 
     public void changeCategory(Category category) {
         this.category = category;

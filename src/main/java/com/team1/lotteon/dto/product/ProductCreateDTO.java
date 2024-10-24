@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CreateProductDTO {
+public class ProductCreateDTO {
     private String name;
-    private String basicDescription;
+    private String description;
     private String manufacturer;
     private int price;
     private int discountRate;
@@ -24,7 +24,7 @@ public class CreateProductDTO {
     public Product toEntity() {
         return Product.builder()
                 .productName(name)
-                .basicDescription(basicDescription)
+                .description(description)
                 .manufacturer(manufacturer)
                 .price(price)
                 .discountRate(discountRate)

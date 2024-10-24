@@ -13,12 +13,14 @@ import lombok.NoArgsConstructor;
 public class CategoryResponseDTO {
     private Long id;
     private String name;
+    private Long parentId;
 
     public static CategoryResponseDTO fromEntity(Category category) {
         return CategoryResponseDTO
                 .builder()
                 .id(category.getId())
                 .name(category.getName())
+                .parentId(category.getParent() != null ? category.getParent().getId() : null)
                 .build();
     }
 }

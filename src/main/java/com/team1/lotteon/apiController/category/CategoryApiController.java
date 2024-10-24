@@ -29,7 +29,6 @@ public class CategoryApiController {
     @PostMapping
     public ResponseEntity<CategoryIdResponseDTO> createCategory(@RequestBody CategoryCreateDTO categoryCreateDTO) {
         Category category = categoryService.createCategory(categoryCreateDTO);
-
         return ResponseEntity.status(HttpStatus.CREATED).body(new CategoryIdResponseDTO(category.getId().toString()));
     }
 
