@@ -16,7 +16,7 @@ public class GlobalControllerAdvice {
         if (authentication != null && authentication.isAuthenticated()) {
             MyUserDetails userDetails = (MyUserDetails) authentication.getPrincipal();
 
-            String username = userDetails.getMember().getUid(); // 로그인한 uid
+            String uid = userDetails.getMember().getUid(); // 로그인한 uid
             String name = (userDetails.getGeneralMember() != null) ? userDetails.getGeneralMember().getName() : "No Name"; // GeneralMember의 이름
             String role = userDetails.getAuthorities()
                     .toString()
@@ -26,8 +26,9 @@ public class GlobalControllerAdvice {
             log.info(role);
             model.addAttribute("isAuthenticated", true);
             model.addAttribute("role", role);
-            model.addAttribute("username", username); // 로그인 uid
+            model.addAttribute("uid", uid); // 로그인 uid
             model.addAttribute("name", name); // GeneralMember의 name
+            model.addAttribute("userDetails", userDetails);
         } else {
             model.addAttribute("isAuthenticated", false);
         }

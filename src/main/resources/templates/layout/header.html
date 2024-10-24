@@ -5,16 +5,16 @@
     <div class="header__top">
         <div class="center header__top__nav">
             <div th:if="${isAuthenticated}">
-                <input type="text" name="writer" th:value="${#authentication.principal.member.uid}"/>
                 <!-- 로그인된 사용자에게만 보여줄 링크 -->
                 <span>[[${name}]]님</span>
                 <a th:href="@{/myPage/home}">마이페이지</a>
-                <a th:href="@{/admin}" th:if="${role == 'General'}">관리자</a> <!-- 관리자일 경우에만 표시 -->
+                <a th:href="@{/admin}" th:if="${role == 'Admin'} or ${role =='Seller'}">관리자</a>
                 <a th:href="@{/cs/index}">고객센터</a>
                 <a th:href="@{/member/logout}">로그아웃</a>
             </div>
             <div th:if="${!isAuthenticated}">
                 <!-- 비로그인 사용자에게만 보여줄 링크 -->
+                <a th:href="@{/cs/index}">고객센터</a>
                 <a th:href="@{/user/login}">로그인</a>
                 <a th:href="@{/user/join}">회원가입</a>
             </div>

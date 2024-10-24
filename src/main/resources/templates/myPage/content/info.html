@@ -18,7 +18,7 @@
                 <table border="0" class="myinfoheighttable">
                     <tr>
                         <th>사용자 ID</th>
-                        <td>chh***</td>
+                        <td>[[${uid}]]</td>
                     </tr>
                     <tr>
                         <th>비밀번호</th>
@@ -26,22 +26,22 @@
                     </tr>
                     <tr>
                         <th>이름</th>
-                        <td>김*학</td>
+                        <td>[[${name}]]</td>
                     </tr>
                     <tr>
                         <th>생년월일</th>
-                        <td>1983년 05월 03일</td>
+                        <td>[[${birth}]]</td>
                     </tr>
                     <tr>
                         <th>Email</th>
                         <td>
-                            <input type="text" id="emailLocalPart" placeholder="이메일 아이디" />@
-                            <input type="text" id="emailDomain" placeholder="이메일 도메인" />
+                            <input type="text" id="emailLocalPart" th:value="${#strings.substring(Email, 0, #strings.indexOf(Email, '@'))}" />@
+                            <input type="text" id="emailDomain" th:value="${#strings.substring(Email, #strings.indexOf(Email, '@') + 1)}" />
                             <select id="domainSelect">
                                 <option value="직접 입력">직접 입력</option>
-                                <option value="naver.com">naver.com</option>
-                                <option value="gmail.com">gmail.com</option>
-                                <option value="daum.net">daum.net</option>
+                                <option value="naver.com" th:selected="${#strings.contains(Email, 'naver.com')}">naver.com</option>
+                                <option value="gmail.com" th:selected="${#strings.contains(Email, 'gmail.com')}">gmail.com</option>
+                                <option value="daum.net" th:selected="${#strings.contains(Email, 'daum.net')}">daum.net</option>
                             </select>
                             <button class="infobutton" onclick="updateEmail()">변경</button>
                         </td>
@@ -49,21 +49,28 @@
                     <tr>
                         <th>휴대폰</th>
                         <td>
-                            <input type="text" id="phone1" maxlength="3" placeholder="010" /> -
-                            <input type="text" id="phone2" maxlength="4" placeholder="1234" /> -
-                            <input type="text" id="phone3" maxlength="4" placeholder="5678" />
+                            <input type="text" id="phone1" maxlength="3" th:value="${#strings.substring(#strings.replace(phonenumber, '-', ''), 0, 3)}" /> -
+                            <input type="text" id="phone2" maxlength="4" th:value="${#strings.substring(#strings.replace(phonenumber, '-', ''), 3, 7)}" /> -
+                            <input type="text" id="phone3" maxlength="4" th:value="${#strings.substring(#strings.replace(phonenumber, '-', ''), 7)}" />
                             <button class="infobutton" onclick="updatePhone()">변경</button>
                         </td>
                     </tr>
+
                     <tr>
                         <th>주소</th>
                         <td>
-                            <input type="text" id="postalCode" placeholder="우편번호" />
+                            <!-- Address 객체의 zip 필드를 input에 바인딩 -->
+                            <input type="text" id="postalCode" th:value="${address.zip}" placeholder="우편번호" />
                             <button class="infobutton" onclick="searchPostalCode()">주소검색</button><br/>
-                            <input type="text" id="address1" placeholder="기본주소입력" /><br/>
-                            <input type="text" id="address2" placeholder="상세주소입력" />
+
+                            <!-- Address 객체의 addr1 필드를 input에 바인딩 -->
+                            <input type="text" id="address1" th:value="${address.addr1}" placeholder="기본주소입력" /><br/>
+
+                            <!-- Address 객체의 addr2 필드를 input에 바인딩 -->
+                            <input type="text" id="address2" th:value="${address.addr2}" placeholder="상세주소입력" />
                         </td>
                     </tr>
+
                 </table>
             </article>
 
