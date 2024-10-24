@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://43.200.174.15:3306/lotteon
+    url: jdbc:mysql://43.200.191.196:3306/lotteon
     username: root
     password: "qwer1234!Q"
   jpa:
