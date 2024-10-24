@@ -37,11 +37,11 @@ public class ConfigPageController {
         return "admin/config/info";
     }
 
-    @GetMapping("/admin/config/policy")
-    public String policy(){
-
-        return "admin/config/policy";
-    }
+//    @GetMapping("/admin/config/policy")
+//    public String policy(){
+//
+//        return "admin/config/policy";
+//    }
 
     @GetMapping("/admin/config/version")
     public String version(@RequestParam(defaultValue = "0") int page, Model model) {

@@ -52,35 +52,27 @@
             </a>
         </div>
 
-        <!-- Terms and Policy Section -->
+        <!-- 약관 섹션 -->
         <section class="terms-policy-section">
             <!-- Terms Section -->
             <div class="terms-title" onclick="toggleContent(this)">
                 <h3 th:text="${terms}">약관 제목</h3>
-                <span class="toggle-button">
-                    <img th:src="@{/images/policy/plus.png}" alt="펼치기" class="toggle-icon" />
-                </span>
+                <!-- 버튼을 하나만 유지 -->
+                <img th:src="@{/images/policy/minus.png}" alt="접기" class="toggle-icon" /> <!-- 접기 상태 이미지 -->
             </div>
-            <div class="terms-content" style="display: none;">
+            <div class="terms-content" style="display: block;">  <!-- 기본적으로 펼쳐진 상태 -->
                 <p th:utext="${termsDetail}" style="white-space: pre-wrap;"></p>  <!-- 약관 내용 출력 -->
             </div>
 
-            <!-- Policy Section -->
-            <div class="policy-title" onclick="toggleContent(this)">
-                <h3 th:text="${policy}">정책 제목</h3>
-                <span class="toggle-button" style="display: none;">
-                    <img th:src="@{/images/policy/plus.png}" alt="펼치기" class="toggle-icon" />
-                </span>
-            </div>
-            <div class="policy-content" style="display: none;">
-                <p th:utext="${policyDetail}" style="white-space: pre-wrap;"></p> <!-- 정책 내용 출력 -->
-            </div>
+
 
             <!-- 스크롤 최상단 버튼 -->
             <button id="scrollTopBtn" class="scroll-top-btn" onclick="scrollToTop()">
                 <img src="/images/up.png" alt="scroll to top" />
             </button>
         </section>
+
+
     </main>
 </div>
 
@@ -91,7 +83,7 @@
 <script>
     function toggleContent(element) {
         const content = element.nextElementSibling;
-        const button = element.querySelector('.toggle-button img');  // 이미지 선택
+        const button = element.querySelector('.toggle-icon');  // 정확한 이미지 선택
 
         if (content.style.display === "none" || content.style.display === "") {
             content.style.display = "block";
@@ -103,6 +95,7 @@
             button.alt = "펼치기";  // 대체 텍스트 변경
         }
     }
+
 
     function printPage() {
         window.print();  // 브라우저의 인쇄 기능을 호출

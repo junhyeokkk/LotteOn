@@ -241,3 +241,6 @@ h2 {
   font-size: 20px; /* 원하는 글자 크기 */
   color: black; /* 제목 색상 */
 }
+.hidden-icon {
+  display: none;
+}

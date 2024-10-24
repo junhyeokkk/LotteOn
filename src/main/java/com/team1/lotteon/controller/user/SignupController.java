@@ -26,41 +26,55 @@ public class SignupController {
     public String signupPage(@PathVariable String member, Model model) {
         String termCode; // 약관 코드를 위한 변수 선언
 
+        // 회원 유형에 따라 약관 코드를 결정
         if (member.equals("user")) {
-            // 일반회원 데이터 처리
             model.addAttribute("membershipType", "일반회원가입");
             model.addAttribute("description", "개인구매회원 (외국인포함)");
-            termCode = "user_terms"; // 일반회원 약관 코드
+            termCode = "buyer"; // 일반회원 약관 코드
         } else if (member.equals("seller")) {
-            // 판매회원 데이터 처리
             model.addAttribute("membershipType", "판매회원가입");
             model.addAttribute("description", "사업자판매회원");
-            termCode = "seller_terms"; // 판매자 약관 코드
+            termCode = "seller"; // 판매자 약관 코드
         } else {
-            // 잘못된 회원 유형에 대한 처리 (필요시 추가)
+            // 잘못된 회원 유형에 대한 처리
             model.addAttribute("error", "잘못된 회원 유형입니다.");
-            return "error"; // 에러 페이지로 이동 (필요 시)
+            return "error"; // 에러 페이지로 이동
         }
 
         // 약관 데이터 DB에서 조회
-        Optional<Term> termsOpt = Optional.ofNullable(policyService.getTermsByCategory(termCode));
-        if (termsOpt.isPresent()) {
-            model.addAttribute("terms", termsOpt.get().getContent());
+        Term terms = policyService.getTermsByCategory(termCode);
+        if (terms != null) {
+            model.addAttribute("terms", terms.getContent());
         } else {
             model.addAttribute("terms", "약관을 찾을 수 없습니다.");
         }
 
         // 공통 약관 추가
-        model.addAttribute("finance", policyService.getTermsByCategory("finance").getContent());
-        model.addAttribute("privacy", policyService.getTermsByCategory("privacy").getContent());
+        addCommonTermsToModel(model);
 
         // 일반회원만 위치정보 약관 제공
         if (member.equals("user")) {
-            model.addAttribute("location", policyService.getTermsByCategory("location").getContent());
+            Term locationTerms = policyService.getTermsByCategory("location");
+            if (locationTerms != null) {
+                model.addAttribute("location", locationTerms.getContent());
+            }
         }
 
         log.info("회원 유형: " + member);
         model.addAttribute("member", member);
         return "user/signup"; // 사용자 정의 뷰로 이동
+    }
+
+    // 공통 약관 추가 메소드
+    private void addCommonTermsToModel(Model model) {
+        Term financeTerms = policyService.getTermsByCategory("finance");
+        if (financeTerms != null) {
+            model.addAttribute("finance", financeTerms.getContent());
+        }
+
+        Term privacyTerms = policyService.getTermsByCategory("privacy");
+        if (privacyTerms != null) {
+            model.addAttribute("privacy", privacyTerms.getContent());
+        }
     }
 }
