@@ -12,6 +12,7 @@ spring:
         active: dev
         include: local
     thymeleaf:
+        cache: false
         prefix: classpath:/templates/
     mail:
         host: smtp.gmail.com

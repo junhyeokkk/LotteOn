@@ -2,10 +2,8 @@ package com.team1.lotteon.entity;
 
 import com.team1.lotteon.entity.enums.Gender;
 import com.team1.lotteon.entity.enums.Grade;
-import com.team1.lotteon.entity.enums.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -27,12 +25,18 @@ public class GeneralMember extends Member {
     private int points;
     private String email;
     private String ph;
-    private Status status;
+    // 1 = 정상, 2 = 중지, 3 = 휴면, 4 = 탈퇴
+    private int status = 1;
     private LocalDate birth;
+
+
+
     @Embedded
     private Address address;
     private LocalDateTime lastLoginDate;
     private String etc;
+
+
 
     public void setAddress(Address address) {
         this.address = address;

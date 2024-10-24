@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class GeneralMemberDTO {
     private String uid;
     private int points;
-    private Byte status;
+    private int status;
     private LocalDateTime lastLoginDate;
     private String addr1;
     private String addr2;

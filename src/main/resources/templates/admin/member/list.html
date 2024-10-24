@@ -10,6 +10,7 @@
 </th:block>
 <!-- index.html 고유 스크립트 추가 -->
 <th:block layout:fragment="script">
+
 </th:block>
 
 <div class="content" layout:fragment="content">
@@ -23,21 +24,22 @@
         </div>
 
         <section class="sectionBox">
-            <div>
+            <div class="select-container">
                 <form action="/admin/member/list" class="search_bar">
                     <select name="type">
                         <option value="uid">아이디</option>
                         <option value="name">이름</option>
                         <option value="email">이메일</option>
                         <option value="contact">휴대폰 키워드</option>
-
                     </select>
                     <input class="searchInput" type="text" name="keyword">
                     <input type="hidden" name="prodSeller" value="ADMIN" readonly>
                     <input class="searchBtn" type="submit" value="검색">
                 </form>
             </div>
+
             <table class="admingraph">
+                <thead>
                 <tr class="admin_title">
                     <th><input type="checkbox" name="allCheck" /></th>
                     <th>번호</th>
@@ -52,15 +54,16 @@
                     <th>상태</th>
                     <th>관리</th>
                 </tr>
-
-                <tr class="admin_list">
-                    <td><input type="checkbox" value="noticeNo" name="RowCheck" /></td>
-                    <td>5</td>
-                    <td>xxxxx</td>
-                    <td>이상훈</td>
-                    <td>M</td>
+                </thead>
+                <tbody>
+                <tr th:each="member, stat : ${memberList}" class="admin_list">
+                    <td><input type="checkbox" value="${member.uid}" name="RowCheck" /></td>
+                    <td th:text="${stat.index + 1}">번호</td>
+                    <td th:text="${member.uid}">UID</td>
+                    <td th:text="${member.name}">이름</td>
+                    <td th:text="${member.gender}">성별</td>
                     <td>
-                        <select>
+                        <select th:value="${member.grade}">
                             <option value="vvip">VVIP</option>
                             <option value="vip">VIP</option>
                             <option value="gold">GOLD</option>
@@ -68,23 +71,20 @@
                             <option value="family">FAMILY</option>
                         </select>
                     </td>
-                    <td>15,000</td>
-                    <td>xxxx@gmail.com</td>
-                    <td>010-1234-1001</td>
-                    <td>0000-00-00</td>
-                    <td>정상</td>
-                    <!-- 정상, 중지, 휴면, 탈퇴 -->
+                    <td th:text="${member.points}">포인트</td>
+                    <td th:text="${member.email}">이메일</td>
+                    <td th:text="${member.ph}">전화번호</td>
+                    <td th:text="${#dates.format(member.birth, 'yyyy-MM-dd')}">가입일</td>
+                    <td th:text="${member.status == 1 ? '정상' : (member.status == 2 ? '중지' : (member.status == 3 ? '휴면' : (member.status == 4 ? '탈퇴' : '상태없음')))}">상태</td>
                     <td style="line-height: 20px">
                         <a href="#" data-modal="userchangemodal" class="cs_modify-btn">[수정]</a>
                         <br>
                         <a href="" class="cs_delete-btn">[중지]</a>
-                        <!-- <a href="">[휴면]</a>
-                        <a href="">[재개]</a>
-                        <a href="">[비활성]</a> -->
                     </td>
                 </tr>
-
+                </tbody>
             </table>
+
             <a class="delete_btn">선택수정</a>
 
             <div class="pagingBox">

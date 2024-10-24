@@ -11,4 +11,5 @@ public interface GeneralMemberRepository extends JpaRepository<GeneralMember, St
     boolean existsByEmail(String uid);
     boolean existsByph(String ph);
     Optional<GeneralMember> findByUid(String uid);
+
 }
