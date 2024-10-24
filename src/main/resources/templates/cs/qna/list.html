@@ -23,14 +23,6 @@
         <h2>회원 관련 문의내용 입니다.</h2>
       </nav>
       <table>
-        <thead>
-        <tr>
-          <th>제목</th>
-          <th>상태</th>
-          <th>작성자</th>
-          <th style="text-align: right;">작성일</th>
-        </tr>
-        </thead>
         <tbody>
         <!-- 문의사항 목록 동적 처리 -->
         <tr th:each="inquiry : ${inquiries}">

@@ -20,3 +20,6 @@ spring:
           auth: true
           starttls:
             enable: true
+
+app:
+  version: '1조 - 0.0.4-SNAPSHOT'

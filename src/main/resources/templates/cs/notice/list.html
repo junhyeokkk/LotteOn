@@ -21,145 +21,40 @@
         <h2>공지사항 전체 내용입니다.</h2>
       </nav>
       <table>
+        <thead>
         <tr>
-          <td>
-            <a th:href="@{/cs/layout/notice/view}">
-              <span style="white-space: nowrap;">[안내] 해외결제 사칭 문자주의</span>
-            </a>
-          </td>
-          <td style="text-align: right;">00.00.00</td>
+          <th>제목</th>
+          <th style="text-align: right;">작성일</th>
         </tr>
-        <tr>
+        </thead>
+        <tbody>
+        <!-- 공지사항 목록 동적 처리 -->
+        <tr th:each="notice : ${notices}">
           <td>
-            <a th:href="@{/cs/layout/notice/view}">
-              <span style="white-space: nowrap;">[안내] 해외결제 사칭 문자주의</span>
-            </a>
+            <a th:href="@{/cs/layout/notice/view/{id}(id=${notice.id})}" th:text="${notice.title}">공지사항 제목</a>
           </td>
-          <td style="text-align: right;">00.00.00</td>
+          <td style="text-align: right;" th:text="${#temporals.format(notice.createdAt, 'yy.MM.dd')}">작성일</td>
         </tr>
-        <tr>
-          <td>
-            <a th:href="@{/cs/layout/notice/view}">
-              <span style="white-space: nowrap;">[안내] 해외결제 사칭 문자주의</span>
-            </a>
-          </td>
-          <td style="text-align: right;">00.00.00</td>
-        </tr>
-        <tr>
-          <td>
-            <a th:href="@{/cs/layout/notice/view}">
-              <span style="white-space: nowrap;">[안내] 해외결제 사칭 문자주의</span>
-            </a>
-          </td>
-          <td style="text-align: right;">00.00.00</td>
-        </tr>
-        <tr>
-          <td>
-            <a th:href="@{/cs/layout/notice/view}">
-              <span style="white-space: nowrap;">[안내] 해외결제 사칭 문자주의</span>
-            </a>
-          </td>
-          <td style="text-align: right;">00.00.00</td>
-        </tr>
+        </tbody>
       </table>
 
       <div class="pagingBox">
         <div class="pagingList">
           <!-- 이전 버튼 -->
-          <a href="#" class="prev"><</a>
+          <a th:unless="${currentPage == 0}"
+             th:href="@{/cs/layout/notice/list(page=${currentPage - 1}, size=${pageSize})}"
+             class="prev">‹</a>
 
-          <!-- 페이지 링크 -->
-          <a href="#">1</a>
-          <a href="#" class="active">2</a>
-          <a href="#">3</a>
-          <a href="#">4</a>
-          <a href="#">5</a>
-
-          <!-- 다음 버튼 -->
-          <a href="#" class="next">></a>
-        </div>
-      </div>
-    </article>
-  </section>
-</div><div class="notice">
-  <nav>
-    <div>
-      <p>홈<span>></span>공지사항</p>
-    </div>
-  </nav>
-  <section class="list">
-    <aside class="cs_sidebar">
-      <h2>공지사항</h2>
-      <ul>
-        <li><a href="#">전체</a></li>
-        <li><a href="#">고객서비스</a></li>
-        <li><a href="#">안전거래</a></li>
-        <li><a href="#">위해상품</a></li>
-        <li><a href="#">이벤트당첨</a></li>
-      </ul>
-    </aside>
-    <article class="no_article">
-      <nav>
-        <h1>전체</h1>
-        <h2>공지사항 전체 내용입니다.</h2>
-      </nav>
-      <table>
-        <tr>
-          <td>
-            <a href="#">
-              <span style="white-space: nowrap;">[안내] 해외결제 사칭 문자주의</span>
-            </a>
-          </td>
-          <td style="text-align: right;">00.00.00</td>
-        </tr>
-        <tr>
-          <td>
-            <a href="#">
-              <span style="white-space: nowrap;">[안내] 해외결제 사칭 문자주의</span>
-            </a>
-          </td>
-          <td style="text-align: right;">00.00.00</td>
-        </tr>
-        <tr>
-          <td>
-            <a href="#">
-              <span style="white-space: nowrap;">[안내] 해외결제 사칭 문자주의</span>
-            </a>
-          </td>
-          <td style="text-align: right;">00.00.00</td>
-        </tr>
-        <tr>
-          <td>
-            <a href="#">
-              <span style="white-space: nowrap;">[안내] 해외결제 사칭 문자주의</span>
-            </a>
-          </td>
-          <td style="text-align: right;">00.00.00</td>
-        </tr>
-        <tr>
-          <td>
-            <a href="#">
-              <span style="white-space: nowrap;">[안내] 해외결제 사칭 문자주의</span>
-            </a>
-          </td>
-          <td style="text-align: right;">00.00.00</td>
-        </tr>
-      </table>
-
-      <div class="pagingBox">
-        <div class="pagingList">
-          <!-- 이전 버튼 -->
-          <a href="#" class="prev"><</a>
-
-          <!-- 페이지 링크 -->
-          <a href="#">1</a>
-          <a href="#" class="active">2</a>
-          <a href="#">3</a>
-          <a href="#">4</a>
-          <a href="#">5</a>
+          <!-- 페이지 번호 링크 동적 처리 -->
+          <a th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}"
+             th:href="@{/cs/layout/notice/list(page=${pageNum}, size=${pageSize})}"
+             th:text="${pageNum + 1}"
+             th:classappend="${pageNum == currentPage} ? 'active'">1</a>
 
           <!-- 다음 버튼 -->
-          <a href="#" class="next">></a>
+          <a th:if="${!isLast}"
+             th:href="@{/cs/layout/notice/list(page=${currentPage + 1}, size=${pageSize})}"
+             class="next">›</a>
         </div>
       </div>
     </article>

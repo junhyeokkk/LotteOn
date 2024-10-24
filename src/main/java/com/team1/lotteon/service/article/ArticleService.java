@@ -36,7 +36,7 @@ public interface ArticleService {
     // Notice
     NoticeDTO createNotice(NoticeDTO noticeDTO);
     NoticeDTO getNoticeById(Long id);
-    Page<NoticeDTO> getAllNotices(Pageable pageable);
+    PageResponseDTO<NoticeDTO> getAllNotices(Pageable pageable);
     NoticeDTO updateNotice(Long id, NoticeDTO noticeDTO);
     void deleteNotice(Long id);
 

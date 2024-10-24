@@ -19,52 +19,44 @@
     </aside>
     <article class="qna_article_view">
       <nav>
-        <h1>회원</h1>
-        <h2>회원 관련 문의 내용입니다.</h2>
+        <h1 th:text="${inquiry.type1}">회원</h1> <!-- 문의 유형 -->
+        <h2 th:text="${inquiry.title}">회원 관련 문의 내용입니다.</h2> <!-- 문의 제목 -->
       </nav>
       <div class="content">
+        <!-- 각 문의 내용이 반복적으로 처리되도록 함 -->
         <div class="qna-item">
-          <button class="qna-question" onclick="toggleFaq(this)">
-            [헬프포인트] 롯데상품권을 롯데에서 사용할 수 있나요?
-          </button>
-          <div class="qna-answer">
-            <p>네, 롯데 상품권을 LPOINT로 전환하여 사용할 수 있습니다. 상품권을 LPOINT로 전환하는 방법은 아래와 같습니다.</p>
-            <ul>
-              <li>롯데상품권 LPOINT 전환 신청 방법</li>
-              <li>1. 롯데 지류 상품권</li>
-              <li>2. 롯데 모바일 상품권</li>
-            </ul>
+          <button class="qna-question" onclick="toggleFaq(this)" th:text="${inquiry.title}">[문의제목] 롯데상품권을 사용할 수 있나요?</button>
+          <div class="qna-answer" th:text="${inquiry.content}">
+            <!-- 여기에는 문의 내용이 동적으로 출력됨 -->
           </div>
         </div>
 
+        <!-- 추가적인 문의 사항들 -->
         <div class="qna-item">
-          <button class="qna-question" onclick="toggleFaq(this)">
-            [반품방법] 반품접수는 어떻게 하나요?
-          </button>
+          <button class="qna-question" onclick="toggleFaq(this)">[문의제목] 반품 접수는 어떻게 하나요?</button>
           <div class="qna-answer">
             <p>반품접수 방법은 고객센터에 문의하시거나 온라인에서 직접 반품 접수를 할 수 있습니다.</p>
           </div>
         </div>
 
         <div class="qna-item">
-          <button class="qna-question" onclick="toggleFaq(this)">
-            [배송문의] 배송 진행 상황은 어디서 조회하나요?
-          </button>
+          <button class="qna-question" onclick="toggleFaq(this)">[문의제목] 배송 진행 상황은 어디서 조회하나요?</button>
           <div class="qna-answer">
             <p>배송 진행 상황은 주문내역 페이지에서 조회하실 수 있습니다.</p>
           </div>
         </div>
+
+        <!-- 목록으로 돌아가는 버튼 -->
         <a th:href="@{/cs/layout/qna/list}" class="btnList">목록</a>
       </div>
-
     </article>
   </section>
   <script>
     function toggleFaq(button) {
       const faqAnswer = button.nextElementSibling;
-      const allAnswers = document.querySelectorAll('.faq-answer');
+      const allAnswers = document.querySelectorAll('.qna-answer');
 
-      // Close all other open answers
+      // 모든 열린 답변 닫기
       allAnswers.forEach(answer => {
         if (answer !== faqAnswer) {
           answer.style.display = 'none';
@@ -72,7 +64,7 @@
         }
       });
 
-      // Toggle the selected answer
+      // 선택한 답변 토글
       if (faqAnswer.style.display === 'block') {
         faqAnswer.style.display = 'none';
         button.classList.remove('active');
