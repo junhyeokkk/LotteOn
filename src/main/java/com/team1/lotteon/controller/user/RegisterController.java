@@ -2,23 +2,25 @@ package com.team1.lotteon.controller.user;
 
 import com.team1.lotteon.dto.GeneralMemberDTO;
 import com.team1.lotteon.dto.MemberDTO;
+import com.team1.lotteon.entity.GeneralMember;
 import com.team1.lotteon.dto.SellerMemberDTO;
 import com.team1.lotteon.dto.ShopDTO;
 import com.team1.lotteon.service.MemberService.GeneralMemberService;
 import com.team1.lotteon.service.MemberService.MemberService;
+import com.team1.lotteon.service.PointService;
 import com.team1.lotteon.service.MemberService.SellerMemberService;
 import com.team1.lotteon.service.ShopService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.Console;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
@@ -30,6 +32,8 @@ import java.util.Map;
 public class RegisterController {
     private final MemberService memberService;
     private final GeneralMemberService generalMemberService;
+    private final PointService pointService;
+    private final ModelMapper modelMapper;
     private final SellerMemberService sellerMemberService;
     private final ShopService shopService;
     //회원가입 정보 입력 (판매자, 일반회원) 구분
@@ -55,8 +59,14 @@ public class RegisterController {
         try {
             if ("user".equals(roleType)) {
                 // 일반 사용자 회원가입 처리
-                memberService.insertGeneralMember(generalMemberDTO, memberDTO);
-                return "redirect:/user/login?message=" + URLEncoder.encode("회원가입이 성공적으로 완료되었습니다.", "UTF-8");
+                if (memberService.insertGeneralMember(generalMemberDTO, memberDTO) != null){
+
+                    GeneralMember savedMember = memberService.insertGeneralMember(generalMemberDTO, memberDTO);
+                    GeneralMemberDTO savedMemberDTO = modelMapper.map(savedMember, GeneralMemberDTO.class);
+                    // 회원가입 축하 기념 포인트 지급
+                    pointService.registerPoint(savedMemberDTO);
+                }
+                return "redirect:/user/login?message=" + URLEncoder.encode("회원가입이 성공적으로 완료되었습니다. 회원가입 축하 기념 포인트가 지급되었습니다!", "UTF-8");
 
             } else if ("seller".equals(roleType)) {
                 // 판매자 회원가입 처리

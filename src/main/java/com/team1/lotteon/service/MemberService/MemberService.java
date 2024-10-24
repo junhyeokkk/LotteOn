@@ -46,7 +46,7 @@ public class MemberService {
     }
     //일반 회원 등록
     @Transactional
-    public void insertGeneralMember(GeneralMemberDTO generalMemberDTO, MemberDTO memberDTO) {
+    public GeneralMember insertGeneralMember(GeneralMemberDTO generalMemberDTO, MemberDTO memberDTO) {
         // 비밀번호 암호화
         String encodedPassword = passwordEncoder.encode(memberDTO.getPass());
         // ModelMapper를 사용하여 DTO를 엔티티로 변환 (GeneralMember를 바로 변환)
@@ -55,7 +55,7 @@ public class MemberService {
         generalMember.setRole("General");
         generalMember.setAddress(new Address(generalMemberDTO.getZip(), generalMemberDTO.getAddr1(), generalMemberDTO.getAddr2()));
         // GeneralMember 저장 시 자동으로 부모 클래스인 Member도 함께 저장
-        generalMemberRepository.save(generalMember);
+        return generalMemberRepository.save(generalMember);
     }
 
     //판매자 회원 등록

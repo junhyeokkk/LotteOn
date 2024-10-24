@@ -53,7 +53,7 @@ public class QGeneralMember extends EntityPathBase<GeneralMember> {
     //inherited
     public final StringPath role = _super.role;
 
-    public final EnumPath<com.team1.lotteon.entity.enums.Status> status = createEnum("status", com.team1.lotteon.entity.enums.Status.class);
+    public final NumberPath<Integer> status = createNumber("status", Integer.class);
 
     //inherited
     public final StringPath uid = _super.uid;

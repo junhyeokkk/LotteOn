@@ -22,29 +22,17 @@ public class QPoint extends EntityPathBase<Point> {
 
     public static final QPoint point = new QPoint("point");
 
-    public final QBaseEntity _super = new QBaseEntity(this);
+    public final NumberPath<Integer> acPoints = createNumber("acPoints", Integer.class);
 
-    public final NumberPath<Integer> accumuatedPoints = createNumber("accumuatedPoints", Integer.class);
+    public final DateTimePath<java.time.LocalDateTime> createdat = createDateTime("createdat", java.time.LocalDateTime.class);
 
-    //inherited
-    public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
-
-    public final DateTimePath<java.time.LocalDateTime> expirationDate = createDateTime("expirationDate", java.time.LocalDateTime.class);
-
-    public final NumberPath<Integer> grantedPoints = createNumber("grantedPoints", Integer.class);
+    public final NumberPath<Integer> givePoints = createNumber("givePoints", Integer.class);
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final QMember member;
-
-    public final StringPath notes = createString("notes");
-
-    public final QOrder order;
+    public final QGeneralMember member;
 
     public final StringPath type = createString("type");
-
-    //inherited
-    public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
 
     public QPoint(String variable) {
         this(Point.class, forVariable(variable), INITS);
@@ -64,8 +52,7 @@ public class QPoint extends EntityPathBase<Point> {
 
     public QPoint(Class<? extends Point> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.member = inits.isInitialized("member") ? new QMember(forProperty("member")) : null;
-        this.order = inits.isInitialized("order") ? new QOrder(forProperty("order"), inits.get("order")) : null;
+        this.member = inits.isInitialized("member") ? new QGeneralMember(forProperty("member"), inits.get("member")) : null;
     }
 
 }

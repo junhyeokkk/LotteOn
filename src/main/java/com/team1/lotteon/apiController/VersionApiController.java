@@ -5,6 +5,7 @@ import com.team1.lotteon.entity.Version;
 import com.team1.lotteon.service.admin.VersionService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,11 +20,16 @@ public class VersionApiController {
 
     private final VersionService versionService;
 
+    private final ModelMapper modelMapper;
 
     @PostMapping("/api/version")
     public ResponseEntity<VersionDTO> createVersion(@RequestBody VersionDTO versionDTO) {
+
         Version savedVersion = versionService.insertVersion(versionDTO);
-        return ResponseEntity.ok(versionDTO);
+
+        VersionDTO saveVersionDTO = modelMapper.map(savedVersion, VersionDTO.class);
+
+        return ResponseEntity.ok(saveVersionDTO);
     }
 
 }

@@ -1,6 +1,5 @@
 window.onload = function () {
 
-
     // 모달 닫기
     function closeModal() {
         document.getElementById('versioninsertModal').style.display = 'none';

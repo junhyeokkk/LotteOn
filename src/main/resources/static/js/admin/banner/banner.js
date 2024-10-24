@@ -239,11 +239,6 @@ window.onload =function (){
             nextButton.style.display = 'inline-block'; // 마지막 페이지가 아니면 다시 표시
         }
     }
-    console.log('Current Page:', currentPage);
-    console.log('Total Pages:', totalPages);
-
-
-
 
     // 날짜 포맷 함수
     function formatDate(date) {
@@ -274,6 +269,7 @@ window.onload =function (){
         event.preventDefault();  // 기본 폼 제출 동작 방지
         event.stopPropagation();  // 이벤트 전파 방지
 
+        console.log('ddddddddddddddddddddddddddddddddddddd');
         // 중복 제출 방지
         if (isSubmitting) {
             return;  // 이미 제출 중이면 아무 작업도 하지 않음

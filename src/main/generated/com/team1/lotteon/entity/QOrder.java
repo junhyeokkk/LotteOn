@@ -28,9 +28,9 @@ public class QOrder extends EntityPathBase<Order> {
 
     public final QGeneralMember member;
 
-    public final EnumPath<com.team1.lotteon.entity.enums.PaymentMethod> paymentMethod = createEnum("paymentMethod", com.team1.lotteon.entity.enums.PaymentMethod.class);
+    public final StringPath orderNum = createString("orderNum");
 
-    public final StringPath ph = createString("ph");
+    public final EnumPath<com.team1.lotteon.entity.enums.PaymentMethod> paymentMethod = createEnum("paymentMethod", com.team1.lotteon.entity.enums.PaymentMethod.class);
 
     public final StringPath recipient = createString("recipient");
 

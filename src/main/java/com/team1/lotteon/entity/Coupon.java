@@ -22,9 +22,13 @@ public class Coupon {
     private String name;    // 쿠폰명
     private int discountAmount; // 할인금액
     private String criteria;    // 적용기준/제한조건
+    
+
     @Enumerated(EnumType.STRING)
     private CouponStatus couponStatus;  // 상태
     private LocalDateTime validUntil;   // 유효기간
+
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "member_id")
     private Member member;

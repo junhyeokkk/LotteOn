@@ -17,7 +17,8 @@ public class Order {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String recipient;   // 수령자
-    private String ph;  // 번호
+    private String orderNum;  // 번호
+
     @Embedded
     private Address address;    // 주소
     private int usedPoint;  // 사용 포인트
@@ -27,4 +28,5 @@ public class Order {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "member_id")
     private GeneralMember member;
+    
 }
