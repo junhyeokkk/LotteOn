@@ -12,6 +12,6 @@ public class AdminController {
     public String info(Model model){
 
 
-        return "/admin/index";
+        return "admin/index";
     }
 }
