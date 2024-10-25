@@ -7,6 +7,14 @@ import lombok.experimental.SuperBuilder;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
+/*
+ *   날짜 : 2024/10/23
+ *   이름 : 김소희
+ *   내용 : PageResponseDTO 생성
+ *
+ *   수정이력
+ *   2024/10/25 이상훈 - isFirst 추가
+ */
 
 @Data
 @SuperBuilder

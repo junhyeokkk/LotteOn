@@ -5,6 +5,16 @@ import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 
+/*
+*   날짜 : 2024/10/14
+*   이름 : 이상훈
+*   내용 : ArticleDTO 생성
+*
+*   수정이력
+*   -2024/10/21 김소희 - DTO 구조 수정
+*/
+
+
 @Getter
 @Setter
 @ToString

@@ -18,7 +18,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
-
+/*
+ *   날짜 : 2024/10/18
+ *   이름 : 최준혁
+ *   내용 : CsPageController 생성
+ *
+ *   수정이력
+ *   - 2024/10/25 김소희 - 내용 추가
+ */
 @Log4j2
 @RequiredArgsConstructor
 @Controller

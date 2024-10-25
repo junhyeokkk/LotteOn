@@ -18,6 +18,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/*
+ *   날짜 : 2024/10/22
+ *   이름 : 김소희
+ *   내용 : ArticleServiceImpl 생성
+ */
+
 @RequiredArgsConstructor
 @Service
 public class ArticleServiceImpl implements ArticleService {
