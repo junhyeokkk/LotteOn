@@ -58,7 +58,9 @@ public class MyUserDetailsService implements UserDetailsService {
                         .build();
 
             }else if(optMember.get().getRole().equals("Admin")) {
-
+                return MyUserDetails.builder()
+                        .member(member)
+                        .build();
             }else{
                 throw new UsernameNotFoundException("User not found with username: " + username);
             }
