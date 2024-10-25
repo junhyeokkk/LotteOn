@@ -1,13 +1,17 @@
 /*노출약관*/
 .adminp {
-    height: 35px;
     display: flex;
     align-items: center;
     /* 세로 중앙 정렬 */
     background-color: #F2F2F2;
     font-size: 14px;
     padding-left: 10px;
+    width: 845px;
+    height: 35px;
     /* 텍스트에 약간의 좌측 padding 추가 */
+}
+.infobuttondiv{
+    margin-bottom: 50px;
 }
 
 /*약관내용*/
@@ -47,6 +51,11 @@
 
 .sighup{
     padding-bottom: 40px;
+}
+
+
+.infobutton{
+    margin-top: 30px;
 }
 
 .textarea_1{

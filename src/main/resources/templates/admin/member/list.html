@@ -91,17 +91,21 @@
             <div class="pagingBox">
                 <div class="pagingList">
                     <!-- 이전 버튼 -->
-                    <a href="#" class="prev"><</a>
+                    <th:block th:if="${pageInfo.prev}">
+                        <a th:href="@{/admin/member/list(pg=${pageInfo.pg - 1})}" class="prev">←</a>
+                    </th:block>
 
                     <!-- 페이지 링크 -->
-                    <a href="#">1</a>
-                    <a href="#" class="active">2</a>
-                    <a href="#">3</a>
-                    <a href="#">4</a>
-                    <a href="#">5</a>
+                    <th:block th:each="num : ${#numbers.sequence(pageInfo.start, pageInfo.end)}">
+                        <a th:href="@{/admin/member/list(pg=${num})}" th:text="${num}"
+                           th:classappend="${pageInfo.pg == num} ? 'active'"></a>
+                    </th:block>
+
 
                     <!-- 다음 버튼 -->
-                    <a href="#" class="next">></a>
+                    <th:block th:if="${pageInfo.next}">
+                        <a th:href="@{/admin/member/list(pg=${pageInfo.pg + 1})}" class="next">→</a>
+                    </th:block>
                 </div>
             </div>
         </section>

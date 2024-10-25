@@ -41,6 +41,9 @@ public class MemberPageResponseDTO {
 
         int last = (int) (Math.ceil(total / (double)size));
         this.end = end > last ? last : end;
+        if (this.start > this.end) {
+            this.end = this.start;
+        }
         this.prev = this.start > 1;
         this.next = total > this.end * this.size;
     }
