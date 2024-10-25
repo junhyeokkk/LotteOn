@@ -34,31 +34,41 @@
     color: inherit;
   }
 
-/* 스크롤 최상단 버튼 스타일 */
+/* 기본 버튼 스타일 */
 .scroll-top-btn {
-  display: none;  /* 기본적으로 버튼을 숨김 */
-  position: fixed;  /* 화면에 고정 */
-  bottom: 20px;  /* 아래에서 20px */
-  right: 24%;   /* 오른쪽에서 20px */
-  z-index: 100;  /* 다른 요소보다 위에 위치 */
-
-  color: #333;  /* 텍스트 색상 */
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 20px; /* 고정된 위치로 설정 */
+  z-index: 100;
+  color: #333;
   border: none;
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
-  border-radius: 5px;  /* 둥근 모서리 */
-  box-shadow: 0 2px 5px rgba(0,0,0,0.3);  /* 그림자 효과 */
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
 
+.scroll-top-btn img {
+  width: 30px;
+  height: auto;
 }
-.scroll-top-btn img{
-  width: 30px;  /* 이미지 크기 조정 */
-  height: auto; /* 이미지 비율 유지 */
-}
+
 .scroll-top-btn:hover {
-  background-color: #ddd;  /* 마우스 호버 시 배경색 변경 */
+  background-color: #ddd;
+}
+
+/* 반응형 설정: 창 크기가 작아질 때 위치 조정 */
+@media screen and (max-width: 768px) {
+  .scroll-top-btn {
+    right: 10px; /* 작은 화면에서는 10px로 고정 */
+    bottom: 10px; /* 하단에서 10px 위치 */
+  }
 }
 
 .center{
   margin: 0 auto;
 }
+
+

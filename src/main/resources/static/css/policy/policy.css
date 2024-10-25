@@ -24,13 +24,10 @@ main {
 header {
   justify-content: space-between;
   align-items: center;
-  padding: 10px 20px; /* 좌우 padding을 줄여 전체 너비에 맞춤 */
+  /*padding: 10px 20px; !* 좌우 padding을 줄여 전체 너비에 맞춤 *!*/
   border-bottom: 1px solid #ddd;
 }
 
-.logo img {
-  width: 120px;
-}
 
 .search-bar input {
   padding: 5px;

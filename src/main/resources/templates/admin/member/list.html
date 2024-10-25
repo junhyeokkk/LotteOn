@@ -22,7 +22,6 @@
                 HOME > 회원관리 > <strong>회원목록</strong>
             </p>
         </div>
-
         <section class="sectionBox">
             <div class="select-container">
                 <form action="/admin/member/list" class="search_bar">
@@ -30,14 +29,13 @@
                         <option value="uid">아이디</option>
                         <option value="name">이름</option>
                         <option value="email">이메일</option>
-                        <option value="contact">휴대폰 키워드</option>
+                        <option value="contact">휴대폰</option>
                     </select>
                     <input class="searchInput" type="text" name="keyword">
                     <input type="hidden" name="prodSeller" value="ADMIN" readonly>
                     <input class="searchBtn" type="submit" value="검색">
                 </form>
             </div>
-
             <table class="admingraph">
                 <thead>
                 <tr class="admin_title">
@@ -74,8 +72,11 @@
                     <td th:text="${member.points}">포인트</td>
                     <td th:text="${member.email}">이메일</td>
                     <td th:text="${member.ph}">전화번호</td>
-                    <td th:text="${#dates.format(member.birth, 'yyyy-MM-dd')}">가입일</td>
+                    <td th:text="${member.birth != null ? #temporals.format(member.birth, 'yyyy-MM-dd') : '날짜 없음'}">가입일</td>
                     <td th:text="${member.status == 1 ? '정상' : (member.status == 2 ? '중지' : (member.status == 3 ? '휴면' : (member.status == 4 ? '탈퇴' : '상태없음')))}">상태</td>
+
+
+
                     <td style="line-height: 20px">
                         <a href="#" data-modal="userchangemodal" class="cs_modify-btn">[수정]</a>
                         <br>
