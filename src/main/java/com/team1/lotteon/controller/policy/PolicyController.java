@@ -20,7 +20,7 @@ public class PolicyController {
 
     @GetMapping("/policy/index")
     public String index() {
-        return "/policy/index";
+        return "policy/index";
     }
 
     @GetMapping("/policy/{cate}")
