@@ -2,11 +2,13 @@ package com.team1.lotteon.controller.admin.config;
 
 import com.team1.lotteon.dto.BannerDTO;
 import com.team1.lotteon.dto.ConfigDTO;
+import com.team1.lotteon.dto.CouponDTO;
 import com.team1.lotteon.service.admin.BannerService;
 import com.team1.lotteon.service.admin.ConfigService;
 import com.team1.lotteon.dto.VersionDTO;
 import com.team1.lotteon.dto.category.CategoryWithChildrenResponseDTO;
 import com.team1.lotteon.service.CategoryService;
+import com.team1.lotteon.service.admin.CouponService;
 import com.team1.lotteon.service.admin.VersionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
