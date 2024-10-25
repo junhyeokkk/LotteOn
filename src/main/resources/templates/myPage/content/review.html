@@ -1,148 +1,151 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{/myPage/layout/mypage_layout2}">
-<th:block layout:fragment="css">
-    <link rel="stylesheet" th:href="@{/css/my/review.css}"/>
-</th:block>
-<th:block layout:fragment="script">
-</th:block>
-<section class="content" layout:fragment="content">
-<!-- 회원정보 섹션 -->
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{myPage/layout/mypage_layout2}"
+>
+  <th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/my/review.css}" />
+  </th:block>
+  <th:block layout:fragment="script"> </th:block>
+  <section class="content" layout:fragment="content">
+    <!-- 회원정보 섹션 -->
 
-    <a href="#"><img src="/images/my/my_banner_sample.png" alt="롯데ON에서 드리는 다양한 결제혜택" class="banner"></a>
+    <a href="#"
+      ><img
+        src="/images/my/my_banner_sample.png"
+        alt="롯데ON에서 드리는 다양한 결제혜택"
+        class="banner"
+    /></a>
     <!-- 810x86 배너 이미지 -->
     <article class="latest">
+      <!--나의 리뷰 출력-->
 
-        <!--나의 리뷰 출력-->
-
-        <!--나의 리뷰가 있을떄-->
-        <h3>나의리뷰</h3>
-        <table border="0" class="widthtable">
-            <tr>
-                <th>번호</th>
-                <th>상품명</th>
-                <th>내용</th>
-                <th>평점</th>
-                <th>작성일</th>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>상품번호 / 상품명</td>
-                <td>배송이 빠릅니다. 잘 사용하겠습니다.</td>
-                <td class="ratingTd">
-                    <input type="hidden" class="revScore" name="revScore" required>
-                    <div class="ratingValue">
-                        <span class="star" data-value="1">&#9733;</span>
-                        <span class="star" data-value="2">&#9733;</span>
-                        <span class="star" data-value="3">&#9733;</span>
-                        <span class="star" data-value="4">&#9733;</span>
-                        <span class="star" data-value="5">&#9733;</span>
-                    </div>
-                </td>
-                <td>~ 12/31</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>상품번호 / 상품명</td>
-                <td>배송이 빠릅니다. 잘 사용하겠습니다.</td>
-                <td class="ratingTd">
-                    <input type="hidden" class="revScore" name="revScore" required>
-                    <div class="ratingValue">
-                        <span class="star" data-value="1">&#9733;</span>
-                        <span class="star" data-value="2">&#9733;</span>
-                        <span class="star" data-value="3">&#9733;</span>
-                        <span class="star" data-value="4">&#9733;</span>
-                        <span class="star" data-value="5">&#9733;</span>
-                    </div>
-                </td>
-                <td>~ 12/31</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>상품번호 / 상품명</td>
-                <td>배송이 빠릅니다. 잘 사용하겠습니다.</td>
-                <td class="ratingTd">
-                    <input type="hidden" class="revScore" name="revScore" required>
-                    <div class="ratingValue">
-                        <span class="star" data-value="1">&#9733;</span>
-                        <span class="star" data-value="2">&#9733;</span>
-                        <span class="star" data-value="3">&#9733;</span>
-                        <span class="star" data-value="4">&#9733;</span>
-                        <span class="star" data-value="5">&#9733;</span>
-                    </div>
-                </td>
-                <td>~ 12/31</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>상품번호 / 상품명</td>
-                <td>배송이 빠릅니다. 잘 사용하겠습니다.</td>
-                <td class="ratingTd">
-                    <input type="hidden" class="revScore" name="revScore" required>
-                    <div class="ratingValue">
-                        <span class="star" data-value="1">&#9733;</span>
-                        <span class="star" data-value="2">&#9733;</span>
-                        <span class="star" data-value="3">&#9733;</span>
-                        <span class="star" data-value="4">&#9733;</span>
-                        <span class="star" data-value="5">&#9733;</span>
-                    </div>
-                </td>
-                <td>~ 12/31</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>상품번호 / 상품명</td>
-                <td>배송이 빠릅니다. 잘 사용하겠습니다.</td>
-                <td class="ratingTd">
-                    <input type="hidden" class="revScore" name="revScore" required>
-                    <div class="ratingValue">
-                        <span class="star" data-value="1">&#9733;</span>
-                        <span class="star" data-value="2">&#9733;</span>
-                        <span class="star" data-value="3">&#9733;</span>
-                        <span class="star" data-value="4">&#9733;</span>
-                        <span class="star" data-value="5">&#9733;</span>
-                    </div>
-                </td>
-                <td>~ 12/31</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>상품번호 / 상품명</td>
-                <td>배송이 빠릅니다. 잘 사용하겠습니다.</td>
-                <td class="ratingTd">
-                    <input type="hidden" class="revScore" name="revScore" required>
-                    <div class="ratingValue">
-                        <span class="star" data-value="1">&#9733;</span>
-                        <span class="star" data-value="2">&#9733;</span>
-                        <span class="star" data-value="3">&#9733;</span>
-                        <span class="star" data-value="4">&#9733;</span>
-                        <span class="star" data-value="5">&#9733;</span>
-                    </div>
-                </td>
-                <td>~ 12/31</td>
-            </tr>
-
-        </table>
+      <!--나의 리뷰가 있을떄-->
+      <h3>나의리뷰</h3>
+      <table border="0" class="widthtable">
+        <tr>
+          <th>번호</th>
+          <th>상품명</th>
+          <th>내용</th>
+          <th>평점</th>
+          <th>작성일</th>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>상품번호 / 상품명</td>
+          <td>배송이 빠릅니다. 잘 사용하겠습니다.</td>
+          <td class="ratingTd">
+            <input type="hidden" class="revScore" name="revScore" required />
+            <div class="ratingValue">
+              <span class="star" data-value="1">&#9733;</span>
+              <span class="star" data-value="2">&#9733;</span>
+              <span class="star" data-value="3">&#9733;</span>
+              <span class="star" data-value="4">&#9733;</span>
+              <span class="star" data-value="5">&#9733;</span>
+            </div>
+          </td>
+          <td>~ 12/31</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>상품번호 / 상품명</td>
+          <td>배송이 빠릅니다. 잘 사용하겠습니다.</td>
+          <td class="ratingTd">
+            <input type="hidden" class="revScore" name="revScore" required />
+            <div class="ratingValue">
+              <span class="star" data-value="1">&#9733;</span>
+              <span class="star" data-value="2">&#9733;</span>
+              <span class="star" data-value="3">&#9733;</span>
+              <span class="star" data-value="4">&#9733;</span>
+              <span class="star" data-value="5">&#9733;</span>
+            </div>
+          </td>
+          <td>~ 12/31</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>상품번호 / 상품명</td>
+          <td>배송이 빠릅니다. 잘 사용하겠습니다.</td>
+          <td class="ratingTd">
+            <input type="hidden" class="revScore" name="revScore" required />
+            <div class="ratingValue">
+              <span class="star" data-value="1">&#9733;</span>
+              <span class="star" data-value="2">&#9733;</span>
+              <span class="star" data-value="3">&#9733;</span>
+              <span class="star" data-value="4">&#9733;</span>
+              <span class="star" data-value="5">&#9733;</span>
+            </div>
+          </td>
+          <td>~ 12/31</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>상품번호 / 상품명</td>
+          <td>배송이 빠릅니다. 잘 사용하겠습니다.</td>
+          <td class="ratingTd">
+            <input type="hidden" class="revScore" name="revScore" required />
+            <div class="ratingValue">
+              <span class="star" data-value="1">&#9733;</span>
+              <span class="star" data-value="2">&#9733;</span>
+              <span class="star" data-value="3">&#9733;</span>
+              <span class="star" data-value="4">&#9733;</span>
+              <span class="star" data-value="5">&#9733;</span>
+            </div>
+          </td>
+          <td>~ 12/31</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>상품번호 / 상품명</td>
+          <td>배송이 빠릅니다. 잘 사용하겠습니다.</td>
+          <td class="ratingTd">
+            <input type="hidden" class="revScore" name="revScore" required />
+            <div class="ratingValue">
+              <span class="star" data-value="1">&#9733;</span>
+              <span class="star" data-value="2">&#9733;</span>
+              <span class="star" data-value="3">&#9733;</span>
+              <span class="star" data-value="4">&#9733;</span>
+              <span class="star" data-value="5">&#9733;</span>
+            </div>
+          </td>
+          <td>~ 12/31</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>상품번호 / 상품명</td>
+          <td>배송이 빠릅니다. 잘 사용하겠습니다.</td>
+          <td class="ratingTd">
+            <input type="hidden" class="revScore" name="revScore" required />
+            <div class="ratingValue">
+              <span class="star" data-value="1">&#9733;</span>
+              <span class="star" data-value="2">&#9733;</span>
+              <span class="star" data-value="3">&#9733;</span>
+              <span class="star" data-value="4">&#9733;</span>
+              <span class="star" data-value="5">&#9733;</span>
+            </div>
+          </td>
+          <td>~ 12/31</td>
+        </tr>
+      </table>
     </article>
 
     <div class="pagingBox">
-        <div class="pagingList">
-            <!-- 이전 버튼 -->
-            <a href="#" class="prev"><</a>
+      <div class="pagingList">
+        <!-- 이전 버튼 -->
+        <a href="#" class="prev"><</a>
 
-            <!-- 페이지 링크 -->
-            <a href="#">1</a>
-            <a href="#" class="active">2</a>
-            <a href="#">3</a>
-            <a href="#">4</a>
-            <a href="#">5</a>
+        <!-- 페이지 링크 -->
+        <a href="#">1</a>
+        <a href="#" class="active">2</a>
+        <a href="#">3</a>
+        <a href="#">4</a>
+        <a href="#">5</a>
 
-            <!-- 다음 버튼 -->
-            <a href="#" class="next">></a>
-        </div>
+        <!-- 다음 버튼 -->
+        <a href="#" class="next">></a>
+      </div>
     </div>
-
-</section>
+  </section>
 </html>

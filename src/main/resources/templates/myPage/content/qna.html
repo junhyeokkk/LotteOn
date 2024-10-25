@@ -1,74 +1,78 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{/myPage/layout/mypage_layout2}">
-<th:block layout:fragment="css">
-    <link rel="stylesheet" th:href="@{/css/my/qna.css}"/>
-</th:block>
-<th:block layout:fragment="script">
-</th:block>
-<section class="content" layout:fragment="content">
-    <a href="#"><img src="/images/my/my_banner_sample.png" alt="롯데ON에서 드리는 다양한 결제혜택" class="banner"></a>
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{myPage/layout/mypage_layout2}"
+>
+  <th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/my/qna.css}" />
+  </th:block>
+  <th:block layout:fragment="script"> </th:block>
+  <section class="content" layout:fragment="content">
+    <a href="#"
+      ><img
+        src="/images/my/my_banner_sample.png"
+        alt="롯데ON에서 드리는 다양한 결제혜택"
+        class="banner"
+    /></a>
     <!-- 810x86 배너 이미지 -->
     <article class="latest">
+      <!--문의하기 출력-->
 
-        <!--문의하기 출력-->
+      <!--문의하기가 있을떄-->
+      <h3>문의하기</h3>
+      <table border="0" class="widthtable">
+        <tr>
+          <th>번호</th>
+          <th>문의채널</th>
+          <th>문의유형</th>
+          <th>제목</th>
+          <th>작성일</th>
+          <th>상태</th>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>고객센터</td>
+          <td>주문 / 결제</td>
+          <td>신용카드 결제 중 오류가 난 경우 어떻게 하나요?</td>
+          <td>2022-12-12</td>
+          <td>검토중</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>고객센터</td>
+          <td>주문 / 결제</td>
+          <td>신용카드 결제 중 오류가 난 경우 어떻게 하나요?</td>
+          <td>2022-12-12</td>
+          <td>답변완료</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>판매자 게시판</td>
+          <td>배송</td>
+          <td>배송기간이 보통 얼마나 걸리나요?</td>
+          <td>2022-12-12</td>
+          <td>답변완료</td>
+        </tr>
+      </table>
 
-        <!--문의하기가 있을떄-->
-        <h3>문의하기</h3>
-        <table border="0" class="widthtable">
-            <tr>
-                <th>번호</th>
-                <th>문의채널</th>
-                <th>문의유형</th>
-                <th>제목</th>
-                <th>작성일</th>
-                <th>상태</th>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>고객센터</td>
-                <td>주문 / 결제</td>
-                <td>신용카드 결제 중 오류가 난 경우 어떻게 하나요?</td>
-                <td>2022-12-12</td>
-                <td>검토중</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>고객센터</td>
-                <td>주문 / 결제</td>
-                <td>신용카드 결제 중 오류가 난 경우 어떻게 하나요?</td>
-                <td>2022-12-12</td>
-                <td>답변완료</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>판매자 게시판</td>
-                <td>배송</td>
-                <td>배송기간이 보통 얼마나 걸리나요?</td>
-                <td>2022-12-12</td>
-                <td>답변완료</td>
-            </tr>
+      <div class="pagingBox">
+        <div class="pagingList">
+          <!-- 이전 버튼 -->
+          <a href="#" class="prev"><</a>
 
-        </table>
+          <!-- 페이지 링크 -->
+          <a href="#">1</a>
+          <a href="#" class="active">2</a>
+          <a href="#">3</a>
+          <a href="#">4</a>
+          <a href="#">5</a>
 
-        <div class="pagingBox">
-            <div class="pagingList">
-                <!-- 이전 버튼 -->
-                <a href="#" class="prev"><</a>
-
-                <!-- 페이지 링크 -->
-                <a href="#">1</a>
-                <a href="#" class="active">2</a>
-                <a href="#">3</a>
-                <a href="#">4</a>
-                <a href="#">5</a>
-
-                <!-- 다음 버튼 -->
-                <a href="#" class="next">></a>
-            </div>
+          <!-- 다음 버튼 -->
+          <a href="#" class="next">></a>
         </div>
+      </div>
     </article>
-</section>
-
+  </section>
+</html>
