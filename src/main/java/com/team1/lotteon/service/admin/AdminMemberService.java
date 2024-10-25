@@ -29,8 +29,32 @@ public class AdminMemberService {
         // 페이지 요청 DTO에 있는 값으로 Pageable 객체 생성
         Pageable pageable = pageRequestDTO.getPageable("name"); // 기본 정렬은 'name' 기준으로
 
-        // 검색 없이 전체 회원을 페이징 처리하여 가져옴
-        Page<GeneralMember> result = generalMemberRepository.findAll(pageable);
+        Page<GeneralMember> result;
+
+        // 검색 조건에 따라 다른 쿼리 실행
+        if (pageRequestDTO.getType() != null && pageRequestDTO.getKeyword() != null && !pageRequestDTO.getKeyword().isEmpty()) {
+            switch (pageRequestDTO.getType()) {
+                case "uid":
+                    result = generalMemberRepository.findByUidContaining(pageRequestDTO.getKeyword(), pageable);
+                    break;
+                case "name":
+                    result = generalMemberRepository.findByNameContaining(pageRequestDTO.getKeyword(), pageable);
+                    break;
+                case "email":
+                    result = generalMemberRepository.findByEmailContaining(pageRequestDTO.getKeyword(), pageable);
+                    break;
+                case "contact":
+                    result = generalMemberRepository.findByPhContaining(pageRequestDTO.getKeyword(), pageable);
+                    break;
+                default:
+                    result = generalMemberRepository.findAll(pageable); // 검색 조건이 없을 경우 전체 조회
+                    break;
+            }
+        } else {
+            // 검색 조건이 없으면 전체 회원을 페이징 처리하여 가져옴
+            result = generalMemberRepository.findAll(pageable);
+        }
+
 
         // Entity를 DTO로 변환
         List<GeneralMemberDTO> dtoList = result.getContent().stream()

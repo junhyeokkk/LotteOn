@@ -29,7 +29,6 @@ public class MemberPageController {
 
     private final AdminMemberService adminMemberService;
 
-
     private final PointService pointService;
 
     private final DateUtil dateUtil;
@@ -47,6 +46,8 @@ public class MemberPageController {
 
         return "admin/member/list";
     }
+
+
 
     @GetMapping("/admin/member/point")
     public String point(

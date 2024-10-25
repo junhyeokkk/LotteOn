@@ -326,81 +326,106 @@
             </section>
         </div>
     </div>
-    <!-- 회원수정 모달-->
+    <!-- 회원 수정 모달 -->
     <div id="userchangemodal" class="modal admin">
         <div class="userchangemodal-content modalcontent">
             <nav class="adminmodal-nav">
                 <h1>회원수정</h1>
-                <button class="adminmodal-close" id="closeModal">&times;</button>
+                <button class="adminmodal-close" id="closeModal" onclick="closeModal()">&times;</button>
             </nav>
             <section class="modal-section">
-                <form class="sendForm" th:action="@{/user/register/admin/user}" method="post">
+                <form class="sendForm" th:action="@{/user/update/admin/user}" method="post" onsubmit="return submitForm()">
                     <table border="0" class="heighttable">
+                        <!-- 아이디 (수정 불가) -->
                         <tr>
                             <th>아이디</th>
-                            <td><input type="text" placeholder="abc1234" /></td>
+                            <td><input type="text" name="uid" readonly /></td>
                         </tr>
+
+                        <!-- 이름 -->
                         <tr>
                             <th>이름</th>
-                            <td><input type="text" placeholder="abc1234" /></td>
+                            <td><input type="text" name="name" /></td>
                         </tr>
+
+                        <!-- 성별 -->
                         <tr>
                             <th>성별</th>
                             <td>
-                                <input type="radio" name="gender" value="MALE">남
-                                <input type="radio" name="gender" value="FEMALE">여
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>등급</th>
-                            <td><input type="text" placeholder="abc1234" /></td>
-                        </tr>
-                        <tr>
-                            <th>상태</th>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <th>EMAIL</th>
-                            <td><input type="text" placeholder="abc1234" /></td>
-                        </tr>
-                        <tr>
-                            <th>휴대폰</th>
-                            <td><input type="text" placeholder="abc1234" /></td>
-                        </tr>
-                        <tr>
-                            <th>주소</th>
-                            <td><input type="text" placeholder="우편번호검색클릭" />
-                                <button class="infobutton" onclick="searchPostalCode()">주소검색</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>기본주소</th>
-                            <td><input type="text" id="address1" placeholder="기본주소입력" /></td>
-                        </tr>
-                        <tr>
-                            <th>상세주소</th>
-                            <td><input type="text" id="address2" placeholder="상세주소입력" /></td>
-                        </tr>
-                        <tr>
-                            <th>가입일</th>
-                            <td>0000-00-00 00:00:00</td>
-                        </tr>
-                        <tr>
-                            <th>최근로그인날짜</th>
-                            <td>0000-00-00 00:00:00</td>
-                        </tr>
-                        <tr>
-                            <th>기타</th>
-                            <td class="modalcontent2">
-                                <textarea placeholder="변경내역작성하기" required></textarea>
+                                <input class="gendermodal " type="radio" name="gender" value="MALE"> 남
+                                <input class="gendermodal " type="radio" name="gender" value="FEMALE"> 여
                             </td>
                         </tr>
 
+                        <!-- 등급 (수정 불가) -->
+                        <tr>
+                            <th>등급</th>
+                            <td>
+                                <input type="text" name="grade" readonly />
+                                <span>등급 수정은 회원 목록에서 선택 수정 가능</span>
+                            </td>
+                        </tr>
+
+                        <!-- 상태 -->
+                        <tr>
+                            <th>상태</th>
+                            <td><input type="text" name="status" readonly /></td>
+                        </tr>
+
+                        <!-- EMAIL -->
+                        <tr>
+                            <th>EMAIL</th>
+                            <td><input type="email" name="email" /></td>
+                        </tr>
+
+                        <!-- 휴대폰 -->
+                        <tr>
+                            <th>휴대폰</th>
+                            <td><input type="text" name="ph" /></td>
+                        </tr>
+
+                        <!-- 우편번호 -->
+                        <tr>
+                            <th>우편번호</th>
+                            <td>
+                                <input type="text" name="postalCode" />
+                                <button class="postbtn" type="button" onclick="searchPostalCode()">검색</button>
+                            </td>
+                        </tr>
+
+                        <!-- 기본주소 -->
+                        <tr>
+                            <th>기본주소</th>
+                            <td><input type="text" name="address1" /></td>
+                        </tr>
+
+                        <!-- 상세주소 -->
+                        <tr>
+                            <th>상세주소</th>
+                            <td><input type="text" name="address2" /></td>
+                        </tr>
+
+                        <!-- 가입일 (수정 불가) -->
+                        <tr>
+                            <th>가입일</th>
+                            <td><input type="text" name="registrationDate" readonly /></td>
+                        </tr>
+
+                        <!-- 최근 로그인 날짜 (수정 불가) -->
+                        <tr>
+                            <th>최근로그인날짜</th>
+                            <td><input type="text" name="lastLoginDate" readonly /></td>
+                        </tr>
+
+                        <!-- 기타 -->
+                        <tr>
+                            <th>기타</th>
+                            <td><textarea name="notes" placeholder="회원에 대한 기타 정보 입력"></textarea></td>
+                        </tr>
                     </table>
-                    <br>
-                    <div class="modalbuttondiv">
-                        <input class="adminmodalbutton" type="submit" value="등록하기" />
-                    </div>
+
+                    <!-- 수정 버튼 -->
+                    <button class="mbbtn" type="submit">수정하기</button>
                 </form>
             </section>
         </div>

@@ -1,8 +1,19 @@
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{admin/layout/adminlayout}">
+
+<!--
+   날짜 : 2024/10/25 (수정해주세요)
+   이름 : 이도영(최초 작성자)
+   내용 : Member list html 작성
+
+   수정이력
+   - 2025/10/24 박서홍 - 관리자 - 회원정보 출력 코드 수정
+   - 2025/10/25 박서홍 - 관리자 - 회원정보 검색 기능 구현
+   -->
 
 <!-- index.html 고유 CSS 추가 -->
 <th:block layout:fragment="css">
@@ -10,8 +21,10 @@
 </th:block>
 <!-- index.html 고유 스크립트 추가 -->
 <th:block layout:fragment="script">
-
+    <script type="text/javascript" th:src="@{/js/admin/config/Version.js}"></script>
 </th:block>
+
+
 
 <div class="content" layout:fragment="content">
     <div th:replace="admin/include/admin_modal :: #userchangemodal"></div>
@@ -78,7 +91,9 @@
 
 
                     <td style="line-height: 20px">
-                        <a href="#" data-modal="userchangemodal" class="cs_modify-btn">[수정]</a>
+<!--                        <a href="#" data-modal="userchangemodal" class="cs_modify-btn">[수정]</a>-->
+                        <!-- 회원 목록에서 수정 버튼 -->
+                        <a href="#" data-modal="userchangemodal" data-user-id="123" class="cs_modify-btn" onclick="openUserChangeModal(this)">[수정]</a>
                         <br>
                         <a href="" class="cs_delete-btn">[중지]</a>
                     </td>
@@ -86,7 +101,7 @@
                 </tbody>
             </table>
 
-            <a class="delete_btn">선택수정</a>
+            <a class="delete_btn">선택삭제</a>
 
             <div class="pagingBox">
                 <div class="pagingList">
@@ -101,7 +116,6 @@
                            th:classappend="${pageInfo.pg == num} ? 'active'"></a>
                     </th:block>
 
-
                     <!-- 다음 버튼 -->
                     <th:block th:if="${pageInfo.next}">
                         <a th:href="@{/admin/member/list(pg=${pageInfo.pg + 1})}" class="next">→</a>
@@ -109,7 +123,6 @@
                 </div>
             </div>
         </section>
-
     </div>
 </div>
 </html>
