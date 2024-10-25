@@ -6,6 +6,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/*
+    날짜 : 2024/10/25
+    이름 : 이상훈
+    내용 : 카테고리 생성시 요청되는 DTO 생성
+*/
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

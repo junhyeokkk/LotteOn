@@ -4,6 +4,12 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+
+/*
+    날짜 : 2024/10/25
+    이름 : 이상훈
+    내용 : 유저의 기본 엔티티 생성
+*/
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Getter

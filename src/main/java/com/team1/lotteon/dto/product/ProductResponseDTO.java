@@ -14,6 +14,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
+/*
+    날짜 : 2024/10/25
+    이름 : 이상훈
+    내용 : 상품의 기본정보를 반환하는 응답 DTO 생성
+*/
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

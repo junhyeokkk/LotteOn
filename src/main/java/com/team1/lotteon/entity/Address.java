@@ -6,6 +6,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/*
+    날짜 : 2024/10/25
+    이름 : 이상훈
+    내용 : 주소 값타입 생성
+*/
 @Embeddable
 @Getter
 @AllArgsConstructor

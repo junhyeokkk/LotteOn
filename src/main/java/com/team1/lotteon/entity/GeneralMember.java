@@ -12,6 +12,11 @@ import lombok.experimental.SuperBuilder;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+/*
+    날짜 : 2024/10/25
+    이름 : 이상훈
+    내용 : 멤버를 상속받는 일반회원 엔티티 생성
+*/
 @Entity
 @Getter
 @NoArgsConstructor

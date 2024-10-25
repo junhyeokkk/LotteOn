@@ -13,6 +13,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/*
+    날짜 : 2024/10/25
+    이름 : 이상훈
+    내용 : 상품을 관리하는 api controller 생성
+*/
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/product")

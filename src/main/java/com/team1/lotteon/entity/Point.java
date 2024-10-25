@@ -11,6 +11,11 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
+/*
+    날짜 : 2024/10/25
+    이름 : 이상훈
+    내용 : 포인트 엔티티 생성
+*/
 @Entity
 @Builder
 @Getter

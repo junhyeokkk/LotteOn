@@ -6,6 +6,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
+/*
+    날짜 : 2024/10/25
+    이름 : 이상훈
+    내용 : 상품 생성을 위한 요청 DTO 생성
+*/
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

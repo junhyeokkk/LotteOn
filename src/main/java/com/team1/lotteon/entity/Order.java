@@ -7,6 +7,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+/*
+    날짜 : 2024/10/25
+    이름 : 이상훈
+    내용 : 주문 엔티티 생성
+*/
 @Entity
 @Getter
 @SuperBuilder

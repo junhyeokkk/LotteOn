@@ -14,6 +14,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/*
+    날짜 : 2024/10/25
+    이름 : 이상훈
+    내용 : 상품 서비스 개발
+*/
 @RequiredArgsConstructor
 @Service
 @Transactional

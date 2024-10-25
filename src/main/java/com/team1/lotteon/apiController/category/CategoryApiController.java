@@ -12,6 +12,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
+/*
+    날짜 : 2024/10/25
+    이름 : 이상훈
+    내용 : 카테고리를 관리하는 api controller 생성
+*/
 @Slf4j
 @RestController
 @RequestMapping("/api/cate")
@@ -27,9 +33,9 @@ public class CategoryApiController {
     }
 
     @PostMapping
-    public ResponseEntity<CategoryIdResponseDTO> createCategory(@RequestBody CategoryCreateDTO categoryCreateDTO) {
-        Category category = categoryService.createCategory(categoryCreateDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new CategoryIdResponseDTO(category.getId().toString()));
+    public ResponseEntity<CategoryResponseDTO> createCategory(@RequestBody CategoryCreateDTO categoryCreateDTO) {
+        CategoryResponseDTO categoryResponseDTO = categoryService.createCategory(categoryCreateDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(categoryResponseDTO);
     }
 
     @GetMapping("/{id}")

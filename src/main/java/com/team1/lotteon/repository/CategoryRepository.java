@@ -8,6 +8,11 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 
+/*
+    날짜 : 2024/10/25
+    이름 : 이상훈
+    내용 : 카테고리 리파지토리 생성
+*/
 public interface CategoryRepository extends JpaRepository<Category, Long> {
     @Query("SELECT c FROM Category c left join fetch c.children WHERE c.parent IS NULL AND c.level=1")
     public List<Category> findAllRootWithChildren();

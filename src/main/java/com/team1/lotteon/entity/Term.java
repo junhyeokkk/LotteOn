@@ -4,6 +4,12 @@ import com.team1.lotteon.dto.TermDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
+
+/*
+    날짜 : 2024/10/25
+    이름 : 이상훈
+    내용 : 약관 엔티티 생성
+*/
 @Entity
 @Getter
 @Setter

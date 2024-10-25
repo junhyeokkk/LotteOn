@@ -10,6 +10,11 @@ import lombok.experimental.SuperBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+    날짜 : 2024/10/25
+    이름 : 이상훈
+    내용 : 카테고리 엔티티 생성
+*/
 @Entity
 @Getter
 @SuperBuilder

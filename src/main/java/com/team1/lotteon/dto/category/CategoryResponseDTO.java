@@ -6,6 +6,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/*
+    날짜 : 2024/10/25
+    이름 : 이상훈
+    내용 : 클라이언트에 응답할 때 전송하는 기본 DTO 생성
+*/
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

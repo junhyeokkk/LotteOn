@@ -13,6 +13,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+/*
+    날짜 : 2024/10/25
+    이름 : 이상훈
+    내용 : 배너 엔티티 생성
+*/
 @Entity
 @Getter
 @Builder

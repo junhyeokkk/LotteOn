@@ -3,6 +3,12 @@ package com.team1.lotteon.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+
+/*
+    날짜 : 2024/10/25
+    이름 : 이상훈
+    내용 : 상점 엔티티 생성
+*/
 @Entity
 @Getter
 @Setter

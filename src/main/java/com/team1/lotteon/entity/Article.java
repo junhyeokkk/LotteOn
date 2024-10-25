@@ -4,6 +4,11 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+/*
+    날짜 : 2024/10/25
+    이름 : 이상훈
+    내용 : 게시글 부모 엔티티 생성
+*/
 @Entity
 @Getter
 @Setter

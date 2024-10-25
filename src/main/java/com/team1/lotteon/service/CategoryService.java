@@ -12,6 +12,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/*
+    날짜 : 2024/10/25
+    이름 : 이상훈
+    내용 : 카테고리 서비스 생성
+*/
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -34,7 +39,7 @@ public class CategoryService {
         return children.stream().map(CategoryResponseDTO::fromEntity).toList();
     }
 
-    public Category createCategory(CategoryCreateDTO categoryCreateDTO) {
+    public CategoryResponseDTO createCategory(CategoryCreateDTO categoryCreateDTO) {
         Category category = categoryCreateDTO.toEntity();
         categoryRepository.save(category);
 
@@ -43,7 +48,7 @@ public class CategoryService {
             category.changeParent(parentCategory);
         }
 
-        return category;
+        return CategoryResponseDTO.fromEntity(category);
     }
 
     public void updateCategoryName(Long productId, String newName) {
