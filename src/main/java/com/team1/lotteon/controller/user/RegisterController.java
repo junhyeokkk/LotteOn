@@ -84,7 +84,40 @@ public class RegisterController {
             return "redirect:/error?error=encoding_error";
         }
     }
+    @PostMapping("/user/register/admin/{role}")
+    public String AdminRegister(@PathVariable("role") String roleType,
+                               GeneralMemberDTO generalMemberDTO, MemberDTO memberDTO, ShopDTO shopDTO,
+                               HttpServletRequest request) {
+        HttpSession session = request.getSession();
 
+        try {
+            if ("user".equals(roleType)) {
+                // 일반 사용자 회원가입 처리
+                if (memberService.insertGeneralMember(generalMemberDTO, memberDTO) != null){
+
+                    GeneralMember savedMember = memberService.insertGeneralMember(generalMemberDTO, memberDTO);
+                    GeneralMemberDTO savedMemberDTO = modelMapper.map(savedMember, GeneralMemberDTO.class);
+                    // 회원가입 축하 기념 포인트 지급
+                    pointService.registerPoint(savedMemberDTO);
+                }
+                return "redirect:/admin/member/list?message=" + URLEncoder.encode("회원가입이 성공적으로 완료되었습니다. 회원가입 축하 기념 포인트가 지급되었습니다!", "UTF-8");
+
+            } else if ("seller".equals(roleType)) {
+                // 판매자 회원가입 처리
+                memberService.insertSellerMember(shopDTO, memberDTO);
+                return "redirect:/admin/shop/list?message=" + URLEncoder.encode("판매자 회원가입이 성공적으로 완료되었습니다.", "UTF-8");
+
+            } else {
+                // 잘못된 role 값 처리
+                return "redirect:/error?error=" + URLEncoder.encode("잘못된 요청입니다.", "UTF-8");
+            }
+        } catch (UnsupportedEncodingException e) {
+            // 인코딩 예외 처리
+            e.printStackTrace();
+            // 인코딩 예외 발생 시 고정된 오류 메시지 반환
+            return "redirect:/error?error=encoding_error";
+        }
+    }
     //중복확인
     @GetMapping("/user/Register/{type}/{value}")
     @ResponseBody

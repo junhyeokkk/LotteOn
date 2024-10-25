@@ -42,4 +42,7 @@ public class GeneralMember extends Member {
     public void setAddress(Address address) {
         this.address = address;
     }
+    public void setLastLoginDate(LocalDateTime lastLoginDate) {
+        this.lastLoginDate = lastLoginDate;
+    }
 }

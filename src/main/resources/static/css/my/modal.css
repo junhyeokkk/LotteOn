@@ -234,6 +234,7 @@
     height: 40px;
     color: white;
     cursor: pointer;
+
 }
 .adminmodalbutton {
     background-color: #34495e;
@@ -355,4 +356,15 @@
 }
 #orderinfomodal .modalprice-value div:last-child span:last-child {
     color: red; /* 마지막 span의 글자색을 빨간색으로 변경 */
-}
+}.infobutton {
+     height: 30px;
+     width: 90px;
+     background-color: #34495e;
+     color: white;
+     border: none;
+     cursor: pointer;
+     border-radius: 5px;
+     margin-top: 3px;
+     margin-bottom: 3px;
+     line-height: 30px;
+ }

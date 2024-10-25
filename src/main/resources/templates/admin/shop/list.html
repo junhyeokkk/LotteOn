@@ -10,6 +10,10 @@
 </th:block>
 <!-- index.html 고유 스크립트 추가 -->
 <th:block layout:fragment="script">
+    <script th:src="@{//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js}"></script>
+    <script th:src="@{/js/login/postcode.js}"></script>
+    <script th:src="@{/js/login/utils.js}"></script>
+    <script th:src="@{/js/login/validationSeller.js}"></script>
 </th:block>
 
 <div class="content" layout:fragment="content">

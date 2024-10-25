@@ -21,4 +21,5 @@ public abstract class BaseEntity {
     private LocalDateTime createdAt;
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
 }

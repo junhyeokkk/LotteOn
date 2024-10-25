@@ -234,59 +234,93 @@
                 <button class="adminmodal-close" id="closeModal">&times;</button>
             </nav>
             <section class="modal-section">
-                <form action="#" method="post">
+                <form class="sendForm" th:action="@{/user/register/admin/seller}" method="post">
                     <table border="0" class="heighttable">
                         <tr>
                             <th>아이디</th>
-                            <td><input type="text">영문, 숫자 4~12자 설정</td>
+                            <td>
+                                <input type="text" name="uid" placeholder="아이디 입력"/>
+                                <button type="button" id="btnCheckUid" name="uidbtn" data-type="uid" class="infobutton">중복확인</button>
+                                <span class="resultId"></span>
+                            </td>
                         </tr>
                         <tr>
-                            <th>비밀번호</th>
-                            <td><input type="password">영문, 숫자, 특수문자 8~12자 설정</td>
+                            <th>비밀번호<span class="required">*</span></th>
+                            <td><input type="password" name="pass"></td>
                         </tr>
                         <tr>
                             <th>비밀번호 확인</th>
-                            <td><input type="password"></td>
-                        </tr>
-                    </table>
-                    <br>
-                    <table border="0" class="heighttable">
-                        <tr>
-                            <th>상호명</th>
-                            <td><input type="text" placeholder="상호명입력예 ) (주)" /></td>
-                        </tr>
-                        <tr>
-                            <th>대표</th>
-                            <td><input type="text" placeholder="이름입력" /></td>
-                        </tr>
-                        <tr>
-                            <th>사업자등록번호</th>
-                            <td><input type="text" placeholder="사업자등록번호입력" /> - 포함 12 자리 입력</td>
-                        </tr>
-                        <tr>
-                            <th>통신판매업번호</th>
-                            <td><input type="text" placeholder="통신판매업번호입력" /> - 포함 12 자리 입력</td>
-                        </tr>
-                        <tr>
-                            <th>전화번호</th>
-                            <td><input type="text" placeholder="전화번호입력" /></td>
-                        </tr>
-                        <tr>
-                            <th>팩스</th>
-                            <td><input type="text" placeholder="팩스번호 입력" /></td>
-                        </tr>
-                        <tr>
-                            <th>주소</th>
-                            <td><input type="text" placeholder="우편번호검색클릭" />
-                                <button class="infobutton" onclick="searchPostalCode()">주소검색</button><br />
-                                <input type="text" id="address1" placeholder="기본주소입력" /><br />
-                                <input type="text" id="address2" placeholder="상세주소입력" />
+                            <td><input type="password" name="pass2">
+                                <span class="resultPass"></span>
                             </td>
                         </tr>
                     </table>
                     <br>
+                    <table border="0" class="heighttable">
+                        <tr>
+                            <th>회사명</th>
+                            <td><input type="text" name="shopName" placeholder="상호명입력예 ) (주)"/>
+                                <span class="resultShop_name"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>대표</th>
+                            <td><input type="text" name="representative" placeholder="성함입력"/>
+                                <span class="resultRepresentative"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>사업자등록번호</th>
+                            <td>
+                                <input type="text" name="business_registration_part1" id="business_registration_part1" maxlength="3" style="width: 50px;" /> -
+                                <input type="text" name="business_registration_part2" id="business_registration_part2" maxlength="2" style="width: 45px;" /> -
+                                <input type="text" name="business_registration_part3" id="business_registration_part3" maxlength="5" style="width: 60px;" />
+                                <input type="hidden" name="businessRegistration"/>
+                                <span class="resultBusiness_registration"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>통신판매업번호</th>
+                            <td>
+                                <input type="text" name="e_commerce_registration_part1" id="e_commerce_registration_part1" maxlength="4" style="width: 70px;" /> -
+                                <input type="text" name="e_commerce_registration_part2" id="e_commerce_registration_part2" maxlength="5" style="width: 100px;" /> -
+                                <input type="text" name="e_commerce_registration_part3" id="e_commerce_registration_part3" maxlength="4" style="width: 60px;" />
+                                <input type="hidden" name="eCommerceRegistration" />
+                                <span class="resultE_commerce_registration"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>전화번호</th>
+                            <td><input type="text" name="ph" placeholder="전화번호입력"/>
+                                <span class="resultPh"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>팩스</th>
+                            <td><input type="text" name="fax" placeholder="팩스번호입력"/>
+                                <span class="resultFax"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>주소<span class="required">*</span></th>
+                            <td>
+                                <div>
+                                    <input type="text" name="zip" id="zip" placeholder="우편번호" readonly/>
+                                    <button type="button" class="btnZip infobutton" onclick="postcode()">검색</button>
+                                </div>
+                                <div>
+                                    <input type="text" name="addr1" id="address1" placeholder="주소를 검색하세요." readonly/>
+                                </div>
+                                <div>
+                                    <input type="text" name="addr2" id="address2" placeholder="상세주소를 입력하세요."/>
+                                    <span class="resultaddr"></span>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
                     <div class="modalbuttondiv">
-                        <input class="adminmodalbutton" type="submit" value="등록하기" />
+                        <button class="adminmodalbutton" type="submit">등록하기</button>
                     </div>
                 </form>
             </section>
@@ -300,7 +334,7 @@
                 <button class="adminmodal-close" id="closeModal">&times;</button>
             </nav>
             <section class="modal-section">
-                <form action="#" method="post">
+                <form class="sendForm" th:action="@{/user/register/admin/user}" method="post">
                     <table border="0" class="heighttable">
                         <tr>
                             <th>아이디</th>

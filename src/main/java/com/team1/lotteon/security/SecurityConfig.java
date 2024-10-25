@@ -17,7 +17,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig {
 
 //    private final MyOauth2UserService myOauth2UserService;
-
+    private final CustomLoginSuccessHandler customLoginSuccessHandler;
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
 
@@ -25,7 +25,8 @@ public class SecurityConfig {
         http.formLogin(login -> login
                 .loginPage("/user/login")
                 .loginProcessingUrl("/user/logincheck") // 로그인 폼 제출 시 처리될 경로
-                .defaultSuccessUrl("/")//컨트롤러 요청 주소
+                .successHandler(customLoginSuccessHandler)
+//                .defaultSuccessUrl("/")//컨트롤러 요청 주소
                 .failureHandler(new CustomAuthenticationFailureHandler()) // 실패 시 핸들러 추가
                 .usernameParameter("uid")
                 .passwordParameter("pass"));
@@ -44,8 +45,9 @@ public class SecurityConfig {
 
         // 인가 설정
         http.authorizeHttpRequests(authorize -> authorize
-          //      .requestMatchers("/myPage/**").authenticated()
-//                .requestMatchers("/admin/**").hasRole("ADMIN")
+                .requestMatchers("/myPage/**").authenticated()
+                .requestMatchers("/product/cart").hasRole("General")
+                .requestMatchers("/admin/**").hasAnyRole("Admin", "Seller")
 //
 //                .requestMatchers("/crop/*/CropWrite").authenticated()
 //                .requestMatchers("/crop/*/CropView/*").authenticated()
@@ -64,10 +66,12 @@ public class SecurityConfig {
 //                .requestMatchers("market/MarketView").permitAll()
 //                .requestMatchers("market/MarketCart").authenticated()
 //                .requestMatchers("market/MarketOrder12").authenticated()
-
-
                 .anyRequest().permitAll());
-
+        // 인증되지 않은 사용자가 접근할 때 로그인 페이지로 리다이렉트
+        http.exceptionHandling(exceptionHandling -> exceptionHandling
+                .authenticationEntryPoint((request, response, authException) -> {
+                    response.sendRedirect("/user/login");
+                }));
         //보안 설정
         http.csrf(configure -> configure.disable());
 
