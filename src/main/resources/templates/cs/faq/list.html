@@ -20,50 +20,24 @@
     <article class="faq_article">
       <nav>
         <h1>회원</h1>
-        <h2>회원관련 자주묻는 질문입니다.</h2>
+        <h2>회원관련 자주 묻는 질문입니다.</h2>
       </nav>
       <div class="faq-section">
-        <div class="category">
-          <h2>가입</h2>
+
+        <!-- FAQ 목록 동적 처리 -->
+        <div class="category" th:each="faq : ${faqs}">
+          <h2 th:text="${faq.type1}">카테고리</h2> <!-- 카테고리 표시 -->
           <div class="faq-item">
-            <a th:href="@{/cs/layout/faq/view}" class="question">Q. 개인회원과 법인회원에 차이가 있나요?</a>
-            <span class="answer">?</span>
+            <!-- FAQ 질문 -->
+            <a th:href="@{/cs/layout/faq/view/{id}(id=${faq.id})}" class="question" th:text="'Q. ' + ${faq.title}">Q. 질문 내용</a>
+            <!-- FAQ 답변 -->
+            <span class="answer" th:text="${faq.content}">A. 답변 내용</span>
           </div>
-          <div class="faq-item">
-            <a th:href="@{/cs/layout/faq/view}" class="question">Q. 개인회원과 법인회원에 차이가 있나요?</a>
-            <span class="answer">?</span>
-          </div>
-          <div class="faq-item">
-            <a th:href="@{/cs/layout/faq/view}" class="question">Q. 개인회원과 법인회원에 차이가 있나요?</a>
-            <span class="answer">?</span>
-          </div>
-          <div class="faq-item">
-            <a th:href="@{/cs/layout/faq/view}" class="question">Q. 개인회원과 법인회원에 차이가 있나요?</a>
-            <span class="answer">?</span>
-          </div>
-          <div class="faq-item">
-            <a th:href="@{/cs/layout/faq/view}" class="question">Q. 개인회원과 법인회원에 차이가 있나요?</a>
-            <span class="answer">?</span>
-          </div>
-          <button class="simple-view">간단히보기</button>
         </div>
 
-        <div class="category">
-          <h2>탈퇴</h2>
-          <div class="faq-item">
-            <a th:href="@{/cs/layout/faq/view}" class="question">Q. 회원 탈퇴 후 재가입이 가능한가요?</a>
-            <span class="answer">?</span>
-          </div>
-          <div class="faq-item">
-            <a th:href="@{/cs/layout/faq/view}" class="question">Q. 회원 탈퇴 후 재가입이 가능한가요?</a>
-            <span class="answer">?</span>
-          </div>
-          <div class="faq-item">
-            <a th:href="@{/cs/layout/faq/view}" class="question">Q. 회원 탈퇴 후 재가입이 가능한가요?</a>
-            <span class="answer">?</span>
-          </div>
-          <button class="more-view">더보기 <span class="count">3</span></button>
-        </div>
+        <!-- 간단히 보기 / 더 보기 버튼 -->
+        <button class="simple-view">간단히 보기</button>
+        <button class="more-view">더 보기 <span class="count" th:text="${faqs != null ? faqs.size() : 0}">0</span></button>
       </div>
     </article>
   </section>

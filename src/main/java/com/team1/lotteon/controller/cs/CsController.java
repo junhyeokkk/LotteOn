@@ -40,7 +40,7 @@ public class CsController {
         return ResponseEntity.ok(inquiry);
     }
 //    글삭제
-    @DeleteMapping("api/cs/qna/{id}")
+    @DeleteMapping("/api/cs/qna/{id}")
     public ResponseEntity<Void> deleteInquiry(@PathVariable Long id) {
         articleService.deleteInquiry(id);
         return ResponseEntity.noContent().build();
@@ -48,6 +48,12 @@ public class CsController {
 
 
 //    Notice 공지사항
+//    글쓰기
+    @PostMapping("/api/cs/notice/write")
+    public ResponseEntity<NoticeDTO> createNotice(@RequestBody NoticeDTO noticeDTO) {
+        NoticeDTO createNotice = articleService.createNotice(noticeDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createNotice);
+    }
 //    글목록
     @GetMapping("/api/cs/notice/list")
     public ResponseEntity<PageResponseDTO<NoticeDTO>> getAllNotices(@PageableDefault Pageable pageable) {
@@ -63,18 +69,23 @@ public class CsController {
 
 
 //    Faq 자주묻는질문
+//    글쓰기
+    @PostMapping("/api/cs/faq/write")
+    public ResponseEntity<FaqDTO> createFaq(@RequestBody FaqDTO faqDTO) {
+        FaqDTO createFaq = articleService.createFaq(faqDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createFaq);
+    }
 //    글목록
-    @GetMapping("api/cs/faq/list")
+    @GetMapping("/api/cs/faq/list")
     public ResponseEntity<List<FaqDTO>> getAllFaqs(@PageableDefault Pageable pageable) {
         List<FaqDTO> faqs = articleService.getAllFaqs();
         return ResponseEntity.ok(faqs);
     }
 //    글보기
-    @GetMapping("api/cs/faq/view/{id}")
+    @GetMapping("/api/cs/faq/view/{id}")
     public ResponseEntity<FaqDTO> getFaqById(@PathVariable Long id) {
         FaqDTO faqs = articleService.getFaqById(id);
         return ResponseEntity.ok(faqs);
     }
-
 
 }

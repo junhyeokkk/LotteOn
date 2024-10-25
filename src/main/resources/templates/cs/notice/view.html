@@ -17,24 +17,16 @@
     </aside>
     <article class="no_article_view">
       <nav>
-        <h1>전체</h1>
+        <h1 th:text="${notice.type1}">전체</h1> <!-- 공지사항 유형 반영 -->
         <h2>공지사항 전체 내용입니다.</h2>
       </nav>
       <nav>
-        <h2 class="title">[안내] 해외결제사칭문자주의</h2>
-        <span class="date">2022.11.20</span>
+        <h2 class="title" th:text="${notice.title}">[안내] 해외결제사칭문자주의</h2> <!-- 공지사항 제목 반영 -->
+        <span class="date" th:text="${#temporals.format(notice.createdAt, 'yyyy.MM.dd')}">2022.11.20</span> <!-- 작성일 반영 -->
       </nav>
 
       <div class="content">
-        <p></p><br>
-        <p>
-          ※ 피싱 관련 피해신고<br /><br />
-          ▶ 경찰청 사이버수사국 (국번없이)182 :
-          http://cyberbureau.police.go.kr<br />
-          ▶ KISA 인터넷침해대응센터 (국번없이)118 :
-          http://www.krcert.or.kr<br />
-          감사합니다.<br />
-        </p>
+        <p th:text="${notice.content}"></p><br> <!-- 공지사항 본문 내용 반영 -->
       </div>
       <a th:href="@{/cs/layout/notice/list}" class="btnList">목록</a>
     </article>

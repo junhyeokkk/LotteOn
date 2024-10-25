@@ -19,21 +19,21 @@
     </aside>
     <article class="faq_article_view">
       <nav>
-        <h1>회원</h1>
-        <h2>회원관련 자주묻는 질문입니다.</h2>
+        <h1 th:text="${faq.type1}">회원</h1> <!-- 질문 유형 -->
+        <h2 th:text="'회원관련 ' + ${faq.type2} + ' 자주묻는 질문입니다.'">회원관련 자주묻는 질문입니다.</h2>
       </nav>
       <nav>
-        <h2 class="faq_view_title"><span>Q.</span> 개인회원과 법인회원에 차이가 있나요?</h2>
+        <h2 class="faq_view_title"><span>Q.</span> <span th:text="${faq.title}">개인회원과 법인회원에 차이가 있나요?</span></h2> <!-- 질문 제목 -->
       </nav>
 
       <div class="content">
-        <p>개인회원에서 법인회원(사업자회원)으로 전환은 불가하므로 법인회원(사업자회원) 전환은 신규가입으로 진행을 해야합니다.</p><br>
+        <p th:text="${faq.content}">개인회원에서 법인회원(사업자회원)으로 전환은 불가하므로 법인회원(사업자회원) 전환은 신규가입으로 진행을 해야합니다.</p><br>
         <p>
           ※ 피싱 관련 피해신고<br /><br />
           ▶ 경찰청 사이버수사국 (국번없이)182 :
-          http://cyberbureau.police.go.kr<br />
+          <a href="http://cyberbureau.police.go.kr" target="_blank">http://cyberbureau.police.go.kr</a><br />
           ▶ KISA 인터넷침해대응센터 (국번없이)118 :
-          http://www.krcert.or.kr<br />
+          <a href="http://www.krcert.or.kr" target="_blank">http://www.krcert.or.kr</a><br />
           감사합니다.<br />
         </p>
       </div>

@@ -4,127 +4,74 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" th:href="@{/css/cs/cs.css}" />
-
 </head>
 <body>
-    <header th:replace="~{layout/header::header}"></header>
-    <section class="cs">
+<header th:replace="~{layout/header::header}"></header>
+<section class="cs">
     <div class="main">
         <h1 class="cs_title"><strong>롯데ON</strong> 이 도와드릴게요 !</h1>
+
+        <!-- 공지사항 목록 -->
         <section class="notice">
             <h1>공지사항<a th:href="@{/cs/layout/notice/list}">전체보기</a></h1>
             <ul>
-                <li>
-                    <a href="#" class="title">[안내] 해외결제사칭 문자주의</a>
-                    <span class="date">22.10.31</span>
-                </li>
-                <li>
-                    <a href="#" class="title">[안내] 해외결제사칭 문자주의</a>
-                    <span class="date">22.10.31</span>
-                </li>
-                <li>
-                    <a href="#" class="title">[안내] 해외결제사칭 문자주의</a>
-                    <span class="date">22.10.31</span>
-                </li>
-                <li>
-                    <a href="#" class="title">[안내] 해외결제사칭 문자주의</a>
-                    <span class="date">22.10.31</span>
-                </li>
-                <li>
-                    <a href="#" class="title">[안내] 해외결제사칭 문자주의</a>
-                    <span class="date">22.10.31</span>
+                <li th:each="notice : ${notices.content}">
+                    <a th:href="@{/cs/layout/notice/detail/{id}(id=${notice.id})}" th:text="${notice.title}" style="font-size: 17px"></a>
+                    <span th:text="${notice.createdAt}" style="font-size: 17px"></span>
                 </li>
             </ul>
         </section>
 
+        <!-- 자주 묻는 질문 목록 -->
         <section class="faq">
-            <h1>자주 묻는 질문<a th:href="@{/cs/layout/faq/list}">전체보기</a>
-            </h1>
+            <h1>자주 묻는 질문<a th:href="@{/cs/layout/faq/list}">전체보기</a></h1>
             <ul>
-                <li><a href="#"><span>회원</span></a></li>
-                <li><a href="#"><span>쿠폰 / 이벤트</span></a></li>
-                <li><a href="#"><span>주문 / 결제</span></a></li>
-                <li><a href="#"><span>배송</span></a></li>
-                <li><a href="#"><span>취소 / 반품 / 환불</span></a></li>
-                <li><a href="#"><span>안전결제</span></a></li>
+                <li th:each="faq : ${faqs}">
+                    <a th:href="@{/cs/layout/faq/view/{id}(id=${faq.id})}">
+                        <span th:text="${faq.type1}" style="font-size: 17px"></span> <span th:text="${faq.type2}" style="font-size: 17px"></span>
+                    </a>
+                </li>
             </ul>
         </section>
 
+        <!-- 문의하기 목록 -->
         <section class="qna">
             <h1>
                 문의하기
                 <a th:href="@{/cs/layout/qna/list}">전체보기</a>
             </h1>
             <ul>
-                <li>
-                    <a href="#" class="title" >[회원] 개인회원과 법인회원의 차이가 있나요?</a>
+                <li th:each="inquiry : ${inquiries.content}">
+                    <a th:href="@{/cs/layout/qna/detail/{id}(id=${inquiry.id})}" th:text="${inquiry.title}" style="font-size: 17px;"></a>
                     <p>
-                        <span class="uid">chh***</span>
-                        <span class="date">24.10.31</span>
-                    </p>
-                </li>
-                <li>
-                    <a href="#" class="title" >[쿠폰/이벤트] 스마일 포인트는 어디에서 사용하나요?</a>
-                    <p>
-                        <span class="uid">chh***</span>
-                        <span class="date">24.10.31</span>
-                    </p>
-                </li>
-                <li>
-                    <a href="#" class="title" >[배송] 주문한 상품은 언제 배송되나요?</a>
-                    <p>
-                        <span class="uid">chh***</span>
-                        <span class="date">24.10.31</span>
-                    </p>
-                </li>
-                <li>
-                    <a href="#" class="title" >[주문/결제] 신용카드 결제중 오류가 난 경우에 어떻게 하나요?</a>
-                    <p>
-                        <span class="uid">chh***</span>
-                        <span class="date">24.10.31</span>
-                    </p>
-                </li>
-                <li>
-                    <a href="#" class="title" >[취소/반품/교환] 주문을 취소하고 싶어요.</a>
-                    <p>
-                        <span class="uid">chh***</span>
-                        <span class="date">24.10.31</span>
+                        <span class="uid" th:text="${inquiry.memberId}"></span>
+                        <span class="date" th:text="${inquiry.createdAt}"></span>
                     </p>
                 </li>
             </ul>
             <a th:href="@{/cs/layout/qna/write}" class="ask">문의글 작성 ></a>
         </section>
 
+
+        <!-- 상담 안내 -->
         <section class="tel">
-            <h1>
-                1:1 상담안내
-            </h1>
+            <h1>1:1 상담안내</h1>
             <article>
                 <div>
                     <h3>이용안내</h3>
-                    <p>
-                        <span>일반회원/비회원</span><br>
-                        <strong>1566-0001</strong><span>(평일 09:00 ~ 18:00)</span>
-                    </p>
-                    <p>
-                        <span>스마일클럽 전용</span><br>
-                        <strong>1566-0002</strong><span>(365일 09:00 ~ 18:00)</span>
-                    </p>
+                    <p><span>일반회원/비회원</span><br><strong>1566-0001</strong><span>(평일 09:00 ~ 18:00)</span></p>
+                    <p><span>스마일클럽 전용</span><br><strong>1566-0002</strong><span>(365일 09:00 ~ 18:00)</span></p>
                 </div>
             </article>
             <article>
                 <div>
                     <h3>판매상담 이용안내</h3>
-                    <p>
-                        <span>판매고객</span><br>
-                        <strong>1566-5700</strong><span>(평일 09:00 ~ 18:00)</span>
-                    </p>
-                    <p>
-                        <a href="#">판매자 가입 및 서류 접수 안내 〉</a>
-                    </p>
+                    <p><span>판매고객</span><br><strong>1566-5700</strong><span>(평일 09:00 ~ 18:00)</span></p>
+                    <p><a href="#">판매자 가입 및 서류 접수 안내 〉</a></p>
                 </div>
             </article>
         </section>
-        <footer th:replace="~{layout/footer::footer}"></footer>
+    </div>
+    <footer th:replace="~{layout/footer::footer}"></footer>
 </body>
 </html>

@@ -13,20 +13,19 @@
   <th:block th:switch="${group}">
     <th:block th:case="'notice'">
       <th:block th:with="path='cs/notice/' + ${cate}, fragment=${cate}">
-        <th:replace th:with="path=${path}, fragment=${fragment}"
-                    th:replace="~{${path}::${fragment}}"></th:replace>
+        <th:block th:replace="~{${path}::${fragment}}"></th:block>
       </th:block>
     </th:block>
+
     <th:block th:case="'faq'">
       <th:block th:with="path='cs/faq/' + ${cate}, fragment=${cate}">
-        <th:replace th:with="path=${path}, fragment=${fragment}"
-                    th:replace="~{${path}::${fragment}}"></th:replace>
+        <th:block th:replace="~{${path}::${fragment}}"></th:block>
       </th:block>
     </th:block>
+
     <th:block th:case="'qna'">
       <th:block th:with="path='cs/qna/' + ${cate}, fragment=${cate}">
-        <th:replace th:with="path=${path}, fragment=${fragment}"
-                    th:replace="~{${path}::${fragment}}"></th:replace>
+        <th:block  th:replace="~{${path}::${fragment}}"></th:block>
       </th:block>
     </th:block>
   </th:block>
