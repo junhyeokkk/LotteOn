@@ -1,4 +1,10 @@
 package com.team1.lotteon.controller.user;
+/*
+     날짜 : 2024/10/25
+     이름 : 강유정(최초 작성자)
+     내용 : UserController 생성
+
+*/
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;

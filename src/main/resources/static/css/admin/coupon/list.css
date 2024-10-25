@@ -83,6 +83,22 @@ input[type="checkbox"] {
     padding: 5px;
 
 }
+/* 등록버튼 */
+.registration_btn {
+    float: right;
+    width: 100px;
+    height: 37px;
+    padding: 6px;
+    margin-top: 10px;
+    border: 1px solid #D9D9D9;
+    font-size: 13px;
+    text-align: center;
+    background-color: #8EB4E3;
+    color: #FFFFFF;
+    vertical-align: middle;
+    box-sizing: border-box;
+    cursor: pointer;
+}
 
 
 /* 페이징 */

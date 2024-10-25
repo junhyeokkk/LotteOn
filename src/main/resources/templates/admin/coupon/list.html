@@ -13,6 +13,8 @@
 </th:block>
 
 <div class="content" layout:fragment="content">
+  <div th:replace="admin/include/admin_modal :: #couponinfomodal"></div>
+  <div th:replace="admin/include/admin_modal :: #couponinsertmodal"></div>
   <div class="dashboard">
     <div class="content_header">
       <h1>쿠폰목록</h1>
@@ -49,9 +51,23 @@
           <th>관리</th>
         </tr>
 
+        <tr class="admin_list" th:each="coupon : ${coupons}">
+          <td><a href="#" data-modal="couponinfomodal" th:text="${coupon.num}">쿠폰번호</a></td>
+          <td th:text="${coupon.type}">쿠폰종류</td>
+          <td th:text="${coupon.name}">쿠폰명</td>
+          <td th:text="${coupon.discountAmount} + '원 할인'">혜택</td>
+          <td th:text="${coupon.useStartDate} + ' ~ ' + ${coupon.useEndDate}">0000-00-00 ~ 0000-00-00</td>
+          <td th:text="${coupon.memberId}">발급자</td>
+          <td th:text="${coupon.couponnum}">발급수</td>
+          <td th:text="${coupon.couponuse}">사용수</td>
+          <td th:style="'color:' + (${coupon.couponStatus} == 'ACTIVE' ? 'green' : 'grey')" th:text="${coupon.couponStatus}">상태</td>
+          <td th:text="${coupon.issuedate}">발급일</td>
+          <td><a class="deliveryBtn" th:style="'color:white; background-color:' + (${coupon.couponStatus} == 'ACTIVE' ? 'green' : 'grey')">관리</a></td>
+        </tr>
+
         <tr class="admin_list">
           <td>
-            <a href="">10121211341</a>
+            <a href="#" data-modal="couponinfomodal">10121211341</a>
           </td>
           <td>개별상품 할인</td>
           <td>10월 한달 감사 쿠폰</td>
@@ -69,7 +85,7 @@
 
         <tr class="admin_list">
           <td>
-            <a href="">10121211341</a>
+            <a href="#" data-modal="couponinfomodal">10121211341</a>
           </td>
           <td>개별상품 할인</td>
           <td>10월 한달 감사 쿠폰</td>
@@ -86,6 +102,7 @@
         </tr>
 
       </table>
+      <a href="#" data-modal="couponinsertmodal" class="registration_btn">쿠폰등록</a>
 
       <div class="pagingBox">
         <div class="pagingList">

@@ -33,6 +33,7 @@ public class ConfigPageController {
     private final BannerService bannerService;
     private final CategoryService categoryService;
     private final VersionService versionService;
+    private final CouponService couponService;
 
     // info 페이지 이동시 config 정보 담기
     @GetMapping("/admin/config/info")
@@ -59,6 +60,7 @@ public class ConfigPageController {
         return "admin/config/version"; // 뷰 이름
     }
 
+
     @GetMapping("/admin/config/banner")
     public String banner(){
 
@@ -71,5 +73,18 @@ public class ConfigPageController {
         model.addAttribute("categories", allRootCategories);
         System.out.println("allRootCategories = " + allRootCategories);
         return "admin/config/category";
+    }
+
+    //쿠폰 (유정)
+    @GetMapping("/admin/config/coupon")
+    public String coupon(@RequestParam(defaultValue = "0") int page,
+                         @RequestParam(defaultValue = "") String keyword,
+                         @RequestParam(defaultValue = "num") String type,
+                         Model model) {
+        Page<CouponDTO> couponPage = couponService.getAllVersions(page, 10); // 현재 페이지와 10개 가져오기
+        model.addAttribute("coupons", couponPage.getContent()); // 현재 페이지의 버전 데이터
+        model.addAttribute("currentPage", page); // 현재 페이지 번호
+        model.addAttribute("totalPages", couponPage.getTotalPages()); // 총 페이지 수
+        return "admin/config/coupon"; // 뷰 이름
     }
 }

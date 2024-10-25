@@ -664,7 +664,7 @@
     <div id="couponinfomodal" class="modal admin">
         <div class="couponinfomodal-content modalcontent">
             <nav class="adminmodal-nav">
-                <h1>쿠폰정보</h1><h4>101220134</h4>
+                <h1>쿠폰정보</h1>
                 <button class="adminmodal-close" id="closeModal">&times;</button>
             </nav>
             <section class="modal-section">
@@ -680,7 +680,7 @@
                         </colgroup>
                         <tr>
                             <th>쿠폰번호</th>
-                            <td>11111</td>
+                            <td>101220134</td>
                             <th>발급처</th>
                             <td>다있어</td>
                         </tr>
@@ -715,6 +715,10 @@
                             </td>
                         </tr>
                     </table>
+                    <br>
+                    <div class="modalbuttondiv">
+                        <button class="modalcanclebutton">닫기</button>
+                    </div>
                 </article>
             </section>
         </div>
@@ -752,17 +756,18 @@
                         <tr>
                             <th>해택</th>
                             <td>
-                                <input type="radio" name="coupondiscount" value="1000won">1,000원 할인
-                                <input type="radio" name="coupondiscount" value="2000won">2,000원 할인
-                                <input type="radio" name="coupondiscount" value="3000won">3,000원 할인
-                                <input type="radio" name="coupondiscount" value="4000won">4,000원 할인
-                                <input type="radio" name="coupondiscount" value="5000won">5,000원 할인<br>
-                                <input type="radio" name="coupondiscount" value="10per">10% 할인
-                                <input type="radio" name="coupondiscount" value="20per">20% 할인
-                                <input type="radio" name="coupondiscount" value="30per">30% 할인
-                                <input type="radio" name="coupondiscount" value="40per">40% 할인
-                                <input type="radio" name="coupondiscount" value="50per">50% 할인<br>
-                                <input type="radio" name="coupondiscount" value="deliverfree">배송비 무료
+                                <select name="coupondiscount">
+                                    <option value="">1,000원 할인</option>
+                                    <option value="">2,000원 할인</option>
+                                    <option value="">3,000원 할인</option>
+                                    <option value="">4,000원 할인</option>
+                                    <option value="">10% 할인</option>
+                                    <option value="">20% 할인</option>
+                                    <option value="">30% 할인</option>
+                                    <option value="">40% 할인</option>
+                                    <option value="">50% 할인</option>
+                                    <option value="">배송비 무료</option>
+                                </select>
                             </td>
                         </tr>
                         <tr>

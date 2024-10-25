@@ -1,3 +1,12 @@
+/*
+     날짜 : 2024/10/25
+     이름 : (최초 작성자)
+     내용 : modal.css 생성
+
+     수정이력
+      - 2025/10/25 강유정 - 쿠폰 모달 content 크기수정
+*/
+
 /* 모달 공통 스타일 */
 .modal {
     display: none;
@@ -63,11 +72,19 @@
     height: 250px;
     width: 410px;
 }
-.couponinsertmodal-content,
-.couponinfomodal-content,
+
+
 .couponmodal-content,
-.adressinputmodal-content{
+.adressinputmodal-content,
+.employmodal-content{
     height: 630px;
+    width: 700px;
+}
+
+/*유정*/
+.couponinfomodal-content,
+.couponinsertmodal-content{
+    height: 540px;
     width: 700px;
 }
 
@@ -79,10 +96,7 @@
     height: 850px;
     width: 700px;
 }
-.employmodal-content{
-    height: 630px;
-    width: 700px;
-}
+
 /* 내부 모달 패딩 */
 .modal-section {padding: 15px 22.5px 20px 22.5px;}
 
@@ -271,7 +285,7 @@
     width: 98%;
     resize: none;
     height: 105px;
-    border: 0.4px solid #34495e; /* 테두리 색상 */
+    border: none; /* 테두리 색상 */
     border-radius: 5px; /* 둥근 모서리로 부드러운 느낌 */
 }
 
