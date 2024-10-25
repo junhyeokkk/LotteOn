@@ -16,8 +16,8 @@
             <h1>공지사항<a th:href="@{/cs/layout/notice/list}">전체보기</a></h1>
             <ul>
                 <li th:each="notice : ${notices.content}">
-                    <a th:href="@{/cs/layout/notice/detail/{id}(id=${notice.id})}" th:text="${notice.title}" style="font-size: 17px"></a>
-                    <span th:text="${notice.createdAt}" style="font-size: 17px"></span>
+                    <a th:href="@{/cs/layout/notice/view/{id}(id=${notice.id})}" th:text="${notice.title}" style="font-size: 17px"></a>
+                    <span th:text="${#temporals.format(notice.createdAt, 'yyyy-MM-dd')}" style="font-size: 17px"></span>
                 </li>
             </ul>
         </section>
@@ -28,7 +28,8 @@
             <ul>
                 <li th:each="faq : ${faqs}">
                     <a th:href="@{/cs/layout/faq/view/{id}(id=${faq.id})}">
-                        <span th:text="${faq.type1}" style="font-size: 17px"></span> <span th:text="${faq.type2}" style="font-size: 17px"></span>
+                        <span th:text="${faq.type1}" style="font-size: 17px"></span>
+                        <span th:text="${faq.type2}" style="font-size: 17px"></span>
                     </a>
                 </li>
             </ul>
@@ -42,10 +43,10 @@
             </h1>
             <ul>
                 <li th:each="inquiry : ${inquiries.content}">
-                    <a th:href="@{/cs/layout/qna/detail/{id}(id=${inquiry.id})}" th:text="${inquiry.title}" style="font-size: 17px;"></a>
+                    <a th:href="@{/cs/layout/qna/view/{id}(id=${inquiry.id})}" th:text="${inquiry.title}" style="font-size: 17px;"></a>
                     <p>
                         <span class="uid" th:text="${inquiry.memberId}"></span>
-                        <span class="date" th:text="${inquiry.createdAt}"></span>
+                        <span th:text="${#temporals.format(inquiry.createdAt, 'yyyy-MM-dd')}" style="font-size: 17px"></span>
                     </p>
                 </li>
             </ul>

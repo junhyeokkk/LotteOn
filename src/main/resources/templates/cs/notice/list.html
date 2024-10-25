@@ -21,13 +21,7 @@
         <h2>공지사항 전체 내용입니다.</h2>
       </nav>
       <table>
-        <thead>
-        <tr>
-          <th>제목</th>
-          <th style="text-align: right;">작성일</th>
-        </tr>
-        </thead>
-        <tbody>
+
         <!-- 공지사항 목록 동적 처리 -->
         <tr th:each="notice : ${notices}">
           <td>
@@ -35,7 +29,7 @@
           </td>
           <td style="text-align: right;" th:text="${#temporals.format(notice.createdAt, 'yy.MM.dd')}">작성일</td>
         </tr>
-        </tbody>
+
       </table>
 
       <div class="pagingBox">
