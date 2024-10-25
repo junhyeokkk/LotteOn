@@ -1,10 +1,13 @@
 package com.team1.lotteon.controller.admin.member;
 
+import com.team1.lotteon.dto.Member.MemberPageRequestDTO;
+import com.team1.lotteon.dto.Member.MemberPageResponseDTO;
 import com.team1.lotteon.dto.PointDTO;
 import com.team1.lotteon.dto.point.PointPageRequestDTO;
 import com.team1.lotteon.dto.point.PointPageResponseDTO;
 import com.team1.lotteon.service.MemberService.MemberService;
 import com.team1.lotteon.service.PointService;
+import com.team1.lotteon.service.admin.AdminMemberService;
 import com.team1.lotteon.util.DateUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -12,7 +15,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.awt.*;

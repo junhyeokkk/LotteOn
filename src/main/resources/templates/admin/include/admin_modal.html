@@ -179,24 +179,19 @@
                 <form action="#" method="post" enctype="multipart/form-data">
                     <table border="0" class="heighttable">
                         <tr>
-                            <th>버전</th>
-                            <td>0.0.1-SNAPSHOT</td>
+                            <th>버전정보</th>
+                            <td id="modalVersion"></td>
                         </tr>
                         <tr>
                             <th>변경내역</th>
-                            <td class="modalcontent"><textarea readonly>
-- 프로젝트 생성 및 전체 구조 설계<br>
-- 회원가입 아이디 중복체크 완료<br>
-- 관리자 상품 등록 완료<br>
-- 쇼핑몰 메인 및 개별 페이지 링크 작업<br>
-- 개발을 위한 제반 사항 처리<br>
+                            <td class="modalcontent"><textarea id="modalContent" readonly>
                             </textarea>
                             </td>
                         </tr>
                     </table>
                     <br>
                     <div class="modalbuttondiv">
-                        <button class="modalcanclebutton">닫기</button>
+                        <button type="button" id="modalcanclebutton" class="modalcanclebutton">닫기</button>
                     </div>
                 </form>
             </section>

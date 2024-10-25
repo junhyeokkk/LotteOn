@@ -7,6 +7,7 @@ import com.team1.lotteon.entity.QPoint;
 import com.team1.lotteon.repository.PointRepository;
 import com.team1.lotteon.repository.custom.PointRepositoryCustom;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -17,26 +18,37 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Log4j2
 @RequiredArgsConstructor
 @Repository
 public class PointRepositoryImpl implements PointRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
+
     @Override
     public Page<Point> findByDynamicType(String keyword, String type, Pageable pageable) {
         QPoint point = QPoint.point;
 
-        // 기본 쿼리 작성
-        var query = queryFactory.selectFrom(point)
-                .where(getPredicate(keyword, type));
+        // 검색 조건에 따른 where 조건 표현식 생성
+        BooleanExpression expression = getPredicate(keyword, type);
 
-        // 페이징 처리
-        List<Point> result = query.offset(pageable.getOffset())
+        // keyword가 없을 때 빈 결과 반환
+        if (expression == null) {
+            return new PageImpl<>(List.of(), pageable, 0); // 빈 리스트와 총 0을 반환
+        }
+
+        // 기본 쿼리 작성
+        List<Point> result = queryFactory.selectFrom(point)
+                .where(expression)
+                .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(point.createdat.desc()) // 정렬 기준 설정
                 .fetch();
 
-        long total = query.fetchCount();
+        long total = queryFactory.selectFrom(point)
+                .where(expression)
+                .fetchCount();
 
         return new PageImpl<>(result, pageable, total);
     }
@@ -46,17 +58,18 @@ public class PointRepositoryImpl implements PointRepositoryCustom {
             return null; // 조건이 없을 경우 null 반환
         }
 
-        // 동적으로 필드 선택
-        switch (type.toLowerCase()) {
-            case "type":
-                return QPoint.point.type.stringValue().containsIgnoreCase(keyword);
-            case "acpoints":
-                return QPoint.point.acPoints.stringValue().containsIgnoreCase(keyword);
-            case "member_id":
-                return QPoint.point.member.uid.containsIgnoreCase(keyword); // GeneralMember의 id 사용
-            // 추가적인 필드를 필요에 따라 추가
-            default:
-                return null;
+        // 검색 선택 조건에 따라 where 조건 표현식 생성
+        BooleanExpression expression = null;
+
+        if (type.equals("type")) {
+            expression = QPoint.point.type.containsIgnoreCase(keyword);
+            log.info("Type expression: " + expression);
+        } else if (type.equals("name")) {
+            expression = QPoint.point.member.name.containsIgnoreCase(keyword);
+        } else if (type.equals("member_id")) {
+            expression = QPoint.point.member.uid.containsIgnoreCase(keyword); // GeneralMember의 id 사용
         }
+
+        return expression; // 생성된 조건 반환
     }
 }

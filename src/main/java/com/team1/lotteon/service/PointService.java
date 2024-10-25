@@ -63,9 +63,12 @@ public class PointService {
         // 포인트 데이터 가져오기 (type과 keyword로 필터링)
         Page<Point> pointPage;
 
-        // 타입과 키워드가 모두 주어진 경우
-        if (pointPageRequestDTO.getType() != null && !pointPageRequestDTO.getType().isEmpty() &&
-                pointPageRequestDTO.getKeyword() != null && !pointPageRequestDTO.getKeyword().isEmpty()) {
+        // 타입이 "all"인 경우 모든 데이터 가져오기
+        if ("all".equals(pointPageRequestDTO.getType())) {
+            pointPage = pointRepository.findAll(pageable);
+        } else if (pointPageRequestDTO.getType() != null && !pointPageRequestDTO.getType().isEmpty() &&
+                (pointPageRequestDTO.getKeyword() != null && !pointPageRequestDTO.getKeyword().isEmpty() ||
+                        pointPageRequestDTO.getKeyword() == null || pointPageRequestDTO.getKeyword().isEmpty())) {
 
             // QueryDSL을 사용하여 동적 쿼리 실행
             pointPage = pointRepository.findByDynamicType(pointPageRequestDTO.getKeyword(), pointPageRequestDTO.getType(), pageable);

@@ -24,8 +24,6 @@ public class QProduct extends EntityPathBase<Product> {
 
     public final QBaseEntity _super = new QBaseEntity(this);
 
-    public final StringPath basicDescription = createString("basicDescription");
-
     public final StringPath businessType = createString("businessType");
 
     public final QCategory category;
@@ -35,6 +33,8 @@ public class QProduct extends EntityPathBase<Product> {
 
     public final NumberPath<Integer> deliveryFee = createNumber("deliveryFee", Integer.class);
 
+    public final StringPath description = createString("description");
+
     public final StringPath detailImage = createString("detailImage");
 
     public final NumberPath<Integer> discountRate = createNumber("discountRate", Integer.class);
@@ -43,7 +43,7 @@ public class QProduct extends EntityPathBase<Product> {
 
     public final StringPath manufacturer = createString("manufacturer");
 
-    public final QGeneralMember member;
+    public final QSellerMember member;
 
     public final StringPath origin = createString("origin");
 
@@ -93,7 +93,7 @@ public class QProduct extends EntityPathBase<Product> {
     public QProduct(Class<? extends Product> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.category = inits.isInitialized("category") ? new QCategory(forProperty("category"), inits.get("category")) : null;
-        this.member = inits.isInitialized("member") ? new QGeneralMember(forProperty("member"), inits.get("member")) : null;
+        this.member = inits.isInitialized("member") ? new QSellerMember(forProperty("member"), inits.get("member")) : null;
         this.shop = inits.isInitialized("shop") ? new QShop(forProperty("shop"), inits.get("shop")) : null;
     }
 

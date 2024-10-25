@@ -2,7 +2,6 @@ package com.team1.lotteon.entity;
 
 import com.team1.lotteon.entity.enums.Gender;
 import com.team1.lotteon.entity.enums.Grade;
-import com.team1.lotteon.entity.enums.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

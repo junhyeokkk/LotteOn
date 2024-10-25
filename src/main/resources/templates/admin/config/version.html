@@ -47,7 +47,10 @@
                         <td th:text="${version.RDate}"></td>
                         <td>
                             <div th:replace="admin/include/admin_modal :: #versioncheckModal"></div>
-                            <a href="#" data-modal="versioncheckModal">[확인]</a>
+                            <a href="#" class="version-check"
+                               th:data-version="${version.version}"
+                               th:data-content="${version.content}"
+                               th:data-modal="versioncheckModal">[확인]</a>
                         </td>
                     </tr>
                 </th:block>

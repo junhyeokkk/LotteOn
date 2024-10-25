@@ -40,4 +40,31 @@ window.onload = function () {
             });
     });
 
+    // 모달 링크 클릭 이벤트
+    document.querySelectorAll('.version-check').forEach(function (link) {
+        link.addEventListener('click', function (event) {
+            event.preventDefault(); // 기본 링크 클릭 동작 방지
+
+            // 데이터 속성으로부터 버전 정보와 내용을 가져옴
+            const version = this.getAttribute('data-version');
+            const content = this.getAttribute('data-content');
+
+            // 모달에 데이터 설정
+            document.getElementById('modalVersion').innerText = version;
+            document.getElementById('modalContent').value = content;
+
+            // 모달 열기
+            document.getElementById('versioncheckModal').style.display = 'block';
+        });
+    });
+
+    // 모달 닫기 버튼 클릭 이벤트
+    document.getElementById('closeModal').addEventListener('click', function () {
+        document.getElementById('versioncheckModal').style.display = 'none';
+    });
+
+    // 모달 닫기 버튼 클릭 이벤트
+    document.getElementById('modalcanclebutton').addEventListener('click', function () {
+        document.getElementById('versioncheckModal').style.display = 'none';
+    });
 };

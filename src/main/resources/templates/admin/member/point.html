@@ -27,7 +27,7 @@
             <div>
                 <form th:action="@{/admin/member/point}" method="get" class="search_bar"> <!-- URL 수정 -->
                     <select name="type">
-                        <option value="" th:selected="${points.type == null}">전체</option> <!-- 전체 옵션 추가 -->
+                        <option value="all" th:selected="${points.type == 'all'}">전체</option> <!-- 전체 옵션 추가 -->
                         <option value="member_id" th:selected="${points.type == 'member_id'}">아이디</option>
                         <option value="name" th:selected="${points.type == 'name'}">이름</option>
                         <option value="type" th:selected="${points.type == 'type'}">지급내용</option> <!-- 지급내용 수정 -->

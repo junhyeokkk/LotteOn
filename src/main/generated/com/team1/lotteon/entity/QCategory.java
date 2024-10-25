@@ -26,7 +26,7 @@ public class QCategory extends EntityPathBase<Category> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final EnumPath<com.team1.lotteon.entity.enums.CateLevel> level = createEnum("level", com.team1.lotteon.entity.enums.CateLevel.class);
+    public final NumberPath<Integer> level = createNumber("level", Integer.class);
 
     public final StringPath name = createString("name");
 
