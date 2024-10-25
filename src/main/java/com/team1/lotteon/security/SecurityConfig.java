@@ -33,7 +33,7 @@ public class SecurityConfig {
         //로그아웃 설정
         http.logout(logout -> logout
                 .invalidateHttpSession(true)
-                .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
+                .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
                 .logoutSuccessUrl("/?success=101"));
 
 

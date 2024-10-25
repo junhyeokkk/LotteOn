@@ -1,13 +1,11 @@
 package com.team1.lotteon.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,4 +21,8 @@ public class Shop {
     @Embedded
     private Address address;
     private boolean isActive;
+
+    @OneToOne(mappedBy = "shop")
+    private SellerMember sellerMember;
+
 }

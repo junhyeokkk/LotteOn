@@ -2,6 +2,8 @@ package com.team1.lotteon.security;
 
 import com.team1.lotteon.entity.GeneralMember;
 import com.team1.lotteon.entity.Member;
+import com.team1.lotteon.entity.SellerMember;
+import com.team1.lotteon.entity.Shop;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,6 +25,8 @@ public class MyUserDetails implements UserDetails{
     //Member 엔티티 선언
     private Member member;
     private GeneralMember generalMember;
+    private SellerMember sellerMember;
+    private Shop shop;
     private Map<String, Object> attributes;
     private String accessToken;
 

@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ShopRepository extends JpaRepository<Shop, Long> {
+    boolean existsByShopName(String shopname);
+    boolean existsByBusinessRegistration(String businessRegistration);
+//    boolean existsByECommerceRegistration(String eCommerceRegistration);
 }

@@ -15,7 +15,9 @@ public class Member extends BaseEntity {
     private String uid;
     private String pass;
     private String role;
-
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
     public void setPass(String pass) {
         this.pass = pass;
     }

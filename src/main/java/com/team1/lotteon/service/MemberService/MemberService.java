@@ -2,11 +2,13 @@ package com.team1.lotteon.service.MemberService;
 
 import com.team1.lotteon.dto.GeneralMemberDTO;
 import com.team1.lotteon.dto.MemberDTO;
-import com.team1.lotteon.entity.Address;
-import com.team1.lotteon.entity.GeneralMember;
-import com.team1.lotteon.entity.Member;
+import com.team1.lotteon.dto.SellerMemberDTO;
+import com.team1.lotteon.dto.ShopDTO;
+import com.team1.lotteon.entity.*;
 import com.team1.lotteon.repository.Memberrepository.GeneralMemberRepository;
 import com.team1.lotteon.repository.Memberrepository.MemberRepository;
+import com.team1.lotteon.repository.Memberrepository.SellerMemberRepository;
+import com.team1.lotteon.repository.ShopRepository;
 import jakarta.mail.Message;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
@@ -30,6 +32,8 @@ import java.util.concurrent.ThreadLocalRandom;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final GeneralMemberRepository generalMemberRepository;
+    private final SellerMemberRepository sellerMemberRepository;
+    private final ShopRepository shopRepository;
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
     private final JavaMailSender mailSender;
@@ -40,6 +44,7 @@ public class MemberService {
         memberRepository.save(entity);
         return null;
     }
+    //일반 회원 등록
     @Transactional
     public void insertGeneralMember(GeneralMemberDTO generalMemberDTO, MemberDTO memberDTO) {
         // 비밀번호 암호화
@@ -52,6 +57,33 @@ public class MemberService {
         // GeneralMember 저장 시 자동으로 부모 클래스인 Member도 함께 저장
         generalMemberRepository.save(generalMember);
     }
+
+    //판매자 회원 등록
+    @Transactional
+    public void insertSellerMember(ShopDTO shopDTO, MemberDTO memberDTO) {
+        // 1. SellerMember 생성 및 저장
+        String encodedPassword = passwordEncoder.encode(memberDTO.getPass());
+        SellerMember sellerMember = modelMapper.map(memberDTO, SellerMember.class);
+        sellerMember.setPass(encodedPassword);
+        sellerMember.setRole("Seller");
+
+        // SellerMember 먼저 저장
+        SellerMember savedSellerMember = sellerMemberRepository.save(sellerMember);
+
+        // 2. Shop 생성 및 저장
+        Shop shop = modelMapper.map(shopDTO, Shop.class);
+        shop.setAddress(new Address(shopDTO.getZip(), shopDTO.getAddr1(), shopDTO.getAddr2()));
+
+        // Shop 저장
+        shopRepository.save(shop);
+
+        // 3. SellerMember에 Shop 연관 설정 업데이트
+        savedSellerMember.setShop(shop);
+        sellerMemberRepository.save(savedSellerMember); // 연관 관계 업데이트 후 다시 저장
+    }
+
+
+
     // 아이디 중복 확인
     public boolean isUidExist(String uid) {
         boolean check = memberRepository.existsByUid(uid);

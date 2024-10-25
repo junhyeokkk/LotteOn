@@ -29,8 +29,8 @@ window.onload = function () {
 	const patterns = {
 		uid: /^[a-z]+[a-z0-9]{4,19}$/g,
 		pass: /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{5,16}$/,
-		shop_name: /^[가-힣]{2,10}$/,
-		ph: /^01(?:0|1|[6-9])-(?:\d{4})-\d{4}$/
+		ph: /^01(?:0|1|[6-9])-(?:\d{4})-\d{4}$/,
+		business_registration: /^\d{3}-\d{2}-\d{5}$/
 	};
 
 	// 함수: 유효성 검사 결과 표시
@@ -75,77 +75,170 @@ window.onload = function () {
 	});
 
 	// 회사 이름 유효성 검사
-	const Shop_nameInput = document.getElementsByName('shop_name')[0];
-	Shop_nameInput.addEventListener('focusout', function () {
+	const Shop_nameInput = document.getElementsByName('shopName')[0];
+	Shop_nameInput.addEventListener('focusout', async function () {
 		const shop_name = Shop_nameInput.value;
-		if (!shop_name.match(patterns.shop_name)) {
-			showResult(resultShop_name, "이름이 유효하지 않습니다.", false);
+		console.log(shop_name);
+		if(!shop_name){
+			showResult(resultShop_name, "회사명을 입력해주세요.", false);
+			return;
+		}
+		const data = await fetchGet(`/user/Register/shop/${shop_name}`);
+		if(data.result) {
+			showResult(resultShop_name, "사용할수 없는 회사명 입니다", false);  // 메시지 지우기
 			isShop_nameOk = false;
-		} else {
-			resultShop_name.innerText = "";  // 메시지 지우기
+		}else{
+			showResult(resultShop_name, "등록이 가능한 회사명 입니다",true);
 			isShop_nameOk = true;
 		}
 	});
 
-	// 이메일 유효성 검사 및 인증코드 발송
-	const btnSendEmail = document.getElementById('btnSendEmail');
-	const EmailInput = document.querySelector('input[name="email"]');
-	const btnAuthEmail = document.getElementById('btnAuthEmail');
-	const authInput = document.querySelector('.userauth'); // 인증 코드 입력 필드
+	// 대표 유효성 검사
+	const NameInput = document.getElementsByName('representative')[0];
+	NameInput.addEventListener('focusout', function () {
+		const name = NameInput.value;
+		if (!name) {
+			showResult(resultRepresentative, "성함을 입력해주세요.", false);
+			isRepresentativeOk = false;
+		} else {
+			resultRepresentative.innerText = "";  // 메시지 지우기
+			isRepresentativeOk = true;
+		}
+	});
+	// 사업자등록번호 유효성 검사
+	const business_registrationPart1 = document.getElementById('business_registration_part1');
+	const business_registrationPart2 = document.getElementById('business_registration_part2');
+	const business_registrationPart3 = document.getElementById('business_registration_part3');
+	const business_registrationHidden = document.getElementsByName('businessRegistration')[0];
 
-	btnSendEmail.addEventListener('click', async function (e) {
-		e.preventDefault(); // 기본 제출 동작 막기
-		const value = EmailInput.value;
-		if (!value.match(patterns.email)) {
-			showResult(resultEmail, '이메일 형식이 맞지 않습니다.', false);
-			isEmailOk = false;
+	// 숫자만 입력 가능하고 최대치에 도달하면 다음 필드로 이동하도록 이벤트 추가
+	[business_registrationPart1, business_registrationPart2, business_registrationPart3].forEach((input, index, array) => {
+		input.addEventListener('input', function () {
+			// 숫자가 아닌 문자는 제거
+			input.value = input.value.replace(/[^0-9]/g, '');
+
+			// 최대 길이에 도달하면 다음 필드로 포커스 이동
+			if (input.value.length === input.maxLength) {
+				const nextInput = array[index + 1];
+				if (nextInput) {
+					nextInput.focus();
+				}
+			}
+		});
+	});
+
+	// 세 번째 필드에서 포커스 아웃 시 유효성 검사 실행
+	business_registrationPart3.addEventListener('focusout', validateBusinessRegistration);
+
+	// 유효성 검사 함수
+	async function validateBusinessRegistration() {
+		const part1 = business_registrationPart1.value;
+		const part2 = business_registrationPart2.value;
+		const part3 = business_registrationPart3.value;
+
+		// 유효성 검사 (각각의 부분이 올바른 형식인지 확인)
+		if (!part1.match(/^\d{3}$/) || !part2.match(/^\d{2}$/) || !part3.match(/^\d{5}$/)) {
+			showResult(resultBusiness_registration, "사업자등록번호를 정확히 입력해주세요", false);
+			isBusiness_registrationOk = false;
 			return;
 		}
-		const data = await fetchGet(`/user/Register/email/${value}`);
-		if (data.result) {
-			showResult(resultEmail, '이미 사용중인 이메일 입니다.', false);
-			isEmailOk = false;
+
+		// 전체 사업자등록번호 조합
+		const fullBusinessRegistration = `${part1}-${part2}-${part3}`;
+		business_registrationHidden.value = fullBusinessRegistration; // 히든 필드에 전체 값 설정
+
+		// 서버에 중복 확인 요청
+		const data = await fetchGet(`/user/Register/businessregistration/${fullBusinessRegistration}`);
+
+		if (data && data.result) {
+			showResult(resultBusiness_registration, "사용할 수 없는 사업자등록번호입니다", false);
+			isBusiness_registrationOk = false;
 		} else {
-			showResult(resultEmail, '인증코드가 발송되었습니다.', true);
-			auth.style.display = 'block';  // 인증 필드 활성화
-			isEmailOk = true;
+			showResult(resultBusiness_registration, "등록이 가능한 사업자등록번호입니다", true);
+			isBusiness_registrationOk = true;
+		}
+	}
+	// 통신판매업번호 유효성 검사
+	const e_commerce_registrationPart1 = document.getElementById('e_commerce_registration_part1');
+	const e_commerce_registrationPart2 = document.getElementById('e_commerce_registration_part2');
+	const e_commerce_registrationPart3 = document.getElementById('e_commerce_registration_part3');
+	const e_commerce_registrationHidden = document.getElementsByName('eCommerceRegistration')[0];
+
+	// 숫자만 입력 가능하고 최대치에 도달하면 다음 필드로 이동 (각 순서를 명확히 설정)
+	e_commerce_registrationPart1.addEventListener('input', function () {
+		// 숫자가 아닌 문자는 제거
+		e_commerce_registrationPart1.value = e_commerce_registrationPart1.value.replace(/[^0-9]/g, '');
+
+		// 최대 길이에 도달하면 두 번째 필드로 포커스 이동
+		if (e_commerce_registrationPart1.value.length === e_commerce_registrationPart1.maxLength) {
+			e_commerce_registrationPart2.focus();
+		}
+	});
+	e_commerce_registrationPart2.addEventListener('input', function () {
+		// 문자 이외의 문자는 제거
+		e_commerce_registrationPart2.value = e_commerce_registrationPart2.value.replace(/[^a-zA-Z가-힣]/g, '');
+
+		// 최대 길이에 도달하면 세 번째 필드로 포커스 이동
+		if (e_commerce_registrationPart2.value.length === e_commerce_registrationPart2.maxLength) {
+			e_commerce_registrationPart3.focus();
 		}
 	});
 
-	// 이메일 인증코드 확인
-	btnAuthEmail.addEventListener('click', async function (e) {
-		e.preventDefault();
-		const code = authInput.value;  // 사용자가 입력한 인증 코드
-		const jsonData = {"code": code};
-		const data = await fetchPost(`/user/Register/email`, jsonData);
-
-		if (!data.result) {
-			showResult(resultEmail, '인증코드가 일치하지 않습니다.', false);
-			isEmailVerified = false;
-		} else {
-			showResult(resultEmail, '이메일이 인증되었습니다.', true);
-			isEmailVerified = true;
-		}
+	e_commerce_registrationPart3.addEventListener('input', function () {
+		// 숫자가 아닌 문자는 제거
+		e_commerce_registrationPart3.value = e_commerce_registrationPart3.value.replace(/[^0-9]/g, '');
 	});
 
-	// 휴대폰 번호 유효성 검사
-	const phInput = document.getElementById('ph');
-	phInput.addEventListener('focusout', async function () {
-		const value = phInput.value;
-		if (!value.match(patterns.hp)) {
-			showResult(resultHp, '전화번호가 유효하지 않습니다.', false);
-			isHpOk = false;
+	// 세 번째 필드에서 포커스 아웃 시 유효성 검사 실행
+	e_commerce_registrationPart3.addEventListener('focusout', validateECommerceRegistration);
+
+	// 유효성 검사 함수
+	async function validateECommerceRegistration() {
+		const part1 = e_commerce_registrationPart1.value;
+		const part2 = e_commerce_registrationPart2.value;
+		const part3 = e_commerce_registrationPart3.value;
+
+		// 유효성 검사 (각각의 부분이 올바른 형식인지 확인)
+		if (!part1.match(/^\d{4}$/) || !part2.match(/^[a-zA-Z가-힣]{1,5}$/) || !part3.match(/^\d{4}$/)) {
+			showResult(resultE_commerce_registration, "정확히 입력해주세요", false);
+			isE_commerce_registrationOk = false;
 			return;
 		}
-		const data = await fetchGet(`/user/Register/ph/${value}`);
-		if (data.result) {
-			showResult(resultHp, '이미 사용중인 휴대폰번호입니다.', false);
-			isHpOk = false;
+
+		// 전체 통신판매업번호 조합
+		const fullECommerceRegistration = `${part1}-${part2}-${part3}`;
+		e_commerce_registrationHidden.value = fullECommerceRegistration; // 히든 필드에 전체 값 설정
+
+		// 서버에 중복 확인 요청
+		const data = await fetchGet(`/user/Register/e_commerce_registration/${fullECommerceRegistration}`);
+
+		if (data && data.result) {
+			showResult(resultE_commerce_registration, "사용할 수 없는 통신판매업번호입니다", false);
+			isE_commerce_registrationOk = false;
 		} else {
-			showResult(resultHp, '사용할 수 있는 번호입니다.', true);
-			isHpOk = true;
+			showResult(resultE_commerce_registration, "등록이 가능한 통신판매업번호입니다", true);
+			isE_commerce_registrationOk = true;
 		}
-	});
+	}
+
+	// // 휴대폰 번호 유효성 검사
+	// const phInput = document.getElementById('ph');
+	// phInput.addEventListener('focusout', async function () {
+	// 	const value = phInput.value;
+	// 	if (!value.match(patterns.hp)) {
+	// 		showResult(resultHp, '전화번호가 유효하지 않습니다.', false);
+	// 		isHpOk = false;
+	// 		return;
+	// 	}
+	// 	const data = await fetchGet(`/user/Register/ph/${value}`);
+	// 	if (data.result) {
+	// 		showResult(resultHp, '이미 사용중인 휴대폰번호입니다.', false);
+	// 		isHpOk = false;
+	// 	} else {
+	// 		showResult(resultHp, '사용할 수 있는 번호입니다.', true);
+	// 		isHpOk = true;
+	// 	}
+	// });
 
 	// 주소 유효성 검사
 	const address1Input = document.getElementById('address1');
@@ -160,65 +253,57 @@ window.onload = function () {
 		}
 	});
 
-	// 성별 유효성 검사
-	const genderInputs = document.querySelectorAll('input[name="gender"]');
-	genderInputs.forEach(input => {
-		input.addEventListener('change', function () {
-			isGenderOk = true;  // 성별이 선택되었을 때 true로 설정
-		});
-	});
-
 	// 최종 폼 전송 유효성 검사
-	registerForm.onsubmit = function (e) {
-		// 아이디 유효성 검사 완료 여부
-		if (!isUidOk) {
-			alert('아이디가 유효하지 않습니다.');
-			e.preventDefault(); // 폼 전송 취소
-			return false;
-		}
-
-		// 비밀번호 유효성 검사 완료 여부
-		if (!isPassOk) {
-			alert('비밀번호가 유효하지 않습니다.');
-			e.preventDefault(); // 폼 전송 취소
-			return false;
-		}
-
-		// 이름 유효성 검사 완료 여부
-		if (!isNameOk) {
-			alert('이름이 유효하지 않습니다.');
-			e.preventDefault(); // 폼 전송 취소
-			return false;
-		}
-
-		// 성별 유효성 검사 완료 여부
-		if (!isGenderOk) {
-			alert('성별을 선택해주세요.');
-			e.preventDefault(); // 폼 전송 취소
-			return false;
-		}
-
-		// 이메일 유효성 검사 완료 여부
-		if (!isEmailOk || !isEmailVerified) {
-			alert('이메일이 인증되지 않았습니다.');
-			e.preventDefault(); // 폼 전송 취소
-			return false;
-		}
-
-		// 휴대폰 유효성 검사 완료 여부
-		if (!isHpOk) {
-			alert('휴대폰 번호가 유효하지 않습니다.');
-			e.preventDefault(); // 폼 전송 취소
-			return false;
-		}
-
-		// 주소 유효성 검사 완료 여부
-		if (!isAddressOk) {
-			alert('주소가 유효하지 않습니다.');
-			e.preventDefault(); // 폼 전송 취소
-			return false;
-		}
-
-		return true;
-	}
+	// registerForm.onsubmit = function (e) {
+	// 	// 아이디 유효성 검사 완료 여부
+	// 	if (!isUidOk) {
+	// 		alert('아이디가 유효하지 않습니다.');
+	// 		e.preventDefault(); // 폼 전송 취소
+	// 		return false;
+	// 	}
+	//
+	// 	// 비밀번호 유효성 검사 완료 여부
+	// 	if (!isPassOk) {
+	// 		alert('비밀번호가 유효하지 않습니다.');
+	// 		e.preventDefault(); // 폼 전송 취소
+	// 		return false;
+	// 	}
+	//
+	// 	// 이름 유효성 검사 완료 여부
+	// 	if (!isNameOk) {
+	// 		alert('이름이 유효하지 않습니다.');
+	// 		e.preventDefault(); // 폼 전송 취소
+	// 		return false;
+	// 	}
+	//
+	// 	// 성별 유효성 검사 완료 여부
+	// 	if (!isGenderOk) {
+	// 		alert('성별을 선택해주세요.');
+	// 		e.preventDefault(); // 폼 전송 취소
+	// 		return false;
+	// 	}
+	//
+	// 	// 이메일 유효성 검사 완료 여부
+	// 	if (!isEmailOk || !isEmailVerified) {
+	// 		alert('이메일이 인증되지 않았습니다.');
+	// 		e.preventDefault(); // 폼 전송 취소
+	// 		return false;
+	// 	}
+	//
+	// 	// 휴대폰 유효성 검사 완료 여부
+	// 	if (!isHpOk) {
+	// 		alert('휴대폰 번호가 유효하지 않습니다.');
+	// 		e.preventDefault(); // 폼 전송 취소
+	// 		return false;
+	// 	}
+	//
+	// 	// 주소 유효성 검사 완료 여부
+	// 	if (!isAddressOk) {
+	// 		alert('주소가 유효하지 않습니다.');
+	// 		e.preventDefault(); // 폼 전송 취소
+	// 		return false;
+	// 	}
+	//
+	// 	return true;
+	// }
 }

@@ -14,21 +14,33 @@ public class GlobalControllerAdvice {
     @ModelAttribute
     public void addAuthenticationToModel(Authentication authentication, Model model) {
         if (authentication != null && authentication.isAuthenticated()) {
+            model.addAttribute("isAuthenticated", true);
             MyUserDetails userDetails = (MyUserDetails) authentication.getPrincipal();
-
-            String uid = userDetails.getMember().getUid(); // 로그인한 uid
-            String name = (userDetails.getGeneralMember() != null) ? userDetails.getGeneralMember().getName() : "No Name"; // GeneralMember의 이름
             String role = userDetails.getAuthorities()
                     .toString()
                     .replace("[", "")
                     .replace("]", "")
                     .replace("ROLE_", "");
             log.info(role);
-            model.addAttribute("isAuthenticated", true);
             model.addAttribute("role", role);
-            model.addAttribute("uid", uid); // 로그인 uid
-            model.addAttribute("name", name); // GeneralMember의 name
             model.addAttribute("userDetails", userDetails);
+            if(role.equals("General")){
+                String uid = userDetails.getMember().getUid(); // 로그인한 uid
+                String name = (userDetails.getGeneralMember() != null) ? userDetails.getGeneralMember().getName() : "No Name"; // GeneralMember의 이름
+                model.addAttribute("uid", uid); // 로그인 uid
+                model.addAttribute("name", name); // GeneralMember의 name
+            }else if(role.equals("Seller")){
+                String uid = userDetails.getMember().getUid();
+                String name = (userDetails.getSellerMember() != null) ? userDetails.getSellerMember().getShop().getShopName() : "No Name"; // SellerMember의 상점이름
+                model.addAttribute("uid", uid);
+                model.addAttribute("name", name);
+            }else if(role.equals("Admin")){
+                String uid = userDetails.getMember().getUid();
+//                String name = (userDetails.getMember() != null) ? userDetails.getMember().getName() : "No Name";
+                String name = "관리자";
+                model.addAttribute("uid", uid);
+                model.addAttribute("name", name);
+            }
         } else {
             model.addAttribute("isAuthenticated", false);
         }

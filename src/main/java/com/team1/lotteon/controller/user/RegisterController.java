@@ -2,8 +2,12 @@ package com.team1.lotteon.controller.user;
 
 import com.team1.lotteon.dto.GeneralMemberDTO;
 import com.team1.lotteon.dto.MemberDTO;
+import com.team1.lotteon.dto.SellerMemberDTO;
+import com.team1.lotteon.dto.ShopDTO;
 import com.team1.lotteon.service.MemberService.GeneralMemberService;
 import com.team1.lotteon.service.MemberService.MemberService;
+import com.team1.lotteon.service.MemberService.SellerMemberService;
+import com.team1.lotteon.service.ShopService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.Console;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
@@ -25,6 +30,8 @@ import java.util.Map;
 public class RegisterController {
     private final MemberService memberService;
     private final GeneralMemberService generalMemberService;
+    private final SellerMemberService sellerMemberService;
+    private final ShopService shopService;
     //회원가입 정보 입력 (판매자, 일반회원) 구분
     @GetMapping("/user/register/{member}")
     public String registerPage(@PathVariable String member, Model model) {
@@ -41,7 +48,7 @@ public class RegisterController {
     //입력받은 정보를 기반으로 DB 저장
     @PostMapping("/user/register/{role}")
     public String UserRegister(@PathVariable("role") String roleType,
-                               GeneralMemberDTO generalMemberDTO, MemberDTO memberDTO,
+                               GeneralMemberDTO generalMemberDTO, MemberDTO memberDTO, ShopDTO shopDTO,
                                HttpServletRequest request) {
         HttpSession session = request.getSession();
 
@@ -49,12 +56,12 @@ public class RegisterController {
             if ("user".equals(roleType)) {
                 // 일반 사용자 회원가입 처리
                 memberService.insertGeneralMember(generalMemberDTO, memberDTO);
-                return "redirect:/user/login?success=" + URLEncoder.encode("회원가입이 성공적으로 완료되었습니다.", "UTF-8");
+                return "redirect:/user/login?message=" + URLEncoder.encode("회원가입이 성공적으로 완료되었습니다.", "UTF-8");
 
             } else if ("seller".equals(roleType)) {
                 // 판매자 회원가입 처리
-                // memberService.insertSellerMember(generalMemberDTO, memberDTO);
-                return "redirect:/user/login?success=" + URLEncoder.encode("판매자 회원가입이 성공적으로 완료되었습니다.", "UTF-8");
+                memberService.insertSellerMember(shopDTO, memberDTO);
+                return "redirect:/user/login?message=" + URLEncoder.encode("판매자 회원가입이 성공적으로 완료되었습니다.", "UTF-8");
 
             } else {
                 // 잘못된 role 값 처리
@@ -97,7 +104,23 @@ public class RegisterController {
             response.put("result", exists);
             return response;
         }
-
+        if(type.equals("shop")){
+            boolean exists = shopService.isshopnameExist(value);
+            response.put("result", exists);
+            return response;
+        }
+        if(type.equals("businessregistration")){
+            boolean exists = shopService.isBusinessRegistrationExist(value);
+            log.info(exists);
+            response.put("result", exists);
+            return response;
+        }
+//        if(type.equals("e_commerce_registration")){
+//            boolean exists = shopService.isECommerceRegistrationExist(value);
+//            log.info(exists);
+//            response.put("result", exists);
+//            return response;
+//        }
         response.put("result", false); // 기본값
         return response;
     }
