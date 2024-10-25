@@ -15,5 +15,6 @@ import org.springframework.stereotype.Repository;
 */
 @Repository
 public interface PointRepository extends JpaRepository<Point, Long>, PointRepositoryCustom {
-
+    // 특정 member_id의 포인트를 가져오는 메서드
+    Page<Point> findByMemberUid(String uid, Pageable pageable);
 }

@@ -1,16 +1,27 @@
 package com.team1.lotteon.controller.my;
 
+import com.team1.lotteon.dto.point.PointPageRequestDTO;
+import com.team1.lotteon.dto.point.PointPageResponseDTO;
 import com.team1.lotteon.entity.Address;
 import com.team1.lotteon.security.MyUserDetails;
+import com.team1.lotteon.service.PointService;
+import com.team1.lotteon.util.DateUtil;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Log4j2
 @Controller
+@RequiredArgsConstructor
 public class MyinfoController {
+
+    private final PointService pointService;
+    private final DateUtil dateUtil;
+
     @GetMapping("/myPage/home")
     public String home() {
         return "myPage/home";
@@ -45,13 +56,17 @@ public class MyinfoController {
         return "myPage/content/coupon";
     }
     @GetMapping("/myPage/ordered")
+
     public String myordered(Model model){
         return "myPage/content/ordered";
     }
     @GetMapping("/myPage/point")
-    public String mypoint(Model model){
+    public String mypoint(){
+
         return "myPage/content/point";
     }
+
+
     @GetMapping("/myPage/qna")
     public String myqna(Model model){
         return "myPage/content/qna";

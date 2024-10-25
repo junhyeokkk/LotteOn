@@ -15,6 +15,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,11 +26,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /*
-    날짜 : 2024/10/24
-    이름 : 최준혁
-    내용 : 포인트 서비스 생성
+*   날짜 : 2024/10/24
+*   이름 : 최준혁
+*   내용 : PointService 생성
+*
+*
+*   수정내역
+*   -
 */
-
 @Log4j2
 @RequiredArgsConstructor
 @Service
@@ -61,7 +67,33 @@ public class PointService {
         pointRepository.save(point);
     }
 
-    // 포인트 select  페이징
+    // 포인트 select 페이징 (MYPAGE) => 내 포인트 가져오기 일단 stop
+    public PointPageResponseDTO getMyPoints(PointPageRequestDTO pointPageRequestDTO) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String uid = (authentication != null && authentication.getPrincipal() instanceof UserDetails)
+                ? ((UserDetails) authentication.getPrincipal()).getUsername()
+                : null;
+
+        log.info("현재 로그인한 사용자 uid: " + uid);
+
+        // Pageable 생성
+        Pageable pageable = pointPageRequestDTO.getPageable("createdat");
+
+        // 포인트 데이터 가져오기 (member_id가 uid인 포인트만)
+        Page<Point> pointPage = pointRepository.findByMemberUid(uid, pageable);
+
+        // Point 엔티티를 DTO로 변환
+        List<PointDTO> dtoList = pointPage.getContent().stream()
+                .map(point -> modelMapper.map(point, PointDTO.class))
+                .collect(Collectors.toList());
+
+
+        // PointPageResponseDTO 생성 및 반환
+        return new PointPageResponseDTO(pointPageRequestDTO, dtoList, (int) pointPage.getTotalElements());
+    }
+
+
+    // 포인트 select 페이징 (ADMIN) + 검색기능
     public PointPageResponseDTO getPoints(PointPageRequestDTO pointPageRequestDTO) {
         // Pageable 생성
         Pageable pageable = pointPageRequestDTO.getPageable("createdat");

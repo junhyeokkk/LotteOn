@@ -13,9 +13,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 /*
-    날짜 : 2024/10/22
-    이름 : 최준혁
-    내용 : admin>product 페이지 이동을 위한 컨트롤러
+     날짜 : 2024/10/23
+     이름 : 최준혁
+     내용 : ProductPageController 생성
+
+     수정이력
+      - ADMIN => Product 페이지 이동 메서드 생성
 
 */
 @Controller
@@ -34,11 +37,5 @@ public class ProductPageController {
     public String register(){
 
         return "admin/product/register";
-    }
-
-    @PostMapping("/admin/product/register")
-    public String registerPost(@ModelAttribute ProductCreateDTO productCreateDTO){
-
-        return "admin/product/list";
     }
 }
