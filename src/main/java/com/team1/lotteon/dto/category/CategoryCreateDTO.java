@@ -21,9 +21,6 @@ public class CategoryCreateDTO {
     private Long parentId;
 
     public Category toEntity() {
-        return Category.builder()
-                .name(name)
-                .level(level)
-                .build();
+        return Category.createCategory(name, level);
     }
 }

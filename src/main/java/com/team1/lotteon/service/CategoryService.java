@@ -53,6 +53,11 @@ public class CategoryService {
         return CategoryWithParentAndChildrenResponseDTO.fromEntity(category);
     }
 
+    public List<CategoryResponseDTO> getAllCategoriesByParentId(Long parentId) {
+        List<Category> categories = categoryRepository.findByParentId(parentId);
+        return categories.stream().map(CategoryResponseDTO::fromEntity).toList();
+    }
+
     public List<CategoryResponseDTO> getChildrenById(Long id) {
         Category parentcategory = categoryRepository.findWithChildrenById(id).orElseThrow(() -> new IllegalArgumentException("해당 카테고리는 존재하지 않습니다."));
         List<Category> children = parentcategory.getChildren();

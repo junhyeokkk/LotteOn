@@ -63,6 +63,20 @@ public class Category {
         this.level = level;
     }
 
+    public static Category createCategory(String name, int level, Category parent) {
+        return Category.builder()
+                .name(name)
+                .level(level)
+                .parent(parent)
+                .build();
+    }
+
+    public static Category createCategory(String name, int level) {
+        return Category.builder()
+                .name(name)
+                .level(level)
+                .build();
+    }
     public void changeDisplayOrder(int displayOrder) {
         this.displayOrder = displayOrder;
     }

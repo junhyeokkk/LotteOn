@@ -26,8 +26,7 @@ import java.util.List;
 public class CategoryApiController {
     private final CategoryService categoryService;
 
-    // 전체 카테고리 조회 (상훈)
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<CategoryWithChildrenResponseDTO>> getAllCategory() {
         List<CategoryWithChildrenResponseDTO> allCategories = categoryService.getAllRootCategories();
         return ResponseEntity.status(HttpStatus.OK).body(allCategories);
@@ -45,6 +44,12 @@ public class CategoryApiController {
     public ResponseEntity<List<CategoryWithChildrenResponseDTO>> getAllRootCategories() {
         List<CategoryWithChildrenResponseDTO> allCategories = categoryService.getAllRootCategories();
         return ResponseEntity.status(HttpStatus.OK).body(allCategories);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<CategoryResponseDTO>> getAllCategoryByParentId(@RequestParam("parentId") Long parentId) {
+        List<CategoryResponseDTO> result = categoryService.getAllCategoriesByParentId(parentId);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @PostMapping

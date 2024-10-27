@@ -33,4 +33,8 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
 
     // 자식 카테고리 가져오기(준혁)
     List<Category> findByParentIdOrderByDisplayOrderAsc(Long parentId);
+
+    public List<Category> findByLevelOrderByDisplayOrderAsc(int level);
+
+    public List<Category> findByParentId(Long id);
 }
