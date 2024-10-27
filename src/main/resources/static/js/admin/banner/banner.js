@@ -1,3 +1,8 @@
+/*
+    날짜 : 2024/10/22
+    이름 : 최준혁
+    내용 : 배너 js 파일 생성
+*/
 window.onload =function (){
 
     const sizeInput = document.querySelector('.bannersize'); // 사이즈 입력란 선택

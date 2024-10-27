@@ -21,10 +21,10 @@
             <div>
                 <form action="/admin/product/list" class="search_bar">
                     <select name="type">
-                        <option value="prodName">상품명</option>
-                        <option value="prodNo">상품번호</option>
-                        <option value="sellerNo">판매자</option>
-                        <option value="prodCompany">제조사</option>
+                        <productOption value="prodName">상품명</productOption>
+                        <productOption value="prodNo">상품번호</productOption>
+                        <productOption value="sellerNo">판매자</productOption>
+                        <productOption value="prodCompany">제조사</productOption>
                     </select>
                     <input class="searchInput" type="text" name="keyword" />
                     <input class="searchBtn" type="submit" value="검색" />
@@ -63,7 +63,7 @@
                     <td style="line-height: 20px">
                         <a onclick="modifyProdStatus()" class="cs_delete-btn">[삭제]</a>
                         <br />
-                        <a th:href="@{/seller/product/option(prodNo=${product.id})}" class="cs_modify-btn">[수정]</a>
+                        <a th:href="@{/seller/product/productOption(prodNo=${product.id})}" class="cs_modify-btn">[수정]</a>
                     </td>
                 </tr>
             </table>

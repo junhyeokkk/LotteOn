@@ -22,6 +22,19 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+/*
+    날짜 : 2024/10/22
+    이름 : 최준혁
+    내용 : config 서비스 생성
+
+    수정내역
+    - 전체 정보 조회 (10/22)
+    - 사이트 정보 수정 (10/22)
+    - 회사 정보 수정 (10/22)
+    - 카피라이트 정보 수정 (10/22)
+    - 파일 업로드 (헤더, 푸터, 파비콘) (10/23)
+*/
+
 @Log4j2
 @RequiredArgsConstructor
 @Service
@@ -35,7 +48,7 @@ public class ConfigService {
     private String uploadDir; // YAML에서 설정한 파일 업로드 경로
 
 
-    // 전체 정보를 조회 (1개 밖에 없어서 아이디를 고정해줬지만 추후 develop 생각)
+    // 전체 정보 조회 (1개 밖에 없어서 아이디를 고정해줬지만 추후 develop 생각) (준혁)
     public ConfigDTO getCompanyInfo() {
 
         Config config = configRepository.findById(1).orElseThrow(() -> new EntityNotFoundException("Config not found"));
@@ -43,7 +56,7 @@ public class ConfigService {
         return modelMapper.map(config, ConfigDTO.class);
     }
 
-    // 사이트 정보 수정
+    // 사이트 정보 수정 (준혁)
     public void updateSiteInfo(String title, String subTitle) {
         Config config = configRepository.findById(1)  // Assume there's only one config record
                 .orElseThrow(() -> new RuntimeException("Config not found"));
@@ -58,7 +71,7 @@ public class ConfigService {
         configRepository.save(config);
     }
 
-    // 회사 정보 수정
+    // 회사 정보 수정 (준혁)
     public void updateComInfo(String b_name, String ceo, String b_num,
                              String b_report, String addr1, String addr2) {
         Config config = configRepository.findById(1)  // Assume there's only one config record
@@ -86,7 +99,7 @@ public class ConfigService {
         configRepository.save(config);
     }
 
-    // 고객센터 정보 수정
+    // 고객센터 정보 수정 (준혁)
     public void updateCsInfo(String cs_num, String cs_time, String cs_email, String dispute ) {
         Config config = configRepository.findById(1)  // Assume there's only one config record
                 .orElseThrow(() -> new RuntimeException("Config not found"));
@@ -107,7 +120,7 @@ public class ConfigService {
         configRepository.save(config);
     }
 
-    // 카피라이트 정보 수정
+    // 카피라이트 정보 수정 (준혁)
     public void updateCopyInfo(String copyright) {
         Config config = configRepository.findById(1)  // Assume there's only one config record
                 .orElseThrow(() -> new RuntimeException("Config not found"));
@@ -118,7 +131,7 @@ public class ConfigService {
         configRepository.save(config);
     }
 
-    // 파일 업로드
+    // 파일 업로드 (준혁)
     public void uploadLogos(MultipartFile headerLogo, MultipartFile footerLogo, MultipartFile favicon) throws IOException {
         // 파일 저장 경로 설정
 

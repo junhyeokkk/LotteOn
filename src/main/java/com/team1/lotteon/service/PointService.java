@@ -22,6 +22,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/*
+    날짜 : 2024/10/24
+    이름 : 최준혁
+    내용 : 포인트 서비스 생성
+*/
+
 @Log4j2
 @RequiredArgsConstructor
 @Service

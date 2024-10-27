@@ -6,7 +6,11 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-
+/*
+    날짜 : 2024/10/24
+    이름 : 최준혁
+    내용 : Version 엔티티 생성
+*/
 @Entity
 @Getter
 @Setter

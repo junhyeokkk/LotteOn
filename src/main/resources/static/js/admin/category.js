@@ -1,3 +1,9 @@
+/*
+    날짜 : 2024/10/22
+    이름 : 최준혁
+    내용 : 카테고리 js 파일 생성
+*/
+
 // 드래그 앤 드롭 기능
 const categoryList = document.getElementById('categoryList');
 let draggedElement = null; // 드래그한 요소를 저장할 변수

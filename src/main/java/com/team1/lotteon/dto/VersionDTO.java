@@ -6,6 +6,11 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 
+/*
+    날짜 : 2024/10/24
+    이름 : 최준혁
+    내용 : Version DTO 생성
+*/
 
 @Getter
 @Setter

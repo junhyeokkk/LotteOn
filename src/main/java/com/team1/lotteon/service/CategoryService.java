@@ -8,21 +8,39 @@ import com.team1.lotteon.entity.Category;
 import com.team1.lotteon.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /*
     날짜 : 2024/10/25
     이름 : 이상훈
     내용 : 카테고리 서비스 생성
+
+    - 수정내역
+    - 자식 카테고리 가져오기 <캐싱 추가> getSubCategoriesByParentId() 추가 (10/25)
 */
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class CategoryService {
-    private final CategoryRepository categoryRepository;
 
+    private final CategoryRepository categoryRepository;
+    private final ModelMapper modelMapper;
+
+    // 자식 카테고리 가져오기 <캐싱 추가> (준혁)
+    @Cacheable(value = "subCategories", key = "#parentId")
+    public List<CategoryWithChildrenResponseDTO> getSubCategoriesByParentId(Long parentId) {
+        List<Category> subCategories = categoryRepository.findByParentId(parentId);
+        return subCategories.stream()
+                .map(category -> modelMapper.map(category, CategoryWithChildrenResponseDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    // 모든 1차 카테고리 조회 (상훈)
     public List<CategoryWithChildrenResponseDTO> getAllRootCategories() {
         List<Category> allCate = categoryRepository.findAllRootWithChildren();
         return allCate.stream().map(CategoryWithChildrenResponseDTO::fromEntity).toList();

@@ -39,10 +39,10 @@
             <div class="select-container">
                 <form action="/admin/member/list" class="search_bar">
                     <select name="type">
-                        <option value="uid">아이디</option>
-                        <option value="name">이름</option>
-                        <option value="email">이메일</option>
-                        <option value="contact">휴대폰</option>
+                        <productOption value="uid">아이디</productOption>
+                        <productOption value="name">이름</productOption>
+                        <productOption value="email">이메일</productOption>
+                        <productOption value="contact">휴대폰</productOption>
                     </select>
                     <input class="searchInput" type="text" name="keyword">
                     <input type="hidden" name="prodSeller" value="ADMIN" readonly>
@@ -75,11 +75,11 @@
                     <td th:text="${member.gender}">성별</td>
                     <td>
                         <select th:value="${member.grade}">
-                            <option value="vvip">VVIP</option>
-                            <option value="vip">VIP</option>
-                            <option value="gold">GOLD</option>
-                            <option value="silver">SILVER</option>
-                            <option value="family">FAMILY</option>
+                            <productOption value="vvip">VVIP</productOption>
+                            <productOption value="vip">VIP</productOption>
+                            <productOption value="gold">GOLD</productOption>
+                            <productOption value="silver">SILVER</productOption>
+                            <productOption value="family">FAMILY</productOption>
                         </select>
                     </td>
                     <td th:text="${member.points}">포인트</td>

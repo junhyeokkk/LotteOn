@@ -17,7 +17,13 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+/*
+    날짜 : 2024/10/25
+    이름 : 최준혁
+    내용 : PointRepositoryImpl 생성
 
+    - QueryDSL 사용하여 검색기능 메서드 추가
+*/
 @Log4j2
 @RequiredArgsConstructor
 @Repository

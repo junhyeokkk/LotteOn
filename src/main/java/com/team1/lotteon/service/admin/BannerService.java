@@ -20,6 +20,17 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+/*
+    날짜 : 2024/10/22
+    이름 : 최준혁
+    내용 : 배너 서비스 생성
+
+    수정내역
+    - 배너 이미지 업로드 (10/22)
+    - 배너 db 저장 (10/22)
+    - 모든 배너 select (10/22)
+*/
+
 @Log4j2
 @RequiredArgsConstructor
 @Service
@@ -28,12 +39,11 @@ public class BannerService {
     private final BannerRepository bannerRepository;
     private final ModelMapper modelMapper;
 
-    // 배너 등록
 
     @Value("${spring.servlet.multipart.location}")
     private String uploadDir; // YAML에서 설정한 파일 업로드 경로
 
-
+    // 배너 이미지 업로드 (준혁)
     public String saveBannerImage(MultipartFile bannerImg) throws IOException {
         log.info("Attempting to save banner image...");
 
@@ -74,6 +84,7 @@ public class BannerService {
         return "/uploads/banner/" + uniqueFileName;
     }
 
+    // 배너 db 저장 (준혁)
     public void saveBannerDetails(BannerDTO bannerDTO) {
         log.info("Sav image????????????????????");
         Banner banner = modelMapper.map(bannerDTO, Banner.class);
@@ -81,7 +92,7 @@ public class BannerService {
         bannerRepository.save(banner);
     }
 
-
+    // 모든 배너 select (준혁)
     public List<BannerDTO> getAllBanners() {
 
         List<Banner> banners = bannerRepository.findAll();

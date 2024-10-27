@@ -14,6 +14,16 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+    날짜 : 2024/10/24
+    이름 : 최준혁
+    내용 : Version 서비스 생성
+
+    수정내역
+    - 버전 insert (10/22)
+    - 버전 select (페이징처리)
+*/
+
 @Log4j2
 @RequiredArgsConstructor
 @Service
@@ -33,7 +43,6 @@ public class VersionService {
 
         return versionRepository.save(version);
     }
-
 
 
     // 버전 select (페이징)

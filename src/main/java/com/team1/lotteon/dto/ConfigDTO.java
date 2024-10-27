@@ -10,6 +10,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+/*
+    날짜 : 2024/10/23
+    이름 : 최준혁
+    내용 : Config DTO 생성 (회사정보)
+*/
+
 @Setter
 @Getter
 @SuperBuilder

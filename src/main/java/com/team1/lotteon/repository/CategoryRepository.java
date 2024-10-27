@@ -24,4 +24,7 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     public Optional<Category>  findWithChildrenById(@Param("id") Long id);
 
     public Optional<Category> findByIdAndLevel(Long id, int level);
+
+    // 자식 카테고리 가져오기(준혁)
+    List<Category> findByParentId(Long parentId);
 }

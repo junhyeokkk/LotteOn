@@ -10,15 +10,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+/*
+    날짜 : 2024/10/22
+    이름 : 최준혁
+    내용 : AppInfoInterceptor 생성
+
+    - Config 정보 헤더, 푸터, 파비콘 등 동적 처리를 위한 인터셉터 생성
+*/
 
 @RequiredArgsConstructor
 public class AppInfoInterceptor implements HandlerInterceptor {
 
-      /*
-        Interceptor
-        - 클라이언트의 요청과 컨트롤러 사이에서 특정 작읍을 수행하기 위한 컴포넌트
-        - HTTP 요청을 가로채고, 요청이 컨트롤러에 도달전과 후에 추가 작업 수행
-     */
 
     private final AppInfo appInfo;
 

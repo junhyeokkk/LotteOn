@@ -26,8 +26,23 @@ import java.util.List;
 public class CategoryApiController {
     private final CategoryService categoryService;
 
+    // 전체 카테고리 조회 (상훈)
     @GetMapping
     public ResponseEntity<List<CategoryWithChildrenResponseDTO>> getAllCategory() {
+        List<CategoryWithChildrenResponseDTO> allCategories = categoryService.getAllRootCategories();
+        return ResponseEntity.status(HttpStatus.OK).body(allCategories);
+    }
+
+    // id 값을 이용하여 해당 id값을 parent를 가지는 자식 카테고리 조회 (준혁)
+    @GetMapping("/{parentId}/subcategories")
+    public ResponseEntity<List<CategoryWithChildrenResponseDTO>> getSubCategories(@PathVariable Long parentId) {
+        List<CategoryWithChildrenResponseDTO> subCategories = categoryService.getSubCategoriesByParentId(parentId);
+        return ResponseEntity.status(HttpStatus.OK).body(subCategories);
+    }
+
+    // 모든 1차 카테고리 조회 (준혁)
+    @GetMapping("/root")
+    public ResponseEntity<List<CategoryWithChildrenResponseDTO>> getAllRootCategories() {
         List<CategoryWithChildrenResponseDTO> allCategories = categoryService.getAllRootCategories();
         return ResponseEntity.status(HttpStatus.OK).body(allCategories);
     }

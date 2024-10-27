@@ -48,30 +48,5 @@ public class ProductResponseDTO {
     private Long shopId;
     private String memberUid;
 
-    public static ProductResponseDTO fromEntity(Product product) {
-        return ProductResponseDTO.builder()
-                .id(product.getId())
-                .views(product.getViews())
-                .productImg1(product.getProductImg1())
-                .productImg2(product.getProductImg2())
-                .productImg3(product.getProductImg3())
-                .detailImage(product.getDetailImage())
-                .productName(product.getProductName())
-                .description(product.getDescription())
-                .manufacturer(product.getManufacturer())
-                .price(product.getPrice())
-                .discountRate(product.getDiscountRate())
-                .point(product.getPoint())
-                .stock(product.getStock())
-                .deliveryFee(product.getDeliveryFee())
-                .productStatus(product.getProductStatus() != null ? product.getProductStatus().name() : null)
-                .taxExempt(product.isTaxExempt())
-                .receiptIssued(product.isReceiptIssued())
-                .businessType(product.getBusinessType())
-                .origin(product.getOrigin())
-                .categoryId(product.getCategory() != null ? product.getCategory().getId() : null)
-                .shopId(product.getShop() != null ? product.getShop().getId() : null)
-                .memberUid(product.getMember() != null ? product.getMember().getUid() : null)
-                .build();
-    }
+
 }

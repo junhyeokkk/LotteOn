@@ -1,3 +1,10 @@
+/*
+    날짜 : 2024/10/21
+    이름 : 최준혁
+    내용 : 사이드바 js 파일 생성
+
+    - 서브메뉴 활성화 기능 추가
+*/
 document.addEventListener("DOMContentLoaded", function() {
 
     // 페이지 로드될 때 내가 클릭한 li active 처리

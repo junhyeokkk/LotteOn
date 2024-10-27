@@ -12,7 +12,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+/*
+    날짜 : 2024/10/22
+    이름 : 최준혁
+    내용 : admin>product 페이지 이동을 위한 컨트롤러
 
+*/
 @Controller
 @RequiredArgsConstructor
 public class ProductPageController {
@@ -33,7 +38,7 @@ public class ProductPageController {
 
     @PostMapping("/admin/product/register")
     public String registerPost(@ModelAttribute ProductCreateDTO productCreateDTO){
-        productService.createProduct(productCreateDTO);
-        return "redirect:/admin/product/list";
+
+        return "admin/product/list";
     }
 }

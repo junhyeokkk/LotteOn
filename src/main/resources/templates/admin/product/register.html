@@ -19,145 +19,226 @@
       <h1>상품등록</h1>
       <p>HOME > 상품관리 > 상품등록</p>
     </div>
+    <form id="registerform" method="POST"  enctype="multipart/form-data">
+      <div class="section">
+        <h2>상품분류</h2>
+        <p>1차, 2차, 3차 카테고리 기본분류는 반드시 선택하셔야 합니다.</p>
+        <table class="form-table">
+          <tr>
+            <td><label for="category1">1차 분류</label></td>
+            <td>
+              <select id="category1" onchange="loadSubCategories(this.value, 'category2')">
+                <option value="">1차분류 선택</option>
+                <!-- 1차 카테고리 옵션 -->
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td><label for="category2">2차 분류</label></td>
+            <td>
+              <select id="category2" onchange="loadSubCategories(this.value, 'category3')">
+                <option value="">2차분류 선택</option>
+                <!-- 2차 카테고리 옵션 -->
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td><label for="category3">3차 분류</label></td>
+            <td>
+              <select id="category3" name="categoryId">
+                <option value="">3차분류 선택</option>
+                <!-- 3차 카테고리 옵션 -->
+              </select>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="section">
+        <h2>옵션 여부</h2>
+        <p>상품에 옵션이 있는지 여부를 선택해주세요.</p>
+        <label for="hasOption">옵션 선택</label>
+        <select id="hasOption" onchange="toggleOptionSections()">
+          <option value="none" selected>선택</option>
+          <option value="true">있음</option>
+          <option value="false">없음</option>
+        </select>
+      </div>
+
+
+      <input type="hidden" id="hiddenHasOptionsInput" name="hasOptions">
+      <!-- 기본 정보 -->
+      <div class="section">
+        <h2>기본정보</h2>
+        <p>기본정보는 반드시 선택하셔야 합니다.</p>
+        <table class="form-table">
+          <tr>
+            <td><label for="productName">상품명</label></td>
+            <td><input type="text" id="productName" name="productName" required></td>
+          </tr>
+          <tr>
+            <td><label for="basicDesc">기본설명</label></td>
+            <td><input type="text" id="basicDesc" name="description" required></td>
+          </tr>
+          <tr>
+            <td><label for="manufacturer">제조사</label></td>
+            <td><input type="text" id="manufacturer" name="manufacturer" required></td>
+          </tr>
+          <tr>
+            <td><label for="price">상품금액</label></td>
+            <td><input type="number" id="price" name="price" oninput="calculatePoint()" placeholder="원" required></td>
+          </tr>
+          <tr>
+            <td><label for="discountRate">할인율</label></td>
+            <td><input type="number" id="discountRate" name="discountRate" placeholder="%"></td>
+          </tr>
+          <tr>
+            <td><label for="point">포인트</label></td>
+            <td><input type="number" id="point" name="point" readonly placeholder="포인트 자동 설정" /></td>
+          </tr>
+          <tr>
+            <td><label for="stockCount">재고수량</label></td>
+            <td><input type="text" id="stockCount" name="stock" placeholder="개" required></td>
+          </tr>
+          <tr>
+            <td><label for="deliveryFee">배송비</label></td>
+            <td><input type="number" id="deliveryFee" name="deliveryFee" placeholder="원"></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>
+              <input type="file" id="file1" name="file1" style="display: none;" onchange="updateFileName(this, 'file1-span')">
+              <label for="file1" class="file-label">파일 선택</label>
+              <span id="file1-span" style="margin-right: 10px;">선택된 파일 없음</span>
+              크기 190 × 190   상품 목록에 출력될 이미지입니다.
+            </td>
+          </tr>
+          <tr>
+            <td><strong>상품 이미지</strong></td>
+            <td>
+              <input type="file" id="file2" name="file2" style="display: none;" onchange="updateFileName(this, 'file2-span')">
+              <label for="file2" class="file-label">파일 선택</label>
+              <span id="file2-span" style="margin-right: 10px;">선택된 파일 없음</span>
+              크기 230 × 230   상품 메일에 출력될 이미지입니다.
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>
+              <input type="file" id="file3" name="file3" style="display: none;" onchange="updateFileName(this, 'file3-span')">
+              <label for="file3" class="file-label">파일 선택</label>
+              <span id="file3-span" style="margin-right: 10px;">선택된 파일 없음</span>
+              크기 456 × 456   상품 상세 페이지 출력될 이미지입니다.
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <section style="margin-top: 20px; padding: 20px; border: 1px solid #ddd; border-radius: 8px; max-width: 600px;">
+        <h3 style="margin-bottom: 15px;">상품 상세정보</h3>
+        <table style="width: 100%; border-collapse: collapse;">
+          <thead>
+          <tr>
+            <th style="border-bottom: 1px solid #ddd; padding: 8px;">옵션 이름</th>
+            <th style="border-bottom: 1px solid #ddd; padding: 8px;">옵션 값</th>
+            <th style="border-bottom: 1px solid #ddd; padding: 8px;">삭제</th>
+          </tr>
+          </thead>
+          <tbody id="productDetailsTableBody">
+          <tr>
+            <td><input type="text" name="detailName[]" placeholder="옵션 이름 (예: 효과)" style="width: 100%;"></td>
+            <td><input type="text" name="detailValue[]" placeholder="옵션 값 (예: 수분/보습)" style="width: 100%;"></td>
+            <td><button type="button" onclick="removeDetail(this)">삭제</button></td>
+          </tr>
+          </tbody>
+        </table>
+        <button type="button" onclick="addDetail()" style="margin-top: 10px;">옵션 추가</button>
+      </section>
+
+      <!-- 상품 선택정보 -->
+      <div class="section" id="optionSection" style="display: none">
+        <h2>상품별 선택정보(옵션) 입력입니다.</h2>
+        <p>예시) 옵션1: 사이즈, 옵션1 항목: XXL, XL, L, M, S (콤마로 여러 항목 입력 가능)</p>
+        <table class="form-table" id="optionTable">
+          <thead>
+          <tr>
+            <th>옵션명</th>
+            <th>옵션 항목</th>
+            <th>작업</th>
+          </tr>
+          </thead>
+          <tbody id="optionTableBody">
+          <tr>
+            <td><input type="text" name="optionName[]" placeholder="옵션명 입력" /></td>
+            <td>
+              <input type="text" name="optionValues[]" placeholder="옵션 항목 입력 (예: S, M, L)" />
+            </td>
+            <td><button type="button" onclick="removeOption(this)">삭제</button></td>
+          </tr>
+          </tbody>
+        </table>
+        <div class="add-productOption-btn">
+          <button type="button" onclick="addOption()">옵션 추가</button>
+        </div>
+
+        <!-- 선택 옵션 등록 완료 버튼 -->
+        <div class="complete-productOption-btn">
+          <button type="button" onclick="completeOptionSelection()">선택 옵션 등록 완료</button>
+        </div>
+      </div>
+
+      <!-- 조합 생성 결과를 표시할 섹션 -->
+      <div class="section combination-section" id="combinationSection" style="display: none;">
+        <h2>옵션 조합</h2>
+        <p>각 옵션 조합의 재고 수량을 입력하세요.</p>
+        <table class="form-table" id="combinationTable">
+          <thead>
+          <tr>
+            <th>옵션 조합</th>
+            <th>재고 수량</th>
+          </tr>
+          </thead>
+          <tbody id="combinationTableBody">
+          <!-- 조합이 생성된 후 여기에 추가됨 -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 전자상거래 상품정보 제공공시 -->
+      <div class="section">
+        <h2>전자상거래 상품정보 제공공시</h2>
+        <p>[ 전자상거래에 관한 상품정보 제공에 관한 고시 ] 항목에 의거 등록해야 되는 정보입니다.</p>
+        <table class="form-table">
+          <tr>
+            <td><label for="productStatus">상품상태</label></td>
+            <td><input type="text" id="productStatus" name="productStatus" required></td>
+          </tr>
+          <tr>
+            <td><label for="warranty">부가세 면세여부</label></td>
+            <td><input type="text" id="warranty" name="warranty" required></td>
+          </tr>
+          <tr>
+            <td><label for="receiptMethod">영수증 발행</label></td>
+            <td><input type="text" id="receiptMethod" name="receiptMethod" required></td>
+          </tr>
+          <tr>
+            <td><label for="businessType">사업자구분</label></td>
+            <td><input type="text" id="businessType" name="businessType" required></td>
+          </tr>
+          <tr>
+            <td><label for="origin">원산지</label></td>
+            <td><input type="text" id="origin" name="origin" required></td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- 등록하기 버튼 -->
+      <div class="submit-section">
+        <button type="button" onclick="prepareFormData()">등록하기</button>
+      </div>
+    </form>
     <div class="product_register">
-      <form method="POST">
         <!-- 상품 분류 -->
-        <!-- 상품 분류 -->
-        <div class="section">
-          <h2>상품분류</h2>
-          <p>1차, 2차, 3차 카테고리 기본분류는 반드시 선택하셔야 합니다.</p>
-          <table class="form-table">
-            <tr>
-              <td><label for="category1">1차 분류</label></td>
-              <td>
-                <select id="category1"  onchange="loadSubCategories(this.value, 'category2')">
-                  <option value="">1차분류 선택</option>
-                  <!-- 1차 카테고리 옵션 -->
-                </select>
-              </td>
-            </tr>
-            <tr>
-              <td><label for="category2">2차 분류</label></td>
-              <td>
-                <select id="category2"  onchange="loadSubCategories(this.value, 'category3')">
-                  <option value="">2차분류 선택</option>
-                  <!-- 2차 카테고리 옵션 -->
-                </select>
-              </td>
-            </tr>
-            <tr>
-              <td><label for="category3">3차 분류</label></td>
-              <td>
-                <select id="category3" name="categoryId">
-                  <option value="">3차분류 선택</option>
-                  <!-- 3차 카테고리 옵션 -->
-                </select>
-              </td>
-            </tr>
-          </table>
-        </div>
-
-        <!-- 기본 정보 -->
-        <div class="section">
-          <h2>기본정보</h2>
-          <p>기본정보는 반드시 선택하셔야 합니다.</p>
-          <table class="form-table">
-            <tr>
-              <td><label for="productName">상품명</label></td>
-              <td><input type="text" id="productName" name="name"></td>
-            </tr>
-            <tr>
-              <td><label for="basicDesc">기본설명</label></td>
-              <td><input type="text" id="basicDesc" name="description"></td>
-            </tr>
-            <tr>
-              <td><label for="manufacturer">제조사</label></td>
-              <td><input type="text" id="manufacturer" name="manufacturer"></td>
-            </tr>
-            <tr>
-              <td><label for="productPrice">상품금액</label></td>
-              <td><input type="text" id="productPrice" name="price" placeholder="원"></td>
-            </tr>
-            <tr>
-              <td><label for="discountRate">할인율</label></td>
-              <td><input type="text" id="discountRate" name="discountRate" placeholder="%"></td>
-            </tr>
-            <tr>
-              <td><label for="points">포인트</label></td>
-              <td><input type="text" id="points" name="point" placeholder="원"></td>
-            </tr>
-            <tr>
-              <td><label for="stockCount">재고수량</label></td>
-              <td><input type="text" id="stockCount" name="stock" placeholder="개"></td>
-            </tr>
-            <tr>
-              <td><label for="deliveryFee">배송비</label></td>
-              <td><input type="text" id="deliveryFee" name="deliveryFee" placeholder="원"></td>
-            </tr>
-            <tr>
-              <td></td>
-              <td>
-                <input type="file" id="file1" name="file1" style="display: none; " onchange="updateFileName(this, 'file1-span')">
-                <label for="file1" class="file-label">파일 선택</label>
-                <span id="file1-span" style="margin-right: 10px;">선택된 파일 없음</span>
-                크기 190 × 190   상품 목록에 출력될 이미지 입니다.
-              </td>
-            </tr>
-            <tr>
-              <td><strong>상품 이미지</strong></td>
-              <td>
-                <input type="file" id="file2" name="file2" style="display: none;" onchange="updateFileName(this, 'file2-span')">
-                <label for="file2" class="file-label">파일 선택</label>
-                <span id="file2-span" style="margin-right: 10px;">선택된 파일 없음</span>
-                크기 230 × 230   상품 메일에 출력 될 이미지 입니다.
-              </td>
-            </tr>
-            <tr>
-              <td></td>
-              <td>
-                <input type="file" id="file3" name="file3" style="display: none;" onchange="updateFileName(this, 'file3-span')">
-                <label for="file3" class="file-label">파일 선택</label>
-                <span id="file3-span" style="margin-right: 10px;">선택된 파일 없음</span>
-                크기 456 × 456   상품 상세 페이지 출력 될 이미지 입니다.
-              </td>
-            </tr>
-
-          </table>
-        </div>
-
-        <!-- 전자상거래 상품정보 제공공시 -->
-        <div class="section">
-          <h2>전자상거래 상품정보 제공공시</h2>
-          <p>[ 전자상거래에 관한 상품정보 제공에 관한 고시 ] 항목에 의거 등록해야 되는 정보입니다.</p>
-          <table class="form-table">
-            <tr>
-              <td><label for="productStatus">상품상태</label></td>
-              <td><input type="text" id="productStatus" name="productStatus"></td>
-            </tr>
-            <tr>
-              <td><label for="warranty">부가세 면세여부</label></td>
-              <td><input type="text" id="warranty" name="warranty"></td>
-            </tr>
-            <tr>
-              <td><label for="receiptMethod">영수증 발행</label></td>
-              <td><input type="text" id="receiptMethod" name="receiptMethod"></td>
-            </tr>
-            <tr>
-              <td><label for="businessType">사업자구분</label></td>
-              <td><input type="text" id="businessType" name="businessType"></td>
-            </tr>
-            <tr>
-              <td><label for="origin">원산지</label></td>
-              <td><input type="text" id="origin" name="origin"></td>
-            </tr>
-          </table>
-        </div>
-
-        <!-- 등록하기 버튼 -->
-        <div class="submit-section">
-          <button type="submit" class="submit-btn">등록하기</button>
-        </div>
-      </form>
     </div>
   </div>
 </div>

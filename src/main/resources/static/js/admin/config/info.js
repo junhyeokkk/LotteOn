@@ -1,3 +1,8 @@
+/*
+    날짜 : 2024/10/22
+    이름 : 최준혁
+    내용 : info js 파일 생성
+*/
 document.addEventListener('DOMContentLoaded', function() {
     // PATCH 요청을 보내는 함수 (사이트 정보 수정)
     function patchSiteInfo() {

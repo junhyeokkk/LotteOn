@@ -1,39 +1,213 @@
 package com.team1.lotteon.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.team1.lotteon.dto.PageResponseDTO;
 import com.team1.lotteon.dto.product.ProductCreateDTO;
-import com.team1.lotteon.dto.product.ProductResponseDTO;
 import com.team1.lotteon.dto.product.ProductSummaryResponseDTO;
+import com.team1.lotteon.dto.product.ProductdetailDTO;
+import com.team1.lotteon.dto.product.productOption.ProductOptionDTO;
+import com.team1.lotteon.dto.product.productOption.OptionItemDTO;
+import com.team1.lotteon.dto.product.productOption.ProductOptionCombinationDTO;
 import com.team1.lotteon.entity.Category;
 import com.team1.lotteon.entity.Product;
-import com.team1.lotteon.repository.CategoryRepository;
-import com.team1.lotteon.repository.ProductRepository;
+import com.team1.lotteon.entity.Productdetail;
+import com.team1.lotteon.entity.productOption.ProductOption;
+import com.team1.lotteon.entity.productOption.OptionItem;
+import com.team1.lotteon.entity.productOption.ProductOptionCombination;
+import com.team1.lotteon.repository.*;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
 
 /*
     날짜 : 2024/10/25
     이름 : 이상훈
     내용 : 상품 서비스 개발
+
+    - 수정내역
+    - 상품 등록 메서드 수정 (준혁)
 */
 @RequiredArgsConstructor
 @Service
-@Transactional
 public class ProductService {
+    private static final Logger log = LogManager.getLogger(ProductService.class);
     private final ProductRepository productRepository;
-    private final CategoryRepository categoryRepository;
+    private final EntityManager entityManager;
 
-    public ProductResponseDTO createProduct(ProductCreateDTO productCreateDTO) {
-        Category category = categoryRepository.findByIdAndLevel(productCreateDTO.getCategoryId(), 3).orElse(null);
-        Product product = productCreateDTO.toEntity();
-        product.changeCategory(category);
+    private final ObjectMapper objectMapper;
+
+    private final ProductDetailRepository productDetailRepository;
+    private final OptionRepository optionRepository;
+    private final OptionItemRepository optionItemRepository;
+
+    private final ProductOptionCombinationRepository productOptionCombinationRepository;
+
+    // 상품 이미지 업로드
+    @Value("${spring.servlet.multipart.location}")
+    private String uploadDir; // YAML에서 설정한 파일 업로드 경로
+
+    // 이미지 업로드 처리
+    public String uploadFile(MultipartFile file) throws IOException {
+        // 파일 업로드 경로 파일 객체 생성
+        File fileUploadPath = new File(uploadDir+"/product");
+
+        // 파일 업로드 시스템 경로 구하기
+        String productUploadDir = fileUploadPath.getAbsolutePath();
+
+        log.info("adsfffffffffffff" + productUploadDir);
+
+        if (!Files.exists(Paths.get(productUploadDir))) {
+            Files.createDirectories(Paths.get(productUploadDir));
+        }
+
+        // 고유한 파일명 생성 (UUID와 타임스탬프 조합)
+        String fileExtension = getFileExtension(file.getOriginalFilename());  // 파일 확장자 추출
+        String uniqueFileName = UUID.randomUUID().toString() + "_" + System.currentTimeMillis() + "." + fileExtension;
+        File destinationFile = new File(productUploadDir + "/" + uniqueFileName);
+
+        // 파일 저장
+        file.transferTo(destinationFile);
+
+        // 저장된 파일의 경로 반환
+        return uniqueFileName;
+    }
+
+    // 파일 확장자 추출 메서드
+    private String getFileExtension(String filename) {
+        return filename.substring(filename.lastIndexOf(".") + 1);
+    }
+
+    @Transactional
+    public Product saveProduct(ProductCreateDTO dto) throws JsonProcessingException {
+        // 카테고리 ID로 카테고리 엔티티 조회
+        Category category = entityManager.getReference(Category.class, dto.getCategoryId());
+
+        // Product 엔티티 생성 및 저장
+        Product product = Product.builder()
+                .productName(dto.getProductName())
+                .productImg1(dto.getProductImg1())
+                .productImg2(dto.getProductImg2())
+                .productImg3(dto.getProductImg3())
+                .description(dto.getDescription())
+                .manufacturer(dto.getManufacturer())
+                .price(dto.getPrice())
+                .discountRate(dto.getDiscountRate())
+                .point(dto.getPoint())
+                .stock(dto.getStock())
+                .deliveryFee(dto.getDeliveryFee())
+                .Status(1)
+                .warranty(dto.getWarranty())
+                .receiptIssued(dto.getReceiptMethod())
+                .businessType(dto.getBusinessType())
+                .origin(dto.getOrigin())
+                .hasOptions(dto.isHasOptions())
+                .category(category)
+                .build();
+
         productRepository.save(product);
 
-        return ProductResponseDTO.fromEntity(product);
+        // 상세 정보 저장
+        List<ProductdetailDTO> productDetailsList = objectMapper.readValue(
+                dto.getProductDetailsJson(), new TypeReference<List<ProductdetailDTO>>() {});
+
+        List<Productdetail> productDetails = new ArrayList<>();
+        for (ProductdetailDTO detailDto : productDetailsList) {
+            Productdetail detail = Productdetail.builder()
+                    .name(detailDto.getName())
+                    .value(detailDto.getValue())
+                    .product(product)
+                    .build();
+            productDetailRepository.save(detail);
+            productDetails.add(detail);
+        }
+        product.setProductDetails(productDetails);
+
+        if (dto.isHasOptions()) {
+            // 옵션 정보 저장
+            List<ProductOptionDTO> productOptionDtoList = objectMapper.readValue(
+                    dto.getOptionsJson(), new TypeReference<List<ProductOptionDTO>>() {});
+
+            List<ProductOption> productOptions = new ArrayList<>();
+            for (ProductOptionDTO productOptionDto : productOptionDtoList) {
+                ProductOption productOption = ProductOption.builder()
+                        .name(productOptionDto.getName())
+                        .product(product)
+                        .build();
+                optionRepository.save(productOption);
+                productOptions.add(productOption);
+
+                // 옵션 아이템 저장
+                for (OptionItemDTO optionItemDto : productOptionDto.getOptionItems()) {
+                    OptionItem optionItem = OptionItem.builder()
+                            .value(optionItemDto.getValue())
+                            .productOption(productOption)
+                            .build();
+                    optionItemRepository.save(optionItem);
+                }
+            }
+            product.setProductOptions(productOptions);
+
+            // 옵션 조합 저장
+            List<ProductOptionCombinationDTO> combinationsList = objectMapper.readValue(
+                    dto.getCombinationsJson(), new TypeReference<List<ProductOptionCombinationDTO>>() {});
+
+            List<ProductOptionCombination> combinations = new ArrayList<>();
+            for (ProductOptionCombinationDTO combinationDto : combinationsList) {
+                Map<String, Long> idCombination = new HashMap<>();
+                Map<String, String> valueCombination = new HashMap<>();
+
+                String[] options = combinationDto.getOptionCombination().split(",\\s*");
+                for (String optionValue : options) {
+                    OptionItem optionItem = optionItemRepository.findByValue(optionValue)
+                            .stream()
+                            .findFirst()
+                            .orElseThrow(() -> new RuntimeException("Option item not found: " + optionValue));
+
+                    String optionGroupName = optionItem.getProductOption().getName();
+                    idCombination.put(optionGroupName, optionItem.getId());
+                    valueCombination.put(optionGroupName, optionValue);
+                }
+
+                String optionIdCombinationJson = objectMapper.writeValueAsString(idCombination);
+                String optionValueCombinationJson = objectMapper.writeValueAsString(valueCombination);
+
+                ProductOptionCombination combination = ProductOptionCombination.builder()
+                        .product(product)
+                        .optionIdCombination(optionIdCombinationJson)
+                        .optionValueCombination(optionValueCombinationJson)
+                        .stock(combinationDto.getStock())
+                        .build();
+
+                productOptionCombinationRepository.save(combination);
+                combinations.add(combination);
+            }
+        } else {
+            product.setStock(dto.getStock());
+        }
+
+        return product;
     }
+
+
+
+
+
+
 
     public PageResponseDTO<ProductSummaryResponseDTO> getProducts(Pageable pageable) {
         Page<Product> products = productRepository.findAll(pageable);

@@ -52,25 +52,25 @@
               th:value="${#strings.substring(Email, #strings.indexOf(Email, '@') + 1)}"
             />
             <select id="domainSelect">
-              <option value="직접 입력">직접 입력</option>
-              <option
+              <productOption value="직접 입력">직접 입력</productOption>
+              <productOption
                 value="naver.com"
                 th:selected="${#strings.contains(Email, 'naver.com')}"
               >
                 naver.com
-              </option>
-              <option
+              </productOption>
+              <productOption
                 value="gmail.com"
                 th:selected="${#strings.contains(Email, 'gmail.com')}"
               >
                 gmail.com
-              </option>
-              <option
+              </productOption>
+              <productOption
                 value="daum.net"
                 th:selected="${#strings.contains(Email, 'daum.net')}"
               >
                 daum.net
-              </option>
+              </productOption>
             </select>
             <button class="infobutton" onclick="updateEmail()">변경</button>
           </td>
