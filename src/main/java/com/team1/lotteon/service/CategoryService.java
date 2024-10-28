@@ -54,7 +54,7 @@ public class CategoryService {
     }
 
     public List<CategoryResponseDTO> getAllCategoriesByParentId(Long parentId) {
-        List<Category> categories = categoryRepository.findByParentId(parentId);
+        List<Category> categories = categoryRepository.findByParentIdOrderByDisplayOrderAsc(parentId);
         return categories.stream().map(CategoryResponseDTO::fromEntity).toList();
     }
 

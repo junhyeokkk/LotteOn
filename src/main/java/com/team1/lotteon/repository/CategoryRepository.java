@@ -35,6 +35,4 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     List<Category> findByParentIdOrderByDisplayOrderAsc(Long parentId);
 
     public List<Category> findByLevelOrderByDisplayOrderAsc(int level);
-
-    public List<Category> findByParentId(Long id);
 }
