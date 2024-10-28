@@ -16,6 +16,7 @@ public class GeneralMemberDTO {
     private int points;
     private int status;
     private LocalDateTime lastLoginDate;
+    private LocalDateTime createdAt; // 가입일로 사용할 필드
     private String addr1;
     private String addr2;
     private String email;

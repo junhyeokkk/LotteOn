@@ -3,10 +3,7 @@ package com.team1.lotteon.entity;
 import com.team1.lotteon.entity.enums.Gender;
 import com.team1.lotteon.entity.enums.Grade;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
@@ -19,6 +16,7 @@ import java.time.LocalDateTime;
 */
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder

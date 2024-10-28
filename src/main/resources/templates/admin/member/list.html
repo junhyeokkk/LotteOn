@@ -21,7 +21,7 @@
 </th:block>
 <!-- index.html 고유 스크립트 추가 -->
 <th:block layout:fragment="script">
-    <script type="text/javascript" th:src="@{/js/admin/config/Version.js}"></script>
+    <script type="text/javascript" th:src="@{/js/admin/config/Member modal.js}"></script>
 </th:block>
 
 
@@ -85,16 +85,23 @@
                     <td th:text="${member.points}">포인트</td>
                     <td th:text="${member.email}">이메일</td>
                     <td th:text="${member.ph}">전화번호</td>
-                    <td th:text="${member.birth != null ? #temporals.format(member.birth, 'yyyy-MM-dd') : '날짜 없음'}">가입일</td>
+                    <!-- 가입일 (포맷 지정) -->
+                    <input type="text" th:value="${#temporals.format(createdAt, 'yyyy-MM-dd HH:mm:ss')}" readonly />
+
+                    <!--                    <td th:text="${member.birth != null ? #temporals.format(member.birth, 'yyyy-MM-dd') : '날짜 없음'}">가입일</td>-->
                     <td th:text="${member.status == 1 ? '정상' : (member.status == 2 ? '중지' : (member.status == 3 ? '휴면' : (member.status == 4 ? '탈퇴' : '상태없음')))}">상태</td>
 
 
 
                     <td style="line-height: 20px">
-<!--                        <a href="#" data-modal="userchangemodal" class="cs_modify-btn">[수정]</a>-->
-                        <!-- 회원 목록에서 수정 버튼 -->
-                        <a href="#" data-modal="userchangemodal" data-user-id="123" class="cs_modify-btn" onclick="openUserChangeModal(this)">[수정]</a>
-                        <br>
+                        <!-- 회원 목록을 반복하여 각 회원에 대한 수정 버튼 생성 -->
+                        <ul>
+                            <li th:each="member : ${memberList}">
+                                <a href="#" data-modal="userchangemodal" th:attr="data-user-id=${member.uid}" class="cs_modify-btn" onclick="openUserChangeModal(this)">[수정]</a>
+                                <!-- 추가적인 회원 정보 표시 -->
+                            </li>
+                        </ul>
+
                         <a href="" class="cs_delete-btn">[중지]</a>
                     </td>
                 </tr>
