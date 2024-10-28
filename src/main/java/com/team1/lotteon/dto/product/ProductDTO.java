@@ -3,10 +3,7 @@ package com.team1.lotteon.dto.product;
 import com.team1.lotteon.entity.*;
 import com.team1.lotteon.entity.enums.ProductStatus;
 import com.team1.lotteon.entity.productOption.ProductOption;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -20,6 +17,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class ProductDTO extends BaseEntity {
     private Long id;    // id
     private int views;  // 조회수
