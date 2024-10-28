@@ -45,9 +45,9 @@ public class SecurityConfig {
 
         // 인가 설정
         http.authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/myPage/**").authenticated()
-                .requestMatchers("/product/cart").hasRole("General")
-                .requestMatchers("/admin/**").hasAnyRole("Admin", "Seller")
+//                .requestMatchers("/myPage/**").authenticated()
+//                .requestMatchers("/product/cart").hasRole("General")
+//                .requestMatchers("/admin/**").hasAnyRole("Admin", "Seller")
 //
 //                .requestMatchers("/crop/*/CropWrite").authenticated()
 //                .requestMatchers("/crop/*/CropView/*").authenticated()

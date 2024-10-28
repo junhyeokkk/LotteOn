@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 public class ShopDTO {
     private Long id;
-    private boolean isActive;
+    private int isActive;
     private String addr1;
     private String addr2;
     private String businessRegistration;
@@ -20,4 +20,6 @@ public class ShopDTO {
     private String representative;
     private String shopName;
     private String zip;
+    //상점 갯수 출력을 위한 번호
+    private int shopNumber;
 }

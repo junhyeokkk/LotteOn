@@ -15,6 +15,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Shop {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,7 +27,7 @@ public class Shop {
     private String fax;
     @Embedded
     private Address address;
-    private boolean isActive;
+    private int isActive;
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "shop")
     private SellerMember sellerMember;

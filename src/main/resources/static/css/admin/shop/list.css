@@ -88,6 +88,8 @@ input[type="checkbox"] {
     height: 40px;
     background-color: #D8D8D8;
     color: #FFFFFF;
+    cursor: pointer; /* 커서를 손가락 모양으로 */
+    border: none;
 }
 
 /* [삭제] */

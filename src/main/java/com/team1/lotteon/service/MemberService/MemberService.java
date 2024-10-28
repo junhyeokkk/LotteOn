@@ -2,13 +2,12 @@ package com.team1.lotteon.service.MemberService;
 
 import com.team1.lotteon.dto.GeneralMemberDTO;
 import com.team1.lotteon.dto.MemberDTO;
-import com.team1.lotteon.dto.SellerMemberDTO;
 import com.team1.lotteon.dto.ShopDTO;
 import com.team1.lotteon.entity.*;
 import com.team1.lotteon.repository.Memberrepository.GeneralMemberRepository;
 import com.team1.lotteon.repository.Memberrepository.MemberRepository;
 import com.team1.lotteon.repository.Memberrepository.SellerMemberRepository;
-import com.team1.lotteon.repository.ShopRepository;
+import com.team1.lotteon.repository.shop.ShopRepository;
 import jakarta.mail.Message;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
@@ -23,7 +22,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Log4j2

@@ -1,3 +1,11 @@
+<!--
+    날짜 : 2024/10/21
+    이름 : 최준혁
+    내용 : 상점목록
+    수정이력
+        - 2024/10/21 최준혁,김소희 - html 작성
+        - 2024/10/28 이도영 - 상점 목록 출력 + Page 정리-->
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
@@ -28,14 +36,13 @@
 
         <section class="sectionBox">
             <div>
-                <form action="/admin/shop/list" class="search_bar">
+                <form th:action="@{/admin/shop/list}" class="search_bar" method="get">
                     <select name="type">
-                        <productOption value="companyName">상호명</productOption>
-                        <productOption value="representative">대표자</productOption>
-                        <productOption value="businessNumber">사업자등록번호</productOption>
-                        <productOption value="contact">연락처</productOption>
-                        <productOption value="keyword">키워드</productOption>
-
+                        <option value="shopName">상호명</option>
+                        <option value="representative">대표자</option>
+                        <option value="businessRegistration">사업자등록번호</option>
+                        <option value="contact">연락처</option>
+                        <option value="keyword">키워드</option>
                     </select>
                     <input class="searchInput" type="text" name="keyword">
                     <input type="hidden" name="prodSeller" value="ADMIN" readonly>
@@ -59,59 +66,80 @@
                     <th>운영</th>
                     <th>관리</th>
                 </tr>
-
-                <tr class="admin_list">
-                    <td><input type="checkbox" value="noticeNo" name="RowCheck" /></td>
-                    <td>1</td>
-                    <td>(주)합천</td>
-                    <td>이상훈</td>
-                    <td>112-12-12345</td>
-                    <td>2024-서울강남-04433</td>
-                    <td>010-1234-1001</td>
-                    <td style="color: green">●</td>
-                    <td>
-                        <a href="">[중단]</a>
-                    </td>
+                <tr th:if="${shopdtos == null}">
+                    <td colspan="7" class="td_first" style="width: 100%">등록된 상점이 없습니다.</td>
                 </tr>
-
-                <tr class="admin_list">
-                    <td><input type="checkbox" value="noticeNo" name="RowCheck" /></td>
-                    <td>1</td>
-                    <td>(주)합천</td>
-                    <td>이상훈</td>
-                    <td>112-12-12345</td>
-                    <td>2024-서울강남-04433</td>
-                    <td>010-1234-1001</td>
-                    <td style="color: red">●</td>
+                <tr class="admin_list" th:each="shop, stat : ${shopdtos.getDtoList()}" th:if="${shopdtos != null}">
+                    <td><input type="checkbox" value="noticeNo" name="RowCheck" th:value="${shop.id}"/></td>
+                    <td>[[${shop.shopNumber}]]</td> <!-- 연속적인 번호 -->
+                    <td>[[${shop.shopName}]]</td>
+                    <td>[[${shop.representative}]]</td>
+                    <td>[[${shop.businessRegistration}]]</td>
+                    <td>[[${shop.eCommerceRegistration}]]</td>
+                    <td>[[${shop.ph}]]</td>
+                    <td th:style="${shop.isActive == 1 ? 'color:green' : shop.isActive == 0 ? 'color:blue' : 'color:red'}">
+                        ●
+                    </td>
                     <td>
-                        <a href="">[재개]</a>
+                        <a th:text="${shop.isActive == 1 ? '[운영중]' : shop.isActive == 0 ? '[승인]' : '[재개]'}"></a>
                     </td>
                 </tr>
 
             </table>
-            <a class="delete_btn">선택삭제</a>
+            <a class="delete_btn" href="javascript:void(0);" onclick="confirmDelete()">선택삭제</a>
             <a href="#" data-modal="sellerinsertmodal" class="registration_btn">상점등록</a>
 
 
 
             <div class="pagingBox">
                 <div class="pagingList">
-                    <!-- 이전 버튼 -->
-                    <a href="#" class="prev"><</a>
-
-                    <!-- 페이지 링크 -->
-                    <a href="#">1</a>
-                    <a href="#" class="active">2</a>
-                    <a href="#">3</a>
-                    <a href="#">4</a>
-                    <a href="#">5</a>
-
-                    <!-- 다음 버튼 -->
-                    <a href="#" class="next">></a>
+                    <a th:href="@{/admin/shop/list(pg=${shopdtos.start - 1}, type=${type}, keyword=${keyword})}" th:if="${shopdtos.prev}" class="prev">&#60;</a>
+                    <th:block th:each="num : ${#numbers.sequence(shopdtos.start, shopdtos.end)}">
+                        <a th:href="@{/admin/shop/list(pg=${num}, type=${type}, keyword=${keyword})}"
+                           th:classappend="${num == shopdtos.pg} ? 'active' : ''">[[${num}]]</a>
+                    </th:block>
+                    <a th:href="@{/admin/shop/list(pg=${shopdtos.end + 1}, type=${type}, keyword=${keyword})}" th:if="${shopdtos.next}" class="next">&#62;</a>
                 </div>
             </div>
 
         </section>
+        <script>
+            // 전체 선택 / 해제 기능
+            document.getElementById("allCheck").addEventListener("click", function () {
+                const checkboxes = document.querySelectorAll(".rowCheck");
+                checkboxes.forEach(checkbox => checkbox.checked = this.checked);
+            });
+
+            // 선택 삭제 기능
+            function confirmDelete() {
+                const selectedIds = Array.from(document.querySelectorAll(".rowCheck:checked"))
+                    .map(checkbox => checkbox.value);
+
+                if (selectedIds.length === 0) {
+                    alert("삭제할 항목을 선택하세요.");
+                    return;
+                }
+
+                if (confirm("선택된 항목을 삭제하시겠습니까?")) {
+                    fetch('/admin/shop/delete', {
+                        method: 'DELETE',  // DELETE 메서드로 변경
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ ids: selectedIds })
+                    })
+                        .then(response => {
+                            if (response.ok) {
+                                alert("삭제가 완료되었습니다.");
+                                location.reload();
+                            } else {
+                                alert("삭제 중 오류가 발생했습니다.");
+                            }
+                        })
+                        .catch(error => console.error("Error:", error));
+                }
+            }
+        </script>
     </div>
 </div>
 </html>
