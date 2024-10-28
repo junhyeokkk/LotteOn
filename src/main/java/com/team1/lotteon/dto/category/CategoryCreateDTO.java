@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class CategoryCreateDTO {
     private String name;
     private int level;
-    private String parentId;
+    private Long parentId;
 
     public Category toEntity() {
         return Category.builder()

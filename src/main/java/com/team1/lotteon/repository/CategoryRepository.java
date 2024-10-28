@@ -14,7 +14,7 @@ import java.util.Optional;
     내용 : 카테고리 리파지토리 생성
 */
 public interface CategoryRepository extends JpaRepository<Category, Long> {
-    @Query("SELECT c FROM Category c left join fetch c.children WHERE c.parent IS NULL AND c.level=1")
+    @Query("SELECT c FROM Category c left join fetch c.children WHERE c.parent IS NULL AND c.level=1 ORDER BY c.displayOrder ASC")
     public List<Category> findAllRootWithChildren();
 
     @Query("SELECT c FROM Category c left join fetch c.children left join fetch c.parent WHERE c.id = :id")
@@ -23,8 +23,14 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     @Query("SELECT c FROM Category c left join fetch c.children WHERE c.id = :id")
     public Optional<Category>  findWithChildrenById(@Param("id") Long id);
 
+    @Query("SELECT COALESCE(MAX(c.displayOrder), 0) FROM Category c WHERE c.level=1 AND c.parent IS NULL")
+    Integer findMaxDisplayOrderByRoot();
+
+    @Query("SELECT COALESCE(MAX(c.displayOrder), 0) FROM Category c WHERE c.parent.id = :parentId")
+    Integer findMaxDisplayOrderByParentId(@Param("parentId") Long parentId);
+
     public Optional<Category> findByIdAndLevel(Long id, int level);
 
     // 자식 카테고리 가져오기(준혁)
-    List<Category> findByParentId(Long parentId);
+    List<Category> findByParentIdOrderByDisplayOrderAsc(Long parentId);
 }

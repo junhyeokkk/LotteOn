@@ -6,67 +6,71 @@
 
 <!-- index.html 고유 CSS 추가 -->
 <th:block layout:fragment="css">
-  <link rel="stylesheet" th:href="@{/css/admin/config/category.css}" />
+    <link rel="stylesheet" th:href="@{/css/admin/config/category.css}"/>
 </th:block>
 <!-- index.html 고유 스크립트 추가 -->
 <th:block layout:fragment="script">
-  <script type="text/javascript" th:src="@{/js/admin/category.js}"></script>
+    <script defer type="text/javascript" th:src="@{/js/admin/category.js}"></script>
 </th:block>
 
 <div class="content" layout:fragment="content">
-  <div class="dashboard">
-    <div class="content_header">
-      <h1>카테고리</h1>
-      <p>HOME > 상품관리 > 카테고리</p>
-    </div>
-    <div class="category-management">
-      <h1>카테고리 관리</h1>
-      <p>쇼핑몰 메인, 상품 페이지 사이드 카테고리 메뉴입니다.</p>
+    <div class="dashboard">
+        <div class="content_header">
+            <h1>카테고리</h1>
+            <p>HOME > 상품관리 > 카테고리</p>
+        </div>
+        <div class="category-management">
+            <h1>카테고리 관리</h1>
+            <p>쇼핑몰 메인, 상품 페이지 사이드 카테고리 메뉴입니다.</p>
 
-      <ul class="category-list" id="categoryList">
-        <li th:each="category : ${categories}" class="category-item" draggable="true">
-          <div class="category-header">
-            <span class="toggle-icon">▶</span>
-            <span th:text="${category.name}">카테고리 이름</span>
-            <button class="delete-btn">삭제</button>
-          </div>
+            <ul class="category-list" id="categoryList">
+                <li th:each="category : ${categories}" class="category-item" th:data-category-id="${category.id}" draggable="true">
+                    <div class="category-header">
+                        <span class="toggle-icon">▶</span>
+                        <span th:text="${category.name}">카테고리 이름</span>
+                        <button class="delete-btn">삭제</button>
+                    </div>
 
-          <!-- 2차 카테고리 -->
-          <ul th:if="${category.children.size() > 0}" class="subcategory-list">
-            <li th:each="subCategory : ${category.children}" class="subcategory-item" draggable="true">
-              <div class="subcategory-header">
-                <span class="toggle-icon">▶</span>
-                <span th:text="${subCategory.name}">2차 카테고리 이름</span>
-                <button class="delete-btn">삭제</button>
-              </div>
+                    <!-- 2차 카테고리 -->
+                    <ul class="subcategory-list">
+                        <li th:each="subCategory : ${category.children}" class="subcategory-item" th:data-category-id="${subCategory.id}" draggable="true">
+                            <div class="subcategory-header">
+                                <span class="toggle-icon">▶</span>
+                                <span th:text="${subCategory.name}">2차 카테고리 이름</span>
+                                <button class="delete-btn">삭제</button>
+                            </div>
 
-              <!-- 3차 카테고리 -->
-              <ul th:if="${subCategory.children.size() > 0}" class="tertiary-category-list">
-                <li th:each="tertiaryCategory : ${subCategory.children}" class="tertiary-category-item" draggable="true">
-                  <span th:text="${tertiaryCategory.name}">3차 카테고리 이름</span>
-                  <button class="delete-btn">삭제</button>
+                            <!-- 3차 카테고리 -->
+                            <ul class="tertiary-category-list" style="display: none">
+                                <li th:each="tertiaryCategory : ${subCategory.children}" class="tertiary-category-item"
+                                    draggable="true">
+                                    <span th:text="${tertiaryCategory.name}">3차 카테고리 이름</span>
+                                    <button class="delete-btn">삭제</button>
+                                </li>
+                            </ul>
+
+                            <!-- 3차 카테고리 추가 버튼 -->
+                            <button class="add-btn add-tertiary-btn" style="display: none">+ 3차 카테고리 추가</button>
+                            <div class="add-tertiary-section" style="display: none;">
+                                <input type="text" class="newTertiaryInput" placeholder="3차 카테고리 이름을 입력하세요"/>
+                                <button class="add-tertiary-btn">+ 추가</button>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <!-- 2차 카테고리 추가 버튼 -->
+                    <button class="add-btn cate2" style="display: none">+ 2차 카테고리 추가</button>
+                    <div class="add-subcategory-section" style="display: none;">
+                        <input type="text" class="newSubcategoryInput" placeholder="2차 카테고리 이름을 입력하세요"/>
+                        <button class="add-subcategory-btn">+ 추가</button>
+                    </div>
                 </li>
-              </ul>
-
-              <!-- 3차 카테고리 추가 버튼 -->
-              <button class="add-btn add-tertiary-btn">+ 3차 카테고리 추가</button>
-              <div class="add-tertiary-section" style="display: none;">
-                <input type="text" class="newTertiaryInput" placeholder="3차 카테고리 이름을 입력하세요" />
-                <button class="add-tertiary-btn">+ 추가</button>
-              </div>
-            </li>
-          </ul>
-
-          <!-- 2차 카테고리 추가 버튼 -->
-          <button class="add-btn">+ 2차 카테고리 추가</button>
-          <div class="add-subcategory-section" style="display: none;">
-            <input type="text" class="newSubcategoryInput" placeholder="2차 카테고리 이름을 입력하세요" />
-            <button class="add-subcategory-btn">+ 추가</button>
-          </div>
-        </li>
-      </ul>
+            </ul>
+            <div class="add-category-section">
+                <input type="text" id="newCategoryInput" placeholder="1차 카테고리 이름을 입력하세요"/>
+                <button class="add-category-btn" id="addCategoryBtn">+ 1차 카테고리 추가</button>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 </div>
 </html>

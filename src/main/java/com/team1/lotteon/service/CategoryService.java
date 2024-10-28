@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;
@@ -34,7 +36,7 @@ public class CategoryService {
     // 자식 카테고리 가져오기 <캐싱 추가> (준혁)
     @Cacheable(value = "subCategories", key = "#parentId")
     public List<CategoryWithChildrenResponseDTO> getSubCategoriesByParentId(Long parentId) {
-        List<Category> subCategories = categoryRepository.findByParentId(parentId);
+        List<Category> subCategories = categoryRepository.findByParentIdOrderByDisplayOrderAsc(parentId);
         return subCategories.stream()
                 .map(category -> modelMapper.map(category, CategoryWithChildrenResponseDTO.class))
                 .collect(Collectors.toList());
@@ -58,13 +60,23 @@ public class CategoryService {
     }
 
     public CategoryResponseDTO createCategory(CategoryCreateDTO categoryCreateDTO) {
-        Category category = categoryCreateDTO.toEntity();
-        categoryRepository.save(category);
 
+
+        Category category = categoryCreateDTO.toEntity();
+        Integer maxDisplayOrder = null;
         if (categoryCreateDTO.getParentId() != null) {
             Category parentCategory = categoryRepository.findById(Long.valueOf(categoryCreateDTO.getParentId())).orElse(null);
             category.changeParent(parentCategory);
+
+            maxDisplayOrder = categoryRepository.findMaxDisplayOrderByParentId(categoryCreateDTO.getParentId());
+        } else {
+            maxDisplayOrder = categoryRepository.findMaxDisplayOrderByRoot();
         }
+
+        int newDisplayOrder = (maxDisplayOrder != null ? maxDisplayOrder : 0) + 10;
+
+        category.changeDisplayOrder(newDisplayOrder);
+        categoryRepository.save(category);
 
         return CategoryResponseDTO.fromEntity(category);
     }
