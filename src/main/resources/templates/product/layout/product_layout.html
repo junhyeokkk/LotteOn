@@ -1,43 +1,36 @@
-<!--
-날짜 : 2024/10/25
-이름 : 이상훈
-내용 : 상품 레이아웃 html 생성
--->
-
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
+<html lagn="ko"
+      xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<head>
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" th:href="@{/css/include/reset.css}"/>
     <link rel="stylesheet" th:href="@{/css/product/product.css}"/>
     <link rel="stylesheet" th:href="@{/css/include/layout.css}"/>
+  <link rel="icon" type="image/png" sizes="16x16" th:href="@{'/'+${appInfo.uploadDir}+'logo/'+${config.favicon}}">
+<head>
+  <meta charset="UTF-8" />
+  <title>product layout</title>
+  <meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1, user-scalable=yes,initial-scale=1.0" />
+  <!-- content script -->
+  <th:block layout:fragment="css"></th:block>
+  <!-- content script -->
+  <th:block layout:fragment="script"></th:block>
 </head>
-<body>
-<!-- header -->
-<header th:replace="~{layout/header::header}"></header>
-<header th:replace="~{layout/header-nav}"></header>
+    <body>
+        <!-- header -->
+        <header th:replace="~{layout/header::header}"></header>
+        <header th:replace="~{layout/header-nav}"></header>
+        <div class="layout-container">
+            <th:block th:replace="~{layout/aside-best}"></th:block>
+            <!-- aside -->
 
-
-
-<div class="layout-container">
-    <!-- aside -->
-    <div class="layout-left">
-        <th:block th:replace="~{layout/aside-best}"></th:block>
-    </div>
-    <div class="layout-right">
-        <!-- content -->
-        <th:block th:with="path='product/' + ${cate}">
-            <th:block th:replace="~{${path}}"></th:block>
-            <!--  <th:block th:replace="~{product/list::list}"></th:block>-->
-        </th:block>
-    </div>
-</div>
-
-
-
-<!-- footer -->
-<footer th:replace="~{layout/footer::footer}"></footer>
-</body>
+          <!-- content fragment 사용 -->
+            <div class="layout-right">
+                 <th:block layout:fragment="content"></th:block>
+            </div>
+        </div>
+        <!-- footer -->
+        <footer th:replace="~{layout/footer::footer}"></footer>
+    </body>
 </html>

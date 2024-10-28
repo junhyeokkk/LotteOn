@@ -1,16 +1,33 @@
 <!--
-날짜 : 2024/10/25
-이름 : 이상훈
-내용 : 상품 페이지 장바구니 컨텐츠 생성
+    날짜 : 2024/10/25
+    이름 : 이상훈
+    내용 : 상품 페이지 리스트 보기 컨텐츠 생성
+
+    - 수정내역
+    - tymeleaf 레이아웃 적용 (10/28 준혁)
 -->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{product/layout/product_layout}">
 
-<script src="https://kit.fontawesome.com/63c07008cd.js" crossorigin="anonymous"></script>
+<!-- index.html 고유 CSS 추가 -->
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/include/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/product/product.css}">
+    <link rel="stylesheet" th:href="@{/css/product/view.css}">
+</th:block>
 
-<link rel="stylesheet" href="/css/include/reset.css">
-<link rel="stylesheet" href="/css/product/product.css">
-<section class="section">
-    <nav class="section__nav nav-sticky">
-        <script th:src="@{/js/util.js}"></script>
+<!-- index.html 고유 스크립트 추가 -->
+<th:block layout:fragment="script">
+    <script type="text/javascript" th:src="@{/js/util.js}"></script>
+    <script type="text/javascript" th:src="@{/js/product/view.js}"></script>
+    <script src="https://kit.fontawesome.com/63c07008cd.js" crossorigin="anonymous"></script>
+</th:block>
+
+<section class="section" layout:fragment="content">
+    <nav class="section__nav navsticky">
         <h1>상품보기</h1>
         <p>
             HOME
@@ -24,74 +41,171 @@
     <!-- 상품 전체 정보 내용 -->
     <article class="info">
         <div class="image">
-            <img src="https://thumbnail7.coupangcdn.com/thumbnails/remote/492x492ex/image/vendor_inventory/82e4/919f32aceb62b66e96ae165129e2f91844a5b458604e3a6bfc492ab5ad2a.jpg"
-                alt="상품이미지" />
+            <img src="/images/product_sample.jpg" alt="상품이미지" />
         </div>
         <div class="summary">
             <nav class="summary__nav">
                 <h1 class="summary__nav__company">(주)상호명</h1>
                 <h2 class="summary__nav__product">상품번호&nbsp;:&nbsp;<span id="prodNo">1121223123</span></h2>
             </nav>
+
+            <!-- 상품명과 별점 -->
             <nav class="summary__product">
-                <h3>상품명</h3>
-                <p>상품 정보</p>
-                <h5 class="rating"><a href="#" onclick="scrollToSection('changTabBox')"><u>상품평보기</u></a></h5>
-            </nav>
-            <nav class="summary__price">
-                <div class="org_price">
-                    <del id="prodPrice">12000원</del>
-                    <span id="disCount">10%↓</span>
+                <div class="product-header">
+                    <h3>[[${product.productName}]]</h3>
+                    <div class="rating">
+                        <img src="/images/star-rating.png" alt="별점" />
+                        <span>4.8</span> <span>(27건)</span>
+                    </div>
                 </div>
-                <div class="dis_price">
-                    <ins id="disPrice">10000원</ins>
-                </div>
-            </nav>
-            <nav class="summary__delivery">
-                <!-- <span class="delivery">무료배송</span> -->
-                <span class="delivery">배송비: 1000원</span>
-                <span class="arrival" id="arrivalDate">모레 (금) 7/8 도착예정</span>
-                <div class="desc">본 상품은 국내배송만 가능합니다.</div>
-            </nav>
-            <nav class="summary__card">
-                <span class="card cardFree"><i class="fa-solid fa-credit-card"></i>무이자할부</span>&nbsp;&nbsp;
-                <span class="card cardAdd"><i class="fa-solid fa-credit-card"></i>카드추가혜택</span>
-            </nav>
-            <nav class="summary__origin">
-                <span class="origin">원산지-상세설명 참조</span>
+                <p class="summary__product-info">이 상품은 고급 소재로 만들어져 뛰어난 내구성을 자랑하며, 다양한 스타일에 매치할 수 있습니다.</p>
             </nav>
 
-            <div class="selectedOption">
-                <div class="selectedValue">
-                    <h4>수량</h4>
-                    <div class="count">
-                        <button class="decrease" onclick="changeNumNoOpt(-1)">-</button>
-                        <input class="count__input" type="text" name="num" id="numInput" value="1"
-                            oninput="changeNumNoOpt(0)" />
-                        <button class="increase" onclick="changeNumNoOpt(1)">+</button>
+            <!-- 가격과 혜택 -->
+            <h4 class="section-title">가격 정보</h4>
+            <nav class="summary__price">
+                <div class="price-group">
+                    <div class="original-price">
+                        <del id="prodPrice" class="org_price">12000원</del>
+                        <span id="disCount" class="discount">10%↓</span>
                     </div>
+                    <ins id="disPrice" class="dis_price">10000원</ins> <!-- 최종 가격 -->
+                </div>
+                <button class="coupon-button"><i class="fa-solid fa-tag"></i> 쿠폰 받기</button>
+            </nav>
+
+            <h4 class="section-title">혜택 정보</h4>
+            <div class="summary__card">
+                <span class="card cardFree"><i class="fa-solid fa-credit-card"></i>무이자할부</span>
+                <span class="card cardAdd"><i class="fa-solid fa-credit-card"></i>카드추가혜택</span>
+            </div>
+
+
+            <!-- 배송 정보 -->
+            <h4 class="section-title">배송 정보</h4>
+            <nav class="summary__delivery">
+                <div class="delivery-item">
+                    <span class="delivery-label"><i class="fa-solid fa-truck"></i> 배송비:</span>
+                    <span class="delivery">1000원</span>
+                </div>
+                <div class="delivery-item">
+                    <span class="delivery-label"><i class="fa-solid fa-calendar-day"></i> 도착 예정:</span>
+                    <span class="arrival" id="arrivalDate">모레 (금) 7/8 도착예정</span>
+                </div>
+                <div class="desc">본 상품은 국내배송만 가능합니다.</div>
+            </nav>
+
+            <!-- 선택 옵션 추가 -->
+            <div class="selectedOption">
+                <h4 class="section-title">선택 옵션</h4>
+                <label for="optionSelect">옵션:</label>
+                <select id="optionSelect">
+                    <option>옵션을 선택하세요</option>
+                    <option value="option1">옵션 1</option>
+                    <option value="option2">옵션 2</option>
+                </select>
+            </div>
+
+            <!-- 수량 선택 -->
+            <h4 class="section-title">수량 선택</h4>
+            <div class="selectedValue">
+                <div class="count">
+                    <button class="count-button decrease" onclick="changeNumNoOpt(-1)">
+                        <i class="fa-solid fa-minus"></i>
+                    </button>
+                    <input class="count__input" type="text" name="num" id="numInput" value="1" oninput="changeNumNoOpt(0)" />
+                    <button class="count-button increase" onclick="changeNumNoOpt(1)">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
                 </div>
             </div>
 
-            <div class="total" style="border:none">
+            <!-- 총 금액 표시 -->
+            <div class="total">
                 <span class="total__price-name">총 상품금액</span>
                 <span class="total__price-value">27,000원</span>
             </div>
 
+            <!-- 장바구니와 구매 버튼 -->
             <div class="button-group">
-                <input  onclick="(function(){window.location.href='/product/order'})()" type="button"  class="button-group__btn button-group__order" value="구매하기" />
-                <input  onclick="(function(){window.location.href='/product/cart'})()" type="button"  class="button-group__btn button-group__cart" value="장바구니" />
+                <button onclick="window.location.href='/product/order'" class="button-group__btn button-group__order">
+                    <i class="fa-solid fa-credit-card"></i> 구매하기
+                </button>
+                <button onclick="window.location.href='/product/cart'" class="button-group__btn button-group__cart">
+                    <i class="fa-solid fa-cart-shopping"></i> 장바구니
+                </button>
             </div>
+
         </div>
     </article>
 
-    <!-- 상품 정보 내용 -->
-    <nav class="section__product-nav">
-        <h1>상품정보</h1>
-    </nav>
-    <!-- 상품상세페이지 이미지 -->
-    <img class="section__product-img"
-        src="https://thumbnail9.coupangcdn.com/thumbnails/remote/q89/image/retail/images/428998748346131-02d256a7-51f3-44c7-a66d-99431f86c7e2.jpg"
-        alt="상세페이지1" />
+    <section class="bottom_section">
+        <!-- 왼쪽 상품 정보와 상세 이미지 -->
+        <div class="product-content">
+            <div class="product-info">
+                <!-- 상단 네비게이션 바 -->
+                <nav class="product-nav">
+                    <button class="nav-btn" onclick="scrollToSection('detail')">상세정보</button>
+                    <button class="nav-btn" onclick="scrollToSection('review')">리뷰</button>
+                    <button class="nav-btn" onclick="scrollToSection('qna')">Q&A</button>
+                    <button class="nav-btn" onclick="scrollToSection('return')">교환반품안내</button>
+                </nav>
+
+                <!-- 상품정보 및 이미지 -->
+                <div id="detail">
+                    <h1>상품정보</h1>
+                    <img class="section__product-img" src="https://thumbnail9.coupangcdn.com/thumbnails/remote/q89/image/retail/images/428998748346131-02d256a7-51f3-44c7-a66d-99431f86c7e2.jpg" alt="상세페이지1" />
+                </div>
+            </div>
+
+            <aside class="cart-summary">
+                <div class="bottom_cart">
+                    <div class="cart-option">
+                        <label for="optionSelect1">상품명</label>
+                        <select id="optionSelect1">
+                            <option>01_제주감귤 소자 2.5kg</option>
+                            <option value="option1">옵션 1</option>
+                            <option value="option2">옵션 2</option>
+                        </select>
+
+                        <label for="optionSelect2">선택옵션</label>
+                        <select id="optionSelect2">
+                            <option>1BOX</option>
+                            <option value="2box">2BOX</option>
+                            <option value="3box">3BOX</option>
+                        </select>
+                    </div>
+
+                    <div class="cart-info">
+                        <p><strong>배송 정보:</strong> 10/30 (수) 도착 예정 (87% 확률)</p>
+                        <p><strong>판매자:</strong> 에이블로우컴퍼니</p>
+                    </div>
+
+                    <div class="cart-item">
+                        <div class="quantity">
+                            <label for="count-input">수량</label>
+                            <div class="quantity-controls">
+                                <button class="count-btn decrease">-</button>
+                                <input type="text" id="count-input" value="1" class="count-input">
+                                <button class="count-btn increase">+</button>
+                            </div>
+                        </div>
+                        <div class="price">
+                            <strong>가격:</strong> <span class="price-value">10,170원</span>
+                        </div>
+                    </div>
+
+                    <div class="cart-actions">
+                        <button class="cart-action-btn gift-btn"><i class="fa-solid fa-gift"></i> 선물하기</button>
+                        <button class="cart-action-btn cart-btn"><i class="fa-solid fa-shopping-cart"></i> 장바구니 담기</button>
+                        <button class="cart-action-btn buy-btn"><i class="fa-solid fa-credit-card"></i> 바로 구매하기</button>
+                    </div>
+                </div>
+            </aside>
+
+
+        </div>
+    </section>
 
 
     <article class="notice">
@@ -99,7 +213,7 @@
             <h1 class="notice__nav__title">상품 정보 제공 고시</h1>
             <p class="notice__nav__desc">[전자상거래에 관한 상품정보 제공에 관한 고시] 항목에 의거 등록된 정보입니다.</p>
         </nav>
-        <table style="width:90%; border-collapse: collapse;" border="1">
+        <table class="info-table">
             <tr>
                 <td width="20%">상품번호</td>
                 <td>123123</td>
@@ -129,7 +243,7 @@
                 <td>중국</td>
             </tr>
         </table>
-        <table style="width:90%; border-collapse: collapse; margin-top: 20px;" border="1">
+        <table class="info-table">
             <tr>
                 <td width="20%">제품소재</td>
                 <td>컨텐츠 참조</td>
@@ -177,7 +291,7 @@
         <p class="notice__paragraph">
             소비자가 전자상거래등에서 소비자 보호에 관한 법률 제 17조 제1항 또는 제3항에 따라 청약철회를 하고
             동법 제 18조 제1항 에 따라 청약철회한 물품을 판매자에게 반환하였음에도 불구 하고 결제 대금의
-            환급이 3영업일을 넘게 지연된 경우, 소비자 는 전자상거래등에서 소비자보호에 관한 법률 제18조
+            환급이 3영업일을 넘게 지연된 경우, 소비자는 전자상거래등에서 소비자보호에 관한 법률 제18조
             제2항 및 동법 시행령 제21조 2에 따라 지연일수에 대하여 전상법 시행령으로 정하는 이율을 곱하여
             산정한 지연이자(“지연배상금”)를 신청할 수 있습니다. 아울러, 교환∙반품∙보증 및 결제대금의
             환급신청은 [나의쇼핑정보]에서 하실 수 있으며, 자세한 문의는 개별 판매자에게 연락하여 주시기 바랍니다.
@@ -187,72 +301,33 @@
     <!-- 상품 리뷰 내용 -->
     <nav class="section__review-nav" style="padding-bottom: 0">
         <h1>상품 리뷰</h1>
-        <!-- <h1 class="btnProdQna" onclick="changeTab()">상품 문의</h1> -->
     </nav>
 
-    <article class="review prodReview">
-        <ul>
-            <li class="review__list">
-                <img class="review__list__img" src="https://thumbnail7.coupangcdn.com/thumbnails/remote/492x492ex/image/vendor_inventory/82e4/919f32aceb62b66e96ae165129e2f91844a5b458604e3a6bfc492ab5ad2a.jpg">
-                <div style="width: 780px;">
-                    <div>
-                        <h5 class="rating">4</h5>
-                        <span>2022-01-01</span>
-                        <span>sanghoon******</span>
-                    </div>
-                    <h3 style="width: 300px">상품명</h3>
-                    <p style="white-space: pre-line;">리뷰 내용</p>
-                </div>
-            </li>
-            <li class="review__list">
-                <img class="review__list__img" src="https://thumbnail7.coupangcdn.com/thumbnails/remote/492x492ex/image/vendor_inventory/82e4/919f32aceb62b66e96ae165129e2f91844a5b458604e3a6bfc492ab5ad2a.jpg">
-                <div style="width: 780px;">
-                    <div>
-                        <h5 class="rating">4</h5>
-                        <span>2022-01-01</span>
-                        <span>sanghoon******</span>
-                    </div>
-                    <h3 style="width: 300px">상품명</h3>
-                    <p style="white-space: pre-line;">리뷰 내용</p>
-                </div>
-            </li>
-            <li class="review__list">
-                <img class="review__list__img" src="https://thumbnail7.coupangcdn.com/thumbnails/remote/492x492ex/image/vendor_inventory/82e4/919f32aceb62b66e96ae165129e2f91844a5b458604e3a6bfc492ab5ad2a.jpg">
-                <div style="width: 780px;">
-                    <div>
-                        <h5 class="rating">4</h5>
-                        <span>2022-01-01</span>
-                        <span>sanghoon******</span>
-                    </div>
-                    <h3 style="width: 300px">상품명</h3>
-                    <p style="white-space: pre-line;">리뷰 내용</p>
-                </div>
-            </li>
-        </ul>
-        <div class="review__paging">
-            <span class="prev">
-                <a href="#"><&nbsp;이전</a>
-            </span>
-            <span class="num">
-                <a href="#">1</a>
-            </span>
-            <span class="num">
-                <a href="#">2</a>
-            </span>
-            <span class="num">
-                <a href="#">3</a>
-            </span>
-            <span class="next">
-                <a href="#">다음&nbsp;></a>
-            </span>
-        </div>
+    <article class="review">
+        <nav class="review__head">
+            <span class="review__count">리뷰 45</span>
+            <span class="review__rate">리뷰 평점 <span class="review__rate__score">4.5</span></span>
+            <button class="button-group__btn review__write" onclick="(function(){window.location.href='/product/review/write'})()">리뷰 작성</button>
+        </nav>
+        <nav class="review__list">
+            <div class="review__item">
+                <h3 class="review__item__title">리뷰 제목</h3>
+                <div class="review__item__desc">리뷰 내용입니다. 이곳에 리뷰 내용을 적어주세요.</div>
+                <span class="review__item__author">작성자: 고객 이름</span>
+                <span class="review__item__date">작성일: 2024.01.01</span>
+            </div>
+            <div class="review__item">
+                <h3 class="review__item__title">리뷰 제목</h3>
+                <div class="review__item__desc">리뷰 내용입니다. 이곳에 리뷰 내용을 적어주세요.</div>
+                <span class="review__item__author">작성자: 고객 이름</span>
+                <span class="review__item__date">작성일: 2024.01.01</span>
+            </div>
+        </nav>
     </article>
-    <article class="review-zero prodReview">
-        <ul>
-            <li style="padding: 20px 0;  border: 0; font-size: 18px"> 작성된 리뷰가 없습니다. </li>
 
-        </ul>
-    </article>
-    <!-- 상품 리뷰 내용 끝 -->
-   
+    <!-- 버튼 -->
+    <div style="text-align:center; margin: 30px 0;">
+        <button onclick="(function(){window.location.href='/'})()" class="button-group__btn button-group__home">홈으로</button>
+    </div>
 </section>
+</html>

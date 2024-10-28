@@ -1,173 +1,100 @@
 <!--
-날짜 : 2024/10/25
-이름 : 이상훈
-내용 : 상품 페이지 리스트 보기 컨텐츠 생성
+    날짜 : 2024/10/25
+    이름 : 이상훈
+    내용 : 상품 페이지 리스트 보기 컨텐츠 생성
+
+    - 수정내역
+    - tymeleaf 레이아웃 적용 (10/28 준혁)
 -->
 
 <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{product/layout/product_layout}">
 
-<link rel="stylesheet" href="/css/include/reset.css">
-<link rel="stylesheet" href="/css/product/product.css">
-<style>
-    .sort>.selected {
-        background-color: #f0f0f0;
-        /* 선택된 항목의 배경색을 변경 */
-    }
+<!-- index.html 고유 CSS 추가 -->
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/include/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/product/product.css}">
+    <link rel="stylesheet" th:href="@{/css/product/list.css}">
+</th:block>
 
+<!-- index.html 고유 스크립트 추가 -->
+<th:block layout:fragment="script">
+    <script type="text/javascript" th:src="@{/js/product/list.js}"></script>
+</th:block>
 
-</style>
-<script>
+    <section class="section" layout:fragment="content">
+        <!-- 제목, 페이지 네비게이션 -->
+        <nav class="section__nav">
+            <h1>상품목록</h1>
+            <p>HOME
+                <span> > </span>
+                <span>패션·의류·뷰티</span>
+                <span> > </span>
+                <span> 남성의류 </span>
+            </p>
+        </nav>
 
-    window.onload = function () {
-        setCateCodeInputValue();
-        let currentURL = window.location.href;
-        let splitURL = currentURL.split('?')[1];
-        let sortCode = ""
-        let sortText = '';
-        if (splitURL !== undefined) {
-            let params = new URLSearchParams(window.location.search);
-            sortCode = params.get('sort');
-        }
-        const sortNav = document.getElementsByClassName('sort')[0];
-        const mainSortNav = document.getElementsByClassName('mainSort')[0];
-        const aTag = sortNav.querySelectorAll('a');
-        const mTag = sortNav.querySelectorAll('a');
+        <!-- 정렬 메뉴 -->
+        <ul class="main_sort">
+            <li><a class="sort__link" href="#" onclick="sort('prodSold')"> 판매많은순</a></li>
+            <li><a class="sort__link" href="#" onclick="sort('prodLowPrice')"> 낮은가격순</a></li>
+            <li><a class="sort__link" href="#" onclick="sort('prodHighPrice')"> 높은가격순</a></li>
+            <li><a class="sort__link" href="#" onclick="sort('prodScore')"> 평점높은순</a></li>
+            <li><a class="sort__link" href="#" onclick="sort('prodReview')"> 후기많은순</a></li>
+            <li><a class="sort__link" href="#" onclick="sort('prodRdate')"> 최근등록순</a></li>
+        </ul>
 
-        switch (sortCode) {
-            case 'prodSold':
-                aTag[0].classList.add('navOn');
-                sortText = ' > 판매많은순';
-                break;
-            case 'prodLowPrice':
-                aTag[1].classList.add('navOn');
-                sortText = ' > 낮은가격순';
-                break;
-            case 'prodHighPrice':
-                aTag[2].classList.add('navOn');
-                sortText = ' > 높은가격순';
-                break;
-            case 'prodScore':
-                aTag[3].classList.add('navOn');
-                sortText = ' > 평점높은순';
-                break;
-            case 'prodReview':
-                aTag[4].classList.add('navOn');
-                sortText = ' > 후기많은순';
-                break;
-            case 'prodRdate':
-                aTag[5].classList.add('navOn');
-                sortText = ' > 최근등록순';
-                break;
-            case 'prodHit-main':
-                sortText = ' > 히트상품';
-                break;
-            case 'prodScore-main':
-                sortText = ' > 추천상품';
-                break;
-            case 'prodRdate-main':
-                sortText = ' > 최신상품';
-                break;
-            case 'prodSold-main':
-                sortText = ' > 인기상품';
-                break;
-            case 'prodDiscount-main':
-                sortText = ' > 할인상품';
-                break;
-            default:
-                sortText = '';
-        }
-
-        document.getElementById('sortText').innerText = sortText;
-
-    }
-
-    function sort(sortType) {
-        const currentUrl = new URL(window.location.href);
-        currentUrl.searchParams.set('sort', sortType);
-        window.location.href = currentUrl.toString();
-    }
-
-    // 상품 상태 확인
-    function checkProdStatus(event) {
-        const button = event.target;
-        const prod = button.closest('a');
-        if (prod.className === "판매중단") {
-            event.preventDefault();
-            alert("판매 중단된 상품입니다.");
-        }
-    }
-
-</script>
-
-<section class="section" th:fragment="list">
-
-    <!-- 제목, 페이지 네비게이션 -->
-    <nav class="section__nav">
-        <h1>상품목록</h1>
-        <p>HOME
-            <span> > </span>
-            <span>패션·의류·뷰티</span>
-            <span> > </span>
-            <span> 남성의류 </span>
-        </p>
-    </nav>
-
-    <!-- 정렬 메뉴 -->
-    <ul class="sort">
-        <li><a class="sort__link" href="#" onclick="sort('prodSold')"> 판매많은순</a></li>
-        <li><a class="sort__link" href="#" onclick="sort('prodLowPrice')"> 낮은가격순</a></li>
-        <li><a class="sort__link" href="#" onclick="sort('prodHighPrice')"> 높은가격순</a></li>
-        <li><a class="sort__link" href="#" onclick="sort('prodScore')"> 평점높은순</a></li>
-        <li><a class="sort__link" href="#" onclick="sort('prodReview')"> 후기많은순</a></li>
-        <li><a class="sort__link" href="#" onclick="sort('prodRdate')"> 최근등록순</a></li>
-    </ul>
-
-    <!-- 상품목록 -->
-    <section class="productBox">
-        <div th:each="product : ${productsPage.content}" class="product">
-            <a th:href="@{/product/view/{id}(id=${product.id})}" class="product__link">
-                <div class="thumb">
-                    <img class="thumb__img"
-                         th:src="${product.imageUrl}" alt="상품 이미지"/>
-                </div>
-                <div class="prodcut__desc">
-                    <h2 th:text="${product.name}">상품명</h2>
-                    <p th:text="${product.description}">상품설명</p>
-                </div>
-                <div class="product__price-group">
-                    <div class="org_price">
-                        <del class="org_price__prodPrice" th:text="${product.price} + '원'">12000원</del>
-                        <span class="org_price__discount" th:text="${product.discountRate} + '%↓'">10%↓</span>
+        <!-- 상품목록 -->
+        <section class="productBox">
+            <div th:each="product : ${productsPage.content}" class="product">
+                <a th:href="@{/product/view/{id}(id=${product.id})}" class="product__link">
+<!--                    <a th:href="@{/product/view}" class="product__link">-->
+                    <div class="thumb">
+                        <img class="thumb__img"
+                             th:src="'/'+${appInfo.uploadDir}+'product/'+${product.imageUrl}" alt="상품 이미지"/>
                     </div>
-                    <div class="dis_price">
-                        <ins class="dis_price__result" th:text="${product.discountedPrice} + '원'">10000원</ins>
-                        <span class="free free-delivery"  th:if="${product.deliveryFee == 0}">무료배송</span>
+                    <div class="prodcut__desc">
+                        <h2 th:text="${product.name}">상품명</h2>
+                        <p th:text="${product.description}">상품설명</p>
                     </div>
-                </div>
-                <div class="score_review">
-                    <b>★ <span>4</span></b>
-                    <b>리뷰 <span th:text="${product.views}">10</span></b>
-                    <span th:if="${product.sellerReputation}" th:text="${product.sellerReputation}">고객만족우수</span>
-                </div>
-            </a>
+                    <div class="product__price-group">
+                        <div class="org_price">
+                            <del class="org_price__prodPrice" th:text="${product.price} + '원'">12000원</del>
+                            <span class="org_price__discount" th:text="${product.discountRate} + '%↓'">10%↓</span>
+                        </div>
+                        <div class="dis_price">
+                            <ins class="dis_price__result" th:text="${product.discountedPrice} + '원'">10000원</ins>
+                            <span class="free free-delivery"  th:if="${product.deliveryFee == 0}">무료배송</span>
+                        </div>
+                    </div>
+                    <div class="score_review">
+                        <b>★ <span>4</span></b>
+                        <b>리뷰 <span th:text="${product.views}">10</span></b>
+                        <span th:if="${product.sellerReputation}" th:text="${product.sellerReputation}">고객만족우수</span>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- 상품목록 페이지번호 -->
+        <div class="paging">
+            <span class="prev" th:if="${!productsPage.isFirst}">
+                <a th:href="@{/product/list(page=${productsPage.currentPage - 1}, size=${productsPage.pageSize})}">
+                    <&nbsp;이전
+                </a>
+            </span>
+            <span class="paging__num" th:each="i : ${#numbers.sequence(1, productsPage.totalPages)}">
+                <a th:href="@{/product/list(page=${i - 1}, size=${productsPage.pageSize})}" th:text="${i}">1</a>
+            </span>
+            <span class="next" th:if="${!productsPage.isLast}">
+                <a th:href="@{/product/list(page=${productsPage.currentPage + 1}, size=${productsPage.pageSize})}">
+                    다음&nbsp;>
+                </a>
+            </span>
         </div>
     </section>
 
-    <!-- 상품목록 페이지번호 -->
-    <div class="paging">
-        <span class="prev" th:if="${!productsPage.isFirst}">
-            <a th:href="@{/product/list(page=${productsPage.currentPage - 1}, size=${productsPage.pageSize})}">
-                <&nbsp;이전
-            </a>
-        </span>
-        <span class="paging__num" th:each="i : ${#numbers.sequence(1, productsPage.totalPages)}">
-            <a th:href="@{/product/list(page=${i - 1}, size=${productsPage.pageSize})}" th:text="${i}">1</a>
-        </span>
-        <span class="next" th:if="${!productsPage.isLast}">
-            <a th:href="@{/product/list(page=${productsPage.currentPage + 1}, size=${productsPage.pageSize})}">
-                다음&nbsp;>
-            </a>
-        </span>
-    </div>
-</section>
-
+</html>

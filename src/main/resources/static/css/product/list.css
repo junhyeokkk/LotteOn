@@ -1,0 +1,267 @@
+.sort>.selected {
+    background-color: #f0f0f0;
+    /* 선택된 항목의 배경색을 변경 */
+}
+
+/* 공통 설정 */
+body {
+    font-family: Arial, sans-serif;
+    color: #333;
+    background-color: #fff;
+    margin: 0;
+    padding: 0;
+}
+
+/* 전체 섹션 컨테이너 */
+.section {
+    max-width: 1200px;
+    margin: 20px auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+/* 섹션 네비게이션 */
+.section__nav {
+    padding: 15px 20px;
+    border-bottom: 1px solid #ececec;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.section__nav h1 {
+    font-size: 20px;
+    color: #111;
+    margin-bottom: 4px;
+    font-weight: bold;
+}
+
+.section__nav p {
+    font-size: 13px;
+    color: #777;
+    line-height: 1.6;
+}
+
+.section__nav p span {
+    color: #fe434c;
+    font-weight: bold;
+}
+
+/* 정렬 메뉴 */
+#product > .list > .sort {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+    border-bottom: 1px solid #ececec;
+}
+
+#product > .list > .sort > li > a {
+    display: block;
+    padding: 5px 10px;
+    color: #777;
+    transition: color 0.3s;
+}
+
+#product > .list > .sort > li > a.on {
+    font-weight: bold;
+    color: #fe434c;
+}
+
+/* 상품 목록 */
+#product > .list > .productBox {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 12px;
+    padding: 10px;
+}
+
+/* 상품 박스 */
+.product {
+    border: 1px solid #ececec;
+    border-radius: 6px;
+    padding: 10px;
+    transition: box-shadow 0.3s;
+    height: auto;
+}
+
+.product:hover {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* 상품 이미지 */
+.thumb__img {
+    width: 90%;
+    max-width: 140px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 4px;
+    margin: 0 auto;
+    display: block;
+}
+
+/* 상품 설명 */
+.prodcut__desc h2 {
+    font-size: 14px;
+    color: #111;
+    margin: 8px 0 4px;
+    text-align: center;
+}
+
+.prodcut__desc p {
+    font-size: 12px;
+    color: #555;
+    line-height: 1.3;
+    text-align: center;
+}
+
+/* 가격 그룹 */
+.product__price-group {
+    margin-top: 6px;
+    text-align: center;
+}
+
+.org_price__prodPrice {
+    font-size: 12px;
+    color: #aaa;
+    text-decoration: line-through;
+}
+
+.org_price__discount {
+    font-size: 11px;
+    color: #eb000a;
+    margin-left: 3px;
+}
+
+.dis_price__result {
+    font-size: 14px;
+    font-weight: bold;
+    color: #fe434c;
+}
+
+/* 무료 배송 */
+.free-delivery {
+    font-size: 10px;
+    background-color: #fe434c;
+    padding: 2px 6px;
+    border-radius: 3px;
+    color: #fff;
+    margin-top: 3px;
+    display: block;
+    text-align: center;
+}
+
+/* 평점 및 리뷰 */
+.score_review {
+    font-size: 10px;
+    color: #777;
+    margin-top: 8px;
+    text-align: center;
+}
+
+/* 페이징 */
+.paging {
+    display: flex;
+    justify-content: center;
+    padding: 15px 0;
+}
+
+.paging > .paging__num > a {
+    padding: 5px 8px;
+    margin: 0 3px;
+    border: 1px solid #c4c4c4;
+    border-radius: 3px;
+    color: #333;
+    font-size: 11px;
+    transition: all 0.3s;
+}
+
+.paging > .paging__num > a:hover,
+.paging > .paging__num > a.on {
+    border-color: #fe434c;
+    color: #fe434c;
+    font-weight: bold;
+}
+
+
+
+
+
+/* 섹션 네비게이션 */
+.section__nav {
+    padding: 10px 20px;
+    border-bottom: 1px solid #ececec;
+}
+
+.section__nav h1 {
+    font-size: 20px;
+    color: #111;
+    margin-bottom: 4px;
+    font-weight: bold;
+}
+
+.section__nav p {
+    font-size: 13px;
+    color: #777;
+    line-height: 1.6;
+}
+
+.section__nav p span {
+    color: #fe434c;
+    font-weight: bold;
+}
+
+/* 정렬 메뉴 */
+.section> .main_sort {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+    background-color: #fff;
+    border-bottom: 1px solid #ececec;
+    margin-bottom: 10px;
+}
+
+.section > .main_sort > li {
+    margin: 0 8px;
+    list-style: none;
+}
+
+.section > .main_sort > li > a {
+    padding: 5px 12px;
+    color: #555;
+    font-size: 13px;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+    text-decoration: none;
+}
+
+.section .main_sort > li > a:hover {
+    background-color: #fe434c;
+    color: #fff;
+}
+
+.section .main_sort > li > a.on {
+    background-color: #fe434c;
+    color: #fff;
+    font-weight: bold;
+}
+
+
+.main_sort {
+    display: flex;
+    gap: 14px;
+    margin: 8px 0;
+    border-bottom: 1px solid black;
+    padding-bottom: 4px;
+}
+
+.main_sort li:not(:last-child)::after {
+    content: "|";
+    margin-left: 0.5em;
+}
+
+.sort__link {
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+}

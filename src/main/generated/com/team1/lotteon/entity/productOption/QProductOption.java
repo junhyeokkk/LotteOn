@@ -24,7 +24,7 @@ public class QProductOption extends EntityPathBase<ProductOption> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final QOption option;
+    public final StringPath name = createString("name");
 
     public final com.team1.lotteon.entity.QProduct product;
 
@@ -46,7 +46,6 @@ public class QProductOption extends EntityPathBase<ProductOption> {
 
     public QProductOption(Class<? extends ProductOption> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.option = inits.isInitialized("option") ? new QOption(forProperty("option"), inits.get("option")) : null;
         this.product = inits.isInitialized("product") ? new com.team1.lotteon.entity.QProduct(forProperty("product"), inits.get("product")) : null;
     }
 

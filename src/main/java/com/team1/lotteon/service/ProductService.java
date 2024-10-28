@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.team1.lotteon.dto.PageResponseDTO;
 import com.team1.lotteon.dto.product.ProductCreateDTO;
+import com.team1.lotteon.dto.product.ProductDTO;
 import com.team1.lotteon.dto.product.ProductSummaryResponseDTO;
 import com.team1.lotteon.dto.product.ProductdetailDTO;
 import com.team1.lotteon.dto.product.productOption.ProductOptionDTO;
@@ -21,6 +22,7 @@ import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -50,6 +52,7 @@ public class ProductService {
     private final EntityManager entityManager;
 
     private final ObjectMapper objectMapper;
+    private final ModelMapper modelMapper;
 
     private final ProductDetailRepository productDetailRepository;
     private final OptionRepository optionRepository;
@@ -203,14 +206,18 @@ public class ProductService {
         return product;
     }
 
-
-
-
-
-
-
     public PageResponseDTO<ProductSummaryResponseDTO> getProducts(Pageable pageable) {
         Page<Product> products = productRepository.findAll(pageable);
         return PageResponseDTO.fromPage(products.map(ProductSummaryResponseDTO::fromEntity));
+    }
+
+    public ProductDTO getProductById(Long id) {
+
+        log.info("서비스 입성");
+        Product product = productRepository.findById(id).orElse(null);
+
+        ProductDTO savedproductDTO = modelMapper.map(product, ProductDTO.class);
+
+        return savedproductDTO;
     }
 }

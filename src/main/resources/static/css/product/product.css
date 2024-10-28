@@ -2255,7 +2255,6 @@
 }
 
 .section {
-  width: 800px;
   padding: 14px;
 }
 
@@ -2301,7 +2300,6 @@
 .product__link {
   display: flex;
   gap: 12px;
-  height: 120px;
   align-items: center;
 }
 
@@ -2359,7 +2357,6 @@
 }
 
 .paging__num {
-  border: 1px solid black;
   margin: 0 4px;
   padding: 4px;
   width: 30px;
@@ -2408,7 +2405,6 @@
 
 .summary__product {
   padding: 8px 0;
-  border-bottom: 1px solid black;
 }
 
 #prodPrice {
@@ -2423,10 +2419,6 @@
   font-weight: 700;
 }
 
-.summary__price {
-  padding: 8px 0;
-  border-bottom: 1px solid black;
-}
 
 #arrivalDate {
   font-weight: 700;
@@ -2456,24 +2448,10 @@
   color: #818181;
   font-size: 10px;
   font-weight: 700;
-  border-bottom: 1px solid black;
   padding: 8px 0;
 }
 
-.summary__origin {
-  padding: 8px 0;
-  border-bottom: 1px solid black;
-  font-size: 16px;
-  font-weight: 600;
-}
 
-.selectedValue {
-  display: flex;
-  padding: 8px 0;
-  border-bottom: 1px solid black;
-  align-items: center;
-  gap: 12px;
-}
 
 .count__input {
   width: 26px;
@@ -2593,14 +2571,6 @@
   border-bottom: 1px solid rgb(196, 196, 196);
   padding: 6px;
   height: 100px;
-}
-
-.total {
-  margin-left:auto;
-  border: 1px solid black;
-  width: 34%;
-  padding: 12px;
-  text-align: end;
 }
 
 .total__head {
