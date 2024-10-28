@@ -133,8 +133,9 @@
 }
 
 .gendermodal{
-    width: 50px;
-    margin-right: 10px;
+    width: 30px;
+    height: 20px;
+    /*margin-right: 10px;*/
 }
 
 .modal-nav button {

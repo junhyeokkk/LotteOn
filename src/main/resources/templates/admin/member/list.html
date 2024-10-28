@@ -22,6 +22,10 @@
 <!-- index.html 고유 스크립트 추가 -->
 <th:block layout:fragment="script">
     <script type="text/javascript" th:src="@{/js/admin/config/Member modal.js}"></script>
+    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+    <!--    <script type="text/javascript" th:src="@{/js/login/postcode.js}"></script>-->
+
 </th:block>
 
 
@@ -39,10 +43,10 @@
             <div class="select-container">
                 <form action="/admin/member/list" class="search_bar">
                     <select name="type">
-                        <productOption value="uid">아이디</productOption>
-                        <productOption value="name">이름</productOption>
-                        <productOption value="email">이메일</productOption>
-                        <productOption value="contact">휴대폰</productOption>
+                        <option value="uid">아이디</option>
+                        <option value="name">이름</option>
+                        <option value="email">이메일</option>
+                        <option value="contact">휴대폰</option>
                     </select>
                     <input class="searchInput" type="text" name="keyword">
                     <input type="hidden" name="prodSeller" value="ADMIN" readonly>
@@ -75,18 +79,19 @@
                     <td th:text="${member.gender}">성별</td>
                     <td>
                         <select th:value="${member.grade}">
-                            <productOption value="vvip">VVIP</productOption>
-                            <productOption value="vip">VIP</productOption>
-                            <productOption value="gold">GOLD</productOption>
-                            <productOption value="silver">SILVER</productOption>
-                            <productOption value="family">FAMILY</productOption>
+                            <option value="vvip" th:selected="${member.grade == 'vvip'}">VVIP</option>
+                            <option value="vip" th:selected="${member.grade == 'vip'}">VIP</option>
+                            <option value="gold" th:selected="${member.grade == 'gold'}">GOLD</option>
+                            <option value="silver" th:selected="${member.grade == 'silver'}">SILVER</option>
+                            <option value="family" th:selected="${member.grade == 'family'}">FAMILY</option>
                         </select>
                     </td>
+
                     <td th:text="${member.points}">포인트</td>
                     <td th:text="${member.email}">이메일</td>
                     <td th:text="${member.ph}">전화번호</td>
                     <!-- 가입일 (포맷 지정) -->
-                    <input type="text" th:value="${#temporals.format(createdAt, 'yyyy-MM-dd HH:mm:ss')}" readonly />
+                    <td th:text="${#temporals.format(member.createdAt, 'yyyy-MM-dd HH:mm:ss')}">가입일</td>
 
                     <!--                    <td th:text="${member.birth != null ? #temporals.format(member.birth, 'yyyy-MM-dd') : '날짜 없음'}">가입일</td>-->
                     <td th:text="${member.status == 1 ? '정상' : (member.status == 2 ? '중지' : (member.status == 3 ? '휴면' : (member.status == 4 ? '탈퇴' : '상태없음')))}">상태</td>
@@ -108,7 +113,7 @@
                 </tbody>
             </table>
 
-            <a class="delete_btn">선택삭제</a>
+            <a class="delete_btn">선택수정</a>
 
             <div class="pagingBox">
                 <div class="pagingList">

@@ -25,7 +25,7 @@ public class GeneralMember extends Member {
     @Enumerated(EnumType.STRING)
     private Gender gender;
     @Enumerated(EnumType.STRING)
-    private Grade grade = Grade.E;
+    private Grade grade = Grade.FAMILY;
     private int points;
     private String email;
     private String ph;

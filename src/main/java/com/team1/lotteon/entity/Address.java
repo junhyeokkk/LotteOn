@@ -1,10 +1,7 @@
 package com.team1.lotteon.entity;
 
 import jakarta.persistence.Embeddable;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 /*
     날짜 : 2024/10/25
@@ -12,6 +9,7 @@ import lombok.NoArgsConstructor;
     내용 : 주소 값타입 생성
 */
 @Embeddable
+@Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

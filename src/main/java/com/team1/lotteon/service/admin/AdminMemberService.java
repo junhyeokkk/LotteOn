@@ -39,8 +39,6 @@ public class AdminMemberService {
                 .build();
     }
 
-
-
     // 모든 회원 조회
     public List<GeneralMemberDTO> getAllMembers() {
         return generalMemberRepository.findAll().stream()
@@ -52,8 +50,16 @@ public class AdminMemberService {
     public GeneralMemberDTO getMemberByUid(String uid) {
         GeneralMember member = generalMemberRepository.findByUid(uid)
                 .orElseThrow(() -> new IllegalArgumentException("해당 아이디를 가진 회원이 없습니다: " + uid));
-        return modelMapper.map(member, GeneralMemberDTO.class);
+
+        GeneralMemberDTO memberDTO = modelMapper.map(member, GeneralMemberDTO.class);
+        if (member.getAddress() != null) {
+            memberDTO.setZip(member.getAddress().getZip());
+            memberDTO.setAddr1(member.getAddress().getAddr1());
+            memberDTO.setAddr2(member.getAddress().getAddr2());
+        }
+        return memberDTO;
     }
+
 
     // 회원 정보 수정
     public GeneralMemberDTO updateMember(String uid, GeneralMemberDTO memberDTO) {
@@ -65,7 +71,21 @@ public class AdminMemberService {
         member.setEmail(memberDTO.getEmail());
         member.setPh(memberDTO.getPh());
 
-        Address address = new Address(memberDTO.getZip(), memberDTO.getAddr1(), memberDTO.getAddr2());
+        // 기존 주소 객체를 가져온 후 업데이트
+        Address address = member.getAddress();
+        if (address == null) {
+            // 주소가 없으면 새로 생성
+            address = new Address(memberDTO.getZip(), memberDTO.getAddr1(), memberDTO.getAddr2());
+            member.setAddress(address);
+        } else {
+            // 주소가 있으면 기존 주소 객체 업데이트
+            address.setZip(memberDTO.getZip());
+            address.setAddr1(memberDTO.getAddr1());
+            address.setAddr2(memberDTO.getAddr2());
+        }
+
+
+        Address address1 = new Address(memberDTO.getZip(), memberDTO.getAddr1(), memberDTO.getAddr2());
         member.setAddress(address);
 
         member.setEtc(memberDTO.getEtc());
@@ -73,6 +93,8 @@ public class AdminMemberService {
         GeneralMember updatedMember = generalMemberRepository.save(member);
         return modelMapper.map(updatedMember, GeneralMemberDTO.class);
     }
+
+
 
     // 회원 등록
     public GeneralMemberDTO createMember(GeneralMemberDTO memberDTO) {

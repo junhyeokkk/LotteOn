@@ -8,7 +8,8 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/moment/min/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
     <script type="text/javascript" src=""></script>
     <link rel="stylesheet" href="/static/css/my/modal.css">
     <link rel="stylesheet" href="/static/css/my/myinfo.css">
@@ -352,8 +353,8 @@
                         <tr>
                             <th>성별</th>
                             <td>
-                                <input class="gendermodal " type="radio" name="gender" value="MALE"> 남
-                                <input class="gendermodal " type="radio" name="gender" value="FEMALE"> 여
+                                <input class="gendermodal " type="radio" name="gender" value="MALE"> 남자
+                                <input class="gendermodal " type="radio" name="gender" value="FEMALE"> 여자
                             </td>
                         </tr>
 
@@ -383,38 +384,40 @@
                             <th>휴대폰</th>
                             <td><input type="text" name="ph" /></td>
                         </tr>
-
                         <!-- 우편번호 -->
                         <tr>
                             <th>우편번호</th>
                             <td>
-                                <input type="text" name="zip" />
-                                <button class="postbtn" type="button" onclick="zip()">검색</button>
+                                <div>
+                                    <input type="text" name="zip" id="zip1" placeholder="우편번호" readonly/>
+                                    <button id="addressButton" type="button" class="btnZip infobutton" onclick="postcode2()">검색</button>
+
+                                </div>
                             </td>
                         </tr>
 
                         <!-- 기본주소 -->
                         <tr>
                             <th>기본주소</th>
-                            <td><input type="text" name="addr1" /></td>
+                            <td><input type="text" id="addr1" name="addr1" /></td> <!-- id 추가 -->
                         </tr>
 
                         <!-- 상세주소 -->
                         <tr>
                             <th>상세주소</th>
-                            <td><input type="text" name="addr2" /></td>
+                            <td><input type="text" id="addr2" name="addr2" /></td> <!-- id 추가 -->
                         </tr>
 
                         <!-- 가입일 (수정 불가) -->
                         <tr>
                             <th>가입일</th>
-                            <td><input type="text" name="createdAt" readonly /></td>
+                            <td><input type="text" name="createdAt" disabled /></td>
                         </tr>
 
                         <!-- 최근 로그인 날짜 (수정 불가) -->
                         <tr>
                             <th>최근로그인날짜</th>
-                            <td><input type="text" name="lastLoginDate" readonly /></td>
+                            <td><input type="text" name="lastLoginDate" readonly disabled/></td>
                         </tr>
 
                         <!-- 기타 -->
@@ -426,6 +429,7 @@
 
                     <!-- 수정 버튼 -->
                     <button class="mbbtn" type="submit">수정하기</button>
+
                 </form>
             </section>
         </div>
