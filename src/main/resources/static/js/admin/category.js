@@ -165,12 +165,12 @@ document.getElementById('addCategoryBtn').addEventListener('click', async functi
         // 새로운 1차 카테고리 HTML 요소
         const newCategoryItem = document.createElement('li');
         newCategoryItem.classList.add('category-item');
-        newCategoryItem.dataset.categoryId=data.id
+        newCategoryItem.dataset.categoryId = data.id
         newCategoryItem.innerHTML = `
                 <div class="category-header">
                     <span class="toggle-icon">▶</span>
                     <span>${newCategoryName}</span>
-                    <button class="delete-btn">삭제</button>
+                    <button class="delete-btn cate1-delete">삭제</button>
                 </div>
                  <ul class="subcategory-list"></ul>
                 <button class="add-btn cate2" style="display: none">+ 2차 카테고리 추가</button>
@@ -184,7 +184,7 @@ document.getElementById('addCategoryBtn').addEventListener('click', async functi
         document.getElementById('categoryList').appendChild(newCategoryItem);
 
 
-        newCategoryItem.querySelector('.add-btn').addEventListener('click', function (e) {
+        newCategoryItem.querySelector('.add-btn.cate2').addEventListener('click', function (e) {
             const addSubcategorySection = e.target.closest('.category-item').querySelector('.add-subcategory-section');
             addSubcategorySection.style.display = addSubcategorySection.style.display === 'none' ? 'block' : 'none';
         });
@@ -200,11 +200,21 @@ document.getElementById('addCategoryBtn').addEventListener('click', async functi
 
 
 // 페이지 로드 시 기존 .add-btn 버튼에 클릭 이벤트 리스너 추가
-document.querySelectorAll('.add-btn').forEach(addBtn => {
+document.querySelectorAll('.add-btn.cate2').forEach(addBtn => {
     addBtn.addEventListener('click', function () {
         // .subcategory-list의 다음 형제 요소가 아니라, 현재 addBtn이 속한 category-item 내의 .add-subcategory-section을 찾습니다.
         const addSubcategorySection = addBtn.closest('.category-item').querySelector('.add-subcategory-section');
         addSubcategorySection.style.display = addSubcategorySection.style.display === 'none' ? 'block' : 'none';
+    });
+});
+
+// 3차
+// 페이지 로드 시 기존 .add-btn 버튼에 클릭 이벤트 리스너 추가
+document.querySelectorAll('.add-btn.add-tertiary-btn').forEach(addBtn => {
+    addBtn.addEventListener('click', function () {
+        // .subcategory-list의 다음 형제 요소가 아니라, 현재 addBtn이 속한 category-item 내의 .add-subcategory-section을 찾습니다.
+        const addTertiarySection = addBtn.closest('.subcategory-item').querySelector('.add-tertiary-section');
+        addTertiarySection.style.display = addTertiarySection.style.display === 'none' ? 'block' : 'none';
     });
 });
 
@@ -225,7 +235,7 @@ document.addEventListener('click', async function (event) {
         try {
 
 
-           const response = await fetch("/api/cate", {
+            const response = await fetch("/api/cate", {
                 method: 'post',
                 headers: {
                     'Content-Type': 'application/json',
@@ -242,36 +252,65 @@ document.addEventListener('click', async function (event) {
             // 새로운 2차 카테고리 HTML 요소
             const newSubcategoryItem = document.createElement('li');
             newSubcategoryItem.classList.add('subcategory-item');
-            newSubcategoryItem.dataset.categoryId =data.id
+            newSubcategoryItem.dataset.categoryId = data.id
             newSubcategoryItem.innerHTML = `
             <div class="subcategory-header">
                 <span class="toggle-icon">▶</span>
                 <span>${subcategoryName}</span>
-                <button class="delete-btn">삭제</button>
+                <button class="delete-btn cate2-delete">삭제</button>
             </div>
-            <ul class="tertiary-category-list" style="display:none;">
-                <button class="add-btn" style="display: none">+ 3차 카테고리 추가</button>
-            </ul>
+            <ul class="tertiary-category-list" style="display:none;"></ul>
+            <button class="add-btn add-tertiary-btn" style="display: none">+ 3차 카테고리 추가</button>
+            <div class="add-tertiary-section" style="display: none;">
+                <input type="text" class="newTertiaryInput" placeholder="3차 카테고리 이름을 입력하세요"/>
+                <button class="add-tertiary-btn cate3">+ 추가</button>
+            </div>
         `;
 
             // 해당 서브 카테고리 리스트에 추가
             const subcategoryList = event.target.closest('.category-item').querySelector('.subcategory-list');
             subcategoryList.appendChild(newSubcategoryItem)
 
-            // 3차 카테고리 토글 기능 추가
-            const subcategoryHeader = newSubcategoryItem.querySelector('.subcategory-header');
-            subcategoryHeader.addEventListener('click', function () {
-                const tertiaryCategoryList = this.nextElementSibling;
-                const toggleIcon = this.querySelector('.toggle-icon');
-
-                const isHidden = tertiaryCategoryList.style.display === 'none' || tertiaryCategoryList.style.display === '';
-
-                // 3차 카테고리 보이기/숨기기
-                tertiaryCategoryList.style.display = isHidden ? 'block' : 'none';
-
-                // 토글 아이콘 변경
-                toggleIcon.textContent = isHidden ? '▼' : '▶';
+            const addBtn = newSubcategoryItem.querySelector('.add-btn.add-tertiary-btn');
+            addBtn.addEventListener('click', function () {
+                // .subcategory-list의 다음 형제 요소가 아니라, 현재 addBtn이 속한 category-item 내의 .add-subcategory-section을 찾습니다.
+                const addTertiarySection = addBtn.closest('.subcategory-item').querySelector('.add-tertiary-section');
+                addTertiarySection.style.display = addTertiarySection.style.display === 'none' ? 'block' : 'none';
             });
+
+
+            // // 3차 카테고리 토글 기능 추가
+            // const subcategoryHeader = newSubcategoryItem.querySelector('.subcategory-header');
+            // subcategoryHeader.addEventListener('click', function () {
+            //
+            //     const tertiaryCategoryList = subcategoryHeader.querySelector(".tertiary-category-list");
+            //     const addBtn = subcategoryHeader.querySelector(".add-btn.add-tertiary-btn");
+            //
+            //     const toggleIcon = this.querySelector('.toggle-icon');
+            //
+            //     let totalHidden;
+            //
+            //     console.log(addBtn)
+            //
+            //     if(tertiaryCategoryList != null)
+            //     {
+            //     const isHidden = tertiaryCategoryList.style.display === 'none' || tertiaryCategoryList.style.display === '';
+            //     tertiaryCategoryList.style.display = isHidden ? 'block' : 'none';
+            //     totalHidden = isHidden;
+            //     }
+            //
+            //     if(addBtn != null)
+            //     {
+            //         const isHidden = addBtn.style.display === 'none' || tertiaryCategoryList.style.display === '';
+            //         addBtn.style.display = isHidden ? 'block' : 'none';
+            //         totalHidden = isHidden;
+            //     }
+            //
+            //     // 3차 카테고리 보이기/숨기기
+            //
+            //     // 토글 아이콘 변경
+            //     toggleIcon.textContent = totalHidden ? '▼' : '▶';
+            // });
         } catch (e) {
             alert("2차 카테고리 생성에 실패했습니다.");
             console.error("Create 2Category Error: ", e);
@@ -284,17 +323,73 @@ document.addEventListener('click', async function (event) {
             subcategoryInput.value = '';
         }
     }
+
+    if (event.target.classList.contains('add-tertiary-btn') && event.target.classList.contains('cate3')) {
+
+        const subcategoryInput = event.target.previousElementSibling;
+        const subcategoryName = subcategoryInput.value.trim();
+        const item = event.target.closest(".subcategory-item");
+        const categoryId = item.dataset.categoryId;
+
+        if (subcategoryName === '') {
+            alert('3차 카테고리 이름을 입력하세요.');
+            return;
+        }
+
+        try{
+            const response = await fetch("/api/cate", {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: subcategoryName,
+                    level: 3,
+                    parentId: categoryId
+                }),
+            });
+
+            const data = await response.json();
+
+
+            // 새로운 3차 카테고리 HTML 요소
+            const newSubcategoryItem = document.createElement('li');
+            newSubcategoryItem.dataset.categoryId=data.id;
+            newSubcategoryItem.classList.add('tertiary-category-item');
+            newSubcategoryItem.innerHTML = `
+           <li class="tertiary-category-item" draggable="true">
+                <span>${subcategoryName}</span>
+                <button class="delete-btn cate3-delete">삭제</button>
+           </li>
+        `;
+
+            // 해당 서브 카테고리 리스트에 추가
+            const subcategoryList = event.target.closest('.subcategory-item').querySelector('.tertiary-category-list');
+            subcategoryList.appendChild(newSubcategoryItem);
+        }catch (e) {
+            alert("3차 카테고리 생성에 실패했습니다.");
+            console.error("Create 2Category Error: ", e);
+        }finally {
+            // 입력 필드와 버튼 숨기기
+            const addSubcategorySection = event.target.closest('.add-tertiary-section');
+            addSubcategorySection.style.display = 'none';
+
+            // 입력 필드 비우기
+            subcategoryInput.value = '';
+        }
+
+
+    }
 });
 
 
 // 카테고리 및 서브 카테고리 삭제 기능 추가
 document.addEventListener('click', async function (event) {
     // 1차 카테고리 삭제
-    if (event.target.classList.contains('delete-btn') && event.target.closest('.category-header')) {
-
+    if (event.target.classList.contains('delete-btn') && event.target.classList.contains('cate1-delete')) {
         const categoryItem = event.target.closest('.category-item');
         const categoryId = categoryItem.dataset.categoryId;
-        const conf = confirm(`해당 카테고리를 정말 삭제하시겠습니까?`);
+        const conf = confirm(`해당 1차 카테고리를 정말 삭제하시겠습니까?`);
         if (!conf) {
             return;
         }
@@ -313,12 +408,35 @@ document.addEventListener('click', async function (event) {
             console.error("Category Delete Error:", e);
         }
     }
-
     // 2차 카테고리 삭제
-    if (event.target.classList.contains('delete-btn') && event.target.closest('.subcategory-item')) {
+    if (event.target.classList.contains('delete-btn') && event.target.classList.contains('cate2-delete')) {
         const subcategoryItem = event.target.closest('.subcategory-item');
         const categoryId = subcategoryItem.dataset.categoryId;
-        const conf = confirm(`해당 카테고리를 정말 삭제하시겠습니까?`);
+        const conf = confirm(`해당 2차 카테고리를 정말 삭제하시겠습니까?`);
+        if (!conf) {
+            return;
+        }
+
+        try {
+            await fetch(`/api/cate/${categoryId}`,
+                {
+                    method: "delete"
+                })
+
+            if (subcategoryItem) {
+                subcategoryItem.remove(); // 해당 .subcategory-item 삭제
+            }
+        } catch (e) {
+            alert("카테고리 삭제에 실패했습니다.")
+            console.error("Category Delete Error:", e);
+        }
+    }
+
+    // 2차 카테고리 삭제
+    if (event.target.classList.contains('delete-btn') && event.target.classList.contains('cate3-delete')) {
+        const subcategoryItem = event.target.closest('.tertiary-category-item');
+        const categoryId = subcategoryItem.dataset.categoryId;
+        const conf = confirm(`해당 3차 카테고리를 정말 삭제하시겠습니까?`);
         if (!conf) {
             return;
         }

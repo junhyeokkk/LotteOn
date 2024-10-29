@@ -28,7 +28,7 @@
                     <div class="category-header">
                         <span class="toggle-icon">▶</span>
                         <span th:text="${category.name}">카테고리 이름</span>
-                        <button class="delete-btn">삭제</button>
+                        <button class="delete-btn cate1-delete">삭제</button>
                     </div>
 
                     <!-- 2차 카테고리 -->
@@ -37,15 +37,15 @@
                             <div class="subcategory-header">
                                 <span class="toggle-icon">▶</span>
                                 <span th:text="${subCategory.name}">2차 카테고리 이름</span>
-                                <button class="delete-btn">삭제</button>
+                                <button class="delete-btn cate2-delete">삭제</button>
                             </div>
 
                             <!-- 3차 카테고리 -->
                             <ul class="tertiary-category-list" style="display: none">
-                                <li th:each="tertiaryCategory : ${subCategory.children}" class="tertiary-category-item"
+                                <li th:each="tertiaryCategory : ${subCategory.children}" th:data-category-id="${tertiaryCategory.id}" class="tertiary-category-item"
                                     draggable="true">
                                     <span th:text="${tertiaryCategory.name}">3차 카테고리 이름</span>
-                                    <button class="delete-btn">삭제</button>
+                                    <button class="delete-btn cate3-delete">삭제</button>
                                 </li>
                             </ul>
 
@@ -53,7 +53,7 @@
                             <button class="add-btn add-tertiary-btn" style="display: none">+ 3차 카테고리 추가</button>
                             <div class="add-tertiary-section" style="display: none;">
                                 <input type="text" class="newTertiaryInput" placeholder="3차 카테고리 이름을 입력하세요"/>
-                                <button class="add-tertiary-btn">+ 추가</button>
+                                <button class="add-tertiary-btn cate3">+ 추가</button>
                             </div>
                         </li>
                     </ul>

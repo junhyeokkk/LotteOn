@@ -245,3 +245,25 @@ button {
     background-color: #f0f0f0; /* Change background on hover */
 }
 
+.newTertiaryInput {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    flex: 1;
+    font-size: 16px;
+}
+
+button.add-tertiary-btn {
+    padding: 10px 15px;
+    background-color: #305916;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button.add-btn.add-tertiary-btn {
+    background-color: #bdc3c7;
+    color: #2c3e50;
+}
