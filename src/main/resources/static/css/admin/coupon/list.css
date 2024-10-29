@@ -129,3 +129,26 @@ input[type="checkbox"] {
 .pagingList>a:hover {
     background-color: #35373d;
 }
+.start-status {
+    background-color: white;
+    color: blue;
+    border: 1px solid blue;
+}
+
+.default-status {
+    background-color: grey;
+    color: white;
+    border: 1px solid grey;
+}
+/* 상점목록 */
+.operate {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: -20px !important;
+
+}
+/* 상점목록 운영*/
+.running {color: green;}
+.stopped {color: grey;}
+.preparing {color: blue;}

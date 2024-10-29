@@ -13,8 +13,8 @@
 </th:block>
 
 <div class="content" layout:fragment="content">
-  <div th:replace="admin/include/admin_modal :: #couponinfomodal"></div>
-  <div th:replace="admin/include/admin_modal :: #couponinsertmodal"></div>
+  <div th:replace="~{admin/include/admin_modal :: #couponinfomodal}"></div>
+  <div th:replace="~{admin/include/admin_modal :: #couponinsertmodal}"></div>
   <div class="dashboard">
     <div class="content_header">
       <h1>쿠폰목록</h1>
@@ -25,16 +25,21 @@
 
     <section class="sectionBox">
       <div>
-        <form action="/admin/coupon/list" class="search_bar">
+        <form th:action="@{/admin/coupon/list}" class="search_bar" method="get">
           <select name="type">
-            <productOption value="orderNo">쿠폰번호</productOption>
-            <productOption value="orderId">쿠폰명</productOption>
-            <productOption value="orderName">발급자</productOption>
+            <Option value="cnumber">쿠폰번호</Option>
+            <Option value="cname">쿠폰명</Option>
+            <Option value="cprovider">발급자</Option>
           </select>
           <input class="searchInput" type="text" name="keyword">
           <input type="hidden" name="prodSeller" value="ADMIN" readonly>
           <input class="searchBtn" type="submit" value="검색">
         </form>
+      </div>
+      <div class="operate">
+        <p class="running">● 발급중</p>
+        <p class="preparing">&nbsp;● 발급 준비</p>
+        <p class="stopped">&nbsp;● 발급 종료</p>
       </div>
       <table class="admingraph">
         <tr class="admin_title">
@@ -50,77 +55,73 @@
           <th>발급일</th>
           <th>관리</th>
         </tr>
-
-        <tr class="admin_list" th:each="coupon : ${coupons}">
-          <td><a href="#" data-modal="couponinfomodal" th:text="${coupon.num}">쿠폰번호</a></td>
-          <td th:text="${coupon.type}">쿠폰종류</td>
-          <td th:text="${coupon.name}">쿠폰명</td>
-          <td th:text="${coupon.discountAmount} + '원 할인'">혜택</td>
-          <td th:text="${coupon.useStartDate} + ' ~ ' + ${coupon.useEndDate}">0000-00-00 ~ 0000-00-00</td>
-          <td th:text="${coupon.memberId}">발급자</td>
-          <td th:text="${coupon.couponnum}">발급수</td>
-          <td th:text="${coupon.couponuse}">사용수</td>
-          <td th:style="'color:' + (${coupon.couponStatus} == 'ACTIVE' ? 'green' : 'grey')" th:text="${coupon.couponStatus}">상태</td>
-          <td th:text="${coupon.issuedate}">발급일</td>
-          <td><a class="deliveryBtn" th:style="'color:white; background-color:' + (${coupon.couponStatus} == 'ACTIVE' ? 'green' : 'grey')">관리</a></td>
+        <tr th:if="${coupondtos == null}">
+          <td colspan="7" class="td_first" style="width: 100%">등록된 쿠폰이 없습니다.</td>
         </tr>
-
-        <tr class="admin_list">
+        <tr class="admin_list" th:each="coupon : ${coupondtos.dtoList}" th:if="${coupondtos != null}">
+          <td><a href="#" data-modal="couponinfomodal" th:text="${coupon.couponid}"></a></td>
           <td>
-            <a href="#" data-modal="couponinfomodal">10121211341</a>
+            <span th:switch="${coupon.coupontype}">
+                <span th:case="'single'">개별상품할인</span>
+                <span th:case="'ordersale'">주문상품할인</span>
+                <span th:case="'freedelivery'">배송비무료</span>
+                <span th:case="*">알 수 없음</span> <!-- 기본값 -->
+            </span>
           </td>
-          <td>개별상품 할인</td>
-          <td>10월 한달 감사 쿠폰</td>
-          <td>2,000원 할인</td>
-          <td>0000-00-00 ~ 0000-00-00</td>
-          <td>(주) 다있어</td>
-          <td>102</td>
-          <td>43</td>
-          <td style="color: green;">발급중</td>
-          <td>2024-10-16 00:00:00</td>
+          <td>[[${coupon.couponname}]]</td>
           <td>
-            <a class="deliveryBtn">종료</a>
+            <span th:switch="${coupon.coupondiscount}">
+                <span th:case="1">1000원 할인</span>
+                <span th:case="2">2000원 할인</span>
+                <span th:case="3">3000원 할인</span>
+                <span th:case="4">4000원 할인</span>
+                <span th:case="5">5000원 할인</span>
+                <span th:case="6">10% 할인</span>
+                <span th:case="7">20% 할인</span>
+                <span th:case="8">30% 할인</span>
+                <span th:case="9">40% 할인</span>
+                <span th:case="10">50% 할인</span>
+                <span th:case="11">배송비 무료</span>
+                <span th:case="*">할인 없음</span> <!-- 기본값 -->
+            </span>
+          </td>
+          <td>
+            <span th:text="${#strings.substring(coupon.couponstart.toString(), 0, coupon.couponstart.toString().indexOf('T'))}"></span><br/>
+            ~
+            <span th:text="${#strings.substring(coupon.couponend.toString(), 0, coupon.couponend.toString().indexOf('T'))}"></span>
+          </td>
+          <td>[[${coupon.issuerInfo}]]</td>
+          <td>[[${coupon.coupongive}]]</td>
+          <td>[[${coupon.couponuse}]]</td>
+          <td th:class="${coupon.couponstate == 'ready' ? 'preparing' :
+                      coupon.couponstate == 'start' ? 'running' : 'stopped'}"
+              th:text="${coupon.couponstate == 'ready' ? '발급준비' :
+              coupon.couponstate == 'start' ? '발급중' : '발급종료'}">
+          </td>
+
+          <td>
+            <span th:text="${coupon.couponmakedate}"></span><br/>
+            <span th:text="${coupon.couponmaketime}"></span>
+          </td>
+          <td>
+            <a class="deliveryBtn"
+               th:classappend="${coupon.couponstate == 'start' ? 'start-status' : 'default-status'}">
+              관리
+            </a>
           </td>
         </tr>
-
-        <tr class="admin_list">
-          <td>
-            <a href="#" data-modal="couponinfomodal">10121211341</a>
-          </td>
-          <td>개별상품 할인</td>
-          <td>10월 한달 감사 쿠폰</td>
-          <td>2,000원 할인</td>
-          <td>0000-00-00 ~ 0000-00-00</td>
-          <td>(주) 다있어</td>
-          <td>102</td>
-          <td>43</td>
-          <td style="color: grey;">종료</td>
-          <td>2024-10-16 00:00:00</td>
-          <td>
-            <a class="deliveryBtn" style="color: white; background-color: grey" >종료</a>
-          </td>
-        </tr>
-
       </table>
-      <a href="#" data-modal="couponinsertmodal" class="registration_btn">쿠폰등록</a>
-
       <div class="pagingBox">
         <div class="pagingList">
-          <!-- 이전 버튼 -->
-          <a href="#" class="prev"><</a>
-
-          <!-- 페이지 링크 -->
-          <a href="#">1</a>
-          <a href="#" class="active">2</a>
-          <a href="#">3</a>
-          <a href="#">4</a>
-          <a href="#">5</a>
-
-          <!-- 다음 버튼 -->
-          <a href="#" class="next">></a>
+          <a th:href="@{/admin/coupon/list(pg=${coupondtos.start - 1}, type=${type}, keyword=${keyword})}" th:if="${coupondtos.prev}" class="prev">&#60;</a>
+          <th:block th:each="num : ${#numbers.sequence(coupondtos.start, coupondtos.end)}">
+            <a th:href="@{/admin/coupon/list(pg=${num}, type=${type}, keyword=${keyword})}"
+               th:classappend="${num == coupondtos.pg} ? 'active' : ''">[[${num}]]</a>
+          </th:block>
+          <a th:href="@{/admin/coupon/list(pg=${coupondtos.end + 1}, type=${type}, keyword=${keyword})}" th:if="${coupondtos.next}" class="next">&#62;</a>
         </div>
       </div>
-
+      <a href="#" data-modal="couponinsertmodal" class="registration_btn">쿠폰등록</a>
     </section>
 
   </div>

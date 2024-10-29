@@ -83,10 +83,10 @@ public class ConfigPageController {
                          @RequestParam(defaultValue = "") String keyword,
                          @RequestParam(defaultValue = "num") String type,
                          Model model) {
-        Page<CouponDTO> couponPage = couponService.getAllVersions(page, 10); // 현재 페이지와 10개 가져오기
-        model.addAttribute("coupons", couponPage.getContent()); // 현재 페이지의 버전 데이터
-        model.addAttribute("currentPage", page); // 현재 페이지 번호
-        model.addAttribute("totalPages", couponPage.getTotalPages()); // 총 페이지 수
+        //Page<CouponDTO> couponPage = couponService.getAllVersions(page, 10); // 현재 페이지와 10개 가져오기
+        //model.addAttribute("coupons", couponPage.getContent()); // 현재 페이지의 버전 데이터
+        //model.addAttribute("currentPage", page); // 현재 페이지 번호
+        //model.addAttribute("totalPages", couponPage.getTotalPages()); // 총 페이지 수
         return "admin/config/coupon"; // 뷰 이름
     }
 }
