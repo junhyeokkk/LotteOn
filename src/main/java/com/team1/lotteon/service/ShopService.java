@@ -34,7 +34,7 @@ public class ShopService {
     // 기본 상점 화면 출력
     public NewPageResponseDTO<ShopDTO> selectshopAll(NewPageRequestDTO newPageRequestDTO) {
         // 페이징 정보를 설정합니다.
-        Pageable pageable = newPageRequestDTO.getPageable("shopName", false);
+        Pageable pageable = newPageRequestDTO.getPageable("id", false);
 
         Page<Shop> shopPage;
 
@@ -104,12 +104,7 @@ public class ShopService {
     }
 
     public void deleteShops(List<Long> ids) {
-        // 전달받은 ID 목록을 기반으로 상점 삭제
-        ids.forEach(id -> {
-            if (shopRepository.existsById(id)) {  // 해당 ID가 존재하는지 확인
-                shopRepository.deleteById(id);  // 존재하는 경우 삭제
-            }
-        });
+        shopRepository.deleteAllById(ids);
     }
     // 통신판매업번호 존재 여부 확인
 //    public boolean isECommerceRegistrationExist(String eCommerceRegistration) {

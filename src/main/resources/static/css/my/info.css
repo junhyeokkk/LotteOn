@@ -374,3 +374,7 @@ table.widthtable tr:last-child td {
 .myinfomation select {
     height: 30px;
 }
+.infobutton.edit-mode {
+    background-color: #417c7f; /* 수정 중일 때 버튼 색상 */
+    color: white;
+}

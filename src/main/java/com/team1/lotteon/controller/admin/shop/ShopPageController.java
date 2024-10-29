@@ -44,7 +44,7 @@ public class ShopPageController {
     }
     @DeleteMapping("/admin/shop/delete")
     public ResponseEntity<Void> deleteShops(@RequestBody List<Long> ids) {
-        shopService.deleteShops(ids);  // ids 리스트에 해당하는 상점 삭제 로직 수행
+        shopService.deleteShops(ids);
         return ResponseEntity.ok().build();
     }
     @GetMapping("/admin/shop/sales")

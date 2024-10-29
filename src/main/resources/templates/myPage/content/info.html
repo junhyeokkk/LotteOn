@@ -41,64 +41,24 @@
         <tr>
           <th>Email</th>
           <td>
-            <input
-              type="text"
-              id="emailLocalPart"
-              th:value="${#strings.substring(Email, 0, #strings.indexOf(Email, '@'))}"
-            />@
-            <input
-              type="text"
-              id="emailDomain"
-              th:value="${#strings.substring(Email, #strings.indexOf(Email, '@') + 1)}"
-            />
-            <select id="domainSelect">
-              <productOption value="직접 입력">직접 입력</productOption>
-              <productOption
-                value="naver.com"
-                th:selected="${#strings.contains(Email, 'naver.com')}"
-              >
-                naver.com
-              </productOption>
-              <productOption
-                value="gmail.com"
-                th:selected="${#strings.contains(Email, 'gmail.com')}"
-              >
-                gmail.com
-              </productOption>
-              <productOption
-                value="daum.net"
-                th:selected="${#strings.contains(Email, 'daum.net')}"
-              >
-                daum.net
-              </productOption>
+            <input type="text" id="emailLocalPart" th:value="${#strings.substring(Email, 0, #strings.indexOf(Email, '@'))}" readonly/>@
+            <input type="text" id="emailDomain" th:value="${#strings.substring(Email, #strings.indexOf(Email, '@') + 1)}" readonly/>
+            <select id="domainSelect" disabled>
+              <option value="직접 입력">직접 입력</option>
+              <option value="naver.com" th:selected="${#strings.contains(Email, 'naver.com')}">naver.com</option>
+              <option value="gmail.com" th:selected="${#strings.contains(Email, 'gmail.com')}">gmail.com</option>
+              <option value="daum.net" th:selected="${#strings.contains(Email, 'daum.net')}">daum.net</option>
             </select>
-            <button class="infobutton" onclick="updateEmail()">변경</button>
+            <button class="infobutton" onclick="toggleEmailEdit(this)">수정하기</button>
           </td>
         </tr>
         <tr>
           <th>휴대폰</th>
           <td>
-            <input
-              type="text"
-              id="phone1"
-              maxlength="3"
-              th:value="${#strings.substring(#strings.replace(phonenumber, '-', ''), 0, 3)}"
-            />
-            -
-            <input
-              type="text"
-              id="phone2"
-              maxlength="4"
-              th:value="${#strings.substring(#strings.replace(phonenumber, '-', ''), 3, 7)}"
-            />
-            -
-            <input
-              type="text"
-              id="phone3"
-              maxlength="4"
-              th:value="${#strings.substring(#strings.replace(phonenumber, '-', ''), 7)}"
-            />
-            <button class="infobutton" onclick="updatePhone()">변경</button>
+            <input type="text" id="phone1" maxlength="3" th:value="${#strings.substring(#strings.replace(phonenumber, '-', ''), 0, 3)}" readonly/>-
+            <input type="text" id="phone2" maxlength="4" th:value="${#strings.substring(#strings.replace(phonenumber, '-', ''), 3, 7)}" readonly/>-
+            <input type="text" id="phone3" maxlength="4" th:value="${#strings.substring(#strings.replace(phonenumber, '-', ''), 7)}" readonly/>
+            <button class="infobutton" onclick="togglePhoneEdit(this)">수정하기</button>
           </td>
         </tr>
 
@@ -106,31 +66,14 @@
           <th>주소</th>
           <td>
             <!-- Address 객체의 zip 필드를 input에 바인딩 -->
-            <input
-              type="text"
-              id="postalCode"
-              th:value="${address.zip}"
-              placeholder="우편번호"
-            />
-            <button class="infobutton" onclick="searchPostalCode()">
-              주소검색</button
-            ><br />
+            <input type="text" id="postalCode" th:value="${address.zip}" placeholder="우편번호"/>
+            <button class="infobutton" onclick="searchPostalCode()">주소검색</button><br />
 
             <!-- Address 객체의 addr1 필드를 input에 바인딩 -->
-            <input
-              type="text"
-              id="address1"
-              th:value="${address.addr1}"
-              placeholder="기본주소입력"
-            /><br />
+            <input type="text" id="address1" th:value="${address.addr1}" placeholder="기본주소입력"/><br />
 
             <!-- Address 객체의 addr2 필드를 input에 바인딩 -->
-            <input
-              type="text"
-              id="address2"
-              th:value="${address.addr2}"
-              placeholder="상세주소입력"
-            />
+            <input type="text" id="address2" th:value="${address.addr2}" placeholder="상세주소입력"/>
           </td>
         </tr>
       </table>
@@ -144,25 +87,54 @@
       <button>수정하기</button>
     </div>
     <script>
-      document
-        .getElementById("domainSelect")
-        .addEventListener("change", function () {
-          var emailDomainInput = document.getElementById("emailDomain");
-          if (this.value === "직접 입력") {
-            emailDomainInput.value = "";
-            emailDomainInput.readOnly = false; // Enable manual input
-          } else {
-            emailDomainInput.value = this.value;
-            emailDomainInput.readOnly = true; // Prevent editing when auto-populating
-          }
-        });
-
-      function updateEmail() {
-        var emailLocalPart = document.getElementById("emailLocalPart").value;
-        var emailDomain = document.getElementById("emailDomain").value;
-        var fullEmail = emailLocalPart + "@" + emailDomain;
-        alert("Updated email: " + fullEmail);
+      // 이메일 편집 토글
+      function toggleEmailEdit(button) {
+        const isEditable = document.getElementById("emailLocalPart").readOnly;
+        document.getElementById("emailLocalPart").readOnly = !isEditable;
+        document.getElementById("emailDomain").readOnly = !isEditable;
+        document.getElementById("domainSelect").disabled = !isEditable;
+        updateButtonState(button, isEditable);
       }
+
+      // 휴대폰 편집 토글
+      function togglePhoneEdit(button) {
+        const isEditable = document.getElementById("phone1").readOnly;
+        document.getElementById("phone1").readOnly = !isEditable;
+        document.getElementById("phone2").readOnly = !isEditable;
+        document.getElementById("phone3").readOnly = !isEditable;
+        updateButtonState(button, isEditable);
+      }
+
+      // 주소 편집 토글
+      function toggleAddressEdit(button) {
+        const isEditable = document.getElementById("postalCode").readOnly;
+        document.getElementById("postalCode").readOnly = !isEditable;
+        document.getElementById("address1").readOnly = !isEditable;
+        document.getElementById("address2").readOnly = !isEditable;
+        updateButtonState(button, isEditable);
+      }
+
+      // 버튼 상태 업데이트 (텍스트 및 스타일 변경)
+      function updateButtonState(button, isEditable) {
+        if (isEditable) {
+          button.classList.add("edit-mode");
+          button.innerText = "수정완료";
+        } else {
+          button.classList.remove("edit-mode");
+          button.innerText = "수정하기";
+        }
+      }
+
+      document.getElementById("domainSelect").addEventListener("change", function () {
+        const emailDomainInput = document.getElementById("emailDomain");
+        if (this.value === "직접 입력") {
+          emailDomainInput.value = "";
+          emailDomainInput.readOnly = false;
+        } else {
+          emailDomainInput.value = this.value;
+          emailDomainInput.readOnly = true;
+        }
+      });
     </script>
   </section>
 </html>
