@@ -3,6 +3,7 @@ package com.team1.lotteon.dto.product;
 import com.team1.lotteon.entity.*;
 import com.team1.lotteon.entity.enums.ProductStatus;
 import com.team1.lotteon.entity.productOption.ProductOption;
+import com.team1.lotteon.entity.productOption.ProductOptionCombination;
 import lombok.*;
 
 import java.util.List;
@@ -35,8 +36,8 @@ public class ProductDTO extends BaseEntity {
     private int point;  // 포인트
     private int deliveryFee;    // 배송비
 
-    private ProductStatus productStatus;   // 상품 상태
-    private String taxExempt;  // 부가세 면세여부
+    private String productStatus;   // 상품 상태
+    private String warranty;  // 부가세 면세여부
     private String receiptIssued;  // 영수증 발행 여부
     private String businessType;    // 사업자구분
     private String origin;  // 원산지
@@ -51,6 +52,8 @@ public class ProductDTO extends BaseEntity {
 
     private boolean hasOptions; // 옵션 여부 판단
     private int stock;  // 재고 (옵션이 존재하면 옵션 재고의 총합)
+
+    private List<ProductOptionCombination> productOptionCombinations; // 조합리스트
 
     public void changeCategory(Category category) {
         this.category = category;

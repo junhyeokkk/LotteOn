@@ -10,6 +10,7 @@ import com.team1.lotteon.dto.product.ProductSummaryResponseDTO;
 import com.team1.lotteon.dto.product.productOption.ProductOptionDTO;
 import com.team1.lotteon.dto.product.productOption.ProductOptionCombinationDTO;
 import com.team1.lotteon.entity.Product;
+import com.team1.lotteon.entity.productOption.ProductOptionCombination;
 import com.team1.lotteon.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
@@ -23,9 +24,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /*
     날짜 : 2024/10/25
@@ -81,4 +81,7 @@ public class ProductApiController {
         PageResponseDTO<ProductSummaryResponseDTO> products = productService.getProducts(pageable);
         return ResponseEntity.status(HttpStatus.OK).body(products);
     }
+
+
+
 }

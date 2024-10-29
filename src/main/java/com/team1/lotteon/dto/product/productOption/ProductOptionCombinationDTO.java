@@ -10,7 +10,6 @@ import java.util.Map;
     날짜 : 2024/10/25
     이름 : 최준혁
     내용 : 제품 조합 dto 생성
-
 */
 
 @Getter
@@ -18,6 +17,7 @@ import java.util.Map;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class ProductOptionCombinationDTO {
 
     private Long id;                   // ProductOptionCombination ID

@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
     이름 : 이상훈
     내용 : 상품의 리스트 출력을 위한 정보를 반환하는 요약 DTO 생성
 */
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

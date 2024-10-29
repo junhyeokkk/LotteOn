@@ -1,7 +1,10 @@
 package com.team1.lotteon.repository;
 
+import com.team1.lotteon.entity.Product;
 import com.team1.lotteon.entity.productOption.OptionItem;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,4 +18,10 @@ public interface OptionItemRepository extends JpaRepository<OptionItem, Long> {
 
     // value 필드를 기준으로 OptionItem을 검색
     List<OptionItem> findByValue(String value); // 변경된 부분
+
+    // product, productOption의 name과 value로 OptionItem을 조회하는 메서드
+    @Query("SELECT o FROM OptionItem o WHERE o.productOption.product = :product AND o.productOption.name = :optionName AND o.value = :value")
+    Optional<OptionItem> findByProductAndOptionNameAndValue(@Param("product") Product product,
+                                                            @Param("optionName") String optionName,
+                                                            @Param("value") String value);
 }

@@ -1,6 +1,7 @@
 package com.team1.lotteon.entity;
 
 import com.team1.lotteon.entity.productOption.ProductOption;
+import com.team1.lotteon.entity.productOption.ProductOptionCombination;
 import jakarta.persistence.*;
 import jakarta.persistence.Entity;
 import lombok.*;
@@ -39,8 +40,8 @@ public class Product extends BaseEntity {
     private int discountRate;   // 할인률
     private int point;  // 포인트
     private int deliveryFee;    // 배송비
-    private int Status;   // 상품 상태 (1: 판매중/ 2: 품절/ 3: 기타)
 
+    private String Status;   // 상품 상태 (새상품, 중고상품)
     private String warranty;  // 부가세 면세여부
     private String receiptIssued;  // 영수증 발행 여부
     private String businessType;    // 사업자구분
@@ -68,6 +69,14 @@ public class Product extends BaseEntity {
     public void changeCategory(Category category) {
         this.category = category;
     }
+
+    // 연관 필드
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ProductOptionCombination> productOptionCombinations;
+
+    // 상세정보
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Productdetail> productdetails;
 
 }
 

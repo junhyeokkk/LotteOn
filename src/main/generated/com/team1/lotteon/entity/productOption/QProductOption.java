@@ -26,6 +26,8 @@ public class QProductOption extends EntityPathBase<ProductOption> {
 
     public final StringPath name = createString("name");
 
+    public final ListPath<OptionItem, QOptionItem> Optionitems = this.<OptionItem, QOptionItem>createList("Optionitems", OptionItem.class, QOptionItem.class, PathInits.DIRECT2);
+
     public final com.team1.lotteon.entity.QProduct product;
 
     public QProductOption(String variable) {

@@ -43,7 +43,7 @@ body {
     line-height: 1.6;
 }
 
-.section__nav p span {
+.section__nav p strong {
     color: #fe434c;
     font-weight: bold;
 }
@@ -179,34 +179,6 @@ body {
 .paging > .paging__num > a:hover,
 .paging > .paging__num > a.on {
     border-color: #fe434c;
-    color: #fe434c;
-    font-weight: bold;
-}
-
-
-
-
-
-/* 섹션 네비게이션 */
-.section__nav {
-    padding: 10px 20px;
-    border-bottom: 1px solid #ececec;
-}
-
-.section__nav h1 {
-    font-size: 20px;
-    color: #111;
-    margin-bottom: 4px;
-    font-weight: bold;
-}
-
-.section__nav p {
-    font-size: 13px;
-    color: #777;
-    line-height: 1.6;
-}
-
-.section__nav p span {
     color: #fe434c;
     font-weight: bold;
 }

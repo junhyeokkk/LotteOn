@@ -1,137 +1,123 @@
 <!--
-날짜 : 2024/10/25
-이름 : 이상훈
-내용 : 상품 페이지 장바구니 컨텐츠 생성
+  날짜 : 2024/10/25
+  이름 : 이상훈
+  내용 : 상품 페이지 장바구니 컨텐츠 생성
+
+  - 수정내역
+  - 타임리프 레이아웃 적용 (10/29 준혁)
 -->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{product/layout/product_layout}">
 
-<link rel="stylesheet" href="/css/include/reset.css" />
-<link rel="stylesheet" href="/css/product/product.css" />
+<!-- index.html 고유 CSS 추가 -->
+<th:block layout:fragment="css">
+  <link rel="stylesheet" th:href="@{/css/include/reset.css}">
+  <link rel="stylesheet" th:href="@{/css/product/product.css}">
+  <link rel="stylesheet" th:href="@{/css/product/cart.css}">
+</th:block>
 
-<!-- 장바구니 페이지 시작 -->
-<section class="section cart">
-  <!-- 제목, 페이지 네비게이션 -->
+<!-- index.html 고유 스크립트 추가 -->
+<th:block layout:fragment="script">
+</th:block>
+
+<section class="section cart" layout:fragment="content">
   <nav class="cart__nav">
     <h1>장바구니</h1>
-    <p>HOME > <span>패션·의류·뷰티</span> > <strong>장바구니</strong></p>
+    <p>
+      HOME <span> &gt; </span>
+      <span>패션·의류·뷰티</span> <span> &gt; </span>
+      <strong>남성의류</strong>
+    </p>
   </nav>
-  <div id="cartList">
-    <div style="justify-content: center; align-items: center; padding: 20px 0">
-      <p style="font-size: 16px; font-weight: bold; text-align: center">
-        🛒 장바구니가 비어있습니다. 🛒
-      </p>
-    </div>
-  </div>
-  <div id="cartList">
-    <!-- 장바구니 목록 -->
-    <div class="listForCompany" style="position: relative">
-      <div
-        style="
-          padding: 15px;
-          border-top: 2px solid black;
-          font-size: 12px;
-          font-weight: bold;
-          display: flex;
-        "
-        class="cartProdCompany"
-      >
-        <span style="width: 140px">
-          <input type="checkbox" />
-        </span>
-        <span style="flex: 1">상품명</span>
-        <span style="width: 60px; text-align: center">수량</span>
-        <span style="width: 70px; text-align: center">판매가</span>
-        <span style="width: 40px; text-align: center">할인</span>
-        <span style="width: 50px; text-align: center">포인트</span>
-        <span style="width: 60px; text-align: center">배송비</span>
-        <span style="width: 50px; text-align: center">총합</span>
-      </div>
 
-      <div class="productList">
-        <!--productList를 반복 시키면 됨!!-->
-        <div class="productInfo">
-          <input
-            type="checkbox"
-            name="selectedCart"
-            onclick="calculateTotalPrice()"
-          />
-          <input type="hidden" />
-          <a href="#"
-            ><img
-              src="https://thumbnail7.coupangcdn.com/thumbnails/remote/230x230ex/image/retail/images/3122239138972570-727d95de-ec33-4f85-99db-1a8720ff24f5.jpg"
-              alt="aaaa"
-              style="height:100%" /></a
-          ><!--80*80 사이즈로 변경-->
-          <div>
-            <p><a href="#">상품명</a></p>
-            <p>상품이름</p>
-          </div>
-          <div>12</div>
-          <div>27,000</div>
-          <div>5%</div>
-          <div>270</div>
-          <div>배송비</div>
-          <div>25,650</div>
-        </div>
-      </div>
-    </div>
+  <!-- 배송지 설정 영역 -->
+  <div class="delivery-settings">
+    <h2><i class="fa fa-home"></i> 배송지</h2>
+    <p>기본 배송지를 설정하시고, 가까운 롯데 점포 상품을 담아보세요.</p>
+    <a href="#">배송지 설정 &gt;</a>
   </div>
 
-  <button
-    style="
-      width: 100px;
-      height: 40px;
-      margin-top: 10px;
-      background-color: #e6e6e6;
-      border: 1px solid #b5b5b5;
-    "
-  >
-    전체삭제
-  </button>
+  <!-- 장바구니 콘텐츠 좌우 레이아웃 -->
+  <div class="cart-content">
+    <!-- 좌측: 상품 목록 -->
+    <div class="listForCompany">
+      <table class="cart-table">
+        <thead>
+        <tr>
+          <th><input type="checkbox" id="selectAll"> 전체선택</th>
+          <th>상품명</th>
+          <th>수량</th>
+          <th>판매가</th>
+          <th>할인</th>
+          <th>포인트</th>
+          <th>배송비</th>
+          <th>총합</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="product-item">
+          <td><input type="checkbox" name="selectedCart" onclick="calculateTotalPrice()"></td>
+          <td class="product-details">
+            <a href="#" class="product-image">
+              <img src="https://thumbnail7.coupangcdn.com/thumbnails/remote/230x230ex/image/retail/images/3122239138972570-727d95de-ec33-4f85-99db-1a8720ff24f5.jpg" alt="상품 이미지">
+            </a>
+            <div class="product-info">
+              <p><a href="#">상품명</a></p>
+              <p class="product-options">옵션: 상품 설명 또는 옵션</p>
+            </div>
+          </td>
+          <td>1</td>
+          <td>27,000원</td>
+          <td>5%</td>
+          <td>270</td>
+          <td>무료</td>
+          <td>25,650원</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
 
-  <!-- 장바구니 전체합계 -->
-  <div class="total">
-    <h2 class="total__head">전체합계</h2>
-    <table style="width: 100%" border="0">
-      <tr class="total__tr">
-        <td>상품수</td>
-        <td id="prodCount">1</td>
-      </tr>
-      <tr class="total__tr">
-        <td>상품금액</td>
-        <td id="prodOrgPrice">27,000</td>
-      </tr>
-      <tr class="total__tr">
-        <td>할인금액</td>
-        <td id="prodDisPrice">-1,350</td>
-      </tr>
-      <tr class="total__tr">
-        <td>배송비</td>
-        <td id="prodDelivery">0</td>
-      </tr>
-      <tr class="total__tr">
-        <td>포인트</td>
-        <td id="prodPoint">270</td>
-      </tr>
-      <tr class="total__tr">
-        <td>전체주문금액</td>
-        <td id="prodTotalPrice">25,650</td>
-      </tr>
-    </table>
-    <form class="total__form" id="buyForm" method="GET" th:action="@{/product/order}">
-      <input
-        type="submit"
-        id="btnOrder"
-        value="주문하기"
-        class="total__form__submit"
-      />
-      <input
-        type="hidden"
-        name="user"
-        id="userForDirect"
+    <!-- 우측: 결제 정보 영역 -->
+    <div class="total">
+      <h2 class="total__head">결제예정금액</h2>
+      <table>
+        <tr class="total__tr">
+          <td>상품수</td>
+          <td id="prodCount">1</td>
+        </tr>
+        <tr class="total__tr">
+          <td>상품금액</td>
+          <td id="prodOrgPrice">27,000원</td>
+        </tr>
+        <tr class="total__tr">
+          <td>할인금액</td>
+          <td id="prodDisPrice">-1,350원</td>
+        </tr>
+        <tr class="total__tr">
+          <td>배송비</td>
+          <td id="prodDelivery">0원</td>
+        </tr>
+        <tr class="total__tr">
+          <td>포인트</td>
+          <td id="prodPoint">270</td>
+        </tr>
+        <tr class="total__tr total__price-row">
+          <td>전체주문금액</td>
+          <td id="prodTotalPrice" class="total__final-price">25,650원</td>
+        </tr>
+      </table>
 
-      />
-      <input type="hidden" name="cartProdNo" id="selectedProd" />
-    </form>
+      <!-- 주문하기 버튼 -->
+      <form class="total__form" id="buyForm" method="GET" th:action="@{/product/order}">
+        <input type="submit" id="btnOrder" value="주문하기" class="total__form__submit" />
+        <input type="hidden" name="user" id="userForDirect" />
+        <input type="hidden" name="cartProdNo" id="selectedProd" />
+      </form>
+    </div>
   </div>
 </section>
-<!-- 장바구니 페이지 끝 -->
+
+</html>

@@ -251,9 +251,21 @@ h4 {
     color: #333;
 }
 
+.selectedOption {
+    display: block;
+    margin-bottom: 10px; /* 각 옵션 간의 간격 */
+}
+
+.options_choose {
+    margin-bottom: 10px;
+}
+
 .selectedOption label {
     font-weight: bold;
-    margin-right: 8px;
+    display: inline-block;
+    width: 100px; /* 고정 너비로 정렬 일관성 유지 */
+    text-align: left; /* 텍스트 오른쪽 정렬 */
+    margin-right: 10px; /* label과 select 간의 간격 */
 }
 
 .selectedOption select {
@@ -261,6 +273,7 @@ h4 {
     font-size: 1em;
     border: 1px solid #ddd;
     border-radius: 4px;
+    width: 200px; /* select의 고정 너비 */
 }
 
 
@@ -428,9 +441,35 @@ h4 {
     flex: 1;
 }
 
+/* 섹션 네비게이션 */
+.section__nav {
+    padding: 15px 20px;
+    border-bottom: 1px solid #ececec;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.section__nav h1 {
+    font-size: 20px;
+    color: #111;
+    margin-bottom: 4px;
+    font-weight: bold;
+}
+
+.section__nav p {
+    font-size: 13px;
+    color: #777;
+    line-height: 1.6;
+}
+
+.section__nav p strong {
+    color: #fe434c;
+    font-weight: bold;
+}
+
 /* 왼쪽 상품 정보 */
 .product-info {
-    flex-basis: 70%;
+    flex-basis: 80%;
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
@@ -828,4 +867,131 @@ h4 {
 .price-value {
     font-size: 1.2rem;
     color: #e74c3c;
+}
+
+/* 전체 영역 스타일 */
+.notice {
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+/* 제목 스타일 */
+.notice__nav__title {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* 설명 텍스트 스타일 */
+.notice__nav__desc {
+    color: #666;
+    font-size: 0.9em;
+    margin-bottom: 20px;
+}
+
+/* 기본 테이블 스타일 */
+.info-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+    color: #444;
+}
+
+.info-table td {
+    padding: 8px 15px;
+    vertical-align: top;
+    font-size: 0.9em;
+}
+
+.info-table td:first-child {
+    font-weight: bold;
+    color: #333;
+    width: 20%;
+}
+
+/* 상세 테이블 스타일 */
+.detail-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    color: #444;
+    display: none; /* 기본적으로 숨김 */
+    transition: max-height 0.4s ease; /* 부드러운 열기 애니메이션 */
+    overflow: hidden;
+}
+
+.detail-table td {
+    padding: 8px 15px;
+    font-size: 0.9em;
+}
+
+.detail-table td:first-child {
+    font-weight: bold;
+    color: #333;
+    width: 20%;
+}
+
+/* 구분선 */
+.divider {
+    border-top: 1px solid #ddd;
+    margin: 10px 0;
+}
+
+/* 버튼을 감싸는 컨테이너 */
+.button-container {
+    text-align: center; /* 가운데 정렬 */
+    margin-top: 10px;
+}
+
+/* 버튼 스타일 */
+.toggle-button {
+    background-color: transparent;
+    color: #555;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    font-size: 0.95em;
+    display: inline-flex; /* 가운데 정렬 유지 */
+    align-items: center;
+    gap: 5px;
+}
+
+.toggle-button:hover {
+    color: #333;
+}
+
+.toggle-icon {
+    transition: transform 0.3s ease;
+}
+
+.detail-table.open + .toggle-button .toggle-icon {
+    transform: rotate(180deg); /* 아이콘 회전 */
+}
+/* 마지막 열의 배경 제거 */
+.info-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* 단락 스타일 */
+.notice__paragraph {
+    color: #333;
+    font-size: 0.95em;
+    line-height: 1.6;
+    padding-top: 15px;
+    border-top: 1px solid #ddd;
+    margin-top: 20px;
+}
+
+/* 테이블 숨김 상태 기본 설정 */
+.detail-table {
+    display: none; /* 기본적으로 숨김 */
+}
+
+/* 상세 정보 열림 상태 */
+.detail-table.open {
+    display: table; /* 열릴 때 테이블로 표시 */
 }

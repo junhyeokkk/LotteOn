@@ -4,6 +4,11 @@ main > aside {
     height: 100%;
 }
 
+@media screen and (max-width: 1860px) {
+    .best {
+       display: none;
+    }
+}
 
 /* 베스트 배너 */
 .best {

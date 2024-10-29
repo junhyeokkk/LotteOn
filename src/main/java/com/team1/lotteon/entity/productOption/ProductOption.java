@@ -19,6 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@ToString
 @Table(name = "product_option")
 public class ProductOption {
 
@@ -31,5 +32,8 @@ public class ProductOption {
     @ManyToOne
     @JoinColumn(name = "product_id")  // 추가된 필드
     private Product product; // 어떤 상품에 대한 옵션인지
+
+    @OneToMany(mappedBy = "productOption", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<OptionItem> Optionitems;
 
 }

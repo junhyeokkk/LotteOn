@@ -27,6 +27,7 @@
 </th:block>
 
 <section class="section" layout:fragment="content">
+
     <nav class="section__nav navsticky">
         <h1>상품보기</h1>
         <p>
@@ -41,12 +42,12 @@
     <!-- 상품 전체 정보 내용 -->
     <article class="info">
         <div class="image">
-            <img src="/images/product_sample.jpg" alt="상품이미지" />
+            <img th:src="'/'+${appInfo.uploadDir}+'product/'+${product.productImg3}" alt="상품이미지" />
         </div>
         <div class="summary">
             <nav class="summary__nav">
                 <h1 class="summary__nav__company">(주)상호명</h1>
-                <h2 class="summary__nav__product">상품번호&nbsp;:&nbsp;<span id="prodNo">1121223123</span></h2>
+                <h2 class="summary__nav__product">상품번호&nbsp;:&nbsp;<span id="prodNo">[[${product.id}]]</span></h2>
             </nav>
 
             <!-- 상품명과 별점 -->
@@ -58,7 +59,7 @@
                         <span>4.8</span> <span>(27건)</span>
                     </div>
                 </div>
-                <p class="summary__product-info">이 상품은 고급 소재로 만들어져 뛰어난 내구성을 자랑하며, 다양한 스타일에 매치할 수 있습니다.</p>
+                <p class="summary__product-info">[[${product.description}]]</p>
             </nav>
 
             <!-- 가격과 혜택 -->
@@ -66,10 +67,10 @@
             <nav class="summary__price">
                 <div class="price-group">
                     <div class="original-price">
-                        <del id="prodPrice" class="org_price">12000원</del>
-                        <span id="disCount" class="discount">10%↓</span>
+                        <del id="prodPrice" class="org_price">[[${product.price}]]원</del>
+                        <span id="disCount" class="discount">[[${product.discountRate}]]%↓</span>
                     </div>
-                    <ins id="disPrice" class="dis_price">10000원</ins> <!-- 최종 가격 -->
+                    <ins id="disPrice" class="dis_price">[[${product.price} * (1 - ${product.discountRate}/100)]] 원</ins> <!-- 최종 가격 -->
                 </div>
                 <button class="coupon-button"><i class="fa-solid fa-tag"></i> 쿠폰 받기</button>
             </nav>
@@ -86,7 +87,7 @@
             <nav class="summary__delivery">
                 <div class="delivery-item">
                     <span class="delivery-label"><i class="fa-solid fa-truck"></i> 배송비:</span>
-                    <span class="delivery">1000원</span>
+                    <span class="delivery">[[${product.deliveryFee}]]원</span>
                 </div>
                 <div class="delivery-item">
                     <span class="delivery-label"><i class="fa-solid fa-calendar-day"></i> 도착 예정:</span>
@@ -96,14 +97,21 @@
             </nav>
 
             <!-- 선택 옵션 추가 -->
-            <div class="selectedOption">
+            <th:block th:if="${product.getProductOptions().size()} > 0">
                 <h4 class="section-title">선택 옵션</h4>
-                <label for="optionSelect">옵션:</label>
-                <select id="optionSelect">
-                    <option>옵션을 선택하세요</option>
-                    <option value="option1">옵션 1</option>
-                    <option value="option2">옵션 2</option>
-                </select>
+            </th:block>
+            <div class="selectedOption">
+                <th:block th:each="ProductOption, i:${product.getProductOptions()}">
+                    <div class="options_choose">
+                        <label for="optionSelect[[${i}]]">[[${ProductOption.name}]]:</label>
+                        <select id="optionSelect[[${i}]]" onchange="updateSelectedOptions()">
+                            <option value="">옵션을 선택하세요</option>
+                            <th:block th:each="optionitem : ${ProductOption.getOptionitems()}">
+                                <option th:value="${optionitem.id}" >[[${optionitem.value}]]</option>
+                            </th:block>
+                        </select>
+                    </div>
+                </th:block>
             </div>
 
             <!-- 수량 선택 -->
@@ -113,7 +121,8 @@
                     <button class="count-button decrease" onclick="changeNumNoOpt(-1)">
                         <i class="fa-solid fa-minus"></i>
                     </button>
-                    <input class="count__input" type="text" name="num" id="numInput" value="1" oninput="changeNumNoOpt(0)" />
+                    <!-- oninput 이벤트를 통해 키보드 입력 시 checkMaxStock 함수 호출 -->
+                    <input class="count__input" type="text" name="num" id="numInput" value="1" oninput="checkMaxStock()" />
                     <button class="count-button increase" onclick="changeNumNoOpt(1)">
                         <i class="fa-solid fa-plus"></i>
                     </button>
@@ -126,16 +135,104 @@
                 <span class="total__price-value">27,000원</span>
             </div>
 
-            <!-- 장바구니와 구매 버튼 -->
+            <!-- 장바구니 구매하기 버튼 그룹 -->
             <div class="button-group">
-                <button onclick="window.location.href='/product/order'" class="button-group__btn button-group__order">
+                <button onclick="if (validateBeforeAction()) window.location.href='/product/order'" class="button-group__btn button-group__order">
                     <i class="fa-solid fa-credit-card"></i> 구매하기
                 </button>
-                <button onclick="window.location.href='/product/cart'" class="button-group__btn button-group__cart">
+                <button onclick="addToCart()" class="button-group__btn button-group__cart">
                     <i class="fa-solid fa-cart-shopping"></i> 장바구니
                 </button>
             </div>
 
+        </div>
+    </article>
+
+
+    <article class="notice">
+        <!-- 기본 정보 테이블 -->
+        <table class="info-table">
+            <tr>
+                <td>상품번호</td>
+                <td>[[${product.id}]]</td>
+            </tr>
+            <tr>
+                <td>상품상태</td>
+                <td>[[${product.productStatus}]]</td>
+            </tr>
+            <tr>
+                <td>부가세 면세여부</td>
+                <td>[[${product.warranty}]]</td>
+            </tr>
+            <tr>
+                <td>영수증발행</td>
+                <td>[[${product.receiptIssued}]]</td>
+            </tr>
+            <tr>
+                <td>사업자구분</td>
+                <td>[[${product.businessType}]]</td>
+            </tr>
+            <tr>
+                <td>원산지</td>
+                <td>[[${product.origin}]]</td>
+            </tr>
+        </table>
+
+        <!-- 구분선 -->
+        <div class="divider"></div>
+
+        <!-- 상세 정보 테이블 -->
+        <table class="detail-table">
+            <tr>
+                <td>제품소재</td>
+                <td>컨텐츠 참조</td>
+            </tr>
+            <tr>
+                <td>색상</td>
+                <td>컨텐츠 참조</td>
+            </tr>
+            <tr>
+                <td>치수</td>
+                <td>컨텐츠 참조</td>
+            </tr>
+            <tr>
+                <td>제조자/수입국</td>
+                <td>컨텐츠 참조 / 대한민국</td>
+            </tr>
+            <tr>
+                <td>제조국</td>
+                <td>컨텐츠 참조</td>
+            </tr>
+            <tr>
+                <td>취급시 주의사항</td>
+                <td>제품 사용 설명서 참조</td>
+            </tr>
+            <tr>
+                <td>제조연월</td>
+                <td>컨텐츠 참조</td>
+            </tr>
+            <tr>
+                <td>품질보증기준</td>
+                <td>제품 이상 시 공정거래위원회 고시 소비자분쟁해결기준에 의거 보상합니다.</td>
+            </tr>
+            <tr>
+                <td>A/S 책임자와 전화번호</td>
+                <td>롯데ON 고객센터(1899-7000)</td>
+            </tr>
+            <tr>
+                <td>주문후 예상 배송기간</td>
+                <td>전국 평균 기준 배송 후 3일 이내 도착</td>
+            </tr>
+            <tr>
+                <td colspan="2">구매, 교환, 반품, 배송, 설치 등과 관련하여 추가비용, 제한조건 등의 특이사항이 있는 경우</td>
+            </tr>
+        </table>
+
+        <div class="button-container">
+            <button class="toggle-button" onclick="toggleDetails()">
+                더 많은 상품정보를 확인해보세요
+                <span class="toggle-icon">▼</span>
+            </button>
         </div>
     </article>
 
@@ -207,97 +304,6 @@
         </div>
     </section>
 
-
-    <article class="notice">
-        <nav class="notice__nav">
-            <h1 class="notice__nav__title">상품 정보 제공 고시</h1>
-            <p class="notice__nav__desc">[전자상거래에 관한 상품정보 제공에 관한 고시] 항목에 의거 등록된 정보입니다.</p>
-        </nav>
-        <table class="info-table">
-            <tr>
-                <td width="20%">상품번호</td>
-                <td>123123</td>
-            </tr>
-            <tr>
-                <td>상품상태</td>
-                <td>새상품</td>
-            </tr>
-            <tr>
-                <td>부가세 면세여부</td>
-                <td>과세상품</td>
-            </tr>
-            <tr>
-                <td>영수증발행</td>
-                <td>발행가능 전표</td>
-            </tr>
-            <tr>
-                <td>사업자구분</td>
-                <td>통신판매업</td>
-            </tr>
-            <tr>
-                <td>브랜드</td>
-                <td>나이키</td>
-            </tr>
-            <tr>
-                <td>원산지</td>
-                <td>중국</td>
-            </tr>
-        </table>
-        <table class="info-table">
-            <tr>
-                <td width="20%">제품소재</td>
-                <td>컨텐츠 참조</td>
-            </tr>
-            <tr>
-                <td>색상</td>
-                <td>컨텐츠 참조</td>
-            </tr>
-            <tr>
-                <td>치수</td>
-                <td>컨텐츠 참조</td>
-            </tr>
-            <tr>
-                <td>제조자/수입국</td>
-                <td>컨텐츠 참조 / 대한민국</td>
-            </tr>
-            <tr>
-                <td>제조국</td>
-                <td>컨텐츠 참조</td>
-            </tr>
-            <tr>
-                <td>취급시 주의사항</td>
-                <td>제품 사용 설명서 참조</td>
-            </tr>
-            <tr>
-                <td>제조연월</td>
-                <td>컨텐츠 참조</td>
-            </tr>
-            <tr>
-                <td>품질보증기준</td>
-                <td>제품 이상 시 공정거래위원회 고시 소비자분쟁해결기준에 의거 보상합니다.</td>
-            </tr>
-            <tr>
-                <td>A/S 책임자와 전화번호</td>
-                <td> 롯데ON 고객센터(1899-7000) </td>
-            </tr>
-            <tr>
-                <td>주문후 예상 배송기간</td>
-                <td>전국 평균 기준 배송 후 3일 이내 도착</td>
-            </tr>
-            <tr>
-                <td colspan="2">구매, 교환, 반품, 배송, 설치 등과 관련하여 추가비용, 제한조건 등의 특이사항이 있는 경우</td>
-            </tr>
-        </table>
-        <p class="notice__paragraph">
-            소비자가 전자상거래등에서 소비자 보호에 관한 법률 제 17조 제1항 또는 제3항에 따라 청약철회를 하고
-            동법 제 18조 제1항 에 따라 청약철회한 물품을 판매자에게 반환하였음에도 불구 하고 결제 대금의
-            환급이 3영업일을 넘게 지연된 경우, 소비자는 전자상거래등에서 소비자보호에 관한 법률 제18조
-            제2항 및 동법 시행령 제21조 2에 따라 지연일수에 대하여 전상법 시행령으로 정하는 이율을 곱하여
-            산정한 지연이자(“지연배상금”)를 신청할 수 있습니다. 아울러, 교환∙반품∙보증 및 결제대금의
-            환급신청은 [나의쇼핑정보]에서 하실 수 있으며, 자세한 문의는 개별 판매자에게 연락하여 주시기 바랍니다.
-        </p>
-    </article>
-
     <!-- 상품 리뷰 내용 -->
     <nav class="section__review-nav" style="padding-bottom: 0">
         <h1>상품 리뷰</h1>
@@ -329,5 +335,152 @@
     <div style="text-align:center; margin: 30px 0;">
         <button onclick="(function(){window.location.href='/'})()" class="button-group__btn button-group__home">홈으로</button>
     </div>
+    <script th:inline="javascript">
+        document.addEventListener("DOMContentLoaded", function() {
+            let optionCombinations = /*[[${optionCombinations}]]*/ {};
+            let selectedOptions = {}; // 사용자가 선택한 옵션을 저장하는 객체
+
+            console.log("옵션 조합 데이터:", optionCombinations);
+            console.log("옵션 조합 데이터:", optionCombinationjson);
+
+            function updateSelectedOptions() {
+                document.querySelectorAll('.options_choose select').forEach((select) => {
+                    const optionName = select.previousElementSibling.textContent.replace(":", "").trim();
+                    selectedOptions[optionName] = parseInt(select.value, 10); // 문자열을 숫자로 변환
+                });
+
+                console.log("현재 선택된 옵션:", selectedOptions);
+
+                if (Object.keys(selectedOptions).length === 2 && selectedOptions["색상"] && selectedOptions["사이즈"]) {
+                    checkMaxStock();
+                } else {
+                    console.log("모든 옵션이 선택되지 않았습니다.");
+                }
+            }
+
+            // 선택된 옵션에 맞는 재고 및 combinationId 찾기
+            function getDetailsForSelectedOptions() {
+                const optionKey = JSON.stringify([selectedOptions["색상"], selectedOptions["사이즈"]]);
+                console.log('키??' + optionKey.toString());
+                const details = optionCombination[optionKey];
+                console.log('찾았나? ' + details);
+                return details ? details : { combinationId: null, stock: 0 };
+            }
+
+            function getStockForSelectedOptions() {
+                const details = getDetailsForSelectedOptions();
+                return details.stock;
+            }
+
+            function checkMaxStock() {
+                const quantityInput = document.getElementById("numInput");
+                const selectedQuantity = parseInt(quantityInput.value, 10) || 1;
+
+                if (!selectedOptions["색상"] || !selectedOptions["사이즈"]) {
+                    alert("옵션을 먼저 선택해주세요.");
+                    quantityInput.value = 1;
+                    return;
+                }
+
+                const maxStock = getStockForSelectedOptions();
+                console.log("최대 재고 확인:", maxStock);
+
+                if (selectedQuantity > maxStock) {
+                    alert(`최대 재고 수량은 ${maxStock}입니다!`);
+                    quantityInput.value = maxStock;
+                } else if (selectedQuantity < 1) {
+                    quantityInput.value = 1;
+                }
+            }
+
+            function changeNumNoOpt(delta) {
+                const quantityInput = document.getElementById("numInput");
+                let currentQuantity = parseInt(quantityInput.value, 10) || 1;
+                currentQuantity += delta;
+
+                if (currentQuantity < 1) {
+                    currentQuantity = 1;
+                }
+
+                quantityInput.value = currentQuantity;
+                checkMaxStock();
+            }
+
+            function validateBeforeAction() {
+                if (!selectedOptions["색상"] || !selectedOptions["사이즈"]) {
+                    alert("모든 옵션을 선택해주세요.");
+                    return false;
+                }
+
+                const maxStock = getStockForSelectedOptions();
+                const quantityInput = document.getElementById("numInput");
+                const selectedQuantity = parseInt(quantityInput.value, 10) || 1;
+
+                if (selectedQuantity > maxStock) {
+                    alert(`최대 재고 수량은 ${maxStock}입니다.`);
+                    quantityInput.value = maxStock;
+                    return false;
+                }
+
+                return true;
+            }
+
+            function addToCart() {
+                if (!validateBeforeAction()) return;
+
+                const productId = document.getElementById('prodNo').textContent.trim();
+                const quantity = parseInt(document.getElementById('numInput').value, 10) || 1;
+                const details = getDetailsForSelectedOptions();
+                const combinationId = details.combinationId;
+
+                if (!combinationId) {
+                    alert("선택한 옵션 조합에 해당하는 상품이 없습니다.");
+                    return;
+                }
+
+                fetch('/cart/insert', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        productId: productId,
+                        quantity: quantity,
+                        combinationId: combinationId,
+                    }),
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            const userChoice = confirm("장바구니 담기에 성공했습니다! 장바구니로 이동할까요?");
+                            if (userChoice) {
+                                window.location.href = '/product/cart';
+                            } else {
+                                window.location.reload();
+                            }
+                        } else {
+                            alert("장바구니 담기에 실패했습니다.");
+                        }
+                    })
+                    .catch(error => {
+                        console.error("에러 발생:", error);
+                        alert("장바구니 담기에 실패했습니다.");
+                    });
+            }
+
+            window.updateSelectedOptions = updateSelectedOptions;
+            window.changeNumNoOpt = changeNumNoOpt;
+            window.checkMaxStock = checkMaxStock;
+            window.validateBeforeAction = validateBeforeAction;
+            window.addToCart = addToCart;
+        });
+
+    </script>
+
+
+
+
+
+
 </section>
 </html>

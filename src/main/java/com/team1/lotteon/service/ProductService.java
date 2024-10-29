@@ -35,6 +35,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /*
     날짜 : 2024/10/25
@@ -113,7 +114,7 @@ public class ProductService {
                 .point(dto.getPoint())
                 .stock(dto.getStock())
                 .deliveryFee(dto.getDeliveryFee())
-                .Status(1)
+                .Status(dto.getProductStatus())
                 .warranty(dto.getWarranty())
                 .receiptIssued(dto.getReceiptMethod())
                 .businessType(dto.getBusinessType())
@@ -174,18 +175,25 @@ public class ProductService {
                 Map<String, Long> idCombination = new HashMap<>();
                 Map<String, String> valueCombination = new HashMap<>();
 
-                String[] options = combinationDto.getOptionCombination().split(",\\s*");
-                for (String optionValue : options) {
-                    OptionItem optionItem = optionItemRepository.findByValue(optionValue)
-                            .stream()
+                String[] optionValues = combinationDto.getOptionCombination().split(",\\s*");
+                for (String optionValue : optionValues) {
+                    // optionsJson을 통해 value에 해당하는 optionName을 확인
+                    String optionName = productOptionDtoList.stream()
+                            .filter(option -> option.getOptionItems().stream()
+                                    .anyMatch(item -> item.getValue().equals(optionValue)))
+                            .map(ProductOptionDTO::getName)
                             .findFirst()
-                            .orElseThrow(() -> new RuntimeException("Option item not found: " + optionValue));
+                            .orElseThrow(() -> new RuntimeException("Option name not found for value: " + optionValue));
 
-                    String optionGroupName = optionItem.getProductOption().getName();
-                    idCombination.put(optionGroupName, optionItem.getId());
-                    valueCombination.put(optionGroupName, optionValue);
+                    // product, optionName, optionValue를 사용해 OptionItem을 조회
+                    OptionItem optionItem = optionItemRepository.findByProductAndOptionNameAndValue(product, optionName, optionValue)
+                            .orElseThrow(() -> new RuntimeException("Option item not found: " + optionName + " - " + optionValue));
+
+                    idCombination.put(optionName, optionItem.getId());
+                    valueCombination.put(optionName, optionValue);
                 }
 
+                // JSON 변환 후 ProductOptionCombination 저장
                 String optionIdCombinationJson = objectMapper.writeValueAsString(idCombination);
                 String optionValueCombinationJson = objectMapper.writeValueAsString(valueCombination);
 
@@ -206,6 +214,7 @@ public class ProductService {
         return product;
     }
 
+
     public PageResponseDTO<ProductSummaryResponseDTO> getProducts(Pageable pageable) {
         Page<Product> products = productRepository.findAll(pageable);
         return PageResponseDTO.fromPage(products.map(ProductSummaryResponseDTO::fromEntity));
@@ -220,4 +229,31 @@ public class ProductService {
 
         return savedproductDTO;
     }
+
+    // 조합 문자열 파싱
+    public Optional<Integer> checkStockForCombination(Product product, Map<String, String> selectedOptions) {
+        // 선택된 옵션을 Map<String, Integer> 형식으로 변환
+        Map<String, Integer> selectedOptionsIdMap = selectedOptions.entrySet().stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, entry -> Integer.parseInt(entry.getValue())));
+
+        // 각 ProductOptionCombination의 `optionIdCombination`을 파싱해 비교
+        return product.getProductOptionCombinations().stream()
+                .filter(combination -> {
+                    try {
+                        // JSON 문자열을 파싱하여 Map으로 변환
+                        Map<String, Integer> dbOptionIdMap = objectMapper.readValue(
+                                combination.getOptionIdCombination(), Map.class);
+
+                        // 파싱된 Map과 사용자가 선택한 옵션 ID Map을 비교
+                        return dbOptionIdMap.equals(selectedOptionsIdMap);
+                    } catch (JsonProcessingException e) {
+                        e.printStackTrace();
+                        return false;
+                    }
+                })
+                .map(ProductOptionCombination::getStock)
+                .findFirst();
+    }
+
+
 }

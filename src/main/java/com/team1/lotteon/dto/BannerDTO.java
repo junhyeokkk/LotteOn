@@ -9,6 +9,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+/*
+    날짜 : 2024/10/23
+    이름 : 최준혁
+    내용 : Banner DTO 생성
+*/
 
 @ToString
 @Getter

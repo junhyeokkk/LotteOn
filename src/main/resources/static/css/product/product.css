@@ -2559,13 +2559,6 @@
   width: 100%;
 }
 
-.cart__nav {
-  display: flex;
-  justify-content: space-between;
-  padding: 8px 4px;
-  margin-bottom: 12px;
-  border-bottom: 2px solid black;
-}
 
 .productInfo {
   border-bottom: 1px solid rgb(196, 196, 196);

@@ -1,5 +1,7 @@
 package com.team1.lotteon.controller.product;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.team1.lotteon.dto.ConfigDTO;
 import com.team1.lotteon.dto.PageResponseDTO;
 import com.team1.lotteon.dto.product.ProductDTO;
@@ -15,6 +17,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /*
     날짜 : 2024/10/25
@@ -47,22 +55,65 @@ public class ProductPageController {
         return "product/view";
     }
 
-//    // view 페이지 이동
-    @GetMapping("/product/view/{id}")
-    public String viewProduct(@PathVariable("id") Long id, Model model) {
+    // cart 페이지 이동
+    @GetMapping("/product/cart")
+    public String cart(Model model){
 
-        log.info("컨트롤러 ㅇㅇㅇ");
-        ProductDTO saveproduct = productService.getProductById(id);
+        log.info("cart");
 
-        log.info("찾아온 상품" + saveproduct.toString());
-        if (saveproduct != null) {
-            model.addAttribute("product", saveproduct); // 모델에 조회한 product 추가
-            return "product/view"; // 뷰 페이지로 이동 (ex: view.html)
-        } else {
-            return "error/404"; // product가 없는 경우, 404 페이지로 이동
-        }
+        return "product/cart";
     }
 
+    // view 페이지 이동
+    @GetMapping("/product/view/{id}")
+    public String viewProduct(@PathVariable("id") Long id, Model model) throws JsonProcessingException {
+        log.info("컨트롤러 ㅇㅇㅇ");
+        ProductDTO saveProduct = productService.getProductById(id);
+
+        if (saveProduct == null) {
+            return "error/404"; // 상품이 없는 경우, 404 페이지로 이동
+        }
+
+        log.info("찾아온 상품" + saveProduct.toString());
+        log.info("찾아온 상품 옵션들" + saveProduct.getProductOptions().toString());
+        log.info("찾아온 상품 상세들" + saveProduct.getProductDetails().toString());
+
+        // Java 컨트롤러 내 optionCombinations 설정
+        Map<String, Map<String, Object>> optionCombinations = new HashMap<>();
+
+        saveProduct.getProductOptionCombinations().forEach(combination -> {
+            try {
+                // `optionIdCombination` JSON 문자열을 파싱하여 Map으로 변환
+                Map<String, Integer> combinationMap = new ObjectMapper().readValue(
+                        combination.getOptionIdCombination(), Map.class);
+
+                // 조합 Map에서 값들만 추출하여 정렬된 리스트로 변환
+                List<Integer> optionValues = new ArrayList<>(combinationMap.values());
+                optionValues.sort(Integer::compareTo);
+
+                // 배열 형식의 문자열로 변환하여 키로 사용 (예: "[17,20]")
+                String jsonKey = new ObjectMapper().writeValueAsString(optionValues);
+
+                // 조합에 대해 `combinationId`와 `stock`을 저장할 Map 생성
+                Map<String, Object> detailsMap = new HashMap<>();
+                detailsMap.put("combinationId", combination.getId());
+                detailsMap.put("stock", combination.getStock());
+
+                // `optionCombinations`에 간소화된 키와 상세 정보를 추가
+                optionCombinations.put(jsonKey, detailsMap);
+
+            } catch (JsonProcessingException e) {
+                log.error("JSON 파싱 오류", e);
+            }
+        });
+
+        // 모델에 상품과 옵션 조합 추가
+        model.addAttribute("product", saveProduct);
+        // 모델에 JSON 형식으로 변환된 데이터를 추가
+        model.addAttribute("optionCombinations", optionCombinations);
+
+        return "product/view"; // 뷰 페이지로 이동
+    }
 
 //    @GetMapping("/product/{cate}")
 //    public String index(@PathVariable String cate, Model model, @PageableDefault Pageable pageable) {

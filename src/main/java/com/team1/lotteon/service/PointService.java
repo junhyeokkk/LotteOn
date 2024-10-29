@@ -30,9 +30,6 @@ import java.util.stream.Collectors;
 *   이름 : 최준혁
 *   내용 : PointService 생성
 *
-*
-*   수정내역
-*   -
 */
 @Log4j2
 @RequiredArgsConstructor
