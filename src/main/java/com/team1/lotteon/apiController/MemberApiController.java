@@ -19,7 +19,7 @@ public class MemberApiController {
     private final AdminMemberService adminMemberService;
 
     // 모든 회원 목록 조회
-    @GetMapping
+    @GetMapping("/list")
     public ResponseEntity<List<GeneralMemberDTO>> getAllMembers() {
         List<GeneralMemberDTO> members = adminMemberService.getAllMembers();
         return new ResponseEntity<>(members, HttpStatus.OK);

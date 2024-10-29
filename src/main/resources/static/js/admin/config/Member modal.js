@@ -175,81 +175,117 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
+    // 페이지 로드 시 최신 데이터 동기화
+    fetchLatestMemberData();
+
+    // 선택 수정 버튼 이벤트 설정
     const insertBtn = document.querySelector(".insert_btn");
 
-    if (insertBtn) {
-        insertBtn.addEventListener("click", function () {
-            let selectedMembers = [];  // 여기에서 선언
+    if (!insertBtn) {
+        console.error("insert_btn 요소를 찾을 수 없습니다.");
+        return;
+    }
 
-            const checkboxes = document.querySelectorAll("input[name='RowCheck']:checked");
-            const validGrades = ["vvip", "vip", "gold", "silver", "family"];
+    insertBtn.addEventListener("click", function () {
+        const selectedMembers = [];
+        const checkboxes = document.querySelectorAll("input[name='RowCheck']:checked");
+        const validGrades = ["vvip", "vip", "gold", "silver", "family"];
 
-            checkboxes.forEach(checkbox => {
-                const memberRow = checkbox.closest("tr");
-                const memberId = checkbox.value;
-                const gradeSelect = memberRow.querySelector("select[name='grade']");
+        checkboxes.forEach(checkbox => {
+            const memberRow = checkbox.closest("tr");
+            const memberId = checkbox.value;
+            const gradeSelect = memberRow.querySelector("select[name='grade']");
 
-                if (gradeSelect) {
-                    const grade = gradeSelect.value;
-                    if (!validGrades.includes(grade)) {
-                        alert("유효하지 않은 등급이 선택되었습니다.");
-                        return;
-                    }
+            if (gradeSelect) {
+                const grade = gradeSelect.value;
+                if (validGrades.includes(grade)) {
                     selectedMembers.push({ uid: memberId, grade: grade });
+                } else {
+                    alert("유효하지 않은 등급이 선택되었습니다.");
                 }
-            });
+            }
+        });
 
-            if (selectedMembers.length === 0) {
-                alert("선택된 회원이 없습니다.");
+        if (selectedMembers.length === 0) {
+            alert("선택된 회원이 없습니다.");
+            return;
+        }
+
+        // Ajax 요청으로 선택된 회원 등급 업데이트
+        fetch("/api/admin/member/update-grade", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(selectedMembers)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("서버 응답 오류: " + response.status);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    alert("회원 등급이 성공적으로 수정되었습니다.");
+                    updateMemberGradesInDOM(selectedMembers);
+                } else {
+                    alert(data.message || "등급 수정에 실패했습니다.");
+                }
+            })
+            .catch(error => {
+                console.error("오류:", error);
+                alert("오류가 발생했습니다: " + error.message);
+            });
+    });
+});
+
+function fetchLatestMemberData() {
+    fetch("/api/admin/member/list")
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("서버 응답 오류: " + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log("받아온 데이터:", data); // 데이터를 콘솔에 출력하여 확인
+
+            if (!data || !Array.isArray(data) || data.length === 0) {
+                console.warn("memberList가 비어있거나 없습니다.");
                 return;
             }
 
-            // Ajax 요청
-            fetch("/api/admin/member/update-grade", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(selectedMembers)
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error("서버 응답 오류: " + response.status);
-                    }
-                    return response.text();
-                })
-                .then(text => {
-                    if (!text.trim()) {
-                        throw new Error("서버에서 빈 응답이 수신되었습니다.");
-                    }
+            data.forEach(member => {
+                const memberRow = document.querySelector(`tr[data-member-id="${member.uid}"]`);
+                const gradeSelect = memberRow ? memberRow.querySelector("select[name='grade']") : null;
 
-                    let data;
-                    try {
-                        data = JSON.parse(text);
-                    } catch (error) {
-                        console.error("응답 데이터가 JSON 형식이 아닙니다:", text);
-                        throw new Error("응답 데이터가 유효하지 않습니다.");
-                    }
+                if (gradeSelect) {
+                    // grade 값을 소문자로 변환하여 설정
+                    const gradeValue = member.grade ? member.grade.toLowerCase() : "family"; // 기본값을 family로 설정
+                    console.log(`Setting grade for ${member.uid}: ${gradeValue}`);
+                    gradeSelect.value = gradeValue;
+                } else {
+                    console.warn(`gradeSelect 요소가 없습니다. uid: ${member.uid}`);
+                }
+            });
+        })
+        .catch(error => console.error("최신 데이터 동기화 오류:", error));
+}
 
-                    if (data.success) {
-                        alert("회원 등급이 성공적으로 수정되었습니다.");
-                        selectedMembers.forEach(member => {
-                            const memberRow = document.querySelector(`tr[data-member-id="${member.uid}"]`);
-                            const gradeSelect = memberRow.querySelector("select[name='grade']");
-                            if (gradeSelect) {
-                                gradeSelect.value = member.grade;
-                            }
-                        });
-                    } else {
-                        alert(data.message || "등급 수정에 실패했습니다.");
-                    }
-                })
-                .catch(error => {
-                    console.error("오류:", error);
-                    alert("오류가 발생했습니다: " + error.message);
-                });
-        });
-    } else {
-        console.error("insert_btn 요소를 찾을 수 없습니다.");
-    }
-});
+// 선택된 등급을 DOM에 직접 반영
+function updateMemberGradesInDOM(selectedMembers) {
+    selectedMembers.forEach(member => {
+        const memberRow = document.querySelector(`tr[data-member-id="${member.uid}"]`);
+        if (memberRow) {
+            const gradeSelect = memberRow.querySelector("select[name='grade']");
+            if (gradeSelect) {
+                gradeSelect.value = member.grade; // DOM에 변경된 등급 반영
+            } else {
+                console.warn(`gradeSelect 요소가 없습니다. uid: ${member.uid}`);
+            }
+        } else {
+            console.warn(`memberRow가 존재하지 않습니다. uid: ${member.uid}`);
+        }
+    });
+}

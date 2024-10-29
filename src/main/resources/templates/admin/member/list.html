@@ -43,7 +43,10 @@
                     </select>
                     <input class="searchInput" type="text" name="keyword">
                     <input type="hidden" name="prodSeller" value="ADMIN" readonly>
-                    <input class="searchBtn" type="submit" value="검색">
+                    <!-- 검색 버튼에 아이콘 추가 -->
+                    <button class="searchBtn" type="submit">
+                        <i class="fas fa-search"></i> 검색
+                    </button>
                 </form>
             </div>
             <table class="admingraph">
@@ -64,14 +67,14 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="member, stat : ${memberList}" class="admin_list">
+                <tr th:each="member, stat : ${memberList}" class="admin_list" th:attr="data-member-id=${member.uid}">
                     <td><input type="checkbox" th:value="${member.uid}" name="RowCheck" /></td>
                     <td th:text="${stat.index + 1}">번호</td>
                     <td th:text="${member.uid}">UID</td>
                     <td th:text="${member.name}">이름</td>
                     <td th:text="${member.gender}">성별</td>
                     <td>
-                        <select name="grade" th:value="${member.grade}">
+                        <select name="grade">
                             <option value="vvip" th:selected="${member.grade == 'vvip'}">VVIP</option>
                             <option value="vip" th:selected="${member.grade == 'vip'}">VIP</option>
                             <option value="gold" th:selected="${member.grade == 'gold'}">GOLD</option>
@@ -79,6 +82,7 @@
                             <option value="family" th:selected="${member.grade == 'family'}">FAMILY</option>
                         </select>
                     </td>
+
                     <td th:text="${member.points}">포인트</td>
                     <td th:text="${member.email}">이메일</td>
                     <td th:text="${member.ph}">전화번호</td>
@@ -87,13 +91,26 @@
                     <td th:text="${member.status == 1 ? '정상' : (member.status == 2 ? '중지' : (member.status == 3 ? '휴면' : (member.status == 4 ? '탈퇴' : '상태없음')))}">상태</td>
                     <td style="line-height: 20px">
                         <div style="display: flex; flex-direction: column; align-items: flex-start;">
-                            <a href="#" data-modal="userchangemodal" th:attr="data-user-id=${member.uid}" class="cs_modify-btn" onclick="openUserChangeModal(this)">[수정]</a>
-                            <a href="#" class="cs_delete-btn">[중지]</a>
+                          <!-- Font Awesome CDN 추가 -->
+                            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+                            <!-- 수정 및 중지 버튼 -->
+                            <a href="#" data-modal="userchangemodal" th:attr="data-user-id=${member.uid}"
+                               class="cs_modify-btn styled-button" onclick="openUserChangeModal(this)">
+                                <i class="fas fa-edit"></i> 수정
+                            </a>
+                            <a href="#" class="cs_delete-btn styled-button delete-button">
+                                <i class="fa-regular fa-circle-stop"></i> 중지
+                            </a>
+
+
                         </div>
                 </tr>
                 </tbody>
             </table>
-            <button class="insert_btn">선택수정</button>
+            <button class="insert_btn">
+                <i class="fa-solid fa-pen-to-square"></i>선택수정
+            </button>
             <div class="pagingBox">
                 <div class="pagingList">
                     <!-- 이전 버튼 -->

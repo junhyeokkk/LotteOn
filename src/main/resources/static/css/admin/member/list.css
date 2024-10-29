@@ -68,40 +68,66 @@ input[type="checkbox"] {
 /* 버튼 */
 
 /*검색*/
-.searchBtn {
-    width: 45px;
-    background-color: #D8D8D8;
-    color: #FFFFFF;
-}
+    .searchBtn {
+        width: 85px;
+        height: 40px;
+        display: inline-flex;
+        align-items: center;
+        padding: 8px 16px;
+        font-size: 13px;
+        font-weight: bold;
+        color: white;
+        background-color: #343b4d; /* 버튼 색상 */
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    /* 아이콘과 텍스트 간격 */
+    .searchBtn i {
+        margin-right: 6px; /* 아이콘과 텍스트 사이 간격 */
+        font-size: 16px;
+    }
+
 
 /* [삭제] */
 .cs_delete-btn {
+    margin-left: 20px;
+    margin-top: 5px;
+    margin-bottom: 5px;
     cursor: pointer;
     text-decoration: none;
-    color: #ff0000;
 }
 /* [수정] */
 .cs_modify-btn{
+    margin-top: 5px;
+    margin-left: 20px;
     cursor: pointer;
     text-decoration: none;
-    color: blue;
 }
 
 /* 수정버튼 */
 .insert_btn {
-    float: left;
     width: 100px;
-    height: 37px;
-    padding: 6px;
+    height: 40px;
     margin-top: 10px;
-    border: 1px solid #D9D9D9;
-    font-size: 13px;
+    border: none;
+    font-size: 15px;
     text-align: center;
-    background-color: #BFBFBF;
-    color: #FFFFFF;
-    vertical-align: middle;
+    background-color: #343b4d; /* 버튼 색상 */
+    color: white;
+    border-radius: 4px;
     box-sizing: border-box;
     cursor: pointer;
+
+    align-items: center;
+    font-weight: bold;
+
+
+
+
+
 }
 /* 등록버튼 */
 .registration_btn {
@@ -128,6 +154,50 @@ input[type="checkbox"] {
     margin-top: 40px;
     justify-content: center;
 }
+
+
+/* 공통 스타일 */
+.styled-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 12px;
+    color: white;
+    font-weight: 500;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+    margin-right: 8px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+}
+
+/* 아이콘과 텍스트 간격 조정 */
+.styled-button i {
+    margin-right: 6px;
+    font-size: 16px;
+}
+
+/* 수정 버튼 스타일 */
+.cs_modify-btn {
+    background-color: #394968;
+    border: 1px solid #007c7a;
+}
+
+.cs_modify-btn:hover {
+    background-color: #5a73a1;
+}
+
+/* 중지 버튼 스타일 */
+.delete-button {
+    background-color: #ea6d5f;
+    border: 1px solid #d9534f;
+}
+
+.delete-button:hover {
+    background-color: #d9534f;
+}
+
 
 
 

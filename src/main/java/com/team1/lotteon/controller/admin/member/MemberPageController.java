@@ -39,6 +39,12 @@ public class MemberPageController {
         // 서비스에서 페이징된 회원 목록을 가져옴
         MemberPageResponseDTO responseDTO = adminMemberService.getPagedMembers(pageRequestDTO);
 
+
+        // 디버깅: 각 회원의 ID와 grade 값을 로그로 출력하여 확인
+        responseDTO.getDtoList().forEach(member ->
+                log.info("Member ID: " + member.getUid() + ", Grade: " + member.getGrade())
+        );
+
         // 모델에 회원 목록과 페이지 정보 추가
         model.addAttribute("memberList", responseDTO.getDtoList());
         model.addAttribute("pageInfo", responseDTO);
