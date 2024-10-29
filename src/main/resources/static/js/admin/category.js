@@ -15,7 +15,8 @@ let draggedElement = null; // 드래그한 요소를 저장할 변수
 
 // 드래그 시작
 categoryList.addEventListener('dragstart', function (event) {
-    const target = event.target.closest('.category-item, .subcategory-item'); // 가장 가까운 드래그 가능한 요소 찾기
+    console.log("dragstart")
+    const target = event.target.closest('[data-category-id]'); // 가장 가까운 드래그 가능한 요소 찾기
     if (target) {
         draggedElement = target; // 드래그할 요소를 저장
         event.dataTransfer.effectAllowed = 'move';
@@ -38,38 +39,30 @@ categoryList.addEventListener('dragleave', function (event) {
 });
 
 // 드롭
-categoryList.addEventListener('drop', function (event) {
+categoryList.addEventListener('drop', async function (event) {
     event.preventDefault();
-    const targetElement = event.target.closest('.category-item, .subcategory-item');
+    const targetElement = event.target.closest('[data-category-id]');
+    if (!targetElement || !draggedElement || targetElement === draggedElement) return;
 
-    if (targetElement && draggedElement) {
-        // 같은 계층끼리만 드래그 앤 드롭 가능하게 체크
-        if (draggedElement.classList.contains('category-item') && targetElement.classList.contains('category-item')) {
-            // 1차 카테고리끼리만 이동
-            categoryList.insertBefore(draggedElement, targetElement.nextSibling);
-        } else if (draggedElement.classList.contains('subcategory-item') && targetElement.classList.contains('subcategory-item')) {
-            // 2차 카테고리끼리만 이동
-            const draggedParentCategory = draggedElement.closest('.category-item'); // 드래그된 2차 카테고리의 상위 1차 카테고리
-            const targetParentCategory = targetElement.closest('.category-item'); // 드롭될 2차 카테고리의 상위 1차 카테고리
+    const cateId = draggedElement.dataset.categoryId;
+    const targetId = targetElement.dataset.categoryId;
 
-            // 같은 1차 카테고리 내에서만 2차 카테고리를 이동할 수 있도록 제한
-            if (draggedParentCategory === targetParentCategory) {
-                const subcategoryList = targetElement.closest('.subcategory-list');
-                subcategoryList.insertBefore(draggedElement, targetElement.nextSibling);
-            } else {
-                // 다른 1차 카테고리로 이동 시도 시 경고 메시지
-                alert("2차 카테고리는 다른 1차 카테고리로 이동할 수 없습니다.");
-            }
+    try {
+        const response = await fetch(`/api/cate/${cateId}/displayOrder/${targetId}`, {
+            method: 'PATCH'
+        });
+
+        if (response.ok) {
+            swapElements(draggedElement, targetElement)
         } else {
-            // 다른 계층 간 이동 시 경고 메시지
-            alert("다른 계층 간에는 이동할 수 없습니다.");
+            alert("카테고리 순서 변경에 실패했습니다.");
         }
-    }
-
-    // 드래그한 요소가 존재할 경우에만 클래스를 제거합니다.
-    if (draggedElement) {
+    } catch (e) {
+        alert("카테고리 순서 변경에 실패했습니다.");
+        console.error("Change DisplayOrder Error: ", e);
+    } finally {
         draggedElement.classList.remove('dragging');
-        draggedElement = null; // 드래그한 요소를 초기화
+        draggedElement = null;
     }
 });
 
@@ -106,8 +99,6 @@ document.getElementById('categoryList').addEventListener('click', function (even
     // 2차 카테고리 토글
     const subcategoryHeader = event.target.closest('.subcategory-header');
     if (subcategoryHeader) {
-        console.log("2차 카테고리 토글")
-
         const tertiaryCategoryList = subcategoryHeader.parentNode.querySelector(".tertiary-category-list")
         const addBtn = subcategoryHeader.parentNode.querySelector(".add-btn.add-tertiary-btn");
 
@@ -159,6 +150,13 @@ document.getElementById('addCategoryBtn').addEventListener('click', async functi
                     level: 1,
                 })
             })
+
+        if(!response.ok)
+        {
+            alert("카테고리 생성에 실패했습니다.")
+            return;
+        }
+
 
         const data = await response.json();
         console.log(data)
@@ -246,6 +244,12 @@ document.addEventListener('click', async function (event) {
                     parentId: categoryId
                 }),
             })
+
+            if(!response.ok)
+            {
+                alert("카테고리 생성에 실패했습니다.")
+                return;
+            }
 
             const data = await response.json();
 
@@ -349,6 +353,12 @@ document.addEventListener('click', async function (event) {
                 }),
             });
 
+            if(!response.ok)
+            {
+                alert("카테고리 생성에 실패했습니다.")
+                return;
+            }
+            
             const data = await response.json();
 
 
@@ -395,10 +405,17 @@ document.addEventListener('click', async function (event) {
         }
 
         try {
-            await fetch(`/api/cate/${categoryId}`,
+           const response = await fetch(`/api/cate/${categoryId}`,
                 {
                     method: "delete"
                 })
+
+            if (!response.ok)
+            {
+                alert("카테고리 삭제에 실패했습니다.")
+                return;
+            }                
+            
 
             if (categoryItem) {
                 categoryItem.remove(); // 해당 .category-item 삭제
@@ -418,10 +435,16 @@ document.addEventListener('click', async function (event) {
         }
 
         try {
-            await fetch(`/api/cate/${categoryId}`,
+            const response = await fetch(`/api/cate/${categoryId}`,
                 {
                     method: "delete"
                 })
+
+            if(!response.ok)
+            {
+                alert("카테고리 삭제에 실패했습니다.")
+                return;
+            }
 
             if (subcategoryItem) {
                 subcategoryItem.remove(); // 해당 .subcategory-item 삭제
@@ -442,11 +465,17 @@ document.addEventListener('click', async function (event) {
         }
 
         try {
-            await fetch(`/api/cate/${categoryId}`,
+            const response = await fetch(`/api/cate/${categoryId}`,
                 {
                     method: "delete"
                 })
-
+            
+            if(!response.ok)
+            {
+                alert("카테고리 삭제에 실패했습니다.")
+                return;
+            }
+            
             if (subcategoryItem) {
                 subcategoryItem.remove(); // 해당 .subcategory-item 삭제
             }
@@ -456,3 +485,28 @@ document.addEventListener('click', async function (event) {
         }
     }
 });
+
+function swapElements(element1, element2) {
+    // 두 요소가 부모를 갖고 있는지 확인 (필수)
+    if (!element1 || !element2 || !element1.parentNode || !element2.parentNode) {
+        console.error("두 요소 중 하나에 부모가 없습니다.");
+        return;
+    }
+
+    // element1이 element2 앞에 위치하면 element2 뒤에 element1을 삽입
+    // element2가 element1 앞에 위치하면 element1 뒤에 element2를 삽입하여 위치를 교환
+    const sibling1 = element1.nextSibling;
+    const sibling2 = element2.nextSibling;
+    const parent1 = element1.parentNode;
+    const parent2 = element2.parentNode;
+
+    // 각 부모 요소에 상대적 위치에 삽입하여 위치 교환
+    if (sibling1 === element2) {
+        parent1.insertBefore(element2, element1);
+    } else if (sibling2 === element1) {
+        parent2.insertBefore(element1, element2);
+    } else {
+        parent1.insertBefore(element2, sibling1);
+        parent2.insertBefore(element1, sibling2);
+    }
+}

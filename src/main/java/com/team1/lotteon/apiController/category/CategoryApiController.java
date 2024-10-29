@@ -82,6 +82,13 @@ public class CategoryApiController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @PatchMapping("/{id}/displayOrder/{targetId}")
+    public ResponseEntity<Void> updateCateDisplayOrder(@PathVariable("id") Long id, @PathVariable("targetId") Long targetId) {
+        log.info("origin : {} / target : {}", id, targetId);
+        categoryService.updateCategoryDisplayOrder(id, targetId);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
         categoryService.deleteCategory(id);

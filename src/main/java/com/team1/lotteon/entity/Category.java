@@ -1,10 +1,7 @@
 package com.team1.lotteon.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -22,6 +19,7 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,6 +34,7 @@ public class Category {
     private Category parent;
 
     @Builder.Default
+    @OrderBy("displayOrder ASC")
     @OneToMany(mappedBy = "parent", cascade = CascadeType.REMOVE)
     private List<Category> children = new ArrayList<>();
 
@@ -77,8 +76,15 @@ public class Category {
                 .level(level)
                 .build();
     }
+
     public void changeDisplayOrder(int displayOrder) {
         this.displayOrder = displayOrder;
+    }
+
+    public void changeDisplayOrderWithTargetCate(Category target) {
+        int tmp = this.displayOrder;
+        this.displayOrder = target.getDisplayOrder();
+        target.changeDisplayOrder(tmp);
     }
 
 }

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /*
@@ -104,5 +105,19 @@ public class CategoryService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 카테고리가 없습니다."));
 
         categoryRepository.deleteById(id);
+    }
+
+    public void updateCategoryDisplayOrder(Long id, Long targetId) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 카테고리가 없습니다."));
+        Category targetCategory = categoryRepository.findById(targetId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 카테고리가 없습니다."));
+
+        if (category.getParent() == targetCategory.getParent() && category.getLevel() == targetCategory.getLevel()) {
+            category.changeDisplayOrderWithTargetCate(targetCategory);
+        }else {
+            throw new IllegalArgumentException("카테고리의 레벨 또는 부모가 다릅니다");
+        }
+
     }
 }
