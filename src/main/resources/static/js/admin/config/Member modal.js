@@ -4,6 +4,7 @@ function openUserChangeModal(element) {
     document.querySelector('input[name="zip"]').value = '';
     document.querySelector('input[name="addr1"]').value = '';
     document.querySelector('input[name="addr2"]').value = '';
+
     const uid = element.getAttribute('data-user-id'); // uid를 동적으로 가져옴
     fetch(`/api/admin/member/${uid}`)
         .then(response => {
@@ -119,14 +120,15 @@ function submitForm() {
 
     return false;
 }
+
 /**
  *
  */
 
 // DOM이 완전히 로드된 후 실행
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     // postcode2 함수를 window 객체에 추가
-    window.postcode2 = function() {
+    window.postcode2 = function () {
         // daum Postcode API가 로드되지 않았으면 오류 로그 출력
         if (typeof daum === 'undefined' || !daum.Postcode) {
             console.error("Daum Postcode API가 로드되지 않았습니다.");
@@ -134,7 +136,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         new daum.Postcode({
-            oncomplete: function(data) {
+            oncomplete: function (data) {
                 // 각 주소의 노출 규칙에 따라 주소를 조합한다.
                 var addr = ''; // 주소 변수
                 var extraAddr = ''; // 참고항목 변수
@@ -170,4 +172,84 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         }).open();
     };
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const insertBtn = document.querySelector(".insert_btn");
+
+    if (insertBtn) {
+        insertBtn.addEventListener("click", function () {
+            let selectedMembers = [];  // 여기에서 선언
+
+            const checkboxes = document.querySelectorAll("input[name='RowCheck']:checked");
+            const validGrades = ["vvip", "vip", "gold", "silver", "family"];
+
+            checkboxes.forEach(checkbox => {
+                const memberRow = checkbox.closest("tr");
+                const memberId = checkbox.value;
+                const gradeSelect = memberRow.querySelector("select[name='grade']");
+
+                if (gradeSelect) {
+                    const grade = gradeSelect.value;
+                    if (!validGrades.includes(grade)) {
+                        alert("유효하지 않은 등급이 선택되었습니다.");
+                        return;
+                    }
+                    selectedMembers.push({ uid: memberId, grade: grade });
+                }
+            });
+
+            if (selectedMembers.length === 0) {
+                alert("선택된 회원이 없습니다.");
+                return;
+            }
+
+            // Ajax 요청
+            fetch("/api/admin/member/update-grade", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(selectedMembers)
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("서버 응답 오류: " + response.status);
+                    }
+                    return response.text();
+                })
+                .then(text => {
+                    if (!text.trim()) {
+                        throw new Error("서버에서 빈 응답이 수신되었습니다.");
+                    }
+
+                    let data;
+                    try {
+                        data = JSON.parse(text);
+                    } catch (error) {
+                        console.error("응답 데이터가 JSON 형식이 아닙니다:", text);
+                        throw new Error("응답 데이터가 유효하지 않습니다.");
+                    }
+
+                    if (data.success) {
+                        alert("회원 등급이 성공적으로 수정되었습니다.");
+                        selectedMembers.forEach(member => {
+                            const memberRow = document.querySelector(`tr[data-member-id="${member.uid}"]`);
+                            const gradeSelect = memberRow.querySelector("select[name='grade']");
+                            if (gradeSelect) {
+                                gradeSelect.value = member.grade;
+                            }
+                        });
+                    } else {
+                        alert(data.message || "등급 수정에 실패했습니다.");
+                    }
+                })
+                .catch(error => {
+                    console.error("오류:", error);
+                    alert("오류가 발생했습니다: " + error.message);
+                });
+        });
+    } else {
+        console.error("insert_btn 요소를 찾을 수 없습니다.");
+    }
 });

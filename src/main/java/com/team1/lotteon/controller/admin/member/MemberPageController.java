@@ -26,13 +26,9 @@ import java.awt.*;
 @RequiredArgsConstructor
 @Controller
 public class MemberPageController {
-
     private final AdminMemberService adminMemberService;
-
     private final PointService pointService;
-
     private final DateUtil dateUtil;
-
 
     @GetMapping("/admin/member/list")
     public String list(@ModelAttribute MemberPageRequestDTO pageRequestDTO, Model model) {
@@ -45,9 +41,9 @@ public class MemberPageController {
         log.info("memberList: " + responseDTO.getDtoList());
 
         return "admin/member/list";
+
+
     }
-
-
 
     @GetMapping("/admin/member/point")
     public String point(

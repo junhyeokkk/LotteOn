@@ -7,7 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/admin/member")
@@ -49,5 +51,38 @@ public class MemberApiController {
     public ResponseEntity<Void> deleteMember(@PathVariable String uid) {
         adminMemberService.deleteMember(uid);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PostMapping("/update-grade")
+    public ResponseEntity<Map<String, Object>> updateMemberGrade(@RequestBody List<GeneralMemberDTO> memberUpdates) {
+        Map<String, Object> response = new HashMap<>();
+
+        // 업데이트할 회원 정보가 비어있지 않은지 확인
+        if (memberUpdates == null || memberUpdates.isEmpty()) {
+            response.put("success", false);
+            response.put("message", "업데이트할 회원 정보가 비어있습니다.");
+            return ResponseEntity.badRequest().body(response); // 요청이 비어있다면 400 Bad Request 응답
+        }
+
+        try {
+            for (GeneralMemberDTO updateRequest : memberUpdates) {
+                // 회원 ID가 null인지 확인
+                if (updateRequest.getUid() == null) {
+                    throw new IllegalArgumentException("회원 id가 null 입니다."); // IllegalArgumentException 발생
+                }
+
+                // 회원 등급을 업데이트
+                adminMemberService.updateMemberGrade(updateRequest.getUid(), updateRequest.getGrade());
+            }
+
+            response.put("success", true);
+            response.put("message", "회원 등급이 성공적으로 수정되었습니다.");
+            return ResponseEntity.ok(response); // 성공적으로 처리된 경우 200 OK와 JSON 응답 반환
+
+        } catch (IllegalArgumentException e) {
+            response.put("success", false);
+            response.put("message", e.getMessage());
+            return ResponseEntity.badRequest().body(response); // 유효하지 않은 요청일 경우 400 Bad Request와 JSON 응답 반환
+        }
     }
 }

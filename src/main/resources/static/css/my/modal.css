@@ -296,10 +296,17 @@
 }
 
 .mbbtn {
-    margin-left: 90%;
-    width: 65px;
-    height: 30px;
-    margin-top: 5px;
+    margin-left: 87%;
+        height: 35px;
+        width: 80px;
+        background-color: #34495e;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        margin-top: 3px;
+        margin-bottom: 3px;
+        line-height: 30px;
 }
 
 .postbtn {

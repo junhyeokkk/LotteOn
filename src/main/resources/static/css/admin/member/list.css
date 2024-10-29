@@ -87,8 +87,8 @@ input[type="checkbox"] {
     color: blue;
 }
 
-/* 삭제버튼 */
-.delete_btn {
+/* 수정버튼 */
+.insert_btn {
     float: left;
     width: 100px;
     height: 37px;
