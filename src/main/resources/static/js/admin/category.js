@@ -163,7 +163,8 @@ document.getElementById('addCategoryBtn').addEventListener('click', async functi
         // 새로운 1차 카테고리 HTML 요소
         const newCategoryItem = document.createElement('li');
         newCategoryItem.classList.add('category-item');
-        newCategoryItem.dataset.categoryId = data.id
+        newCategoryItem.dataset.categoryId = data.id;
+        newCategoryItem.draggable=true;
         newCategoryItem.innerHTML = `
                 <div class="category-header">
                     <span class="toggle-icon">▶</span>
@@ -257,6 +258,7 @@ document.addEventListener('click', async function (event) {
             const newSubcategoryItem = document.createElement('li');
             newSubcategoryItem.classList.add('subcategory-item');
             newSubcategoryItem.dataset.categoryId = data.id
+            newSubcategoryItem.draggable=true;
             newSubcategoryItem.innerHTML = `
             <div class="subcategory-header">
                 <span class="toggle-icon">▶</span>
@@ -366,6 +368,7 @@ document.addEventListener('click', async function (event) {
             const newSubcategoryItem = document.createElement('li');
             newSubcategoryItem.dataset.categoryId=data.id;
             newSubcategoryItem.classList.add('tertiary-category-item');
+            newSubcategoryItem.draggable=true;
             newSubcategoryItem.innerHTML = `
            <li class="tertiary-category-item" draggable="true">
                 <span>${subcategoryName}</span>
