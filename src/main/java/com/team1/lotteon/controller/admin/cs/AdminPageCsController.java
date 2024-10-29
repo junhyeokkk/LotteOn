@@ -73,4 +73,11 @@ public class AdminPageCsController {
 
         return "admin/cs/qna/reply";
     }
+
+    // 채용하기
+    @GetMapping("/admin/cs/recruit/list")
+    public String recruit_list(){
+
+        return "admin/cs/recruit/list";
+    }
 }
