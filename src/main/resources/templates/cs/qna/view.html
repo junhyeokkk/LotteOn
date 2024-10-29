@@ -33,21 +33,13 @@
         <h2 th:text="${inquiry.title}">회원 관련 문의 내용입니다.</h2> <!-- 문의 제목 -->
       </nav>
       <div class="content">
-        <div style="font-size: 20px; font-weight: bold; padding: 30px 0; border-bottom: 1px solid #BFBFBF;">[가입] 가입문의내용</div>
-        <div style="padding: 30px 0; border-bottom: 1px solid #BFBFBF;">회원가입 하고 싶어요. 어떻게 해야하나요 ?</div>
-        <div>
-          <div style="font-size: 20px; font-weight: bold; padding: 30px 0; border-bottom: 1px solid #BFBFBF;">[답변] 가입문의내용</div>
-          <div style="padding: 30px 0; border-bottom: 1px solid #BFBFBF;">안녕하세요. 회원님 회원가입하시면 됩니다.</div>
-        </div>
-
-
-        <!-- 각 문의 내용이 반복적으로 처리되도록 함 -->
-<!--        <div class="qna-item">-->
-<!--          <button class="qna-question" onclick="toggleFaq(this)" th:text="|${inquiry.title}, ${inquiry.content}|">[문의제목] 롯데상품권을 사용할 수 있나요?</button>-->
+        <div class="qna-item">
+          <button class="qna-question" onclick="toggleFaq(this)" th:text="|${inquiry.title}, ${inquiry.content}|"></button>
+          <div class="qna-answer" th:text="${inquiry.answer} ?: '답변이 없습니다.'"></div>
 <!--          <div class="qna-answer" th:text="${inquiry.answer}">-->
-<!--            &lt;!&ndash; 여기에는 문의 내용이 동적으로 출력됨 &ndash;&gt;-->
-<!--          </div>-->
-<!--        </div>-->
+            <!-- 여기에는 문의 내용이 동적으로 출력됨 -->
+          </div>
+        </div>
 
         <!-- 추가적인 문의 사항들 -->
 <!--        <div class="qna-item">-->
@@ -72,7 +64,7 @@
   <script>
     function toggleFaq(button) {
       const faqAnswer = button.nextElementSibling;
-      const allAnswers = document.querySelectorAll('.qna-answer');
+      const allAnswers = document.querySelector('.qna-answer');
 
       // 모든 열린 답변 닫기
       allAnswers.forEach(answer => {

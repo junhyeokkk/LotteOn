@@ -6,10 +6,12 @@ import com.team1.lotteon.dto.cs.InquiryDTO;
 import com.team1.lotteon.dto.cs.NoticeDTO;
 import com.team1.lotteon.service.article.ArticleServiceImpl;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,8 +20,12 @@ import java.util.List;
 *   날짜 : 2024/10/23
 *   이름 : 김소희
 *   내용 : CsController 생성
+*
+*   수정이력
+*  -2024/10/29 김소희 - 카테고리 추가
 */
 
+@Log4j2
 @RestController
 @RequestMapping
 @RequiredArgsConstructor
@@ -41,8 +47,10 @@ public class CsController {
     }
 //    글보기
     @GetMapping("/api/cs/qna/view/{id}")
-    public ResponseEntity<InquiryDTO> getInquiryById(@PathVariable Long id) {
+    public ResponseEntity<InquiryDTO> getInquiryById(@PathVariable Long id , Model model) {
         InquiryDTO inquiry = articleService.getInquiryById(id);
+        model.addAttribute("test", inquiry);
+        log.info("test1"+inquiry);
         return ResponseEntity.ok(inquiry);
     }
 //    글삭제
@@ -50,6 +58,12 @@ public class CsController {
     public ResponseEntity<Void> deleteInquiry(@PathVariable Long id) {
         articleService.deleteInquiry(id);
         return ResponseEntity.noContent().build();
+    }
+//    QNA 카테고리
+    @GetMapping("/api/cs/qna/list/{type2}")
+    public ResponseEntity<PageResponseDTO<InquiryDTO>> getInquirysByType(@PathVariable String type2, @PageableDefault Pageable pageable) {
+        PageResponseDTO<InquiryDTO> inquirysByType = articleService.findQnaByType2(type2, pageable); // Pageable 추가
+        return ResponseEntity.ok(inquirysByType);
     }
 
 
@@ -72,6 +86,12 @@ public class CsController {
         NoticeDTO notices = articleService.getNoticeById(id);
         return ResponseEntity.ok(notices);
     }
+//    Notice 카테고리
+    @GetMapping("/api/cs/notice/list/{type1}")
+    public ResponseEntity<PageResponseDTO<NoticeDTO>> getNoticesByType(@PathVariable String type1, @PageableDefault Pageable pageable) {
+        PageResponseDTO<NoticeDTO> noticesByType = articleService.findNoticeByType1(type1, pageable); // Pageable 추가
+        return ResponseEntity.ok(noticesByType);
+    }
 
 
 //    Faq 자주묻는질문
@@ -93,5 +113,12 @@ public class CsController {
         FaqDTO faqs = articleService.getFaqById(id);
         return ResponseEntity.ok(faqs);
     }
+//    FAQ 카테고리
+    @GetMapping("/api/cs/faq/list/{type2}")
+    public ResponseEntity<PageResponseDTO<FaqDTO>> getFaqsByType(@PathVariable String type2, @PageableDefault Pageable pageable) {
+        PageResponseDTO<FaqDTO> faqsByType = articleService.findFaqByType2(type2, pageable); // Pageable 추가
+        return ResponseEntity.ok(faqsByType);
+    }
+
 
 }

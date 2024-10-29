@@ -11,8 +11,11 @@ import com.team1.lotteon.repository.InquiryRepository;
 import com.team1.lotteon.repository.Memberrepository.MemberRepository;
 import com.team1.lotteon.repository.NoticeRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Range;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,12 +25,16 @@ import java.util.stream.Collectors;
  *   날짜 : 2024/10/22
  *   이름 : 김소희
  *   내용 : ArticleServiceImpl 생성
+ *
+ *  수정이력
+ *  - 2024/10/29 김소희 - PageResponseDTO<> findFaqByType 추가
  */
 
 @RequiredArgsConstructor
 @Service
 public class ArticleServiceImpl implements ArticleService {
 
+    private static final Logger log = LogManager.getLogger(ArticleServiceImpl.class);
     private final FaqRepository faqRepository;
     private final InquiryRepository inquiryRepository;
     private final NoticeRepository noticeRepository;
@@ -98,6 +105,14 @@ public class ArticleServiceImpl implements ArticleService {
         faqRepository.deleteById(id.intValue());
     }
 
+    @Override
+    public PageResponseDTO<FaqDTO> findFaqByType2(String type2, Pageable pageable) {
+        Page<FaqDTO> faqsPage = faqRepository.findByType2(type2, pageable)
+                .map(this::convertToFaqDTO);
+        return PageResponseDTO.fromPage(faqsPage);
+    }
+
+
 
     //  Inquiry 문의하기
     @Override
@@ -110,6 +125,8 @@ public class ArticleServiceImpl implements ArticleService {
     public InquiryDTO getInquiryById(Long id) {
         Inquiry inquiry = inquiryRepository.findById(id.intValue())
                 .orElseThrow(() -> new RuntimeException("Inquiry not found"));
+        log.info("test123"+ inquiry);
+        log.info("test11112313 = " + convertToInquiryDTO(inquiry));
         return convertToInquiryDTO(inquiry);
     }
     @Override
@@ -133,6 +150,13 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public void deleteInquiry(Long id) {
         inquiryRepository.deleteById(id.intValue());
+    }
+
+    @Override
+    public PageResponseDTO<InquiryDTO> findQnaByType2(String type2, Pageable pageable){
+        Page<InquiryDTO> inquirysPage = inquiryRepository.findByType2(type2, pageable)
+                .map(this::convertToInquiryDTO);
+        return PageResponseDTO.fromPage(inquirysPage);
     }
 
 
@@ -170,6 +194,13 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public void deleteNotice(Long id) {
         noticeRepository.deleteById(id.intValue());
+    }
+//  notice 카테고리
+    @Override
+    public PageResponseDTO<NoticeDTO> findNoticeByType1(String type1, Pageable pageable) {
+        Page<NoticeDTO> noticesPage = noticeRepository.findByType1(type1, pageable)
+                .map(this::convertToNoticeDTO);
+        return PageResponseDTO.fromPage(noticesPage);
     }
 
 

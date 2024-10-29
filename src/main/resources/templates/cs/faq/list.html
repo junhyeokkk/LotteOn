@@ -17,15 +17,16 @@
   <section class="list">
     <aside class="cs_sidebar">
       <h2>자주묻는질문</h2>
-      <ul>
-        <li><a href="#">회원</a></li>
-        <li><a href="#">쿠폰 / 이벤트</a></li>
-        <li><a href="#">주문 / 결제</a></li>
-        <li><a href="#">배송</a></li>
-        <li><a href="#">취소 / 반품 / 교환</a></li>
-        <li><a href="#">여행 / 숙박 / 항공</a></li>
-        <li><a href="#">안전거래</a></li>
-      </ul>
+        <ul>
+          <li><a href="javascript:void(0);" onclick="loadFaqsByType('회원')">회원</a></li>
+          <li><a href="javascript:void(0);" onclick="loadFaqsByType('쿠폰 / 이벤트')">쿠폰 / 이벤트</a></li>
+          <li><a href="javascript:void(0);" onclick="loadFaqsByType('주문 / 결제')">주문 / 결제</a></li>
+          <li><a href="javascript:void(0);" onclick="loadFaqsByType('배송')">배송</a></li>
+          <li><a href="javascript:void(0);" onclick="loadFaqsByType('취소 / 반품 / 교환')">취소 / 반품 / 교환</a></li>
+          <li><a href="javascript:void(0);" onclick="loadFaqsByType('여행 / 숙박 / 항공')">여행 / 숙박 / 항공</a></li>
+          <li><a href="javascript:void(0);" onclick="loadFaqsByType('안전거래')">안전거래</a></li>
+        </ul>
+
     </aside>
     <article class="faq_article">
       <nav>
@@ -33,6 +34,14 @@
         <h2>회원관련 자주 묻는 질문입니다.</h2>
       </nav>
       <div class="faq-section">
+<!--        <div class="faq-section">-->
+<!--          &lt;!&ndash; FAQ 항목들이 여기에 렌더링됩니다. &ndash;&gt;-->
+<!--        </div>-->
+
+        <div class="pagination">
+          <!-- 페이지 버튼이 여기에 추가됩니다. -->
+        </div>
+
 
         <!-- FAQ 목록 동적 처리 -->
         <div class="category" th:each="faq : ${faqs}">
@@ -49,6 +58,7 @@
         <button class="simple-view">간단히 보기</button>
         <button class="more-view">더 보기 <span class="count" th:text="${faqs != null ? faqs.size() : 0}">0</span></button>
       </div>
+      <script src="/js/cs/faq.js"></script>
     </article>
   </section>
 </div>

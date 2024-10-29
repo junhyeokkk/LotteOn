@@ -5,7 +5,6 @@ import com.team1.lotteon.dto.cs.ArticleDTO;
 import com.team1.lotteon.dto.cs.FaqDTO;
 import com.team1.lotteon.dto.cs.InquiryDTO;
 import com.team1.lotteon.dto.cs.NoticeDTO;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -17,6 +16,7 @@ import java.util.List;
  *
  *   수정이력
  *   2024/10/25 김소희 - ArticleServiceImpl 추가를 위해 interface로 수정
+ *   2024/10/29 김소희 - PageResponseDTO<> findFaqByType 추가
  */
 
 public interface ArticleService {
@@ -34,6 +34,7 @@ public interface ArticleService {
     List<FaqDTO> getAllFaqs();
     FaqDTO updateFaq(Long id, FaqDTO faqDTO);
     void deleteFaq(Long id);
+    PageResponseDTO<FaqDTO> findFaqByType2(String type2, Pageable pageable);
 
     // Inquiry
     InquiryDTO createInquiry(InquiryDTO inquiryDTO);
@@ -41,6 +42,7 @@ public interface ArticleService {
     PageResponseDTO<InquiryDTO> getAllInquiries(Pageable pageable);
     InquiryDTO updateInquiry(Long id, InquiryDTO inquiryDTO);
     void deleteInquiry(Long id);
+    PageResponseDTO<InquiryDTO> findQnaByType2(String type2, Pageable pageable);
 
     // Notice
     NoticeDTO createNotice(NoticeDTO noticeDTO);
@@ -48,5 +50,6 @@ public interface ArticleService {
     PageResponseDTO<NoticeDTO> getAllNotices(Pageable pageable);
     NoticeDTO updateNotice(Long id, NoticeDTO noticeDTO);
     void deleteNotice(Long id);
+    PageResponseDTO<NoticeDTO> findNoticeByType1(String type1, Pageable pageable);
 
 }

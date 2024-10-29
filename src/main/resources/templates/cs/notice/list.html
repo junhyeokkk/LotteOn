@@ -18,11 +18,11 @@
     <aside class="cs_sidebar">
       <h2>공지사항</h2>
       <ul>
-        <li><a href="#">전체</a></li>
-        <li><a href="#">고객서비스</a></li>
-        <li><a href="#">안전거래</a></li>
-        <li><a href="#">위해상품</a></li>
-        <li><a href="#">이벤트당첨</a></li>
+        <li><a href="javascript:void(0);" onclick="loadNoticesByType('전체')">전체</a></li>
+        <li><a href="javascript:void(0);" onclick="loadNoticesByType('고객서비스')">고객서비스</a></li>
+        <li><a href="javascript:void(0);" onclick="loadNoticesByType('안전거래')">안전거래</a></li>
+        <li><a href="javascript:void(0);" onclick="loadNoticesByType('위해상품')">위해상품</a></li>
+        <li><a href="javascript:void(0);" onclick="loadNoticesByType('이벤트당첨')">이벤트당첨</a></li>
       </ul>
     </aside>
     <article class="no_article">
@@ -61,6 +61,7 @@
              class="next">›</a>
         </div>
       </div>
+      <script src="/js/cs/notice.js"></script>
     </article>
   </section>
 </div>

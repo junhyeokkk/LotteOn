@@ -8,6 +8,7 @@
 <th:block layout:fragment="css">
     <link rel="stylesheet" th:href="@{/css/admin/cs/notice/list.css}" />
 </th:block>
+
 <!-- index.html 고유 스크립트 추가 -->
 <th:block layout:fragment="script">
 </th:block>
@@ -23,12 +24,12 @@
         <section class="sectionBox">
             <div>
                 <select name="type" onchange="firstOption()">
-                    <productOption>유형선택</productOption>
-                    <productOption value="all">전체</productOption>
-                    <productOption value="service">고객서비스</productOption>
-                    <productOption value="safe">안전거래</productOption>
-                    <productOption value="danger">위해상품</productOption>
-                    <productOption value="event">이벤트당첨</productOption>
+                    <option>유형선택</option>
+                    <option value="all">전체</option>
+                    <option value="service">고객서비스</option>
+                    <option value="safe">안전거래</option>
+                    <option value="danger">위해상품</option>
+                    <option value="event">이벤트당첨</option>
                 </select>
             </div>
             <table class="admingraph">
@@ -42,69 +43,51 @@
                     <th>관리</th>
                 </tr>
 
-                <tr class="admin_list">
-                    <td><input type="checkbox" value="noticeNo" name="RowCheck" /></td>
-                    <td>100</td>
-                    <td style="white-space: nowrap;">[유형선택]</td>
+                <!-- 공지사항 목록 동적 처리 -->
+                <tr class="admin_list" th:each="notice, iterStat : ${notices}">
+                    <td><input type="checkbox" th:value="${notice.id}" name="RowCheck" /></td>
+                    <td th:text="${iterStat.count}">1</td>
+                    <td th:text="${notice.type1}">[유형]</td>
                     <td style="text-align: left">
                         <span>
-                            <a th:href="@{/admin/cs/notice/view}">
-                                <span style="white-space: nowrap;">[안내] 제목</span>
+                            <a th:href="@{/admin/cs/notice/view(id=${notice.id})}">
+                                <span th:text="${notice.title}" style="white-space: nowrap;">[안내] 제목</span>
                             </a>
                         </span>
                     </td>
-                    <td>120</td>
-                    <td style="white-space: nowrap;">2024-10-14</td>
+                    <td th:text="${notice.views}">120</td>
+                    <td th:text="${#temporals.format(notice.createdAt, 'yyyy-MM-dd')}">2024-10-14</td>
                     <td style="line-height: 20px">
-                        <a onclick="modifyProdStatus()" class="cs_delete-btn">[삭제]</a>
+                        <a href="javascript:void(0);" onclick="deleteNotice(${notice.id})" class="cs_delete-btn">[삭제]</a>
                         <br>
-                        <a href="" class="cs_modify-btn">[수정]</a>
+                        <a th:href="@{/admin/cs/notice/edit(id=${notice.id})}" class="cs_modify-btn">[수정]</a>
                     </td>
                 </tr>
-
-                <tr class="admin_list">
-                    <td><input type="checkbox" value="noticeNo" name="RowCheck" /></td>
-                    <td>100</td>
-                    <td style="white-space: nowrap;">[유형선택]</td>
-                    <td style="text-align: left">
-                        <span>
-                            <a th:href="@{/admin/cs/notice/view}">
-                                <span style="white-space: nowrap;">[안내] 제목</span>
-                            </a>
-                        </span>
-                    </td>
-                    <td>120</td>
-                    <td style="white-space: nowrap;">2024-10-14</td>
-                    <td style="line-height: 20px">
-                        <a onclick="modifyProdStatus()" class="cs_delete-btn">[삭제]</a>
-                        <br>
-                        <a href="" class="cs_modify-btn">[수정]</a>
-                    </td>
-                </tr>
-
             </table>
-            <a class="delete_btn">선택삭제</a>
+
+            <a class="delete_btn" href="javascript:void(0);" onclick="deleteSelectedNotices()">선택삭제</a>
             <a th:href="@{/admin/cs/notice/write}" class="registration_btn">작성하기</a>
 
             <div class="pagingBox">
                 <div class="pagingList">
                     <!-- 이전 버튼 -->
-                    <a href="#" class="prev"><</a>
+                    <a th:unless="${currentPage == 0}"
+                       th:href="@{/admin/cs/notice/list(page=${currentPage - 1}, size=${pageSize})}"
+                       class="prev">‹</a>
 
-                    <!-- 페이지 링크 -->
-                    <a href="#">1</a>
-                    <a href="#" class="active">2</a>
-                    <a href="#">3</a>
-                    <a href="#">4</a>
-                    <a href="#">5</a>
+                    <!-- 페이지 번호 링크 동적 처리 -->
+                    <a th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}"
+                       th:href="@{/admin/cs/notice/list(page=${pageNum}, size=${pageSize})}"
+                       th:text="${pageNum + 1}"
+                       th:classappend="${pageNum == currentPage} ? 'active'">1</a>
 
                     <!-- 다음 버튼 -->
-                    <a href="#" class="next">></a>
+                    <a th:if="${!isLast}"
+                       th:href="@{/admin/cs/notice/list(page=${currentPage + 1}, size=${pageSize})}"
+                       class="next">›</a>
                 </div>
             </div>
-
         </section>
-
     </div>
 </div>
 </html>
