@@ -5,6 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 /*
  *   날짜 : 2024/10/21
  *   이름 : 김소희
@@ -15,4 +17,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface FaqRepository extends JpaRepository<FAQ, Integer> {
     Page<FAQ> findByType2(String type2, Pageable pageable);
+    public List<FAQ> findTop10ByOrderByCreatedAtDesc();
 }

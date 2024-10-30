@@ -35,6 +35,7 @@ public interface ArticleService {
     FaqDTO updateFaq(Long id, FaqDTO faqDTO);
     void deleteFaq(Long id);
     PageResponseDTO<FaqDTO> findFaqByType2(String type2, Pageable pageable);
+    List<FaqDTO> findTop10ByOrderByCreatedAtDesc();
 
     // Inquiry
     InquiryDTO createInquiry(InquiryDTO inquiryDTO);

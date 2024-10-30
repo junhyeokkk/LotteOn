@@ -15,10 +15,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Range;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
 /*
@@ -104,12 +104,18 @@ public class ArticleServiceImpl implements ArticleService {
     public void deleteFaq(Long id) {
         faqRepository.deleteById(id.intValue());
     }
-
     @Override
     public PageResponseDTO<FaqDTO> findFaqByType2(String type2, Pageable pageable) {
         Page<FaqDTO> faqsPage = faqRepository.findByType2(type2, pageable)
                 .map(this::convertToFaqDTO);
         return PageResponseDTO.fromPage(faqsPage);
+    }
+    @Override
+    public List<FaqDTO> findTop10ByOrderByCreatedAtDesc() {
+        List<FAQ> faqs = faqRepository.findTop10ByOrderByCreatedAtDesc();
+        return faqs.stream()
+                .map(this::convertToFaqDTO)
+                .collect(Collectors.toList());
     }
 
 
@@ -125,7 +131,6 @@ public class ArticleServiceImpl implements ArticleService {
     public InquiryDTO getInquiryById(Long id) {
         Inquiry inquiry = inquiryRepository.findById(id.intValue())
                 .orElseThrow(() -> new RuntimeException("Inquiry not found"));
-        log.info("test123"+ inquiry);
         log.info("test11112313 = " + convertToInquiryDTO(inquiry));
         return convertToInquiryDTO(inquiry);
     }
@@ -173,11 +178,31 @@ public class ArticleServiceImpl implements ArticleService {
                 .orElseThrow(() -> new RuntimeException("Notice not found"));
         return convertToNoticeDTO(notice);
     }
+//    @Override
+//    public PageResponseDTO<NoticeDTO> getAllNotices(Pageable pageable) {
+//        Page<Notice> notices = noticeRepository.findAll(pageable);
+//        return PageResponseDTO.fromPage(notices.map(this::convertToNoticeDTO));
+//    }
     @Override
     public PageResponseDTO<NoticeDTO> getAllNotices(Pageable pageable) {
         Page<Notice> notices = noticeRepository.findAll(pageable);
-        return PageResponseDTO.fromPage(notices.map(this::convertToNoticeDTO));
+        long totalElements = notices.getTotalElements();
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+
+        // 현재 페이지에서 첫 번째 글번호 계산
+        AtomicLong startNumber = new AtomicLong(totalElements - (currentPage * pageSize));
+
+        Page<NoticeDTO> noticeDTOs = notices
+                .map(notice -> {
+                    NoticeDTO dto = convertToNoticeDTO(notice);
+                    dto.setDisplayNumber(startNumber.getAndDecrement());  // 번호 할당 후 감소
+                    return dto;
+                });
+
+        return PageResponseDTO.fromPage(noticeDTOs);
     }
+
     @Override
     public NoticeDTO updateNotice(Long id, NoticeDTO noticeDTO) {
         Notice existingNotice = noticeRepository.findById(id.intValue())
@@ -244,6 +269,7 @@ public class ArticleServiceImpl implements ArticleService {
                 .createdAt(inquiry.getCreatedAt())
                 .updatedAt(inquiry.getUpdatedAt())
                 .memberId(inquiry.getMember() !=null ? inquiry.getMember().getUid() : null)
+                .answer(inquiry.getAnswer())
                 .build();
 
     }
@@ -270,7 +296,7 @@ public class ArticleServiceImpl implements ArticleService {
                 .type1(notice.getType1())
                 .createdAt(notice.getCreatedAt())
                 .updatedAt(notice.getUpdatedAt())
-                .memberId(notice.getMember().getUid() !=null ? notice.getMember().getUid() : null)
+                .memberId(notice.getMember() != null ? notice.getMember().getUid() : null) // null 체크 추가
                 .build();
     }
 

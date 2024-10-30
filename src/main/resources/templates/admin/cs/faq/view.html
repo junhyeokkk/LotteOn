@@ -8,6 +8,7 @@
 <th:block layout:fragment="css">
   <link rel="stylesheet" th:href="@{/css/admin/cs/faq/view.css}" />
 </th:block>
+
 <!-- index.html 고유 스크립트 추가 -->
 <th:block layout:fragment="script">
 </th:block>
@@ -23,24 +24,31 @@
         <table>
           <tr>
             <td>유형</td>
-            <td>회원 - 가입</td>
+            <td th:text="${faq.type1} + ' - ' + ${faq.type2}">회원 - 가입</td>
           </tr>
           <tr>
             <td>제목</td>
-            <td>개인회원과 법인회원에 차이가 있나요?</td>
+            <td th:text="${faq.title}">개인회원과 법인회원에 차이가 있나요?</td>
           </tr>
           <tr>
             <td>내용</td>
             <td>
-                <textarea class="notice_view_content" name="qnaContent" placeholder="공지사항내용출력." readonly>개인회원은 본인인증, 법인회원은 사업자등록번호를 기준으로 사업자 인증 후 가입이 가능합니다. 개인회원에서 법인회원(사업자회원) 으로 전환은 불가하므로 법인회원 (사업자회원) 전환은 신규가입으로 진행해야합니다.
-                </textarea>
+              <textarea class="notice_view_content" name="qnaContent" readonly
+                        th:text="${faq.content}" placeholder="공지사항내용출력.">
+              </textarea>
             </td>
           </tr>
         </table>
         <div style="text-align: center; margin-top: 50px">
-          <a th:href="@{/admin/cs/faq/list}"><input type="submit" value="삭제" style="background-color: #9e9e9e; color: white; border: none; padding: 10px 20px; cursor: pointer;"/></a>
-          <a th:href="@{/admin/cs/faq/modify}"><input type="button" value="수정" style="background-color: #9e9e9e; color: white; border: none; padding: 10px 20px; cursor: pointer;"/></a>
-          <a th:href="@{/admin/cs/faq/list}"><input type="button" value="목록" style="background-color: #4291e9; color: white; border: none; padding: 10px 20px; cursor: pointer;"/></a>
+          <a th:href="@{/admin/cs/faq/delete(id=${faq.id})}">
+            <button type="button" style="background-color: #9e9e9e; color: white; border: none; padding: 10px 20px; cursor: pointer;">삭제</button>
+          </a>
+          <a th:href="@{/admin/cs/faq/modify(id=${faq.id})}">
+            <button type="button" style="background-color: #9e9e9e; color: white; border: none; padding: 10px 20px; cursor: pointer;">수정</button>
+          </a>
+          <a th:href="@{/admin/cs/faq/list}">
+            <button type="button" style="background-color: #4291e9; color: white; border: none; padding: 10px 20px; cursor: pointer;">목록</button>
+          </a>
         </div>
       </form>
     </article>

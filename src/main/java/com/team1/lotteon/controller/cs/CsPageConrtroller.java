@@ -95,6 +95,9 @@ private final ArticleService articleService;
     // 문의하기 글쓰기
     @PostMapping("/cs/layout/qna/write")
     public String writeQna(InquiryDTO inquiryDTO){
+        //30일 수정해야할 부분
+        inquiryDTO.setType1("inquiry");
+        inquiryDTO.setType2("회원");
         articleService.createInquiry(inquiryDTO);
         return "redirect:/cs/layout/qna/list";
     }

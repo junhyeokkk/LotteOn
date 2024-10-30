@@ -31,6 +31,7 @@ public class ArticleDTO {
     private String content;
     private String title;
 
+    private long displayNumber;
     private String type1;
     private String memberId;
 

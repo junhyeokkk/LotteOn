@@ -36,7 +36,34 @@
         <div class="qna-item">
           <button class="qna-question" onclick="toggleFaq(this)" th:text="|${inquiry.title}, ${inquiry.content}|"></button>
           <div class="qna-answer" th:text="${inquiry.answer} ?: '답변이 없습니다.'"></div>
-<!--          <div class="qna-answer" th:text="${inquiry.answer}">-->
+<!-- 안되었었던 이유는 : 스크립트 처리가 데이터 가져오고 바로 하기에 body내부에 있었어야함 그래서 테스트로 사용 시 적용 되는 화면 확인 -->
+          <script>
+            function toggleFaq(button) {
+              const faqAnswer = button.nextElementSibling;
+              // 클래스 이름을 찾기
+              const allAnswers = document.querySelectorAll('.qna-answer');
+
+
+              // 모든 열린 답변 닫기(전체 열렸었던 답변들이 바로 닫히도록)
+              allAnswers.forEach(answer => {
+                if (answer !== faqAnswer) {
+                  answer.style.display = 'none';
+                  answer.previousElementSibling.classList.remove('active');
+                }
+              });
+
+              // 선택한 답변 토글(동적처리를 위해서 스타일 처리문구)
+              if (faqAnswer.style.display === 'block') {
+                faqAnswer.style.display = 'none';
+                button.classList.remove('active');
+              } else {
+                faqAnswer.style.display = 'block';
+                button.classList.add('active');
+              }
+            }
+          </script>
+
+          <!--          <div class="qna-answer" th:text="${inquiry.answer}">-->
             <!-- 여기에는 문의 내용이 동적으로 출력됨 -->
           </div>
         </div>
@@ -61,27 +88,4 @@
       </div>
     </article>
   </section>
-  <script>
-    function toggleFaq(button) {
-      const faqAnswer = button.nextElementSibling;
-      const allAnswers = document.querySelector('.qna-answer');
-
-      // 모든 열린 답변 닫기
-      allAnswers.forEach(answer => {
-        if (answer !== faqAnswer) {
-          answer.style.display = 'none';
-          answer.previousElementSibling.classList.remove('active');
-        }
-      });
-
-      // 선택한 답변 토글
-      if (faqAnswer.style.display === 'block') {
-        faqAnswer.style.display = 'none';
-        button.classList.remove('active');
-      } else {
-        faqAnswer.style.display = 'block';
-        button.classList.add('active');
-      }
-    }
-  </script>
 </div>

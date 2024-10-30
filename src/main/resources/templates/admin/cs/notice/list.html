@@ -46,11 +46,11 @@
                 <!-- 공지사항 목록 동적 처리 -->
                 <tr class="admin_list" th:each="notice, iterStat : ${notices}">
                     <td><input type="checkbox" th:value="${notice.id}" name="RowCheck" /></td>
-                    <td th:text="${iterStat.count}">1</td>
+                    <td th:text="${notice.displayNumber}">1</td>
                     <td th:text="${notice.type1}">[유형]</td>
                     <td style="text-align: left">
                         <span>
-                            <a th:href="@{/admin/cs/notice/view(id=${notice.id})}">
+                            <a th:href="|@{/admin/cs/notice/view/}${notice.id}|">
                                 <span th:text="${notice.title}" style="white-space: nowrap;">[안내] 제목</span>
                             </a>
                         </span>
