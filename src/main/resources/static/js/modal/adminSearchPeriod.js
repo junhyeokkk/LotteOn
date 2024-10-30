@@ -1,3 +1,8 @@
+/*
+     날짜 : 2024/10/30
+     이름 : 이도영
+     내용 : 달력 기간 설정
+*/
 document.addEventListener('DOMContentLoaded', function() {
     const today = new Date().toISOString().split('T')[0]; // 오늘 날짜
     const startDateInput = document.getElementById('startDate');
@@ -16,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
         endDateInput.removeAttribute('disabled');
 
         // 종료 날짜는 시작 날짜 이후부터 3년 내로 설정
-        const mixEndDate = new Date(selectedStartDate);
+        const maxEndDate = new Date(selectedStartDate);
         maxEndDate.setFullYear(maxEndDate.getFullYear() + 3);
 
         const formattedMaxEndDate = maxEndDate.toISOString().split('T')[0];

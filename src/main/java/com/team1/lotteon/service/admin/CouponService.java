@@ -4,6 +4,7 @@
      내용 : CouponService 생성
      수정이력
       - 2024/10/29 이도영 - 관리자 쿠폰 등록,출력
+      - 2024/10/30 이도영 - 쿠폰 정보 개별 출력
 */
 
 package com.team1.lotteon.service.admin;
@@ -103,7 +104,10 @@ public class CouponService {
             if (coupon.getCouponmakedate() != null) {
                 String[] dateTimeParts = coupon.getCouponmakedate().toString().split("T");
                 couponDTO.setCouponmakedate(dateTimeParts[0]); // 날짜 부분 설정
-                couponDTO.setCouponmaketime(dateTimeParts[1]); // 시간 부분 설정
+
+                // 시간 부분에서 소수점 이하를 제거하여 "HH:mm:ss" 형식으로 저장
+                String timePart = dateTimeParts[1].split("\\.")[0];
+                couponDTO.setCouponmaketime(timePart); // 시간 부분 설정 (초 이하 제외)
             }
 
             // 발급자 역할에 따라 issuerInfo 설정
@@ -127,4 +131,25 @@ public class CouponService {
                 .build();
     }
 
+    public Optional<CouponDTO> findCouponById(Long id) {
+        return couponRepository.findById(id)
+                .map(coupon -> {
+                    CouponDTO couponDTO = modelMapper.map(coupon, CouponDTO.class);
+
+                    // 발급자 역할에 따라 issuerInfo 설정
+                    Member member = coupon.getMember();
+                    if ("Admin".equals(member.getRole())) {
+                        couponDTO.setIssuerInfo("관리자");
+                    } else if ("Seller".equals(member.getRole())) {
+                        // SellerMember를 안전하게 가져와 처리
+                        Optional<SellerMember> sellerMemberOpt = sellerMemberRepository.findById(member.getUid());
+                        sellerMemberOpt.ifPresent(sellerMember -> {
+                            String shopName = sellerMember.getShop() != null ? sellerMember.getShop().getShopName() : "미등록 상점";
+                            couponDTO.setIssuerInfo(shopName);
+                        });
+                    }
+
+                    return couponDTO;
+                });
+    }
 }

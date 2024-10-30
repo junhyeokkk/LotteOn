@@ -1,3 +1,12 @@
+<!--
+    날짜 : 2024/10/21
+    이름 : 이도영(최초 작성자)
+    내용 : 일반 모달 html 작성
+    수정이력
+    - 2024/10/23 이도영 - 관리자,일반회원 모달 분리
+    - 2024/10/30 이도영 - 배송지 작성 모달 생성
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,8 +17,8 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/moment/min/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-    <link rel="stylesheet" href="/static/css/my/modal.css">
-    <link rel="stylesheet" href="/static/css/my/myinfo.css">
+    <link rel="stylesheet" href="/resources/static/css/my/modal.css">
+    <link rel="stylesheet" href="/resources/static/css/my/myinfo.css">
 </head>
 <body>
 
@@ -21,7 +30,8 @@
 <button id="reviewBtn" class="modal-button">5. 상품평작성하기</button>
 <button id="refundBtn" class="modal-button">6. 반품 신청</button>
 <button id="returnBtn" class="modal-button">7. 교환 신청</button><br>
-
+<button id="deliberyBtn" class="modal-button">8. 배송지</button>
+<button id="deliberyinserBtn" class="modal-button">9. 배송지 등록</button>
 
 <!-- 주문상세 모달 -->
 <div id="orderDetailModal" class="modal user">
@@ -436,6 +446,124 @@
     </div>
 </div>
 
+<!-- 배송지 모달 -->
+<div id="deliberyModal" class="modal user">
+    <div class="deliberyModal-content modalcontent">
+        <nav class="modal-nav">
+            <h1>배송지 설정</h1>
+            <button class="modal-close" id="closeModal">&times;</button>
+        </nav>
+        
+        <section class="modal-section">
+            <h3>배송지 관리</h3>
+            <div class="new-delivery-header">
+                <button class="new-delivery-button" type="button">새 배송지 등록</button>
+            </div>
+            <!-- 배송지 카드 -->
+            <div class="delivery-card">
+                <div class="delivery-card-header">
+                    <div class="delivery-title">
+                        <input type="radio" name="address" value="address1" checked>
+                        <strong>최준혁</strong>
+                    </div>
+                    <div class="action-buttons">
+                        <button type="button">수정</button>
+                        <button type="button">삭제</button>
+                    </div>
+                </div>
+                <div class="delivery-info">
+                    [47339] 부산 부산진구 엄광로 190번길 6(가야동, 대박큰), 205호<br>
+                    010-3450-7418
+                </div>
+            </div>
+            <div class="delivery-card">
+                <div class="delivery-card-header">
+                    <div class="delivery-title">
+                        <input type="radio" name="address" value="address1" checked>
+                        <strong>최준혁</strong>
+                    </div>
+                    <div class="action-buttons">
+                        <button type="button">수정</button>
+                        <button type="button">삭제</button>
+                    </div>
+                </div>
+                <div class="delivery-info">
+                    [47339] 부산 부산진구 엄광로 190번길 6(가야동, 대박큰), 205호<br>
+                    010-3450-7418
+                </div>
+            </div>
+            <!-- 새로운 배송지 등록 버튼 -->
+            <button class="delivery-button" type="button">기본 배송지 등록</button>
+        </section>
+    </div>
+</div>
+<!-- 배송지 등록 모달 -->
+<div id="deliberyinsertModal" class="modal user">
+    <div class="deliberyinsertModal-content modalcontent">
+        <nav class="modal-nav">
+            <h1>배송지 등록</h1>
+            <button class="modal-close" id="closeModal">&times;</button>
+        </nav>
+        <section class="modal-section">
+            <form action="#" method="post">
+                <table border="0" class="heighttable">
+                    <tr>
+                        <th>받는 분</th>
+                        <td><input type="text" placeholder="받는 분을 입력해 주세요." required /></td>
+                    </tr>
+                    <tr>
+                        <th>휴대폰 번호</th>
+                        <td><input type="text" placeholder="번호를 입력해 주세요." required /></td>
+                    </tr>
+                    <tr>
+                        <th>주소</th>
+                        <td>
+                            <input type="text" placeholder="우편번호" required />
+                            <button type="button" class="infobutton" onclick="searchPostalCode()">주소검색</button><br />
+                            <input type="text" id="address1" placeholder="기본 주소" required /><br />
+                            <input type="text" id="address2" placeholder="상세 주소" />
+                        </td>
+                    </tr>
+                </table>
+                <label>
+                    <input type="checkbox" name="saveAsDefault" /> 기본 배송지로 저장
+                </label>
+                <!-- 추가된 항목들 -->
+                <div class="additional-options">
+                    <table border="0" class="agreement-table">
+                        <tr>
+                            <th></th>
+                            <td>(선택) 공동현관 출입번호</td>
+                            <td></td> <!-- 빈 셀 (보기 버튼 없음) -->
+                        </tr>
+                        <tr>
+                            <th>
+                                <input type="checkbox" name="requiredAgreed" required />
+                            </th>
+                            <td>(필수) 개인정보 수집 및 이용 동의 (수취인 정보)</td>
+                            <td>
+                                <button type="button" class="info-button" onclick="toggleInfo('requiredInfo')">보기</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <input type="checkbox" name="optionalAgreed" />
+                            </th>
+                            <td>(선택) 개인정보 수집 및 이용 동의 (공동현관 출입정보)</td>
+                            <td>
+                                <button type="button" class="info-button" onclick="toggleInfo('optionalInfo')">보기</button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            
+                <div class="modalbuttondiv">
+                    <input class="delivery-button" type="submit" value="저장" />
+                </div>
+            </form>
+        </section>
+    </div>
+</div>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
 
@@ -447,7 +575,9 @@
             receiptConfirmModal: document.getElementById('receiptConfirmModal'),
             reviewModal: document.getElementById('reviewModal'),
             refundModal: document.getElementById('refundModal'),
-            returnModal: document.getElementById('returnModal')
+            returnModal: document.getElementById('returnModal'),
+            deliberyModal: document.getElementById('deliberyModal'),
+            deliberyinsertModal: document.getElementById('deliberyinsertModal')
         };
 
         const buttons = {
@@ -457,7 +587,9 @@
             receiptConfirmBtn: document.getElementById('receiptConfirmBtn'),
             reviewBtn: document.getElementById('reviewBtn'),
             refundBtn: document.getElementById('refundBtn'),
-            returnBtn: document.getElementById('returnBtn')
+            returnBtn: document.getElementById('returnBtn'),
+            deliberyBtn: document.getElementById('deliberyBtn'),
+            deliberyinserBtn:document.getElementById('deliberyinserBtn')
         };
 
         // 버튼 클릭 시 모달 열기
@@ -482,7 +614,12 @@
         buttons.returnBtn.onclick = function() {
             modals.returnModal.style.display = "block";
         };
-
+        buttons.deliberyBtn.onclick = function() {
+            modals.deliberyModal.style.display = "block";
+        };
+        buttons.deliberyinserBtn.onclick = function() {
+            modals.deliberyinsertModal.style.display = "block";
+        };
         // 이벤트 위임을 통해 closeModal 처리
         document.addEventListener('click', function(event) {
             if (event.target && event.target.id === 'closeModal') {

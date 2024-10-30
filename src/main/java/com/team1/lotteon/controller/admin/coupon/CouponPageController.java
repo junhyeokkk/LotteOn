@@ -11,11 +11,15 @@ import com.team1.lotteon.service.admin.CouponService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 
@@ -25,7 +29,8 @@ import java.time.LocalDateTime;
      내용 : 등록된 상점 출력
 
      수정이력
-      - 2024/10/29 이도영 - 쿠폰 출력 , 삭제 기능
+      - 2024/10/29 이도영 - 쿠폰 등록 출력
+      - 2024/10/30 이도영 - 쿠폰 개별 출력
 */
 @Log4j2
 @Controller
@@ -47,6 +52,15 @@ public class CouponPageController {
         model.addAttribute("keyword", keyword);
         return "admin/coupon/list";
     }
+
+    @GetMapping("admin/coupon/select/{id}")
+    public ResponseEntity<CouponDTO> select(@PathVariable Long id, Model model){
+        log.info("LLLLL"+ id.toString());
+        CouponDTO coupon = couponService.findCouponById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Coupon not found"));
+        return ResponseEntity.ok(coupon);
+    }
+
     @PostMapping("/admin/coupon/insertcoupon")
     public String insertcoupon(MemberDTO memberDTO, ShopDTO shopDTO, CouponDTO couponDTO) {
         // 1. 필요한 정보를 로그로 출력 (디버깅 용도)
@@ -75,8 +89,12 @@ public class CouponPageController {
         return "redirect:/admin/coupon/list"; // 쿠폰 목록 페이지로 리다이렉트
     }
     @GetMapping("/admin/coupon/issued")
-    public String issued(){
-
+    public String issued(@RequestParam(required = false) String type,
+                         @RequestParam(required = false) String keyword,
+                         NewPageRequestDTO newPageRequestDTO, Model model){
+        // 검색 조건 설정
+        newPageRequestDTO.setType(type);
+        newPageRequestDTO.setKeyword(keyword);
         return "admin/coupon/issued";
     }
 }

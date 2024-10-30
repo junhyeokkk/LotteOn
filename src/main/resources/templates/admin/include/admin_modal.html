@@ -1,3 +1,13 @@
+<!--
+    날짜 : 2024/10/21
+    이름 : 이도영(최초 작성자)
+    내용 : 관리자 모달 생성
+    수정이력
+    - 2024/10/28 이도영 - 상점 모달 수정
+    - 2024/10/29 이도영 - 쿠폰 모달 수정
+-->
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,8 +21,8 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
     <script type="text/javascript" src=""></script>
-    <link rel="stylesheet" href="/static/css/my/modal.css">
-    <link rel="stylesheet" href="/static/css/my/myinfo.css">
+    <link rel="stylesheet" href="/resources/static/css/my/modal.css">
+    <link rel="stylesheet" href="/resources/static/css/my/myinfo.css">
 </head>
 
 <body>
@@ -690,57 +700,51 @@
     </div>
 
     <!-- 쿠폰정보 모달 -->
-    <div id="couponinfomodal" class="modal admin">
+    <div id="couponinfomodal" class="modal admin" style="display:none;">
         <div class="couponinfomodal-content modalcontent">
             <nav class="adminmodal-nav">
                 <h1>쿠폰정보</h1>
                 <button class="adminmodal-close" id="closeModal">&times;</button>
             </nav>
             <section class="modal-section">
-                <!-- 쿠폰정보 -->
                 <article>
                     <table border="0" class="heighttable">
-                        <!-- 열 비율을 1:1로 맞추기 위해 colgroup 사용 -->
                         <colgroup>
-                            <col style="width: 15%;"> <!-- 첫 번째 열: 쿠폰 관련 정보 -->
-                            <col style="width: 40%;"> <!-- 두 번째 열: 쿠폰 관련 값 -->
-                            <col style="width: 15%;"> <!-- 세 번째 열: 발급처 관련 정보 -->
-                            <col style="width: 25%;"> <!-- 네 번째 열: 발급처 관련 값 -->
+                            <col style="width: 15%;">
+                            <col style="width: 40%;">
+                            <col style="width: 15%;">
+                            <col style="width: 25%;">
                         </colgroup>
                         <tr>
                             <th>쿠폰번호</th>
-                            <td>101220134</td>
+                            <td class="couponid">정보 없음</td>
                             <th>발급처</th>
-                            <td>다있어</td>
-                        </tr>
-                        <tr>
-                            <th>발급번호</th>
-                            <td>김유신</td>
-                            <td colspan="2"></td>
-                        </tr>
-                        <tr>
-                            <th>쿠폰종류</th>
-                            <td>할인쿠폰</td>
+                            <td class="issuerInfo">정보 없음</td>
                         </tr>
                         <tr>
                             <th>쿠폰명</th>
-                            <td>부산진구</td>
-                            <td colspan="2"></td> <!-- 빈 셀로 공간 확보 -->
+                            <td class="couponname">정보 없음</td>
+                        </tr>
+                        <tr>
+                            <th>쿠폰종류</th>
+                            <td class="coupontype">정보 없음</td>
                         </tr>
                         <tr>
                             <th>혜택</th>
-                            <td>10% 할인</td>
-                            <td colspan="2"></td> <!-- 빈 셀로 공간 확보 -->
+                            <td class="coupondiscount">정보 없음</td>
+                        </tr>
+                        <tr>
+                            <th>발급기간</th>
+                            <td class="coupondate">정보 없음</td>
                         </tr>
                         <tr>
                             <th>사용기간</th>
-                            <td>2024-01-01 ~ 2024-12-31</td>
-                            <td colspan="2"></td> <!-- 빈 셀로 공간 확보 -->
+                            <td class="couponperiod">정보 없음</td>
                         </tr>
                         <tr>
                             <th>유의사항</th>
-                            <td class="modalcontent2" colspan="3">
-                                <textarea placeholder="변경내역작성하기" readonly>상품 중복 할인 쿠폰 - 상품 1개에 대해 사용 가능 - 판매자 즉시할인/상품할인 쿠폰과 중복 사용 가능</textarea>
+                            <td colspan="3" class="modalcontent2">
+                                <textarea readonly class="couponetc">정보 없음</textarea>
                             </td>
                         </tr>
                     </table>
@@ -752,6 +756,7 @@
             </section>
         </div>
     </div>
+
 
     <!-- 쿠폰등록 모달 -->
     <div id="couponinsertmodal" class="modal admin">
@@ -805,8 +810,8 @@
                             <tr>
                                 <th>사용기간</th>
                                 <td>
-                                    <input type="date" class="bannerdate" name="couponstart" required> -
-                                    <input type="date" class="bannerdate" name="couponend" required><br>
+                                    <input type="date" id="startDate" class="bannerdate" name="couponstart" required> -
+                                    <input type="date" id="endDate" class="bannerdate" name="couponend" required><br>
                                     발급일로부터 <input type="text" class="bannerdate2" name="couponperiod" required> 이내
                                 </td>
                             </tr>

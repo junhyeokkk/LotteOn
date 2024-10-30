@@ -1,3 +1,11 @@
+<!--
+  날짜 : 2024/10/21
+    이름 : 김소희(최초 작성자)
+    내용 : 관리자 쿠폰리스트 생성
+    수정이력
+    - 2024/10/29 이도영 - 쿠폰 정보 출력
+    - 2024/10/30 이도영 - 쿠폰 모달 출력
+-->
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
@@ -47,19 +55,21 @@
           <th>쿠폰종류</th>
           <th>쿠폰명</th>
           <th>혜택</th>
-          <th>사용기간</th>
+          <th>발급기간</th>
           <th>발급자</th>
           <th>발급수</th>
           <th>사용수</th>
           <th>상태</th>
-          <th>발급일</th>
+          <th>생성일</th>
           <th>관리</th>
         </tr>
         <tr th:if="${coupondtos == null}">
           <td colspan="7" class="td_first" style="width: 100%">등록된 쿠폰이 없습니다.</td>
         </tr>
         <tr class="admin_list" th:each="coupon : ${coupondtos.dtoList}" th:if="${coupondtos != null}">
-          <td><a href="#" data-modal="couponinfomodal" th:text="${coupon.couponid}"></a></td>
+          <td>
+            <a href="#" data-modal="couponinfomodal" th:attr="data-coupon-id=${coupon.couponid}" th:text="${coupon.couponid}"></a>
+          </td>
           <td>
             <span th:switch="${coupon.coupontype}">
                 <span th:case="'single'">개별상품할인</span>

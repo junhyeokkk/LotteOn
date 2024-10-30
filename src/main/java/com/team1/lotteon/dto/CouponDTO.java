@@ -7,14 +7,7 @@ package com.team1.lotteon.dto;
         - 2024/10/29 이도영 - 엔티티 전체 변경
 */
 
-import com.team1.lotteon.entity.Member;
-import com.team1.lotteon.entity.enums.CouponStatus;
-import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
