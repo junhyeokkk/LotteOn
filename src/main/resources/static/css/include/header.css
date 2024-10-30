@@ -21,8 +21,8 @@
 
 .header__bot {
   position: relative;
-  border-top: 1px solid rgba(255, 0, 0, 0.247);
-  border-bottom: 1px solid rgba(255, 0, 0, 0.247);
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
   height: 100px;
 }
 
@@ -88,10 +88,11 @@
   align-items: center;
   justify-content: space-between;
   background-color: #FFFFFF;
+
 }
 
 .header_item > a{
   text-align: center;
-  font-size: 10px;
+  font-size: 11px;
   font-family: "Gill Sans", sans-serif;
 }

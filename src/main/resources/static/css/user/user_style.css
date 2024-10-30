@@ -1,7 +1,7 @@
 /*
      날짜 : 2024/10/25
      이름 : 강유정(최초 작성자)
-     내용 : user ss 생성
+     내용 : user css 생성
 */
 
 /* login */
@@ -167,13 +167,13 @@ button {
     margin-bottom: 50px;
 }
 
-.membership-options {
+.membership-productOptions {
     display: flex;
     justify-content: center;
     margin-bottom: 10%;
 }
 
-.option-join {
+.productOption-join {
     width: 300px;
     border: 1px solid #ddd;
     border-radius: 10px;
