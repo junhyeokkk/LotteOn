@@ -22,4 +22,5 @@ public class CartDTO {
     private Product product;
     private Long combinationid; // 선택한 조합 아이디값
     private int quantity;
+    private int totalPrice;
 }

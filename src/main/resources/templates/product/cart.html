@@ -47,7 +47,7 @@
       <table class="cart-table">
         <thead>
         <tr>
-          <th><input type="checkbox" id="selectAll"> 전체선택</th>
+          <th><input type="checkbox" id="selectAll"></th>
           <th>상품명</th>
           <th>수량</th>
           <th>판매가</th>
@@ -58,32 +58,37 @@
         </tr>
         </thead>
         <tbody>
-        <tr class="product-item">
-          <td><input type="checkbox" name="selectedCart" onclick="calculateTotalPrice()"></td>
-          <td class="product-details">
-            <a href="#" class="product-image">
-              <img src="https://thumbnail7.coupangcdn.com/thumbnails/remote/230x230ex/image/retail/images/3122239138972570-727d95de-ec33-4f85-99db-1a8720ff24f5.jpg" alt="상품 이미지">
-            </a>
-            <div class="product-info">
-              <p><a href="#">상품명</a></p>
-              <p class="product-options">옵션: 상품 설명 또는 옵션</p>
-            </div>
-          </td>
-          <td>1</td>
-          <td>27,000원</td>
-          <td>5%</td>
-          <td>270</td>
-          <td>무료</td>
-          <td>25,650원</td>
-        </tr>
+          <tr th:each="cart : ${cartItems}" class="product-item">
+            <td><input type="checkbox" name="selectedCart" onclick="calculateTotalPrice()"></td>
+            <td class="product-details">
+              <a href="#" class="product-image">
+                <img th:src="'/'+${appInfo.uploadDir}+'product/'+${cart.product.productImg1}" alt="상품 이미지">
+              </a>
+              <div class="product-info">
+                <p><a href="#">[[${cart.product.productName}]]</a></p>
+                <p class="product-options">옵션: 상품 설명 또는 옵션</p>
+              </div>
+            </td>
+            <td>[[${cart.quantity}]]</td>
+            <td>[[${cart.product.price}]]원</td>
+            <td>[[${cart.product.discountRate}]]%</td>
+            <td>[[${cart.product.point}]]</td>
+            <th:block th:if="${cart.product.deliveryFee} > 0">
+              <td>[[${cart.product.deliveryFee}]]</td>
+            </th:block>
+            <th:block th:unless="${cart.product.deliveryFee} > 0">
+              <td>무료</td>
+            </th:block>
+            <td>[[${cart.totalPrice}]]원</td>
+          </tr>
         </tbody>
       </table>
     </div>
 
     <!-- 우측: 결제 정보 영역 -->
     <div class="total">
-      <h2 class="total__head">결제예정금액</h2>
-      <table>
+      <h2 class="total__head">결제 예정 금액</h2>
+      <table class="total__table">
         <tr class="total__tr">
           <td>상품수</td>
           <td id="prodCount">1</td>
@@ -105,7 +110,7 @@
           <td id="prodPoint">270</td>
         </tr>
         <tr class="total__tr total__price-row">
-          <td>전체주문금액</td>
+          <td>전체 주문 금액</td>
           <td id="prodTotalPrice" class="total__final-price">25,650원</td>
         </tr>
       </table>
@@ -117,6 +122,7 @@
         <input type="hidden" name="cartProdNo" id="selectedProd" />
       </form>
     </div>
+
   </div>
 </section>
 

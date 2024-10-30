@@ -70,7 +70,7 @@
                         <del id="prodPrice" class="org_price">[[${product.price}]]원</del>
                         <span id="disCount" class="discount">[[${product.discountRate}]]%↓</span>
                     </div>
-                    <ins id="disPrice" class="dis_price">[[${product.price} * (1 - ${product.discountRate}/100)]] 원</ins> <!-- 최종 가격 -->
+                    <ins id="disPrice" class="dis_price">[[${product.discountedPrice}]] 원</ins> <!-- 최종 가격 -->
                 </div>
                 <button class="coupon-button"><i class="fa-solid fa-tag"></i> 쿠폰 받기</button>
             </nav>
@@ -122,7 +122,7 @@
                         <i class="fa-solid fa-minus"></i>
                     </button>
                     <!-- oninput 이벤트를 통해 키보드 입력 시 checkMaxStock 함수 호출 -->
-                    <input class="count__input" type="text" name="num" id="numInput" value="1" oninput="checkMaxStock()" />
+                    <input class="count__input" type="number" min="1" name="num" id="numInput" value="1" oninput="updateTotalPrice();"  />
                     <button class="count-button increase" onclick="changeNumNoOpt(1)">
                         <i class="fa-solid fa-plus"></i>
                     </button>
@@ -132,7 +132,7 @@
             <!-- 총 금액 표시 -->
             <div class="total">
                 <span class="total__price-name">총 상품금액</span>
-                <span class="total__price-value">27,000원</span>
+                <span class="total__price-value" id="totalPrice">[[${product.discountedPrice}]]원</span>
             </div>
 
             <!-- 장바구니 구매하기 버튼 그룹 -->
@@ -299,8 +299,6 @@
                     </div>
                 </div>
             </aside>
-
-
         </div>
     </section>
 
@@ -339,61 +337,111 @@
         document.addEventListener("DOMContentLoaded", function() {
             let optionCombinations = /*[[${optionCombinations}]]*/ {};
             let selectedOptions = {}; // 사용자가 선택한 옵션을 저장하는 객체
+            let unitPrice = parseFloat(document.getElementById("disPrice").textContent.replace(/[^0-9.-]+/g, "")); // 할인된 가격
+            let productOptionsCount = /*[[${#lists.size(product.getProductOptions())}]]*/ 0; // 옵션사이즈
 
             console.log("옵션 조합 데이터:", optionCombinations);
-            console.log("옵션 조합 데이터:", optionCombinationjson);
+            console.log("현재 선택된 옵션:", selectedOptions); // 객체 자체를 단독으로 출력
+            console.log("현재 선택된 옵션(JSON):", JSON.stringify(selectedOptions, null, 2)); // JSON 형태로 보기 좋게 출력
 
+            // Update selected options dynamically
             function updateSelectedOptions() {
                 document.querySelectorAll('.options_choose select').forEach((select) => {
                     const optionName = select.previousElementSibling.textContent.replace(":", "").trim();
-                    selectedOptions[optionName] = parseInt(select.value, 10); // 문자열을 숫자로 변환
+                    const optionValue = select.value ? parseInt(select.value, 10) : null;
+
+                    if (optionValue !== null && !isNaN(optionValue)) {
+                        selectedOptions[optionName] = optionValue;
+                    } else {
+                        delete selectedOptions[optionName]; // 빈 값일 경우 키 삭제
+                    }
                 });
 
                 console.log("현재 선택된 옵션:", selectedOptions);
 
-                if (Object.keys(selectedOptions).length === 2 && selectedOptions["색상"] && selectedOptions["사이즈"]) {
+                // 옵션 선택이 완료된 경우만 재고 확인
+                if (areAllOptionsSelected()) {
                     checkMaxStock();
                 } else {
                     console.log("모든 옵션이 선택되지 않았습니다.");
                 }
             }
 
+            // 옵션 모두 체크했는지 검사하는 유효성검사 메서드
+            function areAllOptionsSelected() {
+                // 선택된 옵션의 개수가 productOptionsCount와 일치하는지 확인
+                if (Object.keys(selectedOptions).length !== productOptionsCount) {
+                    console.log("모든 옵션이 선택되지 않았습니다.");
+                    return false;
+                }
+
+                const allSelected = Object.values(selectedOptions).every(value =>
+                    value !== null && value !== '' && value !== undefined && !isNaN(value)
+                );
+
+                console.log('모든 옵션 선택 상태:', allSelected);
+                return allSelected;
+            }
+
+
             // 선택된 옵션에 맞는 재고 및 combinationId 찾기
             function getDetailsForSelectedOptions() {
-                const optionKey = JSON.stringify([selectedOptions["색상"], selectedOptions["사이즈"]]);
-                console.log('키??' + optionKey.toString());
-                const details = optionCombination[optionKey];
-                console.log('찾았나? ' + details);
+                const optionKey = JSON.stringify(Object.values(selectedOptions).sort((a, b) => a - b));
+                console.log('키 ???' +optionKey );
+                const details = optionCombinations[optionKey];
+                console.log('찾았나???' +details );
                 return details ? details : { combinationId: null, stock: 0 };
             }
 
             function getStockForSelectedOptions() {
+
                 const details = getDetailsForSelectedOptions();
                 return details.stock;
             }
 
+            // Check stock and update quantity input based on stock limits
             function checkMaxStock() {
                 const quantityInput = document.getElementById("numInput");
                 const selectedQuantity = parseInt(quantityInput.value, 10) || 1;
 
-                if (!selectedOptions["색상"] || !selectedOptions["사이즈"]) {
+                if (!areAllOptionsSelected()) {
                     alert("옵션을 먼저 선택해주세요.");
                     quantityInput.value = 1;
                     return;
                 }
-
                 const maxStock = getStockForSelectedOptions();
                 console.log("최대 재고 확인:", maxStock);
 
                 if (selectedQuantity > maxStock) {
                     alert(`최대 재고 수량은 ${maxStock}입니다!`);
                     quantityInput.value = maxStock;
+                    updateTotalPrice(); // 수량 변경 시 총 금액 업데이트
                 } else if (selectedQuantity < 1) {
                     quantityInput.value = 1;
                 }
             }
 
+            function updateTotalPrice() {
+                const quantityInput = document.getElementById("numInput");
+                if (!areAllOptionsSelected()) {
+                    alert("옵션을 먼저 선택해 주세요.");
+                    quantityInput.value = 1;
+                    return;
+                }
+                const quantity = parseInt(document.getElementById("numInput").value, 10) || 1;
+                const totalPrice = unitPrice * quantity;
+                document.getElementById("totalPrice").textContent = totalPrice.toLocaleString() + "원"; // 총 상품 금액 표시 업데이트
+            }
+
             function changeNumNoOpt(delta) {
+
+                console.log('ㄷㅇㅇㅇㅇ')
+                if (!areAllOptionsSelected()) {
+                    console.log('asdf' + areAllOptionsSelected())
+                    alert("옵션을 먼저 선택해 주세요.");
+                    return;
+                }
+
                 const quantityInput = document.getElementById("numInput");
                 let currentQuantity = parseInt(quantityInput.value, 10) || 1;
                 currentQuantity += delta;
@@ -404,10 +452,11 @@
 
                 quantityInput.value = currentQuantity;
                 checkMaxStock();
+                updateTotalPrice();
             }
 
             function validateBeforeAction() {
-                if (!selectedOptions["색상"] || !selectedOptions["사이즈"]) {
+                if (!areAllOptionsSelected()) {
                     alert("모든 옵션을 선택해주세요.");
                     return false;
                 }
@@ -432,6 +481,10 @@
                 const quantity = parseInt(document.getElementById('numInput').value, 10) || 1;
                 const details = getDetailsForSelectedOptions();
                 const combinationId = details.combinationId;
+                const totalPrice = document.getElementById("totalPrice").textContent
+                    .replace(/[^\d]/g, '')  // 숫자가 아닌 모든 문자 제거
+                    .trim();
+
 
                 if (!combinationId) {
                     alert("선택한 옵션 조합에 해당하는 상품이 없습니다.");
@@ -447,6 +500,7 @@
                         productId: productId,
                         quantity: quantity,
                         combinationId: combinationId,
+                        totalPrice: totalPrice
                     }),
                 })
                     .then(response => response.json())
@@ -473,6 +527,7 @@
             window.checkMaxStock = checkMaxStock;
             window.validateBeforeAction = validateBeforeAction;
             window.addToCart = addToCart;
+            window.updateTotalPrice = updateTotalPrice;
         });
 
     </script>

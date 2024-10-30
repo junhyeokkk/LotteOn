@@ -35,5 +35,6 @@ public class Cart {
 
     private Long combinationid; // 선택한 조합 아이디값
 
+    private int totalPrice;
     private int quantity;
 }

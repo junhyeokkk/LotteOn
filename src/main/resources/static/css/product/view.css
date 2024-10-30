@@ -869,6 +869,11 @@ h4 {
     color: #e74c3c;
 }
 
+.price-won {
+    font-size: 1.2rem;
+    color: #e74c3c;
+}
+
 /* 전체 영역 스타일 */
 .notice {
     border: 1px solid #ddd;

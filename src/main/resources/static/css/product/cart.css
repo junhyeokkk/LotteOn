@@ -47,6 +47,8 @@
 .cart-content {
     display: flex;
     gap: 20px;
+    align-items: flex-start;
+    width: 100%;
 }
 
 /* 상품 목록 테이블 */
@@ -57,21 +59,142 @@
     color: #333;
 }
 
-.cart-table th, .cart-table td {
-    padding: 12px;
-    border-bottom: 1px solid #ddd;
-}
-
 .cart-table thead th {
     background-color: #f5f5f5;
     font-weight: bold;
 }
 
-.product-details {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    .section.cart {
+        padding: 20px;
+        max-width: 1200px;
+        margin: auto;
+        font-family: Arial, sans-serif;
+    }
+
+
+    /* 좌측 상품 목록 */
+    .listForCompany {
+        flex: 2;
+        width: 100%;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 15px;
+        background-color: #fafafa;
+    }
+
+    /* 테이블 설정 */
+    .cart-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+        color: #333;
+    }
+
+    .cart-table th,
+    .cart-table td {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+        text-align: center;
+    }
+
+    .cart-table thead th {
+        background-color: #f5f5f5;
+        font-weight: bold;
+    }
+
+    .product-details {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .product-image img {
+        width: 60px;
+        height: 60px;
+        border-radius: 4px;
+    }
+
+    .product-info {
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+    }
+
+    /* 우측 결제 정보 */
+/* 결제 정보 영역 스타일 */
+.total {
+    max-width: 320px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    background-color: #fdfdfd;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
+.total__head {
+    font-size: 1.3em;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.total__table {
+    width: 100%;
+    font-size: 14px;
+    color: #333;
+    border-collapse: separate;
+    border-spacing: 0 8px;
+}
+
+.total__tr td {
+    padding: 8px 0;
+}
+
+.total__tr:first-child td {
+    padding-top: 0;
+}
+
+.total__tr:last-child td {
+    padding-bottom: 0;
+}
+
+.total__price-row td {
+    font-weight: bold;
+    color: #ff4500;
+    border-top: 1px solid #e0e0e0;
+    padding-top: 12px;
+}
+
+.total__final-price {
+    font-size: 1.2em;
+    color: #d9534f;
+}
+
+.total__form__submit {
+    background-color: #ff3d00;
+    color: #fff;
+    border: none;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.total__form__submit:hover {
+    background-color: #e03300;
+}
+
+/* 반응형 레이아웃 */
+    @media (max-width: 768px) {
+        .cart-content {
+            flex-direction: column;
+        }
+    }
 
 .product-image img {
     width: 60px;
@@ -96,6 +219,8 @@
 
 /* 결제 정보 스타일 */
 .total {
+    flex: 1;
+    width: 100%;
     max-width: 300px;
     padding: 20px;
     border: 1px solid #ddd;

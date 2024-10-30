@@ -1,57 +1,52 @@
-<!--
-날짜 : 2024/10/25
-이름 : 이상훈
-내용 : 상품 페이지 주문하기 컨텐츠 생성
--->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{product/layout/product_layout}">
 
-<link rel="stylesheet" href="/css/include/reset.css" />
-<link rel="stylesheet" href="/css/product/product.css" />
-<!-- 장바구니 페이지 시작 -->
-<section class="order section">
-  <!-- 제목, 페이지 네비게이션 -->
+<!-- 스타일 시트 추가 -->
+<th:block layout:fragment="css">
+  <link rel="stylesheet" th:href="@{/css/include/reset.css}">
+  <link rel="stylesheet" th:href="@{/css/product/product.css}">
+  <link rel="stylesheet" th:href="@{/css/product/order.css}">
+</th:block>
+
+<!-- 스크립트 추가 -->
+<th:block layout:fragment="script">
+</th:block>
+
+<body>
+<!-- 주문 결제 섹션 시작 -->
+<section class="order section" layout:fragment="content">
+
+  <!-- 네비게이션 -->
   <nav class="order__nav">
     <h1>주문결제</h1>
     <p>HOME > 장바구니 > <strong>주문결제</strong></p>
   </nav>
 
   <form id="buyForm" th:action="@{/product/complete}" th:method="GET">
+
     <!-- 주문 상품 목록 -->
-    <table
-      style="
-        width: 100%;
-        border-collapse: collapse;
-        border-top: 1px solid rgb(182, 182, 182);
-        margin-bottom: 8px;
-      "
-    >
-      <tr
-        style="
-          width: 100%;
-          border-bottom: 1px solid rgb(182, 182, 182);
-          height: 40px;
-        "
-      >
-        <th style="width: 30px"><input type="checkbox" /></th>
-        <th style="flex: 1">상품명</th>
-        <th style="width: 60px">수량</th>
-        <th style="width: 70px">판매가</th>
-        <th style="width: 40px">할인</th>
-        <th style="width: 50px">포인트</th>
-        <th style="width: 60px">배송비</th>
-        <th style="width: 50px">총합</th>
+    <table class="order__table">
+      <thead>
+      <tr>
+        <th><input type="checkbox" /></th>
+        <th>상품명</th>
+        <th>수량</th>
+        <th>판매가</th>
+        <th>할인</th>
+        <th>포인트</th>
+        <th>배송비</th>
+        <th>총합</th>
       </tr>
+      </thead>
+      <tbody>
       <tr class="order__item">
-        <td>12</td>
-        <td style="padding: 12px 0">
-          <div style="display: flex; gap: 12px; align-items: center">
-            <img
-              src="https://thumbnail9.coupangcdn.com/thumbnails/remote/48x48ex/image/rs_quotation_api/cdaevhic/bcb1b4db87db478387ac5a1222e22bb1.jpg"
-              alt="img"
-              height="100%"
-            />
-            <div style="padding: 12px">
-              <div>상품명</div>
-              <div>상품설명</div>
+        <td><input type="checkbox" /></td>
+        <td>
+          <div class="order__item-info">
+            <img src="product_image.jpg" alt="상품 이미지" />
+            <div>
+              <p class="product-name">상품명</p>
+              <p class="product-desc">상품설명</p>
             </div>
           </div>
         </td>
@@ -62,264 +57,101 @@
         <td>무료배송</td>
         <td>25,650</td>
       </tr>
+      </tbody>
     </table>
 
-    <div style="display: flex; padding: 8px; gap: 40px">
-      <section style="flex: 1">
-        <!-- 배송정보 -->
-        <article class="delivery" style="margin-bottom: 36px">
-          <h1
-            style="
-              font-size: 18px;
-              border-bottom: 1px solid #acacac;
-              padding-bottom: 4px;
-              margin-bottom: 12px;
-            "
-          >
-            배송정보
-          </h1>
-          <table style="padding-left: 16px; width: 100%">
-            <tr>
-              <td style="width: 80px">수령자</td>
-              <td>
-                <input
-                  type="text"
-                  class="deliveryInfo"
-                  name="orderReceiver"
-                  id="userOrder"
-                  onfocus="removeValue(event)"
-                />
-              </td>
-              <td>
-                <input
-                  type="hidden"
-                  class="deliveryInfo"
-                  name="userId"
-                  id="userId"
-                  onfocus="removeValue(event)"
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>휴대폰</td>
-              <td>
-                <input
-                  type="text"
-                  class="deliveryInfo"
-                  name="orderHp"
-                  id="userHp"
-                  onfocus="removeValue(event)"
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>우편번호</td>
-              <td>
-                <input
-                  type="text"
-                  name="orderAddr"
-                  id="userZip"
-                />
-                <input type="button" id="btnZip" value="검색" />
-              </td>
-            </tr>
-            <tr>
-              <td>기본주소</td>
-              <td>
-                <input
-                  type="text"
-                  name="orderAddr"
-                  id="userAddr1"
-                  style="width: 90%"
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>상세주소</td>
-              <td>
-                <input
-                  type="text"
-                  name="orderAddr"
-                  id="userAddr2"
-                  style="width: 90%"
-                />
-              </td>
-            </tr>
-          </table>
-        </article>
 
-        <!-- 할인정보 -->
-        <article class="discount" style="margin-bottom: 36px">
-          <h1
-            style="
-              font-size: 18px;
-              border-bottom: 1px solid #acacac;
-              padding-bottom: 4px;
-              margin-bottom: 12px;
-            "
-          >
-            할인정보
-          </h1>
-
-          <div style="padding-left: 16px">
-            <div
-              style="
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-              "
-            >
-              <p>
-                현재 포인트 :
-                <span id="userPoint">7200</span>점
-              </p>
-              <label>
-                <input
-                  type="text"
-                  name="userUsedPoint"
-                  id="inputPoint"
-                  oninput="validateNumber(this)"
-                  style="width: 100px"
-                />
-                <input type="button" value="사용하기" id="btnPoint" />
-              </label>
-            </div>
-            <span style="font-size: 14px; color: #acacac">
-              포인트 5,000점 이상이면 <br />
-              현금처럼 사용 가능.</span
-            >
-          </div>
-        </article>
-
-        <!-- 결제방법 -->
-        <article class="payment">
-          <h1
-            style="
-              font-size: 18px;
-              border-bottom: 1px solid #acacac;
-              padding-bottom: 4px;
-              margin-bottom: 12px;
-            "
-          >
-            결제방법
-          </h1>
-          <div style="padding-left: 16px">
-            <div>
-              <p>
-                <label style="margin-right: 20px"
-                  ><input type="radio" name="orderPay" value="type1" />신용카드
-                </label>
-                <label
-                  ><input type="radio" name="orderPay" value="type2" />체크카드
-                </label>
-              </p>
-            </div>
-            <div>
-              <p>
-                <label style="margin-right: 20px"
-                  ><input
-                    type="radio"
-                    name="orderPay"
-                    value="type3"
-                  />계좌이체</label
-                >
-                <label
-                  ><input type="radio" name="orderPay" value="type4" />무통장
-                  입금</label
-                >
-              </p>
-            </div>
-            <div>
-              <p>
-                <label style="margin-right: 20px"
-                  ><input
-                    type="radio"
-                    name="orderPay"
-                    value="type5"
-                  />휴대폰결제</label
-                >
-                <label>
-                  <input type="radio" name="orderPay" value="type6" />카카오페이
-                  <img src="../images/ico_kakaopay.gif" alt="카카오페이" />
-                </label>
-              </p>
-            </div>
-          </div>
-        </article>
+    <section class="order__section-wrapper">
+    <!-- 왼쪽 섹션 -->
+    <div class="order__left-section">
+      <!-- 배송정보 -->
+      <section class="order__section">
+        <h2>배송정보</h2>
+        <table class="order__info-table">
+          <tr>
+            <td>수령자</td>
+            <td><input type="text" name="orderReceiver" class="input-text" /></td>
+          </tr>
+          <tr>
+            <td>휴대폰</td>
+            <td><input type="text" name="orderHp" class="input-text" /></td>
+          </tr>
+          <tr>
+            <td>우편번호</td>
+            <td>
+              <div class="zip-code-container">
+                <input type="text" name="orderZip" class="input-text zip-code" />
+                <button type="button" class="btn-search">검색</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>기본주소</td>
+            <td><input type="text" name="orderAddrBasic" class="input-text long-input" /></td>
+          </tr>
+          <tr>
+            <td>상세주소</td>
+            <td><input type="text" name="orderAddrDetail" class="input-text long-input" /></td>
+          </tr>
+          <tr>
+            <td>기타</td>
+            <td><textarea name="orderAddrDetail" class="input-text long-input"></textarea></td>
+          </tr>
+        </table>
       </section>
 
-      <!-- 최종 결제 정보 -->
-      <div>
-        <div
-          class="final"
-          style="
-            width: 300px;
-            border: 2px solid rgb(189, 189, 189);
-            padding: 12px;
-          "
-        >
-          <h2
-            style="
-              border-bottom: 2px solid #acacac;
-              padding: 4px;
-              font-size: 18px;
-              margin-bottom: 12px;
-            "
-          >
-            최종결제 정보
-          </h2>
-          <table border="0" style="width: 100%">
-            <tr>
-              <td>상품수</td>
-              <td id="prodCount" style="text-align: end">1</td>
-            </tr>
-            <tr>
-              <td>상품금액</td>
-              <td id="prodCost" style="text-align: end">27,000</td>
-            </tr>
-            <tr>
-              <td>할인금액</td>
-              <td id="prodDis" style="text-align: end">-1,350</td>
-            </tr>
-            <tr>
-              <td>배송비</td>
-              <td id="prodFee" style="text-align: end">0</td>
-            </tr>
-            <tr>
-              <td>포인트 할인</td>
-              <td id="prodPoint" style="text-align: end">-1,000</td>
-            </tr>
-            <tr>
-              <td>전체주문금액</td>
-              <td id="prodAll" name="orderPrice" style="text-align: end">
-                24,650
-              </td>
-            </tr>
-            <tr>
-              <td>적립 포인트</td>
-              <td id="prodAll" name="orderPrice" style="text-align: end">
-                270
-              </td>
-            </tr>
-          </table>
-          <input
-            type="submit"
-            id="btnOrder"
-            value="결제하기"
-            style="
-              width: 200px;
-              height: 40px;
-              display: block;
-              margin: 16px auto;
-              background-color: rgb(192, 0, 0);
-              border: none;
-              color: white;
-              font-size: 18px;
-            "
-          />
+      <!-- 할인정보 -->
+      <section class="order__section discount-section">
+        <h2>할인정보</h2>
+        <p class="current-points">현재 포인트: <span id="userPoint">7200</span>점</p>
+
+        <div class="point-usage">
+          <label for="inputPoint" class="point-label">포인트 사용:</label>
+          <input type="text" name="userUsedPoint" id="inputPoint" placeholder="사용할 포인트 입력" />
+          <button type="button" class="btn-apply">사용하기</button>
+          <p class="point-info">* 포인트 5,000점 이상 사용 가능합니다.</p>
         </div>
-      </div>
+
+        <div class="coupon-usage">
+          <p class="coupon-label">쿠폰 적용:</p>
+          <select name="couponSelect">
+            <option>쿠폰선택</option>
+          </select>
+          <button type="button" class="btn-apply">사용하기</button>
+        </div>
+      </section>
+
+      <!-- 결제방법 -->
+      <section class="order__section">
+        <h2>결제방법</h2>
+        <section class="payment__method">
+          <label><input type="radio" name="orderPay" value="credit" /><span class="icon credit-icon"></span> 신용카드</label>
+          <label><input type="radio" name="orderPay" value="check" /><span class="icon check-icon"></span> 체크카드</label>
+          <label><input type="radio" name="orderPay" value="account" /><span class="icon account-icon"></span> 계좌이체</label>
+          <label><input type="radio" name="orderPay" value="acc" /><span class="icon acc-icon"></span> 무통장입금</label>
+          <label><input type="radio" name="orderPay" value="phone" /><span class="icon phone-icon"></span> 휴대폰결제</label>
+          <label><input type="radio" name="orderPay" value="kakaopay" /><span class="icon kakaopay-icon"></span> 카카오페이</label>
+        </section>
+      </section>
     </div>
+
+      <!-- 최종 결제 정보 박스 -->
+        <div class="order__final-info">
+          <h2>최종결제 정보</h2>
+          <table>
+            <tr><td>상품수</td><td id="prodCount">1</td></tr>
+            <tr><td>상품금액</td><td id="prodCost">27,000</td></tr>
+            <tr><td>할인금액</td><td id="prodDis">-1,350</td></tr>
+            <tr><td>배송비</td><td id="prodFee">0</td></tr>
+            <tr><td>포인트 할인</td><td id="prodPoint">-1,000</td></tr>
+            <tr><td class="total-label">전체주문금액</td><td id="prodAll" class="total-amount">24,650</td></tr>
+            <tr><td>적립 포인트</td><td>270</td></tr>
+          </table>
+          <button type="submit">결제하기</button>
+        </div>
+</section>
   </form>
 </section>
-<!-- 주문 페이지 끝-->
+<!-- 주문 페이지 끝 -->
+</body>
+</html>

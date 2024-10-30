@@ -4,15 +4,19 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.team1.lotteon.dto.ConfigDTO;
 import com.team1.lotteon.dto.PageResponseDTO;
+import com.team1.lotteon.dto.cart.CartDTO;
 import com.team1.lotteon.dto.product.ProductDTO;
 import com.team1.lotteon.dto.product.ProductSummaryResponseDTO;
 import com.team1.lotteon.entity.Product;
+import com.team1.lotteon.security.MyUserDetails;
+import com.team1.lotteon.service.CartService;
 import com.team1.lotteon.service.ProductService;
 import com.team1.lotteon.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,6 +39,7 @@ import java.util.stream.Collectors;
 public class ProductPageController {
     private final UserService userService;
     private final ProductService productService;
+    private final CartService cartService;
 
     // list 페이지 이동
     @GetMapping("/product/list")
@@ -49,20 +54,41 @@ public class ProductPageController {
     // view 페이지 이동
     @GetMapping("/product/view")
     public String view(Model model){
-
         log.info("view");
 
         return "product/view";
     }
 
+    // order 페이지 이동
+    @GetMapping("/product/order")
+    public String order(Model model){
+        log.info("order");
+
+        return "product/order";
+    }
+
+
     // cart 페이지 이동
     @GetMapping("/product/cart")
-    public String cart(Model model){
+    public String cart(Model model,@AuthenticationPrincipal MyUserDetails myUserDetails) {
+        log.info("Accessing cart");
 
-        log.info("cart");
+        if(myUserDetails == null){
+            throw new IllegalArgumentException("로그인이 필요합니다.");
+        }
+
+        String memberId = myUserDetails.getUsername();
+
+        // 로그인 한 객체 id 값 넣어주고 service 호출
+        List<CartDTO> cartItems = cartService.getCartItemsByMemberId(memberId);
+
+        log.info("내 카트 " + cartItems.toString() );
+        // 모델참조
+        model.addAttribute("cartItems", cartItems);
 
         return "product/cart";
     }
+
 
     // view 페이지 이동
     @GetMapping("/product/view/{id}")
@@ -106,6 +132,9 @@ public class ProductPageController {
                 log.error("JSON 파싱 오류", e);
             }
         });
+        int discountedPrice = (int) (saveProduct.getPrice() * (1 - saveProduct.getDiscountRate() / 100.0));
+
+        saveProduct.setDiscountedPrice(discountedPrice);
 
         // 모델에 상품과 옵션 조합 추가
         model.addAttribute("product", saveProduct);

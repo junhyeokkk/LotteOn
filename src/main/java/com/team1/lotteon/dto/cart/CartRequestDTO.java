@@ -20,4 +20,5 @@ public class CartRequestDTO {
     private Long productId;
     private Long combinationId;
     private int quantity;
+    private int totalPrice;
 }

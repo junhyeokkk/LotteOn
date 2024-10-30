@@ -19,6 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Setter
 public class ProductDTO extends BaseEntity {
     private Long id;    // id
     private int views;  // 조회수
@@ -54,6 +55,9 @@ public class ProductDTO extends BaseEntity {
     private int stock;  // 재고 (옵션이 존재하면 옵션 재고의 총합)
 
     private List<ProductOptionCombination> productOptionCombinations; // 조합리스트
+
+    // 추가컬럼
+    private int discountedPrice;
 
     public void changeCategory(Category category) {
         this.category = category;

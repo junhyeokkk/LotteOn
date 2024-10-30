@@ -1,0 +1,586 @@
+/* 장바구니 네비게이션 스타일 */
+.order__nav {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #ddd;
+    padding: 15px 0;
+}
+
+.order__nav h1 {
+    font-size: 24px;
+    color: #222;
+    font-weight: bold;
+}
+
+.order__nav p {
+    font-size: 14px;
+    color: #666;
+}
+
+.order__nav p strong {
+    color: #ff6b6b;
+    font-weight: bold;
+}
+
+/* 주문 상품 목록 테이블 */
+.order__table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+    font-size: 15px;
+    color: #333;
+}
+
+.order__table th, .order__table td {
+    padding: 12px 10px;
+    text-align: center;
+    color: #444;
+}
+
+.order__table thead th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    color: #222;
+    border-bottom: 2px solid #ddd;
+    font-size: 15px;
+}
+
+.order__item {
+    background-color: #fff;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.order__item-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-align: left;
+}
+
+.product-image {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.product-name {
+    font-weight: bold;
+    color: #333;
+}
+
+.product-desc {
+    font-size: 13px;
+    color: #888;
+    margin-top: 4px;
+}
+
+.order__table td:last-child {
+    font-weight: bold;
+    color: #ff6b6b;
+}
+
+.order__table input[type="checkbox"] {
+    accent-color: #007bff;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+    .order__table th, .order__table td {
+        font-size: 13px;
+    }
+
+    .product-image {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+/* 전체 레이아웃을 좌우로 배치 */
+.order__section-wrapper {
+    display: flex;
+    gap: 20px;
+    max-width: 1100px;
+    margin: 20px auto;
+}
+
+.order__left-section {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.order__final-info {
+    flex: 1;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background: #f9f9f9;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* 섹션 스타일 */
+.order__section {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.order__section h2 {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #ff6b6b;
+}
+
+/* 배송 정보 테이블 */
+.order__info-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.order__info-table td {
+    padding: 12px 15px;
+    vertical-align: middle;
+    font-weight: 500;
+    color: #555;
+}
+
+.order__info-table td:first-child {
+    width: 25%;
+    color: #333;
+    font-weight: bold;
+}
+
+/* 인풋 필드 스타일 */
+.input-text {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+/* Align 수령자, 휴대폰, 우편번호 fields */
+.input-text,
+.zip-code {
+    width: 70%; /* Consistent width for 수령자, 휴대폰, and 우편번호 fields */
+    max-width: 300px;
+}
+
+/* Widen 기본주소, 상세주소, 기타 fields */
+.long-input {
+    width: 100%; /* Expands to the full width of the parent container */
+    max-width: 500px; /* Optional maximum width for better control */
+}
+
+.input-text:focus {
+    border-color: #0073e6;
+    outline: none;
+}
+
+/* 우편번호 검색 버튼 */
+.zip-code-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.zip-code {
+    width: 70%;
+}
+
+.btn-search {
+    padding: 8px 12px;
+    background-color: #ff6b6b;
+    border: none;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-search:hover {
+    background-color: #d9534f;
+}
+
+/* 최종 결제 정보 테이블 */
+.order__final-info h2 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.order__final-info table td {
+    padding: 10px;
+    font-size: 14px;
+    color: #666;
+}
+
+.order__final-info button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #ff6b6b;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.order__final-info button:hover {
+    background-color: #d9534f;
+}
+
+/* 반응형 처리 */
+@media (max-width: 768px) {
+    .order__section-wrapper {
+        flex-direction: column;
+    }
+
+    .standard-input, .long-input {
+        width: 100%;
+    }
+}
+
+/* 할인정보 섹션 스타일 */
+.discount-section {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+}
+
+.discount-section h2 {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #ff6b6b;
+}
+
+.current-points {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* 포인트 사용 섹션 */
+.point-usage, .coupon-usage {
+    display: flex;
+    align-items: center;
+    gap: 12px; /* Space between label/input and button */
+    margin-bottom: 15px;
+}
+
+.point-label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #555;
+}
+
+#inputPoint {
+    width: 100%;
+    max-width: 200px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+.btn-apply {
+    padding: 8px 14px;
+    background-color: #ff6b6b;
+    border: none;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-apply:hover {
+    background-color: #d9534f;
+}
+
+.point-info {
+    font-size: 12px;
+    color: #888;
+    margin-top: 5px;
+}
+
+/* 쿠폰 섹션 */
+.coupon-label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #555;
+    margin-right: 8px;
+}
+
+.coupon-usage select {
+    width: 100%;
+    max-width: 200px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #fff;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+    .discount-section {
+        padding: 15px;
+    }
+
+    .point-usage, .coupon-usage {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    #inputPoint, .coupon-usage select {
+        width: 100%;
+    }
+
+    .btn-apply {
+        width: auto;
+    }
+}
+
+/* 결제방법 섹션 스타일 */
+.payment__method {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
+    margin-top: 20px;
+}
+
+.payment__method label {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between radio button and label text */
+    font-size: 16px;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    padding: 8px;
+    border-radius: 6px;
+}
+
+/* Radio button styles */
+.payment__method input[type="radio"] {
+    accent-color: #0073e6;
+}
+
+/* Radio label hover effect */
+.payment__method label:hover {
+    background-color: #f2f2f2;
+}
+
+/* 카카오페이 아이콘 스타일 */
+.payment__method img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    margin-left: 5px;
+}
+
+/* 결제방법 섹션 제목 */
+.payment__method h2 {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #0073e6;
+}
+/* 결제방법 섹션 스타일 */
+.order__section {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+
+.payment__method {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    padding-top: 15px;
+}
+
+/* 스타일을 버튼처럼 변경 */
+.payment__method label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    color: #333;
+    padding: 12px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.payment__method label:hover {
+    background-color: #f2f2f2;
+    border-color: #ccc;
+}
+
+/* 선택된 항목 강조 */
+.payment__method input[type="radio"]:checked + .icon {
+    border-color: #0073e6;
+}
+
+/* 아이콘 공통 스타일 */
+.icon {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    border-radius: 4px;
+    background-position: center; /* 아이콘을 중앙에 배치 */
+    vertical-align: middle; /* 텍스트와 수직 정렬 */
+}
+
+/* 각 아이콘에 이미지 추가 */
+.credit-icon { background-image: url('/icons/credit-card.png'); }
+.check-icon { background-image: url('/icons/check-card.png'); }
+.account-icon { background-image: url('/icons/account-transfer.png'); }
+.acc-icon { background-image: url('/icons/bank-transfer.png'); }
+.phone-icon { background-image: url('/icons/phone-payment.png'); }
+.kakaopay-icon {
+    background-image: url("/images/icons/kakao.png"); /* 저장한 파일 경로로 변경 */
+    width: 24px;
+    height: 24px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+/* 반응형 처리 */
+@media (max-width: 768px) {
+    .payment__method {
+        grid-template-columns: 1fr; /* 1 column layout on smaller screens */
+    }
+}
+
+/* 전체 레이아웃을 좌우로 배치 */
+.order__section-wrapper {
+    display: flex;
+    gap: 20px;
+    max-width: 1200px;
+    margin: auto;
+    align-items: flex-start; /* 상단 맞춤 */
+}
+
+.order__left-section {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* 최종 결제 정보 박스가 오른쪽에 위치하도록 설정 */
+.order__final-info-wrapper {
+    flex: 1;
+    max-width: 400px;
+    margin-top: 0;
+}
+
+/* 최종 결제 정보 카드 */
+.order__final-info {
+    position: sticky;
+    top: 20px; /* 상단에서 20px 떨어진 위치에서 고정 */
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    font-family: Arial, sans-serif;
+    transition: box-shadow 0.3s ease;
+}
+
+.order__final-info h2 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #ff6b6b;
+    padding-bottom: 10px;
+}
+
+/* 결제 정보 테이블 */
+.order__final-info table {
+    width: 100%;
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: #555;
+}
+
+.order__final-info table td {
+    padding: 8px 0;
+}
+
+.order__final-info table .total-label {
+    font-weight: bold;
+    color: #333;
+    font-size: 16px;
+}
+
+.order__final-info table .total-amount {
+    font-weight: bold;
+    color: #d9534f;
+    font-size: 18px;
+}
+
+/* 결제하기 버튼 스타일 */
+.order__final-info button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #ff6b6b;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.order__final-info button:hover {
+    background-color: #d9534f;
+    transform: translateY(-2px);
+}
+
+/* 반응형 처리 */
+@media (max-width: 768px) {
+    .order__section-wrapper {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .order__final-info-wrapper {
+        max-width: 100%;
+    }
+}
