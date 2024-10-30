@@ -3,23 +3,39 @@
 
 <nav class="nav-bar">
     <ul class="nav-items">
-        <li class="nav-item menu">
-            메뉴
-            <ul class="dropdown level-1">
-                <li class="dropdown-item">1차 카테고리 1
-                    <ul class="dropdown level-2">
-                        <li class="dropdown-item">2차 카테고리 1
-                            <ul class="dropdown level-3">
-                                <li class="dropdown-item">3차 카테고리 1</li>
-                                <li class="dro  pdown-item">3차 카테고리 2</li>
-                            </ul>
+        <!-- 메뉴 아이템 -->
+        <li class="nav-item menu">메뉴
+            <div class="categoryMenu">
+                <div class="dep1">
+                    <ul class="menu-list">
+                        <!-- 1차 카테고리 루프 -->
+                        <li class="menu-item" th:each="category : ${categories}">
+                            <a th:href="@{/category/{id}(id=${category.id})}" th:text="${category.name}">카테고리 이름</a>
+
+                            <!-- 2차 카테고리 -->
+                            <div class="dep2" th:if="${category.children}">
+                                <ul>
+                                    <li class="menu-item" th:each="child : ${category.children}">
+                                        <a  th:href="@{/category/{id}(id=${child.id})}" th:text="${child.name}">서브 카테고리 이름</a>
+
+                                        <!-- 3차 카테고리 -->
+                                        <div class="dep3" th:if="${child.children}">
+                                            <ul>
+                                                <li class="menu-item-dep3" th:each="subChild : ${child.children}">
+                                                    <a th:href="@{/category/{id}(id=${subChild.id})}" th:text="${subChild.name}">서브 서브 카테고리 이름</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
-                        <li class="dropdown-item">2차 카테고리 2</li>
                     </ul>
-                </li>
-                <li class="dropdown-item">1차 카테고리 2</li>
-            </ul>
+                </div>
+            </div>
         </li>
+
+        <!-- 기타 메뉴 항목 -->
         <li class="nav-item">
             <a th:href="@{/product/list}">히트상품</a></li>
         <li class="nav-item">추천상품</li>
