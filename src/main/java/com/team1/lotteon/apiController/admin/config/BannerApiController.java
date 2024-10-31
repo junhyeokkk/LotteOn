@@ -15,7 +15,11 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+/*
+    날짜 : 2024/10/24
+    이름 : 최준혁
+    내용 : 배너를 관리하는 api controller 생성
+*/
 @Log4j2
 @RequiredArgsConstructor
 @RestController

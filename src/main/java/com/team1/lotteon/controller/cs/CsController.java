@@ -61,8 +61,8 @@ public class CsController {
     }
 //    QNA 카테고리
     @GetMapping("/api/cs/qna/list/{type2}")
-    public ResponseEntity<PageResponseDTO<InquiryDTO>> getInquirysByType(@PathVariable String type2, @PageableDefault Pageable pageable) {
-        PageResponseDTO<InquiryDTO> inquirysByType = articleService.findQnaByType2(type2, pageable); // Pageable 추가
+    public ResponseEntity<PageResponseDTO<InquiryDTO>> getInquiryByType(@PathVariable String type2, @PageableDefault Pageable pageable) {
+        PageResponseDTO<InquiryDTO> inquirysByType = articleService.findQnaByType1("inquiry", pageable); // Pageable 추가
         return ResponseEntity.ok(inquirysByType);
     }
 

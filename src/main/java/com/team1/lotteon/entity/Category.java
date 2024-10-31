@@ -87,4 +87,18 @@ public class Category {
         target.changeDisplayOrder(tmp);
     }
 
+    public void getCategoryIds(List<Long> categoryIds) {
+        List<Category> children = this.getChildren();
+        if (children == null || children.isEmpty()) {
+            return;
+        }
+
+        children.forEach(child -> {
+            if (child.getLevel() == 3) {
+                categoryIds.add(child.getId());
+            } else {
+                child.getCategoryIds(categoryIds); // 재귀 호출
+            }
+        });
+    }
 }

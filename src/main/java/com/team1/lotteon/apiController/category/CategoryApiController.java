@@ -39,6 +39,12 @@ public class CategoryApiController {
         return ResponseEntity.status(HttpStatus.OK).body(subCategories);
     }
 
+    @GetMapping("/{id}/parents")
+    public ResponseEntity<List<CategoryResponseDTO>> getParentList(@PathVariable Long id) {
+        List<CategoryResponseDTO> parentList = categoryService.getParentList(id);
+        return ResponseEntity.status(HttpStatus.OK).body(parentList);
+    }
+
     // 모든 1차 카테고리 조회 (준혁)
     @GetMapping("/root")
     public ResponseEntity<List<CategoryWithChildrenResponseDTO>> getAllRootCategories() {

@@ -20,6 +20,9 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     @Query("SELECT c FROM Category c left join fetch c.children left join fetch c.parent WHERE c.id = :id")
     public Optional<Category>  findWithChildrenAndParentById(@Param("id") Long id);
 
+    @Query("SELECT c FROM Category c left join fetch c.parent WHERE c.id = :id")
+    public Optional<Category> findWithParentById(Long id);
+
     @Query("SELECT c FROM Category c left join fetch c.children WHERE c.id = :id")
     public Optional<Category>  findWithChildrenById(@Param("id") Long id);
 

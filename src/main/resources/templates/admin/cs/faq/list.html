@@ -62,7 +62,7 @@
                 <!-- FAQ 목록 동적 처리 -->
                 <tr class="admin_list" th:each="faq, iterStat : ${faqs}">
                     <td><input type="checkbox" th:value="${faq.id}" name="RowCheck" /></td>
-                    <td th:text="${iterStat.count}">1</td>
+                    <td th:text="${faq.displayNumber}">1</td>
                     <td th:text="${faq.type1}">1차유형</td>
                     <td th:text="${faq.type2}">2차유형</td>
                     <td style="text-align: left">
@@ -75,16 +75,16 @@
                     <td th:text="${faq.views}">120</td>
                     <td th:text="${#temporals.format(faq.createdAt, 'yyyy-MM-dd')}">2024-10-14</td>
                     <td style="line-height: 20px">
-                        <a th:href="@{/admin/cs/faq/delete(id=${faq.id})}" class="cs_delete-btn">[삭제]</a>
+                        <a href="javascript:void(0);" th:onclick="|deleteFaq(${faq.id})|" class="cs_delete-btn">[삭제]</a>
                         <br>
                         <a th:href="@{/admin/cs/faq/edit(id=${faq.id})}" class="cs_modify-btn">[수정]</a>
                     </td>
                 </tr>
             </table>
 
-            <a href="javascript:void(0);" class="delete_btn" onclick="deleteSelectedFaqs()">선택삭제</a>
+            <a class="delete_btn" href="javascript:void(0);" onclick="deleteSelectedFaqs()">선택삭제</a>
             <a th:href="@{/admin/cs/faq/write}" class="registration_btn">작성하기</a>
-
+            <script src="/js/admin/cs/faqdelete.js"></script>
         </section>
     </div>
 </div>

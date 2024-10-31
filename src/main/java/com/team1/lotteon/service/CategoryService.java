@@ -13,6 +13,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -52,6 +53,25 @@ public class CategoryService {
     public CategoryWithParentAndChildrenResponseDTO getDetailById(Long id) {
         Category category = categoryRepository.findWithChildrenAndParentById(id).orElseThrow(() -> new IllegalArgumentException("카테고리를 찾을 수 없습니다."));
         return CategoryWithParentAndChildrenResponseDTO.fromEntity(category);
+    }
+
+    public List<CategoryResponseDTO> getParentList(Long id) {
+        Category category = categoryRepository.findWithParentById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 카테고리가 없습니다."));
+
+        List<CategoryResponseDTO> parentList = new ArrayList<>();
+        buildParentList(category, parentList);
+
+        return parentList;
+    }
+
+    private void buildParentList(Category category, List<CategoryResponseDTO> parentList) {
+        if (category.getParent() != null) {
+            // 상위 부모부터 먼저 추가되도록 부모 카테고리를 먼저 리스트에 추가
+            buildParentList(category.getParent(), parentList);
+        }
+        // 현재 카테고리를 DTO로 변환하여 리스트에 추가
+        parentList.add(new CategoryResponseDTO(category.getId(), category.getName(), (long) category.getLevel()));
     }
 
     public List<CategoryResponseDTO> getAllCategoriesByParentId(Long parentId) {
