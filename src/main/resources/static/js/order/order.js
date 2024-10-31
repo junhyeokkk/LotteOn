@@ -58,7 +58,8 @@ function submitOrder() {
         .then(data => {
             console.log("주문 성공:", data);
             alert("주문이 성공적으로 완료되었습니다.");
-            // // 예: 주문 완료 후 주문 요약 페이지로 이동하기
+            // 예: 주문 완료 후 주문 요약 페이지로 이동하기
+            window.location.href = '/product/complete'
             // window.location.href = `/order/summary/${data.orderId}`;
         })
         .catch(error => {

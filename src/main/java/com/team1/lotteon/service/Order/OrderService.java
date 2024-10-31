@@ -55,7 +55,7 @@ public class OrderService {
                 .member(member)
 //                .usedPoint(request.getUsedPoint()) // 포인트 development
                 .usedPoint(0)
-                .coupon(getCouponIfExists(request.getCouponId()))
+//                .coupon(getCouponIfExists(request.getCouponId()))
                 .paymentMethod(request.getPaymentMethod())
                 .recipientName(request.getRecipientName())
                 .recipientPhone(request.getRecipientPhone())

@@ -78,6 +78,14 @@ public class ProductPageController {
         return "product/view";
     }
 
+    // complete 페이지 이동
+    @GetMapping("/product/complete")
+    public String complete(Model model) {
+        log.info("complete");
+
+        return "product/complete";
+    }
+
     // order 페이지 이동
     @GetMapping("/product/order")
     public String order(Model model, HttpSession session, @AuthenticationPrincipal MyUserDetails myUserDetails) {
