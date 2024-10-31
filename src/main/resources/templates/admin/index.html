@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>admin_main</title>
     <link rel="stylesheet" th:href="@{/css/admin/admin_main.css}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script type="text/javascript" th:src="@{/js/admin/sidebar.js}"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -25,58 +26,57 @@
     <aside>
         <ul id="admin_sidebar">
             <li>
-                <a href="#"><i class="fa fa-cogs" aria-hidden="true"></i>환경설정</a>
-                <ol>
-                    <li><a th:href="@{/admin/config/info}" class="info">기본환경정보</a></li>
-                    <li><a th:href="@{/admin/config/banner}" class="banner">배너관리</a></li>
-                    <li><a th:href="@{/admin/config/policy}" class="policy">약관관리</a></li>
-                    <li><a th:href="@{/admin/config/category}" class="category">카테고리</a></li>
-                    <li><a th:href="@{/admin/config/version}" class="version">버전관리</a></li>
+                <a href="#"><i class="fas fa-cogs" aria-hidden="true"></i> 환경설정</a>
+                <ol class="config">
+                    <li><a th:href="@{/admin/config/info}" class="info"><i class="fas fa-info-circle"></i> 기본환경정보</a></li>
+                    <li><a th:href="@{/admin/config/banner}" class="banner"><i class="fas fa-image"></i> 배너관리</a></li>
+                    <li><a th:href="@{/admin/config/policy}" class="policy"><i class="fas fa-file-alt"></i> 약관관리</a></li>
+                    <li><a th:href="@{/admin/config/category}" class="category"><i class="fas fa-tags"></i> 카테고리</a></li>
+                    <li><a th:href="@{/admin/config/version}" class="version"><i class="fas fa-code-branch"></i> 버전관리</a></li>
                 </ol>
             </li>
             <li>
-                <a href="#"><i class="fas fa-store" aria-hidden="true"></i>상점관리</a>
-                <ol>
-                    <li><a th:href="@{/admin/shop/list}" class="list">상점목록</a></li>
-                    <li><a th:href="@{/admin/shop/sales}" class="sales">매출현황</a></li>
+                <a href="#"><i class="fas fa-store" aria-hidden="true"></i> 상점관리</a>
+                <ol class="shop">
+                    <li><a th:href="@{/admin/shop/list}" class="list"><i class="fas fa-list"></i> 상점목록</a></li>
+                    <li><a th:href="@{/admin/shop/sales}" class="sales"><i class="fas fa-chart-line"></i> 매출현황</a></li>
                 </ol>
             </li>
             <li>
                 <a href="#"><i class="fa fa-users" aria-hidden="true"></i>회원관리</a>
-                <ol>
-                    <li><a th:href="@{/admin/member/list}" class="list">회원현황</a></li>
-                    <li><a th:href="@{/admin/member/point}" class="sales">포인트관리</a></li>
+                <ol class="member">
+                    <li><a th:href="@{/admin/member/list}" class="list"><i class="fas fa-user-friends"></i> 회원목록</a></li>
+                    <li><a th:href="@{/admin/member/point}" class="point"><i class="fas fa-star"></i> 포인트관리</a></li>
                 </ol>
             </li>
             <li>
                 <a href="#"><i class="fas fa-box-open" aria-hidden="true"></i>상품관리</a>
                 <ol class="product">
-                    <li><a th:href="@{/admin/product/list}" class="list">상품현황</a></li>
-                    <li><a th:href="@{/admin/product/register}" class="register">상품등록</a></li>
+                    <li><a th:href="@{/admin/product/list}" class="list"><i class="fas fa-box"></i> 상품현황</a></li>
+                    <li><a th:href="@{/admin/product/register}" class="register"><i class="fas fa-plus-circle"></i> 상품등록</a></li>
                 </ol>
             </li>
             <li>
                 <a href="#"><i class="fa fa-credit-card" aria-hidden="true"></i>주문관리</a>
                 <ol class="order">
-                    <li><a th:href="@{/admin/order/list}" class="list">주문현황</a></li>
-                    <li><a th:href="@{/admin/order/delivery}" class="delivery">배송현황</a></li>
+                    <li><a th:href="@{/admin/order/list}" class="list"><i class="fas fa-shopping-cart"></i> 주문현황</a></li>
+                    <li><a th:href="@{/admin/order/delivery}" class="delivery"><i class="fas fa-shipping-fast"></i> 배송현황</a></li>
                 </ol>
             </li>
             <li>
-                <a href="#"><i class="fa fa-credit-card" aria-hidden="true"></i>쿠폰관리</a>
+                <a href="#"><i class="fas fa-tags" aria-hidden="true"></i> 쿠폰관리</a>
                 <ol class="coupon">
-                    <li><a th:href="@{/admin/coupon/list}" class="list">쿠폰목록</a></li>
-                    <li><a th:href="@{/admin/coupon/issued}" class="issued">쿠폰발급현황</a></li>
+                    <li><a th:href="@{/admin/coupon/list}" class="list"><i class="fas fa-ticket-alt"></i> 쿠폰목록</a></li>
+                    <li><a th:href="@{/admin/coupon/issued}" class="issued"><i class="fas fa-gift"></i> 쿠폰발급현황</a></li>
                 </ol>
             </li>
             <li>
-                <a href="#"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>고객센터</a>
+                <a href="#"><i class="fas fa-comments" aria-hidden="true"></i> 고객센터</a>
                 <ol class="cs">
-                    <li><a th:href="@{/admin/cs/notice/list}" class="notice">공지사항</a></li>
-                    <li><a th:href="@{/admin/cs/faq/list}" class="faq">자주묻는질문</a></li>
-                    <li><a th:href="@{/admin/cs/qna/list}" class="qna">문의하기</a></li>
-                    <li><a th:href="@{/admin/cs/recruit/list}" class="recruit">채용하기</a></li>
-
+                    <li><a th:href="@{/admin/cs/notice/list}" class="notice"><i class="fa fa-bullhorn" aria-hidden="true"></i> 공지사항</a></li>
+                    <li><a th:href="@{/admin/cs/faq/list}" class="faq"><i class="fa fa-question-circle" aria-hidden="true"></i> 자주묻는질문</a></li>
+                    <li><a th:href="@{/admin/cs/qna/list}" class="qna"><i class="fa fa-envelope" aria-hidden="true"></i> 문의하기</a></li>
+                    <li><a th:href="@{/admin/cs/recruit/list}" class="recruit"><i class="fa fa-users" aria-hidden="true"></i> 채용하기</a></li>
                 </ol>
             </li>
         </ul>

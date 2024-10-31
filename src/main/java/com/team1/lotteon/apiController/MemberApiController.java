@@ -18,6 +18,12 @@ public class MemberApiController {
 
     private final AdminMemberService adminMemberService;
 
+    public static final int STATUS_ACTIVE = 1;     // 정상 상태
+    public static final int STATUS_SUSPENDED = 2;   // 중지 상태
+    public static final int STATUS_INACTIVE = 3;     // 휴면 상태
+    public static final int STATUS_DEACTIVATED = 4;  // 비활성 상태 (탈퇴)
+
+
     // 모든 회원 목록 조회
     @GetMapping("/list")
     public ResponseEntity<List<GeneralMemberDTO>> getAllMembers() {
@@ -85,4 +91,101 @@ public class MemberApiController {
             return ResponseEntity.badRequest().body(response); // 유효하지 않은 요청일 경우 400 Bad Request와 JSON 응답 반환
         }
     }
+
+    @PutMapping("/suspend/{uid}")
+    public ResponseEntity<Map<String, Object>> suspendMember(@PathVariable String uid) {
+        try {
+            adminMemberService.updateMemberStatus(uid, STATUS_SUSPENDED);
+
+            // JSON 형식의 응답 생성
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "회원 상태가 중지되었습니다.");
+            response.put("newStatus", STATUS_SUSPENDED); // 새로운 상태 값을 포함
+
+            return ResponseEntity.ok(response); // JSON 응답 반환
+        } catch (Exception e) {
+            // 예외 처리
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("message", "회원 상태 변경 중 오류가 발생했습니다.");
+
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+        }
+    }
+
+    // 회원 상태 변경: 재개
+    @PutMapping("/reactivate/{uid}")
+    public ResponseEntity<Map<String, Object>> reactivateMember(@PathVariable String uid) {
+        try {
+            adminMemberService.updateMemberStatus(uid, STATUS_ACTIVE);
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "회원 상태가 재개되었습니다."); // 메시지 추가
+            response.put("newStatus", STATUS_ACTIVE); // 새로운 상태 값 추가
+
+            return ResponseEntity.ok(response); // JSON 응답 반환
+        } catch (Exception e) {
+            // 오류 발생 시 JSON 형식으로 오류 메시지 반환
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("message", "회원 상태 변경 중 오류가 발생했습니다.");
+
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+        }
+    }
+
+
+    // 회원 상태 변경: 휴면으로 전환
+    @PutMapping("/set-dormant/{uid}")
+    public ResponseEntity<Map<String, Object>> setDormantMember(@PathVariable String uid) {
+        try {
+            adminMemberService.updateMemberStatus(uid, STATUS_INACTIVE); // STATUS_INACTIVE를 휴면 상태로 사용
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "회원 상태가 휴면으로 전환되었습니다.");
+            response.put("newStatus", STATUS_INACTIVE); // 새로운 상태 값 추가
+
+            return ResponseEntity.ok(response); // JSON 응답 반환
+        } catch (Exception e) {
+            // 오류 발생 시 JSON 형식으로 오류 메시지 반환
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("message", "회원 상태 변경 중 오류가 발생했습니다.");
+
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+        }
+    }
+
+    // 회원 상태 변경: 비활성 (탈퇴)
+    @DeleteMapping("/deactivate/{uid}")
+    public ResponseEntity<Map<String, Object>> deactivateMember(@PathVariable String uid) {
+        try {
+            // 회원 상태를 탈퇴로 변경
+            adminMemberService.updateMemberStatus(uid, STATUS_DEACTIVATED);
+
+            // 회원 정보를 DB에서 삭제
+            adminMemberService.deleteMemberInfo(uid); // 삭제 메서드 호출
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "회원 상태가 비활성되었습니다."); // 메시지 추가
+            response.put("newStatus", STATUS_DEACTIVATED); // 새로운 상태 값 추가
+            return ResponseEntity.ok(response); // JSON 응답 반환
+        } catch (Exception e) {
+            // 오류 발생 시 JSON 형식으로 오류 메시지 반환
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("message", "회원 상태 변경 중 오류가 발생했습니다.");
+
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+        }
+    }
+
+    @PostMapping("/admin/member/update-status/{uid}")
+    @ResponseBody
+    public ResponseEntity<?> updateMemberStatus(@PathVariable String uid, @RequestBody Map<String, Integer> statusRequest) {
+        int status = statusRequest.get("status");
+        try {
+            adminMemberService.updateMemberStatus(uid, status);
+            return ResponseEntity.ok().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
 }

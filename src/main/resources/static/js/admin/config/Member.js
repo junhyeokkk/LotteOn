@@ -1,3 +1,19 @@
+// 상태 값을 한글로 변환하는 함수
+function getStatusText(status) {
+    switch (status) {
+        case 1:
+            return '정상';
+        case 2:
+            return '중지';
+        case 3:
+            return '휴면';
+        case 4:
+            return '탈퇴'; // 비활성
+        default:
+            return '알 수 없음';
+    }
+}
+
 // 모달 창 열기
 function openUserChangeModal(element) {
     // 열릴 때 초기화 (기존 값 제거)
@@ -38,7 +54,11 @@ function openUserChangeModal(element) {
             }
 
             setInputValue('input[name="grade"]', data.grade, '등급');
-            setInputValue('input[name="status"]', data.status, '상태');
+
+            // status 값을 한글로 변환하여 설정
+            const statusText = getStatusText(data.status);
+            setInputValue('input[name="status"]', statusText, '상태');
+
             setInputValue('input[name="email"]', data.email, '이메일');
             setInputValue('input[name="ph"]', data.ph, '전화번호');
 
@@ -46,7 +66,6 @@ function openUserChangeModal(element) {
             setInputValue('input[name="zip"]', data.zip || '', '우편번호');
             setInputValue('input[name="addr1"]', data.addr1 || '', '기본주소');
             setInputValue('input[name="addr2"]', data.addr2 || '', '상세주소');
-
 
             // 가입일 및 최근 로그인 날짜 포맷 설정
             setInputValue('input[name="createdAt"]', formatDateTime(data.createdAt), '가입일');
@@ -199,7 +218,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (gradeSelect) {
                 const grade = gradeSelect.value;
                 if (validGrades.includes(grade)) {
-                    selectedMembers.push({ uid: memberId, grade: grade });
+                    selectedMembers.push({uid: memberId, grade: grade});
                 } else {
                     alert("유효하지 않은 등급이 선택되었습니다.");
                 }
@@ -229,6 +248,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (data.success) {
                     alert("회원 등급이 성공적으로 수정되었습니다.");
                     updateMemberGradesInDOM(selectedMembers);
+                    location.reload();
                 } else {
                     alert(data.message || "등급 수정에 실패했습니다.");
                 }
@@ -289,3 +309,156 @@ function updateMemberGradesInDOM(selectedMembers) {
         }
     });
 }
+
+// 전체 선택 함수
+function toggleAllChecks(checkbox) {
+    // 모든 개별 체크박스를 선택
+    const checkboxes = document.querySelectorAll("input[name='RowCheck']");
+
+    // 전체 선택 체크박스 상태에 따라 모든 체크박스를 선택 또는 해제
+    checkboxes.forEach((rowCheck) => {
+        rowCheck.checked = checkbox.checked;
+    });
+}
+
+// 상태 변경 버튼 클릭 시 호출되는 함수
+function handleStatusClick(element) {
+    const uid = element.getAttribute('data-uid');
+    const currentStatus = element.getAttribute('data-status');
+
+    console.log(`handleStatusClick: uid=${uid}, currentStatus=${currentStatus}`);
+    confirmStatusChange(uid, getStatusAction(currentStatus));  // 상태 변경 확인
+}
+
+// 상태 변경을 확인하는 함수
+function confirmStatusChange(uid, action) {
+    if (confirm(getConfirmationMessage(uid, action))) {
+        applyStatusChange(uid, action);  // 상태 변경 함수 호출
+    }
+}
+
+// 상태 변경에 대한 메시지를 반환하는 함수
+function getConfirmationMessage(uid, action) {
+    const messages = {
+        'suspend': `${uid} 회원을 중지하시겠습니까?`,
+        'reactivate': `${uid} 회원을 재개하시겠습니까?`,
+        'deactivate': `${uid} 회원을 비활성하시겠습니까?`
+    };
+    return messages[action] || "상태를 변경하시겠습니까?";
+}
+
+// 실제 상태 변경을 적용하는 함수
+function applyStatusChange(uid, action) {
+    const endpointMap = {
+        'suspend': `/api/admin/member/suspend/${uid}`,     // 중지 API
+        'reactivate': `/api/admin/member/reactivate/${uid}`, // 재개 API
+        'deactivate': `/api/admin/member/deactivate/${uid}` // 비활성 API
+    };
+
+    console.log("현재 UID:", uid, "액션:", action); // UID 및 액션 확인
+    fetch(endpointMap[action], {method: action === 'deactivate' ? 'DELETE' : 'PUT'})
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(errData => {
+                    throw new Error(errData.message || "상태 변경 실패");
+                });
+            }
+            return response.json(); // 응답을 JSON으로 파싱
+        })
+        .then(data => {
+            console.log("API 응답:", data);
+            const newStatus = data.newStatus; // 실제 변경된 상태로 설정
+            updateStatusUI(uid, newStatus); // UI 업데이트 함수 호출
+
+            // 사용자에게 성공 메시지 표시
+            showAlert(data.message);
+            location.reload();  // 상태 변경 후 페이지 새로고침
+        })
+        .catch(error => {
+            console.error("상태 변경 오류:", error);
+            showAlert(error.message);
+        });
+}
+
+// 알림 메시지 표시 함수
+function showAlert(message) {
+    alert(message);
+}
+
+// 상태 변경에 따라 UI 업데이트
+function updateStatusUI(uid, newStatus) {
+    const statusCell = document.querySelector(`td[data-uid="${uid}"]`);
+    if (statusCell) {
+        statusCell.textContent = getStatusLabel(newStatus); // 상태 라벨 설정
+
+        // 기존 클래스 제거 및 새로운 클래스 추가
+        statusCell.className = '';  // 기존 클래스 초기화
+        const newClass = getStatusClass(getStatusAction(newStatus)); // 액션에 따라 클래스 설정
+        statusCell.classList.add(newClass);
+    }
+}
+
+// 상태별 클래스를 반환하는 함수
+function getStatusClass(action) {
+    const classes = {
+        'suspend': 'status-stopped',
+        'reactivate': 'status-normal',
+        'deactivate': 'status-exit'
+    };
+    return classes[action] || 'status-unknown';
+}
+
+// 현재 상태에 따라 필요한 액션 반환 (중지 기능 포함)
+function getStatusAction(currentStatus) {
+    switch (parseInt(currentStatus)) {
+        case 1:
+            return 'suspend';      // 정상인 경우 중지
+        case 2:
+        case 3:
+            return 'reactivate';    // 중지 또는 휴면일 경우 재개
+        case 4:
+            return 'deactivate';    // 탈퇴
+        default:
+            return '';              // 알 수 없음
+    }
+}
+
+// 상태에 따른 라벨을 반환하는 함수
+function getStatusLabel(status) {
+    console.log(`Received status: ${status}`); // 함수가 호출될 때 상태 출력
+    switch (parseInt(status)) {
+        case 1:
+            return '정상';
+        case 2:
+            return '중지';
+        case 3:
+            return '휴면';
+        case 4:
+            return '탈퇴';
+        default:
+            return '알 수 없음';
+    }
+}
+
+// 상태 값을 액션에 따라 결정하는 함수
+function getStatusValue(action) {
+    switch (action) {
+        case 'suspend':
+            return 2;      // 중지
+        case 'reactivate':
+            return 1;    // 정상으로 재개
+        case 'deactivate':
+            return 4;    // 탈퇴
+        default:
+            return 0;              // 알 수 없음
+    }
+}
+
+// 예시 상태 (여기서도 실제 상태 값으로 테스트해야 함)
+const currentStatus = 2;
+
+// 상태 액션 및 라벨 출력
+const action = getStatusAction(currentStatus);
+const label = getStatusLabel(currentStatus);
+
+console.log(`Action: ${action}, Label: ${label}`); // Action: suspend, Label: 중지

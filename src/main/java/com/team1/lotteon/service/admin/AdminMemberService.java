@@ -14,11 +14,25 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
+
+
+
+/*
+    날짜 : 2024/10/25
+    이름 : 박서홍
+    내용 : AdminMember 기능구현을 위한 Service 작성
+
+    수정이력
+   - 2025/10/31 박서홍 - 상태변경(정상,중지,휴면,비활성)코드 추가
+*/
+
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +40,11 @@ public class AdminMemberService {
 
     private final GeneralMemberRepository generalMemberRepository;
     private final ModelMapper modelMapper;
+    public static final int STATUS_ACTIVE = 1;     // 정상 상태
+    public static final int STATUS_SUSPENDED = 2;   // 중지 상태
+    public static final int STATUS_INACTIVE = 3;     // 휴면 상태
+    public static final int STATUS_DEACTIVATED = 4;  // 비활성 상태 (탈퇴);
+    private final MemberRepository memberRepository;
 
 
     // 검색 기능 추가된 페이징 처리된 회원 목록 조회 메서드
@@ -127,6 +146,12 @@ public class AdminMemberService {
         generalMemberRepository.delete(member);
     }
 
+    public void deleteMemberInfo(String uid) {
+        // 회원 정보를 DB에서 삭제하는 로직
+        memberRepository.deleteById(uid); // uid를 기반으로 회원 정보 삭제
+    }
+
+
     // GeneralMember를 GeneralMemberDTO로 매핑
     private GeneralMemberDTO mapToDTO(GeneralMember member) {
         GeneralMemberDTO memberDTO = modelMapper.map(member, GeneralMemberDTO.class);
@@ -163,7 +188,50 @@ public class AdminMemberService {
         }
     }
 
+    public void updateMemberStatus(String uid, int status) {
+        // 상태 값 검증
+        if (status != STATUS_SUSPENDED && status != STATUS_ACTIVE && status != STATUS_INACTIVE && status != STATUS_DEACTIVATED) {
+            throw new IllegalArgumentException("유효하지 않은 상태 값: " + status);
+        }
+
+        GeneralMember member = generalMemberRepository.findByUid(uid)
+                .orElseThrow(() -> new IllegalArgumentException("회원이 없습니다. ID: " + uid));
+
+        member.setStatus(status);
+        generalMemberRepository.save(member);
+    }
+
+    @Scheduled(cron = "0 0 0 * * ?") // 매일 자정에 실행
+//@Scheduled(cron = "0 0/1 * * * ?") // 매 10분마다 실행 test용
+
+public void updateDormantMembers() {
+        this.checkAndSetDormantMembers();
+    }
+
+
+    public void checkAndSetDormantMembers() {
+//        LocalDateTime oneDayAgo = LocalDateTime.now().minusDays(1); // 하루 전 시각 test용
+
+        LocalDateTime threeMonthsAgo = LocalDateTime.now().minusMonths(3);
+//         '정상' 상태인 회원들 중에서 마지막 로그인 날짜가 3개월 전인 회원들을 가져옴
+        List<GeneralMember> dormantMembers = generalMemberRepository.findByLastLoginDateBeforeAndStatus(threeMonthsAgo, STATUS_ACTIVE);
+//        List<GeneralMember> dormantMembers = generalMemberRepository.findByLastLoginDateBeforeAndStatus(oneDayAgo, STATUS_ACTIVE); //test용
+
+        for (GeneralMember member : dormantMembers) {
+            member.setStatus(STATUS_INACTIVE); // '휴면' 상태로 변경
+            try {
+                generalMemberRepository.save(member);
+                System.out.println("회원 " + member.getUid() + "의 상태가 휴면으로 전환되었습니다.");
+            } catch (Exception e) {
+                System.err.println("회원 " + member.getUid() + "의 상태 업데이트 중 오류 발생: " + e.getMessage());
+            }
+        }
+
+    }
 }
+
+
+
 
 
 
