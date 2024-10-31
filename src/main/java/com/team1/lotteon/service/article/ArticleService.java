@@ -34,6 +34,7 @@ public interface ArticleService {
     List<FaqDTO> getAllFaqs();
     FaqDTO updateFaq(Long id, FaqDTO faqDTO);
     void deleteFaq(Long id);
+    void deleteFaq(List<Long> ids);
     PageResponseDTO<FaqDTO> findFaqByType2(String type2, Pageable pageable);
     List<FaqDTO> findTop10ByOrderByCreatedAtDesc();
 
@@ -43,7 +44,8 @@ public interface ArticleService {
     PageResponseDTO<InquiryDTO> getAllInquiries(Pageable pageable);
     InquiryDTO updateInquiry(Long id, InquiryDTO inquiryDTO);
     void deleteInquiry(Long id);
-    PageResponseDTO<InquiryDTO> findQnaByType2(String type2, Pageable pageable);
+    void deleteInquiry(List<Long> ids);
+    PageResponseDTO<InquiryDTO> findQnaByType1(String type1, Pageable pageable);
 
     // Notice
     NoticeDTO createNotice(NoticeDTO noticeDTO);
@@ -51,6 +53,7 @@ public interface ArticleService {
     PageResponseDTO<NoticeDTO> getAllNotices(Pageable pageable);
     NoticeDTO updateNotice(Long id, NoticeDTO noticeDTO);
     void deleteNotice(Long id);
+    void deleteNotice(List<Long> ids);
     PageResponseDTO<NoticeDTO> findNoticeByType1(String type1, Pageable pageable);
 
 }

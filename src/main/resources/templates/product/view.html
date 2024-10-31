@@ -137,7 +137,7 @@
 
             <!-- 장바구니 구매하기 버튼 그룹 -->
             <div class="button-group">
-                <button onclick="if (validateBeforeAction()) window.location.href='/product/order'" class="button-group__btn button-group__order">
+                <button onclick="saveOrderInfoToSession()" class="button-group__btn button-group__order">
                     <i class="fa-solid fa-credit-card"></i> 구매하기
                 </button>
                 <button onclick="addToCart()" class="button-group__btn button-group__cart">
@@ -474,6 +474,7 @@
                 return true;
             }
 
+            // 장바구니 등록
             function addToCart() {
                 if (!validateBeforeAction()) return;
 
@@ -522,12 +523,65 @@
                     });
             }
 
+            function saveOrderInfoToSession() {
+                if (!validateBeforeAction()) return;
+
+                // 필요한 값을 미리 계산해서 로컬 변수로 저장
+                const discountedPrice = parseFloat(document.getElementById('disPrice').textContent.replace(/[^0-9.-]+/g, ''));
+                const quantity = parseInt(document.getElementById('numInput').value, 10) || 1;
+                const deliveryFee = parseFloat(document.querySelector('.delivery').textContent.replace(/[^0-9.-]+/g, '') || 0);
+                const points = Math.floor(discountedPrice * 0.01); // 포인트 계산 예시
+                const total = discountedPrice * quantity + deliveryFee;
+                const details = getDetailsForSelectedOptions();
+                const combinationId = details.combinationId;
+                const originalPrice =  parseFloat(document.getElementById('prodPrice').textContent.replace(/[^0-9.-]+/g, ''));
+                const discount = (originalPrice * quantity) - total;
+
+                // orderInfo 객체 초기화
+                const orderInfo = {
+                    productId: document.getElementById('prodNo').textContent.trim(),
+                    productImg: document.querySelector('.image img').src,
+                    productName: document.querySelector('.summary__product h3').textContent.trim(),
+                    productDescription: document.querySelector('.summary__product-info').textContent.trim(),
+                    quantity: quantity,
+                    originalPrice: originalPrice,
+                    discountRate: parseFloat(document.getElementById('disCount').textContent.replace('%↓', '')),
+                    discountedPrice: discount,
+                    points: points,
+                    deliveryFee: deliveryFee,
+                    total: total,
+                    combinationId: combinationId
+                };
+
+                console.log('order인포' + orderInfo);
+
+                // 세션에 상품 정보 저장 요청
+                fetch('/api/product/save-order-info', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(orderInfo)
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            window.location.href = '/product/order'; // 세션 저장 성공 후 주문 페이지로 이동
+                        } else {
+                            alert("주문 정보를 저장하는 데 실패했습니다.");
+                        }
+                    })
+                    .catch(error => {
+                        console.error("에러 발생:", error);
+                        alert("주문 정보를 저장하는 데 실패했습니다.");
+                    });
+            }
+
+
             window.updateSelectedOptions = updateSelectedOptions;
             window.changeNumNoOpt = changeNumNoOpt;
             window.checkMaxStock = checkMaxStock;
             window.validateBeforeAction = validateBeforeAction;
             window.addToCart = addToCart;
             window.updateTotalPrice = updateTotalPrice;
+            window.saveOrderInfoToSession = saveOrderInfoToSession;
         });
 
     </script>

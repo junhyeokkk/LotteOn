@@ -58,7 +58,7 @@
                     <td th:text="${notice.views}">120</td>
                     <td th:text="${#temporals.format(notice.createdAt, 'yyyy-MM-dd')}">2024-10-14</td>
                     <td style="line-height: 20px">
-                        <a href="javascript:void(0);" onclick="deleteNotice(${notice.id})" class="cs_delete-btn">[삭제]</a>
+                        <a href="javascript:void(0);" th:onclick="|deleteNotice(${notice.id})|" class="cs_delete-btn">[삭제]</a>
                         <br>
                         <a th:href="@{/admin/cs/notice/edit(id=${notice.id})}" class="cs_modify-btn">[수정]</a>
                     </td>
@@ -87,6 +87,7 @@
                        class="next">›</a>
                 </div>
             </div>
+            <script src="/js/admin/cs/noticedelete.js"></script>
         </section>
     </div>
 </div>

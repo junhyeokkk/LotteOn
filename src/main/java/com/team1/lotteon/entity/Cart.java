@@ -1,5 +1,6 @@
 package com.team1.lotteon.entity;
 
+import com.team1.lotteon.entity.productOption.ProductOptionCombination;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,7 +34,11 @@ public class Cart {
     @JoinColumn(name= "product_id")
     private Product product;
 
-    private Long combinationid; // 선택한 조합 아이디값
+
+    // 수정: ProductOptionCombination 객체를 직접 참조
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "combination_id")
+    private ProductOptionCombination productOptionCombination;
 
     private int totalPrice;
     private int quantity;
