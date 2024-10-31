@@ -4,6 +4,8 @@ import com.team1.lotteon.entity.Inquiry;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 /*
  *   날짜 : 2024/10/21
@@ -14,6 +16,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *  - 2024/10/29 김소희 - 카테고리 연결
  */
 
-public interface InquiryRepository extends JpaRepository<Inquiry, Integer> {
-    Page<Inquiry> findByType2(String type2, Pageable pageable);
+public interface InquiryRepository extends JpaRepository<Inquiry, Long> {
+    @Query("SELECT i FROM Inquiry i JOIN Article a ON i.id = a.id WHERE a.type1 = :type1")
+    Page<Inquiry> findByType1(@Param("type1") String type1, Pageable pageable);
 }

@@ -35,7 +35,8 @@
       <table>
         <tbody>
         <!-- 문의사항 목록 동적 처리 -->
-        <tr th:each="inquiry : ${inquiries}">
+        <tr class="admin_list" th:each="inquiry, iterStat : ${inquiry}">
+<!--        <tr th:each="inquiry : ${inquiries}">-->
           <td>
             <a th:href="@{/cs/layout/qna/view/{id}(id=${inquiry.id})}" th:text="${inquiry.title}">[회원] 문의내용</a>
           </td>

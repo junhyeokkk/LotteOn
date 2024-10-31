@@ -8,6 +8,7 @@
 <th:block layout:fragment="css">
     <link rel="stylesheet" th:href="@{/css/admin/cs/qna/list.css}" />
 </th:block>
+
 <!-- index.html 고유 스크립트 추가 -->
 <th:block layout:fragment="script">
 </th:block>
@@ -25,24 +26,23 @@
             <div class="select-container">
                 <div>
                     <select name="type" onchange="firstOption()">
-                        <productOption>1차선택</productOption>
-                        <productOption value="user">회원</productOption>
-                        <productOption value="coupon">쿠폰/이벤트</productOption>
-                        <productOption value="order">주문/결제</productOption>
-                        <productOption value="delivery">배송</productOption>
-                        <productOption value="cancel">취소/반품/환불</productOption>
-                        <productOption value="travel">여행/숙박/항공</productOption>
-                        <productOption value="safe">안전결제</productOption>
+                        <option>1차선택</option>
+                        <option value="user">회원</option>
+                        <option value="coupon">쿠폰/이벤트</option>
+                        <option value="order">주문/결제</option>
+                        <option value="delivery">배송</option>
+                        <option value="cancel">취소/반품/환불</option>
+                        <option value="travel">여행/숙박/항공</option>
+                        <option value="safe">안전결제</option>
                     </select>
                 </div>
                 <div>
                     <select name="type" onchange="redirectToCateType()">
-                        <productOption>2차선택</productOption>
-                        <productOption value="regi">가입</productOption>
-                        <productOption value="leave">탈퇴</productOption>
-                        <productOption value="info">회원정보</productOption>
-                        <productOption value="login">로그인</productOption>
-
+                        <option>2차선택</option>
+                        <option value="regi">가입</option>
+                        <option value="leave">탈퇴</option>
+                        <option value="info">회원정보</option>
+                        <option value="login">로그인</option>
                     </select>
                 </div>
             </div>
@@ -58,72 +58,49 @@
                     <th>상태</th>
                 </tr>
 
-                <tr class="admin_list">
-                    <td><input type="checkbox" value="noticeNo" name="RowCheck" /></td>
-                    <td>10</td>
-                    <td style="white-space: nowrap;">[유형선택]</td>
-                    <td style="white-space: nowrap;">[유형선택]</td>
+                <!-- 문의 목록 동적 처리 -->
+                <tr class="admin_list" th:each="inquiry : ${inquiries}">
+                    <td><input type="checkbox" th:value="${inquiry.id}" name="RowCheck" /></td>
+                    <td th:text="${inquiry.displayNumber}">10</td>
+                    <td th:text="${inquiry.type1}">[유형선택]</td>
+                    <td th:text="${inquiry.type2}">[유형선택]</td>
                     <td style="text-align: left">
                         <span>
-                            <a th:href="@{/admin/cs/qna/reply}">
-                                <span style="white-space: nowrap;">개인회원과 법인회원에 차이가 있나요?</span>
+                            <a th:href="@{/admin/cs/qna/reply(id=${inquiry.id})}">
+                                <span th:text="${inquiry.title}" style="white-space: nowrap;">개인회원과 법인회원에 차이가 있나요?</span>
                             </a>
                         </span>
                     </td>
-                    <td>chh**</td>
-                    <td style="white-space: nowrap;">2024-10-14</td>
-                    <td>검토중</td>
-                    <!-- 기능 구현시 밑에 로직 참고해서 사용 -->
-                    <!--
-                   <td if="${qna.qnaStatus == '검토중'}" text="${qna.qnaStatus}"></td>
-                   <td if="${qna.qnaStatus == '답변완료'}" text="${qna.qnaStatus}" style="color: #4291e9;"></td>
-                   <-->
+                    <td th:text="${inquiry.memberId}">chh**</td>
+                    <td th:text="${#temporals.format(inquiry.createdAt, 'yyyy-MM-dd')}">2024-10-14</td>
+                    <td th:text="${inquiry.answer != null ? '답변완료' : '검토중'}"
+                        th:style="${inquiry.answer != null} ? 'color: #4291e9;' : ''"></td>
+
                 </tr>
-
-                <tr class="admin_list">
-                    <td><input type="checkbox" value="noticeNo" name="RowCheck" /></td>
-                    <td>10</td>
-                    <td style="white-space: nowrap;">회원</td>
-                    <td style="white-space: nowrap;">가입</td>
-                    <td style="text-align: left">
-                        <span>
-                            <a th:href="@{/admin/cs/qna/reply}">
-                                <span style="white-space: nowrap;">개인회원과 법인회원에 차이가 있나요?</span>
-                            </a>
-                        </span>
-                    </td>
-                    <td>chh**</td>
-                    <td style="white-space: nowrap;">2024-10-14</td>
-                    <td style="color: #2e8de5">답변완료</td>
-                    <!-- 기능 구현시 밑에 로직 참고해서 사용 -->
-                    <!--
-                   <td if="${qna.qnaStatus == '검토중'}" text="${qna.qnaStatus}"></td>
-                   <td if="${qna.qnaStatus == '답변완료'}" text="${qna.qnaStatus}" style="color: #4291e9;"></td>
-                   <-->
-                </tr>
-
-
 
             </table>
-            <a class="delete_btn">선택삭제</a>
+            <a class="delete_btn" href="javascript:void(0);" onclick="deleteSelectedInquirys()">선택삭제</a>
 
             <div class="pagingBox">
                 <div class="pagingList">
                     <!-- 이전 버튼 -->
-                    <a href="#" class="prev"><</a>
+                    <a th:unless="${currentPage == 0}"
+                       th:href="@{/admin/cs/qna/list(page=${currentPage - 1}, size=${pageSize})}"
+                       class="prev">‹</a>
 
-                    <!-- 페이지 링크 -->
-                    <a href="#">1</a>
-                    <a href="#" class="active">2</a>
-                    <a href="#">3</a>
-                    <a href="#">4</a>
-                    <a href="#">5</a>
+                    <!-- 페이지 번호 링크 동적 처리 -->
+                    <a th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}"
+                       th:href="@{/admin/cs/qna/list(page=${pageNum}, size=${pageSize})}"
+                       th:text="${pageNum + 1}"
+                       th:classappend="${pageNum == currentPage} ? 'active'">1</a>
 
                     <!-- 다음 버튼 -->
-                    <a href="#" class="next">></a>
+                    <a th:if="${!isLast}"
+                       th:href="@{/admin/cs/qna/list(page=${currentPage + 1}, size=${pageSize})}"
+                       class="next">›</a>
                 </div>
             </div>
-
+            <script src="/js/admin/cs/qnadelete.js"></script>
         </section>
     </div>
 </div>

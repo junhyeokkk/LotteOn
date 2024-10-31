@@ -15,7 +15,8 @@ import java.util.List;
  *  수정이력
  *  - 2024/10/29 김소희 - 카테고리 연결
  */
-public interface FaqRepository extends JpaRepository<FAQ, Integer> {
+public interface FaqRepository extends JpaRepository<FAQ, Long> {
     Page<FAQ> findByType2(String type2, Pageable pageable);
-    public List<FAQ> findTop10ByOrderByCreatedAtDesc();
+    List<FAQ> findTop10ByOrderByCreatedAtDesc();
+    List<FAQ> findAllByOrderByCreatedAtDesc();
 }

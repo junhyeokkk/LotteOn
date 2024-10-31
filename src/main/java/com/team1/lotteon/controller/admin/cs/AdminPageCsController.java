@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -36,6 +37,7 @@ private final ArticleService articleService;
     }
 
     // notice
+    // list
     @GetMapping("/admin/cs/notice/list")
     public String notice_list(Model model, @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC)Pageable pageable){
 
@@ -51,15 +53,22 @@ private final ArticleService articleService;
 
         return "admin/cs/notice/list";
     }
+    // view
     @GetMapping("/admin/cs/notice/view/{id}")
-    public String notice_view(@PathVariable Long id, Model model){
-        model.addAttribute("group", "notice");
-        model.addAttribute("cate", "view");
-        NoticeDTO notice = articleService.getNoticeById(id);
-        model.addAttribute("notice", notice);
-
-        return "admin/cs/notice/view";
+    public String noticeView(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
+        try {
+            model.addAttribute("group", "notice");
+            model.addAttribute("cate", "view");
+            NoticeDTO notice = articleService.getNoticeById(id);
+            model.addAttribute("notice", notice);
+            return "admin/cs/notice/view"; // view 페이지로 이동
+        } catch (RuntimeException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "해당 공지사항을 찾을 수 없습니다.");
+            return "redirect:/admin/cs/notice/list"; // 목록 페이지로 리다이렉트
+        }
     }
+
+    // write
     @GetMapping("/admin/cs/notice/write")
     public String notice_write(){
 
@@ -71,6 +80,7 @@ private final ArticleService articleService;
 
         return "redirect:/admin/cs/notice/list";
     }
+    // modify
     @GetMapping("/admin/cs/notice/modify")
     public String notice_modify(){
 
@@ -86,20 +96,34 @@ private final ArticleService articleService;
 
         return "admin/cs/faq/list";
     }
-    @GetMapping("/admin/cs/faq/view/{id}")
-    public String faq_view(@PathVariable Long id, Model model){
-        model.addAttribute("group", "faq");
-        model.addAttribute("cate", "view");
-        FaqDTO faq = articleService.getFaqById(id);
-        model.addAttribute("faq", faq);
 
-        return "admin/cs/faq/view";
+    // view
+    @GetMapping("/admin/cs/faq/view/{id}")
+    public String faq_view(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
+        try {
+            model.addAttribute("group", "faq");
+            model.addAttribute("cate", "view");
+            FaqDTO faq = articleService.getFaqById(id);
+            model.addAttribute("faq", faq);
+            return "admin/cs/faq/view";
+        } catch (RuntimeException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "해당 공지사항을 찾을 수 없습니다.");
+            return "redirect:/admin/cs/faq/list";
+        }
     }
+    //write
     @GetMapping("/admin/cs/faq/write")
     public String faq_write(){
 
         return "admin/cs/faq/write";
     }
+    @PostMapping("/admin/cs/faq/write")
+    public String faq_write(FaqDTO faqDTO){
+        articleService.createFaq(faqDTO);
+
+        return "redirect:/admin/cs/faq/write";
+    }
+    // modify
     @GetMapping("/admin/cs/faq/modify")
     public String faq_modify(){
 
@@ -107,7 +131,8 @@ private final ArticleService articleService;
     }
 
 
-    //qna
+    // qna
+    // list
     @GetMapping("/admin/cs/qna/list")
     public String qna_list(Model model, @PageableDefault(size = 10)Pageable pageable){
         PageResponseDTO<InquiryDTO> allInquiries = articleService.getAllInquiries(pageable);
@@ -122,6 +147,7 @@ private final ArticleService articleService;
 
         return "admin/cs/qna/list";
     }
+    // view
     @GetMapping("/admin/cs/qna/view/{id}")
     public String qna_view(@PathVariable Long id, Model model){
         model.addAttribute("group", "qna");
@@ -131,6 +157,7 @@ private final ArticleService articleService;
 
         return "admin/cs/qna/view";
     }
+    // reply
     @GetMapping("/admin/cs/qna/reply")
     public String qna_reply(){
 

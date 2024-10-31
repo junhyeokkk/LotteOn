@@ -1,6 +1,5 @@
 package com.team1.lotteon.repository;
 
-import com.team1.lotteon.entity.FAQ;
 import com.team1.lotteon.entity.Notice;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +14,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *  - 2024/10/29 김소희 - 카테고리 연결
  */
 
-public interface NoticeRepository extends JpaRepository<Notice, Integer> {
+public interface NoticeRepository extends JpaRepository<Notice, Long> {
     Page<Notice> findByType1(String type1, Pageable pageable);
 }

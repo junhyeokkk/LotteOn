@@ -11,7 +11,6 @@ import com.team1.lotteon.dto.PageResponseDTO;
 import com.team1.lotteon.dto.cs.FaqDTO;
 import com.team1.lotteon.dto.cs.InquiryDTO;
 import com.team1.lotteon.dto.cs.NoticeDTO;
-import com.team1.lotteon.entity.FAQ;
 import com.team1.lotteon.service.article.ArticleServiceImpl;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Pageable;
@@ -19,12 +18,11 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Log4j2
 @Controller
@@ -54,26 +52,72 @@ public class AdminCsController {
         NoticeDTO createNotice = articleService.createNotice(noticeDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(createNotice);
     }
+    // delete
+    // 선택 삭제
+    @PostMapping("/admin/cs/notice/deleteSelected")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> deleteSelectedNotices(@RequestBody List<Long> ids) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            articleService.deleteNotice(ids); // 여러 ID 삭제
+            response.put("success", true);
+            response.put("message", "선택된 공지사항이 삭제되었습니다.");
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("message", "삭제 중 오류가 발생했습니다.");
+        }
+        return ResponseEntity.ok(response);
+    }
+    // 삭제 버튼
+    @DeleteMapping("/api/admin/notice/delete/{id}")
+    public ResponseEntity<?> deleteNotice(@PathVariable Long id) {
+        try {
+            articleService.deleteNotice(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("삭제 실패");
+        }
+    }
+
 
     // Faq 자주 묻는 질문
     // list
-//    @GetMapping("/api/admin/faq/list")
-//    public ResponseEntity<List<FaqDTO>> getAllFaqs(@PageableDefault Pageable pageable) {
-//        List<FaqDTO> faqs = articleService.getAllFaqs();
-//        return ResponseEntity.ok(faqs);
-//    }
-
     @GetMapping("/api/admin/faq/list")
     public ResponseEntity<List<FaqDTO>> findTop10ByOrderByCreatedAtDesc() {
         List<FaqDTO> faqs = articleService.findTop10ByOrderByCreatedAtDesc();
         return ResponseEntity.ok(faqs);
     }
-
     // view
     @GetMapping("/api/admin/faq/view/{id}")
     public ResponseEntity<FaqDTO> getFaqById(@PageableDefault Long id) {
         FaqDTO faqs = articleService.getFaqById(id);
         return ResponseEntity.ok(faqs);
+    }
+    // delete
+    // 선택 삭제
+    @PostMapping("/admin/cs/faq/deleteSelected")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> deleteSelectedFaqs(@RequestBody List<Long> ids) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            articleService.deleteFaq(ids); // 여러 ID 삭제
+            response.put("success", true);
+            response.put("message", "선택된 공지사항이 삭제되었습니다.");
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("message", "삭제 중 오류가 발생했습니다.");
+        }
+        return ResponseEntity.ok(response);
+    }
+    // 삭제 버튼
+    @DeleteMapping("/api/admin/faq/delete/{id}")
+    public ResponseEntity<?> deleteFaq(@PathVariable Long id) {
+        try {
+            articleService.deleteFaq(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("삭제 실패");
+        }
     }
 
     // Inquiry 문의사항
@@ -88,6 +132,32 @@ public class AdminCsController {
     public ResponseEntity<InquiryDTO> getInquiryById(@PageableDefault Long id) {
         InquiryDTO inquirys = articleService.getInquiryById(id);
         return ResponseEntity.ok(inquirys);
+    }
+    // delete
+    // 선택 삭제
+    @PostMapping("/admin/cs/qna/deleteSelected")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> deleteSelectedInquirys(@RequestBody List<Long> ids) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            articleService.deleteInquiry(ids); // 여러 ID 삭제
+            response.put("success", true);
+            response.put("message", "선택된 공지사항이 삭제되었습니다.");
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("message", "삭제 중 오류가 발생했습니다.");
+        }
+        return ResponseEntity.ok(response);
+    }
+    // 삭제 버튼
+    @DeleteMapping("/api/admin/qna/delete/{id}")
+    public ResponseEntity<?> deleteInquiry(@PathVariable Long id) {
+        try {
+            articleService.deleteInquiry(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("삭제 실패");
+        }
     }
 
 
