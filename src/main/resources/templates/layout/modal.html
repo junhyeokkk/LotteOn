@@ -17,8 +17,8 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/moment/min/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-    <link rel="stylesheet" href="/resources/static/css/my/modal.css">
-    <link rel="stylesheet" href="/resources/static/css/my/myinfo.css">
+    <link rel="stylesheet" href="/static/css/my/modal.css">
+    <link rel="stylesheet" href="/static/css/my/myinfo.css">
 </head>
 <body>
 
@@ -32,7 +32,7 @@
 <button id="returnBtn" class="modal-button">7. 교환 신청</button><br>
 <button id="deliberyBtn" class="modal-button">8. 배송지</button>
 <button id="deliberyinserBtn" class="modal-button">9. 배송지 등록</button>
-
+<button id="couponinfoBtn" class="modal-button">10. 쿠폰 등록</button>
 <!-- 주문상세 모달 -->
 <div id="orderDetailModal" class="modal user">
     <div class="ordermodal-content modalcontent">
@@ -281,6 +281,7 @@
         </section>
     </div>
 </div>
+
 <!-- 반품신청 모달 -->
 <div id="refundModal" class="modal user">
     <div class="refundModal-content modalcontent">
@@ -564,6 +565,52 @@
         </section>
     </div>
 </div>
+<!-- 쿠폰 등록 모달 -->
+<div id="couponinfoModal" class="modal user">
+    <div class="couponinfoModal-content modalcontent">
+        <nav class="modal-nav">
+            <h1>쿠폰 다운로드</h1>
+            <button class="modal-close" id="closeModal">&times;</button>
+        </nav>
+        <section class="modal-section">
+            <h3>사용가능한 쿠폰</h3>
+            
+            <!-- 배송지 카드 -->
+            <div class="delivery-card">
+                <div class="delivery-card-header">
+                    <div class="delivery-title">
+                        <strong>쿠폰이름</strong>
+                    </div>
+                    <div class="action-buttons">
+                        <button type="button">다운받기</button>
+                    </div>
+                </div>
+                <div class="delivery-info">
+                    할인 내용<br>
+                    다운 가능 날짜 2024-01-01<br>
+                    발급후 사용 가능 기간 10일
+                </div>
+            </div>
+            <div class="delivery-card">
+                <div class="delivery-card-header">
+                    <div class="delivery-title">
+                        <strong>최준혁</strong>
+                    </div>
+                    <div class="action-buttons">
+                        <button type="button">다운받기</button>
+                    </div>
+                </div>
+                <div class="delivery-info">
+                    할인 내용<br>
+                    다운 가능 날짜 2024-01-01<br>
+                    발급후 사용 가능 기간 10일
+                </div>
+            </div>
+            <!-- 새로운 배송지 등록 버튼 -->
+            <button class="delivery-button" type="button">전체 다운받기</button>
+        </section>
+    </div>
+</div>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
 
@@ -577,7 +624,8 @@
             refundModal: document.getElementById('refundModal'),
             returnModal: document.getElementById('returnModal'),
             deliberyModal: document.getElementById('deliberyModal'),
-            deliberyinsertModal: document.getElementById('deliberyinsertModal')
+            deliberyinsertModal: document.getElementById('deliberyinsertModal'),
+            couponinfoModal: document.getElementById('couponinfoModal')
         };
 
         const buttons = {
@@ -589,7 +637,8 @@
             refundBtn: document.getElementById('refundBtn'),
             returnBtn: document.getElementById('returnBtn'),
             deliberyBtn: document.getElementById('deliberyBtn'),
-            deliberyinserBtn:document.getElementById('deliberyinserBtn')
+            deliberyinserBtn:document.getElementById('deliberyinserBtn'),
+            couponinfoBtn:document.getElementById('couponinfoBtn')
         };
 
         // 버튼 클릭 시 모달 열기
@@ -619,6 +668,9 @@
         };
         buttons.deliberyinserBtn.onclick = function() {
             modals.deliberyinsertModal.style.display = "block";
+        };
+        buttons.couponinfoBtn.onclick = function() {
+            modals.couponinfoModal.style.display = "block";
         };
         // 이벤트 위임을 통해 closeModal 처리
         document.addEventListener('click', function(event) {
