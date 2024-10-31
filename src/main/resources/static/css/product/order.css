@@ -411,11 +411,10 @@
     border-bottom: 2px solid #0073e6;
 }
 /* 결제방법 섹션 스타일 */
-.order__section {
+.ordersection {
     padding: 20px;
     border: 1px solid #ddd;
     border-radius: 10px;
-    background-color: #f9f9f9;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
 }
 

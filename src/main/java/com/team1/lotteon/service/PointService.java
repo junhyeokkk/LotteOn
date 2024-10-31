@@ -59,7 +59,7 @@ public class PointService {
         Point point = modelMapper.map(pointDTO, Point.class);
         GeneralMember generalMember = generalMemberRepository.findByUid(pointDTO.getMember_id()).orElse(null);
         // 멤버 포인트 set
-        generalMember.increasePoints(pointDTO.getAcPoints());
+        generalMember.increasePoints(pointDTO.getGivePoints());
         point.changeMember(generalMember);
         pointRepository.save(point);
     }

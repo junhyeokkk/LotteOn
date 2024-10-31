@@ -2,20 +2,24 @@ package com.team1.lotteon.controller.product;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.team1.lotteon.dto.ConfigDTO;
+import com.team1.lotteon.dto.GeneralMemberDTO;
+import com.team1.lotteon.dto.order.FinalOrderSummaryDTO;
+import com.team1.lotteon.dto.order.OrderInfoDTO;
 import com.team1.lotteon.dto.PageResponseDTO;
 import com.team1.lotteon.dto.cart.CartDTO;
 import com.team1.lotteon.dto.category.CategoryResponseDTO;
 import com.team1.lotteon.dto.product.ProductDTO;
 import com.team1.lotteon.dto.product.ProductSummaryResponseDTO;
-import com.team1.lotteon.entity.Product;
+import com.team1.lotteon.entity.GeneralMember;
 import com.team1.lotteon.security.MyUserDetails;
 import com.team1.lotteon.service.CartService;
 import com.team1.lotteon.service.CategoryService;
 import com.team1.lotteon.service.ProductService;
 import com.team1.lotteon.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -45,6 +49,7 @@ public class ProductPageController {
     private final CartService cartService;
     private final CategoryService categoryService;
 
+    private final ModelMapper modelMapper;
     // list 페이지 이동
     @GetMapping("/product/list")
     public String list(Model model, @PageableDefault Pageable pageable, @RequestParam(required = false) Long categoryId) {
@@ -75,8 +80,64 @@ public class ProductPageController {
 
     // order 페이지 이동
     @GetMapping("/product/order")
-    public String order(Model model) {
+    public String order(Model model, HttpSession session, @AuthenticationPrincipal MyUserDetails myUserDetails) {
         log.info("order");
+        if(myUserDetails == null){
+            throw new IllegalArgumentException("로그인이 필요합니다.");
+        }
+
+        GeneralMemberDTO member = modelMapper.map(myUserDetails.getGeneralMember(), GeneralMemberDTO.class);
+
+        List<OrderInfoDTO> sessionOrderInfoList = (List<OrderInfoDTO>) session.getAttribute("orderInfoList");
+
+        if (sessionOrderInfoList == null || sessionOrderInfoList.isEmpty()) {
+            log.warn("세션에 orderInfoList가 없습니다.");
+            return "redirect:/product";
+        }
+
+        // 최종 결제 정보 합산을 위한 변수 초기화
+        FinalOrderSummaryDTO finalOrderSummary = new FinalOrderSummaryDTO();
+        int totalOriginalPrice = 0, totalDiscount = 0, totalOrderAmount = 0, totalDeliveryFee = 0, totalPoints = 0, totalEarnedPoints = 0, totalQuantity = 0;
+
+        // 한 번의 반복문에서 처리
+        for (OrderInfoDTO orderInfo : sessionOrderInfoList) {
+            // 1. 이미지 경로 가공
+            String productImg = orderInfo.getProductImg();
+            if (productImg != null && !productImg.startsWith("http")) {
+                productImg = "http://localhost:8080/uploads/product/" + productImg;
+                orderInfo.setProductImg(productImg);
+            }
+
+            // 2. 옵션 문자열 포맷팅
+            if (orderInfo.getFormattedOptions() == null) {
+                String formattedOptions = cartService.formatOptionValueCombination(orderInfo.getProductOptionCombination().getOptionValueCombination());
+                orderInfo.setFormattedOptions(formattedOptions);
+            }
+
+            // 3. 최종 결제 정보 합산
+            totalQuantity += orderInfo.getQuantity();
+            totalOriginalPrice += orderInfo.getOriginalPrice() * orderInfo.getQuantity();
+            totalOrderAmount += orderInfo.getTotal();
+            totalDiscount += (orderInfo.getDiscountedPrice());
+            totalDeliveryFee += orderInfo.getDeliveryFee();
+            totalPoints += orderInfo.getPoints();
+            totalEarnedPoints += orderInfo.getPoints();
+        }
+
+        // FinalOrderSummaryDTO에 합산 값 설정
+        finalOrderSummary.setTotalQuantity(totalQuantity);
+        finalOrderSummary.setTotalOriginalPrice(totalOriginalPrice);
+        finalOrderSummary.setTotalDiscount(totalDiscount);
+        finalOrderSummary.setTotalOrderAmount(totalOrderAmount);
+        finalOrderSummary.setTotalDeliveryFee(totalDeliveryFee > 0 ? totalDeliveryFee : 0);
+        finalOrderSummary.setTotalEarnedPoints(totalEarnedPoints);
+
+        // 모델에 추가
+        model.addAttribute("orderInfoList", sessionOrderInfoList);
+        model.addAttribute("finalOrderSummary", finalOrderSummary);
+        model.addAttribute("member", member);
+
+        log.info("가공된 이미지 경로 포함된 orderInfo: {}", sessionOrderInfoList);
 
         return "product/order";
     }
@@ -84,10 +145,10 @@ public class ProductPageController {
 
     // cart 페이지 이동
     @GetMapping("/product/cart")
-    public String cart(Model model, @AuthenticationPrincipal MyUserDetails myUserDetails) {
+    public String cart(Model model,@AuthenticationPrincipal MyUserDetails myUserDetails) {
         log.info("Accessing cart");
 
-        if (myUserDetails == null) {
+        if(myUserDetails == null){
             throw new IllegalArgumentException("로그인이 필요합니다.");
         }
 
@@ -96,7 +157,13 @@ public class ProductPageController {
         // 로그인 한 객체 id 값 넣어주고 service 호출
         List<CartDTO> cartItems = cartService.getCartItemsByMemberId(memberId);
 
-        log.info("내 카트 " + cartItems.toString());
+        // 문자열 가공
+        for (CartDTO cartItem : cartItems) {
+            String formattedOptions = cartService.formatOptionValueCombination(cartItem.getProductOptionCombination().getOptionValueCombination());
+            cartItem.setFormattedOptions(formattedOptions);  // CartDTO에 formattedOptions 필드 추가 필요
+        }
+        log.info("내 카트 " + cartItems.toString() );
+
         // 모델참조
         model.addAttribute("cartItems", cartItems);
 

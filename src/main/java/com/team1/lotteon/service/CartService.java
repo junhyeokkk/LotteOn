@@ -1,5 +1,8 @@
 package com.team1.lotteon.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.team1.lotteon.dto.cart.CartDTO;
 import com.team1.lotteon.dto.cart.CartRequestDTO;
 import com.team1.lotteon.entity.Cart;
@@ -18,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /*
@@ -37,6 +41,20 @@ public class CartService {
     private final ProductOptionCombinationRepository productOptionCombinationRepository;
     private final CartRepository cartRepository;
     private final ModelMapper modelMapper;
+
+    // json 문자열 가공
+    public String formatOptionValueCombination(String json) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            Map<String, String> options = mapper.readValue(json, new TypeReference<Map<String, String>>() {});
+            return options.entrySet().stream()
+                    .map(entry -> entry.getKey() + ": " + entry.getValue())
+                    .collect(Collectors.joining(", "));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return ""; // 파싱 실패 시 빈 문자열 반환
+        }
+    }
 
     // 로그인 한 사용자 cart select
     public List<CartDTO> getCartItemsByMemberId(String memberId) {
@@ -76,7 +94,7 @@ public class CartService {
        Cart cartItem = Cart.builder()
                 .member(loginMember)
                 .product(optionCombination.getProduct())
-                .combinationid(optionCombination.getId())
+                .productOptionCombination(optionCombination)  // 수정: ProductOptionCombination 객체 직접 설정
                 .quantity(cartRequestDTO.getQuantity())
                 .totalPrice(cartRequestDTO.getTotalPrice())
                 .build();
@@ -84,4 +102,25 @@ public class CartService {
         cartRepository.save(cartItem);
         return true;
     }
+
+    // cartId를 통해 Cart 엔티티를 조회하고 CartDTO로 변환
+    public CartDTO getCartItemById(Long cartId) {
+        return cartRepository.findById(Math.toIntExact(cartId))
+                .map(this::convertToCartDTO)  // 엔티티 -> DTO 변환
+                .orElseThrow(() -> new IllegalArgumentException("해당 장바구니 항목을 찾을 수 없습니다: " + cartId));
+    }
+
+    // Cart 엔티티 -> CartDTO 변환 메서드
+    private CartDTO convertToCartDTO(Cart cart) {
+        return CartDTO.builder()
+                .id(cart.getId())
+                .member(cart.getMember())
+                .product(cart.getProduct())
+                .quantity(cart.getQuantity())
+                .totalPrice(cart.getTotalPrice())
+                .productOptionCombination(cart.getProductOptionCombination())
+                .formattedOptions(formatOptionValueCombination(cart.getProductOptionCombination().getOptionValueCombination()))
+                .build();
+    }
+
 }

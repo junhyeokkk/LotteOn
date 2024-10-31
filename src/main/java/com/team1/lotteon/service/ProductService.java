@@ -259,6 +259,11 @@ public class ProductService {
                 .findFirst();
     }
 
+    // 옵션 조합 찾기
+    public ProductOptionCombination getOptionCombinationById(Long id) {
+        return productOptionCombinationRepository.findById(id).orElse(null);
+    }
+
 
     /**
      * 주어진 카테고리 ID에 해당하는 모든 상품을 조회하여 페이지 응답으로 반환하는 함수.

@@ -2,6 +2,7 @@ package com.team1.lotteon.dto.cart;
 
 import com.team1.lotteon.entity.Member;
 import com.team1.lotteon.entity.Product;
+import com.team1.lotteon.entity.productOption.ProductOptionCombination;
 import lombok.*;
 
 /*
@@ -20,7 +21,11 @@ public class CartDTO {
     private Long id;
     private Member member;
     private Product product;
-    private Long combinationid; // 선택한 조합 아이디값
     private int quantity;
     private int totalPrice;
+
+    private ProductOptionCombination productOptionCombination; // 추가: 선택된 옵션 조합 객체
+
+    // 뷰 출력을 위한 옵션값 문자열 가공
+    private String formattedOptions;
 }
