@@ -3,44 +3,108 @@
 
 <nav class="nav-bar">
     <ul class="nav-items">
-        <!-- 메뉴 아이템 -->
         <li class="nav-item menu">메뉴
-            <div class="categoryMenu">
-                <div class="dep1">
-                    <ul class="menu-list">
-                        <!-- 1차 카테고리 루프 -->
-                        <li class="menu-item" th:each="category : ${categories}">
-                            <a th:href="@{/category/{id}(id=${category.id})}" th:text="${category.name}">카테고리 이름</a>
-
-                            <!-- 2차 카테고리 -->
-                            <div class="dep2" th:if="${category.children}">
-                                <ul>
-                                    <li class="menu-item" th:each="child : ${category.children}">
-                                        <a  th:href="@{/category/{id}(id=${child.id})}" th:text="${child.name}">서브 카테고리 이름</a>
-
-                                        <!-- 3차 카테고리 -->
-                                        <div class="dep3" th:if="${child.children}">
-                                            <ul>
-                                                <li class="menu-item-dep3" th:each="subChild : ${child.children}">
-                                                    <a th:href="@{/category/{id}(id=${subChild.id})}" th:text="${subChild.name}">서브 서브 카테고리 이름</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
+            <div id="categoryMenu" class="categoryMenu">
+                <!-- 카테고리가 동적으로 삽입될 영역 -->
             </div>
         </li>
-        <li class="nav-item menu">
-            <a th:href="@{/product/list}">히트상품</a>
-        </li>
-
-        <li class="nav-item menu">추천상품</li>
-        <li class="nav-item menu">최신상품</li>
-        <li class="nav-item menu">인기상품</li>
-        <li class="nav-item menu">할인상품</li>
+        <li class="nav-item menu"><a href="/product/list">히트상품</a></li>
+        <li class="nav-item menu"><a href="/product/list">추천상품</a></li>
+        <li class="nav-item menu"><a href="/product/list">최신상품</a></li>
+        <li class="nav-item menu"><a href="/product/list">인기상품</a></li>
+        <li class="nav-item menu"><a href="/product/list">할인상품</a></li>
     </ul>
 </nav>
+<script>
+    // 페이지 로드 시 fetch 호출
+    document.addEventListener("DOMContentLoaded", async function() {
+        try {
+            const response = await fetch('/api/cate/all');
+            if (!response.ok) throw new Error('카테고리 데이터를 가져오는 데 실패했습니다.');
+            const categories = await response.json();
+            renderCategories(categories);
+        } catch (error) {
+            console.error(error);
+        }
+    });
+
+    // 카테고리 데이터를 받아서 렌더링하는 함수
+    function renderCategories(categories) {
+        const categoryMenu = document.getElementById('categoryMenu');
+        const dep1 = document.createElement('div');
+        dep1.classList.add('dep1');
+
+        const menuList = document.createElement('ul');
+        menuList.classList.add('menu-list');
+
+        categories.forEach(category => {
+            const categoryItem = createCategoryItem(category);
+            menuList.appendChild(categoryItem);
+        });
+
+        dep1.appendChild(menuList);
+        categoryMenu.appendChild(dep1);
+    }
+
+    // 1차, 2차, 3차 카테고리 각각의 요소 생성 함수
+    function createCategoryItem(category) {
+        const li = document.createElement('li');
+        li.classList.add('menu-item');
+
+        const a = document.createElement('a');
+        a.href = `/product/list?categoryId=${category.id}`;
+        a.textContent = category.name;
+        li.appendChild(a);
+
+        // 2차 카테고리 처리
+        if (category.children && category.children.length > 0) {
+            const dep2 = document.createElement('div');
+            dep2.classList.add('dep2');
+            const subList = document.createElement('ul');
+
+            category.children.forEach(child => {
+                const childItem = createSubCategoryItem(child);
+                subList.appendChild(childItem);
+            });
+
+            dep2.appendChild(subList);
+            li.appendChild(dep2);
+        }
+
+        return li;
+    }
+
+    function createSubCategoryItem(child) {
+        const li = document.createElement('li');
+        li.classList.add('menu-item');
+
+        const a = document.createElement('a');
+        a.href = `/product/list?categoryId=${child.id}`;
+        a.textContent = child.name;
+        li.appendChild(a);
+
+        // 3차 카테고리 처리
+        if (child.children && child.children.length > 0) {
+            const dep3 = document.createElement('div');
+            dep3.classList.add('dep3');
+            const subChildList = document.createElement('ul');
+
+            child.children.forEach(subChild => {
+                const subChildItem = document.createElement('li');
+                subChildItem.classList.add('menu-item-dep3');
+
+                const subChildLink = document.createElement('a');
+                subChildLink.href = `/product/list?categoryId=${subChild.id}`;
+                subChildLink.textContent = subChild.name;
+                subChildItem.appendChild(subChildLink);
+
+                subChildList.appendChild(subChildItem);
+            });
+
+            dep3.appendChild(subChildList);
+            li.appendChild(dep3);
+        }
+
+        return li;
+    }
+</script>

@@ -60,6 +60,7 @@ public class ProductService {
     private final OptionItemRepository optionItemRepository;
 
     private final ProductOptionCombinationRepository productOptionCombinationRepository;
+    private final CategoryRepository categoryRepository;
 
     // 상품 이미지 업로드
     @Value("${spring.servlet.multipart.location}")
@@ -68,7 +69,7 @@ public class ProductService {
     // 이미지 업로드 처리
     public String uploadFile(MultipartFile file) throws IOException {
         // 파일 업로드 경로 파일 객체 생성
-        File fileUploadPath = new File(uploadDir+"/product");
+        File fileUploadPath = new File(uploadDir + "/product");
 
         // 파일 업로드 시스템 경로 구하기
         String productUploadDir = fileUploadPath.getAbsolutePath();
@@ -127,7 +128,8 @@ public class ProductService {
 
         // 상세 정보 저장
         List<ProductdetailDTO> productDetailsList = objectMapper.readValue(
-                dto.getProductDetailsJson(), new TypeReference<List<ProductdetailDTO>>() {});
+                dto.getProductDetailsJson(), new TypeReference<List<ProductdetailDTO>>() {
+                });
 
         List<Productdetail> productDetails = new ArrayList<>();
         for (ProductdetailDTO detailDto : productDetailsList) {
@@ -144,7 +146,8 @@ public class ProductService {
         if (dto.isHasOptions()) {
             // 옵션 정보 저장
             List<ProductOptionDTO> productOptionDtoList = objectMapper.readValue(
-                    dto.getOptionsJson(), new TypeReference<List<ProductOptionDTO>>() {});
+                    dto.getOptionsJson(), new TypeReference<List<ProductOptionDTO>>() {
+                    });
 
             List<ProductOption> productOptions = new ArrayList<>();
             for (ProductOptionDTO productOptionDto : productOptionDtoList) {
@@ -168,7 +171,8 @@ public class ProductService {
 
             // 옵션 조합 저장
             List<ProductOptionCombinationDTO> combinationsList = objectMapper.readValue(
-                    dto.getCombinationsJson(), new TypeReference<List<ProductOptionCombinationDTO>>() {});
+                    dto.getCombinationsJson(), new TypeReference<List<ProductOptionCombinationDTO>>() {
+                    });
 
             List<ProductOptionCombination> combinations = new ArrayList<>();
             for (ProductOptionCombinationDTO combinationDto : combinationsList) {
@@ -256,4 +260,36 @@ public class ProductService {
     }
 
 
+    /**
+     * 주어진 카테고리 ID에 해당하는 모든 상품을 조회하여 페이지 응답으로 반환하는 함수.
+     *
+     * @param categoryId 조회할 카테고리의 ID
+     * @param pageable   페이징 정보를 포함하는 객체
+     * @return           조회된 상품 목록을 페이지 응답 형태로 반환
+     *
+     * 주어진 카테고리가 3레벨이라면 해당 카테고리 ID만을 사용하여 상품을 조회합니다.
+     * 그렇지 않다면, 하위 카테고리를 포함한 모든 카테고리 ID를 수집하여 관련된 상품들을 조회합니다.
+     * 수집된 상품은 ProductSummaryResponseDTO로 매핑하여 반환됩니다.
+     */
+    public PageResponseDTO<ProductSummaryResponseDTO> getProductsByCategoryId(Long categoryId, Pageable pageable) {
+        // 주어진 카테고리 ID로 해당 카테고리를 조회, 존재하지 않으면 예외 발생
+        Category category = categoryRepository.findWithChildrenById(categoryId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 카테고리가 없습니다."));
+
+        // 조회할 카테고리 ID 목록을 저장할 리스트 생성
+        List<Long> categoryIds = new ArrayList<>();
+        if (category.getLevel() == 3) {
+            // 현재 카테고리가 레벨 3이라면 하위 카테고리가 없으므로 본인의 ID만 추가
+            categoryIds.add(category.getId());
+        } else {
+            // 레벨 3이 아니라면 하위 카테고리의 ID도 함께 수집
+            category.getCategoryIds(categoryIds);
+        }
+
+        // 수집된 카테고리 ID 목록에 해당하는 상품을 페이징 처리하여 조회
+        Page<Product> products = productRepository.findByCategoryIdIn(categoryIds, pageable);
+
+        // 조회한 상품을 ProductSummaryResponseDTO로 변환하고 페이지 응답으로 반환
+        return PageResponseDTO.fromPage(products.map(ProductSummaryResponseDTO::fromEntity));
+    }
 }

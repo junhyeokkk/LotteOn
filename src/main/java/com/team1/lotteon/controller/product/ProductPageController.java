@@ -5,11 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.team1.lotteon.dto.ConfigDTO;
 import com.team1.lotteon.dto.PageResponseDTO;
 import com.team1.lotteon.dto.cart.CartDTO;
+import com.team1.lotteon.dto.category.CategoryResponseDTO;
 import com.team1.lotteon.dto.product.ProductDTO;
 import com.team1.lotteon.dto.product.ProductSummaryResponseDTO;
 import com.team1.lotteon.entity.Product;
 import com.team1.lotteon.security.MyUserDetails;
 import com.team1.lotteon.service.CartService;
+import com.team1.lotteon.service.CategoryService;
 import com.team1.lotteon.service.ProductService;
 import com.team1.lotteon.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,20 +43,31 @@ public class ProductPageController {
     private final UserService userService;
     private final ProductService productService;
     private final CartService cartService;
+    private final CategoryService categoryService;
 
     // list 페이지 이동
     @GetMapping("/product/list")
-    public String list(Model model,  @PageableDefault Pageable pageable){
+    public String list(Model model, @PageableDefault Pageable pageable, @RequestParam(required = false) Long categoryId) {
+        System.out.println("categoryId = " + categoryId);
+        PageResponseDTO<ProductSummaryResponseDTO> productsPage = null;
 
-        log.info("list");
-        PageResponseDTO<ProductSummaryResponseDTO> productsPage = productService.getProducts(pageable);
+        if (categoryId == null) {
+            productsPage = productService.getProducts(pageable);
+        } else {
+            productsPage = productService.getProductsByCategoryId(categoryId, pageable);
+            List<CategoryResponseDTO> parentList = categoryService.getParentList(categoryId);
+            model.addAttribute("parentList", parentList);
+        }
+
         model.addAttribute("productsPage", productsPage);
+        model.addAttribute("categoryId", categoryId);
+
         return "product/list";
     }
 
     // view 페이지 이동
     @GetMapping("/product/view")
-    public String view(Model model){
+    public String view(Model model) {
         log.info("view");
 
         return "product/view";
@@ -61,7 +75,7 @@ public class ProductPageController {
 
     // order 페이지 이동
     @GetMapping("/product/order")
-    public String order(Model model){
+    public String order(Model model) {
         log.info("order");
 
         return "product/order";
@@ -70,10 +84,10 @@ public class ProductPageController {
 
     // cart 페이지 이동
     @GetMapping("/product/cart")
-    public String cart(Model model,@AuthenticationPrincipal MyUserDetails myUserDetails) {
+    public String cart(Model model, @AuthenticationPrincipal MyUserDetails myUserDetails) {
         log.info("Accessing cart");
 
-        if(myUserDetails == null){
+        if (myUserDetails == null) {
             throw new IllegalArgumentException("로그인이 필요합니다.");
         }
 
@@ -82,7 +96,7 @@ public class ProductPageController {
         // 로그인 한 객체 id 값 넣어주고 service 호출
         List<CartDTO> cartItems = cartService.getCartItemsByMemberId(memberId);
 
-        log.info("내 카트 " + cartItems.toString() );
+        log.info("내 카트 " + cartItems.toString());
         // 모델참조
         model.addAttribute("cartItems", cartItems);
 
