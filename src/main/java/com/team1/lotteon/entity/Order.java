@@ -59,7 +59,8 @@ public class Order {
     private List<OrderItem> orderItems = new ArrayList<>(); // OrderItem리스트
 
     @Enumerated(EnumType.STRING)
-    private PaymentMethod paymentMethod;   // 결제방법
+    @Column(name = "payment_method", length = 10) // 10 자로 설정하되 Enum 길이에 맞게 조정 필요
+    private PaymentMethod paymentMethod;  // 결제방법
 
     private String etc;
     private int totalPrice; // 주문 전체 금액
