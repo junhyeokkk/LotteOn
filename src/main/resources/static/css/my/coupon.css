@@ -180,6 +180,7 @@ table.widthtable tr:last-child td {
     letter-spacing: 3px;
     word-spacing: 2px;
     padding-bottom: 8px;
+    padding-top: 40px;
 }
 
 /* 페이징 */

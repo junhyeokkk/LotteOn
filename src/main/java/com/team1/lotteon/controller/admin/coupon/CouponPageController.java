@@ -1,6 +1,7 @@
 package com.team1.lotteon.controller.admin.coupon;
 
 import com.team1.lotteon.dto.CouponDTO;
+import com.team1.lotteon.dto.CouponTakeDTO;
 import com.team1.lotteon.dto.MemberDTO;
 import com.team1.lotteon.dto.ShopDTO;
 import com.team1.lotteon.dto.pageDTO.NewPageRequestDTO;
@@ -8,6 +9,7 @@ import com.team1.lotteon.dto.pageDTO.NewPageResponseDTO;
 import com.team1.lotteon.entity.Coupon;
 import com.team1.lotteon.entity.Member;
 import com.team1.lotteon.service.admin.CouponService;
+import com.team1.lotteon.service.admin.CouponTakeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
@@ -31,6 +33,7 @@ import java.time.LocalDateTime;
      수정이력
       - 2024/10/29 이도영 - 쿠폰 등록 출력
       - 2024/10/30 이도영 - 쿠폰 개별 출력
+      - 2024/11/01 이도영 - 다운로드한 쿠폰 출력
 */
 @Log4j2
 @Controller
@@ -38,6 +41,7 @@ import java.time.LocalDateTime;
 public class CouponPageController {
 
     private final CouponService couponService;
+    private final CouponTakeService couponTakeService;
     private final ModelMapper modelMapper;
     @GetMapping("/admin/coupon/list")
     public String list(@RequestParam(required = false) String type,
@@ -95,6 +99,10 @@ public class CouponPageController {
         // 검색 조건 설정
         newPageRequestDTO.setType(type);
         newPageRequestDTO.setKeyword(keyword);
+        NewPageResponseDTO<CouponTakeDTO> coupontakedto = couponTakeService.selectcoupontakeAll(newPageRequestDTO);
+        model.addAttribute("coupontakedtos", coupontakedto);
+        model.addAttribute("type", type);
+        model.addAttribute("keyword", keyword);
         return "admin/coupon/issued";
     }
 }
