@@ -33,8 +33,11 @@ public class OrderApiController {
         // 로그인된 사용자 확인 및 주문 생성
         GeneralMember member = MemberUtil.getLoggedInGeneralMember();
         if (member == null) {
+            log.info("로그인사용자 못찾아모");
             return ResponseEntity.badRequest().build(); // 로그인 필수 처리
         }
+
+        log.info("찾아온 uid" + member.getUid());
 
         // 주문 생성 서비스 호출
         OrderSummaryDTO orderSummary = orderService.createOrder(orderRequest, member);

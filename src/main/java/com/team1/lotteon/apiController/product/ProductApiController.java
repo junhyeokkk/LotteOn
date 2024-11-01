@@ -51,10 +51,13 @@ public class ProductApiController {
         log.info("saveOrderInfoToSession 호출됨");
         log.info("orderInfo: {}", orderInfo.toString());
 
-        // 세션 저장 전 조합 객체 삽입
-        ProductOptionCombination combination = productService.getOptionCombinationById(orderInfo.getCombinationId());
-
-        orderInfo.setProductOptionCombination(combination);
+        // 조합 ID가 null이 아닐 경우에만 조합 객체를 설정
+        if (orderInfo.getCombinationId() != null) {
+            ProductOptionCombination combination = productService.getOptionCombinationById(orderInfo.getCombinationId());
+            orderInfo.setProductOptionCombination(combination);
+        } else {
+            log.warn("combinationId가 null입니다. 옵션 없는 상품으로 간주합니다.");
+        }
 
         // 새로운 리스트에 orderInfo 추가
         List<OrderInfoDTO> orderInfoList = new ArrayList<>();
@@ -74,6 +77,7 @@ public class ProductApiController {
         return ResponseEntity.ok(orderInfoList1);
     }
 
+
     // 장바구니 -> 주문하기 세션처리
     @PostMapping("/prepareOrder")
     public ResponseEntity<?> prepareOrder(@RequestBody CarttoOrderRequestDTO orderRequest, HttpSession session) {
@@ -91,6 +95,10 @@ public class ProductApiController {
 
     // CartDTO -> OrderInfoDTO 변환 메서드
     private OrderInfoDTO convertToOrderInfoDTO(CartDTO cart) {
+        ProductOptionCombination optionCombination = cart.getProductOptionCombination();
+        Long combinationId = optionCombination != null ? optionCombination.getId() : null;
+        String formattedOptions = cart.getFormattedOptions();
+
         return OrderInfoDTO.builder()
                 .productId(cart.getProduct().getId())
                 .productImg(cart.getProduct().getProductImg1())
@@ -103,9 +111,10 @@ public class ProductApiController {
                 .points(cart.getProduct().getPoint())
                 .deliveryFee(cart.getProduct().getDeliveryFee())
                 .total(cart.getTotalPrice())
-                .productOptionCombination(cart.getProductOptionCombination())  // 옵션 조합 객체 그대로 사용
-                .combinationId(cart.getProductOptionCombination().getId()) // 옵션 조합 ID
-                .formattedOptions(cart.getFormattedOptions())  // 이미 가공된 옵션 문자열 사용
+                .productOptionCombination(optionCombination)  // 옵션 조합 객체 그대로 사용 (null 가능)
+                .combinationId(combinationId) // 옵션 조합 ID, 없으면 null
+                .formattedOptions(formattedOptions != null ? formattedOptions : "옵션 없음") // 옵션 문자열이 없으면 기본 텍스트
+                .cartId(cart.getId()) // 카트 삭제를 위한 카트 id
                 .build();
     }
 

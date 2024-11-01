@@ -1,5 +1,9 @@
 package com.team1.lotteon.service.admin;
 
+
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+
 import com.team1.lotteon.dto.CouponDTO;
 import com.team1.lotteon.dto.CouponTakeDTO;
 import com.team1.lotteon.dto.pageDTO.NewPageRequestDTO;
@@ -16,10 +20,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
+import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -44,12 +52,19 @@ public class CouponTakeService {
     private final CouponRepository couponRepository;
     private final GeneralMemberRepository generalMemberRepository;
 
+    private final JPAQueryFactory queryFactory;
+
     //쿠폰 가지고 오기(상점 정보를 이용해서)
-    public List<CouponTakeDTO> findByMemberIdAndShopId(String memberId, Long shopId) {
-        return couponTakeRepositoryCustom.findByMemberIdAndOptionalShopId(memberId, shopId)
-                .stream()
-                .map(couponTake -> modelMapper.map(couponTake, CouponTakeDTO.class))
-                .collect(Collectors.toList());
+    public List<CouponTake> findByMemberIdAndOptionalShopId(String memberId, Long shopId) {
+        BooleanBuilder builder = new BooleanBuilder();
+        QCouponTake couponTake = QCouponTake.couponTake;
+
+        builder.and(couponTake.member.uid.eq(memberId))
+                .and(shopId != null ? couponTake.shop.id.eq(shopId).or(couponTake.shop.id.isNull()) : couponTake.shop.id.isNull());
+
+        return queryFactory.selectFrom(couponTake)
+                .where(builder)
+                .fetch();
     }
 
     //나의 정보에서 쿠폰 가지고 오기(멤버 정보만 활용해서)
@@ -76,10 +91,14 @@ public class CouponTakeService {
                 );
     }
 
-    //쿠폰 저장 하기
+    //선택한 쿠폰 저장 하기
     public CouponTakeDTO saveCouponTake(String memberid, Long shopid, Long couponid) {
         Coupon coupon = couponRepository.findById(couponid)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Coupon not found"));
+        boolean exists = couponTakeRepository.existsByMember_UidAndCoupon_Couponid(memberid, couponid);
+        if (exists) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "이미 저장한 쿠폰 입니다");
+        }
         LocalDateTime couponGetDate = LocalDateTime.now();
         LocalDateTime couponExpireDate = couponGetDate.plusDays(coupon.getCouponperiod());
         CouponTake couponTake = CouponTake.builder()
@@ -93,6 +112,37 @@ public class CouponTakeService {
         CouponTake savedCouponTake = couponTakeRepository.save(couponTake);
 
         return modelMapper.map(savedCouponTake, CouponTakeDTO.class);
+    }
+
+
+    //쿠폰 전체 저장 하기
+    public List<CouponTakeDTO> saveCouponTakeList(String memberid, Long shopid, List<Long> couponIds) {
+        List<CouponTakeDTO> savedCouponTakes = new ArrayList<>();
+        for (Long couponid : couponIds) {
+            Coupon coupon = couponRepository.findById(couponid)
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Coupon not found"));
+
+            // 중복 확인
+            boolean exists = couponTakeRepository.existsByMember_UidAndCoupon_Couponid(memberid, couponid);
+            if (exists) {
+                continue; // 이미 저장된 쿠폰이면 넘어감
+            }
+
+            LocalDateTime couponGetDate = LocalDateTime.now();
+            LocalDateTime couponExpireDate = couponGetDate.plusDays(coupon.getCouponperiod());
+            CouponTake couponTake = CouponTake.builder()
+                    .coupon(coupon)
+                    .member(Member.builder().uid(memberid).build())
+                    .shop(shopid != null ? Shop.builder().id(shopid).build() : null)
+                    .couponGetDate(couponGetDate)
+                    .couponExpireDate(couponExpireDate)
+                    .build();
+
+            CouponTake savedCouponTake = couponTakeRepository.save(couponTake);
+            savedCouponTakes.add(modelMapper.map(savedCouponTake, CouponTakeDTO.class));
+        }
+
+        return savedCouponTakes;
     }
 
     public NewPageResponseDTO<CouponTakeDTO> selectcoupontakeAll(NewPageRequestDTO newPageRequestDTO) {
@@ -152,6 +202,23 @@ public class CouponTakeService {
                 .build();
     }
 
+
+    // member_id와 coupon_id가 일치하는 CouponTake 엔티티를 조회 일치하면 사용 했음으로 변경
+    @Transactional
+    public boolean updateCouponUseCheck(String memberId, Long couponId) {
+
+        Optional<CouponTake> optionalCouponTake = couponTakeRepository.findByMember_UidAndCoupon_Couponid(memberId, couponId);
+
+        if (optionalCouponTake.isPresent()) {
+            CouponTake couponTake = optionalCouponTake.get();
+            couponTake.setCouponUseCheck(2); // couponusecheck 값을 2로 설정
+            couponTakeRepository.save(couponTake); // 변경 사항 저장
+            return true; // 업데이트 성공
+        } else {
+            return false; // 일치하는 항목을 찾지 못한 경우
+        }
+    }
+
 //    public Optional<CouponTakeDTO> findCouponTakeById(Long id) {
 //        return couponRepository.findById(id)
 //                .map(coupon -> {
@@ -173,4 +240,5 @@ public class CouponTakeService {
 //                    return couponDTO;
 //                });
 //    }
+
 }

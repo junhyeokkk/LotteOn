@@ -51,4 +51,8 @@ public class CouponTake {
 
     @Column(name = "couponusecheck")
     private int couponUseCheck;
+
+    public void setCouponUseCheck(int couponUseCheck) {
+        this.couponUseCheck = couponUseCheck;
+    }
 }

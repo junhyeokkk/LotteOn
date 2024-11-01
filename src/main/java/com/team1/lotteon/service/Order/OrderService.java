@@ -7,10 +7,7 @@ import com.team1.lotteon.entity.*;
 import com.team1.lotteon.entity.enums.DeliveryStatus;
 import com.team1.lotteon.entity.enums.OrderStatus;
 import com.team1.lotteon.entity.productOption.ProductOptionCombination;
-import com.team1.lotteon.repository.DeliveryRepoistory;
-import com.team1.lotteon.repository.OrderRepository;
-import com.team1.lotteon.repository.ProductOptionCombinationRepository;
-import com.team1.lotteon.repository.ProductRepository;
+import com.team1.lotteon.repository.*;
 import com.team1.lotteon.repository.coupon.CouponRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -42,7 +39,7 @@ public class OrderService {
 
     // 서비스
     private final DeliveryService deliveryService;
-
+    private final CartRepository cartRepository;
 
     // insert 오더
     public OrderSummaryDTO createOrder(@ModelAttribute OrderRequestDTO request, GeneralMember member) {
@@ -53,9 +50,7 @@ public class OrderService {
                 .orderDate(LocalDateTime.now())
                 .orderNumber(UUID.randomUUID().toString())
                 .member(member)
-//                .usedPoint(request.getUsedPoint()) // 포인트 development
-                .usedPoint(0)
-//                .coupon(getCouponIfExists(request.getCouponId()))
+                .usedPoint(0)  // 포인트 초기화 (필요 시 개발)
                 .paymentMethod(request.getPaymentMethod())
                 .recipientName(request.getRecipientName())
                 .recipientPhone(request.getRecipientPhone())
@@ -71,46 +66,40 @@ public class OrderService {
             Product product = productRepository.findById(itemDTO.getProductId())
                     .orElseThrow(() -> new IllegalArgumentException("Invalid product ID: " + itemDTO.getProductId()));
 
-            // 옵션 조합 있는 상품
-            if(itemDTO.getProductOptionCombinationId() !=null) {
+            OrderItem.OrderItemBuilder orderItemBuilder = OrderItem.builder()
+                    .product(product)
+                    .quantity(itemDTO.getQuantity())
+                    .orderPrice(itemDTO.getOrderPrice())
+                    .discountRate(product.getDiscountRate())
+                    .point((int) (itemDTO.getOrderPrice() * 0.01))  // 예시: 결제 금액의 1% 포인트 적립
+                    .deliveryFee(product.getDeliveryFee())
+                    .deliveryStatus(DeliveryStatus.READY)
+                    .order(order);  // Order 설정
+
+            if (itemDTO.getProductOptionCombinationId() != null) {
+                // 옵션 조합이 있는 상품
                 ProductOptionCombination optionCombination = productOptionCombinationRepository.findById(itemDTO.getProductOptionCombinationId())
                         .orElseThrow(() -> new IllegalArgumentException("Invalid combination ID: " + itemDTO.getProductOptionCombinationId()));
+                orderItemBuilder.productOptionCombination(optionCombination);
 
-                OrderItem orderItem = OrderItem.builder()
-                        .product(product)
-                        .productOptionCombination(optionCombination)
-                        .quantity(itemDTO.getQuantity())
-                        .orderPrice(itemDTO.getOrderPrice())
-                        .discountRate(product.getDiscountRate())
-                        .point((int) (itemDTO.getOrderPrice() * 0.01))  // 예시: 결제 금액의 1% 포인트 적립
-                        .deliveryFee(product.getDeliveryFee())
-                        .deliveryStatus(DeliveryStatus.READY)
-                        .order(order)  // Order 설정
-                        .build();
-
-                // 개별 Delivery 생성 및 설정
-                Delivery delivery = deliveryService.createDelivery(request, orderItem);
-                orderItem.setDelivery(delivery);
-                orderItems.add(orderItem);
-
+                // 옵션 조합의 재고 업데이트
+                updateCombinationStock(optionCombination, itemDTO.getQuantity());
+            } else {
+                // 옵션이 없는 상품 재고 업데이트
+                updateProductStock(product, itemDTO.getQuantity());
             }
-            // 옵션 조합 없는 상품
-          else {
-                OrderItem orderItem = OrderItem.builder()
-                        .product(product)
-                        .quantity(itemDTO.getQuantity())
-                        .orderPrice(itemDTO.getOrderPrice())
-                        .discountRate(product.getDiscountRate())
-                        .point((int) (itemDTO.getOrderPrice() * 0.01))  // 예시: 결제 금액의 1% 포인트 적립
-                        .deliveryFee(product.getDeliveryFee())
-                        .deliveryStatus(DeliveryStatus.READY)
-                        .order(order)  // Order 설정
-                        .build();
 
-                // 개별 Delivery 생성 및 설정
-                Delivery delivery = deliveryService.createDelivery(request, orderItem);
-                orderItem.setDelivery(delivery);
-                orderItems.add(orderItem);
+            // OrderItem 빌더로 객체 생성
+            OrderItem orderItem = orderItemBuilder.build();
+
+            // 개별 Delivery 생성 및 설정
+            Delivery delivery = deliveryService.createDelivery(request, orderItem);
+            orderItem.setDelivery(delivery);
+            orderItems.add(orderItem);
+
+            // 주문 완료 후 cartId가 있는 경우 카트에서 삭제
+            if (itemDTO.getCartId() != null) {
+                cartRepository.deleteById(Math.toIntExact(itemDTO.getCartId()));
             }
         }
 
@@ -124,6 +113,37 @@ public class OrderService {
         // 최종 주문 요약 정보 반환
         return new OrderSummaryDTO(order);
     }
+
+    // 옵션 조합의 재고 업데이트 메서드
+    private void updateCombinationStock(ProductOptionCombination optionCombination, int quantity) {
+        if (optionCombination.getStock() < quantity) {
+            throw new IllegalArgumentException("선택한 옵션 조합의 재고가 부족합니다.");
+        }
+
+        // 조합 재고 감소
+        optionCombination.setStock(optionCombination.getStock() - quantity);
+        productOptionCombinationRepository.save(optionCombination);
+
+        // 해당 상품의 모든 옵션 조합 재고 합산 후 Product의 재고 업데이트
+        Product product = optionCombination.getProduct();
+        int totalStock = productOptionCombinationRepository.findByProductId(product.getId())
+                .stream().mapToInt(ProductOptionCombination::getStock).sum();
+        product.setStock(totalStock);
+        productRepository.save(product);
+    }
+
+    // 옵션 없는 상품의 재고 업데이트 메서드
+    private void updateProductStock(Product product, int quantity) {
+        if (product.getStock() < quantity) {
+            throw new IllegalArgumentException("해당 상품의 재고가 부족합니다.");
+        }
+
+        // 재고 감소
+        product.setStock(product.getStock() - quantity);
+        productRepository.save(product);
+    }
+
+
 
     // complete 페이지 반환할 주문 요약 정보
     public OrderSummaryDTO getOrderSummary(Long orderId) {

@@ -47,6 +47,7 @@
               <img th:src="${orderInfo.productImg}" alt="상품 이미지" style="width: 70px; height: 70px;" />
               <div>
                 <p class="product-name" th:text="${orderInfo.productName}">상품명</p>
+                <input hidden="hidden" name="cartId" th:value="${orderInfo.getCartId()}">
                 <input hidden="hidden" name="productId" th:value="${orderInfo.getProductId()}">
                 <input hidden="hidden" name="combinationId" th:value="${orderInfo.getCombinationId()}">
                 <p class="product-desc" name="formattedOptions" th:text="${orderInfo.getFormattedOptions()}">옵션</p>

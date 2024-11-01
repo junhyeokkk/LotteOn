@@ -128,6 +128,7 @@ public class ProductService {
                 .hasOptions(dto.isHasOptions())
                 .category(category)
                 .member(seller)
+                .shop(seller.getShop())
                 .build();
 
         productRepository.save(product);

@@ -7,9 +7,11 @@ import com.team1.lotteon.dto.cart.CartDTO;
 import com.team1.lotteon.dto.cart.CartRequestDTO;
 import com.team1.lotteon.entity.Cart;
 import com.team1.lotteon.entity.Member;
+import com.team1.lotteon.entity.Product;
 import com.team1.lotteon.entity.productOption.ProductOptionCombination;
 import com.team1.lotteon.repository.CartRepository;
 import com.team1.lotteon.repository.ProductOptionCombinationRepository;
+import com.team1.lotteon.repository.ProductRepository;
 import com.team1.lotteon.security.MyUserDetails;
 import com.team1.lotteon.util.MemberUtil;
 import jakarta.transaction.Transactional;
@@ -41,6 +43,7 @@ public class CartService {
     private final ProductOptionCombinationRepository productOptionCombinationRepository;
     private final CartRepository cartRepository;
     private final ModelMapper modelMapper;
+    private final ProductRepository productRepository;
 
     // json 문자열 가공
     public String formatOptionValueCombination(String json) {
@@ -77,29 +80,63 @@ public class CartService {
         Member loginMember = MemberUtil.getLoggedInMember();
 
         log.info("로그인 유저 있나? " + loginMember);
-        if(loginMember == null) {
+        if (loginMember == null) {
             throw new IllegalArgumentException("로그인이 필요합니다.");
         }
 
-        // combinationId로 ProductOptionCombination 조회 >> 데이터 무결성 및 보안을 위해 한번 더 조회
-        ProductOptionCombination optionCombination = productOptionCombinationRepository.findById(cartRequestDTO.getCombinationId())
-                .orElseThrow(() -> new IllegalArgumentException("선택한 옵션 조합이 유효하지 않습니다."));
-                log.info("옵션조합있어?  " + optionCombination);
-        // 요청한 수량이 재고보다 많은지 확인
-        if (cartRequestDTO.getQuantity() > optionCombination.getStock()) {
-            throw new IllegalArgumentException("선택한 옵션 조합의 재고가 부족합니다.");
+        Product product = null;
+        ProductOptionCombination optionCombination = null;
+        Cart existingCartItem = null;
+
+        if (cartRequestDTO.getCombinationId() != null) {
+            // 옵션이 있는 상품의 경우 >> ProductOptionCombination 조회 및 재고 확인
+            optionCombination = productOptionCombinationRepository.findById(cartRequestDTO.getCombinationId())
+                    .orElseThrow(() -> new IllegalArgumentException("선택한 옵션 조합이 유효하지 않습니다."));
+            log.info("옵션 조합 있나?  " + optionCombination);
+
+            // 기존에 동일한 상품+옵션 조합이 장바구니에 있는지 확인
+            existingCartItem = cartRepository.findByMemberAndProductAndProductOptionCombination(
+                            loginMember, optionCombination.getProduct(), optionCombination)
+                    .orElse(null); // Optional을 Cart로 변환
+
+            // 요청한 수량과 기존 수량의 합이 재고를 초과하는지 확인
+            if (cartRequestDTO.getQuantity() + (existingCartItem != null ? existingCartItem.getQuantity() : 0) > optionCombination.getStock()) {
+                throw new IllegalArgumentException("선택한 옵션 조합의 재고가 부족합니다.");
+            }
+
+            product = optionCombination.getProduct();
+        } else {
+            // 옵션이 없는 경우 >> Product 조회
+            product = productRepository.findById(cartRequestDTO.getProductId())
+                    .orElseThrow(() -> new IllegalArgumentException("상품 ID가 유효하지 않습니다."));
+            log.info("옵션이 없는 상품: " + product);
+
+            // 기존에 동일한 상품이 장바구니에 있는지 확인 (옵션 없는 경우)
+            existingCartItem = cartRepository.findByMemberAndProductAndProductOptionCombinationIsNull(loginMember, product)
+                    .orElse(null); // Optional을 Cart로 변환
+
+            // 옵션이 없는 경우 요청한 수량과 기존 수량의 합이 재고를 초과하는지 확인
+            if (cartRequestDTO.getQuantity() + (existingCartItem != null ? existingCartItem.getQuantity() : 0) > product.getStock()) {
+                throw new IllegalArgumentException("해당 상품의 재고가 부족합니다.");
+            }
         }
 
-        // 장바구니 항목 생성
-       Cart cartItem = Cart.builder()
-                .member(loginMember)
-                .product(optionCombination.getProduct())
-                .productOptionCombination(optionCombination)  // 수정: ProductOptionCombination 객체 직접 설정
-                .quantity(cartRequestDTO.getQuantity())
-                .totalPrice(cartRequestDTO.getTotalPrice())
-                .build();
+        if (existingCartItem != null) {
+            // 동일한 상품이나 상품+옵션 조합이 이미 장바구니에 있는 경우 수량 및 총 가격 업데이트
+            existingCartItem.setQuantity(existingCartItem.getQuantity() + cartRequestDTO.getQuantity());
+            existingCartItem.setTotalPrice(existingCartItem.getTotalPrice() + cartRequestDTO.getTotalPrice());
+        } else {
+            // 장바구니에 새로운 항목 추가
+            Cart cartItem = Cart.builder()
+                    .member(loginMember)
+                    .product(product)
+                    .productOptionCombination(optionCombination) // 옵션이 없는 상품의 경우 null
+                    .quantity(cartRequestDTO.getQuantity())
+                    .totalPrice(cartRequestDTO.getTotalPrice())
+                    .build();
+            cartRepository.save(cartItem);
+        }
 
-        cartRepository.save(cartItem);
         return true;
     }
 
@@ -110,17 +147,23 @@ public class CartService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 장바구니 항목을 찾을 수 없습니다: " + cartId));
     }
 
-    // Cart 엔티티 -> CartDTO 변환 메서드
+    // Cart 엔티티 -> CartDTO 변환 메서드 수정
     private CartDTO convertToCartDTO(Cart cart) {
+        ProductOptionCombination optionCombination = cart.getProductOptionCombination();
+        String formattedOptions = optionCombination != null
+                ? formatOptionValueCombination(optionCombination.getOptionValueCombination())
+                : "옵션 없음";  // 옵션이 없는 경우 기본 문자열 설정
+
         return CartDTO.builder()
                 .id(cart.getId())
                 .member(cart.getMember())
                 .product(cart.getProduct())
                 .quantity(cart.getQuantity())
                 .totalPrice(cart.getTotalPrice())
-                .productOptionCombination(cart.getProductOptionCombination())
-                .formattedOptions(formatOptionValueCombination(cart.getProductOptionCombination().getOptionValueCombination()))
+                .productOptionCombination(optionCombination) // 옵션이 없으면 null
+                .formattedOptions(formattedOptions) // 포맷된 옵션 문자열을 설정
                 .build();
     }
+
 
 }
