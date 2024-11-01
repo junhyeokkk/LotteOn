@@ -12,6 +12,7 @@
 <th:block layout:fragment="script">
 </th:block>
 
+
 <div class="content" layout:fragment="content">
   <div class="dashboard">
     <div class="content_header">
@@ -25,21 +26,21 @@
             <td>문의유형</td>
             <td>
               <select name="qnaCate" onchange="firstOption()">
-                <productOption>1차선택</productOption>
-                <productOption value="user">회원</productOption>
-                <productOption value="coupon">쿠폰/이벤트</productOption>
-                <productOption value="order">주문/결제</productOption>
-                <productOption value="delivery">배송</productOption>
-                <productOption value="cancel">취소/반품/환불</productOption>
-                <productOption value="travel">여행/숙박/항공</productOption>
-                <productOption value="safe">안전결제</productOption>
+                <Option>1차선택</Option>
+                <Option value="user">회원</Option>
+                <Option value="coupon">쿠폰/이벤트</Option>
+                <Option value="order">주문/결제</Option>
+                <Option value="delivery">배송</Option>
+                <Option value="cancel">취소/반품/환불</Option>
+                <Option value="travel">여행/숙박/항공</Option>
+                <Option value="safe">안전결제</Option>
               </select>
               <select name="qnaType">
-                <productOption>2차선택</productOption>
-                <productOption value="regi">고객서비스</productOption>
-                <productOption value="leave">이벤트당첨</productOption>
-                <productOption value="leave">안전거래</productOption>
-                <productOption value="login">위해상품</productOption>
+                <Option>2차선택</Option>
+                <Option value="regi">고객서비스</Option>
+                <Option value="leave">이벤트당첨</Option>
+                <Option value="leave">안전거래</Option>
+                <Option value="login">위해상품</Option>
               </select>
             </td>
           </tr>
