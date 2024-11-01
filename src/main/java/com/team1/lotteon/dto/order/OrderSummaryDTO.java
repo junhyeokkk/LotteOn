@@ -1,5 +1,7 @@
 package com.team1.lotteon.dto.order;
 
+import com.team1.lotteon.entity.GeneralMember;
+import com.team1.lotteon.entity.Member;
 import com.team1.lotteon.entity.Order;
 import com.team1.lotteon.entity.enums.PaymentMethod;
 import lombok.*;
@@ -15,11 +17,11 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class OrderSummaryDTO {
     // 주문 및 결제 정보
+    private Long orderId;
     private String orderNumber;
     private PaymentMethod paymentMethod;
     private String ordererName;
     private String ordererPhone;
-    private int totalOrderAmount; // 최종 결제금액
 
     // 수취인 정보
     private String recipientName;
@@ -35,9 +37,11 @@ public class OrderSummaryDTO {
     private int totalQuantity;
     private int totalDeliveryFee;
     private int totalPaymentAmount;
+    private int totalOrderAmount; // 최종 결제금액
 
     // 생성자
     public OrderSummaryDTO(Order order) {
+        this.orderId = order.getId();
         this.orderNumber = order.getOrderNumber(); // 주문 번호
         this.paymentMethod = order.getPaymentMethod(); // 결제방법
         this.ordererName = order.getMember().getName(); // 주문자 이름

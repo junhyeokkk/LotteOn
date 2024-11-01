@@ -86,141 +86,107 @@
 
     <!-- 완료 멘트 -->
     <article class="complete__message">
-      <h2>
-        고객님의 주문이 정상적으로 완료되었습니다.<i class="far fa-smile"></i>
-      </h2>
-      <p>즐거운 쇼핑이 되셨습니까? 항상 고객님을 위한 롯데 ON이 되겠습니다.</p>
+      <div class="message-icon">
+        <i class="far fa-smile"></i>
+      </div>
+      <h2>주문이 성공적으로 완료되었습니다!</h2>
+      <p>즐거운 쇼핑 되셨나요? 항상 고객님을 위해 최선을 다하는 롯데 ON이 되겠습니다.</p>
     </article>
 
     <!-- 상품정보 -->
-    <article style="border-top: 2px solid black; margin-bottom: 12px">
-      <table border="0" style="width: 100%; border-collapse: collapse">
-        <tr
-          style="
-            width: 100%;
-            height: 40px;
-          "
-        >
-          <th style="width: 5%"><input type="checkbox" /></th>
-          <th style="width: 44%">상품명</th>
+    <article class="order-summary">
+      <table class="order-table">
+        <thead>
+        <tr>
+          <th>상품명</th>
           <th>상품금액</th>
           <th>할인금액</th>
           <th>수량</th>
           <th>주문금액</th>
         </tr>
-        <tr >
-          <td align="center"><input type="checkbox" /></td>
-          <td style="display: flex; padding: 12px 0; gap: 12px">
-            <img
-              src="https://thumbnail9.coupangcdn.com/thumbnails/remote/48x48ex/image/rs_quotation_api/cdaevhic/bcb1b4db87db478387ac5a1222e22bb1.jpg"
-              alt="img"
-              height="100%"
-            />
-            <div>
-              <div>상품명</div>
-              <div>상품설명</div>
+        </thead>
+        <tbody>
+        <tr th:each="orderitem : ${orderSummary.getOrderItems()}">
+          <td>
+            <div class="product-info">
+              <img th:src="'/'+${appInfo.uploadDir}+'product/'+${orderitem.productImage}" alt="상품 이미지" />
+              <div>
+                <p class="product-name">[[${orderitem.productName}]]</p>
+                <p class="product-description">[[${orderitem.optionCombination}]]</p>
+              </div>
             </div>
           </td>
-          <td align="center">27,000</td>
-          <td align="center">-1,350</td>
-          <td align="center">1</td>
-          <td align="center" style="color: red">25,650</td>
+          <td align="center">[[${orderitem.originalPrice}]]원</td>
+          <td align="center">-[[${orderitem.discountAmount}]]원</td>
+          <td align="center">[[${orderitem.quantity}]]</td>
+          <td align="center" class="order-price">[[${orderitem.orderPrice}]]원</td>
         </tr>
+        </tbody>
       </table>
-      <div
-        style="
-          width: 250px;
-          margin-left: auto;
-          background-color: rgb(235, 235, 235);
-          padding: 24px;
-        "
-      >
-        <div style="display: flex; justify-content: space-between">
+
+      <div class="order-summary-box">
+        <div class="summary-row">
           <span>총상품금액</span>
-          <span>27,000원</span>
+          <span>[[${orderSummary.totalOriginalPrice}]]원</span>
         </div>
-        <div style="display: flex; justify-content: space-between">
+        <div class="summary-row">
           <span>총할인금액</span>
-          <span>-1,350원</span>
+          <span>-[[${orderSummary.totalDiscountAmount}]]원</span>
         </div>
-        <div style="display: flex; justify-content: space-between">
+        <div class="summary-row">
           <span>배송비</span>
-          <span>0원</span>
+          <span>[[${orderSummary.totalDeliveryFee}]]원</span>
         </div>
-        <div style="display: flex; justify-content: space-between">
+        <div class="summary-row total-row">
           <span>총결제금액</span>
-          <span> <span style="color: red">25,650</span>원 </span>
+          <span class="total-price">[[${orderSummary.totalOrderAmount}]]원</span>
         </div>
       </div>
     </article>
 
-    <!-- 주문정보 -->
-    <article class="order">
-      <h1
-        style="
-          border-bottom: 2px solid black;
-          padding-bottom: 4px;
-          margin-bottom: 4px;
-        "
-      >
-        주문정보
-      </h1>
-      <table
-        border="0"
-        style="
-          border-collapse: collapse;
-          width: 100%;
-          border-bottom: 2px solid black;
-          margin-bottom: 24px;
-        "
-      >
-        <tr style="height: 34px">
-          <td style="background-color: rgb(240, 240, 240); width: 100px">
-            주문번호
-          </td>
-          <td>11111</td>
+    <article class="order-info">
+      <h1 class="order-info__title">주문정보</h1>
+      <table class="order-info__table">
+        <tbody>
+        <tr>
+          <td class="info-label">주문번호</td>
+          <td>[[${orderSummary.orderId}]]</td>
         </tr>
-        <tr style="height: 34px">
-          <td style="background-color: rgb(240, 240, 240)">결제방법</td>
-          <td>신용카드 결제</td>
+        <tr>
+          <td class="info-label">결제방법</td>
+          <td>[[${orderSummary.paymentMethod}]] 결제</td>
         </tr>
-        <tr style="height: 34px">
-          <td style="background-color: rgb(240, 240, 240)">주문자/연락처</td>
-          <td>이상훈 / 010-1111-2222</td>
-          <td rowspan="3" style="width: 140px">총 결제금액</td>
-          <td rowspan="3"><span style="color: red">1,111</span>원</td>
+        <tr>
+          <td class="info-label">주문자/연락처</td>
+          <td>[[${orderSummary.ordererName}]] / [[${orderSummary.ordererPhone}]]</td>
+          <td class="info-label total-label" rowspan="3">총 결제금액</td>
+          <td class="total-amount" rowspan="3"><span>[[${orderSummary.totalOrderAmount}]]</span>원</td>
         </tr>
+        </tbody>
       </table>
     </article>
 
-    <!-- 배송정보 -->
-    <article class="delivery">
-      <h1
-        style="
-          border-bottom: 2px solid black;
-          padding-bottom: 4px;
-          margin-bottom: 4px;
-        "
-      >
-        배송정보
-      </h1>
-      <table border="0" style="border-collapse: collapse">
-        <tr style="height: 34px">
-          <td style="background-color: rgb(240, 240, 240); width: 100px">
-            수취인
-          </td>
-          <td>홍길동</td>
+
+    <article class="delivery-info">
+      <h1 class="delivery-info__title">배송정보</h1>
+      <table class="delivery-info__table">
+        <tbody>
+        <tr>
+          <td class="info-label">수취인</td>
+          <td>[[${orderSummary.recipientName}]]</td>
         </tr>
-        <tr style="height: 34px">
-          <td style="background-color: rgb(240, 240, 240)">연락처</td>
-          <td>010-1234-1234</td>
+        <tr>
+          <td class="info-label">연락처</td>
+          <td>[[${orderSummary.recipientPhone}]]</td>
         </tr>
-        <tr style="height: 34px">
-          <td style="background-color: rgb(240, 240, 240)">배송지 주소</td>
-          <td>부산 금정구 123-11 10층</td>
+        <tr>
+          <td class="info-label">배송지 주소</td>
+          <td>[[${orderSummary.recipientAddress}]]</td>
         </tr>
+        </tbody>
       </table>
     </article>
+
   </section>
 </html>
 <!-- 결제완료 페이지 끝 -->

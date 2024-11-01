@@ -49,6 +49,7 @@ public class ProductDTO extends BaseEntity {
 
     private SellerMember member;
 
+
     private List<ProductOption> productOptions; // 옵션 리스트
 
     private boolean hasOptions; // 옵션 여부 판단

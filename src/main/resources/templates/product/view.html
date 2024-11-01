@@ -183,48 +183,9 @@
 
         <!-- 상세 정보 테이블 -->
         <table class="detail-table">
-            <tr>
-                <td>제품소재</td>
-                <td>컨텐츠 참조</td>
-            </tr>
-            <tr>
-                <td>색상</td>
-                <td>컨텐츠 참조</td>
-            </tr>
-            <tr>
-                <td>치수</td>
-                <td>컨텐츠 참조</td>
-            </tr>
-            <tr>
-                <td>제조자/수입국</td>
-                <td>컨텐츠 참조 / 대한민국</td>
-            </tr>
-            <tr>
-                <td>제조국</td>
-                <td>컨텐츠 참조</td>
-            </tr>
-            <tr>
-                <td>취급시 주의사항</td>
-                <td>제품 사용 설명서 참조</td>
-            </tr>
-            <tr>
-                <td>제조연월</td>
-                <td>컨텐츠 참조</td>
-            </tr>
-            <tr>
-                <td>품질보증기준</td>
-                <td>제품 이상 시 공정거래위원회 고시 소비자분쟁해결기준에 의거 보상합니다.</td>
-            </tr>
-            <tr>
-                <td>A/S 책임자와 전화번호</td>
-                <td>롯데ON 고객센터(1899-7000)</td>
-            </tr>
-            <tr>
-                <td>주문후 예상 배송기간</td>
-                <td>전국 평균 기준 배송 후 3일 이내 도착</td>
-            </tr>
-            <tr>
-                <td colspan="2">구매, 교환, 반품, 배송, 설치 등과 관련하여 추가비용, 제한조건 등의 특이사항이 있는 경우</td>
+            <tr th:each="detail : ${product.getProductDetails()}">
+                <td>[[${detail.name}]]</td>
+                <td>[[${detail.value}]]</td>
             </tr>
         </table>
 
@@ -428,6 +389,7 @@
                     quantityInput.value = 1;
                     return;
                 }
+                checkMaxStock();
                 const quantity = parseInt(document.getElementById("numInput").value, 10) || 1;
                 const totalPrice = unitPrice * quantity;
                 document.getElementById("totalPrice").textContent = totalPrice.toLocaleString() + "원"; // 총 상품 금액 표시 업데이트
