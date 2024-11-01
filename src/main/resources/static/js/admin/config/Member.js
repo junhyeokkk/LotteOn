@@ -1,3 +1,11 @@
+/*
+     날짜 : 2024/10/28
+     이름 : 박서홍
+     내용 : 멤버 js 파일 생성
+*/
+
+
+
 // 상태 값을 한글로 변환하는 함수
 function getStatusText(status) {
     switch (status) {

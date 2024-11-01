@@ -27,10 +27,10 @@
             <div>
                 <form th:action="@{/admin/member/point}" method="get" class="search_bar"> <!-- URL 수정 -->
                     <select name="type">
-                        <productOption value="all" th:selected="${points.type == 'all'}">전체</productOption> <!-- 전체 옵션 추가 -->
-                        <productOption value="member_id" th:selected="${points.type == 'member_id'}">아이디</productOption>
-                        <productOption value="name" th:selected="${points.type == 'name'}">이름</productOption>
-                        <productOption value="type" th:selected="${points.type == 'type'}">지급내용</productOption> <!-- 지급내용 수정 -->
+                        <option value="all" th:selected="${points.type == 'all'}">전체</option> <!-- 전체 옵션 추가 -->
+                        <option value="member_id" th:selected="${points.type == 'member_id'}">아이디</option>
+                        <option value="name" th:selected="${points.type == 'name'}">이름</option>
+                        <option value="type" th:selected="${points.type == 'type'}">지급내용</option> <!-- 지급내용 수정 -->
                     </select>
                     <input class="searchInput" type="text" name="keyword" th:value="${points.keyword}"> <!-- 입력한 키워드 유지 -->
                     <input type="hidden" name="prodSeller" value="ADMIN" readonly>
