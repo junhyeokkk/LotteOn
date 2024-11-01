@@ -71,26 +71,47 @@ public class OrderService {
             Product product = productRepository.findById(itemDTO.getProductId())
                     .orElseThrow(() -> new IllegalArgumentException("Invalid product ID: " + itemDTO.getProductId()));
 
-            // 옵션 조합 설정
-            ProductOptionCombination optionCombination = productOptionCombinationRepository.findById(itemDTO.getProductOptionCombinationId())
-                    .orElseThrow(() -> new IllegalArgumentException("Invalid combination ID: " + itemDTO.getProductOptionCombinationId()));
+            // 옵션 조합 있는 상품
+            if(itemDTO.getProductOptionCombinationId() !=null) {
+                ProductOptionCombination optionCombination = productOptionCombinationRepository.findById(itemDTO.getProductOptionCombinationId())
+                        .orElseThrow(() -> new IllegalArgumentException("Invalid combination ID: " + itemDTO.getProductOptionCombinationId()));
 
-            OrderItem orderItem = OrderItem.builder()
-                    .product(product)
-                    .productOptionCombination(optionCombination)
-                    .quantity(itemDTO.getQuantity())
-                    .orderPrice(itemDTO.getOrderPrice())
-                    .discountRate(product.getDiscountRate())
-                    .point((int) (itemDTO.getOrderPrice() * 0.01))  // 예시: 결제 금액의 1% 포인트 적립
-                    .deliveryFee(product.getDeliveryFee())
-                    .deliveryStatus(DeliveryStatus.READY)
-                    .order(order)  // Order 설정
-                    .build();
+                OrderItem orderItem = OrderItem.builder()
+                        .product(product)
+                        .productOptionCombination(optionCombination)
+                        .quantity(itemDTO.getQuantity())
+                        .orderPrice(itemDTO.getOrderPrice())
+                        .discountRate(product.getDiscountRate())
+                        .point((int) (itemDTO.getOrderPrice() * 0.01))  // 예시: 결제 금액의 1% 포인트 적립
+                        .deliveryFee(product.getDeliveryFee())
+                        .deliveryStatus(DeliveryStatus.READY)
+                        .order(order)  // Order 설정
+                        .build();
 
-            // 개별 Delivery 생성 및 설정
-            Delivery delivery = deliveryService.createDelivery(request, orderItem);
-            orderItem.setDelivery(delivery);
-            orderItems.add(orderItem);
+                // 개별 Delivery 생성 및 설정
+                Delivery delivery = deliveryService.createDelivery(request, orderItem);
+                orderItem.setDelivery(delivery);
+                orderItems.add(orderItem);
+
+            }
+            // 옵션 조합 없는 상품
+          else {
+                OrderItem orderItem = OrderItem.builder()
+                        .product(product)
+                        .quantity(itemDTO.getQuantity())
+                        .orderPrice(itemDTO.getOrderPrice())
+                        .discountRate(product.getDiscountRate())
+                        .point((int) (itemDTO.getOrderPrice() * 0.01))  // 예시: 결제 금액의 1% 포인트 적립
+                        .deliveryFee(product.getDeliveryFee())
+                        .deliveryStatus(DeliveryStatus.READY)
+                        .order(order)  // Order 설정
+                        .build();
+
+                // 개별 Delivery 생성 및 설정
+                Delivery delivery = deliveryService.createDelivery(request, orderItem);
+                orderItem.setDelivery(delivery);
+                orderItems.add(orderItem);
+            }
         }
 
         // 3. 주문 항목(OrderItems)을 Order에 추가하고 총 배달료 계산

@@ -14,10 +14,12 @@ import com.team1.lotteon.dto.product.productOption.ProductOptionCombinationDTO;
 import com.team1.lotteon.entity.Category;
 import com.team1.lotteon.entity.Product;
 import com.team1.lotteon.entity.Productdetail;
+import com.team1.lotteon.entity.SellerMember;
 import com.team1.lotteon.entity.productOption.ProductOption;
 import com.team1.lotteon.entity.productOption.OptionItem;
 import com.team1.lotteon.entity.productOption.ProductOptionCombination;
 import com.team1.lotteon.repository.*;
+import com.team1.lotteon.util.MemberUtil;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
@@ -102,6 +104,9 @@ public class ProductService {
         // 카테고리 ID로 카테고리 엔티티 조회
         Category category = entityManager.getReference(Category.class, dto.getCategoryId());
 
+        // 로그인 한 seller 멤버 객체 저장
+        SellerMember seller = MemberUtil.getLoggedInSellerMember();
+
         // Product 엔티티 생성 및 저장
         Product product = Product.builder()
                 .productName(dto.getProductName())
@@ -122,6 +127,7 @@ public class ProductService {
                 .origin(dto.getOrigin())
                 .hasOptions(dto.isHasOptions())
                 .category(category)
+                .member(seller)
                 .build();
 
         productRepository.save(product);

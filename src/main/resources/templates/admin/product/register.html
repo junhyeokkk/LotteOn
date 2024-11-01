@@ -10,7 +10,7 @@
 </th:block>
 <!-- index.html 고유 스크립트 추가 -->
 <th:block layout:fragment="script">
-  <script type="text/javascript" th:src="@{/js/admin/register.js}"></script>
+  <script type="text/javascript" th:src="@{/js/admin/product/register.js}"></script>
 </th:block>
 
 <div class="content" layout:fragment="content">
@@ -96,9 +96,14 @@
             <td><label for="point">포인트</label></td>
             <td><input type="number" id="point" name="point" readonly placeholder="포인트 자동 설정" /></td>
           </tr>
-          <tr>
-            <td><label for="stockCount">재고수량</label></td>
-            <td><input type="text" id="stockCount" name="stock" placeholder="개" required></td>
+          <tr style="vertical-align: middle; ">
+            <td>
+              <label for="stockCount">재고수량</label>
+            </td>
+            <td style="display: flex; flex-direction: column;">
+              <input type="number" id="stockCount" name="stock" placeholder="개" readonly required/>
+              <span style="display: inline-block; white-space: nowrap;">옵션이 있다면 옵션 수량의 합으로 총 재고 자동 계산</span>
+            </td>
           </tr>
           <tr>
             <td><label for="deliveryFee">배송비</label></td>
