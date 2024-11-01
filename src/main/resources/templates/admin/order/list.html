@@ -26,14 +26,13 @@
             </p>
         </div>
 
-
         <section class="sectionBox">
             <div>
                 <form action="/admin/order/list" class="search_bar">
                     <select name="type">
-                        <productOption value="orderNo">주문번호</productOption>
-                        <productOption value="orderId">주문자</productOption>
-                        <productOption value="orderName">주문자명</productOption>
+                        <option value="orderNo">주문번호</option>
+                        <option value="orderId">주문자</option>
+                        <option value="orderName">주문자명</option>
                     </select>
                     <input class="searchInput" type="text" name="keyword">
                     <input type="hidden" name="prodSeller" value="ADMIN" readonly>
@@ -54,45 +53,23 @@
                     <th>배송</th>
                 </tr>
 
-                <tr class="admin_list">
+                <tr th:each="order : ${orders.dtoList}" class="admin_list">
                     <td>
-                        <a href="#" data-modal="orderinfomodal" class="cs_modify-btn">1012121341</a>
+                        <a href="#" th:value="${order.id}" data-modal="orderinfomodal" class="cs_modify-btn">1012121341</a>
                     </td>
-
-                    <td>sanghun43</td>
-                    <td>이상훈</td>
-                    <td>ㅇㅇㅇ</td>
-                    <td>2</td>
-                    <td>102,900</td>
-                    <td>신용카드</td>
+                    <td th:text="${order.getMember().getUid()}"></td>
+                    <td th:text="${order.getMember().getName()}"></td>
+                    <td th:text="${order.getOrderItems().get(0).product.getProductName()}"></td>
+                    <td th:text="${order.getOrderItems().size()}"></td>
+                    <td th:text="${order.getTotalPrice()}"></td>
+                    <td th:text="${order.getPaymentMethod()}"></td>
                     <!-- 신용카드, 계좌이체, 휴대폰 등등 -->
                     <td style="color: green;">결제완료</td>
                     <!-- 결제완료, 결제대기, 주문취소 -->
-                    <td>2024-10-16</td>
+                    <td th:text="${order.getOrderDate()}"></td>
                     <!-- 연월일시간초 -->
                     <td>
-                        <a class="deliveryBtn">배송하기</a>
-                        <!-- 배송하기, 입력완료, 주문취소 -->
-                    </td>
-                </tr>
-
-                <tr class="admin_list">
-                    <td>
-                        <a href="#" data-modal="orderinfomodal" class="cs_modify-btn">1012121341</a>
-                    </td>
-                    <td>sanghun43</td>
-                    <td>이상훈</td>
-                    <td>ㅇㅇㅇ</td>
-                    <td>2</td>
-                    <td>102,900</td>
-                    <td>계좌이체</td>
-                    <!-- 신용카드, 계좌이체, 휴대폰 등등 -->
-                    <td style="color: red;">주문취소</td>
-                    <!-- 결제완료, 결제대기, 주문취소 -->
-                    <td>2024-10-16</td>
-                    <!-- 연월일시간초 -->
-                    <td>
-                        <a>주문취소</a>
+                        <a href="#" class="deliveryBtn">상세보기</a>
                         <!-- 배송하기, 입력완료, 주문취소 -->
                     </td>
                 </tr>
@@ -102,17 +79,20 @@
             <div class="pagingBox">
                 <div class="pagingList">
                     <!-- 이전 버튼 -->
-                    <a href="#" class="prev"><</a>
+                    <th:block th:if="${orders.prev}">
+                        <a th:href="@{/admin/order/order(pg=${orders.pg - 1})}" class="prev">←</a>
+                    </th:block>
 
                     <!-- 페이지 링크 -->
-                    <a href="#">1</a>
-                    <a href="#" class="active">2</a>
-                    <a href="#">3</a>
-                    <a href="#">4</a>
-                    <a href="#">5</a>
+                    <th:block th:each="num : ${#numbers.sequence(orders.start, orders.end)}">
+                        <a th:href="@{/admin/order/orders(pg=${num})}" th:text="${num}"
+                           th:classappend="${orders.pg == num} ? 'active'"></a>
+                    </th:block>
 
                     <!-- 다음 버튼 -->
-                    <a href="#" class="next">></a>
+                    <th:block th:if="${orders.next}">
+                        <a th:href="@{/admin/order/order(pg=${orders.pg + 1})}" class="next">></a>
+                    </th:block>
                 </div>
             </div>
 

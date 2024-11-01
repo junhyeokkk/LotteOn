@@ -23,4 +23,5 @@ public class OrderRequestDTO {
     private Long couponId;
     private PaymentMethod paymentMethod;
     private List<OrderItemDTO> orderItems;
+
 }

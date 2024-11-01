@@ -1,6 +1,5 @@
 package com.team1.lotteon.dto.order;
 
-import com.team1.lotteon.entity.Order;
 import com.team1.lotteon.entity.OrderItem;
 import com.team1.lotteon.entity.productOption.ProductOptionCombination;
 import lombok.*;
@@ -9,7 +8,6 @@ import lombok.*;
     날짜 : 2024/10/31
     이름 : 최준혁
     내용 : 주문 내역 제출 DTO 생성
-
 */
 @Getter
 @Setter
@@ -37,8 +35,11 @@ public class OrderItemSummaryDTO {
         this.orderPrice = orderItem.getOrderPrice();                  // 할인 적용된 최종 가격
     }
 
-    // 옵션 조합을 보기 좋게 문자열로 포맷팅
+    // 옵션 조합을 보기 좋게 문자열로 포맷팅 (옵션 없는 경우 "옵션 없음" 반환)
     private String formatOptionCombination(ProductOptionCombination optionCombination) {
+        if (optionCombination == null) {
+            return "옵션 없음";
+        }
         // 옵션 조합 문자열 포맷 예시: {"색상": "빨강", "크기": "M"} -> "색상: 빨강, 크기: M"
         return optionCombination.getOptionValueCombination().replace("{", "").replace("}", "")
                 .replace("\"", "").replace(":", ": ").replace(",", ", ");

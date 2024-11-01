@@ -22,6 +22,8 @@ public class OrderInfoDTO {
     private int deliveryFee;
     private int total;
 
+    private Long cartId;
+
     private ProductOptionCombination productOptionCombination; // 추가: 선택된 옵션 조합 객체
     private Long combinationId; // 아이디 받을 컬럼
 

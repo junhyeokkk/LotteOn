@@ -18,7 +18,8 @@ function submitOrder() {
             orderPrice: itemRow.querySelector("td:nth-child(7)").textContent.trim().replace(",", ""),
             productOptionCombinationFormatting : itemRow.querySelector("p[name='formattedOptions']").textContent.trim(),
             productOptionCombinationId : formData.getAll("combinationId")[index],
-            productName : itemRow.querySelector(".product-name").textContent.trim()
+            productName : itemRow.querySelector(".product-name").textContent.trim(),
+            cartId: formData.getAll("cartId")[index]
         });
 
         console.log('오더아이템 ' + orderItems);

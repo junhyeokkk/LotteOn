@@ -175,10 +175,10 @@ public class ProductPageController {
 
     // cart 페이지 이동
     @GetMapping("/product/cart")
-    public String cart(Model model,@AuthenticationPrincipal MyUserDetails myUserDetails) {
+    public String cart(Model model, @AuthenticationPrincipal MyUserDetails myUserDetails) {
         log.info("Accessing cart");
 
-        if(myUserDetails == null){
+        if (myUserDetails == null) {
             throw new IllegalArgumentException("로그인이 필요합니다.");
         }
 
@@ -189,16 +189,24 @@ public class ProductPageController {
 
         // 문자열 가공
         for (CartDTO cartItem : cartItems) {
-            String formattedOptions = cartService.formatOptionValueCombination(cartItem.getProductOptionCombination().getOptionValueCombination());
-            cartItem.setFormattedOptions(formattedOptions);  // CartDTO에 formattedOptions 필드 추가 필요
+            if (cartItem.getProductOptionCombination() != null) {
+                // 옵션이 있는 경우 옵션 값 포맷팅
+                String formattedOptions = cartService.formatOptionValueCombination(cartItem.getProductOptionCombination().getOptionValueCombination());
+                cartItem.setFormattedOptions(formattedOptions);  // CartDTO에 formattedOptions 필드 추가 필요
+            } else {
+                // 옵션이 없는 경우 빈 문자열 할당
+                cartItem.setFormattedOptions("");  // 또는 "옵션 없음"과 같은 표시를 원할 시 해당 문자열로 설정
+            }
         }
-        log.info("내 카트 " + cartItems.toString() );
 
-        // 모델참조
+        log.info("내 카트 " + cartItems.toString());
+
+        // 모델 참조
         model.addAttribute("cartItems", cartItems);
 
         return "product/cart";
     }
+
 
 
     // view 페이지 이동
@@ -247,6 +255,8 @@ public class ProductPageController {
 
         saveProduct.setDiscountedPrice(discountedPrice);
 
+        // 기본 재고 수량을 모델에 추가 (옵션이 없는 경우 참조)
+        model.addAttribute("defaultStock", saveProduct.getStock());
         // 모델에 상품과 옵션 조합 추가
         model.addAttribute("product", saveProduct);
         // 모델에 JSON 형식으로 변환된 데이터를 추가
