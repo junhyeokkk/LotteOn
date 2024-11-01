@@ -7,7 +7,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-
+/*
+     날짜 : 2024/10/25
+     이름 : 박서홍
+     내용 : 이용약관 컨트롤러 생성
+*/
 
 @Log4j2
 @Controller

@@ -147,6 +147,64 @@ input[type="checkbox"] {
 }
 
 
+/* 상태별 텍스트 색상 */
+.status-normal {
+    color: #28a745; /* 초록색 */
+}
+
+.status-stopped {
+    color: #dc3545; /* 빨간색 */
+}
+
+.status-sleep {
+    color: #007bff; /* 파란색 */
+}
+
+.status-exit {
+    color: #6c757d; /* 회색 */
+}
+
+.status-unknown {
+    color: #666; /* 기본 회색 */
+}
+.status-buttons {
+    display: flex;
+    gap: 8px; /* 버튼 간 간격 */
+    margin-top: 10px;
+}
+
+
+
+
+.select-container {
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.select-container select {
+    padding: 6px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.select-container button {
+    background-color: #343b4d;
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.select-container button:hover {
+    background-color: #2b303d;
+}
+
+
+
+
 /* 페이징 */
 .pagingBox {
     display: flex;

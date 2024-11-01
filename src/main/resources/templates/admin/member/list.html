@@ -5,13 +5,16 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{admin/layout/adminlayout}">
 <!--
-   날짜 : 2024/10/25 (수정해주세요)
+   날짜 : 2024/10/25
    이름 : 이도영(최초 작성자)
    내용 : Member list html 작성
 
    수정이력
    - 2025/10/24 박서홍 - 관리자 - 회원정보 출력 코드 수정
    - 2025/10/25 박서홍 - 관리자 - 회원정보 검색 기능 구현
+   - 2025/10/28 박서홍 - 관리자 - 회원정보 수정 모달 기능 구현
+   - 2025/10/30 박서홍 - 관리자 - 회원정보 중지 기능 구현
+
    -->
 <!-- index.html 고유 CSS 추가 -->
 <th:block layout:fragment="css">
@@ -20,7 +23,7 @@
 
 <!-- index.html 고유 스크립트 추가 -->
 <th:block layout:fragment="script">
-    <script type="text/javascript" th:src="@{/js/admin/config/Member modal.js}"></script>
+    <script type="text/javascript" th:src="@{/js/admin/config/Member.js}"></script>
     <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </th:block>
 <div class="content" layout:fragment="content">
@@ -52,7 +55,7 @@
             <table class="admingraph">
                 <thead>
                 <tr class="admin_title">
-                    <th><input type="checkbox" name="allCheck" /></th>
+                    <th><input type="checkbox" name="allCheck" id="allCheck" onchange="toggleAllChecks(this)" /></th>
                     <th>번호</th>
                     <th>아이디</th>
                     <th>이름</th>
@@ -88,23 +91,46 @@
                     <td th:text="${member.ph}">전화번호</td>
                     <!-- 가입일 (포맷 지정) -->
                     <td th:text="${#temporals.format(member.createdAt, 'yyyy-MM-dd HH:mm:ss')}">가입일</td>
-                    <td th:text="${member.status == 1 ? '정상' : (member.status == 2 ? '중지' : (member.status == 3 ? '휴면' : (member.status == 4 ? '탈퇴' : '상태없음')))}">상태</td>
+                    <td th:text="${member.status == 1 ? '정상' : (member.status == 2 ? '중지' : (member.status == 3 ? '휴면' : (member.status == 4 ? '탈퇴' : '상태없음')))}"
+                        th:classappend="${member.status == 1 ? 'status-normal' : (member.status == 2 ? 'status-stopped' : (member.status == 3 ? 'status-sleep' : (member.status == 4 ? 'status-exit' : 'status-unknown')))}">
+                        상태
+                    </td>
+
                     <td style="line-height: 20px">
                         <div style="display: flex; flex-direction: column; align-items: flex-start;">
-                          <!-- Font Awesome CDN 추가 -->
-                            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
-                            <!-- 수정 및 중지 버튼 -->
                             <a href="#" data-modal="userchangemodal" th:attr="data-user-id=${member.uid}"
                                class="cs_modify-btn styled-button" onclick="openUserChangeModal(this)">
                                 <i class="fas fa-edit"></i> 수정
                             </a>
-                            <a href="#" class="cs_delete-btn styled-button delete-button">
-                                <i class="fa-regular fa-circle-stop"></i> 중지
-                            </a>
 
+                            <div style="margin-top: 5px;">
+                                <a th:if="${member.status == 1}" href="#"
+                                   th:id="'change-status-btn-' + ${member.uid}"
+                                   class="cs_delete-btn styled-button delete-button"
+                                   th:attr="data-uid=${member.uid}, data-status=${member.status}"
+                                   onclick="handleStatusClick(this)">
+                                    <i class="fa-regular fa-circle-stop"></i> 중지
+                                </a>
 
+                                <a th:if="${member.status == 2 || member.status == 3}" href="#"
+                                   th:id="'reactivate-status-btn-' + ${member.uid}"
+                                   class="cs_delete-btn styled-button delete-button"
+                                   th:attr="data-uid=${member.uid}, data-status=${member.status}"
+                                   onclick="handleStatusClick(this)">
+                                    <i class="fa-regular fa-circle-check"></i> 재개
+                                </a>
+
+                                <a th:if="${member.status == 4}" href="#"
+                                   th:id="'deactivate-status-btn-' + ${member.uid}"
+                                   class="cs_delete-btn styled-button delete-button"
+                                   th:attr="data-uid=${member.uid}, data-status=${member.status}"
+                                   onclick="handleStatusClick(this)">
+                                    <i class="fa-regular fa-circle-xmark"></i> 비활성
+                                </a>
+                            </div>
                         </div>
+                    </td>
+
                 </tr>
                 </tbody>
             </table>
@@ -113,16 +139,12 @@
             </button>
             <div class="pagingBox">
                 <div class="pagingList">
-                    <!-- 이전 버튼 -->
                     <th:block th:if="${pageInfo.prev}">
                         <a th:href="@{/admin/member/list(pg=${pageInfo.pg - 1})}" class="prev">←</a>
                     </th:block>
-                    <!-- 페이지 링크 -->
                     <th:block th:each="num : ${#numbers.sequence(pageInfo.start, pageInfo.end)}">
-                        <a th:href="@{/admin/member/list(pg=${num})}" th:text="${num}"
-                           th:classappend="${pageInfo.pg == num} ? 'active'"></a>
+                        <a th:href="@{/admin/member/list(pg=${num})}" th:text="${num}" th:classappend="${pageInfo.pg == num} ? 'active'"></a>
                     </th:block>
-                    <!-- 다음 버튼 -->
                     <th:block th:if="${pageInfo.next}">
                         <a th:href="@{/admin/member/list(pg=${pageInfo.pg + 1})}" class="next">→</a>
                     </th:block>

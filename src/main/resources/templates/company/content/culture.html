@@ -1,15 +1,17 @@
 <div class="content" th:fragment="culture">
 <html xmlns:th="http://www.thymeleaf.org">
 <link rel="stylesheet" th:href="@{/css/company/company.css}">
+<!--
+    날짜 : 2024/10/25
+    이름 : 박서홍
+    내용 : 회사소개 - culture html 생성
+-->
     <script>
         window.onload = function () {
             const blogMainText = document.getElementsByClassName('blogMainText')[0];
             blogMainText.classList.add('show');
         };
-
     </script>
-
-
 <div class="headContent" >
     <div class="logoBox">
         <a th:href="@{/}"><img th:src="@{/images/header_logo.png}" alt="로고" style="width: 185px;"/></a>
