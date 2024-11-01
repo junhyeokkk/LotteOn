@@ -21,5 +21,9 @@ public interface CouponTakeRepository extends JpaRepository<CouponTake, Long> {
     Page<CouponTake> findByCouponTakenId(Long couponTakenId, Pageable pageable);  // 수정된 메서드 이름
     Page<CouponTake> findByCoupon_Couponid(Long couponId, Pageable pageable);
     Page<CouponTake> findByCoupon_CouponnameContaining(String couponName, Pageable pageable);
+
+    Optional<CouponTake> findByMember_UidAndCoupon_Couponid(String memberId, Long couponId);
+
+    boolean existsByMember_UidAndCoupon_Couponid(String memberid, Long couponid);
 }
 

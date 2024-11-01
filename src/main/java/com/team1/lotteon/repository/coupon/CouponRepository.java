@@ -24,6 +24,8 @@ public interface CouponRepository extends JpaRepository<Coupon, Long> {
 
     Page<Coupon> findByMemberUidIn(List<String> sellerMemberIds, Pageable pageable);
 
+    List<Coupon> findByMember_Uid(String memberId);
+
     //발급자 이름으로 검색
 //    Page<Coupon> findBySellerNameContaining(String SellerName, Pageable pageable);
 }

@@ -1,8 +1,10 @@
 package com.team1.lotteon.repository.coupon;
 
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.team1.lotteon.dto.pageDTO.NewPageRequestDTO;
+import com.team1.lotteon.entity.Coupon;
 import com.team1.lotteon.entity.QCoupon;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
@@ -37,4 +39,5 @@ public class CouponRepositoryImpl implements CouponRepositoryCustom{
                 .fetchOne();
         return new PageImpl<Tuple>(content, pageable, total);
     }
+
 }

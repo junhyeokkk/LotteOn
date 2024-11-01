@@ -130,7 +130,7 @@ public class CouponService {
                 .total((int) couponPage.getTotalElements()) // 총 요소 수 설정
                 .build();
     }
-
+    //아이디 값을 활용해서 쿠폰 검색
     public Optional<CouponDTO> findCouponById(Long id) {
         return couponRepository.findById(id)
                 .map(coupon -> {
@@ -151,5 +151,11 @@ public class CouponService {
 
                     return couponDTO;
                 });
+    }
+    
+    //상점 아이디를 활용해서 쿠폰 정보 가지고 오기
+    public List<Coupon> findCouponsByMemberId(String memberId) {
+        // memberId로 쿠폰을 조회하여 전체 엔티티를 반환
+        return couponRepository.findByMember_Uid(memberId);
     }
 }

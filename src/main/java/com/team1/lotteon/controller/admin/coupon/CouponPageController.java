@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /*
      날짜 : 2024/10/21
@@ -43,6 +44,7 @@ public class CouponPageController {
     private final CouponService couponService;
     private final CouponTakeService couponTakeService;
     private final ModelMapper modelMapper;
+    //등록한 쿠폰 정보 출력
     @GetMapping("/admin/coupon/list")
     public String list(@RequestParam(required = false) String type,
                        @RequestParam(required = false) String keyword,
@@ -57,6 +59,7 @@ public class CouponPageController {
         return "admin/coupon/list";
     }
 
+    //선택된 쿠폰 모달 출력
     @GetMapping("admin/coupon/select/{id}")
     public ResponseEntity<CouponDTO> select(@PathVariable Long id, Model model){
         log.info("LLLLL"+ id.toString());
@@ -65,6 +68,7 @@ public class CouponPageController {
         return ResponseEntity.ok(coupon);
     }
 
+    //쿠폰 등록 
     @PostMapping("/admin/coupon/insertcoupon")
     public String insertcoupon(MemberDTO memberDTO, ShopDTO shopDTO, CouponDTO couponDTO) {
         // 1. 필요한 정보를 로그로 출력 (디버깅 용도)
@@ -92,6 +96,8 @@ public class CouponPageController {
         // 5. 성공 메시지를 추가하고, 리다이렉션 또는 뷰 반환
         return "redirect:/admin/coupon/list"; // 쿠폰 목록 페이지로 리다이렉트
     }
+    
+    //발급된 쿠폰 정보 출력
     @GetMapping("/admin/coupon/issued")
     public String issued(@RequestParam(required = false) String type,
                          @RequestParam(required = false) String keyword,
@@ -104,5 +110,13 @@ public class CouponPageController {
         model.addAttribute("type", type);
         model.addAttribute("keyword", keyword);
         return "admin/coupon/issued";
+    }
+
+
+    //멤버 이름을 활용해서 쿠폰 정보 가지고 오기
+    @GetMapping("/coupon/member/{memberId}")
+    public ResponseEntity<List<Coupon>> getCouponsByMemberId(@PathVariable String memberId) {
+        List<Coupon> coupons = couponService.findCouponsByMemberId(memberId);
+        return ResponseEntity.ok(coupons);
     }
 }

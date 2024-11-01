@@ -2,6 +2,7 @@ package com.team1.lotteon.controller.admin.coupon;
 
 import com.team1.lotteon.dto.CouponDTO;
 import com.team1.lotteon.dto.CouponTakeDTO;
+import com.team1.lotteon.entity.CouponTake;
 import com.team1.lotteon.service.admin.CouponTakeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -36,13 +38,22 @@ public class CouponTakeController {
         CouponTakeDTO savedCouponTake = couponTakeService.saveCouponTake(memberid, shopid, couponid);
         return ResponseEntity.ok(savedCouponTake);
     }
+    //쿠폰 전체 저장
+    @GetMapping("/coupontake/all/{memberid}/{shopid}")
+    public ResponseEntity<List<CouponTakeDTO>> saveCouponTakeList(
+            @PathVariable String memberid,
+            @PathVariable(required = false) Long shopid,
+            @RequestParam List<Long> couponIds) {
+        List<CouponTakeDTO> savedCouponTakes = couponTakeService.saveCouponTakeList(memberid, shopid, couponIds);
+        return ResponseEntity.ok(savedCouponTakes);
+    }
     //사용자가 가지고 있는 쿠폰 가지고 오기(상점이 가지고 있는)
     @GetMapping("/coupontake/get/{memberid}/{shopid}")
-    public ResponseEntity<List<CouponTakeDTO>> select(@PathVariable String memberid, @PathVariable(required = false) Long shopid) {
+    public ResponseEntity<List<CouponTake>> select(@PathVariable String memberid, @PathVariable(required = false) Long shopid) {
         log.info("shopid: " + (shopid != null ? shopid.toString() : "null"));
         log.info("memberid: " + memberid);
 
-        List<CouponTakeDTO> couponTakeList = couponTakeService.findByMemberIdAndShopId(memberid, shopid);
+        List<CouponTake> couponTakeList = couponTakeService.findByMemberIdAndOptionalShopId(memberid, shopid);
 
         if (couponTakeList.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Coupons not found");
@@ -50,11 +61,5 @@ public class CouponTakeController {
 
         return ResponseEntity.ok(couponTakeList);
     }
-//    @GetMapping("admin/coupon/select/{id}")
-//    public ResponseEntity<CouponTakeDTO> select(@PathVariable Long id, Model model){
-//        log.info("LLLLL"+ id.toString());
-//        CouponTakeDTO coupon = couponTakeService.findCouponTakeById(id)
-//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Coupon not found"));
-//        return ResponseEntity.ok(coupon);
-//    }
+
 }
