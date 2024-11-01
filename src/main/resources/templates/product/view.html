@@ -212,7 +212,7 @@
                 <!-- 상품정보 및 이미지 -->
                 <div id="detail">
                     <h1>상품정보</h1>
-                    <img class="section__product-img" src="https://thumbnail9.coupangcdn.com/thumbnails/remote/q89/image/retail/images/428998748346131-02d256a7-51f3-44c7-a66d-99431f86c7e2.jpg" alt="상세페이지1" />
+                    <img class="section__product-img"th:src="'/'+${appInfo.uploadDir}+'product/'+${product.productImg3}" alt="상품이미지" />
                 </div>
             </div>
 
