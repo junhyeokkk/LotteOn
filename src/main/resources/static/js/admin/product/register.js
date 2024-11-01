@@ -91,6 +91,17 @@ function toggleOptionSections() {
     const hasOptions = document.getElementById("hasOption").value === "true";
     const optionSection = document.getElementById("optionSection");
     const combinationSection = document.getElementById("combinationSection");
+    const stock = document.getElementById("stockCount");
+
+
+    // 옵션 여부에 맞춰서 재고량 자동계산 여부 설정 옵션이 없는상품이면 직접입력하도록 readonly 삭제
+    if(!hasOptions) {
+        stock.value = '';
+        stock.removeAttribute("readonly");
+    } else{
+        stock.value = '';
+        stock.readOnly = true;
+    }
 
     // 옵션 여부에 따라 섹션을 표시하거나 숨김
     optionSection.style.display = hasOptions ? "block" : "none";
@@ -365,6 +376,19 @@ function completeOptionSelection() {
     }
 
 }
+// 옵션이 존재할때 총 재고량을 옵션 조합의 재고의 합으로 계산
+function updateTotalStock() {
+    const stockInputs = document.querySelectorAll("#combinationTableBody input[name='stock']");
+    let totalStock = 0;
+
+    stockInputs.forEach(input => {
+        const stockValue = parseInt(input.value, 10) || 0; // 값이 비어있으면 0으로 처리
+        totalStock += stockValue;
+    });
+
+    // 총 재고 수량을 readonly 필드에 반영
+    document.getElementById("stockCount").value = totalStock;
+}
 
 // 조합 생성 및 테이블에 추가
 function createCombinations(optionNames, optionValues) {
@@ -390,8 +414,11 @@ function createCombinations(optionNames, optionValues) {
         stockInput.type = "number";
         stockInput.name = "stock";
         stockInput.placeholder = "재고 수량 입력";
-        stockCell.appendChild(stockInput);
 
+        // stock 입력 필드에 이벤트 리스너 추가
+        stockInput.addEventListener("input", updateTotalStock);
+
+        stockCell.appendChild(stockInput);
         row.appendChild(optionCell);
         row.appendChild(stockCell);
         combinationTableBody.appendChild(row);
