@@ -132,10 +132,27 @@ public class AdminMemberService {
 
     // 회원 등록
     public GeneralMemberDTO createMember(GeneralMemberDTO memberDTO) {
+        // 기본값 설정
+        if (memberDTO.getStatus() == 1) {
+            memberDTO.setStatus(STATUS_ACTIVE);  // 기본 상태를 "정상"으로 설정
+        }
+
+        if (memberDTO.getCreatedAt() == null) {
+            memberDTO.setCreatedAt(LocalDateTime.now());  // 가입일을 현재 시간으로 설정
+        }
+
+        if (memberDTO.getGender() == null) {
+            throw new IllegalArgumentException("성별은 필수 항목입니다.");  // 성별이 null일 경우 예외 발생
+        }
+
+        // DTO를 엔티티로 변환하여 저장
         GeneralMember newMember = modelMapper.map(memberDTO, GeneralMember.class);
         GeneralMember savedMember = generalMemberRepository.save(newMember);
+
+        // 저장된 엔티티를 다시 DTO로 변환하여 반환
         return modelMapper.map(savedMember, GeneralMemberDTO.class);
     }
+
 
     // 회원 삭제
     public void deleteMember(String uid) {
