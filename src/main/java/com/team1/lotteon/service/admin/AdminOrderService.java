@@ -10,11 +10,13 @@ import com.team1.lotteon.entity.Order;
 import com.team1.lotteon.entity.Point;
 import com.team1.lotteon.entity.SellerMember;
 import com.team1.lotteon.repository.OrderRepository;
+import com.team1.lotteon.security.MyUserDetails;
 import com.team1.lotteon.util.MemberUtil;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,12 +36,9 @@ public class AdminOrderService {
     private final ModelMapper modelMapper;
 
     // Order select 페이징 (ADMIN) + 검색기능 // seller일때, admin일때 구분
-    public OrderPageResponseDTO getOrders(OrderPageRequestDTO orderPageRequestDTO) {
+    public OrderPageResponseDTO getOrders(OrderPageRequestDTO orderPageRequestDTO, SellerMember member) {
         // Pageable 생성
         Pageable pageable = orderPageRequestDTO.getPageable("id");
-
-        // 로그인 유저 불러오기 (seller, admin 구분)
-        SellerMember member = MemberUtil.getLoggedInSellerMember();
 
         // 주문 데이터 가져오기
         Page<Order> orderPage;

@@ -7,11 +7,14 @@ import com.team1.lotteon.dto.order.OrderPageResponseDTO;
 import com.team1.lotteon.dto.order.OrderRequestDTO;
 import com.team1.lotteon.dto.point.PointPageRequestDTO;
 import com.team1.lotteon.dto.point.PointPageResponseDTO;
+import com.team1.lotteon.entity.SellerMember;
+import com.team1.lotteon.security.MyUserDetails;
 import com.team1.lotteon.service.Order.OrderService;
 import com.team1.lotteon.service.admin.AdminOrderService;
 import com.team1.lotteon.util.DateUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,7 +47,7 @@ public class OrderPageController {
             @RequestParam(defaultValue = "1") int pg,
             @RequestParam(required = false) String type,
             @RequestParam(required = false) String keyword,
-            Model model) {
+            Model model,  @AuthenticationPrincipal MyUserDetails myUserDetails) {
         // 로그 추가: 타입과 키워드 출력
         log.info("타입: " + type);
         log.info("키워드: " + keyword);
@@ -57,8 +60,12 @@ public class OrderPageController {
                 .keyword(keyword) // 키워드 추가
                 .build();
 
+
+        // 로그인 유저 불러오기 (seller, admin 구분)
+        SellerMember member = myUserDetails.getSellerMember();
+
         // 포인트 데이터 가져오기
-        OrderPageResponseDTO responseDTO = adminOrderService.getOrders(requestDTO);
+        OrderPageResponseDTO responseDTO = adminOrderService.getOrders(requestDTO, member);
         model.addAttribute("orders", responseDTO);
 
 //        // 포맷팅된 날짜 추가

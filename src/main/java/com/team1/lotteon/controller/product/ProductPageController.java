@@ -138,17 +138,19 @@ public class ProductPageController {
                 orderInfo.setProductImg(productImg);
             }
 
-            // 2. 옵션 문자열 포맷팅
-            if (orderInfo.getFormattedOptions() == null) {
+            // 2. 옵션 문자열 포맷팅 (옵션이 없는 상품인 경우 null 처리)
+            if (orderInfo.getProductOptionCombination() != null && orderInfo.getFormattedOptions() == null) {
                 String formattedOptions = cartService.formatOptionValueCombination(orderInfo.getProductOptionCombination().getOptionValueCombination());
                 orderInfo.setFormattedOptions(formattedOptions);
+            } else if (orderInfo.getProductOptionCombination() == null) {
+                orderInfo.setFormattedOptions("옵션 없음");  // 옵션이 없는 상품 표시
             }
 
             // 3. 최종 결제 정보 합산
             totalQuantity += orderInfo.getQuantity();
             totalOriginalPrice += orderInfo.getOriginalPrice() * orderInfo.getQuantity();
             totalOrderAmount += orderInfo.getTotal();
-            totalDiscount += (orderInfo.getDiscountedPrice());
+            totalDiscount += orderInfo.getDiscountedPrice();
             totalDeliveryFee += orderInfo.getDeliveryFee();
             totalPoints += orderInfo.getPoints();
             totalEarnedPoints += orderInfo.getPoints();

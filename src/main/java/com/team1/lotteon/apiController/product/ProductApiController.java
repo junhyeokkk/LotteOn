@@ -51,10 +51,13 @@ public class ProductApiController {
         log.info("saveOrderInfoToSession 호출됨");
         log.info("orderInfo: {}", orderInfo.toString());
 
-        // 세션 저장 전 조합 객체 삽입
-        ProductOptionCombination combination = productService.getOptionCombinationById(orderInfo.getCombinationId());
-
-        orderInfo.setProductOptionCombination(combination);
+        // 조합 ID가 null이 아닐 경우에만 조합 객체를 설정
+        if (orderInfo.getCombinationId() != null) {
+            ProductOptionCombination combination = productService.getOptionCombinationById(orderInfo.getCombinationId());
+            orderInfo.setProductOptionCombination(combination);
+        } else {
+            log.warn("combinationId가 null입니다. 옵션 없는 상품으로 간주합니다.");
+        }
 
         // 새로운 리스트에 orderInfo 추가
         List<OrderInfoDTO> orderInfoList = new ArrayList<>();
@@ -73,6 +76,7 @@ public class ProductApiController {
         // 리스트를 JSON 형태로 반환
         return ResponseEntity.ok(orderInfoList1);
     }
+
 
     // 장바구니 -> 주문하기 세션처리
     @PostMapping("/prepareOrder")

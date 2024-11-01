@@ -545,11 +545,11 @@
                 const discountedPrice = parseFloat(document.getElementById('disPrice').textContent.replace(/[^0-9.-]+/g, ''));
                 const quantity = parseInt(document.getElementById('numInput').value, 10) || 1;
                 const deliveryFee = parseFloat(document.querySelector('.delivery').textContent.replace(/[^0-9.-]+/g, '') || 0);
-                const points = Math.floor(discountedPrice * 0.01); // 포인트 계산 예시
+                const points = Math.floor(discountedPrice * 0.01);
                 const total = discountedPrice * quantity + deliveryFee;
-                const details = productOptionsCount > 0 ? getDetailsForSelectedOptions() : null; // 옵션이 없는 경우 null로 처리
-                const combinationId = details.combinationId;
-                const originalPrice =  parseFloat(document.getElementById('prodPrice').textContent.replace(/[^0-9.-]+/g, ''));
+                const details = productOptionsCount > 0 ? getDetailsForSelectedOptions() : null;
+                const combinationId = details ? details.combinationId : null; // combinationId가 없으면 null로 설정
+                const originalPrice = parseFloat(document.getElementById('prodPrice').textContent.replace(/[^0-9.-]+/g, ''));
                 const discount = (originalPrice * quantity) - total;
 
                 // orderInfo 객체 초기화
@@ -565,10 +565,10 @@
                     points: points,
                     deliveryFee: deliveryFee,
                     total: total,
-                    combinationId: combinationId
+                    combinationId: combinationId  // combinationId가 없을 때는 null
                 };
 
-                console.log('order인포' + orderInfo);
+                console.log('order인포', orderInfo);
 
                 // 세션에 상품 정보 저장 요청
                 fetch('/api/product/save-order-info', {
@@ -578,7 +578,7 @@
                 })
                     .then(response => {
                         if (response.ok) {
-                            window.location.href = '/product/order'; // 세션 저장 성공 후 주문 페이지로 이동
+                            window.location.href = '/product/order';
                         } else {
                             alert("주문 정보를 저장하는 데 실패했습니다.");
                         }
