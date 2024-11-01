@@ -93,6 +93,12 @@ public class AdminCsController {
         FaqDTO faqs = articleService.getFaqById(id);
         return ResponseEntity.ok(faqs);
     }
+    // write
+    @PostMapping("/api/admin/faq/write")
+    public ResponseEntity<FaqDTO> createFaq(@RequestBody FaqDTO faqDTO) {
+        FaqDTO createFaq = articleService.createFaq(faqDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createFaq);
+    }
     // delete
     // 선택 삭제
     @PostMapping("/admin/cs/faq/deleteSelected")

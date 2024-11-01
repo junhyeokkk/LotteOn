@@ -121,7 +121,7 @@ private final ArticleService articleService;
     public String faq_write(FaqDTO faqDTO){
         articleService.createFaq(faqDTO);
 
-        return "redirect:/admin/cs/faq/write";
+        return "redirect:/admin/cs/faq/list";
     }
     // modify
     @GetMapping("/admin/cs/faq/modify")
