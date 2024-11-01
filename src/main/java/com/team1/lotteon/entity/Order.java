@@ -51,9 +51,9 @@ public class Order {
     @JoinColumn(name = "member_id")
     private GeneralMember member; // 주문자
 
-    @ManyToOne
-    @JoinColumn(name = "coupon_id")
-    private Coupon coupon; // 쿠폰
+//    @ManyToOne
+//    @JoinColumn(name = "coupon_id")
+//    private Coupon coupon; // 쿠폰
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>(); // OrderItem리스트

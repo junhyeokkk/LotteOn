@@ -23,18 +23,35 @@
     font-weight: 700;
 }
 
-.complete__message h2 {
-    font-size: 20px;
-    color: #333;
-    margin-bottom: 8px;
-    font-weight: bold;
+/* 주문 완료 메시지 섹션 */
+.complete__message {
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 25px;
     text-align: center;
+    margin: 20px 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.complete__message .message-icon {
+    font-size: 40px;
+    color: #f42424; /* 밝고 긍정적인 느낌의 그린 컬러 */
+    margin-bottom: 10px;
+}
+
+.complete__message h2 {
+    font-size: 22px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
 }
 
 .complete__message p {
-    font-size: 15px;
-    text-align: center;
+    font-size: 16px;
     color: #555;
+    line-height: 1.5;
+    margin: 0;
 }
 
 /* Table styles */
@@ -48,6 +65,141 @@ table th, table td, table tr {
     border-bottom: 1px solid #eaeaea; !important;
     padding: 15px;
     text-align: center;
+}
+
+/* 상품 정보 섹션 */
+.order-summary {
+    border-top: 2px solid #333;
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+}
+
+.order-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.order-table th, .order-table td {
+    padding: 12px;
+    text-align: center;
+    font-size: 16px;
+    color: #333;
+}
+
+.order-table th {
+    font-weight: bold;
+    background-color: #f1f1f1;
+}
+
+.product-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.product-info img {
+    width: 50px;
+    height: 50px;
+    border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.product-info .product-name {
+    font-size: 16px;
+    font-weight: bold;
+    color: #222;
+}
+
+.product-info .product-description {
+    font-size: 14px;
+    color: #777;
+}
+
+.order-price {
+    color: #e63946;
+    font-weight: bold;
+}
+
+/* 주문 요약 정보 */
+.order-summary-box {
+    width: 300px;
+    margin-left: auto;
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.total-row {
+    font-weight: bold;
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+    color: #333;
+}
+
+.total-price {
+    color: #e63946;
+}
+
+/* 주문 정보 스타일 */
+.order-info {
+    margin-bottom: 24px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.order-info__title {
+    font-size: 22px;
+    font-weight: bold;
+    border-bottom: 2px solid #333;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    color: #333;
+}
+
+.order-info__table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.order-info__table td {
+    padding: 12px 16px;
+    font-size: 16px;
+    color: #444;
+}
+
+.info-label {
+    background-color: #f1f1f1;
+    font-weight: bold;
+    width: 120px;
+    border-radius: 4px;
+}
+
+.total-label {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: right;
+    color: #444;
+}
+
+.total-amount {
+    font-size: 20px;
+    color: #e63946;
+    font-weight: bold;
+    text-align: center;
+    border-top: 1px solid #ddd;
 }
 
 .product-info {
@@ -98,4 +250,40 @@ table th, table td, table tr {
     margin-bottom: 12px;
     padding-bottom: 5px;
     border-bottom: 2px solid #333;
+}
+
+/* 배송 정보 스타일 */
+.delivery-info {
+    margin-bottom: 24px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.delivery-info__title {
+    font-size: 22px;
+    font-weight: bold;
+    border-bottom: 2px solid #333;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    color: #333;
+}
+
+.delivery-info__table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.delivery-info__table td {
+    padding: 12px 16px;
+    font-size: 16px;
+    color: #444;
+}
+
+.info-label {
+    background-color: #f1f1f1;
+    font-weight: bold;
+    width: 120px;
+    border-radius: 4px;
 }

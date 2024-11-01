@@ -111,10 +111,11 @@ public class OrderService {
 
         return new OrderSummaryDTO(order);
     }
-    private Coupon getCouponIfExists(Long couponId) {
-        return (couponId != null) ?
-                couponRepository.findById(couponId)
-                        .orElseThrow(() -> new IllegalArgumentException("Invalid coupon ID: " + couponId))
-                : null;
-    }
+    // 쿠폰 추가 디벨롭
+//    private Coupon getCouponIfExists(Long couponId) {
+//        return (couponId != null) ?
+//                couponRepository.findById(couponId)
+//                        .orElseThrow(() -> new IllegalArgumentException("Invalid coupon ID: " + couponId))
+//                : null;
+//    }
 }

@@ -8,12 +8,14 @@ import com.team1.lotteon.dto.order.OrderInfoDTO;
 import com.team1.lotteon.dto.PageResponseDTO;
 import com.team1.lotteon.dto.cart.CartDTO;
 import com.team1.lotteon.dto.category.CategoryResponseDTO;
+import com.team1.lotteon.dto.order.OrderSummaryDTO;
 import com.team1.lotteon.dto.product.ProductDTO;
 import com.team1.lotteon.dto.product.ProductSummaryResponseDTO;
 import com.team1.lotteon.entity.GeneralMember;
 import com.team1.lotteon.security.MyUserDetails;
 import com.team1.lotteon.service.CartService;
 import com.team1.lotteon.service.CategoryService;
+import com.team1.lotteon.service.Order.OrderService;
 import com.team1.lotteon.service.ProductService;
 import com.team1.lotteon.service.UserService;
 import jakarta.servlet.http.HttpSession;
@@ -22,6 +24,7 @@ import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -50,6 +53,8 @@ public class ProductPageController {
     private final CategoryService categoryService;
 
     private final ModelMapper modelMapper;
+    private final OrderService orderService;
+
     // list 페이지 이동
     @GetMapping("/product/list")
     public String list(Model model, @PageableDefault Pageable pageable, @RequestParam(required = false) Long categoryId) {
@@ -82,6 +87,23 @@ public class ProductPageController {
     @GetMapping("/product/complete")
     public String complete(Model model) {
         log.info("complete");
+
+        return "product/complete";
+    }
+
+    // 주문성공시 주문 요약정보 들고 complete 페이지 이동
+    @GetMapping("/product/complete/{orderId}")
+    public String complete(Model model, @PathVariable Long orderId) {
+        log.info("complete");
+        log.info("Fetching order summary for order ID: {}", orderId);
+
+        // 주문 ID로 주문 정보 조회
+        OrderSummaryDTO orderSummary = orderService.getOrderSummary(orderId);
+
+        log.info("Fetched order summary for order ID: {}", orderSummary.toString());
+        log.info("orderitems : " + orderSummary.getOrderItems().toString());
+
+        model.addAttribute("orderSummary", orderSummary);
 
         return "product/complete";
     }

@@ -44,19 +44,4 @@ public class OrderApiController {
         // 주문 요약 정보를 포함한 응답 반환
         return ResponseEntity.ok(orderSummary);
     }
-
-    // 주문 조회 엔드포인트
-    @GetMapping("/{orderId}")
-    public ResponseEntity<OrderSummaryDTO> getOrderSummary(@PathVariable Long orderId) {
-        log.info("Fetching order summary for order ID: {}", orderId);
-
-        // 주문 ID로 주문 정보 조회
-        OrderSummaryDTO orderSummary = orderService.getOrderSummary(orderId);
-        if (orderSummary == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        // 주문 요약 정보를 포함한 응답 반환
-        return ResponseEntity.ok(orderSummary);
-    }
 }
