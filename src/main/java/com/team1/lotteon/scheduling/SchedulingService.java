@@ -1,4 +1,4 @@
-package com.team1.lotteon.service.admin;
+package com.team1.lotteon.scheduling;
 
 import com.team1.lotteon.entity.GeneralMember;
 import com.team1.lotteon.repository.Memberrepository.GeneralMemberRepository;

@@ -1,5 +1,6 @@
 package com.team1.lotteon.entity.enums;
 
 public enum Gender {
-    M, F
+    MALE, FEMALE
+
 }
