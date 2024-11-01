@@ -11,6 +11,7 @@ import com.team1.lotteon.dto.cart.CartDTO;
 import com.team1.lotteon.dto.category.CategoryResponseDTO;
 import com.team1.lotteon.dto.order.OrderSummaryDTO;
 import com.team1.lotteon.dto.product.ProductDTO;
+import com.team1.lotteon.dto.product.ProductSearchRequestDto;
 import com.team1.lotteon.dto.product.ProductSummaryResponseDTO;
 import com.team1.lotteon.entity.Coupon;
 import com.team1.lotteon.entity.CouponTake;
@@ -34,6 +35,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -66,20 +68,21 @@ public class ProductPageController {
 
     // list 페이지 이동
     @GetMapping("/product/list")
-    public String list(Model model, @PageableDefault Pageable pageable, @RequestParam(required = false) Long categoryId) {
-        System.out.println("categoryId = " + categoryId);
+    public String list(Model model,@ModelAttribute ProductSearchRequestDto requestDto)  {
         PageResponseDTO<ProductSummaryResponseDTO> productsPage = null;
 
-        if (categoryId == null) {
-            productsPage = productService.getProducts(pageable);
-        } else {
-            productsPage = productService.getProductsByCategoryId(categoryId, pageable);
-            List<CategoryResponseDTO> parentList = categoryService.getParentList(categoryId);
-            model.addAttribute("parentList", parentList);
-        }
+        productService.searchProducts(requestDto);
 
-        model.addAttribute("productsPage", productsPage);
-        model.addAttribute("categoryId", categoryId);
+//        if (categoryId == null) {
+//            productsPage = productService.getProducts(pageable);
+//        } else {
+//            productsPage = productService.getProductsByCategoryId(categoryId, pageable);
+//            List<CategoryResponseDTO> parentList = categoryService.getParentList(categoryId);
+//            model.addAttribute("parentList", parentList);
+//        }
+//
+//        model.addAttribute("productsPage", productsPage);
+//        model.addAttribute("categoryId", categoryId);
 
         return "product/list";
     }

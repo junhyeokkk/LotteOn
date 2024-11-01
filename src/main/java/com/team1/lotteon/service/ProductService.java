@@ -4,19 +4,17 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.team1.lotteon.dto.PageResponseDTO;
-import com.team1.lotteon.dto.product.ProductCreateDTO;
-import com.team1.lotteon.dto.product.ProductDTO;
-import com.team1.lotteon.dto.product.ProductSummaryResponseDTO;
-import com.team1.lotteon.dto.product.ProductdetailDTO;
-import com.team1.lotteon.dto.product.productOption.ProductOptionDTO;
+import com.team1.lotteon.dto.product.*;
 import com.team1.lotteon.dto.product.productOption.OptionItemDTO;
 import com.team1.lotteon.dto.product.productOption.ProductOptionCombinationDTO;
+import com.team1.lotteon.dto.product.productOption.ProductOptionDTO;
 import com.team1.lotteon.entity.Category;
 import com.team1.lotteon.entity.Product;
 import com.team1.lotteon.entity.Productdetail;
 import com.team1.lotteon.entity.SellerMember;
 import com.team1.lotteon.entity.productOption.ProductOption;
 import com.team1.lotteon.entity.productOption.OptionItem;
+import com.team1.lotteon.entity.productOption.ProductOption;
 import com.team1.lotteon.entity.productOption.ProductOptionCombination;
 import com.team1.lotteon.repository.*;
 import com.team1.lotteon.util.MemberUtil;
@@ -230,6 +228,11 @@ public class ProductService {
     public PageResponseDTO<ProductSummaryResponseDTO> getProducts(Pageable pageable) {
         Page<Product> products = productRepository.findAll(pageable);
         return PageResponseDTO.fromPage(products.map(ProductSummaryResponseDTO::fromEntity));
+    }
+
+    public PageResponseDTO<ProductSummaryResponseDTO> searchProducts(ProductSearchRequestDto productSearchRequestDto) {
+        // TODO: 프로덕트 서치 함수
+        return null;
     }
 
     public ProductDTO getProductById(Long id) {
