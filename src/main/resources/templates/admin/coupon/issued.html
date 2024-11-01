@@ -1,3 +1,11 @@
+<!--
+    날짜 : 2024/10/30
+    이름 : 김소희(최초 작성자)
+    내용 : issued 생성
+
+    수정내용
+    - 2024/11/01 받은 쿠폰에 대한 화면 출력
+-->
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
@@ -13,6 +21,7 @@
 </th:block>
 
 <div class="content" layout:fragment="content">
+  <div th:replace="~{admin/include/admin_modal :: #couponmodal}"></div>
   <div class="dashboard">
     <div class="content_header">
       <h1>쿠폰발급현황</h1>
@@ -25,9 +34,9 @@
       <div>
         <form action="/admin/coupon/list" class="search_bar">
           <select name="type">
-            <Option value="orderNo">발급번호</Option>
-            <Option value="orderId">쿠폰번호</Option>
-            <Option value="orderName">쿠폰명</Option>
+            <Option value="couponNo">발급번호</Option>
+            <Option value="couponId">쿠폰번호</Option>
+            <Option value="couponName">쿠폰명</Option>
           </select>
           <input class="searchInput" type="text" name="keyword">
           <input type="hidden" name="prodSeller" value="ADMIN" readonly>
@@ -46,54 +55,42 @@
           <th>관리</th>
         </tr>
 
-        <tr class="admin_list">
+        <tr th:each="coupon : ${coupontakedtos.dtoList}" class="admin_list">
           <td>
-            <a href="">10121211341</a>
+            <a href="#" data-modal="couponmodal" th:attr="data-coupontake-id=${coupon.couponTakenId}" th:text="${coupon.couponTakenId}"></a>
           </td>
-          <td>1012121456</td>
-          <td>개별상품 할인</td>
-          <td>10월 한달 감사 쿠폰</td>
-          <td>akwe121</td>
-          <td style="color: red;">미사용</td>
-          <td>2024-10-16 00:00:00</td>
+          <td>[[${coupon.couponId}]]</td>
           <td>
-            <a class="deliveryBtn">중단</a>
+            <th:block th:switch="${coupon.couponType}">
+              <span th:case="single">개별상품 할인</span>
+              <span th:case="ordersale">주문상품 할인</span>
+              <span th:case="freedelivery">배송비 무료</span>
+              <span th:case="*">할인 없음</span> <!-- 기본값 -->
+            </th:block>
           </td>
-        </tr>
-
-        <tr class="admin_list">
+          <td>[[${coupon.couponName}]]</td>
+          <td>[[${coupon.username}]]</td>
+          <td th:style="'color:' + (${coupon.couponUseCheck == 0} ? 'red' : 'green')">[[${coupon.couponUseCheck == 0 ? '미사용' : '사용'}]]</td>
+          <td>[[${coupon.couponUseDateFormatted}]]</td>
           <td>
-            <a href="">10121211341</a>
-          </td>
-          <td>1012121456</td>
-          <td>개별상품 할인</td>
-          <td>10월 한달 감사 쿠폰</td>
-          <td>akwe121</td>
-          <td style="color: green;">사용</td>
-          <td>2024-10-16 00:00:00</td>
-          <td>
-            <a class="deliveryBtn" style="color: white; background-color: grey" >중단</a>
+            <a class="deliveryBtn" th:href="@{'/admin/coupon/cancel/' + ${coupon.couponTakenId}}">중단</a>
           </td>
         </tr>
-
       </table>
 
       <div class="pagingBox">
         <div class="pagingList">
-          <!-- 이전 버튼 -->
-          <a href="#" class="prev"><</a>
-
-          <!-- 페이지 링크 -->
-          <a href="#">1</a>
-          <a href="#" class="active">2</a>
-          <a href="#">3</a>
-          <a href="#">4</a>
-          <a href="#">5</a>
-
-          <!-- 다음 버튼 -->
-          <a href="#" class="next">></a>
+          <a th:href="@{/admin/coupon/issued(pg=${coupontakedtos.start - 1}, type=${type}, keyword=${keyword})}"
+             th:if="${coupontakedtos.prev}" class="prev">&#60;</a>
+          <th:block th:each="num : ${#numbers.sequence(coupontakedtos.start, coupontakedtos.end)}">
+            <a th:href="@{/admin/coupon/issued(pg=${num}, type=${type}, keyword=${keyword})}"
+               th:classappend="${num == coupontakedtos.pg} ? 'active' : ''">[[${num}]]</a>
+          </th:block>
+          <a th:href="@{/admin/coupon/issued(pg=${coupontakedtos.end + 1}, type=${type}, keyword=${keyword})}"
+             th:if="${coupontakedtos.next}" class="next">&#62;</a>
         </div>
       </div>
+
     </section>
   </div>
 </div>

@@ -1,5 +1,6 @@
 package com.team1.lotteon.controller.admin.coupon;
 
+import com.team1.lotteon.dto.CouponDTO;
 import com.team1.lotteon.dto.CouponTakeDTO;
 import com.team1.lotteon.service.admin.CouponTakeService;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.server.ResponseStatusException;
@@ -18,6 +20,9 @@ import java.util.List;
      날짜 : 2024/10/30
      이름 : 이도영(최초 작성자)
      내용 : CouponTakeController 생성
+
+     수정이력
+     - 2024/11/01 이도영 선택된 쿠폰의 세부사항 임시 작업
 */
 @Log4j2
 @Controller
@@ -45,5 +50,11 @@ public class CouponTakeController {
 
         return ResponseEntity.ok(couponTakeList);
     }
-
+//    @GetMapping("admin/coupon/select/{id}")
+//    public ResponseEntity<CouponTakeDTO> select(@PathVariable Long id, Model model){
+//        log.info("LLLLL"+ id.toString());
+//        CouponTakeDTO coupon = couponTakeService.findCouponTakeById(id)
+//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Coupon not found"));
+//        return ResponseEntity.ok(coupon);
+//    }
 }

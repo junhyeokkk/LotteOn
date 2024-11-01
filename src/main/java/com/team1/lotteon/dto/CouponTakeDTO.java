@@ -6,6 +6,7 @@ package com.team1.lotteon.dto;
      
      수정내용
         - 2024-10-31 이도영 shopid 추가
+        - 2024-11-01 이도영 DTO 추가
 */
 import lombok.*;
 
@@ -25,4 +26,13 @@ public class CouponTakeDTO {
     private LocalDateTime couponExpireDate;
     private LocalDateTime couponUseDate;
     private int couponUseCheck;
+
+    // 추가된 필드 2024/11/01
+    private String couponName;        // 쿠폰 이름
+    private String username;
+    private int couponDiscount;    // 쿠폰 할인 정보
+    private String shopName;
+    private String couponExpireDateFormatted;
+    private String couponUseDateFormatted;
+    private String couponType;
 }

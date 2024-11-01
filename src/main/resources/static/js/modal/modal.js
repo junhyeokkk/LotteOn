@@ -4,6 +4,7 @@
     내용 : 관리자 모달 처리 js
     수정이력
     - 2024/10/30 이도영 - 쿠폰 개별 모달 수정
+    - 2024/11/01 이도영 - 다운받은 개별 쿠폰 모달 수정 임시
  */
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -59,6 +60,30 @@ document.addEventListener('DOMContentLoaded', function () {
     // 쿠폰 정보를 서버에서 가져와 모달을 여는 함수
     function openCouponModal(element) {
         const couponId = element.getAttribute('data-coupon-id');
+
+        // 서버에 쿠폰 정보를 요청하여 모달 업데이트
+        fetch(`/admin/coupon/select/${couponId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to load coupon data');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // 받은 데이터를 모달에 업데이트합니다.
+                updateCouponInfoInModal(data);
+                // 업데이트된 후 모달을 엽니다.
+                openModal('couponinfomodal');
+            })
+            .catch(error => {
+                console.error('Error loading coupon data:', error);
+                alert('쿠폰 정보를 불러오는 중 오류가 발생했습니다.');
+            });
+    }
+
+    // 쿠폰 정보를 서버에서 가져와 모달을 여는 함수
+    function openCouponTakeModal(element) {
+        const couponId = element.getAttribute('data-coupontake-id');
 
         // 서버에 쿠폰 정보를 요청하여 모달 업데이트
         fetch(`/admin/coupon/select/${couponId}`)

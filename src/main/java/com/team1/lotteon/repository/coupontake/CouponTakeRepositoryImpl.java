@@ -16,6 +16,9 @@ import java.util.List;
      날짜 : 2024/10/30
      이름 : 이도영(최초 작성자)
      내용 : CouponTakeRepositoryImpl 생성
+
+     수정이력
+     - 2024/11/01 이도영 사용하지 않은 쿠폰에 대해서만 출력 수정
 */
 @RequiredArgsConstructor
 @Repository
@@ -48,7 +51,10 @@ public class CouponTakeRepositoryImpl implements CouponTakeRepositoryCustom {
     public Page<CouponTake> findPagedCouponsByMemberId(String memberId, Pageable pageable) {
         List<CouponTake> content = queryFactory
                 .selectFrom(qCouponTake)
-                .where(qCouponTake.member.uid.eq(memberId))
+                .where(
+                        qCouponTake.member.uid.eq(memberId)
+                                .and(qCouponTake.couponUseCheck.eq(1))
+                )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();

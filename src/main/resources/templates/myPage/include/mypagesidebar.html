@@ -1,8 +1,16 @@
+<!--
+    날짜 : 2024/10/30
+    이름 : 김소희(최초 작성자)
+    내용 : mypagesidebar 생성
+
+    수정내용
+    - 2024/11/01 쿠폰 경로 수정
+-->
 <div th:fragment="sidebar">
     <ul>
         <li><a th:href="@{/myPage/ordered}">전체주문내역</a></li>
         <li><a th:href="@{/myPage/point}">포인트내역</a></li>
-        <li><a th:href="@{/myPage/coupon}">쿠폰</a></li>
+        <li><a th:href="@{/myPage/coupon/{uid}(uid=${uid})}">쿠폰</a></li>
         <li><a th:href="@{/myPage/review}">나의리뷰</a></li>
         <li><a th:href="@{/myPage/qna}">문의하기</a></li>
         <li><a th:href="@{/myPage/info}">나의설정</a></li>
