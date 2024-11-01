@@ -61,5 +61,11 @@ public class CouponTakeController {
 
         return ResponseEntity.ok(couponTakeList);
     }
-
+//    @GetMapping("admin/coupon/select/{id}")
+//    public ResponseEntity<CouponTakeDTO> select(@PathVariable Long id, Model model){
+//        log.info("LLLLL"+ id.toString());
+//        CouponTakeDTO coupon = couponTakeService.findCouponTakeById(id)
+//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Coupon not found"));
+//        return ResponseEntity.ok(coupon);
+//    }
 }

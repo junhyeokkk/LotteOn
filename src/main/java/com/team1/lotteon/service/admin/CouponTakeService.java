@@ -1,7 +1,9 @@
 package com.team1.lotteon.service.admin;
 
+
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+
 import com.team1.lotteon.dto.CouponDTO;
 import com.team1.lotteon.dto.CouponTakeDTO;
 import com.team1.lotteon.dto.pageDTO.NewPageRequestDTO;
@@ -23,7 +25,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
 import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -47,7 +51,9 @@ public class CouponTakeService {
     private final CouponTakeRepository couponTakeRepository;
     private final CouponRepository couponRepository;
     private final GeneralMemberRepository generalMemberRepository;
+
     private final JPAQueryFactory queryFactory;
+
     //쿠폰 가지고 오기(상점 정보를 이용해서)
     public List<CouponTake> findByMemberIdAndOptionalShopId(String memberId, Long shopId) {
         BooleanBuilder builder = new BooleanBuilder();
@@ -108,6 +114,7 @@ public class CouponTakeService {
         return modelMapper.map(savedCouponTake, CouponTakeDTO.class);
     }
 
+
     //쿠폰 전체 저장 하기
     public List<CouponTakeDTO> saveCouponTakeList(String memberid, Long shopid, List<Long> couponIds) {
         List<CouponTakeDTO> savedCouponTakes = new ArrayList<>();
@@ -137,6 +144,7 @@ public class CouponTakeService {
 
         return savedCouponTakes;
     }
+
     public NewPageResponseDTO<CouponTakeDTO> selectcoupontakeAll(NewPageRequestDTO newPageRequestDTO) {
         Pageable pageable = newPageRequestDTO.getPageable("couponTakenId", false);
         Page<CouponTake> couponTakePage = null;
@@ -194,6 +202,7 @@ public class CouponTakeService {
                 .build();
     }
 
+
     // member_id와 coupon_id가 일치하는 CouponTake 엔티티를 조회 일치하면 사용 했음으로 변경
     @Transactional
     public boolean updateCouponUseCheck(String memberId, Long couponId) {
@@ -209,4 +218,27 @@ public class CouponTakeService {
             return false; // 일치하는 항목을 찾지 못한 경우
         }
     }
+
+//    public Optional<CouponTakeDTO> findCouponTakeById(Long id) {
+//        return couponRepository.findById(id)
+//                .map(coupon -> {
+//                    CouponDTO couponDTO = modelMapper.map(coupon, CouponDTO.class);
+//
+//                    // 발급자 역할에 따라 issuerInfo 설정
+//                    Member member = coupon.getMember();
+//                    if ("Admin".equals(member.getRole())) {
+//                        couponDTO.setIssuerInfo("관리자");
+//                    } else if ("Seller".equals(member.getRole())) {
+//                        // SellerMember를 안전하게 가져와 처리
+//                        Optional<SellerMember> sellerMemberOpt = sellerMemberRepository.findById(member.getUid());
+//                        sellerMemberOpt.ifPresent(sellerMember -> {
+//                            String shopName = sellerMember.getShop() != null ? sellerMember.getShop().getShopName() : "미등록 상점";
+//                            couponDTO.setIssuerInfo(shopName);
+//                        });
+//                    }
+//
+//                    return couponDTO;
+//                });
+//    }
+
 }
