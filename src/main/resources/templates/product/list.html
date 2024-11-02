@@ -90,17 +90,17 @@
     <!-- 상품목록 페이지번호 -->
     <div class="paging" th:if="${productsPage.totalPages > 0}">
     <span class="prev" th:if="${!productsPage.isFirst}">
-        <a th:href="@{/product/list(categoryId=${categoryId},page=${productsPage.currentPage - 1}, size=${productsPage.pageSize})}">
-            <&nbsp;
+        <a th:href="@{/product/list(keyword=${keyword}, categoryId=${categoryId},page=${productsPage.currentPage - 1}, size=${productsPage.pageSize})}">
+            <&nbsp;이전
         </a>
     </span>
         <span class="paging__num" th:each="i : ${#numbers.sequence(1, productsPage.totalPages)}">
-        <a th:href="@{/product/list(categoryId=${categoryId},page=${i - 1}, size=${productsPage.pageSize})}"
+        <a th:href="@{/product/list(keyword=${keyword},categoryId=${categoryId},page=${i - 1}, size=${productsPage.pageSize})}"
            th:text="${i}">1</a>
     </span>
         <span class="next" th:if="${!productsPage.isLast}">
-        <a th:href="@{/product/list(categoryId=${categoryId},page=${productsPage.currentPage + 1}, size=${productsPage.pageSize})}">
-            &nbsp;>
+        <a th:href="@{/product/list(keyword=${keyword},categoryId=${categoryId},page=${productsPage.currentPage + 1}, size=${productsPage.pageSize})}">
+            다음&nbsp;>
         </a>
     </span>
     </div>

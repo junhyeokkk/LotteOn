@@ -231,8 +231,24 @@ public class ProductService {
     }
 
     public PageResponseDTO<ProductSummaryResponseDTO> searchProducts(ProductSearchRequestDto productSearchRequestDto) {
-        // TODO: 프로덕트 서치 함수
-        return null;
+        Category category = null;
+
+        if (productSearchRequestDto.getCategoryId() != null) {
+            category = categoryRepository.findById(productSearchRequestDto.getCategoryId()).orElseThrow(() -> new IllegalArgumentException("Category not found"));
+        }
+        List<Long> categoryIds = new ArrayList<>();
+        if (category != null) {
+            category.getCategoryIds(categoryIds);
+        }
+
+        if (category != null && category.getLevel() == 3) {
+            categoryIds.add(category.getId());
+        }
+
+        log.info("categoryIds : {}", categoryIds);
+        Pageable pageable = productSearchRequestDto.toPageable();
+        Page<Product> products = productRepository.searchProducts(productSearchRequestDto, categoryIds, pageable);
+        return PageResponseDTO.fromPage(products.map(ProductSummaryResponseDTO::fromEntity));
     }
 
     public ProductDTO getProductById(Long id) {
@@ -281,8 +297,8 @@ public class ProductService {
      *
      * @param categoryId 조회할 카테고리의 ID
      * @param pageable   페이징 정보를 포함하는 객체
-     * @return           조회된 상품 목록을 페이지 응답 형태로 반환
-     *
+     * @return 조회된 상품 목록을 페이지 응답 형태로 반환
+     * <p>
      * 주어진 카테고리가 3레벨이라면 해당 카테고리 ID만을 사용하여 상품을 조회합니다.
      * 그렇지 않다면, 하위 카테고리를 포함한 모든 카테고리 ID를 수집하여 관련된 상품들을 조회합니다.
      * 수집된 상품은 ProductSummaryResponseDTO로 매핑하여 반환됩니다.

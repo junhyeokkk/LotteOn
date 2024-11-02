@@ -68,21 +68,21 @@ public class ProductPageController {
 
     // list 페이지 이동
     @GetMapping("/product/list")
-    public String list(Model model,@ModelAttribute ProductSearchRequestDto requestDto)  {
-        PageResponseDTO<ProductSummaryResponseDTO> productsPage = null;
+    public String list(Model model, @ModelAttribute ProductSearchRequestDto requestDto) {
+        PageResponseDTO<ProductSummaryResponseDTO> productsPage = productService.searchProducts(requestDto);
+        log.info("productPage Content Size : {}", productsPage.getContent().size());
+        Long categoryId = requestDto.getCategoryId();
+        if (categoryId != null) {
+            List<CategoryResponseDTO> parentList = categoryService.getParentList(categoryId);
+            model.addAttribute("categoryId", categoryId);
+            model.addAttribute("parentList", parentList);
+        }
+        System.out.println("requestDto.getKeyword() = " + requestDto.getKeyword());
+        model.addAttribute("keyword", requestDto.getKeyword());
 
         productService.searchProducts(requestDto);
 
-//        if (categoryId == null) {
-//            productsPage = productService.getProducts(pageable);
-//        } else {
-//            productsPage = productService.getProductsByCategoryId(categoryId, pageable);
-//            List<CategoryResponseDTO> parentList = categoryService.getParentList(categoryId);
-//            model.addAttribute("parentList", parentList);
-//        }
-//
-//        model.addAttribute("productsPage", productsPage);
-//        model.addAttribute("categoryId", categoryId);
+        model.addAttribute("productsPage", productsPage);
 
         return "product/list";
     }
@@ -124,7 +124,7 @@ public class ProductPageController {
     @GetMapping("/product/order")
     public String order(Model model, HttpSession session, @AuthenticationPrincipal MyUserDetails myUserDetails) {
         log.info("order");
-        if(myUserDetails == null){
+        if (myUserDetails == null) {
             throw new IllegalArgumentException("로그인이 필요합니다.");
         }
 
