@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.Console;
 import java.util.List;
 /*
      날짜 : 2024/10/30
@@ -25,6 +26,7 @@ import java.util.List;
 
      수정이력
      - 2024/11/01 이도영 선택된 쿠폰의 세부사항 임시 작업
+     - 2024/11/03 이도영 선택된 쿠폰의 선택된 쿠폰 저장 완료
 */
 @Log4j2
 @Controller
@@ -34,9 +36,20 @@ public class CouponTakeController {
 
     //선택된 쿠폰 저장 하기
     @GetMapping("/coupontake/set/{memberid}/{shopid}/{couponid}")
-    public ResponseEntity<CouponTakeDTO> saveCouponTake(@PathVariable String memberid, @PathVariable(required = false) Long shopid, @PathVariable Long couponid) {
-        CouponTakeDTO savedCouponTake = couponTakeService.saveCouponTake(memberid, shopid, couponid);
-        return ResponseEntity.ok(savedCouponTake);
+    public ResponseEntity<?> saveCouponTake(@PathVariable String memberid, @PathVariable(required = false) Long shopid, @PathVariable Long couponid) {
+        log.info("memberid: " + memberid);
+        log.info("shopid: " + shopid);
+        log.info("couponid: " + couponid);
+
+        try {
+            CouponTakeDTO savedCouponTake = couponTakeService.saveCouponTake(memberid, shopid, couponid);
+            return ResponseEntity.ok(savedCouponTake);
+        } catch (ResponseStatusException e) {
+            if (e.getStatusCode() == HttpStatus.CONFLICT) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getReason());
+            }
+            throw e;
+        }
     }
     //쿠폰 전체 저장
     @GetMapping("/coupontake/all/{memberid}/{shopid}")
@@ -48,19 +61,19 @@ public class CouponTakeController {
         return ResponseEntity.ok(savedCouponTakes);
     }
     //사용자가 가지고 있는 쿠폰 가지고 오기(상점이 가지고 있는)
-    @GetMapping("/coupontake/get/{memberid}/{shopid}")
-    public ResponseEntity<List<CouponTake>> select(@PathVariable String memberid, @PathVariable(required = false) Long shopid) {
-        log.info("shopid: " + (shopid != null ? shopid.toString() : "null"));
-        log.info("memberid: " + memberid);
-
-        List<CouponTake> couponTakeList = couponTakeService.findByMemberIdAndOptionalShopId(memberid, shopid);
-
-        if (couponTakeList.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Coupons not found");
-        }
-
-        return ResponseEntity.ok(couponTakeList);
-    }
+//    @GetMapping("/coupontake/get/{memberid}/{shopid}")
+//    public ResponseEntity<List<CouponTake>> select(@PathVariable String memberid, @PathVariable(required = false) Long shopid) {
+//        log.info("shopid: " + (shopid != null ? shopid.toString() : "null"));
+//        log.info("memberid: " + memberid);
+//
+//        List<CouponTake> couponTakeList = couponTakeService.findByMemberIdAndShopId(memberid, shopid);
+//
+//        if (couponTakeList.isEmpty()) {
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Coupons not found");
+//        }
+//
+//        return ResponseEntity.ok(couponTakeList);
+//    }
 //    @GetMapping("admin/coupon/select/{id}")
 //    public ResponseEntity<CouponTakeDTO> select(@PathVariable Long id, Model model){
 //        log.info("LLLLL"+ id.toString());

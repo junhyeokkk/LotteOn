@@ -3,8 +3,9 @@
     이름 : 이도영(최초 작성자)
     내용 : 관리자 모달 처리 js
     수정이력
-    - 2024/10/30 이도영 - 쿠폰 개별 모달 수정
+    - 2024/10/30 이도영 - 관리자 쿠폰 개별 모달 수정
     - 2024/11/01 이도영 - 다운받은 개별 쿠폰 모달 수정 임시
+    - 2024/11/03 이도영 - 사용자 쿠폰 다운로드 시 처리 방식 수정
  */
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -182,5 +183,66 @@ document.addEventListener('DOMContentLoaded', function () {
                 modalstars[i].classList.add('filled');
             }
         });
+    });
+    document.querySelectorAll('.download-coupon-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const couponId = this.getAttribute('data-coupon-id');
+            const memberId = this.getAttribute('data-member-id');
+            const shopId = this.getAttribute('data-shop-id');
+            console.log("couponId: " + couponId);
+            console.log("memberId: " + memberId);
+            console.log("shopId: " + shopId);
+
+            fetch(`/coupontake/set/${memberId}/${shopId}/${couponId}`, {
+                method: 'GET'
+            })
+                .then(response => {
+                    if (response.status === 409) {
+                        throw new Error('이미 저장한 쿠폰입니다');
+                    } else if (!response.ok) {
+                        throw new Error('쿠폰 저장에 실패했습니다');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    alert('쿠폰이 성공적으로 저장되었습니다!');
+                })
+                .catch(error => {
+                    if (error.message === '이미 저장한 쿠폰입니다') {
+                        alert(error.message);
+                    } else {
+                        console.error(error);
+                        alert('쿠폰 저장 중 오류가 발생했습니다.');
+                    }
+                });
+        });
+    });
+    document.querySelector('.save-button').addEventListener('click', function() {
+        // 모든 쿠폰 ID 수집
+        const couponIds = Array.from(document.querySelectorAll('.download-coupon-btn')).map(button =>
+            button.getAttribute('data-coupon-id')
+        );
+
+        const memberId = document.querySelector('.download-coupon-btn').getAttribute('data-member-id');
+        const shopId = document.querySelector('.download-coupon-btn').getAttribute('data-shop-id');
+
+        // 서버로 요청 보내기
+        fetch(`/coupontake/all/${memberId}/${shopId}?couponIds=` + couponIds.join(','), {
+            method: 'GET'
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('쿠폰 저장에 실패했습니다');
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert('모든 쿠폰이 성공적으로 저장되었습니다!');
+                // 필요한 경우, 화면을 업데이트하거나 추가 알림을 표시할 수 있습니다.
+            })
+            .catch(error => {
+                console.error(error);
+                alert('쿠폰 저장 중 오류가 발생했습니다.');
+            });
     });
 });
