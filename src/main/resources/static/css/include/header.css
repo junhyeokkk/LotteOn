@@ -1,22 +1,36 @@
 .header {
   width: 100%;
+  font-family: 'Noto Sans KR', 'Malgun Gothic', Arial, sans-serif;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 헤더에 그림자 추가 */
 }
 
 .header__top {
+  background-color: #f8f9fa; /* 상단 영역 배경색 */
   height: 40px;
+  border-bottom: 1px solid #ddd;
 }
 
+/* 상단 네비게이션 스타일 */
 .header__top__nav {
   display: flex;
-  flex-direction: row-reverse;
+  justify-content: flex-end; /* 오른쪽 정렬 */
   align-items: center;
-  gap: 12px;
-  margin: 12px 0;
-  height: 40px;
-  font-size: 12px;
+  gap: 16px; /* 아이템 간격 */
   width: 1200px;
-  height: 100%;
   margin: 0 auto;
+  height: 100%;
+  font-size: 13px;
+  color: #666;
+}
+
+.header__top__nav a {
+  color: #666;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.header__top__nav a:hover {
+  color: #e74c3c; /* 호버 시 강조 색상 */
 }
 
 .header__bot {
@@ -57,42 +71,61 @@
   width: 500px;
   height: 50px;
   display: block;
+  border-radius: 25px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .search__input {
-  display: block;
   width: 100%;
   height: 100%;
-  border: none; /* <-- This thing here */
-  border: solid 2px #e63b3b;
-  border-radius: 30px;
-  padding-left: 12px;
-  padding-right: 28px;
+  padding: 0 50px 0 20px;
+  border: none;
+  outline: none;
+  font-size: 15px;
 }
 
 .search__btn {
   position: absolute;
-  right: 5px;
+  right: 10px;
   top: 50%;
   transform: translateY(-50%);
-  padding-right: 8px;
+  cursor: pointer;
 }
 
 .search__btn__img {
-  width: 30px;
+  width: 24px;
+  height: 24px;
 }
 
 .header_item {
-  width: 270px; height:50px;
+  width: 270px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   background-color: #FFFFFF;
-
+  gap: 12px;
 }
 
-.header_item > a{
+.header_item > a {
+  font-size: 12px; /* 폰트 크기 줄임 */
+  color: #333;
   text-align: center;
-  font-size: 11px;
-  font-family: "Gill Sans", sans-serif;
+  text-decoration: none;
+  padding: 3px 8px; /* 패딩 줄여서 컴팩트하게 */
+  transition: color 0.3s ease, border-bottom 0.3s ease;
+}
+
+/* 아이템 호버 효과 */
+.header_item > a:hover {
+  color: #e74c3c;
+  border-bottom: 2px solid #e74c3c; /* 밑줄 효과 */
+}
+
+/* 아이콘 이미지 크기 조절 */
+.header_item > a img {
+  width: 30px; /* 아이콘 크기 줄임 */
+  height: 30px;
+  margin-bottom: 2px; /* 텍스트와 간격 조절 */
 }

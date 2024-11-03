@@ -1,60 +1,306 @@
-/* 배너관리 */
-.banner_title {
-    font-size: 18px;
-    color: #333333;
+/* 공통 레이아웃 */
+.content {
+    width: 90%;
+    margin: 0 auto;
+    font-family: 'Noto Sans KR', Arial, sans-serif;
+    color: #333;
 }
+
+.content_header h1 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 8px;
+}
+
+.content_header p {
+    color: #888;
+    font-size: 14px;
+}
+
+/* 배너 제목 */
+.banner_title {
+    font-size: 20px;
+    color: #333333;
+    font-weight: bold;
+    margin: 15px 0;
+}
+
+/* 배너 버튼 */
 .bannerinsertbtn {
-    background-color: #F2F2F2;
-    height: 50px;
-    flex-direction: column;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    background-color: #fafafa;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
 }
 
 .bannerinsertbtn button {
-    float: left;
-    background-color: #BFBFBF;
-    height: 40px;
-    border: none;
+    background-color: #e1e5ea;
+    color: #333;
+    padding: 8px 16px;
+    font-size: 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
     cursor: pointer;
-    margin-top: 5px;
-    margin-bottom: 10px;
-    border: 1px solid #BFBFBF;
-    margin-left: 5px;
+    transition: background-color 0.3s, color 0.3s;
 }
 
-.bannerinsertbtn button:last-child {
-    margin-right: 0;
-    /* 마지막 버튼은 오른쪽 간격 없음 */
+.bannerinsertbtn button:hover {
+    background-color: #5bc0de;
+    color: #fff;
 }
 
 .bannerinsertbtn .on {
-    background-color: white;
+    background-color: #5bc0de;
+    color: #fff;
+    font-weight: bold;
 }
 
-/* 페이징 */
+/* 테이블 */
+.admingraph {
+    width: 100%;
+    margin-top: 15px;
+    border-collapse: collapse;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.admingraph th,
+.admingraph td {
+    padding: 15px;
+    border-bottom: 1px solid #ececec;
+    color: #555;
+    font-size: 14px;
+}
+
+.admingraph th {
+    background-color: #f4f6f8;
+    font-weight: bold;
+    color: #333;
+}
+
+.admingraph th:first-child,
+.admingraph td:first-child {
+    text-align: center;
+}
+
+.admingraph th,
+.admingraph td {
+    transition: background-color 0.3s;
+}
+
+.admin_title th:hover {
+    background-color: #e3eaf0;
+}
+
+/* 삭제 및 등록 버튼 */
+.delete_btn,
+.registration_btn {
+    display: inline-block;
+    padding: 10px 16px;
+    font-size: 14px;
+    border-radius: 4px;
+    text-align: center;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.delete_btn {
+    background-color: #e74c3c;
+    margin-top: 15px;
+}
+
+.delete_btn:hover {
+    background-color: #c0392b;
+}
+
+.registration_btn {
+    background-color: #5bc0de;
+    margin-top: 15px;
+    text-decoration: none;
+}
+
+.registration_btn:hover {
+    background-color: #31b0d5;
+}
+
+/* 페이징 스타일 */
 .pagingBox {
     display: flex;
-    position: relative;
-    margin-top: 40px !important;
     justify-content: center;
+    margin-top: 25px;
 }
-.pagingList>span > a {
+
+.pagingList span a {
     display: inline-block;
     width: 28px;
     height: 28px;
     border-radius: 50%;
-    color: #999;
-    line-height: 26px;
-    margin: 0 2px;
-    text-indent: -1px;
-    font-family: Roboto, NotoSansKR, Malgun Gothic, AppleSDGothicNeo, Helvetica, sans-serif;
-    text-align: center;
-}
-.pagingList>span>a.active {
+    color: #666;
+    font-size: 13px;
+    line-height: 28px;
     margin: 0 4px;
-    background-color: #343b4d;
-    border: 1px solid #343b4d;
-    color: #fff;
+    text-align: center;
+    border: 1px solid #ddd;
+    transition: all 0.3s;
 }
-.pagingList>span>a:hover {
-    background-color: #35373d;
+
+.pagingList span a.active,
+.pagingList span a:hover {
+    background-color: #5bc0de;
+    color: #ffffff;
+    border: 1px solid #5bc0de;
+}
+
+/* 모달 스타일 */
+.modal.admin {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* 모달 컨텐츠 */
+.orderinfomodal-content {
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    max-width: 800px;
+    width: 90%;
+    overflow-y: auto;
+    max-height: 90vh;
+    position: relative;
+}
+
+/* 모달 헤더 */
+.adminmodal-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 0.5rem;
+}
+
+.adminmodal-nav h1 {
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.adminmodal-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #999;
+    transition: color 0.2s;
+}
+
+.adminmodal-close:hover {
+    color: #333;
+}
+
+/* 테이블 스타일 */
+.widthtable,
+.heighttable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.widthtable th,
+.heighttable th {
+    background-color: #f7f9fb;
+    font-weight: 600;
+    padding: 0.75rem;
+    color: #555;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.widthtable td,
+.heighttable td {
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    color: #333;
+}
+
+/* 이미지 스타일 */
+.modalimgsize {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+/* 모달 총 결제 정보 */
+.modalprice-value {
+    margin: 1.5rem 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+    color: #333;
+}
+
+.modalprice-value div {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+}
+
+.modalprice-value span:first-child {
+    font-weight: 600;
+    color: #777;
+}
+
+.modalprice-value span:last-child {
+    color: #333;
+}
+
+.modalprice-value div:last-child span:last-child {
+    font-weight: bold;
+    color: #d9534f;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 600px) {
+    .orderinfomodal-content {
+        padding: 1rem;
+        max-width: 90%;
+    }
+
+    .adminmodal-nav h1 {
+        font-size: 1.2rem;
+    }
+
+    .modalprice-value {
+        grid-template-columns: 1fr;
+    }
+
+    .bannerinsertbtn {
+        gap: 5px;
+    }
+
+    .pagingList span a {
+        width: 24px;
+        height: 24px;
+        font-size: 12px;
+        line-height: 24px;
+    }
 }

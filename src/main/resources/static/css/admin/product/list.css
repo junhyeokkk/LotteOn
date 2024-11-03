@@ -1,151 +1,204 @@
-/* 유형선택 */
-.select-container {
-    display: flex;
-    gap: 10px; /* 간격을 원하는 만큼 조정 가능 */
+/* 기본 스타일 설정 */
+* {
+    box-sizing: border-box;
 }
-select[name="type"] {
-    width: 75px;
-    height: 40px;
-    border: 1px solid #D8D8D8;
-    text-align: center;
-    outline: none;
+
+body {
+    font-family: 'Noto Sans KR', 'Malgun Gothic', Arial, sans-serif;
+    color: #333;
+    background-color: #f4f6f8;
+    margin: 0;
+    padding: 20px;
 }
-/* 유형선택 */
-.sectionBox > div {
-    margin-top: 30px;
+
+/* 전체 컨텐츠 스타일 */
+.content {
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+/* 헤더 및 섹션 제목 */
+.content_header h1 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #2c3e50;
     margin-bottom: 10px;
 }
-/* 검색창 */
-input {
-    width: 200px;
-    height: 40px;
-    padding: 9px;
-    border: 1px solid #D8D8D8;
-    font-size: 13px;
-    background-color: #fefefe;
-    color: #333;
-    vertical-align: middle;
-    box-sizing: border-box;
+
+.content_header p {
+    color: #7f8c8d;
+    font-size: 14px;
+    margin-bottom: 20px;
 }
 
-/* 검색바 */
+/* 검색 바 */
 .search_bar {
     display: flex;
+    gap: 10px;
     align-items: center;
-    gap: 5px;
+    padding: 10px 0;
+    margin-bottom: 20px;
 }
 
-/*표*/
+.search_bar select {
+    height: 40px;
+    border: 1px solid #dcdcdc;
+    border-radius: 4px;
+    padding: 0 10px;
+}
+
+.searchInput {
+    width: 250px;
+    height: 40px;
+    padding: 0 15px;
+    border: 1px solid #dcdcdc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.searchBtn {
+    height: 40px;
+    padding: 0 20px;
+    background-color: #3498db;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.searchBtn:hover {
+    background-color: #2980b9;
+}
+
+/* 상품 테이블 */
 .admingraph {
     width: 100%;
-    margin-top: 13px;
-    border-top: 2px solid #8798a3;
-    border-bottom: 2px solid #BFBFBF;
-    background: #fff;
-    text-align: center;
-    box-sizing: border-box;
     border-collapse: collapse;
+    background-color: #ffffff;
+    margin-top: 20px;
 }
-/*표 상단*/
-.admin_title {
-    height: 65px;
-    border-bottom: 1px solid #BFBFBF;
+
+.admingraph th {
+    padding: 12px 8px;
+    border-bottom: 1px solid #e0e0e0;
+    text-align: center;
+    font-size: 14px;
 }
-/*표 제목 텍스트*/
+.admingraph td {
+    padding: 5px 5px;
+    border-bottom: 1px solid #e0e0e0;
+    text-align: center;
+    font-size: 14px;
+}
+
 .admin_title th {
-    font-weight: bolder;
-}
-/*표 내용*/
-.admin_list {
-    height: 65px;
-    border-bottom: 1px solid #BFBFBF;
-}
-/*체크*/
-input[type="checkbox"] {
-    width: auto;
-    margin-right: 6px;
+    background-color: #f5f6fa;
+    font-weight: 600;
+    color: #333;
+    text-transform: uppercase;
 }
 
-
-/* 버튼 */
-
-/*검색*/
-.searchBtn {
-    width: 45px;
-    background-color: #D8D8D8;
-    color: #FFFFFF;
-}
-/* [삭제] */
-.cs_delete-btn {
-    cursor: pointer;
-    text-decoration: none;
-    color: #ff0000;
-}
-/* [수정] */
-.cs_modify-btn{
-    cursor: pointer;
-    text-decoration: none;
-    color: blue;
-}
-/* 삭제버튼 */
-.delete_btn {
-    float: left;
-    width: 100px;
-    height: 37px;
-    padding: 6px;
-    margin-top: 10px;
-    border: 1px solid #D9D9D9;
-    font-size: 13px;
-    text-align: center;
-    background-color: #BFBFBF;
-    color: #FFFFFF;
+.admin_list td {
     vertical-align: middle;
-    box-sizing: border-box;
-    cursor: pointer;
+    color: #333;
 }
-/* 등록버튼 */
+
+.admin_list img.thumb {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+/* 관리 버튼 스타일 */
+.cs_delete-btn,
+.cs_modify-btn {
+    font-size: 13px;
+    color: #e74c3c;
+    cursor: pointer;
+    text-decoration: none;
+    margin-right: 8px;
+}
+
+.cs_modify-btn {
+    color: #3498db;
+}
+
+.cs_delete-btn:hover {
+    color: #c0392b;
+}
+
+.cs_modify-btn:hover {
+    color: #2980b9;
+}
+
+/* 삭제 및 등록 버튼 */
+.delete_btn,
 .registration_btn {
-    float: right;
-    width: 100px;
-    height: 37px;
-    padding: 6px;
-    margin-top: 10px;
-    border: 1px solid #D9D9D9;
-    font-size: 13px;
+    display: inline-block;
+    width: 120px;
+    height: 40px;
+    line-height: 38px;
     text-align: center;
-    background-color: #8EB4E3;
-    color: #FFFFFF;
-    vertical-align: middle;
-    box-sizing: border-box;
+    color: #ffffff;
+    border-radius: 4px;
+    margin-top: 15px;
+    font-weight: bold;
     cursor: pointer;
 }
 
+.delete_btn {
+    background-color: #e74c3c;
+    margin-right: 10px;
+}
 
-/* 페이징 */
+.delete_btn:hover {
+    background-color: #c0392b;
+}
+
+.registration_btn {
+    background-color: #3498db;
+    float: right;
+}
+
+.registration_btn:hover {
+    background-color: #2980b9;
+}
+
+/* 페이징 스타일 */
 .pagingBox {
     display: flex;
-    position: relative;
-    margin-top: 40px;
     justify-content: center;
+    margin-top: 30px;
 }
-.pagingList>a {
+
+.pagingList > a {
     display: inline-block;
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    color: #999;
-    line-height: 26px;
-    margin: 0 2px;
-    text-indent: -1px;
-    font-family: Roboto, NotoSansKR, Malgun Gothic, AppleSDGothicNeo, Helvetica, sans-serif;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
     text-align: center;
+    margin: 0 5px;
+    border-radius: 50%;
+    color: #7f8c8d;
+    background-color: #ecf0f1;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background-color 0.3s, color 0.3s;
 }
-.pagingList>a.active {
-    margin: 0 4px;
-    background-color: #343b4d;
-    border: 1px solid #343b4d;
-    color: #fff;
+
+.pagingList > a.active {
+    color: #ffffff;
+    background-color: #3498db;
 }
-.pagingList>a:hover {
-    background-color: #35373d;
+
+.pagingList > a:hover {
+    background-color: #3498db;
+    color: #ffffff;
 }

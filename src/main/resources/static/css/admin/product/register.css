@@ -1,15 +1,18 @@
-/* Main content */
+/* 전체 레이아웃 스타일 */
 .dashboard {
     width: 90%;
     margin: 0 auto;
+    font-family: 'Noto Sans KR', 'Malgun Gothic', Arial, sans-serif;
+    color: #333;
 }
 
+/* 페이지 헤더 */
 .content_header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 20px 0;
-    border-bottom: 1px solid #c0c0c0;
+    border-bottom: 1px solid #ddd;
 }
 
 .content_header h1 {
@@ -20,330 +23,191 @@
 
 .content_header p {
     color: #888;
+    font-size: 14px;
 }
 
+/* 섹션 스타일 */
 .section {
-    margin-bottom: 30px;
-    background-color: #f4f4f4;
+    margin-top: 20px;
+    background-color: #f9f9f9;
     padding: 20px;
-    border-radius: 5px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
-h2 {
-    font-size: 20px;
-    color: black;
+.section h2 {
+    font-size: 18px;
+    color: #2c3e50;
     font-weight: bold;
-    margin-bottom: 10px;
     border-bottom: 2px solid #2c3e50;
     padding-bottom: 5px;
-}
-
-.product_register {
-    margin-top: 10px;
-}
-
-.form-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.form-table tr {
-    border-bottom: 1px dotted #2c3e50;
-}
-
-.form-table td {
-    padding: 10px;
-}
-
-label, strong {
-    font-size: 13px;
-    font-family: 'Arial', sans-serif;
-}
-
-.submit-section {
-    margin-top: 30px;
-    text-align: right;
-}
-
-.form-table td:first-child {
-    width: 25%;
-    background-color: #46667c;
-    color: #ecf0f1;
-    text-align: center;
-    font-weight: bold;
-}
-
-/* Input Fields Styling */
-input[type="text"], input[type="number"], select {
-    width: 80%;
-    padding: 10px;
-    border: 1px solid #7f8c8d;
-    border-radius: 4px;
-    color: #2b3335;
-    font-family: 'Arial', sans-serif;
-    font-size: 14px;
-    transition: border-color 0.3s;
-}
-
-input[type="text"]:focus, input[type="number"]:focus, select:focus {
-    border-color: #2ecc71;
-    outline: none;
-}
-
-/* File Label Styling */
-.file-label {
-    background-color: #46667c;
-    border: none;
-    padding: 10px 15px;
-    color: #ecf0f1;
-    cursor: pointer;
-    border-radius: 4px;
-    font-size: 14px;
-    transition: background-color 0.3s;
-    margin-bottom: 5px;
-    display: inline-block;
-}
-
-.file-label:hover {
-    background-color: #34495e;
-}
-
-.file-label + span {
-    display: inline-block;
-    margin-top: 10px;
-}
-
-/* Button Styling */
-button[type="button"], button[type="submit"] {
-    background-color: #46667c;
-    border: none;
-    padding: 10px 20px;
-    color: #ecf0f1;
-    cursor: pointer;
-    border-radius: 4px;
-    font-size: 14px;
-    transition: background-color 0.3s;
-    margin: 5px 0;
-}
-
-button[type="button"]:hover, button[type="submit"]:hover {
-    background-color: #3b556f;
-}
-
-textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #7f8c8d;
-    border-radius: 4px;
-    background-color: #ecf0f1;
-    color: #34495e;
-    font-family: 'Arial', sans-serif;
-    font-size: 14px;
-    resize: vertical;
-}
-
-/* 상품 선택정보 섹션 스타일 */
-#optionSection {
-    margin-top: 20px;
-    padding: 15px;
-    background-color: #f9f9f9;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-/* 테이블 스타일 */
-#optionTable, #combinationTable {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-}
-
-#optionTable th, #optionTable td, #combinationTable th, #combinationTable td {
-    padding: 10px;
-    text-align: center;
-    border: 1px solid #ddd;
-}
-
-#optionTable th, #combinationTable th {
-    background-color: #46667c;
-    color: #ecf0f1;
-    font-weight: bold;
-}
-
-/* 옵션 추가 버튼 스타일 */
-.add-option-btn {
-    text-align: right;
-}
-
-.add-option-btn button {
-    background-color: #46667c;
-    color: #ecf0f1;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.3s;
-}
-
-.add-option-btn button:hover {
-    background-color: #3b556f;
-}
-
-/* 옵션 항목 입력 스타일 */
-.option-values-container {
-    display: flex;
-    align-items: center;
-}
-
-.option-values-container input[type="text"] {
-    flex-grow: 1;
-    margin-right: 5px;
-}
-
-/* 옵션 항목 리스트 스타일 */
-.option-values {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.option-values li {
-    padding: 5px;
-    border-bottom: 1px solid #ddd;
-    background-color: #fff;
-}
-
-.combination-section {
-    margin-top: 20px;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-.combination-section h2 {
-    font-size: 18px;
-    margin-bottom: 10px;
-}
-
-.combination-section p {
-    margin-bottom: 10px;
-}
-
-.combination-section .form-table th, .combination-section .form-table td {
-    border: 1px solid #ccc;
-    padding: 8px;
-    text-align: left;
-}
-
-.combination-section .form-table th {
-    background-color: #f9f9f9;
-    font-weight: bold;
-}
-/* 옵션 여부 드롭다운 스타일 */
-#hasOption {
-    width: 85%;
-    padding: 10px;
-    border: 1px solid #7f8c8d;
-    border-radius: 4px;
-    color: #2b3335;
-    font-family: 'Arial', sans-serif;
-    font-size: 14px;
-    transition: border-color 0.3s;
-    background-color: #ecf0f1;
-    cursor: pointer;
-}
-
-#hasOption:focus {
-    border-color: #2ecc71;
-    outline: none;
-}
-
-/* 옵션 여부 라벨 스타일 */
-label[for="hasOption"] {
-    font-size: 13px;
-    color: #333;
-    font-weight: bold;
-    display: inline-block;
-    margin-bottom: 5px;
-}
-/* 옵션 여부 섹션 스타일 */
-.section select#hasOption {
-    width: 85%; /* 적당한 너비 설정 */
-    padding: 10px;
-    border: 1px solid #7f8c8d;
-    border-radius: 4px;
-    color: #2b3335;
-    font-family: 'Arial', sans-serif;
-    font-size: 14px;
-    transition: border-color 0.3s;
-    background-color: #ecf0f1;
-    cursor: pointer;
-}
-
-.section select#hasOption:focus {
-    border-color: #2ecc71;
-    outline: none;
-}
-
-.section label[for="hasOption"] {
-    font-size: 13px;
-    color: #333;
-    font-weight: bold;
-    display: inline-block;
-    margin-bottom: 5px;
-}
-/* 상품 상세정보 섹션 스타일 */
-section h3 {
-    font-size: 1.25em;
-    color: #333;
-    border-bottom: 1px solid #ddd;
-    padding-bottom: 8px;
     margin-bottom: 15px;
 }
 
-/* 각 상세 항목 스타일 */
-.detail-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
+/* 공통 테이블 스타일 */
+.form-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
 }
 
-.detail-input {
-    width: 40%;
-    padding: 8px;
-    margin-right: 10px;
-    border: 1px solid #ddd;
+.form-table tr {
+    border-bottom: 1px solid #ddd;
+}
+
+.form-table td {
+    padding: 10px 15px;
+}
+
+.form-table td:first-child {
+    width: 20%;
+    background-color: #46667c;
+    color: #ffffff;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 4px 0 0 4px;
+}
+
+/* 입력 필드 스타일 */
+input[type="text"],
+input[type="number"],
+select {
+    width: 90%;
+    padding: 10px;
+    border: 1px solid #ccc;
     border-radius: 4px;
-    font-size: 0.9em;
+    font-size: 14px;
+    color: #333;
+    transition: border-color 0.3s;
+    background-color: #ffffff;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus {
+    border-color: #5cb85c;
+    outline: none;
+}
+
+/* 파일 업로드 스타일 */
+.file-label {
+    background-color: #5cb85c;
+    border: none;
+    padding: 8px 15px;
+    color: #ffffff;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 13px;
+    transition: background-color 0.3s;
+    display: inline-block;
+    margin-top: 5px;
+}
+
+.file-label:hover {
+    background-color: #4cae4c;
+}
+
+/* 추가 옵션 스타일 */
+#optionSection,
+.combination-section {
+    padding: 15px;
+    background-color: #f3f3f3;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+#optionTable, #combinationTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+#optionTable th,
+#optionTable td,
+#combinationTable th,
+#combinationTable td {
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    text-align: center;
+    font-size: 14px;
+}
+
+#optionTable th,
+#combinationTable th {
+    background-color: #46667c;
+    color: #ffffff;
 }
 
 /* 옵션 추가 및 삭제 버튼 스타일 */
-.add-btn, .remove-btn {
-    background-color: #007BFF;
-    color: white;
+button[type="button"] {
+    background-color: #46667c;
     border: none;
-    padding: 6px 10px;
-    font-size: 0.9em;
-    border-radius: 4px;
+    padding: 8px 12px;
+    color: #ffffff;
+    font-size: 14px;
     cursor: pointer;
+    border-radius: 4px;
+    margin-top: 5px;
+    transition: background-color 0.3s;
+}
+
+button[type="button"]:hover {
+    background-color: #3b556f;
 }
 
 .add-btn {
-    margin-top: 15px;
     background-color: #28a745;
-    display: block;
+}
+
+.add-btn:hover {
+    background-color: #218838;
 }
 
 .remove-btn {
     background-color: #dc3545;
 }
 
-/* 버튼에 마우스 오버 시 */
-.add-btn:hover {
-    background-color: #218838;
-}
-
 .remove-btn:hover {
     background-color: #c82333;
+}
+
+/* 파일 업로드 파일 이름 표시 */
+.file-label + span {
+    display: inline-block;
+    color: #555;
+    font-size: 13px;
+    margin-left: 10px;
+}
+
+/* 버튼 공통 스타일 */
+button[type="submit"] {
+    background-color: #46667c;
+    border: none;
+    padding: 12px 20px;
+    color: #ffffff;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+}
+
+button[type="submit"]:hover {
+    background-color: #3b556f;
+}
+
+/* 세부 옵션 테이블 스타일 */
+#productDetailsTableBody input[type="text"] {
+    width: 90%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 13px;
+}
+
+/* 등록 완료 버튼 섹션 */
+.submit-section {
+    text-align: right;
+    margin-top: 20px;
 }
