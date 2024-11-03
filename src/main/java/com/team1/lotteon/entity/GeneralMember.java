@@ -1,5 +1,6 @@
 package com.team1.lotteon.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.team1.lotteon.entity.enums.Gender;
 import com.team1.lotteon.entity.enums.Grade;
 import jakarta.persistence.*;

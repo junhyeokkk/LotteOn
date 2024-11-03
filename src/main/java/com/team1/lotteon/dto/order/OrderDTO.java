@@ -1,5 +1,6 @@
 package com.team1.lotteon.dto.order;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.team1.lotteon.entity.GeneralMember;
 import com.team1.lotteon.entity.OrderItem;
 import com.team1.lotteon.entity.enums.OrderStatus;
@@ -41,7 +42,7 @@ public class OrderDTO {
     private String status; // 주문상태
 
     private int deliveryFee; // 전체 배달료
-
+    @JsonIgnore
     private GeneralMember member; // 주문자
 
 //    @ManyToOne

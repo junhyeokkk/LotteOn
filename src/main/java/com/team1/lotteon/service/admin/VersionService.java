@@ -44,6 +44,12 @@ public class VersionService {
         return versionRepository.save(version);
     }
 
+    // 가장 최근 버전 select(id가 가장 높은것으로 조회)
+    public VersionDTO getLatestVersion() {
+        Version version = versionRepository.findTopByOrderByIdDesc();
+        VersionDTO versionDTO = modelMapper.map(version, VersionDTO.class);
+        return versionDTO;
+    }
 
     // 버전 select (페이징)
     public Page<VersionDTO> getAllVersions(int page, int size) {

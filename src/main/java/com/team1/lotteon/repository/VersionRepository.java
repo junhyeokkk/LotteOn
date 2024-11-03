@@ -10,4 +10,6 @@ import org.springframework.stereotype.Repository;
 */
 @Repository
 public interface VersionRepository extends JpaRepository<Version, Long> {
+    // ID를 기준으로 가장 높은 레코드 1개 가져오기
+    public Version findTopByOrderByIdDesc();
 }

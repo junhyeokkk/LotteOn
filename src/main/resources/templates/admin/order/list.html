@@ -12,13 +12,13 @@
 </th:block>
 <!-- index.html 고유 스크립트 추가 -->
 <th:block layout:fragment="script">
-    <script type="text/javascript" th:src="@{/js/admin/config/info.js}"></script>
     <script type="text/javascript" th:src="@{/js/modal/modal.js}"></script>
     <script type="text/javascript" th:src="@{/js/admin/order/list.js}"></script>
 </th:block>
 
 <div class="content" layout:fragment="content">
     <div th:replace="admin/include/admin_modal :: #orderinfomodal"></div>
+    <div th:replace="admin/include/admin_modal :: #adressinputmodal"></div>
     <div class="dashboard">
         <div class="content_header">
             <h1>주문현황</h1>
@@ -51,12 +51,12 @@
                     <th>결제수단</th>
                     <th>주문상태</th>
                     <th>주문일</th>
-                    <th>배송</th>
+                    <th>상세보기</th>
                 </tr>
 
                 <tr th:each="order : ${orders.dtoList}" class="admin_list">
                     <td>
-                        <a href="#" th:value="${order.id}" data-modal="orderinfomodal" class="cs_modify-btn">1012121341</a>
+                        <a href="#" th:value="${order.id}" th:data-order-id="${order.id}" data-modal="orderinfomodal" class="cs_modify-btn">1012121341</a>
                     </td>
                     <td th:text="${order.getMember().getUid()}"></td>
                     <td th:text="${order.getMember().getName()}"></td>
@@ -70,11 +70,10 @@
                     <td th:text="${order.getOrderDate()}"></td>
                     <!-- 연월일시간초 -->
                     <td>
-                        <a href="#" class="deliveryBtn">상세보기</a>
+                        <a href="#" class="deliveryBtn" th:data-order-id="${order.id}" data-modal="adressinputmodal">보기</a>
                         <!-- 배송하기, 입력완료, 주문취소 -->
                     </td>
                 </tr>
-
             </table>
 
             <div class="pagingBox">

@@ -3,7 +3,9 @@ package com.team1.lotteon.interceptor;
 
 import com.team1.lotteon.config.AppInfo;
 import com.team1.lotteon.dto.ConfigDTO;
+import com.team1.lotteon.dto.VersionDTO;
 import com.team1.lotteon.service.admin.ConfigService;
+import com.team1.lotteon.service.admin.VersionService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +27,7 @@ public class AppInfoInterceptor implements HandlerInterceptor {
     private final AppInfo appInfo;
 
     private final ConfigService configService;
-
+    private final VersionService versionService;
     //postHandle은  controller의 요청 메서드에서
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
@@ -33,7 +35,10 @@ public class AppInfoInterceptor implements HandlerInterceptor {
         if (modelAndView != null) {
             modelAndView.addObject("appInfo", appInfo);  // 기존 AppInfo 객체 추가
             ConfigDTO config = configService.getCompanyInfo();
+            VersionDTO versionDTO = versionService.getLatestVersion();
+
             modelAndView.addObject("config", config);
+            modelAndView.addObject("version", versionDTO);
         }
     }
     @Override

@@ -194,7 +194,7 @@
 .widthtable td {padding: 10px;}
 .widthtable td:nth-child(3),.widthtable th:nth-child(3) {text-align: left;}
 
-.heighttable {
+.heighttable  {
     border-collapse: collapse;
     border-spacing: 0;
     width: 100%;
@@ -214,6 +214,30 @@
 }
 
 .heighttable td {
+
+    padding-left: 15px;
+}
+
+.deliverytable  {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+}
+
+.deliverytable tr {height: 47px;}
+
+.deliverytable th,
+.deliverytable td {
+    border-top: 0.4px solid #A6A6A6;
+    border-bottom: 0.4px solid #A6A6A6;
+}
+
+.deliverytable th {
+    background-color: #F2F2F2;
+    width: 143px;
+}
+
+.deliverytable td {
 
     padding-left: 15px;
 }

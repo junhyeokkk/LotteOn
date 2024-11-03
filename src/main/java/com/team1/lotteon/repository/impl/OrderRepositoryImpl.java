@@ -89,15 +89,14 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
         // 검색 선택 조건에 따라 where 조건 표현식 생성
         BooleanExpression expression = null;
 
-        if (type.equals("type")) {
-            expression = QPoint.point.type.containsIgnoreCase(keyword);
+        if (type.equals("orderNo")) {
+            expression = QOrder.order.id.eq(Long.valueOf(keyword));
             log.info("Type expression: " + expression);
-        } else if (type.equals("name")) {
-            expression = QPoint.point.member.name.containsIgnoreCase(keyword);
-        } else if (type.equals("member_id")) {
-            expression = QPoint.point.member.uid.containsIgnoreCase(keyword); // GeneralMember의 id 사용
+        } else if (type.equals("orderId")) {
+            expression = QOrder.order.member.uid.containsIgnoreCase(keyword);
+        } else if (type.equals("orderId")) {
+            expression = QOrder.order.member.name.containsIgnoreCase(keyword); // GeneralMember의 id 사용
         }
-
         return expression; // 생성된 조건 반환
     }
 

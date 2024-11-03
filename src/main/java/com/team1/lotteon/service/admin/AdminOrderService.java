@@ -13,6 +13,8 @@ import com.team1.lotteon.repository.OrderRepository;
 import com.team1.lotteon.security.MyUserDetails;
 import com.team1.lotteon.util.MemberUtil;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,6 +34,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AdminOrderService {
 
+    private static final Logger log = LogManager.getLogger(AdminOrderService.class);
     private final OrderRepository orderRepository;
     private final ModelMapper modelMapper;
 
@@ -81,5 +84,13 @@ public class AdminOrderService {
         // OrderPageResponseDTO 생성 및 반환
         return new OrderPageResponseDTO(orderPageRequestDTO, dtoList, (int) orderPage.getTotalElements());
     }
+    
+    // 해당오더찾기
+    public Order getOrderById(Long orderId) {
+        Order order = orderRepository.findById(orderId)
 
+                .orElseThrow(() -> new IllegalArgumentException("Order not found with ID: " + orderId));
+
+        return order;
+    }
 }
