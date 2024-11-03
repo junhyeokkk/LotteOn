@@ -23,27 +23,48 @@
     height: 100%; /* Make items fill the navbar height */
 }
 
+/* 네비게이션 아이템 스타일 */
 .nav-item {
-    flex-grow: 1; /* Make items fill available space evenly */
-    text-align: center; /* Center-align the text */
-    color: #2c3e50; /* Dark text color */
+    flex-grow: 1;
+    text-align: center;
+    color: #2c3e50;
     cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    font-size: 16px; /* Slightly increased font size */
-    position: relative; /* Needed for dropdown positioning */
-    height:100%;
+    font-size: 18px;
+    font-weight: 400;
+    position: relative;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: color 0.3s ease;
 }
 
+/* 네비게이션 호버 스타일 */
 .nav-item:hover {
-    background-color: #e74c3c;
-    color: #FFFFFF;
-    border-radius: 5px; /* Rounded corners on hover */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow on hover */
+    color: #e74c3c; /* 텍스트 색상 변화 */
 }
+
+/* 하단 밑줄 효과 */
+.nav-item::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #e74c3c;
+    transition: width 0.3s ease; /* 슬라이드 애니메이션 */
+}
+
+.nav-item:hover::after {
+    width: 100%; /* 호버 시 전체 폭으로 확장 */
+}
+
+/* 하단 그림자 효과 */
+.nav-item:hover {
+    box-shadow: 0 4px 4px -2px rgba(0, 0, 0, 0.2); /* 아래쪽 그림자 */
+}
+
 
 /* Dropdown menus styling */
 .dropdown {
@@ -131,14 +152,13 @@
 
 .nav-bar {
     width: 100%;
-    height: 55px; /* Slightly increased height */
+    height: 55px;
     background-color: #FFFFFF;
     border-bottom: 2px solid #e74c3c;
-    font-size: 16px; /* Increased font size */
     display: flex;
     justify-content: center;
     box-sizing: border-box;
-    font-family: 'Helvetica Neue', sans-serif;
+    font-family: 'Noto Sans KR', 'Malgun Gothic', Arial, sans-serif;
 }
 
 .menu:hover > .categoryMenu {
