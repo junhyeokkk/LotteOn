@@ -935,7 +935,41 @@
             </section>
         </div>
     </div>
-    
+    <!-- 배송 등록 모달 -->
+    <div id="deliveryInsertModal" class="modal user">
+        <div class="deliveryInsertModal-content modalcontent">
+            <nav class="modal-nav">
+                <h1>배송 등록</h1>
+                <button class="modal-close" id="closeModal">&times;</button>
+            </nav>
+            <section class="modal-section">
+                <h3>주문 리스트</h3>
+
+                <!-- 배송지 카드 -->
+                <div class="delivery-card">
+                    <div class="delivery-card-header">
+                        <div class="delivery-title">
+                            <strong>쿠폰 이름</strong>
+                        </div>
+                        <div class="action-buttons">
+                            <button>
+                                다운받기
+                            </button>
+                        </div>
+                    </div>
+                    <div class="delivery-info">
+                        <span>할인 내용</span><br>
+                        <span>다운 가능 날짜: </span>
+                        <span></span><br>
+                        <span>발급후 사용 가능 기간: </span>
+                        <span>10일</span>
+                    </div>
+                </div>
+                <!-- 새로운 배송지 등록 버튼 -->
+                <button class="save-button" type="button">전체 다운받기</button>
+            </section>
+        </div>
+    </div>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // 모달과 버튼을 객체로 관리
