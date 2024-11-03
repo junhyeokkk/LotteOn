@@ -82,6 +82,7 @@
 }
 
 /*유정*/
+.deliveryInsertModal-content,
 .couponinfomodal-content,
 .couponinsertmodal-content{
     height: 540px;
@@ -96,6 +97,7 @@
     height: 850px;
     width: 700px;
 }
+.deliveryInsertModal-content,
 .couponinfoModal-content,
 .deliberyinsertModal-content,
 .deliberyModal-content{

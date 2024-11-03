@@ -19,6 +19,7 @@
 <div class="content" layout:fragment="content">
     <div th:replace="admin/include/admin_modal :: #orderinfomodal"></div>
     <div th:replace="admin/include/admin_modal :: #adressinputmodal"></div>
+    <div th:replace="admin/include/admin_modal :: #deliveryInsertModal"></div>
     <div class="dashboard">
         <div class="content_header">
             <h1>주문현황</h1>
@@ -51,7 +52,7 @@
                     <th>결제수단</th>
                     <th>주문상태</th>
                     <th>주문일</th>
-                    <th>상세보기</th>
+                    <th>배송</th>
                 </tr>
 
                 <tr th:each="order : ${orders.dtoList}" class="admin_list">
@@ -70,7 +71,7 @@
                     <td th:text="${order.getOrderDate()}"></td>
                     <!-- 연월일시간초 -->
                     <td>
-                        <a href="#" class="deliveryBtn" th:data-order-id="${order.id}" data-modal="adressinputmodal">보기</a>
+                        <a href="#" class="deliveryBtn" th:data-order-id="${order.id}"data-modal="deliveryInsertModal">보기</a>
                         <!-- 배송하기, 입력완료, 주문취소 -->
                     </td>
                 </tr>
