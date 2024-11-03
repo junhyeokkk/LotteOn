@@ -41,6 +41,9 @@ import java.util.stream.Collectors;
      수정내용
      - 2024/11/01 이도영 나의정보에서 다운로드한 쿠폰 출력
                         관리자 쿠폰발급현황 기능 구현
+     - 2024/11/03 이도영 선택된 쿠폰 저장 기능 구현
+                        전체 쿠폰 저장 기능 구현
+                        updateCouponUseStatusAndIncrementUse 기능 임시작업
 */
 @Log4j2
 @RequiredArgsConstructor
@@ -54,19 +57,37 @@ public class CouponTakeService {
 
     private final JPAQueryFactory queryFactory;
 
-    //쿠폰 가지고 오기(상점 정보를 이용해서)
-    public List<CouponTake> findByMemberIdAndOptionalShopId(String memberId, Long shopId) {
-        BooleanBuilder builder = new BooleanBuilder();
+    // 쿠폰 가져오기 (상점 정보를 이용해서)
+    public List<CouponTake> findByMemberIdAndShopId(String memberId, List<Long> shopIds) {
         QCouponTake couponTake = QCouponTake.couponTake;
 
+        BooleanBuilder builder = new BooleanBuilder();
         builder.and(couponTake.member.uid.eq(memberId))
-                .and(shopId != null ? couponTake.shop.id.eq(shopId).or(couponTake.shop.id.isNull()) : couponTake.shop.id.isNull());
+                .and(couponTake.couponUseCheck.eq(0)); // couponusecheck가 0인 경우 추가
+
+        // shopIds가 비어있지 않은 경우 shopIds 목록 내의 shopId만 조회
+        if (shopIds != null && !shopIds.isEmpty()) {
+            builder.and(couponTake.shop.id.in(shopIds));
+        }
 
         return queryFactory.selectFrom(couponTake)
                 .where(builder)
                 .fetch();
     }
 
+    // 상점 정보가 없어도 memberId가 같은 경우 가져오기
+    public List<CouponTake> findByMemberIdAndNullShopId(String memberId) {
+        QCouponTake couponTake = QCouponTake.couponTake;
+
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.and(couponTake.member.uid.eq(memberId))
+                .and(couponTake.shop.id.isNull()) // shopId가 null인 경우만 조회
+                .and(couponTake.couponUseCheck.eq(0)); // couponusecheck가 0인 경우 추가
+
+        return queryFactory.selectFrom(couponTake)
+                .where(builder)
+                .fetch();
+    }
     //나의 정보에서 쿠폰 가지고 오기(멤버 정보만 활용해서)
     public Page<CouponTakeDTO> findPagedCouponsByMemberId(String memberId, Pageable pageable) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -99,6 +120,10 @@ public class CouponTakeService {
         if (exists) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "이미 저장한 쿠폰 입니다");
         }
+        // coupongive 값 증가 처리
+        coupon.setCoupongive((coupon.getCoupongive() != null ? coupon.getCoupongive() : 0) + 1);
+        couponRepository.save(coupon); // 변경된 coupongive 값으로 쿠폰 저장
+
         LocalDateTime couponGetDate = LocalDateTime.now();
         LocalDateTime couponExpireDate = couponGetDate.plusDays(coupon.getCouponperiod());
         CouponTake couponTake = CouponTake.builder()
@@ -127,6 +152,9 @@ public class CouponTakeService {
             if (exists) {
                 continue; // 이미 저장된 쿠폰이면 넘어감
             }
+            // coupongive 값 증가
+            coupon.setCoupongive((coupon.getCoupongive() != null ? coupon.getCoupongive() : 0) + 1);
+            couponRepository.save(coupon); // 변경된 coupongive 값 저장
 
             LocalDateTime couponGetDate = LocalDateTime.now();
             LocalDateTime couponExpireDate = couponGetDate.plusDays(coupon.getCouponperiod());
@@ -203,20 +231,31 @@ public class CouponTakeService {
     }
 
 
-    // member_id와 coupon_id가 일치하는 CouponTake 엔티티를 조회 일치하면 사용 했음으로 변경
-    @Transactional
-    public boolean updateCouponUseCheck(String memberId, Long couponId) {
-
+    // member_id와 coupon_id가 일치하는 CouponTake 엔티티를 조회 일치하면 사용 했음으로 변경 + 쿠폰에 사용횟수 증가
+    public boolean updateCouponUseStatusAndIncrementUse(String memberId, Long couponId) {
+        // 1. CouponTake 엔티티에서 couponUseCheck 값을 2로 업데이트
         Optional<CouponTake> optionalCouponTake = couponTakeRepository.findByMember_UidAndCoupon_Couponid(memberId, couponId);
 
         if (optionalCouponTake.isPresent()) {
             CouponTake couponTake = optionalCouponTake.get();
             couponTake.setCouponUseCheck(2); // couponusecheck 값을 2로 설정
             couponTakeRepository.save(couponTake); // 변경 사항 저장
-            return true; // 업데이트 성공
         } else {
-            return false; // 일치하는 항목을 찾지 못한 경우
+            return false; // 일치하는 CouponTake 항목을 찾지 못한 경우
         }
+
+        // 2. Coupon 엔티티에서 couponuse 값을 +1 증가
+        Optional<Coupon> optionalCoupon = couponRepository.findById(couponId);
+
+        if (optionalCoupon.isPresent()) {
+            Coupon coupon = optionalCoupon.get();
+            coupon.setCouponuse(coupon.getCouponuse() + 1); // couponuse 값을 +1 증가
+            couponRepository.save(coupon); // 변경 사항 저장
+        } else {
+            return false; // 일치하는 Coupon 항목을 찾지 못한 경우
+        }
+
+        return true; // 두 작업이 성공적으로 완료된 경우
     }
 
 //    public Optional<CouponTakeDTO> findCouponTakeById(Long id) {

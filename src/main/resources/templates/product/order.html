@@ -115,11 +115,15 @@
           <button type="button" class="btn-apply">사용하기</button>
           <p class="point-info">* 포인트 5,000점 이상 사용 가능합니다.</p>
         </div>
-
-        <div class="coupon-usage">
+<!--    쿠폰리스트 출력화면 (도영) 2024/11/03   -->
+        <div class="coupon-usage" th:if="${couponTakeList != null and !#lists.isEmpty(couponTakeList)}">
           <p class="coupon-label">쿠폰 적용:</p>
           <select name="couponId">
-            <option>쿠폰선택</option>
+            <option value="">쿠폰선택</option>
+            <!-- couponTakeList를 반복하여 option 항목 생성 -->
+            <option th:each="coupon : ${couponTakeList}"
+                    th:value="${coupon.couponTakenId}"
+                    th:text="${coupon.coupon.couponname}">쿠폰 이름</option>
           </select>
           <button type="button" class="btn-apply">사용하기</button>
         </div>

@@ -21,6 +21,7 @@ import com.team1.lotteon.entity.productOption.ProductOptionCombination;
 import com.team1.lotteon.repository.*;
 import com.team1.lotteon.util.MemberUtil;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -303,5 +304,14 @@ public class ProductService {
 
         // 조회한 상품을 ProductSummaryResponseDTO로 변환하고 페이지 응답으로 반환
         return PageResponseDTO.fromPage(products.map(ProductSummaryResponseDTO::fromEntity));
+    }
+
+    //도영 2024/11/03 상품 아이디를 활용해서 상점 아이디 검색 기능
+    public Long getShopIdByProductId(Long productId) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new EntityNotFoundException("Product not found with id: " + productId));
+
+        // Product가 존재하면 해당 Product의 shop 객체의 id를 반환
+        return product.getShop() != null ? product.getShop().getId() : null;
     }
 }

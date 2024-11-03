@@ -2,6 +2,7 @@ package com.team1.lotteon.controller.product;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.team1.lotteon.dto.CouponDTO;
 import com.team1.lotteon.dto.GeneralMemberDTO;
 import com.team1.lotteon.dto.order.FinalOrderSummaryDTO;
 import com.team1.lotteon.dto.order.OrderInfoDTO;
@@ -11,6 +12,8 @@ import com.team1.lotteon.dto.category.CategoryResponseDTO;
 import com.team1.lotteon.dto.order.OrderSummaryDTO;
 import com.team1.lotteon.dto.product.ProductDTO;
 import com.team1.lotteon.dto.product.ProductSummaryResponseDTO;
+import com.team1.lotteon.entity.Coupon;
+import com.team1.lotteon.entity.CouponTake;
 import com.team1.lotteon.entity.GeneralMember;
 import com.team1.lotteon.security.MyUserDetails;
 import com.team1.lotteon.service.CartService;
@@ -18,6 +21,8 @@ import com.team1.lotteon.service.CategoryService;
 import com.team1.lotteon.service.Order.OrderService;
 import com.team1.lotteon.service.ProductService;
 import com.team1.lotteon.service.UserService;
+import com.team1.lotteon.service.admin.CouponService;
+import com.team1.lotteon.service.admin.CouponTakeService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -32,16 +37,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /*
     날짜 : 2024/10/25
     이름 : 이상훈
     내용 : 상품 관련 페이지 컨트롤러 생성
+
+    수정이력
+    - 2024/11/03 이도영 @GetMapping("/product/order")
+                        - 사용가능한 쿠폰 출력
+                       @GetMapping("/product/view/{id}")
+                        - 다운받은 쿠폰 리스트 출력
 */
 @Log4j2
 @Controller
@@ -51,7 +59,8 @@ public class ProductPageController {
     private final ProductService productService;
     private final CartService cartService;
     private final CategoryService categoryService;
-
+    private final CouponService couponService;
+    private final CouponTakeService couponTakeService;
     private final ModelMapper modelMapper;
     private final OrderService orderService;
 
@@ -124,6 +133,8 @@ public class ProductPageController {
             log.warn("세션에 orderInfoList가 없습니다.");
             return "redirect:/product";
         }
+        // 중복되지 않는 shopId 저장용 Set 생성
+        Set<Long> uniqueShopIds = new HashSet<>();
 
         // 최종 결제 정보 합산을 위한 변수 초기화
         FinalOrderSummaryDTO finalOrderSummary = new FinalOrderSummaryDTO();
@@ -131,6 +142,14 @@ public class ProductPageController {
 
         // 한 번의 반복문에서 처리
         for (OrderInfoDTO orderInfo : sessionOrderInfoList) {
+
+            //상품의 아이디를 찾아와 해당 상품의 상점 아이디를 검색하는 기능(도영)
+            Long productId = orderInfo.getProductId();
+            Long shopId = productService.getShopIdByProductId(productId);
+            if (shopId != null) {
+                uniqueShopIds.add(shopId);
+            }
+
             // 1. 이미지 경로 가공
             String productImg = orderInfo.getProductImg();
             if (productImg != null && !productImg.startsWith("http")) {
@@ -164,11 +183,22 @@ public class ProductPageController {
         finalOrderSummary.setTotalDeliveryFee(totalDeliveryFee > 0 ? totalDeliveryFee : 0);
         finalOrderSummary.setTotalEarnedPoints(totalEarnedPoints);
 
+        //쿠폰 정보 가지고 오는 기능
+        // Set을 List로 변환하여 쿠폰 조회에 사용
+        List<Long> shopIdList = new ArrayList<>(uniqueShopIds);
+        //아이디와 상점이 있는경우
+        List<CouponTake> couponTakeList = couponTakeService.findByMemberIdAndShopId(member.getUid(), shopIdList);
+        //아이디는 있지만 상점이 없는경우(관리자쿠포)
+        List<CouponTake> couponTakeListWithNullShopId = couponTakeService.findByMemberIdAndNullShopId(myUserDetails.getUsername());
+        // 두 리스트를 합쳐 중복 제거
+        Set<CouponTake> combinedCouponTakeSet = new HashSet<>(couponTakeList);
+        combinedCouponTakeSet.addAll(couponTakeListWithNullShopId);
+        List<CouponTake> combinedCouponTakeList = new ArrayList<>(combinedCouponTakeSet);
         // 모델에 추가
         model.addAttribute("orderInfoList", sessionOrderInfoList);
         model.addAttribute("finalOrderSummary", finalOrderSummary);
         model.addAttribute("member", member);
-
+        model.addAttribute("couponTakeList", combinedCouponTakeList); // 중복 제거된 쿠폰 목록 추가
         log.info("가공된 이미지 경로 포함된 orderInfo: {}", sessionOrderInfoList);
 
         return "product/order";
@@ -216,6 +246,7 @@ public class ProductPageController {
     public String viewProduct(@PathVariable("id") Long id, Model model) throws JsonProcessingException {
         log.info("컨트롤러 ㅇㅇㅇ");
         ProductDTO saveProduct = productService.getProductById(id);
+        List<Coupon> coupondata = couponService.findCouponsByMemberId(saveProduct.getMember().getUid());
 
         if (saveProduct == null) {
             return "error/404"; // 상품이 없는 경우, 404 페이지로 이동
@@ -263,7 +294,8 @@ public class ProductPageController {
         model.addAttribute("product", saveProduct);
         // 모델에 JSON 형식으로 변환된 데이터를 추가
         model.addAttribute("optionCombinations", optionCombinations);
-
+        //판매자가 만든 쿠폰 정보 출력
+        model.addAttribute("coupondatas",coupondata);
         return "product/view"; // 뷰 페이지로 이동
     }
 

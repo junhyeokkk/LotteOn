@@ -5,6 +5,7 @@
     수정이력
     - 2024/10/23 이도영 - 관리자,일반회원 모달 분리
     - 2024/10/30 이도영 - 배송지 작성 모달 생성
+    - 2024/11/03 이도영 - 쿠폰 등록 모달 수정
 -->
 
 <!DOCTYPE html>
@@ -576,38 +577,29 @@
             <h3>사용가능한 쿠폰</h3>
             
             <!-- 배송지 카드 -->
-            <div class="delivery-card">
+            <div th:each="coupon : ${coupondatas}" class="delivery-card">
                 <div class="delivery-card-header">
                     <div class="delivery-title">
-                        <strong>쿠폰이름</strong>
+                        <strong th:text="${coupon.couponname}">쿠폰 이름</strong>
                     </div>
                     <div class="action-buttons">
-                        <button type="button">다운받기</button>
+                        <button type="button" class="download-coupon-btn"
+                                th:attr="data-coupon-id=${coupon.couponid}, data-member-id=${uid}, data-shop-id=${product.shop.id}">
+                            다운받기
+                        </button>
                     </div>
                 </div>
                 <div class="delivery-info">
-                    할인 내용<br>
-                    다운 가능 날짜 2024-01-01<br>
-                    발급후 사용 가능 기간 10일
+                    <span th:text="${coupon.couponetc}">할인 내용</span><br>
+                    <span>다운 가능 날짜: </span>
+                    <span th:text="${#strings.substring(coupon.couponend, 0, #strings.indexOf(coupon.couponend, 'T'))}">2024-01-01</span><br>
+                    <span>발급후 사용 가능 기간: </span>
+                    <span th:text="${coupon.couponperiod}">10일</span>
                 </div>
-            </div>
-            <div class="delivery-card">
-                <div class="delivery-card-header">
-                    <div class="delivery-title">
-                        <strong>최준혁</strong>
-                    </div>
-                    <div class="action-buttons">
-                        <button type="button">다운받기</button>
-                    </div>
-                </div>
-                <div class="delivery-info">
-                    할인 내용<br>
-                    다운 가능 날짜 2024-01-01<br>
-                    발급후 사용 가능 기간 10일
-                </div>
+
             </div>
             <!-- 새로운 배송지 등록 버튼 -->
-            <button class="delivery-button" type="button">전체 다운받기</button>
+            <button class="save-button" type="button">전체 다운받기</button>
         </section>
     </div>
 </div>
