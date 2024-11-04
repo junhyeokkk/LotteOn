@@ -70,14 +70,14 @@ public class ProductPageController {
     @GetMapping("/product/list")
     public String list(Model model, @ModelAttribute ProductSearchRequestDto requestDto) {
         PageResponseDTO<ProductSummaryResponseDTO> productsPage = productService.searchProducts(requestDto);
-        log.info("productPage Content Size : {}", productsPage.getContent().size());
         Long categoryId = requestDto.getCategoryId();
+
         if (categoryId != null) {
             List<CategoryResponseDTO> parentList = categoryService.getParentList(categoryId);
             model.addAttribute("categoryId", categoryId);
             model.addAttribute("parentList", parentList);
         }
-        System.out.println("requestDto.getKeyword() = " + requestDto.getKeyword());
+
         model.addAttribute("keyword", requestDto.getKeyword());
 
         productService.searchProducts(requestDto);

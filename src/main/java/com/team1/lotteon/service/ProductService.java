@@ -241,11 +241,10 @@ public class ProductService {
             category.getCategoryIds(categoryIds);
         }
 
-        if (category != null && category.getLevel() == 3) {
-            categoryIds.add(category.getId());
-        }
+//        if (category != null && category.getLevel() == 3) {
+//            categoryIds.add(category.getId());
+//        }
 
-        log.info("categoryIds : {}", categoryIds);
         Pageable pageable = productSearchRequestDto.toPageable();
         Page<Product> products = productRepository.searchProducts(productSearchRequestDto, categoryIds, pageable);
         return PageResponseDTO.fromPage(products.map(ProductSummaryResponseDTO::fromEntity));

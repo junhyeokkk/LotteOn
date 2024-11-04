@@ -2,10 +2,13 @@ package com.team1.lotteon.repository.productCustom;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.team1.lotteon.dto.product.ProductSearchRequestDto;
 import com.team1.lotteon.entity.Product;
+import com.team1.lotteon.entity.QOrderItem;
 import com.team1.lotteon.entity.QProduct;
+import com.team1.lotteon.entity.QReview;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
@@ -24,8 +27,10 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Page<Product> searchProducts(ProductSearchRequestDto searchRequestDto, List<Long> categoryIds , Pageable pageable) {
+    public Page<Product> searchProducts(ProductSearchRequestDto searchRequestDto, List<Long> categoryIds, Pageable pageable) {
         QProduct product = QProduct.product;
+        QOrderItem orderItem = QOrderItem.orderItem;
+        QReview review = QReview.review;
 
         BooleanBuilder builder = new BooleanBuilder();
 
@@ -33,16 +38,17 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom {
             builder.and(product.productName.containsIgnoreCase(searchRequestDto.getKeyword()));
         }
 
-        if(categoryIds != null && !categoryIds.isEmpty()) {
+        if (categoryIds != null && !categoryIds.isEmpty()) {
             builder.and(product.category.id.in(categoryIds));
         }
-
         // 동적 정렬 설정
-        List<OrderSpecifier<?>> orderSpecifiers = getOrderSpecifiers(pageable.getSort(), product);
-
+        List<OrderSpecifier<?>> orderSpecifiers = getOrderSpecifiers(searchRequestDto.getSortBy(), product, orderItem, review);
         List<Product> products = queryFactory
                 .selectFrom(product)
+                .leftJoin(orderItem).on(orderItem.product.id.eq(product.id))
+                .leftJoin(review).on(review.product.id.eq(product.id))
                 .where(builder)
+                .groupBy(product.id)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .orderBy(orderSpecifiers.toArray(new OrderSpecifier[0]))
@@ -57,17 +63,37 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom {
         return PageableExecutionUtils.getPage(products, pageable, () -> total);
     }
 
-    private List<OrderSpecifier<?>> getOrderSpecifiers(Sort sort, QProduct product) {
+    private List<OrderSpecifier<?>> getOrderSpecifiers(String sortBy, QProduct product, QOrderItem orderItem, QReview review) {
         List<OrderSpecifier<?>> orderSpecifiers = new ArrayList<>();
-        for (Sort.Order order : sort) {
-            OrderSpecifier<?> orderSpecifier = switch (order.getProperty()) {
-                case "createdAt" -> order.isAscending() ? product.createdAt.asc() : product.createdAt.desc();
-                case "price" -> order.isAscending() ? product.price.asc() : product.price.desc();
-                case "name" -> order.isAscending() ? product.productName.asc() : product.productName.desc();
-                default -> throw new IllegalArgumentException("정렬할 수 없는 필드입니다: " + order.getProperty());
-            };
-            orderSpecifiers.add(orderSpecifier);
+        OrderSpecifier<?> orderSpecifier;
+        switch (sortBy) {
+            case "prodSold": {
+                orderSpecifier = orderItem.count().desc();
+                break;
+            }
+            case "prodLowPrice": {
+                orderSpecifier = Expressions.numberTemplate(Double.class, "({0} * (1 - {1} / 100.0))", product.price, product.discountRate).asc();
+                break;
+            }
+            case "prodHighPrice": {
+                orderSpecifier = Expressions.numberTemplate(Double.class, "({0} * (1 - {1} / 100.0))", product.price, product.discountRate).desc();
+                break;
+            }
+            case "prodReview": {
+                orderSpecifier = review.count().desc();
+                break;
+            }
+            case "prodScore": {
+                orderSpecifier = review.score.avg().desc();
+                break;
+            }
+            case "prodRdate":
+            default: {
+                orderSpecifier = product.createdAt.desc();
+            }
         }
+        orderSpecifiers.add(orderSpecifier);
+        orderSpecifiers.add(product.createdAt.desc());
         return orderSpecifiers;
     }
 }
