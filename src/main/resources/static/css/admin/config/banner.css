@@ -172,18 +172,7 @@
     z-index: 1000;
 }
 
-/* 모달 컨텐츠 */
-.orderinfomodal-content {
-    background: #ffffff;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    max-width: 800px;
-    width: 90%;
-    overflow-y: auto;
-    max-height: 90vh;
-    position: relative;
-}
+
 
 /* 모달 헤더 */
 .adminmodal-nav {
