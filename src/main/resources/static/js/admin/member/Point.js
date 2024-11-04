@@ -9,16 +9,16 @@ function toggleAllChecks(checkbox) {
     })
 }
 
-function deleteSelectedMembers() {
+function deleteSelectedPoints() {
     const selectedIds = Array.from(document.querySelectorAll('input[name="RowCheck"]:checked'))
-        .map(checkbox => Number(checkbox.value));
+        .map(checkbox => Number(checkbox.value)); // 포인트 ID를 가져옴
 
     if (selectedIds.length === 0) {
-        alert("삭제할 회원을 선택해 주세요.");
+        alert("삭제할 포인트를 선택해 주세요.");
         return;
     }
 
-    if (confirm("선택된 회원들을 삭제하시겠습니까?")) {
+    if (confirm("선택된 포인트 내역을 삭제하시겠습니까?")) {
         fetch("/admin/member/delete", {
             method: "POST",
             headers: {
@@ -41,6 +41,4 @@ function deleteSelectedMembers() {
                 alert("서버 통신 중 오류가 발생했습니다.");
             });
     }
-
-
 }

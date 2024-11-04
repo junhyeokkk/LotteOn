@@ -1,5 +1,6 @@
 package com.team1.lotteon.entity;
 
+import com.team1.lotteon.dto.PointDTO;
 import jakarta.persistence.*;
 import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
@@ -51,5 +52,18 @@ public class Point{
         this.acPoints = acPoints;
     }
 
-}
+        public static PointDTO fromEntity(Point point) {
+            GeneralMember member = point.getMember();
+            return PointDTO.builder()
+                    .member_id(member != null ? member.getUid() : null)
+                    .type(point.getType())
+                    .givePoints(point.getGivePoints())
+                    .acPoints(point.getAcPoints())
+                    .createdat(point.getCreatedat())
+                    .build();
+        }
+    }
+
+
+
 

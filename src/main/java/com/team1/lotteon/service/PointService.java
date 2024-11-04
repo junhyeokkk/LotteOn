@@ -15,6 +15,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,6 +23,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,7 +34,8 @@ import java.util.stream.Collectors;
 *   내용 : PointService 생성
 *
 * 수정이력
-   - 2025/11/03 박서홍 - 포인트 차감코드 추가
+*   - 2025/11/03 박서홍 - 포인트 차감코드 추가
+*   - 2025/11/04 박서홍 - 주문하기 - 포인트 사용 추가
 *
 */
 @Log4j2
@@ -68,6 +72,32 @@ public class PointService {
         insertPoint(pointDTO);
     }
 
+
+
+    // 주문 포인트 사용 메서드
+    public void userOrderPoints(int point, GeneralMember generalMember) {
+        if (point < 5000) {
+            throw new IllegalArgumentException("5000점 이상 사용가능");
+        }
+        if (generalMember.getPoints() < point) {
+            throw new IllegalArgumentException("포인트 부족!");
+        }
+        generalMember.decreasePoints(point);
+        generalMemberRepository.saveAndFlush(generalMember);
+
+        PointDTO pointDTO = new PointDTO();
+        pointDTO.setAcPoints(generalMember.getPoints());
+        pointDTO.setMember_id(generalMember.getUid()); // memberid
+        pointDTO.setGivePoints(-point);
+
+        Point pointEntity = modelMapper.map(pointDTO, Point.class);
+        pointEntity.changeMember(generalMember);
+        pointRepository.save(pointEntity); // 포인트 기록 저장
+
+//        generalMember.increasePoints(point); // 사용된 포인트를 회원의 포인트 내역과 잔여 포인트에 반영하기 위한 것
+
+
+    }
 
     // 포인트 insert
     public void insertPoint(PointDTO pointDTO) {
@@ -158,29 +188,57 @@ public class PointService {
     }
 
     @Transactional
-    public void deleteSelectedMembers(List<Long> memberIds) {
-        List<GeneralMember> existingMembers = generalMemberRepository.findAllByUidIn(
-                memberIds.stream()
-                        .map(String::valueOf)
-                        .collect(Collectors.toList())
-        );
+    public void deleteSelectedPoints(List<Long> pointIds) {
+        log.info("deleteSelectedPoints 서비스 메서드가 호출되었습니다. pointIds: {}", pointIds);
 
-        for (GeneralMember generalMember : existingMembers) {
-            // 포인트 데이터를 회수 (0으로 설정) 및 삭제
-            List<Point> points = pointRepository.findByMember(generalMember);
-            for (Point point : points) {
-                point.setGivePoints(0); // 포인트를 0으로 설정
-                pointRepository.delete(point); // 포인트 레코드 삭제
-            }
+        List<Point> pointsToDelete = pointRepository.findAllById(pointIds);
+        log.info("조회된 포인트 내역 수: {}", pointsToDelete.size());
 
-            // 회원 삭제
-            generalMemberRepository.delete(generalMember);
+        if (pointsToDelete.isEmpty()) {
+            log.info("삭제할 포인트 내역이 없습니다.");
+            return;
         }
+
+        for (Point point : pointsToDelete) {
+            GeneralMember generalMember = point.getMember();
+            int deductionPoints = point.getGivePoints();
+
+            log.info("Member ID: {}, 현재 포인트: {}, 차감 포인트: {}",
+                    generalMember.getUid(), generalMember.getPoints(), deductionPoints);
+
+            // 포인트 차감 및 업데이트
+            if (generalMember.getPoints() >= deductionPoints) {
+                generalMember.decreasePoints(deductionPoints);
+                generalMemberRepository.saveAndFlush(generalMember); // DB에 즉시 반영
+
+                log.info("Member ID: {}, 포인트 차감 후 포인트: {}", generalMember.getUid(), generalMember.getPoints());
+
+                // 현재 상태를 기준으로 포인트 내역 재정렬 및 갱신
+                int currentAcPoints = 0; // 초기화 후 재계산
+                List<Point> remainingPoints = pointRepository.findByMemberOrderByCreatedatAsc(generalMember);
+
+                // 중간 내역 삭제 후, 그 이후 내역의 acPoints를 재계산
+                for (Point p : remainingPoints) {
+                    if (!pointIds.contains(p.getId())) {
+                        currentAcPoints += p.getGivePoints(); // 갱신된 포인트 값 적용
+                        p.setAcPoints(currentAcPoints); // 갱신된 acPoints 설정
+                        log.info("Point ID: {}, 갱신된 acPoints: {}", p.getId(), p.getAcPoints());
+                        pointRepository.saveAndFlush(p); // 갱신된 내역 저장
+                    }
+                }
+
+                // 포인트 내역 삭제
+                pointRepository.delete(point);
+                log.info("Point ID: {}, 포인트 내역이 삭제되었습니다.", point.getId());
+            } else {
+                log.warn("차감할 포인트가 현재 포인트보다 많습니다. Member ID: {}, 현재 포인트: {}, 차감 포인트: {}",
+                        generalMember.getUid(), generalMember.getPoints(), deductionPoints);
+            }
+        }
+
+        log.info("DB에 변경 사항이 반영되었습니다.");
     }
 
+
+
 }
-
-
-
-
-

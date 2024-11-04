@@ -107,7 +107,7 @@
       <!-- 할인정보 -->
       <section class="order__section discount-section">
         <h2>할인정보</h2>
-        <p class="current-points">현재 포인트: <span id="userPoint" th:value="${member.getPoints()}">[[${member.getPoints()}]]</span>점</p>
+        <p class="current-points">현재 포인트: <span id="userPoint" th:text="${member.getPoints()}">0</span>점</p>
 
         <div class="point-usage">
           <label for="inputPoint" class="point-label">포인트 사용:</label>
