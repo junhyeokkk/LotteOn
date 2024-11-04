@@ -1,37 +1,50 @@
+<!--
+  날짜 : 2024/10/25
+  이름 : 최준혁
+  내용 : 관리자 사이드바
+
+  수정이력
+  - 2024/11/04 이도영 사용자 권한에 따른 버튼 설정
+-->
 <aside th:fragment="admin_sidebar">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
   <ul id="admin_sidebar">
-    <li>
-      <a href="#"><i class="fas fa-cogs" aria-hidden="true"></i> 환경설정</a>
+    <li th:if="${role == 'Admin'}">
+      <a href="#" ><i class="fas fa-cogs" aria-hidden="true"></i> 환경설정</a>
       <ol class="config">
-        <li><a th:href="@{/admin/config/info}" class="info"><i class="fas fa-info-circle"></i> 기본환경정보</a></li>
+        <li><a th:href="@{/admin/config/info}" class="info" th:if="${role == 'Admin'}"><i class="fas fa-info-circle"></i> 기본환경정보</a></li>
         <li><a th:href="@{/admin/config/banner}" class="banner"><i class="fas fa-image"></i> 배너관리</a></li>
         <li><a th:href="@{/admin/config/policy}" class="policy"><i class="fas fa-file-alt"></i> 약관관리</a></li>
         <li><a th:href="@{/admin/config/category}" class="category"><i class="fas fa-tags"></i> 카테고리</a></li>
         <li><a th:href="@{/admin/config/version}" class="version"><i class="fas fa-code-branch"></i> 버전관리</a></li>
       </ol>
     </li>
-    <li>
+    <li th:if="${role == 'Admin'}">
       <a href="#"><i class="fas fa-store" aria-hidden="true"></i> 상점관리</a>
       <ol class="shop">
         <li><a th:href="@{/admin/shop/list}" class="list"><i class="fas fa-list"></i> 상점목록</a></li>
         <li><a th:href="@{/admin/shop/sales}" class="sales"><i class="fas fa-chart-line"></i> 매출현황</a></li>
       </ol>
     </li>
-    <li>
+    <li th:if="${role == 'Seller'}">
+      <a th:href="@{/admin/shop/sales}" class="sales"><i class="fas fa-chart-line"></i> 매출현황</a>
+    </li>
+    <li th:if="${role == 'Admin'}">
       <a href="#"><i class="fas fa-users" aria-hidden="true"></i> 회원관리</a>
       <ol class="member">
         <li><a th:href="@{/admin/member/list}" class="list"><i class="fas fa-user-friends"></i> 회원목록</a></li>
         <li><a th:href="@{/admin/member/point}" class="point"><i class="fas fa-star"></i> 포인트관리</a></li>
       </ol>
     </li>
+    <li th:if="${role == 'Seller'}">
+      <a th:href="@{/admin/member/point}" class="point"><i class="fas fa-star"></i> 포인트관리</a>
+    </li>
     <li>
       <a href="#"><i class="fas fa-box-open" aria-hidden="true"></i> 상품관리</a>
       <ol class="product">
         <li><a th:href="@{/admin/product/list}" class="list"><i class="fas fa-box"></i> 상품현황</a></li>
         <li><a th:href="@{/admin/product/register}" class="register"><i class="fas fa-plus-circle"></i> 상품등록</a></li>
-
       </ol>
     </li>
     <li>
@@ -48,7 +61,7 @@
         <li><a th:href="@{/admin/coupon/issued}" class="issued"><i class="fas fa-gift"></i> 쿠폰발급현황</a></li>
       </ol>
     </li>
-    <li>
+    <li th:if="${role == 'Admin'}">
       <a href="#"><i class="fas fa-comments" aria-hidden="true"></i> 고객센터</a>
       <ol class="cs">
         <li><a th:href="@{/admin/cs/notice/list}" class="notice"><i class="fa fa-bullhorn" aria-hidden="true"></i> 공지사항</a></li>
@@ -56,6 +69,10 @@
         <li><a th:href="@{/admin/cs/qna/list}" class="qna"><i class="fa fa-envelope" aria-hidden="true"></i> 문의하기</a></li>
         <li><a th:href="@{/admin/cs/recruit/list}" class="recruit"><i class="fa fa-users" aria-hidden="true"></i> 채용하기</a></li>
       </ol>
+
+    </li>
+    <li th:if="${role == 'Seller'}">
+      <a th:href="@{/admin/cs/qna/list}" class="qna"><i class="fa fa-envelope" aria-hidden="true"></i> 문의내역</a>
 
     </li>
   </ul>

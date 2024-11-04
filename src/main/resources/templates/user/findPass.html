@@ -1,0 +1,74 @@
+<!--
+    날짜 : 2024/11/04
+    이름 : 이도영(최초 작성자)
+    내용 : 비밀번호 찾기 html
+-->
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LotteOn 비밀번호 찾기</title>
+    <link rel="stylesheet" th:href="@{/css/user/user_style.css}">
+    <script th:src="@{/js/login/findpass.js}"></script>
+    <script th:src="@{/js/login/utils.js}"></script>
+</head>
+
+<body>
+
+<header th:replace="~{layout/header::header}"></header>
+<div id="wrapper">
+    <section class="user-section">
+        <h2 class="titLogin">
+            <span class="find">비밀번호 찾기</span>
+        </h2>
+        <hr class="line" size="2px" color="black">
+
+        <form method="POST" th:action="@{/user/findPass/check}" class="sendForm">
+            <table class="heighttable">
+                <tr>
+                    <th>아이디</th>
+                    <td>
+                        <input type="text" name="uid" placeholder="아이디 입력"/>
+                        <span class="resultId"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>EMAIL</th>
+                    <td>
+                        <input type="email" name="email" placeholder="이메일입력"/>
+                        <button type="button" id="btnSendEmail" name="btnEmail" data-type="email" class="infobutton">인증번호 받기</button>
+                        <span id="resultEmail"></span>
+                        <div class="auth" style="display:none">
+                            <input type="text" name="userauth" class="userauth" placeholder="인증번호 입력"/>
+                            <button type="button" id="btnAuthEmail" class="infobutton">인증확인</button>
+                        </div>
+                    </td>
+                </tr>
+
+            </table>
+            <div class="find-btndiv">
+                <button type="submit" class="infobutton">비밀번호 찾기</button>
+            </div>
+        </form>
+        <div th:if="${error}">
+            <script>
+                alert([[${error}]]);
+            </script>
+        </div>
+        <div class="findnote">
+            <p>
+                회원가입시 이메일 주소와 입력한 이메일 주소가 같아야, 인증번호를 받을 수 있습니다.<br>
+                인증번호를 입력 후 아이디 찾기 버튼을 누르세요.
+            </p>
+        </div>
+
+
+    </section>
+</div>
+<!-- 푸터영역 -->
+<footer th:replace="~{layout/footer::footer}"></footer>
+
+</body>
+</html>

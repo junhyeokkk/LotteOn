@@ -49,7 +49,9 @@
 .loginWrap .titLogin {
     font-size: 25px;
 }
-
+.loginWrap .titLogin .find{
+    margin-left: -20px;
+}
 button {
     border: none;
     background: none;
@@ -315,8 +317,11 @@ button {
 .user-section{
     padding-top: 40px;
     width: 670px;
-    text-align: center;
+    justify-content: center;
     margin: 0 auto;
+}
+.user-section h3{
+    text-align: center;
 }
 .user-section td{
     text-align: left;
@@ -367,4 +372,33 @@ button {
 .required {
     color: red;
     font-weight: bold;
+}
+.findnote{
+    padding-bottom: 50px;
+}
+.find-btndiv {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+.find-btndiv1 {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+.find-btndiv .infobutton {
+    background-color: #ff4d4d;
+}
+
+.find-btndiv .infobutton1 {
+    height: 30px;
+    width: 90px;
+    background-color: #343b4d;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    line-height: 30px;
 }

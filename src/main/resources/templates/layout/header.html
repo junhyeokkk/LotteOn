@@ -1,4 +1,13 @@
+<!--
 
+  날짜 : 2024/10/25
+  이름 : 이상훈
+  내용 : 모든 페이지 헤더
+
+  수정사항
+  - 2024/11/04 이도영  인과설정 별로 버튼 수정
+
+-->
 <header class="header" th:fragment="header">
     <link rel="stylesheet" href="/css/include/header.css" th:href="@{/css/include/header.css}">
     <link rel="stylesheet" href="/css/include/reset.css" th:href="@{/css/include/reset.css}">
@@ -7,7 +16,7 @@
             <div th:if="${isAuthenticated}">
                 <!-- 로그인된 사용자에게만 보여줄 링크 -->
                 <span>[[${name}]]님</span>
-                <a th:href="@{/myPage/home}">마이페이지</a>
+                <a th:href="@{/myPage/home}" th:if="${role == 'General'}">마이페이지</a>
                 <a th:href="@{/admin}" th:if="${role == 'Admin'} or ${role =='Seller'}">관리자</a>
                 <a th:href="@{/member/logout}">로그아웃</a>
                 <a th:href="@{/cs/index}">고객센터</a>
@@ -32,13 +41,21 @@
                     <img th:src="@{/images/main/main_faq2.png}" alt="자주묻는질문" style="width: 40px; height: 40px;">
                      FAQ
                 </a>
-                <a th:href="@{/myPage/home}">
+                <a th:href="@{/myPage/home}" th:if="${role != 'Admin'} and ${role !='Seller'}">
                     <img th:src="@{/images/main/main_mypage2.svg}" alt="마이페이지" style="width: 40px; height: 40px;">
                     MYPAGE
                 </a>
-                <a th:href="@{/product/cart}">
+                <a th:href="@{/admin}" th:if="${role == 'Admin'} or ${role =='Seller'}">
+                    <img th:src="@{/images/main/main_mypage2.svg}" alt="마이페이지" style="width: 40px; height: 40px;">
+                    MANAGE
+                </a>
+                <a th:href="@{/product/cart}" th:if="${role != 'Admin'} and ${role !='Seller'}">
                     <img th:src="@{/images/main/main_cart2.svg}" alt="장바구니" style="width: 40px; height: 40px;">
                     CART
+                </a>
+                <a th:href="@{/admin/order/list}" th:if="${role == 'Admin'} or ${role =='Seller'}">
+                    <img th:src="@{/images/main/main_cart2.svg}" alt="주문현황" style="width: 40px; height: 40px;">
+                    ORDER
                 </a>
             </div>
             <form class="search" action="/product/list" method="get">

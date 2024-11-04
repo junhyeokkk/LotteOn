@@ -249,6 +249,8 @@ public class ProductPageController {
     public String viewProduct(@PathVariable("id") Long id, Model model) throws JsonProcessingException {
         log.info("컨트롤러 ㅇㅇㅇ");
         ProductDTO saveProduct = productService.getProductById(id);
+        //shopid로 바꾸기
+        //2024/11/04 이도영 shopid로 바꾸기 (완료)
         List<Coupon> coupondata = couponService.findCouponsByMemberId(saveProduct.getMember().getUid());
 
         if (saveProduct == null) {

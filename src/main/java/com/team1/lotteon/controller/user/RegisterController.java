@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +37,8 @@ public class RegisterController {
     private final ModelMapper modelMapper;
     private final SellerMemberService sellerMemberService;
     private final ShopService shopService;
+    private final PasswordEncoder passwordEncoder;
+
     //회원가입 정보 입력 (판매자, 일반회원) 구분
     @GetMapping("/user/register/{member}")
     public String registerPage(@PathVariable String member, Model model) {
@@ -145,6 +148,16 @@ public class RegisterController {
             response.put("result", exists);
             return response;
         }
+        //2024/11/04 이도영 아이디 비밀번호 찾기 기능
+        if (type.equals("sendemail")) {
+            boolean exists = generalMemberService.isEmailExist(value);
+            if (exists) {
+                // 이메일이 있으면 이메일 코드 전송
+                memberService.sendEmailCode(session, value);
+            }
+            response.put("result", exists);
+            return response;
+        }
 
         if (type.equals("ph")) {
             boolean exists = generalMemberService.isphExist(value);
@@ -171,8 +184,6 @@ public class RegisterController {
         response.put("result", false); // 기본값
         return response;
     }
-
-
     // 이메일 인증 코드 검사
     @ResponseBody
     @PostMapping("/user/Register/email")

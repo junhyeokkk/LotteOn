@@ -1,6 +1,10 @@
-<!--날짜 : 2024/10/25-->
-<!--이름 : 강유정(최초 작성자)-->
-<!--내용 : 로그인 html 생성-->
+<!--
+    날짜 : 2024/10/25
+    이름 : 강유정(최초 작성자)
+    내용 : 로그인 html 생성
+    수정사항
+    - 2024/11/04 이도영 아이디 비밀번호 찾기 경로 추가
+-->
 
 <!DOCTYPE html>
 <html lang="ko" style="--actual-width: 1536px;">
@@ -61,8 +65,8 @@
                             <input id="checkbox1" type="checkbox" name="checkbox1" checked="checked">자동로그인
                         </div>
                         <div>
-                            <a href="#" class="findIdPassword">아이디 찾기</a> |
-                            <a href="#" class="findIdPassword">비밀번호 찾기</a> |
+                            <a th:href="@{/user/findId}" class="findIdPassword">아이디 찾기</a> |
+                            <a th:href="@{/user/findPass}" class="findIdPassword">비밀번호 찾기</a> |
                             <a th:href="@{/user/join}" class="movejoin">회원가입</a>
                         </div>
                     </div>
