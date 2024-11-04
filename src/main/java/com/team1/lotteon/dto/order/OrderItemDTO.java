@@ -1,5 +1,6 @@
 package com.team1.lotteon.dto.order;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.team1.lotteon.entity.Order;
 import com.team1.lotteon.entity.Product;
 import com.team1.lotteon.entity.enums.DeliveryStatus;
@@ -21,6 +22,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({"order", "product"}) // 순환 참조 방지
 public class OrderItemDTO {
 
     private Long id;
@@ -39,6 +41,8 @@ public class OrderItemDTO {
     private String productName;   // 상품명
     private Long orderId;         // 주문 ID (Order 대신)
     private Long productOptionCombinationId; // 조합아이디
+
+    private OrderDTO order;
 
     private Long cartId; // 카트 아이디 (카트에 담겨진 상품인지)
 

@@ -1,6 +1,7 @@
 package com.team1.lotteon.controller.admin.product;
 
 import com.team1.lotteon.dto.PageResponseDTO;
+import com.team1.lotteon.dto.product.ProductSearchRequestDto;
 import com.team1.lotteon.dto.product.ProductSummaryResponseDTO;
 import com.team1.lotteon.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -27,10 +28,11 @@ public class AdminProductPageController {
     private final ProductService productService;
 
     @GetMapping("/admin/product/list")
-    public String list(@PageableDefault Pageable pageable, Model model) {
-        PageResponseDTO<ProductSummaryResponseDTO> products = productService.getProducts(pageable);
+    public String list(ProductSearchRequestDto requestDto, Model model) {
+        PageResponseDTO<ProductSummaryResponseDTO> products = productService.searchProducts(requestDto);
         log.info("프로덕트 " + products);
         model.addAttribute("products", products);
+        model.addAttribute("searchDto", requestDto);
         return "admin/product/list";
     }
 

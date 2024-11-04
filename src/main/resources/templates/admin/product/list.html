@@ -20,13 +20,13 @@
         <section class="sectionBox">
             <div>
                 <form action="/admin/product/list" class="search_bar">
-                    <select name="type">
-                        <productOption value="prodName">상품명</productOption>
-                        <productOption value="prodNo">상품번호</productOption>
-                        <productOption value="sellerNo">판매자</productOption>
-                        <productOption value="prodCompany">제조사</productOption>
+                    <select name="type" th:value="${searchDto.type}">
+                        <option th:selected="${searchDto.type}=='prodName'" value="prodName">상품명</option>
+                        <option th:selected="${searchDto.type}=='prodNo'" value="prodNo">상품번호</option>
+                        <option th:selected="${searchDto.type}=='sellerNo'" value="sellerNo">판매자</option>
+                        <option th:selected="${searchDto.type}=='prodCompany'" value="prodCompany">제조사</option>
                     </select>
-                    <input class="searchInput" type="text" name="keyword" />
+                    <input class="searchInput" type="text" th:value="${searchDto.keyword}" name="keyword" />
                     <input class="searchBtn" type="submit" value="검색" />
                 </form>
             </div>

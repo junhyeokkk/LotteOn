@@ -11,6 +11,15 @@
 
 <!-- index.html 고유 스크립트 추가 -->
 <th:block layout:fragment="script">
+    <script>
+        function redirectToCateType() {
+            const type1 = document.querySelector("select[name='type1']").value;
+            const type2 = document.querySelector("select[name='type2']").value;
+            if (type1 !== '1차선택' && type2 !== '2차선택') {
+                window.location.href = `/cs/layout/faq/list?type1=${type1}&type2=${type2}`;
+            }
+        }
+    </script>
 </th:block>
 
 <div class="content" layout:fragment="content">
@@ -25,7 +34,7 @@
         <section class="sectionBox">
             <div class="select-container">
                 <div>
-                    <select name="type" onchange="firstOption()">
+                    <select name="type1" onchange="redirectToCateType()">
                         <option>1차선택</option>
                         <option value="user">회원</option>
                         <option value="coupon">쿠폰/이벤트</option>
@@ -37,7 +46,7 @@
                     </select>
                 </div>
                 <div>
-                    <select name="type" onchange="redirectToCateType()">
+                    <select name="type2" onchange="redirectToCateType()">
                         <option>2차선택</option>
                         <option value="regi">가입</option>
                         <option value="leave">탈퇴</option>
@@ -60,7 +69,7 @@
                 </tr>
 
                 <!-- FAQ 목록 동적 처리 -->
-                <tr class="admin_list" th:each="faq, iterStat : ${faqs}">
+                <tr class="admin_list" th:each="faq : ${faqs}">
                     <td><input type="checkbox" th:value="${faq.id}" name="RowCheck" /></td>
                     <td th:text="${faq.displayNumber}">1</td>
                     <td th:text="${faq.type1}">1차유형</td>
@@ -72,7 +81,7 @@
                             </a>
                         </span>
                     </td>
-                    <td th:text="${faq.views}">120</td>
+                    <td th:text=b"${faq.views}">120</td>
                     <td th:text="${#temporals.format(faq.createdAt, 'yyyy-MM-dd')}">2024-10-14</td>
                     <td style="line-height: 20px">
                         <a href="javascript:void(0);" th:onclick="|deleteFaq(${faq.id})|" class="cs_delete-btn">[삭제]</a>

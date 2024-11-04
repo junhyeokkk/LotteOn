@@ -88,4 +88,5 @@ public class MemberPageController {
 
         return "admin/member/point";
     }
+
 }

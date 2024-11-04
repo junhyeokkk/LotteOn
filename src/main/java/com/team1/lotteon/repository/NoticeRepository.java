@@ -16,4 +16,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface NoticeRepository extends JpaRepository<Notice, Long> {
     Page<Notice> findByType1(String type1, Pageable pageable);
+    Page<Notice> findByType1OrderByCreatedAtDesc(String type1, Pageable pageable);
 }

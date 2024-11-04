@@ -42,4 +42,14 @@ public class Point{
     public void changeMember(GeneralMember member){
         this.member = member;
     }
+
+    public void setGivePoints(int givePoints) {
+        this.givePoints = givePoints;
+    }
+
+    public void setAcPoints(int acPoints) {
+        this.acPoints = acPoints;
+    }
+
 }
+

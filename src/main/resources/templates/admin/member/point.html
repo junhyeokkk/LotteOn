@@ -4,13 +4,25 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{admin/layout/adminlayout}">
 
+<!--
+   날짜 : 2024/10/25
+   이름 : 최준혁(최초 작성자)
+   내용 : Admin Member Point html 작성
+
+   수정이력
+   - 2024/11/01 박서홍 - 관리자 - 회원 포인트 기능구현
+
+   -->
+
+
 <!-- index.html 고유 CSS 추가 -->
 <th:block layout:fragment="css">
     <link rel="stylesheet" th:href="@{/css/admin/member/list.css}" />
 </th:block>
 <!-- index.html 고유 스크립트 추가 -->
 <th:block layout:fragment="script">
-
+    <script type="text/javascript" th:src="@{/js/admin/member/Point.js}"></script>
+    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </th:block>
 
 <div class="content" layout:fragment="content">
@@ -34,13 +46,15 @@
                     </select>
                     <input class="searchInput" type="text" name="keyword" th:value="${points.keyword}"> <!-- 입력한 키워드 유지 -->
                     <input type="hidden" name="prodSeller" value="ADMIN" readonly>
-                    <input class="searchBtn" type="submit" value="검색">
+                    <button class="searchBtn" type="submit">
+                        <i class="fas fa-search"></i> 검색
+                    </button>
                 </form>
             </div>
 
             <table class="admingraph">
                 <tr class="admin_title">
-                    <th><input type="checkbox" name="all" /></th>
+                    <th><input type="checkbox" name="all" onchange="toggleAllChecks(this)" /></th>
                     <th>번호</th>
                     <th>아이디</th>
                     <th>이름</th>
@@ -52,7 +66,7 @@
 
                 <tbody>
                 <tr th:each="point, stat : ${points.dtoList}" class="admin_list">
-                    <td><input type="checkbox" name="회원코드" th:value="${point.id}" /></td>
+                    <td><input type="checkbox" name="RowCheck" th:value="${point.id}" /></td>
                     <td th:text="${stat.index + 1}"></td> <!-- 인덱스 출력 (1부터 시작) -->
                     <td th:text="${point.member.uid}"></td> <!-- GeneralMemberDTO의 ID -->
                     <td th:text="${point.member.name}"></td> <!-- GeneralMemberDTO의 이름 -->
@@ -61,12 +75,13 @@
                     <td th:text="${point.type}"></td>
                     <td th:text="${point.formattedCreatedAt}"></td> <!-- 날짜 포맷 -->
                 </tr>
-
                 </tbody>
 
             </table>
 
-            <a class="delete_btn">선택삭제</a>
+            <button class="btn" onclick="deleteSelectedMembers()">
+                <i class="fa-solid fa-trash"></i> 선택삭제
+            </button>
 
             <div class="pagingBox">
                 <div class="pagingList">

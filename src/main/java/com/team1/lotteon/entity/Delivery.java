@@ -2,10 +2,9 @@ package com.team1.lotteon.entity;
 
 import com.team1.lotteon.entity.enums.DeliveryStatus;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.time.LocalDateTime;
 /*
     날짜 : 2024/10/31
     이름 : 최준혁
@@ -15,9 +14,11 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Delivery {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +31,13 @@ public class Delivery {
     private String zip; // 우편번호
     private String addr1; // 기본 주소
     private String addr2; // 상세 주소
-    
+
+    private String delCompany; // 택배사
+    private String InvoiceNum; // 송장번호
+    private String memo;
+
+    private LocalDateTime deliveryDate; // 배송 접수일자
+
     @Enumerated(EnumType.STRING)
     private DeliveryStatus status; // 배송 상태 (예: 준비, 배송 중, 배송 완료)
 }

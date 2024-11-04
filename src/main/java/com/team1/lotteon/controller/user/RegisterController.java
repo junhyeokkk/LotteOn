@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +37,8 @@ public class RegisterController {
     private final ModelMapper modelMapper;
     private final SellerMemberService sellerMemberService;
     private final ShopService shopService;
+    private final PasswordEncoder passwordEncoder;
+
     //회원가입 정보 입력 (판매자, 일반회원) 구분
     @GetMapping("/user/register/{member}")
     public String registerPage(@PathVariable String member, Model model) {
@@ -64,7 +67,9 @@ public class RegisterController {
                     GeneralMember savedMember = memberService.insertGeneralMember(generalMemberDTO, memberDTO);
                     GeneralMemberDTO savedMemberDTO = modelMapper.map(savedMember, GeneralMemberDTO.class);
                     // 회원가입 축하 기념 포인트 지급
-                    pointService.registerPoint(savedMemberDTO);
+                    int points = 1000; // 지급할 포인트 수량
+                    String pointType = "회원가입 축하 포인트"; // 포인트 타입
+                    pointService.registerPoint(savedMemberDTO, points, pointType);
                 }
                 return "redirect:/user/login?message=" + URLEncoder.encode("회원가입이 성공적으로 완료되었습니다. 회원가입 축하 기념 포인트가 지급되었습니다!", "UTF-8");
 
@@ -98,7 +103,9 @@ public class RegisterController {
                     GeneralMember savedMember = memberService.insertGeneralMember(generalMemberDTO, memberDTO);
                     GeneralMemberDTO savedMemberDTO = modelMapper.map(savedMember, GeneralMemberDTO.class);
                     // 회원가입 축하 기념 포인트 지급
-                    pointService.registerPoint(savedMemberDTO);
+                    int points = 1000; // 지급할 포인트 수량
+                    String pointType = "회원가입 축하 포인트"; // 포인트 타입
+                    pointService.registerPoint(savedMemberDTO, points, pointType);
                 }
                 return "redirect:/admin/member/list?message=" + URLEncoder.encode("회원가입이 성공적으로 완료되었습니다. 회원가입 축하 기념 포인트가 지급되었습니다!", "UTF-8");
 
@@ -141,6 +148,16 @@ public class RegisterController {
             response.put("result", exists);
             return response;
         }
+        //2024/11/04 이도영 아이디 비밀번호 찾기 기능
+        if (type.equals("sendemail")) {
+            boolean exists = generalMemberService.isEmailExist(value);
+            if (exists) {
+                // 이메일이 있으면 이메일 코드 전송
+                memberService.sendEmailCode(session, value);
+            }
+            response.put("result", exists);
+            return response;
+        }
 
         if (type.equals("ph")) {
             boolean exists = generalMemberService.isphExist(value);
@@ -167,8 +184,6 @@ public class RegisterController {
         response.put("result", false); // 기본값
         return response;
     }
-
-
     // 이메일 인증 코드 검사
     @ResponseBody
     @PostMapping("/user/Register/email")

@@ -8,6 +8,7 @@ import com.team1.lotteon.dto.cs.NoticeDTO;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Map;
 
 /*
  *   날짜 : 2024/10/17
@@ -35,8 +36,11 @@ public interface ArticleService {
     FaqDTO updateFaq(Long id, FaqDTO faqDTO);
     void deleteFaq(Long id);
     void deleteFaq(List<Long> ids);
+    PageResponseDTO<FaqDTO> findFaqByType1(String type1, Pageable pageable);
     PageResponseDTO<FaqDTO> findFaqByType2(String type2, Pageable pageable);
+    PageResponseDTO<FaqDTO> findFaqByType(String type1, String type2, Pageable pageable);
     List<FaqDTO> findTop10ByOrderByCreatedAtDesc();
+    Map<String, List<FaqDTO>> getFaqsGroupedByType2(String type1);
 
     // Inquiry
     InquiryDTO createInquiry(InquiryDTO inquiryDTO);
@@ -55,5 +59,8 @@ public interface ArticleService {
     void deleteNotice(Long id);
     void deleteNotice(List<Long> ids);
     PageResponseDTO<NoticeDTO> findNoticeByType1(String type1, Pageable pageable);
+    PageResponseDTO<NoticeDTO> getNoticesByType1(String type1, Pageable pageable);
+
+
 
 }

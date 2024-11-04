@@ -21,4 +21,12 @@ import lombok.experimental.SuperBuilder;
 public class Inquiry extends Article {
     private String type2;
     private String answer;
+
+    public void setType2(String type2) {
+        this.type2 = type2;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
 }

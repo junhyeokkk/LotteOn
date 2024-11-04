@@ -9,6 +9,7 @@ import com.team1.lotteon.service.article.ArticleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
@@ -16,8 +17,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Map;
+
 /*
  *   날짜 : 2024/10/18
  *   이름 : 최준혁
@@ -25,6 +29,7 @@ import java.util.List;
  *
  *   수정이력
  *   - 2024/10/25 김소희 - 내용 추가
+ *   - 2024/11/03 김소희 - 유형선택 추가
  */
 @Log4j2
 @RequiredArgsConstructor
@@ -57,7 +62,7 @@ private final ArticleService articleService;
         log.info(cate);
         model.addAttribute("group", group);
         model.addAttribute("cate", cate);
-
+        System.out.println("11111111");
         // 문의하기
         if (group.equals("qna")&&cate.equals("list")){
             PageResponseDTO<InquiryDTO> allInquiries = articleService.getAllInquiries(pageable);
@@ -92,7 +97,7 @@ private final ArticleService articleService;
         return "cs/layout/cs_layout";
     }
 
-    // 문의하기 글쓰기
+    // 문의하기 write
     @PostMapping("/cs/layout/qna/write")
     public String writeQna(InquiryDTO inquiryDTO){
         //30일 수정해야할 부분
@@ -101,8 +106,7 @@ private final ArticleService articleService;
         articleService.createInquiry(inquiryDTO);
         return "redirect:/cs/layout/qna/list";
     }
-
-    // 문의하기 글보기
+    // 문의하기 view
     @GetMapping("/cs/layout/qna/view/{id}")
     public String viewInquiry(@PathVariable Long id, Model model) {
         model.addAttribute("group", "qna");
@@ -112,7 +116,28 @@ private final ArticleService articleService;
         return "cs/layout/cs_layout";
     }
 
-    // 공지사항 글보기
+    // 공지사항 list
+    @GetMapping("/cs/layout/notice/list")
+    public String listNotices(
+            @RequestParam(required = false, defaultValue = "전체") String type1,
+            @RequestParam(defaultValue = "0") int page,
+            Model model) {
+
+        Pageable pageable = PageRequest.of(page, 10); // 1페이지당 10개씩
+        PageResponseDTO<NoticeDTO> noticesPage = articleService.getNoticesByType1(type1, pageable);
+
+        model.addAttribute("type1", type1);
+        model.addAttribute("group", "notice");
+        model.addAttribute("cate", "list");
+        model.addAttribute("notices", noticesPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", noticesPage.getTotalPages());
+        model.addAttribute("isLast", noticesPage.isLast());
+
+        return "cs/layout/cs_layout";
+    }
+
+    // 공지사항 view
     @GetMapping("/cs/layout/notice/view/{id}")
     public String viewNotice(@PathVariable Long id, Model model) {
         model.addAttribute("group", "notice");
@@ -122,7 +147,20 @@ private final ArticleService articleService;
         return "cs/layout/cs_layout";
     }
 
-    // 자주묻는질문 글보기
+
+    // 자주보는질문 list
+    @GetMapping("/cs/layout/faq/list")
+    public String listFaqs(
+            @RequestParam(required = false, defaultValue = "회원") String type1,
+            Model model) {
+        Map<String, List<FaqDTO>> groupedFaqs = articleService.getFaqsGroupedByType2(type1);
+        model.addAttribute("type1", type1);
+        model.addAttribute("group", "faq");
+        model.addAttribute("cate", "list");
+        model.addAttribute("faqs", groupedFaqs);
+        return "cs/layout/cs_layout";
+    }
+    // 자주묻는질문 view
     @GetMapping("/cs/layout/faq/view/{id}")
     public String viewFaq(@PathVariable Long id, Model model) {
         model.addAttribute("group", "faq");
@@ -131,6 +169,13 @@ private final ArticleService articleService;
         model.addAttribute("faq", faq);
         return "cs/layout/cs_layout";
     }
+
+
+
+
+
+
+
 
 
 }

@@ -119,4 +119,14 @@ public class MemberService {
             log.error("sendEmailConde : " + e.getMessage());
         }
     }
+//    2024/11/04 이도영 비밀번호 변경
+    public boolean updatePassword(String uid, String encodedPassword) {
+        Member member = memberRepository.findById(uid).orElse(null);
+        if (member != null) {
+            member.setPass(encodedPassword); // 비밀번호 업데이트
+            memberRepository.save(member); // 변경 사항 저장
+            return true;
+        }
+        return false;
+    }
 }

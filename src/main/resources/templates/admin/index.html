@@ -1,3 +1,11 @@
+<!--
+    날짜 : 2024/10/25
+    이름 : 이상훈
+    내용 : 메인화면
+
+    수정사항
+    - 2024/11/04 이도영 사이드바 이동
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,64 +30,7 @@
     </header>
 </div>
 <main>
-    <aside>
-        <ul id="admin_sidebar">
-            <li>
-                <a href="#"><i class="fas fa-cogs" aria-hidden="true"></i> 환경설정</a>
-                <ol class="config">
-                    <li><a th:href="@{/admin/config/info}" class="info"><i class="fas fa-info-circle"></i> 기본환경정보</a></li>
-                    <li><a th:href="@{/admin/config/banner}" class="banner"><i class="fas fa-image"></i> 배너관리</a></li>
-                    <li><a th:href="@{/admin/config/policy}" class="policy"><i class="fas fa-file-alt"></i> 약관관리</a></li>
-                    <li><a th:href="@{/admin/config/category}" class="category"><i class="fas fa-tags"></i> 카테고리</a></li>
-                    <li><a th:href="@{/admin/config/version}" class="version"><i class="fas fa-code-branch"></i> 버전관리</a></li>
-                </ol>
-            </li>
-            <li>
-                <a href="#"><i class="fas fa-store" aria-hidden="true"></i> 상점관리</a>
-                <ol class="shop">
-                    <li><a th:href="@{/admin/shop/list}" class="list"><i class="fas fa-list"></i> 상점목록</a></li>
-                    <li><a th:href="@{/admin/shop/sales}" class="sales"><i class="fas fa-chart-line"></i> 매출현황</a></li>
-                </ol>
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-users" aria-hidden="true"></i>회원관리</a>
-                <ol class="member">
-                    <li><a th:href="@{/admin/member/list}" class="list"><i class="fas fa-user-friends"></i> 회원목록</a></li>
-                    <li><a th:href="@{/admin/member/point}" class="point"><i class="fas fa-star"></i> 포인트관리</a></li>
-                </ol>
-            </li>
-            <li>
-                <a href="#"><i class="fas fa-box-open" aria-hidden="true"></i>상품관리</a>
-                <ol class="product">
-                    <li><a th:href="@{/admin/product/list}" class="list"><i class="fas fa-box"></i> 상품현황</a></li>
-                    <li><a th:href="@{/admin/product/register}" class="register"><i class="fas fa-plus-circle"></i> 상품등록</a></li>
-                </ol>
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-credit-card" aria-hidden="true"></i>주문관리</a>
-                <ol class="order">
-                    <li><a th:href="@{/admin/order/list}" class="list"><i class="fas fa-shopping-cart"></i> 주문현황</a></li>
-                    <li><a th:href="@{/admin/order/delivery}" class="delivery"><i class="fas fa-shipping-fast"></i> 배송현황</a></li>
-                </ol>
-            </li>
-            <li>
-                <a href="#"><i class="fas fa-tags" aria-hidden="true"></i> 쿠폰관리</a>
-                <ol class="coupon">
-                    <li><a th:href="@{/admin/coupon/list}" class="list"><i class="fas fa-ticket-alt"></i> 쿠폰목록</a></li>
-                    <li><a th:href="@{/admin/coupon/issued}" class="issued"><i class="fas fa-gift"></i> 쿠폰발급현황</a></li>
-                </ol>
-            </li>
-            <li>
-                <a href="#"><i class="fas fa-comments" aria-hidden="true"></i> 고객센터</a>
-                <ol class="cs">
-                    <li><a th:href="@{/admin/cs/notice/list}" class="notice"><i class="fa fa-bullhorn" aria-hidden="true"></i> 공지사항</a></li>
-                    <li><a th:href="@{/admin/cs/faq/list}" class="faq"><i class="fa fa-question-circle" aria-hidden="true"></i> 자주묻는질문</a></li>
-                    <li><a th:href="@{/admin/cs/qna/list}" class="qna"><i class="fa fa-envelope" aria-hidden="true"></i> 문의하기</a></li>
-                    <li><a th:href="@{/admin/cs/recruit/list}" class="recruit"><i class="fa fa-users" aria-hidden="true"></i> 채용하기</a></li>
-                </ol>
-            </li>
-        </ul>
-    </aside>
+    <th:block th:replace="~{admin/include/admin_sidebar::admin_sidebar}"></th:block>
     <div class="content">
         <div class="dashboard">
             <div class="content_header">

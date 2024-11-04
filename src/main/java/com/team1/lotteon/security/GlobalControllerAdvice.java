@@ -1,6 +1,5 @@
-package com.team1.lotteon.controller.user;
+package com.team1.lotteon.security;
 
-import com.team1.lotteon.security.MyUserDetails;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
@@ -21,7 +20,7 @@ public class GlobalControllerAdvice {
                     .replace("[", "")
                     .replace("]", "")
                     .replace("ROLE_", "");
-            log.info(role);
+            log.info("role1111"+role);
             model.addAttribute("role", role);
             model.addAttribute("userDetails", userDetails);
             if(role.equals("General")){

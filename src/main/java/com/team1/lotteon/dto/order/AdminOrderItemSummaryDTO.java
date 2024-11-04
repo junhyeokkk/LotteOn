@@ -1,6 +1,7 @@
 package com.team1.lotteon.dto.order;
 
 import com.team1.lotteon.entity.OrderItem;
+import com.team1.lotteon.entity.enums.DeliveryStatus;
 import com.team1.lotteon.entity.productOption.ProductOptionCombination;
 import lombok.*;
 
@@ -14,8 +15,10 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class AdminOrderItemSummaryDTO {
 
+    private Long id;
     private String productImage;    // 상품 이미지
     private int productId; // 상품번호
     private String productName;     // 상품 이름
@@ -29,6 +32,7 @@ public class AdminOrderItemSummaryDTO {
 
     // 생성자
     public AdminOrderItemSummaryDTO(OrderItem orderItem) {
+        this.id = orderItem.getId();
         this.productImage = orderItem.getProduct().getProductImg1();  // 상품 이미지
         this.productId = Math.toIntExact(orderItem.getProduct().getId());
         this.productName = orderItem.getProduct().getProductName();  // 상품 이름

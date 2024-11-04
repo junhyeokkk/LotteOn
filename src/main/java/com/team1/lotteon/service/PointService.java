@@ -30,6 +30,9 @@ import java.util.stream.Collectors;
 *   이름 : 최준혁
 *   내용 : PointService 생성
 *
+* 수정이력
+   - 2025/11/03 박서홍 - 포인트 차감코드 추가
+*
 */
 @Log4j2
 @RequiredArgsConstructor
@@ -40,29 +43,62 @@ public class PointService {
     private final PointRepository pointRepository;
     private final ModelMapper modelMapper;
 
-    // 회원가입 축하 포인트
-    public void registerPoint(GeneralMemberDTO generalMemberDTO) {
+//    // 회원가입 축하 포인트
+//    public void registerPoint(GeneralMemberDTO generalMemberDTO) {
+//
+//        PointDTO pointDTO = new PointDTO();
+//        pointDTO.setType("회원가입 축하 포인트");
+//        pointDTO.setGivePoints(1000);
+//        // default 0이기 때문에 setGivePoints == setAcPoints
+//        pointDTO.setAcPoints(1000);
+//        pointDTO.setMember_id(generalMemberDTO.getUid());
+//        log.info("포인트 서비스쪽 dto 멤버 " + generalMemberDTO);
+//        insertPoint(pointDTO);
+//    }
 
+
+    // 포인트 지급 메서드
+    public void registerPoint(GeneralMemberDTO generalMemberDTO, int points, String pointType) {
         PointDTO pointDTO = new PointDTO();
-        pointDTO.setType("회원가입 축하 포인트");
-        pointDTO.setGivePoints(1000);
-        // default 0이기 때문에 setGivePoints == setAcPoints
-        pointDTO.setAcPoints(1000);
+        pointDTO.setType(pointType);
+        pointDTO.setGivePoints(points);
+        pointDTO.setAcPoints(points); // 초기 포인트와 동일하게 설정
         pointDTO.setMember_id(generalMemberDTO.getUid());
-        log.info("포인트 서비스쪽 dto 멤버 " + generalMemberDTO);
+        log.info("포인트 지급: 멤버 " + generalMemberDTO + " - 포인트: " + points + ", 타입: " + pointType);
         insertPoint(pointDTO);
     }
 
+
     // 포인트 insert
     public void insertPoint(PointDTO pointDTO) {
-
         Point point = modelMapper.map(pointDTO, Point.class);
-        GeneralMember generalMember = generalMemberRepository.findByUid(pointDTO.getMember_id()).orElse(null);
-        // 멤버 포인트 set
+        GeneralMember generalMember = generalMemberRepository.findByUid(pointDTO.getMember_id())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
         generalMember.increasePoints(pointDTO.getGivePoints());
         point.changeMember(generalMember);
         pointRepository.save(point);
     }
+
+    // 포인트 차감 메서드 추가
+    public void deductPoints(PointDTO pointDTO) {
+        int deductionPoints = Math.abs(pointDTO.getGivePoints()); // 차감 포인트 절대값으로 처리
+        GeneralMember generalMember = generalMemberRepository.findByUid(pointDTO.getMember_id())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+
+        if (generalMember.getPoints() < deductionPoints) {
+            throw new IllegalArgumentException("포인트가 부족하여 차감할 수 없습니다.");
+        }
+
+        generalMember.decreasePoints(deductionPoints);
+
+        Point point = modelMapper.map(pointDTO, Point.class);
+        point.setGivePoints(-deductionPoints); // 차감된 포인트는 음수로 저장
+        point.setAcPoints(generalMember.getPoints());
+        point.changeMember(generalMember);
+
+        pointRepository.save(point);
+    }
+
 
     // 포인트 select 페이징 (MYPAGE) => 내 포인트 가져오기 일단 stop
     public PointPageResponseDTO getMyPoints(PointPageRequestDTO pointPageRequestDTO) {
@@ -121,7 +157,30 @@ public class PointService {
         return new PointPageResponseDTO(pointPageRequestDTO, dtoList, (int) pointPage.getTotalElements());
     }
 
+    @Transactional
+    public void deleteSelectedMembers(List<Long> memberIds) {
+        List<GeneralMember> existingMembers = generalMemberRepository.findAllByUidIn(
+                memberIds.stream()
+                        .map(String::valueOf)
+                        .collect(Collectors.toList())
+        );
 
+        for (GeneralMember generalMember : existingMembers) {
+            // 포인트 데이터를 회수 (0으로 설정) 및 삭제
+            List<Point> points = pointRepository.findByMember(generalMember);
+            for (Point point : points) {
+                point.setGivePoints(0); // 포인트를 0으로 설정
+                pointRepository.delete(point); // 포인트 레코드 삭제
+            }
 
+            // 회원 삭제
+            generalMemberRepository.delete(generalMember);
+        }
+    }
 
 }
+
+
+
+
+

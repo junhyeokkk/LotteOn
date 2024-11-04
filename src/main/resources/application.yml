@@ -1,5 +1,5 @@
 app:
-    version: '1조 - 0.1.1-SNAPSHOT'
+    version: '1조 - 0.1.2-SNAPSHOT'
 
 spring:
     application:

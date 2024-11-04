@@ -1,17 +1,19 @@
 package com.team1.lotteon.service.admin;
 
 import com.team1.lotteon.dto.PointDTO;
-import com.team1.lotteon.dto.order.OrderDTO;
-import com.team1.lotteon.dto.order.OrderPageRequestDTO;
-import com.team1.lotteon.dto.order.OrderPageResponseDTO;
+import com.team1.lotteon.dto.order.*;
 import com.team1.lotteon.dto.point.PointPageRequestDTO;
 import com.team1.lotteon.dto.point.PointPageResponseDTO;
 import com.team1.lotteon.entity.Order;
+import com.team1.lotteon.entity.OrderItem;
 import com.team1.lotteon.entity.Point;
 import com.team1.lotteon.entity.SellerMember;
+import com.team1.lotteon.repository.OrderItemRepository;
 import com.team1.lotteon.repository.OrderRepository;
 import com.team1.lotteon.security.MyUserDetails;
 import com.team1.lotteon.util.MemberUtil;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -37,6 +39,7 @@ public class AdminOrderService {
     private static final Logger log = LogManager.getLogger(AdminOrderService.class);
     private final OrderRepository orderRepository;
     private final ModelMapper modelMapper;
+    private final OrderItemRepository orderItemRepository;
 
     // Order select 페이징 (ADMIN) + 검색기능 // seller일때, admin일때 구분
     public OrderPageResponseDTO getOrders(OrderPageRequestDTO orderPageRequestDTO, SellerMember member) {
@@ -92,5 +95,17 @@ public class AdminOrderService {
                 .orElseThrow(() -> new IllegalArgumentException("Order not found with ID: " + orderId));
 
         return order;
+    }
+
+    // 오더아이템 찾기
+    @Transactional
+    public OrderItemDeilveryDTO getOrderItemDetail(Long id) {
+        OrderItem orderItem = orderItemRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 주문 아이템을 찾을 수 없습니다."));
+
+        OrderItemDeilveryDTO orderItemDeilveryDTO = new OrderItemDeilveryDTO(orderItem);
+        log.info("딜리버리" + orderItemDeilveryDTO.toString());
+        // OrderItem을 매개변수로 전달하여 DTO 생성
+        return new OrderItemDeilveryDTO(orderItem);
     }
 }

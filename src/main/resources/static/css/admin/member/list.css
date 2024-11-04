@@ -68,28 +68,27 @@ input[type="checkbox"] {
 /* 버튼 */
 
 /*검색*/
-    .searchBtn {
-        width: 85px;
-        height: 40px;
-        display: inline-flex;
-        align-items: center;
-        padding: 8px 16px;
-        font-size: 13px;
-        font-weight: bold;
-        color: white;
-        background-color: #343b4d; /* 버튼 색상 */
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-    }
+.searchBtn {
+    width: 85px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: bold;
+    color: white;
+    background-color: #343b4d; /* 버튼 색상 */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
 
-    /* 아이콘과 텍스트 간격 */
-    .searchBtn i {
-        margin-right: 6px; /* 아이콘과 텍스트 사이 간격 */
-        font-size: 16px;
-    }
-
+/* 아이콘과 텍스트 간격 */
+.searchBtn i {
+    margin-right: 6px; /* 아이콘과 텍스트 사이 간격 */
+    font-size: 16px;
+}
 
 /* [삭제] */
 .cs_delete-btn {
@@ -108,7 +107,7 @@ input[type="checkbox"] {
 }
 
 /* 수정버튼 */
-.insert_btn {
+.btn {
     width: 100px;
     height: 40px;
     margin-top: 10px;
@@ -255,10 +254,6 @@ input[type="checkbox"] {
 .delete-button:hover {
     background-color: #d9534f;
 }
-
-
-
-
 
 .pagingList>a {
     display: inline-block;

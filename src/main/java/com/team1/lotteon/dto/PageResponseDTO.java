@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 /*
@@ -40,4 +41,29 @@ public class PageResponseDTO<T> {
                 .isLast(page.isLast())
                 .build();
     }
+
+    public static <T> PageResponseDTO<T> fromList(List<T> list, Pageable pageable) {
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startItem = currentPage * pageSize;
+        List<T> content;
+
+        if (list.size() < startItem) {
+            content = List.of(); // 페이지 범위 밖이면 빈 리스트
+        } else {
+            int toIndex = Math.min(startItem + pageSize, list.size());
+            content = list.subList(startItem, toIndex);
+        }
+
+        return PageResponseDTO.<T>builder()
+                .content(content)
+                .currentPage(currentPage)
+                .totalPages((int) Math.ceil((double) list.size() / pageSize))
+                .totalElements(list.size())
+                .pageSize(pageSize)
+                .isFirst(currentPage == 0)
+                .isLast((currentPage + 1) * pageSize >= list.size())
+                .build();
+    }
+
 }

@@ -53,6 +53,14 @@ public class GeneralMember extends Member {
         this.lastLoginDate = lastLoginDate;
     }
 
+    public void decreasePoints(int deductionPoints) {
+        if (this.points < deductionPoints) {
+            throw new IllegalArgumentException("포인트가 부족합니다.");
+        }
+        this.points -= deductionPoints;
+    }
+
+
     // 상태를 중지로 변경
     public void suspend() {
         this.status = 2;

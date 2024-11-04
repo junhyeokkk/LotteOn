@@ -17,6 +17,6 @@ import org.springframework.data.repository.query.Param;
  */
 
 public interface InquiryRepository extends JpaRepository<Inquiry, Long> {
-    @Query("SELECT i FROM Inquiry i JOIN Article a ON i.id = a.id WHERE a.type1 = :type1")
+//    @Query("SELECT i FROM Inquiry i JOIN Article a ON i.id = a.id WHERE a.type1 = :type1")
     Page<Inquiry> findByType1(@Param("type1") String type1, Pageable pageable);
 }

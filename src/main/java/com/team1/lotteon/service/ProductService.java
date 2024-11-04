@@ -4,19 +4,17 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.team1.lotteon.dto.PageResponseDTO;
-import com.team1.lotteon.dto.product.ProductCreateDTO;
-import com.team1.lotteon.dto.product.ProductDTO;
-import com.team1.lotteon.dto.product.ProductSummaryResponseDTO;
-import com.team1.lotteon.dto.product.ProductdetailDTO;
-import com.team1.lotteon.dto.product.productOption.ProductOptionDTO;
+import com.team1.lotteon.dto.product.*;
 import com.team1.lotteon.dto.product.productOption.OptionItemDTO;
 import com.team1.lotteon.dto.product.productOption.ProductOptionCombinationDTO;
+import com.team1.lotteon.dto.product.productOption.ProductOptionDTO;
 import com.team1.lotteon.entity.Category;
 import com.team1.lotteon.entity.Product;
 import com.team1.lotteon.entity.Productdetail;
 import com.team1.lotteon.entity.SellerMember;
 import com.team1.lotteon.entity.productOption.ProductOption;
 import com.team1.lotteon.entity.productOption.OptionItem;
+import com.team1.lotteon.entity.productOption.ProductOption;
 import com.team1.lotteon.entity.productOption.ProductOptionCombination;
 import com.team1.lotteon.repository.*;
 import com.team1.lotteon.util.MemberUtil;
@@ -232,6 +230,26 @@ public class ProductService {
         return PageResponseDTO.fromPage(products.map(ProductSummaryResponseDTO::fromEntity));
     }
 
+    public PageResponseDTO<ProductSummaryResponseDTO> searchProducts(ProductSearchRequestDto productSearchRequestDto) {
+        Category category = null;
+
+        if (productSearchRequestDto.getCategoryId() != null) {
+            category = categoryRepository.findById(productSearchRequestDto.getCategoryId()).orElseThrow(() -> new IllegalArgumentException("Category not found"));
+        }
+        List<Long> categoryIds = new ArrayList<>();
+        if (category != null) {
+            category.getCategoryIds(categoryIds);
+        }
+
+//        if (category != null && category.getLevel() == 3) {
+//            categoryIds.add(category.getId());
+//        }
+
+        Pageable pageable = productSearchRequestDto.toPageable();
+        Page<Product> products = productRepository.searchProducts(productSearchRequestDto, categoryIds, pageable);
+        return PageResponseDTO.fromPage(products.map(ProductSummaryResponseDTO::fromEntity));
+    }
+
     public ProductDTO getProductById(Long id) {
 
         log.info("서비스 입성");
@@ -278,8 +296,8 @@ public class ProductService {
      *
      * @param categoryId 조회할 카테고리의 ID
      * @param pageable   페이징 정보를 포함하는 객체
-     * @return           조회된 상품 목록을 페이지 응답 형태로 반환
-     *
+     * @return 조회된 상품 목록을 페이지 응답 형태로 반환
+     * <p>
      * 주어진 카테고리가 3레벨이라면 해당 카테고리 ID만을 사용하여 상품을 조회합니다.
      * 그렇지 않다면, 하위 카테고리를 포함한 모든 카테고리 ID를 수집하여 관련된 상품들을 조회합니다.
      * 수집된 상품은 ProductSummaryResponseDTO로 매핑하여 반환됩니다.

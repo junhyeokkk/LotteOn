@@ -68,7 +68,14 @@ window.onload = function () {
 
 function sort(sortType) {
     const currentUrl = new URL(window.location.href);
-    currentUrl.searchParams.set('sort', sortType);
+    currentUrl.searchParams.set('sortBy', sortType);
+    window.location.href = currentUrl.toString();
+}
+
+function page(num) {
+    const currentUrl = new URL(window.location.href);
+    currentUrl.searchParams.set('page', num);
+    currentUrl.searchParams.set('size', 10);
     window.location.href = currentUrl.toString();
 }
 

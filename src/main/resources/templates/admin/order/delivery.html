@@ -12,13 +12,13 @@
 </th:block>
 <!-- index.html 고유 스크립트 추가 -->
 <th:block layout:fragment="script">
-    <script type="text/javascript" th:src="@{/js/admin/config/info.js}"></script>
+    <script type="text/javascript" th:src="@{/js/admin/order/delivery.js}"></script>
     <script type="text/javascript" th:src="@{/js/modal/modal.js}"></script>
 </th:block>
 
 <div class="content" layout:fragment="content">
 
-    <div th:replace="admin/include/admin_modal :: #deliverinfomodal"></div>
+    <div th:replace="admin/include/admin_modal :: #deliverydetailmodal"></div>
 
     <div class="dashboard">
         <div class="content_header">
@@ -33,66 +33,54 @@
                         <div>
                             <form action="/admin/order/delivery" class="search_bar">
                                 <select name="type">
-                                    <productOption value="orderNo">송장번호</productOption>
-                                    <productOption value="orderId">주문번호</productOption>
-                                    <productOption value="orderName">수령인</productOption>
+                                    <option value="orderNo">송장번호</option>
+                                    <option value="orderId">주문번호</option>
+                                    <option value="orderName">수령인</option>
                                 </select>
                                 <input class="searchInput" type="text" name="keyword">
                                 <input type="hidden" name="prodSeller" value="ADMIN" readonly>
                                 <input class="searchBtn" type="submit" value="검색">
                             </form>
                         </div>
+                        <table class="admingraph">
+                            <tr class="admin_title">
+                                <th>송장번호</th>
+                                <th>택배사</th>
+                                <th>주문번호</th>
+                                <th>수령인</th>
+                                <th>상품명</th>
+                                <th>건수</th>
+                                <th>물품합계</th>
+                                <th>배송비</th>
+                                <th>배송상태</th>
+                                <th>접수일</th>
+                            </tr>
+                            <tr th:each="delivery : ${deliveries}" class="admin_list">
+                                <td><a href="#" class="delivery-detail-btn" th:data-delivery-id="${delivery.id}" th:text="${delivery.invoiceNum}">송장번호</a></td>
+                                <td th:text="${delivery.delCompany}">택배사</td>
+                                <td th:text="${delivery.orderItem.order.id}">주문번호</td>
+                                <td th:text="${delivery.orderItem.order.recipientName}">수령인</td>
+                                <td th:text="${delivery.orderItem.product.productName}">상품명</td>
+                                <td th:text="${delivery.orderItem.quantity}">건수</td>
+                                <td th:text="${delivery.orderItem.orderPrice}">물품합계</td>
+                                <td th:text="${delivery.orderItem.getDeliveryFee()}">배송비</td>
+                                <td th:text="${delivery.status}">배송상태</td>
+                                <td th:text="${delivery.deliveryDate}">접수일</td>
+                            </tr>
+                        </table>
 
-
-            <table class="admingraph">
-                <tr class="admin_title">
-                    <th>송장번호</th>
-                    <th>택배사</th>
-                    <th>주문번호</th>
-                    <th>수령인</th>
-                    <th>상품명</th>
-                    <th>건수</th>
-                    <th>물품합계</th>
-                    <th>배송비</th>
-                    <th>배송상태</th>
-                    <th>접수일</th>
-                </tr>
-
-                <tr class="admin_list">
-                    <td>
-                        <a href="#" data-modal="deliverinfomodal">1012121341</a>
-                    </td>
-                    <td>로젠택배</td>
-                    <td>1021211341</td>
-                    <td>이상훈</td>
-                    <td>ㅇㅇㅇ</td>
-                    <td>3</td>
-                    <td>68,400</td>
-                    <td>무료</td>
-                    <td style="color: blue;">배송준비</td>
-                    <!-- 배송준비,배송 중, 배송완료, 반품요청 -->
-                    <td>2024-10-16</td>
-                    <!-- 연월일시간초 -->
-                </tr>
-
-            </table>
-
-            <div class="pagingBox">
-                <div class="pagingList">
-                    <!-- 이전 버튼 -->
-                    <a href="#" class="prev"><</a>
-
-                    <!-- 페이지 링크 -->
-                    <a href="#">1</a>
-                    <a href="#" class="active">2</a>
-                    <a href="#">3</a>
-                    <a href="#">4</a>
-                    <a href="#">5</a>
-
-                    <!-- 다음 버튼 -->
-                    <a href="#" class="next">></a>
-                </div>
-            </div>
+                        <!-- 페이징 -->
+                        <div class="pagingBox">
+                            <div class="pagingList">
+                                <a th:if="${currentPage > 0}" th:href="@{/admin/order/delivery(page=${currentPage - 1})}" class="prev">&lt;</a>
+                                <span th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+                                    <a th:href="@{/admin/order/delivery(page=${i})}"
+                                       th:text="${i + 1}"
+                                       th:classappend="${i == currentPage} ? 'active' : ''"></a>
+                                </span>
+                                <a th:if="${currentPage < totalPages - 1}" th:href="@{/admin/order/delivery(page=${currentPage + 1})}" class="next">&gt;</a>
+                            </div>
+                        </div>
         </section>
     </div>
 </div>

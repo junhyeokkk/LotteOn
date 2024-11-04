@@ -88,17 +88,17 @@ public class Category {
     }
 
     public void getCategoryIds(List<Long> categoryIds) {
+        if (getLevel() == 3) {
+            categoryIds.add(getId());
+        }
+
         List<Category> children = this.getChildren();
         if (children == null || children.isEmpty()) {
             return;
         }
 
         children.forEach(child -> {
-            if (child.getLevel() == 3) {
-                categoryIds.add(child.getId());
-            } else {
-                child.getCategoryIds(categoryIds); // 재귀 호출
-            }
+            child.getCategoryIds(categoryIds); // 재귀 호출
         });
     }
 }

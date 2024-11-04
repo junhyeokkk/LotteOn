@@ -10,7 +10,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+/*
 
+  날짜 : 2024/10/25
+  이름 : 이도영
+  내용 : 인가설정 작업
+
+  수정사항
+  - 2024/11/04 이도영 인가설정 처리 최신화
+
+*/
 @EnableWebSecurity
 @RequiredArgsConstructor
 @Configuration
@@ -45,27 +54,28 @@ public class SecurityConfig {
 
         // 인가 설정
         http.authorizeHttpRequests(authorize -> authorize
-//                .requestMatchers("/myPage/**").authenticated()
-//                .requestMatchers("/product/cart").hasRole("General")
-//                .requestMatchers("/admin/**").hasAnyRole("Admin", "Seller")
-//
-//                .requestMatchers("/crop/*/CropWrite").authenticated()
-//                .requestMatchers("/crop/*/CropView/*").authenticated()
-//
-//                .requestMatchers("community/*/CommunityWrite/*").authenticated()
-//
-//                .requestMatchers("community/CommunityNotice/CommunityView/*").permitAll()
-//                .requestMatchers("community/CommunityNotice/CommunityWrite").hasRole("ADMIN")
-//                .requestMatchers("community/CommunityDiet/CommunityWrite").authenticated()
-//                .requestMatchers("community/CommunityChef/CommunityWrite").authenticated()
-//                .requestMatchers("community/CommunityCs/CommunityWrite").authenticated()
-//
-//                .requestMatchers("community/CommunityFaq/CommunityView/*").permitAll()
-//                .requestMatchers("community/CommunityFaq/CommunityWrite").hasRole("ADMIN")
-//
-//                .requestMatchers("market/MarketView").permitAll()
-//                .requestMatchers("market/MarketCart").authenticated()
-//                .requestMatchers("market/MarketOrder12").authenticated()
+                //나의 정보
+                .requestMatchers("/myPage/**").hasRole("General")
+                //상품 정보
+                .requestMatchers("/product/cart").hasRole("General")
+                .requestMatchers("/product/order").hasRole("General")
+                .requestMatchers("/product/complete/**").hasRole("General")
+                //문의 하기
+                .requestMatchers("/cs/layout/qna/write").hasRole("General")
+                //관리자화면
+                .requestMatchers("/admin/").hasAnyRole("Admin", "Seller")
+                .requestMatchers("/admin/config/**").hasAnyRole("Admin")
+                .requestMatchers("/admin/shop/list").hasAnyRole("Admin")
+                .requestMatchers("/admin/shop/sales").hasAnyRole("Admin", "Seller")
+                .requestMatchers("/admin/member/list").hasAnyRole("Admin")
+                .requestMatchers("/admin/member/point").hasAnyRole("Admin", "Seller")
+                .requestMatchers("/admin/product/**").hasAnyRole("Admin", "Seller")
+                .requestMatchers("/admin/order/**").hasAnyRole("Admin", "Seller")
+                .requestMatchers("/admin/coupon/**").hasAnyRole("Admin", "Seller")
+                .requestMatchers("/admin/cs/notice/list").hasAnyRole("Admin")
+                .requestMatchers("/admin/cs/faq/list").hasAnyRole("Admin")
+                .requestMatchers("/admin/cs/qna/list").hasAnyRole("Admin", "Seller")
+                .requestMatchers("/admin/cs/recruit/list").hasAnyRole("Admin")
                 .anyRequest().permitAll());
         // 인증되지 않은 사용자가 접근할 때 로그인 페이지로 리다이렉트
         http.exceptionHandling(exceptionHandling -> exceptionHandling

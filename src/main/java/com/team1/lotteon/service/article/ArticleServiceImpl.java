@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
@@ -41,6 +42,15 @@ public class ArticleServiceImpl implements ArticleService {
     private final NoticeRepository noticeRepository;
     private final MemberRepository memberRepository;
 
+
+//    memberId로 Member 엔티티 조회
+    private Member findMemberById(String memberId) {
+        if (memberId == null || memberId.isEmpty()) {
+            return null;
+        }
+        return memberRepository.findByUid(memberId)
+                .orElseThrow(() -> new RuntimeException("Member not found with memberId: " + memberId));
+    }
 
     //  Article 미구현
     @Override
@@ -67,46 +77,38 @@ public class ArticleServiceImpl implements ArticleService {
     //  Faq 자주묻는질문
     @Override
     public FaqDTO createFaq(FaqDTO faqDTO) {
-        FAQ faq = convertToFaqEntity(faqDTO, null);
-        FAQ savedFaq = faqRepository.save(faq);
-        return convertToFaqDTO(savedFaq);
+        FAQ faq = convertToFaqEntity(faqDTO, findMemberById(faqDTO.getMemberId()));
+        return convertToFaqDTO(faqRepository.save(faq));
     }
     @Override
     public FaqDTO getFaqById(Long id) {
-        FAQ faq = faqRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Faq not found"));
-        return convertToFaqDTO(faq);
+        return convertToFaqDTO(faqRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Faq not found")));
     }
     @Override
     public List<FaqDTO> getAllFaqs() {
-        List<FAQ> faqs = faqRepository.findAllByOrderByCreatedAtDesc();
-        return faqs.stream()
+        return faqRepository.findAllByOrderByCreatedAtDesc().stream()
                 .map(this::convertToFaqDTO)
                 .collect(Collectors.toList());
     }
     @Override
     public FaqDTO updateFaq(Long id, FaqDTO faqDTO) {
-        FAQ existingFaq = faqRepository.findById(id)
+        FAQ faq = faqRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Faq not found"));
-
-        Member member= memberRepository.findById(faqDTO.getMemberId())
-                .orElseThrow(() -> new RuntimeException("Member not found"));
-
-        FAQ updatedFaq = convertToFaqEntity(faqDTO, member);
-        updatedFaq.setId(existingFaq.getId());
-        FAQ savedFaq = faqRepository.save(existingFaq);
-        return convertToFaqDTO(savedFaq);
+        faq.setTitle(faqDTO.getTitle());
+        faq.setContent(faqDTO.getContent());
+        faq.setType1(faqDTO.getType1());
+        faq.setType2(faqDTO.getType2());
+        faq.setMember(findMemberById(faqDTO.getMemberId()));
+        return convertToFaqDTO(faqRepository.save(faq));
     }
     // 삭제버튼
     @Override
     public void deleteFaq(Long id) {
-        boolean exist = faqRepository.existsById(id);
-        if (exist) {
-            faqRepository.deleteById(id);
+        if (!faqRepository.existsById(id)) {
+            throw new IllegalArgumentException("해당 자주 묻는 질문은 없습니다.");
         }
-        else {
-            throw new IllegalArgumentException("해당 자주묻는질문은 없습니다.");
-        }
+        faqRepository.deleteById(id);
     }
     // 선택삭제
     @Override
@@ -114,22 +116,55 @@ public class ArticleServiceImpl implements ArticleService {
         faqRepository.deleteAllById(ids);
     }
     @Override
+    public PageResponseDTO<FaqDTO> findFaqByType1(String type1, Pageable pageable) {
+        log.info("Filtering FAQs with type1: {}", type1);
+        Page<FAQ> faqsPage = faqRepository.findByType1(type1, pageable);
+        return PageResponseDTO.fromPage(faqsPage.map(this::convertToFaqDTO));
+    }
+
+    @Override
     public PageResponseDTO<FaqDTO> findFaqByType2(String type2, Pageable pageable) {
-        Page<FaqDTO> faqsPage = faqRepository.findByType2(type2, pageable)
-                .map(this::convertToFaqDTO);
-        return PageResponseDTO.fromPage(faqsPage);
+        return PageResponseDTO.fromPage(
+                faqRepository.findByType2(type2, pageable)
+                        .map(this::convertToFaqDTO)
+        );
     }
     @Override
+    public PageResponseDTO<FaqDTO> findFaqByType(String type1, String type2, Pageable pageable) {
+        log.info("Filtering FAQs with type1: {} and type2: {}", type1, type2);
+        Page<FAQ> faqsPage = faqRepository.findByType1AndType2(type1, type2, pageable);
+        return PageResponseDTO.fromPage(faqsPage.map(this::convertToFaqDTO));
+    }
+
+    @Override
     public List<FaqDTO> findTop10ByOrderByCreatedAtDesc() {
-        List<FAQ> faqs = faqRepository.findTop10ByOrderByCreatedAtDesc();
-        AtomicInteger count = new AtomicInteger(faqs.size());
-        return faqs.stream()
-                .map(faq-> {
-                    FaqDTO faqDTO = convertToFaqDTO(faq);
-                    faqDTO.setDisplayNumber(count.getAndDecrement());
-                    return faqDTO;
-                })
-                .collect(Collectors.toList());
+        AtomicInteger count = new AtomicInteger();
+        return faqRepository.findTop10ByOrderByCreatedAtDesc().stream()
+                .map(faq -> {
+                    FaqDTO dto = convertToFaqDTO(faq);
+                    dto.setDisplayNumber(count.incrementAndGet());
+                    return dto;
+                }).collect(Collectors.toList());
+    }
+
+    @Override
+    public Map<String, List<FaqDTO>> getFaqsGroupedByType2(String type1) {
+        List<FAQ> faqs = faqRepository.findByType1OrderByType2AndCreatedAt(type1);
+
+        // type2별로 그룹화하고, 각 그룹에서 최대 10개의 기사만 남김
+        Map<String, List<FaqDTO>> groupedFaqs = faqs.stream()
+                .collect(Collectors.groupingBy(
+                        FAQ::getType2,
+                        Collectors.collectingAndThen(
+                                Collectors.toList(),
+                                list -> list.stream()
+                                        .limit(10)
+                                        .map(this::convertToFaqDTO)
+                                        .collect(Collectors.toList())
+                        )
+                ));
+
+        return groupedFaqs;
     }
 
 
@@ -137,46 +172,40 @@ public class ArticleServiceImpl implements ArticleService {
     //  Inquiry 문의하기
     @Override
     public InquiryDTO createInquiry(InquiryDTO inquiryDTO) {
-        Inquiry inquiry = convertToInquiryEntity(inquiryDTO, null);
-        Inquiry savedInquiry = inquiryRepository.save(inquiry);
-        return convertToInquiryDTO(savedInquiry);
+        Inquiry inquiry = convertToInquiryEntity(inquiryDTO, findMemberById(inquiryDTO.getMemberId()));
+        return convertToInquiryDTO(inquiryRepository.save(inquiry));
     }
     @Override
     public InquiryDTO getInquiryById(Long id) {
-        Inquiry inquiry = inquiryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Inquiry not found"));
-        log.info("test11112313 = " + convertToInquiryDTO(inquiry));
-        return convertToInquiryDTO(inquiry);
+        return convertToInquiryDTO(inquiryRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Inquiry not found")));
     }
     @Override
     public PageResponseDTO<InquiryDTO> getAllInquiries(Pageable pageable) {
-        Page<Inquiry> inquiries = inquiryRepository.findByType1("inquiry", pageable);
-        System.out.println("Found inquiries: " + inquiries.getContent().size());
-        return PageResponseDTO.fromPage(inquiries.map(this::convertToInquiryDTO));
+        return PageResponseDTO.fromPage(
+                inquiryRepository.findByType1("inquiry", pageable)
+                        .map(this::convertToInquiryDTO)
+        );
     }
     @Override
     public InquiryDTO updateInquiry(Long id, InquiryDTO inquiryDTO) {
-        Inquiry existingInquiry = inquiryRepository.findById(id)
+        Inquiry inquiry = inquiryRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Inquiry not found"));
-
-        Member member = memberRepository.findById(inquiryDTO.getMemberId())
-                .orElseThrow(() -> new RuntimeException("Member not found"));
-
-        Inquiry updatedInquiry = convertToInquiryEntity(inquiryDTO, member);
-        updatedInquiry.setId(existingInquiry.getId());
-        Inquiry savedInquiry = inquiryRepository.save(existingInquiry);
-        return convertToInquiryDTO(savedInquiry);
+        inquiry.setTitle(inquiryDTO.getTitle());
+        inquiry.setContent(inquiryDTO.getContent());
+        inquiry.setType1(inquiryDTO.getType1());
+        inquiry.setType2(inquiryDTO.getType2());
+        inquiry.setAnswer(inquiryDTO.getAnswer());
+        inquiry.setMember(findMemberById(inquiryDTO.getMemberId()));
+        return convertToInquiryDTO(inquiryRepository.save(inquiry));
     }
     // 삭제버튼
     @Override
     public void deleteInquiry(Long id) {
-        boolean exist = inquiryRepository.existsById(id);
-        if (exist) {
-            inquiryRepository.deleteById(id);
-        }
-        else {
+        if (!inquiryRepository.existsById(id)) {
             throw new IllegalArgumentException("해당 문의하기는 없습니다.");
         }
+        inquiryRepository.deleteById(id);
     }
     // 선택삭제
     @Override
@@ -184,70 +213,56 @@ public class ArticleServiceImpl implements ArticleService {
         inquiryRepository.deleteAllById(ids);
     }
     @Override
-    public PageResponseDTO<InquiryDTO> findQnaByType1(String type1, Pageable pageable){
-        Page<InquiryDTO> inquirysPage = inquiryRepository.findByType1("inquiry", pageable)
-                .map(this::convertToInquiryDTO);
-        return PageResponseDTO.fromPage(inquirysPage);
+    public PageResponseDTO<InquiryDTO> findQnaByType1(String type1, Pageable pageable) {
+        return PageResponseDTO.fromPage(
+                inquiryRepository.findByType1(type1, pageable)
+                        .map(this::convertToInquiryDTO)
+        );
     }
 
 
     //  Notice 공지사항
     @Override
     public NoticeDTO createNotice(NoticeDTO noticeDTO) {
-        Notice notice = convertToNoticeEntity(noticeDTO, null);
-        Notice savedNotice = noticeRepository.save(notice);
-        return convertToNoticeDTO(savedNotice);
+        Notice notice = convertToNoticeEntity(noticeDTO, findMemberById(noticeDTO.getMemberId()));
+        return convertToNoticeDTO(noticeRepository.save(notice));
     }
     @Override
     public NoticeDTO getNoticeById(Long id) {
-        Notice notice = noticeRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Notice not found with ID: " + id));
-        return convertToNoticeDTO(notice);
+        return convertToNoticeDTO(noticeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Notice not found with ID: " + id)));
     }
     @Override
     public PageResponseDTO<NoticeDTO> getAllNotices(Pageable pageable) {
         Page<Notice> notices = noticeRepository.findAll(pageable);
-        long totalElements = notices.getTotalElements();
-        int pageSize = pageable.getPageSize();
-        int currentPage = pageable.getPageNumber();
-
-        // 현재 페이지에서 첫 번째 글번호 계산
-        AtomicLong startNumber = new AtomicLong(totalElements - (currentPage * pageSize));
-
-        Page<NoticeDTO> noticeDTOs = notices
-                .map(notice -> {
+        AtomicLong count = new AtomicLong(notices.getTotalElements());
+        return PageResponseDTO.fromPage(
+                notices.map(notice -> {
                     NoticeDTO dto = convertToNoticeDTO(notice);
-                    dto.setDisplayNumber(startNumber.getAndDecrement());  // 번호 할당 후 감소
+                    dto.setDisplayNumber(count.getAndDecrement());
                     return dto;
-                });
-
-        return PageResponseDTO.fromPage(noticeDTOs);
+                })
+        );
     }
 
     @Override
     public NoticeDTO updateNotice(Long id, NoticeDTO noticeDTO) {
-        Notice existingNotice = noticeRepository.findById(id)
+        Notice notice = noticeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Notice not found"));
-
-        Member member = memberRepository.findById(noticeDTO.getMemberId())
-                .orElseThrow(() -> new RuntimeException("Member not found"));
-
-        Notice updatedNotice = convertToNoticeEntity(noticeDTO, member);
-        updatedNotice.setId(existingNotice.getId());
-        Notice savedNotice = noticeRepository.save(existingNotice);
-        return convertToNoticeDTO(savedNotice);
+        notice.setTitle(noticeDTO.getTitle());
+        notice.setContent(noticeDTO.getContent());
+        notice.setType1(noticeDTO.getType1());
+        notice.setMember(findMemberById(noticeDTO.getMemberId()));
+        return convertToNoticeDTO(noticeRepository.save(notice));
     }
 
     // 삭제 버튼
     @Override
     public void deleteNotice(Long id) {
-        boolean exist = noticeRepository.existsById(id);
-        if (exist) {
-            noticeRepository.deleteById(id);
-        }
-        else {
+        if (!noticeRepository.existsById(id)) {
             throw new IllegalArgumentException("해당 공지사항은 없습니다.");
         }
+        noticeRepository.deleteById(id);
     }
     // 선택삭제
     @Override
@@ -257,9 +272,16 @@ public class ArticleServiceImpl implements ArticleService {
     //  notice 카테고리
     @Override
     public PageResponseDTO<NoticeDTO> findNoticeByType1(String type1, Pageable pageable) {
-        Page<NoticeDTO> noticesPage = noticeRepository.findByType1(type1, pageable)
-                .map(this::convertToNoticeDTO);
-        return PageResponseDTO.fromPage(noticesPage);
+        return PageResponseDTO.fromPage(
+                noticeRepository.findByType1(type1, pageable)
+                        .map(this::convertToNoticeDTO)
+        );
+    }
+    // 공지사항을 type1으로 페이지네이션하여 조회
+    @Override
+    public PageResponseDTO<NoticeDTO> getNoticesByType1(String type1, Pageable pageable) {
+        Page<Notice> noticesPage = noticeRepository.findByType1OrderByCreatedAtDesc(type1, pageable);
+        return PageResponseDTO.fromPage(noticesPage.map(this::convertToNoticeDTO));
     }
 
 
