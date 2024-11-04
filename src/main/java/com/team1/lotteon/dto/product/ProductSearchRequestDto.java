@@ -21,6 +21,7 @@ public class ProductSearchRequestDto {
     private String sortBy = "createdAt"; // 기본 정렬 필드
 
     // 검색 조건 필드들 (예: keyword, categoryId 등)
+    private String type;
     private String keyword;
     private Long categoryId;
 

@@ -2,6 +2,7 @@ package com.team1.lotteon.repository.productCustom;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.team1.lotteon.dto.product.ProductSearchRequestDto;
@@ -35,7 +36,19 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom {
         BooleanBuilder builder = new BooleanBuilder();
 
         if (searchRequestDto.getKeyword() != null && !searchRequestDto.getKeyword().isEmpty()) {
-            builder.and(product.productName.containsIgnoreCase(searchRequestDto.getKeyword()));
+            Predicate predicate;
+            if(searchRequestDto.getType() != null) {
+                predicate = switch (searchRequestDto.getType()) {
+                    case "prodName" -> product.productName.containsIgnoreCase(searchRequestDto.getKeyword());
+                    case "prodNo" -> product.id.eq(Long.valueOf(searchRequestDto.getKeyword()));
+                    case "sellerNo" -> product.member.uid.eq(searchRequestDto.getKeyword());
+                    case "prodCompany" -> product.manufacturer.eq(searchRequestDto.getKeyword());
+                    default -> product.productName.containsIgnoreCase(searchRequestDto.getKeyword());
+                };
+            }else {
+                predicate = product.productName.containsIgnoreCase(searchRequestDto.getKeyword());
+            }
+            builder.and(predicate);
         }
 
         if (categoryIds != null && !categoryIds.isEmpty()) {
