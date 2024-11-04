@@ -7,6 +7,7 @@
 
     수정이력
     - 2024/10/25 김소희 - 동적처리
+    - 2024/11/04 김소희 - 유형처리
   -->
   
   <nav>
@@ -18,26 +19,26 @@
     <aside class="cs_sidebar">
       <h2>자주묻는질문</h2>
       <ul>
-        <li><a href="javascript:void(0);" onclick="loadFaqsByType('회원')">회원</a></li>
-        <li><a href="javascript:void(0);" onclick="loadFaqsByType('쿠폰 / 이벤트')">쿠폰 / 이벤트</a></li>
-        <li><a href="javascript:void(0);" onclick="loadFaqsByType('주문 / 결제')">주문 / 결제</a></li>
-        <li><a href="javascript:void(0);" onclick="loadFaqsByType('배송')">배송</a></li>
-        <li><a href="javascript:void(0);" onclick="loadFaqsByType('취소 / 반품 / 교환')">취소 / 반품 / 교환</a></li>
-        <li><a href="javascript:void(0);" onclick="loadFaqsByType('여행 / 숙박 / 항공')">여행 / 숙박 / 항공</a></li>
-        <li><a href="javascript:void(0);" onclick="loadFaqsByType('안전거래')">안전거래</a></li>
+        <li><a th:href="@{/cs/layout/faq/list?type1=회원}">회원</a></li>
+        <li><a th:href="@{/cs/layout/faq/list?type1=쿠폰/이벤트}">쿠폰 / 이벤트</a></li>
+        <li><a th:href="@{/cs/layout/faq/list?type1=주문/결제}" >주문 / 결제</a></li>
+        <li><a th:href="@{/cs/layout/faq/list?type1=배송}">배송</a></li>
+        <li><a th:href="@{/cs/layout/faq/list?type1=취소/반품/교환}">취소 / 반품 / 교환</a></li>
+        <li><a th:href="@{/cs/layout/faq/list?type1=주문/결제}">여행 / 숙박 / 항공</a></li>
+        <li><a th:href="@{/cs/layout/faq/list?type1=안전거래}">안전거래</a></li>
       </ul>
     </aside>
     <article class="faq_article_view">
       <nav>
-        <h1 th:text="${faq.type1}">회원</h1> <!-- 질문 유형 -->
-        <h2 th:text="'회원관련 ' + ${faq.type2} + ' 자주묻는 질문입니다.'">회원관련 자주묻는 질문입니다.</h2>
+        <h1 th:text="${type1}">카테고리 이름</h1>
+        <h2 th:text="${type1} + ' 관련 자주 묻는 질문입니다.'">카테고리 설명</h2>
       </nav>
       <nav>
-        <h2 class="faq_view_title"><span>Q.</span> <span th:text="${faq.title}">개인회원과 법인회원에 차이가 있나요?</span></h2> <!-- 질문 제목 -->
+        <h2 class="faq_view_title"><span>Q.</span> <span th:text="${faq.title}">제목</span></h2> <!-- 질문 제목 -->
       </nav>
 
       <div class="content">
-        <p th:text="${faq.content}">개인회원에서 법인회원(사업자회원)으로 전환은 불가하므로 법인회원(사업자회원) 전환은 신규가입으로 진행을 해야합니다.</p><br>
+        <p th:text="${faq.content}">내용</p><br>
         <p>
           ※ 피싱 관련 피해신고<br /><br />
           ▶ 경찰청 사이버수사국 (국번없이)182 :

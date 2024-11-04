@@ -74,10 +74,17 @@ public class CsController {
         NoticeDTO createNotice = articleService.createNotice(noticeDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(createNotice);
     }
-//    글목록
+
+    //    글목록
     @GetMapping("/api/cs/notice/list")
-    public ResponseEntity<PageResponseDTO<NoticeDTO>> getAllNotices(@PageableDefault Pageable pageable) {
-        PageResponseDTO<NoticeDTO> notices = articleService.getAllNotices(pageable);
+    public ResponseEntity<PageResponseDTO<NoticeDTO>> getAllNotices(@RequestParam String type1, @PageableDefault Pageable pageable) {
+        PageResponseDTO<NoticeDTO> notices;
+        if (type1.equals("전체")){
+            notices = articleService.getAllNotices(pageable);
+        }else {
+            notices = articleService.getNoticesByType1(type1, pageable);
+        }
+
         return ResponseEntity.ok(notices);
     }
 //    글보기
@@ -114,11 +121,15 @@ public class CsController {
         return ResponseEntity.ok(faqs);
     }
 //    FAQ 카테고리
-    @GetMapping("/api/cs/faq/list/{type2}")
-    public ResponseEntity<PageResponseDTO<FaqDTO>> getFaqsByType(@PathVariable String type2, @PageableDefault Pageable pageable) {
-        PageResponseDTO<FaqDTO> faqsByType = articleService.findFaqByType2(type2, pageable); // Pageable 추가
+    @GetMapping("/api/cs/faq/list/{type1}/{type2}")
+    public ResponseEntity<PageResponseDTO<FaqDTO>> getFaqsByType(
+            @PathVariable String type1,
+            @PathVariable String type2,
+            @PageableDefault Pageable pageable) {
+        PageResponseDTO<FaqDTO> faqsByType = articleService.findFaqByType(type1, type2, pageable);
         return ResponseEntity.ok(faqsByType);
     }
+
 
 
 }

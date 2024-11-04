@@ -9,11 +9,12 @@ import lombok.experimental.SuperBuilder;
  *
  *   수정이력
  *   2024/10/25 김소희 - DTO 구조 수정
+ *   2024/11/04 김소희 -  callSuper 추가
  */
 
 @Getter
 @Setter
-@ToString
+@ToString(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder

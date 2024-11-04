@@ -7,58 +7,56 @@
 
   수정이력
   - 2024/10/24 김소희 - 동적처리
+  - 2024/11/04 김소희 - 유형처리
 -->
 
-  <nav>
-    <div>
-      <p>홈<span>></span>자주묻는질문</p>
-    </div>
-  </nav>
-  <section class="list">
-    <aside class="cs_sidebar">
-      <h2>자주묻는질문</h2>
-        <ul>
-          <li><a href="javascript:void(0);" onclick="loadFaqsByType('회원')">회원</a></li>
-          <li><a href="javascript:void(0);" onclick="loadFaqsByType('쿠폰 / 이벤트')">쿠폰 / 이벤트</a></li>
-          <li><a href="javascript:void(0);" onclick="loadFaqsByType('주문 / 결제')">주문 / 결제</a></li>
-          <li><a href="javascript:void(0);" onclick="loadFaqsByType('배송')">배송</a></li>
-          <li><a href="javascript:void(0);" onclick="loadFaqsByType('취소 / 반품 / 교환')">취소 / 반품 / 교환</a></li>
-          <li><a href="javascript:void(0);" onclick="loadFaqsByType('여행 / 숙박 / 항공')">여행 / 숙박 / 항공</a></li>
-          <li><a href="javascript:void(0);" onclick="loadFaqsByType('안전거래')">안전거래</a></li>
-        </ul>
-
-    </aside>
-    <article class="faq_article">
-      <nav>
-        <h1>회원</h1>
-        <h2>회원관련 자주 묻는 질문입니다.</h2>
-      </nav>
-      <div class="faq-section">
-<!--        <div class="faq-section">-->
-<!--          &lt;!&ndash; FAQ 항목들이 여기에 렌더링됩니다. &ndash;&gt;-->
-<!--        </div>-->
-
-        <div class="pagination">
-          <!-- 페이지 버튼이 여기에 추가됩니다. -->
+    <nav>
+        <div>
+            <p>홈<span>></span>자주묻는질문</p>
         </div>
+    </nav>
+    <section class="list">
+        <aside class="cs_sidebar">
+            <h2>자주묻는질문</h2>
+            <ul>
+                <li><a th:href="@{/cs/layout/faq/list?type1=회원}">회원</a></li>
+                <li><a th:href="@{/cs/layout/faq/list?type1=쿠폰/이벤트}">쿠폰 / 이벤트</a></li>
+                <li><a th:href="@{/cs/layout/faq/list?type1=주문/결제}" >주문 / 결제</a></li>
+                <li><a th:href="@{/cs/layout/faq/list?type1=배송}">배송</a></li>
+                <li><a th:href="@{/cs/layout/faq/list?type1=취소/반품/교환}">취소 / 반품 / 교환</a></li>
+                <li><a th:href="@{/cs/layout/faq/list?type1=주문/결제}">여행 / 숙박 / 항공</a></li>
+                <li><a th:href="@{/cs/layout/faq/list?type1=안전거래}">안전거래</a></li>
+            </ul>
+        </aside>
+        <article class="faq_article">
+            <nav>
+                <h1 th:text="${type1}">카테고리 이름</h1>
+                <h2 th:text="${type1} + ' 관련 자주 묻는 질문입니다.'">카테고리 설명</h2>
+            </nav>
+            <div class="faq-section">
+                <div class="pagination">
+                    <!-- 페이지 버튼이 여기에 추가됩니다. -->
+                </div>
 
-
-        <!-- FAQ 목록 동적 처리 -->
-        <div class="category" th:each="faq : ${faqs}">
-          <h2 th:text="${faq.type1}">카테고리</h2> <!-- 카테고리 표시 -->
-          <div class="faq-item">
-            <!-- FAQ 질문 -->
-            <a th:href="@{/cs/layout/faq/view/{id}(id=${faq.id})}" class="question" th:text="'Q. ' + ${faq.title}">Q. 질문 내용</a>
-<!--            &lt;!&ndash; FAQ 답변 &ndash;&gt;-->
-<!--            <span class="answer" th:text="${faq.content}">A. 답변 내용</span>-->
-          </div>
-        </div>
-
-        <!-- 간단히 보기 / 더 보기 버튼 -->
-        <button class="simple-view">간단히 보기</button>
-        <button class="more-view">더 보기 <span class="count" th:text="${faqs != null ? faqs.size() : 0}">0</span></button>
-      </div>
-      <script src="/js/cs/faq.js"></script>
-    </article>
-  </section>
+                <!-- FAQ 목록 동적 처리 -->
+                <div th:each="entry : ${faqs}">
+                    <script th:inline="javascript">
+                        var a = /*[[${entry}]]*/ 'aaa'
+                        console.log(a)
+                    </script>
+                    <h2 th:text="${entry.key}">카테고리</h2> <!-- type2 카테고리 표시 -->
+                    <div class="faq-category" th:data-type2="${entry.key}">
+                        <div th:each="faq, faqStat : ${entry.value}" class="faq-item" th:style="${faqStat.index >= 3 ? 'display:none' : ''}">
+                            <!-- FAQ 질문 -->
+                            <a th:href="@{/cs/layout/faq/view/{id}(id=${faq.id})}" class="question" th:text="'Q. ' + ${faq.title}">Q. 질문 내용</a>
+                        </div>
+                        <!-- 간단히 보기 / 더 보기 버튼 -->
+                        <button class="simple-view" th:onclick="toggleFaqView([[${entry.key}]], 'simple')">간단히 보기</button>
+                        <button class="more-view" th:onclick="toggleFaqView([[${entry.key}]], 'more')">더 보기 <span class="count" th:text="${entry.value.size()}">0</span></button>
+                    </div>
+                </div>
+            </div>
+            <script src="/js/cs/faq.js"></script>
+        </article>
+    </section>
 </div>

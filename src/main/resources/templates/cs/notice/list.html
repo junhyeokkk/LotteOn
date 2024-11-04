@@ -18,20 +18,19 @@
     <aside class="cs_sidebar">
       <h2>공지사항</h2>
       <ul>
-        <li><a href="javascript:void(0);" onclick="loadNoticesByType('전체')">전체</a></li>
-        <li><a href="javascript:void(0);" onclick="loadNoticesByType('고객서비스')">고객서비스</a></li>
-        <li><a href="javascript:void(0);" onclick="loadNoticesByType('안전거래')">안전거래</a></li>
-        <li><a href="javascript:void(0);" onclick="loadNoticesByType('위해상품')">위해상품</a></li>
-        <li><a href="javascript:void(0);" onclick="loadNoticesByType('이벤트당첨')">이벤트당첨</a></li>
+        <li><a th:href="@{/cs/layout/notice/list(type1='전체')}">전체</a></li>
+        <li><a th:href="@{/cs/layout/notice/list(type1='고객서비스')}">고객서비스</a></li>
+        <li><a th:href="@{/cs/layout/notice/list(type1='안전거래')}">안전거래</a></li>
+        <li><a th:href="@{/cs/layout/notice/list(type1='위해상품')}">위해상품</a></li>
+        <li><a th:href="@{/cs/layout/notice/list(type1='이벤트당첨')}">이벤트당첨</a></li>
       </ul>
     </aside>
     <article class="no_article">
       <nav>
-        <h1>전체</h1>
-        <h2>공지사항 전체 내용입니다.</h2>
+        <h1 th:text="${type1}">전체</h1>
+        <h2 th:text="${type1} + ' 관련 공지사항입니다.'">공지사항 전체 내용입니다.</h2>
       </nav>
-      <table>
-
+      <table class="notice-section">
         <!-- 공지사항 목록 동적 처리 -->
         <tr th:each="notice : ${notices}">
           <td>
@@ -43,21 +42,17 @@
       </table>
 
       <div class="pagingBox">
-        <div class="pagingList">
-          <!-- 이전 버튼 -->
-          <a th:unless="${currentPage == 0}"
-             th:href="@{/cs/layout/notice/list(page=${currentPage - 1}, size=${pageSize})}"
+        <div class="pagination">
+          <!-- 페이지네이션 버튼 동적 처리 -->
+          <a th:if="${currentPage != 0}"
+             th:href="@{/cs/layout/notice/list(type1=${type1}, page=${currentPage - 1}, size=${pageSize})}"
              class="prev">‹</a>
-
-          <!-- 페이지 번호 링크 동적 처리 -->
           <a th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}"
-             th:href="@{/cs/layout/notice/list(page=${pageNum}, size=${pageSize})}"
+             th:href="@{/cs/layout/notice/list(type1=${type1}, page=${pageNum}, size=${pageSize})}"
              th:text="${pageNum + 1}"
              th:classappend="${pageNum == currentPage} ? 'active'">1</a>
-
-          <!-- 다음 버튼 -->
           <a th:if="${!isLast}"
-             th:href="@{/cs/layout/notice/list(page=${currentPage + 1}, size=${pageSize})}"
+             th:href="@{/cs/layout/notice/list(type1=${type1}, page=${currentPage + 1}, size=${pageSize})}"
              class="next">›</a>
         </div>
       </div>
