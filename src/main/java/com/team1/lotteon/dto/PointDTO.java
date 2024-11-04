@@ -32,4 +32,22 @@ public class PointDTO {
     private String member_id;
 
     private GeneralMemberDTO member;
+
+    public void setMember(GeneralMemberDTO member) {
+        this.member = member;
+        if (member != null) {
+            this.member_id = member.getUid(); // 매핑되는 UID를 member_id에 설정
+        }
+    }
+
+    public PointDTO(GeneralMemberDTO member, String type, int givePoints, int acPoints, LocalDateTime createdat) {
+        this.member = member;
+        this.type = type;
+        this.givePoints = givePoints;
+        this.acPoints = acPoints;
+        this.createdat = createdat;
+        if (member != null) {
+            this.member_id = member.getUid();
+        }
+    }
 }

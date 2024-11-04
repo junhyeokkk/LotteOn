@@ -64,7 +64,9 @@ public class RegisterController {
                     GeneralMember savedMember = memberService.insertGeneralMember(generalMemberDTO, memberDTO);
                     GeneralMemberDTO savedMemberDTO = modelMapper.map(savedMember, GeneralMemberDTO.class);
                     // 회원가입 축하 기념 포인트 지급
-                    pointService.registerPoint(savedMemberDTO);
+                    int points = 1000; // 지급할 포인트 수량
+                    String pointType = "회원가입 축하 포인트"; // 포인트 타입
+                    pointService.registerPoint(savedMemberDTO, points, pointType);
                 }
                 return "redirect:/user/login?message=" + URLEncoder.encode("회원가입이 성공적으로 완료되었습니다. 회원가입 축하 기념 포인트가 지급되었습니다!", "UTF-8");
 
@@ -98,7 +100,9 @@ public class RegisterController {
                     GeneralMember savedMember = memberService.insertGeneralMember(generalMemberDTO, memberDTO);
                     GeneralMemberDTO savedMemberDTO = modelMapper.map(savedMember, GeneralMemberDTO.class);
                     // 회원가입 축하 기념 포인트 지급
-                    pointService.registerPoint(savedMemberDTO);
+                    int points = 1000; // 지급할 포인트 수량
+                    String pointType = "회원가입 축하 포인트"; // 포인트 타입
+                    pointService.registerPoint(savedMemberDTO, points, pointType);
                 }
                 return "redirect:/admin/member/list?message=" + URLEncoder.encode("회원가입이 성공적으로 완료되었습니다. 회원가입 축하 기념 포인트가 지급되었습니다!", "UTF-8");
 

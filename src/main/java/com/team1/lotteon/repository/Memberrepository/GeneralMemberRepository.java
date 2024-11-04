@@ -16,10 +16,12 @@ public interface GeneralMemberRepository extends JpaRepository<GeneralMember, St
     boolean existsByph(String ph);
     Optional<GeneralMember> findByUid(String uid);
 
+
     Page<GeneralMember> findByUidContaining(String uid, Pageable pageable);
     Page<GeneralMember> findByNameContaining(String name, Pageable pageable);
     Page<GeneralMember> findByEmailContaining(String email, Pageable pageable);
     Page<GeneralMember> findByPhContaining(String ph, Pageable pageable);
     List<GeneralMember> findByLastLoginDateBeforeAndStatus(LocalDateTime date, int status);
+    List<GeneralMember> findAllByUidIn(List<String> uid);
 
 }

@@ -23,7 +23,7 @@
 
 <!-- index.html 고유 스크립트 추가 -->
 <th:block layout:fragment="script">
-    <script type="text/javascript" th:src="@{/js/admin/config/Member.js}"></script>
+    <script type="text/javascript" th:src="@{/js/admin/member/Member.js}"></script>
     <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </th:block>
 <div class="content" layout:fragment="content">
@@ -75,7 +75,7 @@
                     <td th:text="${stat.index + 1}">번호</td>
                     <td th:text="${member.uid}">UID</td>
                     <td th:text="${member.name}">이름</td>
-                    <td th:text="${member.gender}">성별</td>
+                    <td th:text="${member.gender == 'FEMALE' ? '여' : (member.gender == 'MALE' ? '남' : '')}">성별</td>
                     <td>
                         <select name="grade">
                             <option value="vvip" th:selected="${member.grade == 'vvip'}">VVIP</option>
