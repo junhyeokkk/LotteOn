@@ -15,8 +15,6 @@
 <header th:replace="~{layout/header::header}"></header>
 <div id="wrapper">
 
-
-
     <!-- content -->
     <!-- include nav -->
     <th:replace th:replace="~{myPage/include/mypagenav::nav}"></th:replace>
@@ -24,7 +22,6 @@
     <!-- include sidebar and banner -->
     <div class="info">
         <div th:replace="~{myPage/include/mypagesidebar::sidebar}"></div>
-
 
         <th:block th:with="path='myPage/content/' + ${cate}, fragment=${cate}">
             <!-- dynamic content -->
