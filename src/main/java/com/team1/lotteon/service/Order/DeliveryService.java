@@ -56,14 +56,14 @@ public class DeliveryService {
         delivery.setInvoiceNum(deliveryDTO.getInvoiceNum());
         delivery.setMemo(deliveryDTO.getMemo());
         delivery.setDeliveryDate(LocalDateTime.now());
-        delivery.setStatus(DeliveryStatus.SHIPPED);
+        delivery.setStatus(DeliveryStatus.DELIVERED);
 
         log.info("dsdsafsdf" + delivery.toString());
         deliveryRepoistory.save(delivery);
 
         // OrderItem 상태 업데이트
         orderItem.setDelivery(delivery);
-        orderItem.setDeliveryStatus(DeliveryStatus.SHIPPED);
+        orderItem.setDeliveryStatus(DeliveryStatus.DELIVERED);
         orderItemRepository.save(orderItem);
     }
 

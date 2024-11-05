@@ -103,6 +103,7 @@ public class ProductPageController {
         return "product/complete";
     }
 
+
     // 주문성공시 주문 요약정보 들고 complete 페이지 이동
     @GetMapping("/product/complete/{orderId}")
     public String complete(Model model, @PathVariable Long orderId) {
@@ -172,7 +173,7 @@ public class ProductPageController {
             totalQuantity += orderInfo.getQuantity();
             totalOriginalPrice += orderInfo.getOriginalPrice() * orderInfo.getQuantity();
             totalOrderAmount += orderInfo.getTotal();
-            totalDiscount += orderInfo.getDiscountedPrice();
+            totalDiscount = (int) (totalOriginalPrice * (orderInfo.getDiscountRate()*0.01));
             totalDeliveryFee += orderInfo.getDeliveryFee();
             totalPoints += orderInfo.getPoints();
             totalEarnedPoints += orderInfo.getPoints();
@@ -251,7 +252,7 @@ public class ProductPageController {
         ProductDTO saveProduct = productService.getProductById(id);
         //shopid로 바꾸기
         //2024/11/04 이도영 shopid로 바꾸기 (완료)
-        List<Coupon> coupondata = couponService.findCouponsByMemberId(saveProduct.getMember().getUid());
+        List<Coupon> coupondata = couponService.findCouponsByMemberId(saveProduct.getShop().getSellerMember().getUid());
 
         if (saveProduct == null) {
             return "error/404"; // 상품이 없는 경우, 404 페이지로 이동
@@ -301,6 +302,7 @@ public class ProductPageController {
         model.addAttribute("optionCombinations", optionCombinations);
         //판매자가 만든 쿠폰 정보 출력
         model.addAttribute("coupondatas",coupondata);
+        log.info("coupondatas : " + coupondata.toString());
         return "product/view"; // 뷰 페이지로 이동
     }
 

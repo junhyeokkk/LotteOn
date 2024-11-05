@@ -59,7 +59,7 @@ public class OrderSummaryDTO {
 
         // 총 상품 금액, 총 할인 금액, 배송비 계산
         this.totalOriginalPrice = orderItems.stream().mapToInt(OrderItemSummaryDTO::getOriginalPrice).sum();
-        this.totalDiscountAmount = orderItems.stream().mapToInt(OrderItemSummaryDTO::getDiscountAmount).sum();
+        this.totalDiscountAmount = orderItems.stream().mapToInt(OrderItemSummaryDTO::getDiscountAmount).sum()+order.getCouponDiscount()+order.getPointDiscount();
         this.totalQuantity = orderItems.stream().mapToInt(OrderItemSummaryDTO::getQuantity).sum();
         this.totalDeliveryFee = order.getDeliveryFee();
         this.totalPaymentAmount = totalOrderAmount; // 결제 금액

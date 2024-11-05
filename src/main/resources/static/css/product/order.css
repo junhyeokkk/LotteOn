@@ -299,7 +299,7 @@
     border-radius: 6px;
 }
 
-.btn-apply {
+.btn-apply, .coupon-apply {
     padding: 8px 14px;
     background-color: #ff6b6b;
     border: none;

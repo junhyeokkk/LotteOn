@@ -19,8 +19,8 @@
 </head>
 
 <body>
+<header th:replace="~{layout/header::header}"></header>
     <div id="wrapper">
-        <header th:replace="~{layout/header::header}"></header>
         <div>
             <th:replace th:replace="~{myPage/include/mypagenav::nav}"></th:replace>
             <!-- only for info header -->
@@ -45,23 +45,22 @@
                             <block>
                                 <tr>
                                     <td class="date">2022-12-13</td>
-                                    <td><a href="#" class="recentproductorderimg"><img src="/images/my/my_sample_thumb.png" alt="상품이미지"></a></td>
+                                    <td><a href="#" class="recentproductorderimg"><img  th:src="'/'+${appInfo.uploadDir}+'product/'+${myorder.getProduct().getProductImg1()}" alt="상품이미지"></a></td>
                                     <td class="order-info">
                                         <div class="order-number">
-                                            주문번호: <a href="#" data-modal="orderDetailModal">1022134123</a>
+                                            주문번호: <a href="#" th:text="${myorder.getOrder().getId()}" data-modal="orderDetailModal"></a>
                                         </div>
-                                        <div class="company-name" text="${order.companyName}" data-modal="sellerInfoModal">실바니안패밀리</div>
-                                        <div class="product-name" text="${order.productName}">플로라 토끼 남매의 꽃 가꾸기</div>
-                                        <div>수량 : <span text="${order.quantity}"></span>1 개</div>
-                                        <div class="product-price" style="font-size: 18px; font-weight: bold;" text="${order.price}">25,900원</div>
+                                        <div class="company-name" th:text="${myorder.getProduct().getShop().getShopName()}" data-modal="sellerInfoModal">실바니안패밀리</div>
+                                        <div class="product-name" th:text="${myorder.getProductName()}">플로라 토끼 남매의 꽃 가꾸기</div>
+                                        <div>수량 : <span th:text="${myorder.getQuantity()}"></span>1 개</div>
+                                        <div class="product-price" style="font-size: 18px; font-weight: bold;" th:text="${myorder.getOrder().getTotalPrice()}">25,900원</div>
                                     </td>
 
-                                    <td class="status">배송중</td>
+                                    <td class="status">[[${myorder.deliveryStatus}]]</td>
                                     <td >
                                         <!-- 수취확인 -->
                                         <button class="receivebutton" data-modal="receiptConfirmModal">수취확인</button><br>
                                         <button class="receivebutton" data-modal="reviewModal">상품평쓰기</button><br>
-
                                         <button class="reviewbutton" data-modal="refundModal">반품신청</button><br>
                                         <button class="reviewbutton" data-modal="returnModal">교환신청</button>
                                     </td>

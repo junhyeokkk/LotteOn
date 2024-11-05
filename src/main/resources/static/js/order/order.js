@@ -3,6 +3,142 @@
     이름 : 최준혁
     내용 : 오더 js 파일 생성
 */
+
+document.addEventListener("DOMContentLoaded", function () {
+    const userPoints = parseInt(document.getElementById("userPoint").textContent.trim(), 10);
+    const inputPoint = document.getElementById("inputPoint");
+    const couponApplyButton = document.querySelector(".coupon-apply");
+    const prodDisElement = document.getElementById("prodDis");
+    const totalElement = document.getElementById("total");
+    const deliveryFeeElement = document.getElementById("prodFee");
+
+    // 포인트 5000 이상일 때만 readonly 해제
+    if (userPoints >= 5000) {
+        inputPoint.readOnly = false;
+    } else {
+        inputPoint.placeholder = "사용할 수 있는 포인트가 부족합니다";
+    }
+
+    couponApplyButton.addEventListener("click", toggleCouponUsage);
+
+    function toggleCouponUsage() {
+        if (couponApplyButton.textContent === "사용하기") {
+            applyCoupon();
+            alert('쿠폰이 적용되었습니다.');
+            couponApplyButton.textContent = "사용취소";
+        } else {
+            cancelCoupon();
+            alert('쿠폰이 적용취소되었습니다.');
+            couponApplyButton.textContent = "사용하기";
+        }
+    }
+});
+
+// 초기 상태 저장
+let originalValues = {
+    totalDiscount: 0,
+    deliveryFee: 0,
+    totalOrderPrice: 0
+};
+
+// 쿠폰 적용 함수
+function applyCoupon() {
+    const couponSelect = document.getElementById("takecoupon");
+    const prodDisElement = document.getElementById("prodDis");
+    const totalElement = document.getElementById("total");
+    const deliveryFeeElement = document.getElementById("prodFee");
+
+    const selectedOption = couponSelect.options[couponSelect.selectedIndex];
+    const discountValue = parseFloat(selectedOption.getAttribute("data-discount")) || 0;
+
+    let discountAmount = 0;
+    let totalOrderPrice = parseFloat(totalElement.textContent.replace(/[^\d]/g, "")) || 0;
+
+    // Save original values for cancellation (only if not already set)
+    if (originalValues.totalOrderPrice === 0) {
+        originalValues.totalDiscount = parseFloat(prodDisElement.textContent.replace(/[^\d]/g, "")) || 0;
+        originalValues.deliveryFee = parseFloat(deliveryFeeElement.textContent.replace(/[^\d]/g, "")) || 0;
+        originalValues.totalOrderPrice = totalOrderPrice;
+    }
+
+    // Discount based on value
+    if (discountValue >= 1) {
+        discountAmount = discountValue;
+    } else if (discountValue > 0 && discountValue < 1) {
+        discountAmount = totalOrderPrice * discountValue;
+    } else {
+        deliveryFeeElement.textContent = `0원`;
+    }
+
+    // Update display elements
+    document.getElementById("couponDiscount").textContent = `-${discountAmount.toLocaleString()}원`;
+    prodDisElement.textContent = `-${(originalValues.totalDiscount + discountAmount).toLocaleString()}원`;
+    totalElement.textContent = `${(totalOrderPrice - discountAmount).toLocaleString()}원`;
+}
+
+// 쿠폰 취소 함수
+function cancelCoupon() {
+    const couponDiscount = document.getElementById("couponDiscount");
+    const prodDisElement = document.getElementById("prodDis");
+    const deliveryFeeElement = document.getElementById("prodFee");
+    const totalElement = document.getElementById("total");
+
+    // Reset discount, delivery fee, and total order price to original values
+    couponDiscount.textContent = `-0원`;
+    prodDisElement.textContent = `-${originalValues.totalDiscount.toLocaleString()}원`;
+    deliveryFeeElement.textContent = `${originalValues.deliveryFee.toLocaleString()}원`;
+    totalElement.textContent = `${originalValues.totalOrderPrice.toLocaleString()}원`;
+}
+
+
+// 포인트 유효성 검사
+function isValidPoint(usedPoints, userPoints) {
+    if (usedPoints < 5000) {
+        alert("포인트는 5,000점 이상 사용해야 합니다.");
+        return false;
+    }
+    if (usedPoints > userPoints) {
+        alert("사용 가능한 포인트를 초과했습니다.");
+        return false;
+    }
+    return true;
+}
+
+// 포인트 적용
+function applyPoints() {
+    const inputPoint = document.getElementById("inputPoint");
+    const userPoints = parseInt(document.getElementById("userPoint").textContent.trim(), 10);
+    const usedPoints = parseInt(inputPoint.value, 10);
+    const prodPointElement = document.getElementById("prodPoint");
+    const prodDisElement = document.getElementById("prodDis");
+    const totalElement = document.getElementById("total");
+
+    if (isNaN(usedPoints) || usedPoints <= 0) {
+        alert("사용할 포인트를 올바르게 입력하세요.");
+        return;
+    }
+
+    if (isValidPoint(usedPoints, userPoints)) {
+        alert(`포인트 ${usedPoints}점이 적용되었습니다.`);
+
+        // 포인트 할인 표시 업데이트
+        prodPointElement.textContent = `-${usedPoints.toLocaleString()}원`;
+
+        // 할인 금액에 포인트 추가 적용
+        const currentDiscount = parseInt(prodDisElement.textContent.replace(/[^\d]/g, ""), 10);
+        const totalDiscount = currentDiscount + usedPoints;
+        prodDisElement.textContent = `-${totalDiscount.toLocaleString()}원`;
+
+        // 전체 주문 금액에서 포인트 할인 적용
+        const currentTotal = parseInt(totalElement.textContent.replace(/[^\d]/g, ""), 10);
+        const newTotal = currentTotal - usedPoints;
+        totalElement.textContent = `${newTotal.toLocaleString()}원`;
+    } else {
+        inputPoint.value = "";
+    }
+}
+
+
 function submitOrder() {
     const formData = new FormData(document.getElementById("buyForm"));
 
@@ -38,6 +174,8 @@ function submitOrder() {
         couponId: formData.get("couponId") !== "쿠폰선택" ? parseInt(formData.get("couponId"), 10) : null,
         paymentMethod: formData.get("paymentMethod"),
         orderItems: orderItems,
+        pointDiscount: parseInt(document.getElementById("prodPoint").textContent.trim().replace(/[^\d]/g, ""), 10),
+        couponDiscount: parseInt(document.getElementById("couponDiscount").textContent.trim().replace(/[^\d]/g, ""), 10),
         totalPrice: parseInt(document.getElementById("total").textContent.trim().replace(",", ""))
     };
     console.log('오더 데이타 ' + orderData);
@@ -68,79 +206,3 @@ function submitOrder() {
             alert(error.message);
         });
 }
-
-
-
-document.addEventListener('DOMContentLoaded', function() {
-    const applyButton = document.querySelector('.point-usage .btn-apply');
-
-    if (applyButton) {
-        applyButton.addEventListener('click', function(event) {
-            // 기본 동작 방지
-            event.preventDefault();
-
-            // 입력된 포인트 값 가져오기
-            let inputPoint = parseInt(document.getElementById('inputPoint').value);
-            let currentPoints = parseInt(document.getElementById('userPoint').textContent.replace(/[^0-9]/g, ''));
-            let totalAmountElement = document.getElementById('total');
-            let totalAmount = parseInt(totalAmountElement.textContent.replace(/,/g, ''));
-            let pointDiscountElement = document.getElementById('prodPoint');
-
-            // 입력된 포인트 유효성 검사
-            if (isNaN(inputPoint) || inputPoint <= 0) {
-                alert('올바른 포인트 값을 입력하세요.');
-                return;
-            }
-
-            if (inputPoint > currentPoints) {
-                alert('보유 포인트보다 많은 포인트를 사용할 수 없습니다.');
-                return;
-            }
-
-            if (inputPoint < 5000) {
-                alert('최소 5,000점 이상만 사용할 수 있습니다.');
-                return;
-            }
-
-            // 포인트 할인 적용 후 서버로 전송
-            fetch('/api/order/use', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    givePoints: inputPoint
-                })
-            })
-                .then(response => {
-                    // 응답의 Content-Type이 JSON인지 확인하고 파싱
-                    const contentType = response.headers.get("content-type");
-                    if (contentType && contentType.indexOf("application/json") !== -1) {
-                        return response.json();
-                    } else {
-                        return response.text(); // JSON이 아닌 경우 text로 처리
-                    }
-                })
-                .then(data => {
-                    if (typeof data === 'string') {
-                        alert(data); // 서버에서 받은 문자열을 표시
-                    } else if (data.status === 'OK') {
-                        alert('포인트가 성공적으로 사용되었습니다.');
-
-                        // 포인트 할인 및 총 결제 금액 화면에 반영
-                        let newTotalAmount = totalAmount - inputPoint;
-                        pointDiscountElement.textContent = `-${inputPoint.toLocaleString()}원`;
-                        totalAmountElement.textContent = newTotalAmount.toLocaleString() + '원';
-                    } else {
-                        alert('포인트 사용에 실패했습니다: ' + data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('서버 오류가 발생했습니다.');
-                });
-        });
-    } else {
-        console.error('포인트 사용 버튼을 찾을 수 없습니다.');
-    }
-});

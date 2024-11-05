@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layout/adminlayout}">
+
+<!-- 스타일 CSS 연결 -->
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/admin/product/edit.css}" />
+</th:block>
+
+<!-- index.html 고유 스크립트 추가 -->
+<th:block layout:fragment="script">
+    <script type="text/javascript" th:src="@{/js/admin/product/edit.js}"></script>
+</th:block>
+
+<div class="content" layout:fragment="content">
+    <div class="dashboard">
+        <div class="content_header">
+            <h1>상품 수정</h1>
+            <p>HOME > 상품관리 > 상품 수정</p>
+        </div>
+
+        <!-- 상품 수정 폼 -->
+        <form id="editProductForm" method="POST" th:action="@{/admin/product/update}" enctype="multipart/form-data">
+            <input type="hidden" name="id" th:value="${product.id}"/>
+
+            <!-- 기본 정보 -->
+            <div class="section">
+                <h2>기본 정보</h2>
+                <table class="form-table">
+                    <tr>
+                        <td><label for="productName">상품명</label></td>
+                        <td><input type="text" id="productName" name="productName" th:value="${product.productName}" required></td>
+                    </tr>
+                    <tr>
+                        <td><label for="description">설명</label></td>
+                        <td><input type="text" id="description" name="description" th:value="${product.description}" required></td>
+                    </tr>
+                    <tr>
+                        <td><label for="manufacturer">제조사</label></td>
+                        <td><input type="text" id="manufacturer" name="manufacturer" th:value="${product.manufacturer}" required></td>
+                    </tr>
+                    <tr>
+                        <td><label for="price">상품금액</label></td>
+                        <td><input type="number" id="price" name="price" th:value="${product.price}" required></td>
+                    </tr>
+                    <tr>
+                        <td><label for="discountRate">할인율</label></td>
+                        <td><input type="number" id="discountRate" name="discountRate" th:value="${product.discountRate}"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="point">포인트</label></td>
+                        <td><input type="number" id="point" name="point" th:value="${product.point}" readonly /></td>
+                    </tr>
+                    <tr>
+                        <td><label for="stock">재고</label></td>
+                        <td><input type="number" id="stock" name="stock" th:value="${product.stock}" required/></td>
+                    </tr>
+                    <tr>
+                        <td><label for="deliveryFee">배송비</label></td>
+                        <td><input type="number" id="deliveryFee" name="deliveryFee" th:value="${product.deliveryFee}"></td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- 카테고리 선택 -->
+            <div class="section">
+                <h2>카테고리</h2>
+                <table class="form-table">
+                    <tr>
+                        <td><label for="category1">1차 카테고리</label></td>
+                        <td>
+                            <select id="category1" onchange="loadSubCategories(this.value, 'category2')">
+                                <option value="">1차 카테고리 선택</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="category2">2차 카테고리</label></td>
+                        <td>
+                            <select id="category2" onchange="loadSubCategories(this.value, 'category3')">
+                                <option value="">2차 카테고리 선택</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="category3">3차 카테고리</label></td>
+                        <td>
+                            <select id="category3" name="categoryId">
+                                <option value="">3차 카테고리 선택</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- 상품 이미지 -->
+            <div class="section">
+                <h2>상품 이미지</h2>
+                <table class="form-table">
+                    <tr>
+                        <td><label for="productImg1">상품 이미지 (목록용)</label></td>
+                        <td>
+                            <input type="file" id="productImg1" name="productImg1">
+                            <img th:src="@{/uploads/product/}+${product.productImg1}" alt="상품 이미지1" style="width: 70px; height: 70px;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="productImg2">상품 이미지 (상세용)</label></td>
+                        <td>
+                            <input type="file" id="productImg2" name="productImg2">
+                            <img th:src="@{/uploads/product/}+${product.productImg2}" alt="상품 이미지2" style="width: 100px; height: 100px;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="productImg3">상품 이미지 (추가)</label></td>
+                        <td>
+                            <input type="file" id="productImg3" name="productImg3">
+                            <img th:src="@{/uploads/product/}+${product.productImg3}" alt="상품 이미지3" style="width: 100px; height: 100px;">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- 옵션 선택 -->
+            <div class="section">
+                <h2>옵션</h2>
+                <p>상품에 옵션이 있습니까?</p>
+                <select id="hasOption" name="hasOption" onchange="toggleOptionSections()">
+                    <option value="true" th:selected="${product.hasOptions}">예</option>
+                    <option value="false" th:selected="${!product.hasOptions}">아니오</option>
+                </select>
+
+                <!-- 옵션 관리 섹션 -->
+                <div id="optionSection" style="display: none;">
+                    <table class="form-table" id="optionTable">
+                        <thead>
+                        <tr>
+                            <th>옵션명</th>
+                            <th>옵션값</th>
+                            <th>삭제</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="option : ${product.productOptions}">
+                            <td><input type="text" name="optionName[]" th:value="${option.name}" /></td>
+                            <td><input type="text" name="optionValues[]" th:value="${option.values}" /></td>
+                            <td><button type="button" onclick="removeOption(this)">삭제</button></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <button type="button" onclick="addOption()">옵션 추가</button>
+                </div>
+            </div>
+
+            <!-- 전자상거래 상품정보 -->
+            <div class="section">
+                <h2>전자상거래 상품정보 제공공시</h2>
+                <table class="form-table">
+                    <tr>
+                        <td><label for="Status">상품상태</label></td>
+                        <td><input type="text" id="Status" name="Status" th:value="${product.Status}" required /></td>
+                    </tr>
+                    <tr>
+                        <td><label for="warranty">부가세 면세여부</label></td>
+                        <td><input type="text" id="warranty" name="warranty" th:value="${product.warranty}" required /></td>
+                    </tr>
+                    <tr>
+                        <td><label for="receiptIssued">영수증 발행</label></td>
+                        <td><input type="text" id="receiptIssued" name="receiptIssued" th:value="${product.receiptIssued}" required /></td>
+                    </tr>
+                    <tr>
+                        <td><label for="businessType">사업자구분</label></td>
+                        <td><input type="text" id="businessType" name="businessType" th:value="${product.businessType}" required /></td>
+                    </tr>
+                    <tr>
+                        <td><label for="origin">원산지</label></td>
+                        <td><input type="text" id="origin" name="origin" th:value="${product.origin}" required /></td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- 저장 버튼 -->
+            <div class="submit-section">
+                <button type="submit">수정 완료</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function toggleOptionSections() {
+        const hasOption = document.getElementById("hasOption").value;
+        document.getElementById("optionSection").style.display = hasOption === "true" ? "block" : "none";
+    }
+</script>
+</html>

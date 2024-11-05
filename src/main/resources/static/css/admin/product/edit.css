@@ -1,0 +1,46 @@
+/* edit.css */
+.content {
+    padding: 20px;
+}
+
+.section {
+    margin-bottom: 20px;
+}
+
+.form-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.form-table th, .form-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+.section h2 {
+    font-size: 18px;
+    color: #333;
+}
+
+.submit-section {
+    text-align: center;
+}
+
+.submit-section button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.submit-section button:hover {
+    background-color: #0056b3;
+}
+
+.option-section, .combination-section {
+    display: none;
+}

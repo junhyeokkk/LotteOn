@@ -332,4 +332,32 @@ public class ProductService {
         // Product가 존재하면 해당 Product의 shop 객체의 id를 반환
         return product.getShop() != null ? product.getShop().getId() : null;
     }
+
+
+
+    // 상품 수정 저장
+    @Transactional
+    public void updateProduct(ProductDTO productDTO) {
+        Product product = productRepository.findById(productDTO.getId())
+                .orElseThrow(() -> new IllegalArgumentException("상품을 찾을 수 없습니다. ID: " + productDTO.getId()));
+
+        product.setProductName(productDTO.getProductName());
+        product.setDescription(productDTO.getDescription());
+        product.setManufacturer(productDTO.getManufacturer());
+        product.setPrice(productDTO.getPrice());
+        product.setDiscountRate(productDTO.getDiscountRate());
+        product.setPoint(productDTO.getPoint());
+        product.setStock(productDTO.getStock());
+        product.setDeliveryFee(productDTO.getDeliveryFee());
+        product.setWarranty(productDTO.getWarranty());
+        product.setReceiptIssued(productDTO.getReceiptIssued());
+        product.setBusinessType(productDTO.getBusinessType());
+        product.setOrigin(productDTO.getOrigin());
+
+        if (productDTO.getProductImg1() != null) product.setProductImg1(productDTO.getProductImg1());
+        if (productDTO.getProductImg2() != null) product.setProductImg2(productDTO.getProductImg2());
+        if (productDTO.getProductImg3() != null) product.setProductImg3(productDTO.getProductImg3());
+
+        productRepository.save(product);
+    }
 }
