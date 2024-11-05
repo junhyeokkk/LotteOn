@@ -37,7 +37,7 @@ public class ProductDTO extends BaseEntity {
     private int point;  // 포인트
     private int deliveryFee;    // 배송비
 
-    private String productStatus;   // 상품 상태
+    private String Status;   // 상품 상태
     private String warranty;  // 부가세 면세여부
     private String receiptIssued;  // 영수증 발행 여부
     private String businessType;    // 사업자구분

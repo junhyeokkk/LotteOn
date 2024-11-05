@@ -51,9 +51,9 @@ public class AdminProductPageController {
     }
 
     // 상품 수정 페이지로 이동
-    @GetMapping("/admin/product/edit/{productId}")
-    public String showEditProductForm(@PathVariable Long productId, Model model) {
-        ProductDTO productDTO = productService.getProductById(productId);
+    @GetMapping("/admin/product/edit/{id}")
+    public String showEditProductForm(@PathVariable Long id, Model model) {
+        ProductDTO productDTO = productService.getProductById(id);
         model.addAttribute("product", productDTO);
         log.info("sfaddddddddddddddddddddd" + productDTO);
         return "admin/product/edit";
