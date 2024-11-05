@@ -3,6 +3,9 @@ package com.team1.lotteon.repository;
 import com.team1.lotteon.entity.Version;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
+
 /*
     날짜 : 2024/10/23
     이름 : 최준혁
@@ -11,5 +14,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface VersionRepository extends JpaRepository<Version, Long> {
     // ID를 기준으로 가장 높은 레코드 1개 가져오기
-    public Version findTopByOrderByIdDesc();
+    public Optional<Version> findTopByOrderByIdDesc();
 }

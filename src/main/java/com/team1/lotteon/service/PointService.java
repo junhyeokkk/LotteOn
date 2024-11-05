@@ -74,25 +74,44 @@ public class PointService {
 
 
 
-    // 주문 포인트 사용 메서드
     public void userOrderPoints(int point, GeneralMember generalMember) {
-        if (point < 5000) {
-            throw new IllegalArgumentException("5000점 이상 사용가능");
-        }
-        if (generalMember.getPoints() < point) {
-            throw new IllegalArgumentException("포인트 부족!");
-        }
-        generalMember.decreasePoints(point);
-        generalMemberRepository.saveAndFlush(generalMember);
+        try {
+            log.info("포인트 사용 요청: {}, 회원 UID: {}", point, generalMember.getUid());
 
-        PointDTO pointDTO = new PointDTO();
-        pointDTO.setAcPoints(generalMember.getPoints());
-        pointDTO.setMember_id(generalMember.getUid()); // memberid
-        pointDTO.setGivePoints(-point);
+            if (point < 5000) {
+                throw new IllegalArgumentException("5000점 이상 사용가능");
+            }
+            if (generalMember.getPoints() < point) {
+                throw new IllegalArgumentException("포인트 부족!");
+            }
 
-        Point pointEntity = modelMapper.map(pointDTO, Point.class);
-        pointEntity.changeMember(generalMember);
-        pointRepository.save(pointEntity); // 포인트 기록 저장
+            log.info("포인트 차감 전, 회원 포인트: {}", generalMember.getPoints());
+
+            generalMember.decreasePoints(point);
+            log.info("포인트 차감 후, 회원 포인트: {}", generalMember.getPoints());
+
+            generalMemberRepository.saveAndFlush(generalMember);
+            log.info("회원 정보 저장 완료: UID = {}, 남은 포인트 = {}", generalMember.getUid(), generalMember.getPoints());
+
+            PointDTO pointDTO = new PointDTO();
+            pointDTO.setAcPoints(generalMember.getPoints());
+            pointDTO.setMember_id(generalMember.getUid());
+            pointDTO.setGivePoints(-point);
+
+            log.info("포인트 DTO 생성 완료: {}", pointDTO);
+
+            Point pointEntity = modelMapper.map(pointDTO, Point.class);
+            pointEntity.changeMember(generalMember);
+            log.info("포인트 엔티티 변환 완료: {}", pointEntity);
+
+            pointRepository.save(pointEntity);
+            log.info("포인트 기록 저장 완료: {}", pointEntity);
+        } catch (Exception e) {
+            log.error("포인트 사용 중 오류 발생: {}", e.getMessage(), e);
+            throw e; // 예외를 다시 던져 호출자에서 처리할 수 있도록 함
+        }
+
+
 
 //        generalMember.increasePoints(point); // 사용된 포인트를 회원의 포인트 내역과 잔여 포인트에 반영하기 위한 것
 
