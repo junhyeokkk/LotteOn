@@ -3,6 +3,9 @@ package com.team1.lotteon.entity;
 import com.team1.lotteon.entity.enums.InquiryType1;
 import com.team1.lotteon.entity.enums.InquiryType2;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,6 +24,11 @@ import lombok.experimental.SuperBuilder;
 public class Inquiry extends Article {
     private String type2;
     private String answer;
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "seller_id")
+    private SellerMember seller;
 
     public void setType2(String type2) {
         this.type2 = type2;
