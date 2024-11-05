@@ -15,17 +15,20 @@ import java.util.Optional;
 
      수정이력
      - 2024/11/01 이도영 다운받은 쿠폰 추가 기능 작성
+     - 2024/11/05 이도영 판매자일 경우 데이터 출력 형식
 */
 @Repository
 public interface CouponTakeRepository extends JpaRepository<CouponTake, Long> {
     Page<CouponTake> findByCouponTakenId(Long couponTakenId, Pageable pageable);  // 수정된 메서드 이름
     Page<CouponTake> findByCoupon_Couponid(Long couponId, Pageable pageable);
     Page<CouponTake> findByCoupon_CouponnameContaining(String couponName, Pageable pageable);
-
-
     Optional<CouponTake> findByMember_UidAndCoupon_Couponid(String memberId, Long couponId);
-
     boolean existsByMember_UidAndCoupon_Couponid(String memberid, Long couponid);
 
+    //판매자일 경우 데이터 출력 방식
+    Page<CouponTake> findByCouponTakenIdAndShopId(long l, Long shopid, Pageable pageable);
+    Page<CouponTake> findByCoupon_CouponidAndShopId(long l, Long shopid, Pageable pageable);
+    Page<CouponTake> findByCoupon_CouponnameContainingAndShopId(String keyword, Long shopid, Pageable pageable);
+    Page<CouponTake> findByShopId(Long shopid, Pageable pageable);
 }
 

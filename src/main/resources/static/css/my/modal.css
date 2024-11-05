@@ -84,6 +84,7 @@
 /*유정*/
 .deliveryInsertModal-content,
 .couponinfomodal-content,
+.couponchangemodal-content,
 .couponinsertmodal-content{
     height: 540px;
     width: 700px;

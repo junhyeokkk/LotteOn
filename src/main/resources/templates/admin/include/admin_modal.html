@@ -5,6 +5,7 @@
     수정이력
     - 2024/10/28 이도영 - 상점 모달 수정
     - 2024/10/29 이도영 - 쿠폰 모달 수정
+    - 2024/11/05 이도영 - 쿠폰 모달 데이터 출력 변경
 -->
 
 
@@ -657,7 +658,6 @@
         </div>
     </div>
 
-
     <!-- 쿠폰등록 모달 -->
     <div id="couponinsertmodal" class="modal admin">
         <div class="couponinsertmodal-content modalcontent">
@@ -694,16 +694,17 @@
                                 <th>혜택</th>
                                 <td>
                                     <select name="coupondiscount">
-                                        <option value="1">1,000원 할인</option>
-                                        <option value="2">2,000원 할인</option>
-                                        <option value="3">3,000원 할인</option>
-                                        <option value="4">4,000원 할인</option>
-                                        <option value="5">10% 할인</option>
-                                        <option value="6">20% 할인</option>
-                                        <option value="7">30% 할인</option>
-                                        <option value="8">40% 할인</option>
-                                        <option value="9">50% 할인</option>
-                                        <option value="10">배송비 무료</option>
+                                        <option value="1000">1,000원 할인</option>
+                                        <option value="2000">2,000원 할인</option>
+                                        <option value="3000">3,000원 할인</option>
+                                        <option value="4000">4,000원 할인</option>
+                                        <option value="5000">5,000원 할인</option>
+                                        <option value="0.1">10% 할인</option>
+                                        <option value="0.2">20% 할인</option>
+                                        <option value="0.3">30% 할인</option>
+                                        <option value="0.4">40% 할인</option>
+                                        <option value="0.5">50% 할인</option>
+                                        <option value="0">배송비 무료</option>
                                     </select>
                                 </td>
                             </tr>
@@ -732,11 +733,88 @@
             </section>
         </div>
     </div>
+    <!-- 쿠폰수정 모달 -->
+    <div id="couponchangemodal" class="modal admin">
+        <div class="couponchangemodal-content modalcontent">
+            <nav class="adminmodal-nav">
+                <h1>쿠폰수정</h1>
+                <button class="adminmodal-close" id="closeModal">&times;</button>
+            </nav>
+            <section class="modal-section">
+                <form th:action="@{/admin/coupon/insertcoupon}" method="POST">
+                    <article>
+                        <table border="0" class="heighttable">
+                            <tr>
+                                <th>발급처</th>
+                                <td>
+                                    <input type="text" readonly th:value="${name}">
+                                    <input type="hidden" name="memberId" th:value="${uid}">
+                                    <input type="hidden" name="couponId" th:value="${couponId}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>쿠폰종류</th>
+                                <td>
+                                    <select name="coupontype">
+                                        <option value="single">개별상품할인</option>
+                                        <option value="ordersale" th:if="${role =='Admin'}">주문상품할인</option>
+                                        <option value="freedelivery" th:if="${role =='Admin'}">배송비 무료</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>쿠폰명</th>
+                                <td><input type="text" name="couponname" required></td>
+                            </tr>
+                            <tr>
+                                <th>혜택</th>
+                                <td>
+                                    <select name="coupondiscount">
+                                        <option value="1000">1,000원 할인</option>
+                                        <option value="2000">2,000원 할인</option>
+                                        <option value="3000">3,000원 할인</option>
+                                        <option value="4000">4,000원 할인</option>
+                                        <option value="5000">5,000원 할인</option>
+                                        <option value="0.1">10% 할인</option>
+                                        <option value="0.2">20% 할인</option>
+                                        <option value="0.3">30% 할인</option>
+                                        <option value="0.4">40% 할인</option>
+                                        <option value="0.5">50% 할인</option>
+                                        <option value="0">배송비 무료</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>사용기간</th>
+                                <td>
+                                    <input type="date" id="startDate" class="bannerdate" name="couponstart" required> -
+                                    <input type="date" id="endDate" class="bannerdate" name="couponend" required><br>
+                                    발급일로부터 <input type="text" class="bannerdate2" name="couponperiod" required> 이내
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>유의사항</th>
+                                <td class="modalcontent2">
+                                    <textarea placeholder="변경내역작성하기" name="couponetc" required>상품 중복 할인 쿠폰 - 상품 1개에 대해 사용 가능 - 판매자 즉시할인/상품할인 쿠폰과 중복 사용 가능</textarea>
+                                </td>
+                            </tr>
+                        </table>
+                        <br>
+                        <div class="modalbuttondiv">
+                            <input class="adminmodalbutton" type="submit" value="수정하기" />
+                            <button class="modalbutton" type="button" value="삭제하기" onclick="confirmDelete()">삭제하기</button>
+                            <button type="button" class="modalcanclebutton" id="cancelModal">취소</button>
+                        </div>
+                    </article>
+                </form>
+            </section>
+        </div>
+    </div>
     <!-- 쿠폰정보 사용자전달 모달 -->
     <div id="couponmodal" class="modal admin">
         <div class="couponmodal-content modalcontent">
             <nav class="adminmodal-nav">
-                <h1>쿠폰정보</h1><h4>101220134</h4>
+                <h1>쿠폰정보</h1>
                 <button class="adminmodal-close" id="closeModal">&times;</button>
             </nav>
             <section class="modal-section">
@@ -752,41 +830,41 @@
                         </colgroup>
                         <tr>
                             <th>쿠폰번호</th>
-                            <td>11111</td>
+                            <td class="couponid">11111</td>
                             <th>발급처</th>
-                            <td>다있어</td>
+                            <td class="shopname">다있어</td>
                         </tr>
                         <tr>
                             <th>발급번호</th>
-                            <td>김유신</td>
+                            <td class="coupontakeid">김유신</td>
                             <th>사용여부</th>
-                            <td>사용 완료</td>
+                            <td class="couponusecheck">사용 완료</td>
                         </tr>
                         <tr>
                             <th>쿠폰종류</th>
-                            <td>할인쿠폰</td>
+                            <td class="coupontype">할인쿠폰</td>
                             <th>발급대상</th>
                             <td>회원</td>
                         </tr>
                         <tr>
                             <th>쿠폰명</th>
-                            <td>부산진구</td>
+                            <td class="couponname">부산진구</td>
                             <td colspan="2"></td> <!-- 빈 셀로 공간 확보 -->
                         </tr>
                         <tr>
                             <th>혜택</th>
-                            <td>10% 할인</td>
+                            <td class="coupondiscount">10% 할인</td>
                             <td colspan="2"></td> <!-- 빈 셀로 공간 확보 -->
                         </tr>
                         <tr>
                             <th>사용기간</th>
-                            <td>2024-01-01 ~ 2024-12-31</td>
+                            <td class="period">2024-01-01 ~ 2024-12-31</td>
                             <td colspan="2"></td> <!-- 빈 셀로 공간 확보 -->
                         </tr>
                         <tr>
                             <th>유의사항</th>
                             <td class="modalcontent2" colspan="3">
-                                <textarea placeholder="변경내역작성하기" readonly>상품 중복 할인 쿠폰 - 상품 1개에 대해 사용 가능 - 판매자 즉시할인/상품할인 쿠폰과 중복 사용 가능</textarea>
+                                <textarea class="couponetc" placeholder="변경내역작성하기" readonly>테스트</textarea>
                             </td>
                         </tr>
                     </table>

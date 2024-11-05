@@ -5,6 +5,7 @@ package com.team1.lotteon.dto;
      내용 : CouponDTO 생성
      수정사항
         - 2024/10/29 이도영 - 엔티티 전체 변경
+        - 2024/11/05 이도영 - coupondiscount (double) 변경
 */
 
 import lombok.*;
@@ -19,7 +20,7 @@ public class CouponDTO {
     private Long couponid; //쿠폰번호
     private String coupontype; //쿠폰종류
     private String couponname; //쿠폰명
-    private int coupondiscount; // 혜택 할인
+    private double coupondiscount; //할인 혜택
 
     private String couponstart; //시작시간
 

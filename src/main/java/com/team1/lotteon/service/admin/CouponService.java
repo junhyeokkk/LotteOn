@@ -5,6 +5,7 @@
      수정이력
       - 2024/10/29 이도영 - 관리자 쿠폰 등록,출력
       - 2024/10/30 이도영 - 쿠폰 정보 개별 출력
+      - 2024/11/05 이도영 - 쿠폰 삭제, 판매자와 관리자 일경우에 따라 출력 방식 변경
 */
 
 package com.team1.lotteon.service.admin;
@@ -44,58 +45,61 @@ public class CouponService {
         return couponRepository.save(coupon);
     }
     //발급된 쿠폰 출력 OR 검색 한 쿠폰 출력
-    public NewPageResponseDTO<CouponDTO> selectCouponAll(NewPageRequestDTO newPageRequestDTO) {
+    public NewPageResponseDTO<CouponDTO> selectCouponAll(NewPageRequestDTO newPageRequestDTO,String role, String uid) {
         // Pageable 설정 시
         Pageable pageable = newPageRequestDTO.getPageable("couponid", false);
-
         Page<Coupon> couponPage;
-
         //검색 유형
         String type = newPageRequestDTO.getType();
         //검색 키워드
         String keyword = newPageRequestDTO.getKeyword();
-
+        log.info("uiduiduid"+uid);
+        log.info("rolerolerole"+role);
         // 조건에 따른 필터링 적용
         if(type != null && keyword != null && !keyword.isEmpty()) {
             switch (type) {
                 //쿠폰 번호로 검색
                 case "cnumber":
                     try {
-                        Long couponId = Long.parseLong(keyword); // 숫자인 경우에만 parse
-                        couponPage = couponRepository.findByCouponid(couponId, pageable);
+                        Long couponId = Long.parseLong(keyword);
+                        couponPage = (role.equals("Seller") && uid != null) ?
+                                couponRepository.findByCouponidAndMemberUid(couponId, uid, pageable) :
+                                couponRepository.findByCouponid(couponId, pageable);
                     } catch (NumberFormatException e) {
-                        // 숫자가 아닌 경우 전체 검색으로 처리하거나, 사용자에게 에러 메시지 반환 가능
-                        couponPage = Page.empty(pageable); // 빈 페이지 반환
+                        couponPage = Page.empty(pageable);
                     }
                     break;
 
                 //쿠폰명으로 검색
                 case "cname":
-                    couponPage = couponRepository.findByCouponnameContaining(keyword,pageable);
+                    couponPage = (role.equals("Seller") && uid != null) ?
+                            couponRepository.findByCouponnameContainingAndMemberUid(keyword, uid, pageable) :
+                            couponRepository.findByCouponnameContaining(keyword, pageable);
                     break;
                 //발급자 이름 으로 검색
                 case "cprovider":
                     if ("Admin".equals(keyword) || "관리자".equals(keyword)) {
                         couponPage = couponRepository.findByMemberRole("Admin", pageable);
-                    }  else {
-                        // `shopName`으로 SellerMember 목록을 조회하고 UID를 추출하여 Long 리스트 생성
+                    } else {
                         List<String> sellerMemberIds = sellerMemberRepository.findByShopShopNameContaining(keyword)
                                 .stream()
-                                .map(SellerMember::getUid) // Long 타입 UID로 변환
+                                .map(SellerMember::getUid)
                                 .collect(Collectors.toList());
 
-                        // 필터링된 UID로 CouponRepository에서 쿠폰 조회
                         couponPage = couponRepository.findByMemberUidIn(sellerMemberIds, pageable);
                     }
                     break;
                 default:
-                    //조건이 없을 경우 전체 검색
-                    couponPage = couponRepository.findAll(pageable);
+                    couponPage = (role.equals("Seller") && uid != null) ?
+                            couponRepository.findByMemberUid(uid, pageable) :
+                            couponRepository.findAll(pageable);
                     break;
             }
-        }else{
-            //조건이 없을 경우 전체 검색
-            couponPage = couponRepository.findAll(pageable);
+        }else {
+            // 조건이 없을 경우 전체 검색 (Seller인 경우 uid로 필터링)
+            couponPage = (role.equals("Seller") && uid != null) ?
+                    couponRepository.findByMemberUid(uid, pageable) :
+                    couponRepository.findAll(pageable);
         }
         // Coupon 엔티티를 CouponDTO로 변환하고 출력준비
         List<CouponDTO> couponDTOList = couponPage.getContent().stream().map(coupon -> {
@@ -135,9 +139,9 @@ public class CouponService {
         return couponRepository.findById(id)
                 .map(coupon -> {
                     CouponDTO couponDTO = modelMapper.map(coupon, CouponDTO.class);
-
                     // 발급자 역할에 따라 issuerInfo 설정
                     Member member = coupon.getMember();
+                    couponDTO.setMemberId(member.getUid());
                     if ("Admin".equals(member.getRole())) {
                         couponDTO.setIssuerInfo("관리자");
                     } else if ("Seller".equals(member.getRole())) {
@@ -161,5 +165,9 @@ public class CouponService {
         log.info("adfsdfsafda" + DDD.toString());
 
         return DDD;
+    }
+    //쿠폰 삭제하기 기능
+    public void deleteCouponById(Long id) {
+        couponRepository.deleteById(id);
     }
 }

@@ -75,14 +75,7 @@ input[type="checkbox"] {
     background-color: #D8D8D8;
     color: #FFFFFF;
 }
-/* admin > order > list 배송하기 버튼 */
-.deliveryBtn {
-    color: #0070C0;
-    background-color:  #FFFFFF;
-    border: 1px solid #0070C0;
-    padding: 5px;
 
-}
 
 
 /* 페이징 */
@@ -112,4 +105,42 @@ input[type="checkbox"] {
 }
 .pagingList>a:hover {
     background-color: #35373d;
+}
+/* 상점목록 */
+.operate {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: -20px !important;
+
+}
+/* CSS 파일 */
+.status-unused {
+    color: red; /* 미사용 */
+}
+.status-used {
+    color: blue; /* 사용 */
+}
+.status-expired {
+    color: green; /* 만료 */
+}
+.status-stopped {
+    color: black; /* 정지 */
+}
+.underline-link {
+    text-decoration: underline;
+}
+
+.notusedBtn {
+    color: #0070C0;
+    background-color:  #FFFFFF;
+    border: 1px solid #0070C0;
+    padding: 5px;
+}
+.usedBtn {
+     pointer-events: none;
+     background-color: grey;
+     color: white;
+     border: 1px solid grey;
+    padding: 5px;
 }

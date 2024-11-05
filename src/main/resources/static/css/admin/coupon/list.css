@@ -81,7 +81,7 @@ input[type="checkbox"] {
     background-color:  #FFFFFF;
     border: 1px solid #0070C0;
     padding: 5px;
-
+    cursor: pointer;
 }
 /* 등록버튼 */
 .registration_btn {
@@ -152,3 +152,7 @@ input[type="checkbox"] {
 .running {color: green;}
 .stopped {color: grey;}
 .preparing {color: blue;}
+
+.underline-link {
+    text-decoration: underline;
+}
