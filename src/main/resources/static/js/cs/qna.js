@@ -5,50 +5,65 @@
 */
 
 // 특정 카테고리에 따라 QNA 목록을 불러오는 함수
-function loadQnasByType(type, page = 0) {
-    // h1 및 h2 요소 업데이트
-    document.querySelector('.qna_article h1').textContent = type;
-    document.querySelector('.qna_article h2').textContent = `${type} 관련 문의내용 입니다.`;
+function loadQnasByType(type1, page = 0) {
+    document.querySelector('.qna_article h1').textContent = type1;
+    document.querySelector('.qna_article h2').textContent = `${type1} 관련 문의내용입니다.`;
 
-    // QNA 데이터 가져오기
-    fetch(`/api/cs/qna/list/${type}?page=${page}`)
-        .then(response => response.json())
-        .then(data => {
-            let qnaContainer = document.querySelector('.qna_article table tbody');
-            let paginationContainer = document.querySelector('.pagingList');
+    // // QNA 데이터를 서버에서 가져옴
+    // fetch(`/api/cs/qna/list?type1=${type1}&page=${page}`)
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         const qnaContainer = document.querySelector('.qna_article table tbody');
+    //         const paginationContainer = document.querySelector('.pagination');
+    //
+    //         // QNA 목록 초기화
+    //         qnaContainer.innerHTML = '';
+    //
+    //         // QNA 항목 추가
+    //         if (data.content && Array.isArray(data.content)) {
+    //             data.content.forEach(inquiry => {
+    //                 qnaContainer.insertAdjacentHTML('beforeend', `
+    //                     <tr>
+    //                         <td><a href="/cs/layout/qna/view/${inquiry.id}">${inquiry.title}</a></td>
+    //                         <td class="${inquiry.answer ? 'done' : 'ing'}">${inquiry.answer ? '답변 완료' : '검토 중'}</td>
+    //                         <td>${inquiry.memberId || '비회원'}</td>
+    //                         <td style="text-align: right;">${new Date(inquiry.createdAt).toLocaleDateString('ko-KR')}</td>
+    //                     </tr>
+    //                 `);
+    //             });
+    //         } else {
+    //             qnaContainer.innerHTML = '<tr><td colspan="4">문의 내용이 없습니다.</td></tr>';
+    //         }
 
-            qnaContainer.innerHTML = ''; // 기존 QNA 항목 초기화
+            // 페이지네이션 버튼 초기화
+            paginationContainer.innerHTML = '';
 
-            // QNA 항목 추가
-            data.content.forEach(qna => {
-                qnaContainer.innerHTML += `
-                    <tr>
-                        <td><a href="/cs/layout/qna/view/${qna.id}">Q. ${qna.title}</a></td>
-                        <td class="${qna.answer ? 'done' : 'ing'}">${qna.answer ? '답변 완료' : '검토 중'}</td>
-                        <td>${qna.memberId ? qna.memberId : '비회원'}</td>
-                        <td style="text-align: right;">${new Date(qna.createdAt).toLocaleDateString()}</td>
-                    </tr>
-                `;
-            });
+            const pageable = data.pageable || {};
+            const currentPage = pageable.pageNumber || 0;
+            const totalPages = data.totalPages || 1;
 
-            // 페이지네이션 버튼 추가
-            paginationContainer.innerHTML = ''; // 기존 페이지네이션 버튼 초기화
-            if (!data.first) {
-                paginationContainer.innerHTML += `<a href="javascript:void(0);" onclick="loadQnasByType('${type}', ${data.pageable.pageNumber - 1})" class="prev">‹</a>`;
+            // 이전 페이지 버튼
+            if (currentPage > 0) {
+                paginationContainer.insertAdjacentHTML('beforeend', `<a onclick="loadQnasByType('${type1}', ${currentPage - 1})" class="prev">‹ 이전</a>`);
             }
 
-            for (let pageNum = 0; pageNum < data.totalPages; pageNum++) {
-                paginationContainer.innerHTML += `<a href="javascript:void(0);" onclick="loadQnasByType('${type}', ${pageNum})" class="${pageNum === data.number ? 'active' : ''}">${pageNum + 1}</a>`;
+            // 페이지 번호 버튼
+            for (let pageNum = 0; pageNum < totalPages; pageNum++) {
+                const activeClass = pageNum === currentPage ? 'active' : '';
+                paginationContainer.insertAdjacentHTML('beforeend', `<a onclick="loadQnasByType('${type1}', ${pageNum})" class="${activeClass}">${pageNum + 1}</a>`);
             }
 
-            if (!data.last) {
-                paginationContainer.innerHTML += `<a href="javascript:void(0);" onclick="loadQnasByType('${type}', ${data.pageable.pageNumber + 1})" class="next">›</a>`;
+            // 다음 페이지 버튼
+            if (currentPage < totalPages - 1) {
+                paginationContainer.insertAdjacentHTML('beforeend', `<a onclick="loadQnasByType('${type1}', ${currentPage + 1})" class="next">다음 ›</a>`);
             }
         })
         .catch(error => console.error('Error fetching QNA data:', error));
 }
 
-// 페이지 로드 시 기본 QNA 목록 로드 (첫 카테고리로 예시)
+// 페이지 로드 시 기본 QNA 목록 로드
 document.addEventListener("DOMContentLoaded", function() {
-    loadQnasByType('회원'); // '회원' 카테고리 FAQ 로드
+    const urlParams = new URLSearchParams(window.location.search);
+    const type1 = urlParams.get('type1') || '회원';
+    loadQnasByType(type1); // 기본 카테고리 설정
 });

@@ -219,6 +219,40 @@ public class ArticleServiceImpl implements ArticleService {
                         .map(this::convertToInquiryDTO)
         );
     }
+    @Override
+    public PageResponseDTO<InquiryDTO> findQnaByType(String type1, String type2, Pageable pageable) {
+        log.info("Filtering QNAs with type1: {} and type2: {}", type1, type2);
+        Page<Inquiry> QnasPage = inquiryRepository.findByType1AndType2(type1, type2, pageable);
+        return PageResponseDTO.fromPage(QnasPage.map(this::convertToInquiryDTO));
+    }
+    @Override
+    public Map<String, List<InquiryDTO>> getQnasGroupedByType2(String type1) {
+        // type1에 따라 type2별 그룹화
+        List<Inquiry> qnas = inquiryRepository.findByType1OrderByType2AndCreatedAt(type1);
+
+        Map<String, List<InquiryDTO>> groupedQnas = qnas.stream()
+                .collect(Collectors.groupingBy(
+                        Inquiry::getType2,
+                        Collectors.collectingAndThen(
+                                Collectors.toList(),
+                                list -> list.stream()
+                                        .limit(10)
+                                        .map(this::convertToInquiryDTO)
+                                        .collect(Collectors.toList())
+                        )
+                ));
+
+            return groupedQnas;
+        }
+    // 문의사항을 type1으로 페이지네이션하여 조회
+    @Override
+    public PageResponseDTO<InquiryDTO> getQnasByType1(String type1, Pageable pageable) {
+        Page<Inquiry> qnasPage = inquiryRepository.findByType1(type1, pageable);
+
+        return PageResponseDTO.fromPage(qnasPage.map(this::convertToInquiryDTO));
+    }
+
+
 
 
     //  Notice 공지사항
@@ -244,7 +278,6 @@ public class ArticleServiceImpl implements ArticleService {
                 })
         );
     }
-
     @Override
     public NoticeDTO updateNotice(Long id, NoticeDTO noticeDTO) {
         Notice notice = noticeRepository.findById(id)
@@ -280,7 +313,12 @@ public class ArticleServiceImpl implements ArticleService {
     // 공지사항을 type1으로 페이지네이션하여 조회
     @Override
     public PageResponseDTO<NoticeDTO> getNoticesByType1(String type1, Pageable pageable) {
-        Page<Notice> noticesPage = noticeRepository.findByType1OrderByCreatedAtDesc(type1, pageable);
+        Page<Notice> noticesPage;
+        if (type1.equals("전체")) {
+            noticesPage = noticeRepository.findAll(pageable);
+        } else {
+            noticesPage = noticeRepository.findByType1OrderByCreatedAtDesc(type1, pageable);
+        }
         return PageResponseDTO.fromPage(noticesPage.map(this::convertToNoticeDTO));
     }
 
@@ -325,7 +363,7 @@ public class ArticleServiceImpl implements ArticleService {
                 .createdAt(inquiry.getCreatedAt())
                 .updatedAt(inquiry.getUpdatedAt())
                 .memberId(inquiry.getMember() !=null ? inquiry.getMember().getUid() : null)
-                .answer(inquiry.getAnswer())
+                .answer(inquiry.getAnswer() != null ? inquiry.getAnswer() : null)
                 .build();
     }
 

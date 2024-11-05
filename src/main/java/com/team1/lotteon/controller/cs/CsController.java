@@ -59,10 +59,13 @@ public class CsController {
         articleService.deleteInquiry(id);
         return ResponseEntity.noContent().build();
     }
-//    QNA 카테고리
-    @GetMapping("/api/cs/qna/list/{type2}")
-    public ResponseEntity<PageResponseDTO<InquiryDTO>> getInquiryByType(@PathVariable String type2, @PageableDefault Pageable pageable) {
-        PageResponseDTO<InquiryDTO> inquirysByType = articleService.findQnaByType1("inquiry", pageable); // Pageable 추가
+    //    QNA 카테고리
+    @GetMapping("/api/cs/qna/list/{type1}/{type2}")
+    public ResponseEntity<PageResponseDTO<InquiryDTO>> getInquiryByType(
+            @PathVariable String type1,
+            @PathVariable String type2,
+            @PageableDefault Pageable pageable) {
+        PageResponseDTO<InquiryDTO> inquirysByType = articleService.findQnaByType(type1, type2, pageable);
         return ResponseEntity.ok(inquirysByType);
     }
 

@@ -1,79 +1,125 @@
-<div class="qna" th:fragment="write">
-
+ <!DOCTYPE html>
   <!--
-    날짜 : 2024/10/18
-    이름 : 최준혁
-    내용 : 고객센터 문의하기 글쓰기
+   날짜 : 2024/10/18
+   이름 : 최준혁
+   내용 : 고객센터 문의하기 글쓰기
 
-    수정이력
-    - 2024/10/25 김소희 - 동적처리
+   수정이력
+   - 2024/10/25 김소희 - 동적처리
 -->
+  <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+  <head>
+    <meta charset="UTF-8">
+    <title>문의하기</title>
+    <link rel="stylesheet" th:href="@{/css/cs/cs.css}" />
+  </head>
+  <body>
+  <div class="qna" th:fragment="write">
+    <nav>
+      <div>
+        <p>홈<span>></span>문의하기</p>
+      </div>
+    </nav>
+    <section class="write">
+      <aside class="cs_sidebar">
+        <h2>문의하기</h2>
+        <ul>
+          <li><a th:href="@{/cs/layout/qna/list?type1=회원}">회원</a></li>
+          <li><a th:href="@{/cs/layout/qna/list?type1=쿠폰/이벤트}">쿠폰 / 이벤트</a></li>
+          <li><a th:href="@{/cs/layout/qna/list?type1=주문/결제}">주문 / 결제</a></li>
+          <li><a th:href="@{/cs/layout/qna/list?type1=배송}">배송</a></li>
+          <li><a th:href="@{/cs/layout/qna/list?type1=취소/반품/교환}">취소 / 반품 / 교환</a></li>
+          <li><a th:href="@{/cs/layout/qna/list?type1=여행/숙박/항공}">여행 / 숙박 / 항공</a></li>
+          <li><a th:href="@{/cs/layout/qna/list?type1=안전결제}">안전결제</a></li>
+        </ul>
+      </aside>
 
-  <nav>
-    <div>
-      <p>홈<span>></span>문의하기</p>
-    </div>
-  </nav>
-  <section class="write">
-    <aside class="cs_sidebar">
-      <h2>문의하기</h2>
-      <ul>
-        <li><a href="#">회원</a></li>
-        <li><a href="#">쿠폰 / 이벤트</a></li>
-        <li><a href="#">주문 / 결제</a></li>
-        <li><a href="#">배송</a></li>
-        <li><a href="#">취소 / 반품 / 교환</a></li>
-        <li><a href="#">여행 / 숙박 / 항공</a></li>
-        <li><a href="#">안전거래</a></li>
-      </ul>
-    </aside>
-    <article class="qna_article_write">
-      <nav>
-        <h1>회원</h1>
-        <h2>회원 관련 문의 내용 입니다.</h2>
-      </nav>
-      <form th:method="post">
-        <table>
-          <tr>
-            <td>문의유형</td>
-            <td>
-              <select name="type1" onchange="firstOption()">
-                <productOption>1차선택</productOption>
-                <productOption value="user">회원</productOption>
-                <productOption value="coupon">쿠폰/이벤트</productOption>
-                <productOption value="order">주문/결제</productOption>
-                <productOption value="delivery">배송</productOption>
-                <productOption value="cancel">취소/반품/환불</productOption>
-                <productOption value="travel">여행/숙박/항공</productOption>
-                <productOption value="safe">안전결제</productOption>
-              </select>
-              <select name="type2">
-                <productOption>2차선택</productOption>
-                <productOption value="regi">고객서비스</productOption>
-                <productOption value="leave">이벤트당첨</productOption>
-                <productOption value="leave">안전거래</productOption>
-                <productOption value="login">위해상품</productOption>
-              </select>
-            </td>
-          </tr>
-          <tr>
-            <td>제목</td>
-            <td>
-              <input type="text" name="title" placeholder="제목을 입력하세요." required/>
-            </td>
-          </tr>
-          <tr>
-            <td>내용</td>
-            <td>
-              <textarea name="content" placeholder="내용을 입력하세요." required></textarea>
-            </td>
-          </tr>
-        </table>
-        <div style="text-align: center; margin-top: 50px">
-          <a th:href="@{/cs/layout/qna/list}"><input type="button" value="취소하기" style="background-color: #9e9e9e; color: white; border: none; padding: 10px 20px; cursor: pointer;"/></a>
-          <input type="submit" value="등록하기" style="background-color: #4291e9; color: white; border: none; padding: 10px 20px; cursor: pointer;"/>
-        </div>
-      </form>
-    </article>
-  </section>
-</div>
+      <article class="qna_article_write">
+        <nav>
+          <h1 th:text="${type1}">카테고리 이름</h1>
+          <h2 th:text="${type1} + ' 관련 문의내용입니다.'">카테고리 설명</h2>
+        </nav>
+
+        <form th:action="@{/cs/layout/qna/write}" th:method="post">
+          <input type="hidden" name="memberId" th:value="${uid}" />
+          <table>
+            <tr>
+              <td>문의유형</td>
+              <td>
+                <!-- type1 select -->
+                <select name="type1" id="type1-select" onchange="updateType2Options()" th:value="${type1}">
+                  <option th:selected="${type1 == '회원'}" value="회원">회원</option>
+                  <option th:selected="${type1 == '쿠폰/이벤트'}" value="쿠폰/이벤트">쿠폰/이벤트</option>
+                  <option th:selected="${type1 == '주문/결제'}" value="주문/결제">주문/결제</option>
+                  <option th:selected="${type1 == '배송'}" value="배송">배송</option>
+                  <option th:selected="${type1 == '취소/반품/환불'}" value="취소/반품/환불">취소/반품/환불</option>
+                  <option th:selected="${type1 == '여행/숙박/항공'}" value="여행/숙박/항공">여행/숙박/항공</option>
+                  <option th:selected="${type1 == '안전결제'}" value="안전결제">안전결제</option>
+                </select>
+
+                <!-- type2 select -->
+                <select name="type2" id="type2-select">
+                  <option>2차선택</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td>제목</td>
+              <td>
+                <input type="text" name="title" placeholder="제목을 입력하세요." required/>
+              </td>
+            </tr>
+            <tr>
+              <td>내용</td>
+              <td>
+                <textarea name="content" placeholder="내용을 입력하세요." required></textarea>
+              </td>
+            </tr>
+          </table>
+          <div style="text-align: center; margin-top: 50px">
+            <a th:href="@{/cs/layout/qna/list}">
+              <input type="button" value="취소하기" style="background-color: #9e9e9e; color: white; border: none; padding: 10px 20px; cursor: pointer;"/>
+            </a>
+            <input type="submit" value="등록하기" style="background-color: #4291e9; color: white; border: none; padding: 10px 20px; cursor: pointer;"/>
+          </div>
+        </form>
+      </article>
+    </section>
+
+    <!-- JavaScript to update type2 options based on selected type1 -->
+    <script>
+      const type2Options = {
+        "회원": ["가입", "탈퇴"],
+        "쿠폰/이벤트": ["이벤트 참여", "쿠폰 사용"],
+        "주문/결제": ["주문 확인", "결제 문제"],
+        "배송": ["배송 추적", "배송 지연"],
+        "취소/반품/환불": ["취소 요청", "반품 요청", "환불 요청"],
+        "여행/숙박/항공": ["호텔 예약", "항공권 예약"],
+        "안전결제": ["결제 안전 확인", "보안 문제 신고"]
+      };
+
+      function updateType2Options() {
+        const type1Select = document.getElementById("type1-select");
+        const type2Select = document.getElementById("type2-select");
+        const selectedType1 = type1Select.value;
+
+        // Clear previous options in type2
+        type2Select.innerHTML = "<option>2차선택</option>";
+
+        // Add new options based on selected type1
+        if (type2Options[selectedType1]) {
+          type2Options[selectedType1].forEach(optionText => {
+            const option = document.createElement("option");
+            option.value = optionText;
+            option.textContent = optionText;
+            type2Select.appendChild(option);
+          });
+        }
+      }
+
+      // Initialize type2 options on page load
+      document.addEventListener("DOMContentLoaded", updateType2Options);
+    </script>
+  </div>
+  </body>
+  </html>

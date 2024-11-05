@@ -18,13 +18,13 @@
     <aside class="cs_sidebar">
       <h2>문의하기</h2>
       <ul>
-        <li><a href="#">회원</a></li>
-        <li><a href="#">쿠폰 / 이벤트</a></li>
-        <li><a href="#">주문 / 결제</a></li>
-        <li><a href="#">배송</a></li>
-        <li><a href="#">취소 / 반품 / 교환</a></li>
-        <li><a href="#">여행 / 숙박 / 항공</a></li>
-        <li><a href="#">안전거래</a></li>
+        <li><a th:href="@{/cs/layout/qna/list?type1=회원}">회원</a></li>
+        <li><a th:href="@{/cs/layout/qna/list?type1=쿠폰/이벤트}">쿠폰 / 이벤트</a></li>
+        <li><a th:href="@{/cs/layout/qna/list?type1=주문/결제}">주문 / 결제</a></li>
+        <li><a th:href="@{/cs/layout/qna/list?type1=배송}">배송</a></li>
+        <li><a th:href="@{/cs/layout/qna/list?type1=취소/반품/교환}">취소 / 반품 / 교환</a></li>
+        <li><a th:href="@{/cs/layout/qna/list?type1=여행/숙박/항공}">여행 / 숙박 / 항공</a></li>
+        <li><a th:href="@{/cs/layout/qna/list?type1=안전거래}">안전거래</a></li>
       </ul>
     </aside>
     <article class="qna_article_view">
@@ -33,10 +33,19 @@
         <h2 th:text="${inquiry.title}">회원 관련 문의 내용입니다.</h2> <!-- 문의 제목 -->
       </nav>
       <div class="content">
+<!--        문의 -->
         <div class="qna-item">
-          <button class="qna-question" onclick="toggleFaq(this)" th:text="|${inquiry.title}, ${inquiry.content}|"></button>
-          <div class="qna-answer" th:text="${inquiry.answer} ?: '답변이 없습니다.'"></div>
-<!-- 안되었었던 이유는 : 스크립트 처리가 데이터 가져오고 바로 하기에 body내부에 있었어야함 그래서 테스트로 사용 시 적용 되는 화면 확인 -->
+          <button class="qna-question" onclick="toggleFaq(this)">
+            <span th:text="|[${inquiry.type2}] ${inquiry.title}|"></span><br>
+            <span th:text="|${inquiry.memberId.substring(0, 3)}***|"></span>
+            <span th:text="${#temporals.format(inquiry.createdAt, 'yy-MM-dd')}"></span><br>
+            <span th:text="${inquiry.content}"></span>
+          </button>
+<!--          답변 -->
+          <div class="qna-answer">
+            <span th:text="|☛ [답변] ${inquiry.title}|"></span><br>
+            <p th:text="${inquiry.answer ?: '답변이 없습니다.'}"></p>
+          </div>
           <script>
             function toggleFaq(button) {
               const faqAnswer = button.nextElementSibling;

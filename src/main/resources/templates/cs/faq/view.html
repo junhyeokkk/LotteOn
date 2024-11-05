@@ -30,8 +30,8 @@
     </aside>
     <article class="faq_article_view">
       <nav>
-        <h1 th:text="${type1}">카테고리 이름</h1>
-        <h2 th:text="${type1} + ' 관련 자주 묻는 질문입니다.'">카테고리 설명</h2>
+        <h1 th:text="${faq.type1}">카테고리 이름</h1>
+        <h2 th:text="${faq.type1} + ' 관련 자주 묻는 질문입니다.'">카테고리 설명</h2>
       </nav>
       <nav>
         <h2 class="faq_view_title"><span>Q.</span> <span th:text="${faq.title}">제목</span></h2> <!-- 질문 제목 -->
