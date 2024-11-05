@@ -63,5 +63,6 @@ document.addEventListener("DOMContentLoaded", function() {
     urlSearch = new URLSearchParams(location.search);
     userName = urlSearch.get('type1')
     console.log(userName)
+    userName = userName??"전체"
     loadNoticesByType(userName); // 기본 카테고리 설정
 });

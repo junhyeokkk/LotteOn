@@ -8,70 +8,71 @@
     수정이력
     - 2024/10/25 김소희 - 동적처리
   -->
-  
-  <nav>
-    <div>
-      <p>홈<span>></span>문의하기</p>
-    </div>
-  </nav>
-  <section class="list">
-    <aside class="cs_sidebar">
-      <h2>문의하기</h2>
-      <ul>
-        <li><a href="javascript:void(0);" onclick="loadQnasByType('회원')">회원</a></li>
-        <li><a href="javascript:void(0);" onclick="loadQnasByType('쿠폰 / 이벤트')">쿠폰 / 이벤트</a></li>
-        <li><a href="javascript:void(0);" onclick="loadQnasByType('주문 / 결제')">주문 / 결제</a></li>
-        <li><a href="javascript:void(0);" onclick="loadQnasByType('배송')">배송</a></li>
-        <li><a href="javascript:void(0);" onclick="loadQnasByType('취소 / 반품 / 교환')">취소 / 반품 / 교환</a></li>
-        <li><a href="javascript:void(0);" onclick="loadQnasByType('여행 / 숙박 / 항공')">여행 / 숙박 / 항공</a></li>
-        <li><a href="javascript:void(0);" onclick="loadQnasByType('안전거래')">안전거래</a></li>
-      </ul>
-    </aside>
-    <article class="qna_article">
-      <nav>
-        <h1 >회원</h1>
-        <h2>회원 관련 문의내용 입니다.</h2>
-      </nav>
-      <table>
-        <tbody>
-        <!-- 문의사항 목록 동적 처리 -->
-        <tr class="admin_list" th:each="inquiry, iterStat : ${inquiry}">
-<!--        <tr th:each="inquiry : ${inquiries}">-->
-          <td>
-            <a th:href="@{/cs/layout/qna/view/{id}(id=${inquiry.id})}" th:text="${inquiry.title}">[회원] 문의내용</a>
-          </td>
-          <!-- 답변 여부 처리 -->
-          <td th:text="${inquiry.answer != null ? '답변 완료' : '검토 중'}"
-              th:classappend="${inquiry.answer != null ? 'done' : 'ing'}"></td>
-          <td th:text="${inquiry.memberId != null ? inquiry.memberId : '비회원'}">작성자</td>
-          <td style="text-align: right;" th:text="${#temporals.format(inquiry.createdAt, 'yy.MM.dd')}">22.10.31</td>
-        </tr>
-        </tbody>
-      </table>
 
-      <div class="pagingBox">
-        <div class="pagingList">
-          <!-- 이전 버튼 -->
-          <a th:unless="${currentPage == 0}"
-             th:href="@{/cs/layout/qna/list(page=${currentPage - 1}, size=${pageSize})}"
-             class="prev">‹</a>
-
-          <!-- 페이지 번호 링크 동적 처리 -->
-          <a th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}"
-             th:href="@{/cs/layout/qna/list(page=${pageNum}, size=${pageSize})}"
-             th:text="${pageNum + 1}"
-             th:classappend="${pageNum == currentPage} ? 'active'">1</a>
-
-          <!-- 다음 버튼 -->
-          <a th:if="${!isLast}"
-             th:href="@{/cs/layout/qna/list(page=${currentPage + 1}, size=${pageSize})}"
-             class="next">›</a>
+    <nav>
+        <div>
+            <p>홈<span>></span>문의하기</p>
         </div>
-        <!-- 문의하기 버튼 -->
-        <a th:href="@{/cs/layout/qna/write}" class="ask">문의하기</a>
-      </div>
-      <script src="/js/cs/qna.js"></script>
+    </nav>
+    <section class="list">
+        <aside class="cs_sidebar">
+            <h2>문의하기</h2>
+            <ul>
+                <li><a th:href="@{/cs/layout/qna/list?type1=회원}">회원</a></li>
+                <li><a th:href="@{/cs/layout/qna/list?type1=쿠폰/이벤트}">쿠폰 / 이벤트</a></li>
+                <li><a th:href="@{/cs/layout/qna/list?type1=주문/결제}">주문 / 결제</a></li>
+                <li><a th:href="@{/cs/layout/qna/list?type1=배송}">배송</a></li>
+                <li><a th:href="@{/cs/layout/qna/list?type1=취소/반품/교환}">취소 / 반품 / 교환</a></li>
+                <li><a th:href="@{/cs/layout/qna/list?type1=여행/숙박/항공}">여행 / 숙박 / 항공</a></li>
+                <li><a th:href="@{/cs/layout/qna/list?type1=안전거래}">안전거래</a></li>
+            </ul>
+        </aside>
+        <article class="qna_article">
+            <nav>
+                <h1 th:text="${type1}">카테고리 이름</h1>
+                <h2 th:text="${type1} + ' 관련 문의내용입니다.'">카테고리 설명</h2>
+            </nav>
+            <table>
+                <tbody>
+                <!-- 문의사항 목록 동적 처리 -->
+                <tr th:each="inquiry : ${inquiries}">
+                    <td>
+                        <a th:href="@{/cs/layout/qna/view/{id}(id=${inquiry.id})}"
+                           th:text="|[${inquiry.type2}] ${inquiry.title}|">[카테고리] 문의내용</a>
+                    </td>
+                    <!-- 답변 여부 처리 -->
+                    <td th:text="${inquiry.answer != null ? '답변 완료' : '검토 중'}"
+                        th:classappend="${inquiry.answer != null ? 'done' : 'ing'}"></td>
+                    <td th:text="|${inquiry.memberId.substring(0, 3)}***|">작성자</td> <!-- 아이디 뒤 세자리 마스킹 -->
+                    <td style="text-align: right;" th:text="${#temporals.format(inquiry.createdAt, 'yy.MM.dd')}">날짜</td>
+                </tr>
+                </tbody>
+            </table>
 
-    </article>
-  </section>
+            <div class="pagingBox">
+                <div class="pagination" th:if="${totalPages > 0}">
+                    <!-- 이전 페이지 버튼 -->
+                    <a th:if="${currentPage != 0}"
+                       th:href="@{/cs/layout/qna/list(type1=${type1}, page=${currentPage - 1}, size=${pageSize})}"
+                       class="prev">‹</a>
+
+                    <!-- 페이지 번호 버튼 -->
+                    <a th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}"
+                       th:href="@{/cs/layout/qna/list(type1=${type1}, page=${pageNum}, size=${pageSize})}"
+                       th:text="${pageNum + 1}"
+                       th:classappend="${pageNum == currentPage} ? 'active'">1</a>
+
+                    <!-- 다음 페이지 버튼 -->
+                    <a th:if="${!isLast}"
+                       th:href="@{/cs/layout/qna/list(type1=${type1}, page=${currentPage + 1}, size=${pageSize})}"
+                       class="next">›</a>
+                </div>
+
+                <!-- 문의하기 버튼 - 항상 표시 -->
+                <a th:href="@{/cs/layout/qna/write(type1=${type1})}" class="ask">문의하기</a>
+            </div>
+
+            <script src="/js/cs/qna.js"></script>
+        </article>
+    </section>
 </div>

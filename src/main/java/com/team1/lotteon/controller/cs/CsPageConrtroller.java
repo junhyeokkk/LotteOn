@@ -14,10 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -97,15 +94,40 @@ private final ArticleService articleService;
         return "cs/layout/cs_layout";
     }
 
+    // 문의하기 list
+    @GetMapping("/cs/layout/qna/list")
+    public String listQnas(
+            @RequestParam(required = false, defaultValue = "회원") String type1,
+            @RequestParam(defaultValue = "0") int page,
+            Model model) {
+        log.info("Listing inquiries for type1: {}", type1);
+        Pageable pageable = PageRequest.of(page, 10);
+        PageResponseDTO<InquiryDTO> inquiriesPage = articleService.getQnasByType1(type1, pageable);
+
+        model.addAttribute("type1", type1);
+        model.addAttribute("group", "qna");
+        model.addAttribute("cate", "list");
+        model.addAttribute("inquiries", inquiriesPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", inquiriesPage.getTotalPages());
+        model.addAttribute("isLast", inquiriesPage.isLast());
+
+        return "cs/layout/cs_layout";
+    }
     // 문의하기 write
     @PostMapping("/cs/layout/qna/write")
-    public String writeQna(InquiryDTO inquiryDTO){
-        //30일 수정해야할 부분
-        inquiryDTO.setType1("inquiry");
-        inquiryDTO.setType2("회원");
+    public String writeQna(@ModelAttribute InquiryDTO inquiryDTO){
         articleService.createInquiry(inquiryDTO);
         return "redirect:/cs/layout/qna/list";
     }
+
+    @GetMapping("/cs/layout/qna/write")
+    public String showWriteQnaForm(@RequestParam(required = false, defaultValue = "회원") String type1, Model model) {
+        System.out.println("type1 = " + type1);
+        model.addAttribute("type1", type1);
+        return "cs/qna/write";
+    }
+
     // 문의하기 view
     @GetMapping("/cs/layout/qna/view/{id}")
     public String viewInquiry(@PathVariable Long id, Model model) {
@@ -136,16 +158,19 @@ private final ArticleService articleService;
 
         return "cs/layout/cs_layout";
     }
-
     // 공지사항 view
     @GetMapping("/cs/layout/notice/view/{id}")
-    public String viewNotice(@PathVariable Long id, Model model) {
+    public String viewNotice(
+            @PathVariable Long id, Model model) {
+
         model.addAttribute("group", "notice");
         model.addAttribute("cate", "view");
+
         NoticeDTO notice = articleService.getNoticeById(id);
         model.addAttribute("notice", notice);
         return "cs/layout/cs_layout";
     }
+
 
 
     // 자주보는질문 list
@@ -163,19 +188,13 @@ private final ArticleService articleService;
     // 자주묻는질문 view
     @GetMapping("/cs/layout/faq/view/{id}")
     public String viewFaq(@PathVariable Long id, Model model) {
+
         model.addAttribute("group", "faq");
         model.addAttribute("cate", "view");
+
         FaqDTO faq = articleService.getFaqById(id);
         model.addAttribute("faq", faq);
         return "cs/layout/cs_layout";
     }
-
-
-
-
-
-
-
-
 
 }

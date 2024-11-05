@@ -50,6 +50,9 @@ public interface ArticleService {
     void deleteInquiry(Long id);
     void deleteInquiry(List<Long> ids);
     PageResponseDTO<InquiryDTO> findQnaByType1(String type1, Pageable pageable);
+    PageResponseDTO<InquiryDTO> findQnaByType(String type1, String type2, Pageable pageable);
+    Map<String, List<InquiryDTO>> getQnasGroupedByType2(String type1);
+    PageResponseDTO<InquiryDTO> getQnasByType1(String type1, Pageable pageable);
 
     // Notice
     NoticeDTO createNotice(NoticeDTO noticeDTO);

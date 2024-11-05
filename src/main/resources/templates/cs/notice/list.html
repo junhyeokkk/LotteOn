@@ -41,16 +41,20 @@
 
       </table>
 
-      <div class="pagingBox">
+      <div class="pagingBox" th:if="${totalPages > 0}">
         <div class="pagination">
-          <!-- 페이지네이션 버튼 동적 처리 -->
+          <!-- 이전 페이지 버튼 -->
           <a th:if="${currentPage != 0}"
              th:href="@{/cs/layout/notice/list(type1=${type1}, page=${currentPage - 1}, size=${pageSize})}"
              class="prev">‹</a>
+
+          <!-- 페이지 번호 버튼 -->
           <a th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}"
              th:href="@{/cs/layout/notice/list(type1=${type1}, page=${pageNum}, size=${pageSize})}"
              th:text="${pageNum + 1}"
              th:classappend="${pageNum == currentPage} ? 'active'">1</a>
+
+          <!-- 다음 페이지 버튼 -->
           <a th:if="${!isLast}"
              th:href="@{/cs/layout/notice/list(type1=${type1}, page=${currentPage + 1}, size=${pageSize})}"
              class="next">›</a>

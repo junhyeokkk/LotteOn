@@ -18,17 +18,17 @@
     <aside class="cs_sidebar">
       <h2>공지사항</h2>
       <ul>
-        <li><a href="#">전체</a></li>
-        <li><a href="#">고객서비스</a></li>
-        <li><a href="#">안전거래</a></li>
-        <li><a href="#">위해상품</a></li>
-        <li><a href="#">이벤트당첨</a></li>
+        <li><a th:href="@{/cs/layout/notice/list(type1='전체')}">전체</a></li>
+        <li><a th:href="@{/cs/layout/notice/list(type1='고객서비스')}">고객서비스</a></li>
+        <li><a th:href="@{/cs/layout/notice/list(type1='안전거래')}">안전거래</a></li>
+        <li><a th:href="@{/cs/layout/notice/list(type1='위해상품')}">위해상품</a></li>
+        <li><a th:href="@{/cs/layout/notice/list(type1='이벤트당첨')}">이벤트당첨</a></li>
       </ul>
     </aside>
     <article class="no_article_view">
       <nav>
-        <h1>전체</h1> <!-- 공지사항 유형 반영 -->
-        <h2>공지사항 전체 내용입니다.</h2>
+        <h1 th:text="${notice.type1}">전체</h1>
+        <h2 th:text="${notice.type1} + ' 관련 공지사항입니다.'">공지사항 전체 내용입니다.</h2>
       </nav>
       <nav>
         <h2 class="title" th:text="${notice.title}">[안내] 해외결제사칭문자주의</h2> <!-- 공지사항 제목 반영 -->
@@ -38,7 +38,7 @@
       <div class="content">
         <p th:text="${notice.content}"></p><br> <!-- 공지사항 본문 내용 반영 -->
       </div>
-      <a th:href="@{/cs/layout/notice/list}" class="btnList">목록</a>
+      <a th:href="@{/cs/layout/notice/list(type1=${notice.type1})}" class="btnList">목록</a>
     </article>
   </section>
 </div>
