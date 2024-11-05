@@ -46,5 +46,7 @@ public class OrderItemDTO {
 
     private Long cartId; // 카트 아이디 (카트에 담겨진 상품인지)
 
+    private Product product;
+
     private String productOptionCombinationFormatting; // 조합 value 가공한 문자열
 }

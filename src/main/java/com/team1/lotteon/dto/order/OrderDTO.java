@@ -39,7 +39,7 @@ public class OrderDTO {
 
     private int usedPoint;  // 사용 포인트
 
-    private String status; // 주문상태
+    private OrderStatus status; // 주문상태
 
     private int deliveryFee; // 전체 배달료
     @JsonIgnore
@@ -51,7 +51,7 @@ public class OrderDTO {
 
     private List<OrderItem> orderItems = new ArrayList<>(); // OrderItem리스트
 
-    private String paymentMethod;  // 결제방법
+    private PaymentMethod paymentMethod;  // 결제방법
 
     private String etc;
     private int totalPrice; // 주문 전체 금액

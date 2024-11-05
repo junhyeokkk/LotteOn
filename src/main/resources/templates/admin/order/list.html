@@ -66,7 +66,7 @@
                     <td th:text="${order.getTotalPrice()}"></td>
                     <td th:text="${order.getPaymentMethod()}"></td>
                     <!-- 신용카드, 계좌이체, 휴대폰 등등 -->
-                    <td style="color: green;">결제완료</td>
+                    <td style="color: green;" th:text="${order.getStatus().getKoreanLabel()}"></td>
                     <!-- 결제완료, 결제대기, 주문취소 -->
                     <td th:text="${order.getOrderDate()}"></td>
                     <!-- 연월일시간초 -->

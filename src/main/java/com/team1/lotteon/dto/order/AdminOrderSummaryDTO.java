@@ -21,7 +21,7 @@ public class AdminOrderSummaryDTO {
     // 주문 및 결제 정보
     private Long orderId; // 주문 번호
     private String orderNumber; // 주문 번호(혹시 가공할 가능성 때문에 놔둠)
-    private PaymentMethod paymentMethod; // 결제방법
+    private String paymentMethod; // 결제방법
     private String ordererName; // 주문자 이름
     private String ordererPhone; // 주문자 연락처
     private String status; // 주문상태
@@ -46,7 +46,7 @@ public class AdminOrderSummaryDTO {
     public AdminOrderSummaryDTO(Order order) {
         this.orderId = order.getId();
         this.orderNumber = order.getOrderNumber(); // 주문 번호
-        this.paymentMethod = order.getPaymentMethod(); // 결제방법
+        this.paymentMethod = order.getPaymentMethod().getKoreanLabel(); // 결제방법
         this.ordererName = order.getMember().getName(); // 주문자 이름
         this.ordererPhone = order.getMember().getPh(); // 주문자 연락처
         this.totalOrderAmount = order.getTotalPrice(); // 주문 전체 금액

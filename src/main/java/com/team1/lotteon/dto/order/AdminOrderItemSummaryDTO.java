@@ -29,6 +29,7 @@ public class AdminOrderItemSummaryDTO {
     private int quantity;           // 수량
     private int deliveryPrice;  // 배달료
     private int orderPrice;         // 각 OrderItem의 최종 주문 금액
+    private String deliveryStatus;
 
     // 생성자
     public AdminOrderItemSummaryDTO(OrderItem orderItem) {
@@ -43,6 +44,7 @@ public class AdminOrderItemSummaryDTO {
         this.quantity = orderItem.getQuantity();                      // 수량
         this.deliveryPrice = orderItem.getDeliveryFee();
         this.orderPrice = orderItem.getOrderPrice();                  // 할인 적용된 최종 가격
+        this.deliveryStatus = String.valueOf(orderItem.getDeliveryStatus());
     }
 
     // 옵션 조합을 보기 좋게 문자열로 포맷팅 (옵션 없는 경우 "옵션 없음" 반환)

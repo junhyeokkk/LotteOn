@@ -20,4 +20,8 @@ public interface OrderRepository extends JpaRepository<Order, Long>, OrderReposi
     // SellerMember가 모든 주문을 조회할 때 shopId로 필터링
 //    Page<Order> findByShopId(Long shopId, Pageable pageable);
 
+
+    // 가장 최근 주문 1개를 반환
+    public Order findTop1ByMember_UidOrderByOrderDateDesc(String uid);
+
 }

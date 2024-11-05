@@ -31,7 +31,7 @@
 </th:block>
 
 <section class="section" layout:fragment="content">
-    <div th:replace="~{layout/modal :: #couponinfoModal}"></div>
+    <div th:if="${coupondatas}" th:replace="~{layout/modal :: #couponinfoModal}"></div>
     <nav class="section__nav navsticky">
         <h1>상품보기</h1>
         <p>
@@ -77,7 +77,7 @@
                     </div>
                     <ins id="disPrice" class="dis_price">[[${product.discountedPrice}]] 원</ins> <!-- 최종 가격 -->
                 </div>
-                <button class="coupon-button" data-modal="couponinfoModal"><i class="fa-solid fa-tag"></i> 쿠폰 받기</button>
+                <button th:if="${coupondatas}" class="coupon-button" data-modal="couponinfoModal"><i class="fa-solid fa-tag"></i> 쿠폰 받기</button>
             </nav>
 
             <h4 class="section-title">혜택 정보</h4>

@@ -20,6 +20,6 @@ public interface PointRepository extends JpaRepository<Point, Long>, PointReposi
     // 특정 member_id의 포인트를 가져오는 메서드
     Page<Point> findByMemberUid(String uid, Pageable pageable);
 
-    // 특정 회원의 포인트 조회
-    List<Point> findByMember(GeneralMember member);
+    List<Point> findByMemberOrderByCreatedatAsc(GeneralMember member);
+
 }

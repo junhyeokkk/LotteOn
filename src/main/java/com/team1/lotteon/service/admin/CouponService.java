@@ -155,7 +155,11 @@ public class CouponService {
     
     //상점 아이디를 활용해서 쿠폰 정보 가지고 오기
     public List<Coupon> findCouponsByMemberId(String memberId) {
+        log.info("dsfaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         // memberId로 쿠폰을 조회하여 전체 엔티티를 반환
-        return couponRepository.findByMember_Uid(memberId);
+        List<Coupon> DDD = couponRepository.findByMember_Uid(memberId);
+        log.info("adfsdfsafda" + DDD.toString());
+
+        return DDD;
     }
 }

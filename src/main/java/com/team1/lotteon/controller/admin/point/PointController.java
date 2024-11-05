@@ -20,12 +20,17 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 /*
-     날짜 : 2024/11/02
-     이름 : 박서홍
-     내용 : 관리자 포인트 컨트롤러 생성
+ *    날짜 : 2024/11/02
+ *    이름 : 박서홍
+ *    내용 : 관리자 포인트 컨트롤러 생성
+ *
+ *    수정이력
+ *  - 2025/11/04 박서홍 - 주문하기 - 포인트 사용 코드 생성
+ *
 */
 @Log4j2
 @RequiredArgsConstructor
@@ -54,6 +59,8 @@ public class PointController {
     }
 
 
+
+
     // 포인트 차감
     @PostMapping("/deduct")
     public ResponseEntity<String> deductPoints(@RequestBody PointDTO pointDTO) {
@@ -75,17 +82,19 @@ public class PointController {
         return ResponseEntity.ok(response);
     }
 
+
     @PostMapping("/delete")
-    public ResponseEntity<String> deleteSelectedMembers(@RequestBody List<Long> memberIds) {
-        log.info("deleteSelectedMembers 호출 - memberIds: {}", memberIds);
-        if (memberIds == null || memberIds.isEmpty()) {
-            return ResponseEntity.badRequest().body("삭제할 회원 ID가 필요합니다.");
+    public ResponseEntity<String> deleteSelectedPoints(@RequestBody List<Long> pointIds) {
+        log.info("deleteSelectedPoints 호출 - pointIds: {}", pointIds);
+        if (pointIds == null || pointIds.isEmpty()) {
+            return ResponseEntity.badRequest().body("삭제할 포인트 ID가 필요합니다.");
         }
 
-        // 선택된 회원 삭제 및 포인트 회수
-        pointService.deleteSelectedMembers(memberIds);
-        log.info("선택된 회원이 성공적으로 삭제되었습니다.");
-        return ResponseEntity.ok("선택된 회원이 성공적으로 삭제되었습니다.");
+        // 선택된 포인트 내역 삭제
+        pointService.deleteSelectedPoints(pointIds);
+        log.info("선택된 포인트가 성공적으로 삭제되었습니다.");
+        return ResponseEntity.ok("선택된 포인트가 성공적으로 삭제되었습니다.");
     }
+
 
 }

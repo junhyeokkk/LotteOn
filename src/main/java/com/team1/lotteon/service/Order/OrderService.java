@@ -1,5 +1,6 @@
 package com.team1.lotteon.service.Order;
 
+import com.team1.lotteon.dto.order.OrderDTO;
 import com.team1.lotteon.dto.order.OrderItemDTO;
 import com.team1.lotteon.dto.order.OrderRequestDTO;
 import com.team1.lotteon.dto.order.OrderSummaryDTO;
@@ -9,8 +10,11 @@ import com.team1.lotteon.entity.enums.OrderStatus;
 import com.team1.lotteon.entity.productOption.ProductOptionCombination;
 import com.team1.lotteon.repository.*;
 import com.team1.lotteon.repository.coupon.CouponRepository;
+import com.team1.lotteon.security.MyUserDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.modelmapper.ModelMapper;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
@@ -36,6 +40,7 @@ public class OrderService {
     private final ProductOptionCombinationRepository productOptionCombinationRepository;
     private final DeliveryRepoistory deliveryRepoistory;
     private final CouponRepository couponRepository;
+    private final ModelMapper modelMapper;
 
     // 서비스
     private final DeliveryService deliveryService;
@@ -59,6 +64,8 @@ public class OrderService {
                 .recipientAddr2(request.getRecipientAddr2())
                 .status(OrderStatus.ORDERED)
                 .totalPrice(request.getTotalPrice())
+                .couponDiscount(request.getCouponDiscount())
+                .pointDiscount(request.getPointDiscount())
                 .build();
 
         // 2. 각 OrderItemDTO를 통해 주문 항목(OrderItem) 생성 및 Order 설정
@@ -143,7 +150,16 @@ public class OrderService {
         productRepository.save(product);
     }
 
+    // Mypage 메인에 띄울 가장 최근 Orderitem 들고오기
+    public List<OrderItem> getMyOrder(String uid){
 
+        Order myOrder = orderRepository.findTop1ByMember_UidOrderByOrderDateDesc(uid);
+        OrderDTO orderDTO = modelMapper.map( myOrder, OrderDTO.class);
+
+        List<OrderItem> orderItems = orderDTO.getOrderItems();
+
+        return orderItems;
+    }
 
     // complete 페이지 반환할 주문 요약 정보
     public OrderSummaryDTO getOrderSummary(Long orderId) {

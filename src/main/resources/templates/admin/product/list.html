@@ -63,7 +63,7 @@
                     <td style="line-height: 20px">
                         <a onclick="modifyProdStatus()" class="cs_delete-btn">[삭제]</a>
                         <br />
-                        <a th:href="@{/seller/product/productOption(prodNo=${product.id})}" class="cs_modify-btn">[수정]</a>
+                        <a th:href="@{/admin/product/edit/{id}(id=${product.id})}" class="cs_modify-btn">[수정]</a>
                     </td>
                 </tr>
             </table>

@@ -81,7 +81,7 @@
           <td>[[${coupon.couponname}]]</td>
           <td>
             <span th:switch="${coupon.coupondiscount}">
-                <span th:case="1">1000원 할인</span>
+                <span th:case="MINUS_1000">1000원 할인</span>
                 <span th:case="2">2000원 할인</span>
                 <span th:case="3">3000원 할인</span>
                 <span th:case="4">4000원 할인</span>
@@ -90,7 +90,7 @@
                 <span th:case="7">20% 할인</span>
                 <span th:case="8">30% 할인</span>
                 <span th:case="9">40% 할인</span>
-                <span th:case="10">50% 할인</span>
+                <span th:case="PERCENT_50">50% 할인</span>
                 <span th:case="11">배송비 무료</span>
                 <span th:case="*">할인 없음</span> <!-- 기본값 -->
             </span>
