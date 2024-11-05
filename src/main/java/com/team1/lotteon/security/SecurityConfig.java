@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -18,6 +19,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
   수정사항
   - 2024/11/04 이도영 인가설정 처리 최신화
+  - 2024/11/05 이도영 자동 로그인 기능 추가
 
 */
 @EnableWebSecurity
@@ -27,6 +29,7 @@ public class SecurityConfig {
 
 //    private final MyOauth2UserService myOauth2UserService;
     private final CustomLoginSuccessHandler customLoginSuccessHandler;
+    private final UserDetailsService userDetailsService;
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
 
@@ -40,6 +43,12 @@ public class SecurityConfig {
                 .usernameParameter("uid")
                 .passwordParameter("pass"));
 
+        http.rememberMe(rememberMe -> rememberMe
+                .key("uniqueAndSecret")
+                .tokenValiditySeconds(60*60*24*3)
+                .rememberMeParameter("remember-me") // HTML 폼의 체크박스 이름
+                .rememberMeCookieName("remember-me-cookie")
+                .userDetailsService(userDetailsService));
         //로그아웃 설정
         http.logout(logout -> logout
                 .invalidateHttpSession(true)

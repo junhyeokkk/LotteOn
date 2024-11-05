@@ -4,6 +4,7 @@
     내용 : 로그인 html 생성
     수정사항
     - 2024/11/04 이도영 아이디 비밀번호 찾기 경로 추가
+    - 2024/11/05 이도영 자동로그인 기능 추가
 -->
 
 <!DOCTYPE html>
@@ -58,18 +59,19 @@
                                 <span class="btnLogin">로그인</span>
                             </button>
                         </div>
+                        <div class="userinfoservice">
+                            <div>
+                                <input id="checkbox1" type="checkbox" name="remember-me" checked="checked">자동로그인
+                            </div>
+                            <div>
+                                <a th:href="@{/user/findId}" class="findIdPassword">아이디 찾기</a> |
+                                <a th:href="@{/user/findPass}" class="findIdPassword">비밀번호 찾기</a> |
+                                <a th:href="@{/user/join}" class="movejoin">회원가입</a>
+                            </div>
+                        </div>
                     </form>
 
-                    <div class="userinfoservice">
-                        <div>
-                            <input id="checkbox1" type="checkbox" name="checkbox1" checked="checked">자동로그인
-                        </div>
-                        <div>
-                            <a th:href="@{/user/findId}" class="findIdPassword">아이디 찾기</a> |
-                            <a th:href="@{/user/findPass}" class="findIdPassword">비밀번호 찾기</a> |
-                            <a th:href="@{/user/join}" class="movejoin">회원가입</a>
-                        </div>
-                    </div>
+
 
                     <div class="socialSignupWrap">
                         <button type="button" class="naverLoginBtn">네이버</button>

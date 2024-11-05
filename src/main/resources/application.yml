@@ -30,3 +30,7 @@ spring:
             enabled: true
             max-file-size: 30MB
             max-request-size: 30MB
+#    2024/11/05 자동로그인(이도영)
+    security:
+        remember-me:
+            key: "1234Asd@"
