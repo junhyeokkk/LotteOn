@@ -79,4 +79,11 @@ function deleteSelectedFaqs() {
     } else {
         alert('삭제할 항목을 선택하세요.');
     }
+
 }
+document.querySelector("input[name='allCheck']").addEventListener("change", function() {
+    const isChecked = this.checked;
+    document.querySelectorAll("input[name='RowCheck']").forEach((checkbox) => {
+        checkbox.checked = isChecked;
+    });
+});

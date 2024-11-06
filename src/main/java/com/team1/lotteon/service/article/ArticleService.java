@@ -5,7 +5,6 @@ import com.team1.lotteon.dto.cs.ArticleDTO;
 import com.team1.lotteon.dto.cs.FaqDTO;
 import com.team1.lotteon.dto.cs.InquiryDTO;
 import com.team1.lotteon.dto.cs.NoticeDTO;
-import com.team1.lotteon.entity.FAQ;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -43,6 +42,8 @@ public interface ArticleService {
     List<FaqDTO> findTop10ByOrderByCreatedAtDesc();
     Map<String, List<FaqDTO>> getFaqsGroupedByType2(String type1);
     public List<FaqDTO> getFaqsSortedByViewsAndType1();
+    PageResponseDTO<FaqDTO> getAllFaqs(Pageable pageable);
+
 
 
     // Inquiry
@@ -66,7 +67,7 @@ public interface ArticleService {
     void deleteNotice(List<Long> ids);
     PageResponseDTO<NoticeDTO> findNoticeByType1(String type1, Pageable pageable);
     PageResponseDTO<NoticeDTO> getNoticesByType1(String type1, Pageable pageable);
-
+    void incrementNoticeViews(Long id);
 
 
 }

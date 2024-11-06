@@ -36,8 +36,18 @@ public class AdminCsController {
     // Notice 공지사항
     // list
     @GetMapping("/api/admin/cs/notice/list")
-    public ResponseEntity<PageResponseDTO<NoticeDTO>> getAllNotices(@PageableDefault Pageable pageable) {
-        PageResponseDTO<NoticeDTO> notices = articleService.getAllNotices(pageable);
+    public ResponseEntity<PageResponseDTO<NoticeDTO>> getAllNotices(
+            @RequestParam(required = false, defaultValue = "all") String type,
+            @PageableDefault Pageable pageable) {
+
+        log.info("Received type parameter: {}", type);  // 확인용 로그
+        PageResponseDTO<NoticeDTO> notices;
+        if ("all".equals(type)) {
+            notices = articleService.getAllNotices(pageable);
+        } else {
+            notices = articleService.getNoticesByType1(type, pageable); // 유형별 공지사항 조회 메서드 추가 필요
+        }
+        log.info("Filtered notices: {}", notices);  // 필터된 데이터 확인
         return ResponseEntity.ok(notices);
     }
     // view

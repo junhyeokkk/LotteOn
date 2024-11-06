@@ -166,7 +166,10 @@ private final InquiryRepository inquiryRepository;
         model.addAttribute("group", "notice");
         model.addAttribute("cate", "view");
 
+        articleService.incrementNoticeViews(id);
+
         NoticeDTO notice = articleService.getNoticeById(id);
+        System.out.println("조회수 확인: " + notice.getViews());
         model.addAttribute("notice", notice);
         return "cs/layout/cs_layout";
     }

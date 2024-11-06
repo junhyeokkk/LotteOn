@@ -4,37 +4,46 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{admin/layout/adminlayout}">
 
-<!-- index.html 고유 CSS 추가 -->
-<th:block layout:fragment="css">
+<head>
+    <meta charset="UTF-8">
+    <title>공지사항 목록</title>
     <link rel="stylesheet" th:href="@{/css/admin/cs/notice/list.css}" />
-</th:block>
+    <!-- 추가 CSS 및 스타일들 -->
+</head>
 
-<!-- index.html 고유 스크립트 추가 -->
-<th:block layout:fragment="script">
-</th:block>
-
+<body>
 <div class="content" layout:fragment="content">
     <div class="dashboard">
         <div class="content_header">
             <h1>공지사항 목록</h1>
-            <p>
-                HOME > 고객센터 > <strong>공지사항</strong>
-            </p>
+            <p>HOME > 고객센터 > <strong>공지사항</strong></p>
         </div>
         <section class="sectionBox">
             <div>
-                <select name="type" onchange="firstOption()">
-                    <option>유형선택</option>
+                <select name="type" id="typeSelect" onchange="filterNotices()">
                     <option value="all">전체</option>
-                    <option value="service">고객서비스</option>
-                    <option value="safe">안전거래</option>
-                    <option value="danger">위해상품</option>
-                    <option value="event">이벤트당첨</option>
+                    <option value="고객서비스">고객서비스</option>
+                    <option value="안전거래">안전거래</option>
+                    <option value="위해상품">위해상품</option>
+                    <option value="이벤트당첨">이벤트당첨</option>
                 </select>
             </div>
-            <table class="admingraph">
+            <script>
+                function filterNotices() {
+                    const type = document.getElementById('typeSelect').value;
+                    window.location.href = `/admin/cs/notice/list?type1=${encodeURIComponent(type)}`;
+                }
+
+                function toggleAllCheckboxes(source) {
+                    const checkboxes = document.querySelectorAll('input[name="RowCheck"]');
+                    checkboxes.forEach(checkbox => {
+                        checkbox.checked = source.checked;
+                    });
+                }
+            </script>
+            <table class="admingraph" id="noticeTable">
                 <tr class="admin_title">
-                    <th><input type="checkbox" name="allCheck" /></th>
+                    <th><input type="checkbox" name="allCheck" onclick="toggleAllCheckboxes(this)" /></th>
                     <th>번호</th>
                     <th>유형</th>
                     <th>제목</th>
@@ -42,25 +51,25 @@
                     <th>날짜</th>
                     <th>관리</th>
                 </tr>
-
-                <!-- 공지사항 목록 동적 처리 -->
+                <tr th:if="${notices.isEmpty()}" class="admin_list">
+                    <td colspan="7">공지사항이 없습니다.</td>
+                </tr>
                 <tr class="admin_list" th:each="notice, iterStat : ${notices}">
                     <td><input type="checkbox" th:value="${notice.id}" name="RowCheck" /></td>
-                    <td th:text="${notice.displayNumber}">1</td>
+                    <td th:text="${iterStat.index + 1}">1</td>
                     <td th:text="${notice.type1}">[유형]</td>
                     <td style="text-align: left">
-                        <span>
-                            <a th:href="|@{/admin/cs/notice/view/}${notice.id}|">
-                                <span th:text="${notice.title}" style="white-space: nowrap;">[안내] 제목</span>
-                            </a>
-                        </span>
+                        <a th:href="@{/admin/cs/notice/view/{id}(id=${notice.id})}">
+                            <span th:text="${notice.title}" style="white-space: nowrap;">[안내] 제목</span>
+                        </a>
                     </td>
-                    <td th:text="${notice.views}">120</td>
-                    <td th:text="${#temporals.format(notice.createdAt, 'yyyy-MM-dd')}">2024-10-14</td>
+                    <td th:text="${notice.views} != null ? ${notice.views} : '조회수 없음'">조회수</td>
+                    <td th:text="${#temporals.format(notice.createdAt, 'yy-MM-dd')}">2024-10-14</td>
                     <td style="line-height: 20px">
-                        <a href="javascript:void(0);" th:onclick="|deleteNotice(${notice.id})|" class="cs_delete-btn">[삭제]</a>
+                        <a href="javascript:void(0);" th:onclick="|deleteNotice(${notice.id})|">[삭제]</a>
                         <br>
-                        <a th:href="@{/admin/cs/notice/edit(id=${notice.id})}" class="cs_modify-btn">[수정]</a>
+                        <a th:href="@{/admin/cs/notice/modify/{id}(id=${notice.id})}">[수정]</a>
+<!--                        <a th:href="@{/admin/cs/notice/modify(id=${notice.id})}">[수정]</a>-->
                     </td>
                 </tr>
             </table>
@@ -70,25 +79,11 @@
 
             <div class="pagingBox">
                 <div class="pagingList">
-                    <!-- 이전 버튼 -->
-                    <a th:unless="${currentPage == 0}"
-                       th:href="@{/admin/cs/notice/list(page=${currentPage - 1}, size=${pageSize})}"
-                       class="prev">‹</a>
-
-                    <!-- 페이지 번호 링크 동적 처리 -->
-                    <a th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}"
-                       th:href="@{/admin/cs/notice/list(page=${pageNum}, size=${pageSize})}"
-                       th:text="${pageNum + 1}"
-                       th:classappend="${pageNum == currentPage} ? 'active'">1</a>
-
-                    <!-- 다음 버튼 -->
-                    <a th:if="${!isLast}"
-                       th:href="@{/admin/cs/notice/list(page=${currentPage + 1}, size=${pageSize})}"
-                       class="next">›</a>
                 </div>
             </div>
             <script src="/js/admin/cs/noticedelete.js"></script>
         </section>
     </div>
 </div>
+</body>
 </html>

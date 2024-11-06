@@ -145,12 +145,6 @@ public class ArticleServiceImpl implements ArticleService {
                         .map(this::convertToFaqDTO)
         );
     }
-    @Override
-    public PageResponseDTO<FaqDTO> findFaqByType(String type1, String type2, Pageable pageable) {
-        log.info("Filtering FAQs with type1: {} and type2: {}", type1, type2);
-        Page<FAQ> faqsPage = faqRepository.findByType1AndType2(type1, type2, pageable);
-        return PageResponseDTO.fromPage(faqsPage.map(this::convertToFaqDTO));
-    }
 
     @Override
     public List<FaqDTO> findTop10ByOrderByCreatedAtDesc() {
@@ -182,6 +176,39 @@ public class ArticleServiceImpl implements ArticleService {
 
         return groupedFaqs;
     }
+    @Override
+    public PageResponseDTO<FaqDTO> getAllFaqs(Pageable pageable) {
+        Page<FAQ> faqsPage = faqRepository.findAll(pageable);
+        AtomicInteger displayCount = new AtomicInteger(faqsPage.getNumber() * pageable.getPageSize() + 1);
+
+        // Convert Page<FAQ> to List<FaqDTO> with displayNumber
+        List<FaqDTO> faqDTOList = faqsPage.map(this::convertToFaqDTO)
+                .map(dto -> {
+                    dto.setDisplayNumber(displayCount.getAndIncrement());
+                    return dto;
+                })
+                .getContent();
+
+        // Use existing fromList method to wrap List<FaqDTO> into PageResponseDTO
+        return PageResponseDTO.fromList(faqDTOList, pageable);
+    }
+
+    @Override
+    public PageResponseDTO<FaqDTO> findFaqByType(String type1, String type2, Pageable pageable) {
+        Page<FAQ> faqsPage = faqRepository.findByType1AndType2(type1, type2, pageable);
+        AtomicInteger displayCount = new AtomicInteger(faqsPage.getNumber() * pageable.getPageSize() + 1);
+
+        // Convert Page<FAQ> to List<FaqDTO> with displayNumber
+        List<FaqDTO> faqDTOList = faqsPage.map(this::convertToFaqDTO)
+                .map(dto -> {
+                    dto.setDisplayNumber(displayCount.getAndIncrement());
+                    return dto;
+                })
+                .getContent();
+
+        return PageResponseDTO.fromList(faqDTOList, pageable);
+    }
+
 
 
 
@@ -304,7 +331,6 @@ public class ArticleServiceImpl implements ArticleService {
         notice.setMember(findMemberById(noticeDTO.getMemberId()));
         return convertToNoticeDTO(noticeRepository.save(notice));
     }
-
     // 삭제 버튼
     @Override
     public void deleteNotice(Long id) {
@@ -330,13 +356,21 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public PageResponseDTO<NoticeDTO> getNoticesByType1(String type1, Pageable pageable) {
         Page<Notice> noticesPage;
-        if (type1.equals("전체")) {
+        if ("전체".equals(type1)) {
             noticesPage = noticeRepository.findAll(pageable);
         } else {
             noticesPage = noticeRepository.findByType1OrderByCreatedAtDesc(type1, pageable);
         }
         return PageResponseDTO.fromPage(noticesPage.map(this::convertToNoticeDTO));
     }
+    // 조회수
+    @Override
+    public void incrementNoticeViews(Long id) {
+        Notice notice = noticeRepository.findById(id).orElseThrow(() -> new RuntimeException("Notice not found"));
+        notice.setViews(notice.getViews() + 1); // 조회수 증가
+        noticeRepository.save(notice); // 변경사항 저장
+    }
+
 
 
 //  DTO Entity 변환

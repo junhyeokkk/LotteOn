@@ -80,5 +80,3 @@ function deleteSelectedNotices() {
         alert('삭제할 항목을 선택하세요.');
     }
 }
-
-

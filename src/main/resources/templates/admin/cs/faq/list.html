@@ -12,13 +12,53 @@
 <!-- index.html 고유 스크립트 추가 -->
 <th:block layout:fragment="script">
     <script>
+        const type2Options = {
+            "회원": ["가입", "탈퇴"],
+            "쿠폰/이벤트": ["이벤트 참여", "쿠폰 사용"],
+            "주문/결제": ["주문 확인", "결제 문제"],
+            "배송": ["배송 추적", "배송 지연"],
+            "취소/반품/환불": ["취소 요청", "반품 요청", "환불 요청"],
+            "여행/숙박/항공": ["호텔 예약", "항공권 예약"],
+            "안전결제": ["결제 안전 확인", "보안 문제 신고"]
+        };
+
+        function updateType2Options() {
+            const type1Select = document.querySelector("select[name='type1']");
+            const type2Select = document.querySelector("select[name='type2']");
+            const selectedType1 = type1Select.value;
+
+            // Clear previous options in type2
+            type2Select.innerHTML = "<option>2차선택</option>";
+
+            // Add new options based on selected type1
+            if (type2Options[selectedType1]) {
+                type2Options[selectedType1].forEach(optionText => {
+                    const option = document.createElement("option");
+                    option.value = optionText;
+                    option.textContent = optionText;
+                    type2Select.appendChild(option);
+                });
+            }
+        }
+
         function redirectToCateType() {
             const type1 = document.querySelector("select[name='type1']").value;
             const type2 = document.querySelector("select[name='type2']").value;
             if (type1 !== '1차선택' && type2 !== '2차선택') {
-                window.location.href = `/cs/layout/faq/list?type1=${type1}&type2=${type2}`;
+                window.location.href = `/admin/cs/faq/list?type1=${encodeURIComponent(type1)}&type2=${encodeURIComponent(type2)}`;
             }
         }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const type1Select = document.querySelector("select[name='type1']");
+            const type2Select = document.querySelector("select[name='type2']");
+            type1Select.addEventListener("change", () => {
+                updateType2Options();
+                redirectToCateType();
+            });
+            type2Select.addEventListener("change", redirectToCateType);
+            updateType2Options();
+        });
     </script>
 </th:block>
 
@@ -31,32 +71,32 @@
             </p>
         </div>
 
-        <section class="sectionBox">
-            <div class="select-container">
-                <div>
-                    <select name="type1" onchange="redirectToCateType()">
-                        <option>1차선택</option>
-                        <option value="user">회원</option>
-                        <option value="coupon">쿠폰/이벤트</option>
-                        <option value="order">주문/결제</option>
-                        <option value="delivery">배송</option>
-                        <option value="cancel">취소/반품/환불</option>
-                        <option value="travel">여행/숙박/항공</option>
-                        <option value="safe">안전결제</option>
-                    </select>
-                </div>
-                <div>
-                    <select name="type2" onchange="redirectToCateType()">
-                        <option>2차선택</option>
-                        <option value="regi">가입</option>
-                        <option value="leave">탈퇴</option>
-                        <option value="info">회원정보</option>
-                        <option value="login">로그인</option>
-                    </select>
-                </div>
+        <div class="select-container">
+            <div>
+                <select name="type1" onchange="redirectToCateType()">
+                    <option th:selected="${selectedType1 == '1차선택'}" value="1차선택">1차선택</option>
+                    <option th:selected="${selectedType1 == '회원'}" value="회원">회원</option>
+                    <option th:selected="${selectedType1 == '쿠폰/이벤트'}" value="쿠폰/이벤트">쿠폰/이벤트</option>
+                    <option th:selected="${selectedType1 == '주문/결제'}" value="주문/결제">주문/결제</option>
+                    <option th:selected="${selectedType1 == '배송'}" value="배송">배송</option>
+                    <option th:selected="${selectedType1 == '취소/반품/환불'}" value="취소/반품/환불">취소/반품/환불</option>
+                    <option th:selected="${selectedType1 == '여행/숙박/항공'}" value="여행/숙박/항공">여행/숙박/항공</option>
+                    <option th:selected="${selectedType1 == '안전결제'}" value="안전결제">안전결제</option>
+                </select>
             </div>
+            <div>
+                <select name="type2">
+                    <option>2차선택</option>
+                    <th:block th:each="option : ${type2Options[selectedType1]}">
+                        <option th:text="${option}" th:value="${option}"
+                                th:selected="${option == selectedType2}"></option>
+                    </th:block>
+                </select>
+            </div>
+        </div>
 
-            <table class="admingraph">
+
+        <table class="admingraph">
                 <tr class="admin_title">
                     <th><input type="checkbox" name="allCheck" /></th>
                     <th>번호</th>
@@ -81,8 +121,8 @@
                             </a>
                         </span>
                     </td>
-                    <td th:text=b"${faq.views}">120</td>
-                    <td th:text="${#temporals.format(faq.createdAt, 'yyyy-MM-dd')}">2024-10-14</td>
+                    <td th:text="${faq.views}">120</td>
+                    <td th:text="${#temporals.format(faq.createdAt, 'yy-MM-dd')}">2024-10-14</td>
                     <td style="line-height: 20px">
                         <a href="javascript:void(0);" th:onclick="|deleteFaq(${faq.id})|" class="cs_delete-btn">[삭제]</a>
                         <br>
