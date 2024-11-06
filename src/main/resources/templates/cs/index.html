@@ -33,14 +33,13 @@
         <!-- 자주 묻는 질문 목록 -->
         <section class="faq">
             <h1>자주 묻는 질문<a th:href="@{/cs/layout/faq/list}">전체보기</a></h1>
-            <ul>
-                <li th:each="faq : ${faqs}">
-                    <a th:href="@{/cs/layout/faq/view/{id}(id=${faq.id})}">
-                        <span th:text="${faq.type1}" style="font-size: 17px"></span>
-                        <span th:text="${faq.type2}" style="font-size: 17px"></span>
-                    </a>
-                </li>
-            </ul>
+                <ul>
+                    <li th:each="faq : ${faqs}">
+                        <a th:href="@{/cs/layout/faq/view/{id}(id=${faq.id})}">
+                            <span th:text="${faq.type1}" style="font-size: 13px"></span>
+                        </a>
+                    </li>
+                </ul>
         </section>
 
         <!-- 문의하기 목록 -->
@@ -50,12 +49,15 @@
                 <a th:href="@{/cs/layout/qna/list}">전체보기</a>
             </h1>
             <ul>
-                <li th:each="inquiry : ${inquiries.content}">
+                <li th:each="inquiry : ${inquiries}">
                     <a th:href="@{/cs/layout/qna/view/{id}(id=${inquiry.id})}" th:text="${inquiry.title}" style="font-size: 17px;"></a>
                     <p>
-                        <span class="uid" th:text="${inquiry.memberId}"></span>
-                        <span th:text="${#temporals.format(inquiry.createdAt, 'yyyy-MM-dd')}" style="font-size: 17px"></span>
+                        <span class="uid" th:text="${inquiry.memberId}">익명</span>
+                        <span th:text="${#temporals.format(inquiry.createdAt, 'yy-MM-dd')}" style="font-size: 17px"></span>
                     </p>
+                </li>
+                <li th:if="${inquiries.empty}">
+                    문의사항이 없습니다.
                 </li>
             </ul>
             <a th:href="@{/cs/layout/qna/write}" class="ask">문의글 작성 ></a>

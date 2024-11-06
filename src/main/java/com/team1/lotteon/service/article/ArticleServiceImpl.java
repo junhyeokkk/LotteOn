@@ -17,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -74,6 +75,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
 
+
     //  Faq 자주묻는질문
     @Override
     public FaqDTO createFaq(FaqDTO faqDTO) {
@@ -90,6 +92,20 @@ public class ArticleServiceImpl implements ArticleService {
         return faqRepository.findAllByOrderByCreatedAtDesc().stream()
                 .map(this::convertToFaqDTO)
                 .collect(Collectors.toList());
+    }
+    public List<FaqDTO> getFaqsSortedByViewsAndType1() {
+        List<String> types = Arrays.asList("회원", "쿠폰/이벤트", "주문/결제",
+                "배송", "취소/반품/교환", "여행/숙박/항공", "안전거래");
+
+        return faqRepository.findByType1InOrderByViewsDesc(types).stream()
+                .collect(Collectors.toMap(
+                        FAQ::getType1,
+                        this::convertToFaqDTO,
+                        (existing, replacement) -> existing // 중복 시 기존 항목 유지
+                ))
+                .values()
+                .stream()
+                .toList();
     }
     @Override
     public FaqDTO updateFaq(Long id, FaqDTO faqDTO) {
@@ -183,7 +199,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public PageResponseDTO<InquiryDTO> getAllInquiries(Pageable pageable) {
         return PageResponseDTO.fromPage(
-                inquiryRepository.findByType1("inquiry", pageable)
+                inquiryRepository.findAll(pageable)
                         .map(this::convertToInquiryDTO)
         );
     }

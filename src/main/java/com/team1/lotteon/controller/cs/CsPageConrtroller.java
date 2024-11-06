@@ -1,14 +1,14 @@
 package com.team1.lotteon.controller.cs;
 
 import com.team1.lotteon.dto.PageResponseDTO;
-import com.team1.lotteon.dto.cs.ArticleDTO;
 import com.team1.lotteon.dto.cs.FaqDTO;
 import com.team1.lotteon.dto.cs.InquiryDTO;
 import com.team1.lotteon.dto.cs.NoticeDTO;
+import com.team1.lotteon.entity.Inquiry;
+import com.team1.lotteon.repository.InquiryRepository;
 import com.team1.lotteon.service.article.ArticleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -33,16 +33,19 @@ import java.util.Map;
 @Controller
 public class CsPageConrtroller {
 private final ArticleService articleService;
+private final InquiryRepository inquiryRepository;
 
     @GetMapping("/cs/index")
     public String index(Model model, @PageableDefault(size = 5) Pageable pageable){
         PageResponseDTO<NoticeDTO> notices = articleService.getAllNotices(pageable);
         model.addAttribute("notices", notices);
 
-        List<FaqDTO> faqs = articleService.getAllFaqs();
+        List<FaqDTO> faqs = articleService.getFaqsSortedByViewsAndType1();
         model.addAttribute("faqs", faqs);
 
-        PageResponseDTO<InquiryDTO> inquiries = articleService.getAllInquiries(pageable);
+        List<Inquiry> inquiryList = inquiryRepository.findTop3ByOrderByIdDesc();
+        List<InquiryDTO> inquiries = inquiryList.stream().map(InquiryDTO::new).toList();
+        log.info("qna size :{}",inquiries.size());
         model.addAttribute("inquiries", inquiries);
 
 //        List<InquiryDTO> inquiries = articleService.getAllInquiries(Pageable.unpaged()).getContent();
