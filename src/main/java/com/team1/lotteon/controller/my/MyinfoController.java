@@ -50,7 +50,6 @@ public class MyinfoController {
     private final CouponTakeService coupontakeService;
     private final ModelMapper modelMapper;
 
-    @GetMapping("/home")
     @ModelAttribute("couponCount")
     public int getCouponCount(@AuthenticationPrincipal MyUserDetails myUserDetails) {
         // 사용자 ID를 가져와 쿠폰 수량 조회
@@ -62,7 +61,13 @@ public class MyinfoController {
         String userId = myUserDetails.getGeneralMember().getUid();
         return orderService.getOrderCountByUserId(userId);
     }
-    @GetMapping("/myPage/home")
+    // 모든 마이페이지 요청에 대해 totalAcPoints를 모델에 추가
+    @ModelAttribute("totalAcPoints")
+    public Integer populateTotalAcPoints(@AuthenticationPrincipal MyUserDetails myUserDetails) {
+        return pointService.calculateTotalAcPoints(myUserDetails.getGeneralMember().getUid());
+    }
+
+    @GetMapping("/home")
     public String home(@AuthenticationPrincipal MyUserDetails myUserDetails, Model model) {
         GeneralMember member = myUserDetails.getGeneralMember();
         if(member == null){
@@ -79,8 +84,6 @@ public class MyinfoController {
 
         // 나의 정보
         Address address = member.getAddress();
-
-
 
         model.addAttribute("myorders", OrderItemDTO);
         model.addAttribute("member", member);
@@ -120,11 +123,7 @@ public class MyinfoController {
     }
 
 
-    // 모든 마이페이지 요청에 대해 totalAcPoints를 모델에 추가
-    @ModelAttribute("totalAcPoints")
-    public Integer populateTotalAcPoints(@AuthenticationPrincipal MyUserDetails myUserDetails) {
-        return pointService.calculateTotalAcPoints(myUserDetails.getGeneralMember().getUid());
-    }
+
 
 
     @GetMapping("/point")
