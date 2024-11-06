@@ -4,18 +4,17 @@
     내용 : mypagenave 생성
 
     수정내용
-    - 2024/11/01 쿠폰 경로 수정
+    - 2024/11/01 이도영 쿠폰 경로 수정
+    - 2024/11/06 이도영 쿠폰,주문 출력 방식 수정
+    - 2024/11/06 박서홍 포인트 출력 방식 수정
 -->
 <nav class="myinfotopside" th:fragment="nav">
     <div>
         <a th:href="@{/myPage/home}" class="shopping-info">나의쇼핑정보</a>
         <ol>
-            <li><a th:href="@{/myPage/ordered}">주문<br><span>2</span></a></li>
-            <li><a th:href="@{/myPage/coupon/{uid}(uid=${uid})}">쿠폰<br><span>1</span></a></li>
-            <li><a th:href="@{/myPage/point}">포인트<br>
-                <span th:text="${totalAcPoints}">0</span> <!-- 총 포인트 값 -->
-            </a>
-            </li>
+            <li><a th:href="@{/myPage/ordered}">주문<br><span th:text="${orderCount}">0</span></a></li>
+            <li><a th:href="@{/myPage/coupon/{uid}(uid=${uid})}">쿠폰<br><span th:text="${couponCount}">0</span></a></li>
+            <li><a th:href="@{/myPage/point}">포인트<br><span th:text="${totalAcPoints}">0</span></a></li>
             <li><a th:href="@{/myPage/qna}">문의<br><span>1</span></a></li>
         </ol>
     </div>

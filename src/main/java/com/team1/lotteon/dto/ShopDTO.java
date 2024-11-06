@@ -20,6 +20,8 @@ public class ShopDTO {
     private String representative;
     private String shopName;
     private String zip;
+    //2024/11/06 이도영 이메일 추가
+    private String email;
     //상점 갯수 출력을 위한 번호
     private int shopNumber;
 }

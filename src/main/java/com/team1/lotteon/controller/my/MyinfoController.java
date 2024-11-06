@@ -24,6 +24,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /*
      날짜 : 2024/10/21
@@ -31,48 +32,69 @@ import java.util.List;
      내용 : MyinfoController 생성
 
      수정이력
-        - 2024-10-31 이도영 getPagedCouponsByMemberId 추가
+        - 2024/10/31 이도영 getPagedCouponsByMemberId 추가
+        - 2024/11/06 이도영 나의정보 전체 화면 보유쿠폰,구매상품 숫자 출력
+                           나의정보 홈 화면에서 상품 최대 3개까지 출력 하도록 수정
+                           나의정보 수정 화면에서 가지고 오는 데이터 방식 리펙토링
 */
 @Log4j2
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/myPage")
-
 public class MyinfoController {
 
     private final PointService pointService;
     private final DateUtil dateUtil;
     private final CouponTakeService couponTakeService;
     private final OrderService orderService;
+    private final CouponTakeService coupontakeService;
     private final ModelMapper modelMapper;
 
     @GetMapping("/home")
+    @ModelAttribute("couponCount")
+    public int getCouponCount(@AuthenticationPrincipal MyUserDetails myUserDetails) {
+        // 사용자 ID를 가져와 쿠폰 수량 조회
+        String userId = myUserDetails.getGeneralMember().getUid();
+        return coupontakeService.getCouponCountByUserId(userId);
+    }
+    @ModelAttribute("orderCount")
+    public int getOrderCount(@AuthenticationPrincipal MyUserDetails myUserDetails) {
+        String userId = myUserDetails.getGeneralMember().getUid();
+        return orderService.getOrderCountByUserId(userId);
+    }
+    @GetMapping("/myPage/home")
     public String home(@AuthenticationPrincipal MyUserDetails myUserDetails, Model model) {
         GeneralMember member = myUserDetails.getGeneralMember();
         if(member == null){
             throw new IllegalArgumentException("로그인이 필요합니다!");
         }
-
+        //구매 정보
         List<OrderItem> orderitems = orderService.getMyOrder(member.getUid());
 
+        // 최대 3개의 OrderItem만 가져오고, DTO로 변환
+        List<OrderItemDTO> OrderItemDTO = orderitems.stream()
+                .limit(3) // 최대 3개 제한
+                .map(orderItem -> modelMapper.map(orderItem, OrderItemDTO.class)) // DTO로 매핑
+                .collect(Collectors.toList());
+
+        // 나의 정보
+        Address address = member.getAddress();
 
 
 
-        OrderItem orderItem = orderitems.get(0);
-        OrderItemDTO OrderItemDTO = modelMapper.map(orderItem, OrderItemDTO.class);
-
-        model.addAttribute("myorder", OrderItemDTO);
-
+        model.addAttribute("myorders", OrderItemDTO);
+        model.addAttribute("member", member);
+        model.addAttribute("address", address);
         return "myPage/home";
     }
 
     @GetMapping("/info")
-    public String myinfo(Model model){
-        MyUserDetails userDetails = (MyUserDetails) model.getAttribute("userDetails");
-        String birth = userDetails.getGeneralMember().getBirth().toString();
-        String Email = userDetails.getGeneralMember().getEmail().toString();
-        String phonenumber = userDetails.getGeneralMember().getPh();
-        Address address = userDetails.getGeneralMember().getAddress();
+    public String myinfo(@AuthenticationPrincipal MyUserDetails myUserDetails,Model model){
+        GeneralMember member = myUserDetails.getGeneralMember();
+        String birth = member.getBirth().toString();
+        String Email = member.getEmail().toString();
+        String phonenumber = member.getPh();
+        Address address = member.getAddress();
 
         model.addAttribute("birth", birth);
         model.addAttribute("Email", Email);
@@ -106,20 +128,18 @@ public class MyinfoController {
 
 
     @GetMapping("/point")
-    public String mypoint(    @RequestParam(defaultValue = "1") int pg,
-                              @RequestParam(required = false) String type,
-                              @RequestParam(required = false) String keyword,
-                              @AuthenticationPrincipal MyUserDetails myUserDetails, // 로그인된 사용자 정보 가져오기
-                              Model model) {
-
+    public String mypoint(@RequestParam(defaultValue = "1") int pg,
+                          @RequestParam(required = false) String type,
+                          @RequestParam(required = false) String keyword,
+                          @AuthenticationPrincipal MyUserDetails myUserDetails, // 로그인된 사용자 정보 가져오기
+                          Model model) {
         // DTO 생성
         PointPageRequestDTO requestDTO = PointPageRequestDTO.builder()
-                .pg(pg)
-                .size(10)
-                .type(type) // 타입 추가
-                .keyword(keyword) // 키워드 추가
-                .build();
-
+                                                            .pg(pg)
+                                                            .size(10)
+                                                            .type(type) // 타입 추가
+                                                            .keyword(keyword) // 키워드 추가
+                                                            .build();
 
         // 포인트 데이터 가져오기
         PointPageResponseDTO responseDTO = pointService.getPoints(requestDTO);
@@ -129,32 +149,21 @@ public class MyinfoController {
         Integer totalAcPoints = pointService.calculateTotalAcPoints(myUserDetails.getGeneralMember().getUid());
         model.addAttribute("totalAcPoints", totalAcPoints);
 
-
         // 포인트 리스트에 포맷팅된 생성일 및 유효기간 추가
         responseDTO.getDtoList().forEach(point -> {
             point.setFormattedCreatedAt(dateUtil.formatLocalDateTime(point.getCreatedat()));
             point.setFormattedExpirationDate(dateUtil.formatLocalDateTime(point.getExpirationDate()));
         });
 
-
         // 로그: DTO 리스트 출력
         log.info("포인트 데이터: " + responseDTO.getDtoList());
-
         return "myPage/point";
     }
-
-
-
-
 
     @GetMapping("/qna")
     public String myqna(Model model){
         return "myPage/qna";
     }
-
-
-
-
 
     @GetMapping("/review")
     public String myreview(Model model){

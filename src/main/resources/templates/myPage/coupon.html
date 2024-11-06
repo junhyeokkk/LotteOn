@@ -5,6 +5,7 @@
 
     수정이력
     - 2024/11/01 이도영 - 다운로드한 쿠폰 출력 기능
+    - 2024/11/01 이도영 - 쿠폰이 없으면 없음 출력
 -->
 <!DOCTYPE html>
 <html
@@ -36,7 +37,7 @@
           <th>상태</th>
           <th>유효기간</th>
         </tr>
-        <tr th:if="${coupons == null}">
+        <tr th:if="${#lists.isEmpty(coupons.content)}">
           <td colspan="5" class="td_first" style="width: 100%">등록된 쿠폰이 없습니다.</td>
         </tr>
         <tr th:each="coupon : ${coupons.content}" th:if="${coupons != null}">

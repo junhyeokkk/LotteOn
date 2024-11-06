@@ -7,6 +7,7 @@ package com.team1.lotteon.repository.shop;
      수정이력
       - 2024/10/25 이도영 - 유효성검사
       - 2024/10/28 이도영 - 관리자 상점 페이지 출력
+      - 2024/11/06 이도영 - 판매자 이메일 기능 추가
 */
 import com.team1.lotteon.entity.Shop;
 
@@ -33,5 +34,11 @@ public interface ShopRepository extends JpaRepository<Shop, Long> , ShopReposito
 
     boolean existsByShopName(String shopname);
     boolean existsByBusinessRegistration(String businessRegistration);
-//    boolean existsByECommerceRegistration(String eCommerceRegistration);
+    //판매자 존재여부 확인
+    boolean existsByEmail(String email);
+    //판매자 의 이름과 이메일 검색
+
+    Shop findByRepresentativeAndEmail(String name, String email);
+
+
 }

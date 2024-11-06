@@ -3,8 +3,8 @@ package com.team1.lotteon.controller.user;
 import com.team1.lotteon.dto.GeneralMemberDTO;
 import com.team1.lotteon.dto.MemberDTO;
 import com.team1.lotteon.entity.GeneralMember;
-import com.team1.lotteon.dto.SellerMemberDTO;
 import com.team1.lotteon.dto.ShopDTO;
+import com.team1.lotteon.entity.enums.Grade;
 import com.team1.lotteon.service.MemberService.GeneralMemberService;
 import com.team1.lotteon.service.MemberService.MemberService;
 import com.team1.lotteon.service.PointService;
@@ -20,7 +20,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -63,7 +62,7 @@ public class RegisterController {
             if ("user".equals(roleType)) {
                 // 일반 사용자 회원가입 처리
                 if (memberService.insertGeneralMember(generalMemberDTO, memberDTO) != null){
-
+                    generalMemberDTO.setGrade(String.valueOf(Grade.FAMILY));
                     GeneralMember savedMember = memberService.insertGeneralMember(generalMemberDTO, memberDTO);
                     GeneralMemberDTO savedMemberDTO = modelMapper.map(savedMember, GeneralMemberDTO.class);
                     // 회원가입 축하 기념 포인트 지급
@@ -141,6 +140,16 @@ public class RegisterController {
 
         if (type.equals("email")) {
             boolean exists = generalMemberService.isEmailExist(value);
+            if (!exists) {
+                // 이메일 중복이 없으면 이메일 코드 전송
+                memberService.sendEmailCode(session, value);
+            }
+            response.put("result", exists);
+            return response;
+        }
+        //2024/11/06 이도영 판매자 이메일 검사
+        if (type.equals("shopemail")) {
+            boolean exists = shopService.isShopEmailExist(value);
             if (!exists) {
                 // 이메일 중복이 없으면 이메일 코드 전송
                 memberService.sendEmailCode(session, value);

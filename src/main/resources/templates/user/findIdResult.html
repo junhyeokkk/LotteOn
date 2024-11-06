@@ -2,6 +2,9 @@
     날짜 : 2024/11/04
     이름 : 이도영(최초 작성자)
     내용 : 아이디 찾기 html
+
+    수정사항
+    - 2024/11/06 이도영 일반회원,판매자 에 따라 출력방식 변경
 -->
 <!DOCTYPE html>
 <html lang="ko">
@@ -27,19 +30,19 @@
         <tr>
           <th>이름</th>
           <td>
-            <span th:text="${generalmember.name}"></span>
+            <span th:text="${name}"></span>
           </td>
         </tr>
         <tr>
           <th>아이디</th>
           <td>
-            <span th:text="${generalmember.uid}"></span>
+            <span th:text="${uid}"></span>
           </td>
         </tr>
         <tr>
           <th>이메일</th>
           <td>
-            <span th:text="${generalmember.email}"></span>
+            <span th:text="${member.email}"></span>
           </td>
         </tr>
         <tr>

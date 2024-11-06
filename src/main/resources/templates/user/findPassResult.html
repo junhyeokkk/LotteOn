@@ -2,6 +2,8 @@
     날짜 : 2024/11/04
     이름 : 이도영(최초 작성자)
     내용 : 비밀번호 찾기 결과 html
+     수정사항
+    - 2024/11/06 이도영 일반회원,판매자 에 따라 출력방식 변경
 -->
 <!DOCTYPE html>
 <html lang="ko">
@@ -31,14 +33,14 @@
         <tr>
           <th>이름</th>
           <td>
-            <span th:text="${generalmember.name}"></span>
+            <span th:text="${name}"></span>
           </td>
         </tr>
         <tr>
           <th>아이디</th>
           <td>
-            <span th:text="${generalmember.uid}"></span>
-            <input type="hidden" th:value="${generalmember.uid}" name="uid">
+            <span th:text="${uid}"></span>
+            <input type="hidden" th:value="${uid}" name="uid">
           </td>
         </tr>
         <tr>

@@ -69,7 +69,7 @@
             </table>
 
             <a class="delete_btn">선택삭제</a>
-            <a class="registration_btn" href="/admin/product/register">상품등록</a>
+            <a class="registration_btn" href="/admin/product/register" th:if="${role == 'Seller'}">상품등록</a>
 
             <!-- 페이지네이션 -->
             <div class="pagingBox">

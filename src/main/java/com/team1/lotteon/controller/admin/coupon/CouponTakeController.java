@@ -27,6 +27,7 @@ import java.util.List;
      - 2024/11/01 이도영 선택된 쿠폰의 세부사항 임시 작업
      - 2024/11/03 이도영 선택된 쿠폰의 선택된 쿠폰 저장 완료
      - 2024/11/05 이도영 발급된 쿠폰에 대한 관리자 판매자 출력 방식 수정, 쿠폰 사용 가능 상태 변경
+     - 2024/11/05 이도영 관리자가 진입시 shopid null 처리
 */
 @Log4j2
 @Controller
@@ -40,7 +41,10 @@ public class CouponTakeController {
                          NewPageRequestDTO newPageRequestDTO, Model model){
         MyUserDetails userDetails = (MyUserDetails) model.getAttribute("userDetails");
         String role = userDetails.getMember().getRole();
-        Long shopid = userDetails.getSellerMember().getShop().getId();
+        Long shopid = null;
+        if (userDetails.getSellerMember() != null && userDetails.getSellerMember().getShop() != null) {
+            shopid = userDetails.getSellerMember().getShop().getId();
+        }
         // 검색 조건 설정
         newPageRequestDTO.setType(type);
         newPageRequestDTO.setKeyword(keyword);

@@ -20,7 +20,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
   수정사항
   - 2024/11/04 이도영 인가설정 처리 최신화
   - 2024/11/05 이도영 자동 로그인 기능 추가
-
+  - 2024/11/06 이도영 인가설정 변경(문의하기 작성 관리자 가능 하게, 관리자 Member 관리자 가능하게)
+                     자동로그인 기능 추가
 */
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -42,7 +43,7 @@ public class SecurityConfig {
                 .failureHandler(new CustomAuthenticationFailureHandler()) // 실패 시 핸들러 추가
                 .usernameParameter("uid")
                 .passwordParameter("pass"));
-
+        //자동 로그인
         http.rememberMe(rememberMe -> rememberMe
                 .key("uniqueAndSecret")
                 .tokenValiditySeconds(60*60*24*3)
@@ -70,14 +71,13 @@ public class SecurityConfig {
                 .requestMatchers("/product/order").hasRole("General")
                 .requestMatchers("/product/complete/**").hasRole("General")
                 //문의 하기
-                .requestMatchers("/cs/layout/qna/write").hasRole("General")
+                .requestMatchers("/cs/layout/qna/write").hasAnyRole("General","Admin")
                 //관리자화면
                 .requestMatchers("/admin/").hasAnyRole("Admin", "Seller")
                 .requestMatchers("/admin/config/**").hasAnyRole("Admin")
                 .requestMatchers("/admin/shop/list").hasAnyRole("Admin")
                 .requestMatchers("/admin/shop/sales").hasAnyRole("Admin", "Seller")
-                .requestMatchers("/admin/member/list").hasAnyRole("Admin")
-                .requestMatchers("/admin/member/point").hasAnyRole("Admin", "Seller")
+                .requestMatchers("/admin/member/**").hasAnyRole("Admin")
                 .requestMatchers("/admin/product/**").hasAnyRole("Admin", "Seller")
                 .requestMatchers("/admin/order/**").hasAnyRole("Admin", "Seller")
                 .requestMatchers("/admin/coupon/**").hasAnyRole("Admin", "Seller")

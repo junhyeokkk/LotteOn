@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 /*
@@ -16,6 +17,7 @@ import java.util.Optional;
      수정이력
      - 2024/11/01 이도영 다운받은 쿠폰 추가 기능 작성
      - 2024/11/05 이도영 판매자일 경우 데이터 출력 형식
+     - 2024/11/05 이도영 나의정보에 발급받은 쿠폰 수량 출력
 */
 @Repository
 public interface CouponTakeRepository extends JpaRepository<CouponTake, Long> {
@@ -30,5 +32,8 @@ public interface CouponTakeRepository extends JpaRepository<CouponTake, Long> {
     Page<CouponTake> findByCoupon_CouponidAndShopId(long l, Long shopid, Pageable pageable);
     Page<CouponTake> findByCoupon_CouponnameContainingAndShopId(String keyword, Long shopid, Pageable pageable);
     Page<CouponTake> findByShopId(Long shopid, Pageable pageable);
+
+    //발급받은 쿠폰 수량 출력
+    List<CouponTake> findAllByMember_Uid(String uid);
 }
 

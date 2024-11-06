@@ -6,6 +6,7 @@
   수정이력
   - 2024/11/04 이도영 사용자 권한에 따른 버튼 설정
   - 2024/11/05 이도영 사용자 권한에 따른 버튼 설정(포인트 관리 삭제)
+  - 2024/11/06 이도영 사용자 권한에 따른 버튼 설정(관리자 상품 등록X)
 -->
 <aside th:fragment="admin_sidebar">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -38,7 +39,10 @@
         <li><a th:href="@{/admin/member/point}" class="point"><i class="fas fa-star"></i> 포인트관리</a></li>
       </ol>
     </li>
-    <li>
+    <li th:if="${role == 'Admin'}">
+      <a th:href="@{/admin/product/list}" class="list"><i class="fas fa-box"></i> 상품현황</a>
+    </li>
+    <li th:if="${role == 'Seller'}">
       <a href="#"><i class="fas fa-box-open" aria-hidden="true"></i> 상품관리</a>
       <ol class="product">
         <li><a th:href="@{/admin/product/list}" class="list"><i class="fas fa-box"></i> 상품현황</a></li>
