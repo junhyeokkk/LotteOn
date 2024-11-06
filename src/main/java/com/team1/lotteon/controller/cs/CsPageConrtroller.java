@@ -40,9 +40,6 @@ private final InquiryRepository inquiryRepository;
         PageResponseDTO<NoticeDTO> notices = articleService.getAllNotices(pageable);
         model.addAttribute("notices", notices);
 
-        List<FaqDTO> faqs = articleService.getFaqsSortedByViewsAndType1();
-        model.addAttribute("faqs", faqs);
-
         List<Inquiry> inquiryList = inquiryRepository.findTop3ByOrderByIdDesc();
         List<InquiryDTO> inquiries = inquiryList.stream().map(InquiryDTO::new).toList();
         log.info("qna size :{}",inquiries.size());

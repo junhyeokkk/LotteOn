@@ -34,11 +34,42 @@
         <section class="faq">
             <h1>자주 묻는 질문<a th:href="@{/cs/layout/faq/list}">전체보기</a></h1>
                 <ul>
-                    <li th:each="faq : ${faqs}">
-                        <a th:href="@{/cs/layout/faq/view/{id}(id=${faq.id})}">
-                            <span th:text="${faq.type1}" style="font-size: 13px"></span>
+                    <li>
+                        <a th:href="@{/cs/layout/faq/list(type1='회원')}">
+                            <span style="font-size: 13px">회원</span>
                         </a>
                     </li>
+                    <li>
+                        <a th:href="@{/cs/layout/faq/list(type1='쿠폰/이벤트')}">
+                            <span style="font-size: 13px">쿠폰 / 이벤트</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/cs/layout/faq/list(type1='주문/결제')}">
+                            <span style="font-size: 13px">주문 / 결제</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/cs/layout/faq/list(type1='배송')}">
+                            <span style="font-size: 13px">배송</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/cs/layout/faq/list(type1='취소/반품/교환')}">
+                            <span style="font-size: 13px">취소 / 반품 / 교환</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/cs/layout/faq/list(type1='여행/숙박/항공')}">
+                            <span style="font-size: 13px">여행 / 숙박 / 항공</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/cs/layout/faq/list(type1='안전거래')}">
+                            <span style="font-size: 13px">안전거래</span>
+                        </a>
+                    </li>
+
                 </ul>
         </section>
 
