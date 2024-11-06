@@ -1,3 +1,11 @@
+<!--
+    날짜 : 2024/10/25
+    이름 : 김소희
+    내용 : 나의정보 홈 화면
+
+    수정이력
+   - 2024/11/06 이도영 - 구매내용 출력, 나의정보 출력
+-->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
@@ -43,7 +51,11 @@
                                 <th>확인/신청</th>
                             </tr>
                             <block>
-                                <tr>
+                                <!-- myorder 리스트가 비어있을 경우 -->
+                                <tr th:if="${myorders.size() == 0}">
+                                    <td colspan="5" class="td_first" style="width: 100%">최근 주문 내역이 없습니다.</td>
+                                </tr>
+                                <tr th:each="myorder : ${myorders}">
                                     <td class="date">2022-12-13</td>
                                     <td><a href="#" class="recentproductorderimg"><img  th:src="'/'+${appInfo.uploadDir}+'product/'+${myorder.getProduct().getProductImg1()}" alt="상품이미지"></a></td>
                                     <td class="order-info">
@@ -145,7 +157,6 @@
                             </block>
                         </table>
                     </article>
-
                     <article class="qna">
                         <h3>문의내역</h3>
                         <a th:href="@{/myPage/qna}" class="more">더보기 &gt;</a>
@@ -182,48 +193,36 @@
                             </block>
                         </table>
                     </article>
-
                     <h3>나의설정</h3>
                     <article class="myinfo">
-                        
                         <div class="myinfosetting">
                             <div class="address">
-                                <span>기본 배송지설정</span>
+                                <span>기본 배송지</span>
                                 <a th:href="@{/myPage/info}" class="setting">&nbsp;&nbsp;변경</a>
                                 <p>
-                                    <span text="${'우편번호 : '+member.zip}">부산광역시</span><br />
-                                    <span text="${'상세주소 :'+member.addr1 +' '+member.addr2}">서면</span><br />
-                                    <!-- (최종수정일 <span text="${member.rdate.toLocalDate()}">2021-12-10</span>) -->
+                                    <span th:text="${'우편번호 : '+address.zip}">부산광역시</span><br />
+                                    <span th:text="${'상세주소 :'+address.addr1 +' '+address.addr2}">서면</span><br />
                                 </p>
-
                             </div>
                             <div class="email">
-                                <span>email 설정</span>
+                                <span>Email</span>
                                 <a th:href="@{/myPage/info}" class="setting">&nbsp;&nbsp;변경</a>
                                 <p>
-                                    <span text="${member.email}">abc123@gmail.com</span><br />
-                                    (최종수정일 <span text="${member.rdate.toLocalDate()}">2021-12-10</span>)
+                                    <span th:text="${member.email}">abc123@gmail.com</span><br />
                                 </p>
                             </div>
                             <div class="hp">
-                                <span>휴대폰 설정</span>
+                                <span>휴대폰</span>
                                 <a th:href="@{/myPage/info}" class="setting">&nbsp;&nbsp;변경</a>
                                 <p>
-                                    <span text="${member.hp}">abc123@gmail.com</span><br />
-                                    (최종수정일 <span text="${member.rdate.toLocalDate()}">2021-12-10</span>)
+                                    <span th:text="${member.ph}">abc123@gmail.com</span><br />
                                 </p>
                             </div>
                         </div>
-
-
                     </article>
-
                 </section>
-
             </div>
         </div>
-
-
     </div>
     <footer th:replace="~{layout/footer::footer}"></footer>
 </body>

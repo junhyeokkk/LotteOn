@@ -4,8 +4,9 @@
     내용 : issued 생성
 
     수정내용
-    - 2024/11/01 받은 쿠폰에 대한 화면 출력
-    - 2024/11/05 operate추가, 사용 가능 상태에 따라 출력 방식 변경
+    - 2024/11/01 이도영 받은 쿠폰에 대한 화면 출력
+    - 2024/11/05 이도영 operate추가, 사용 가능 상태에 따라 출력 방식 변경
+    - 2024/11/06 이도영 다운로드한 쿠폰이 없을경우에 대해 출력
 -->
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
@@ -62,7 +63,7 @@
           <th>관리</th>
         </tr>
 
-        <tr th:each="coupon : ${coupontakedtos.dtoList}" class="admin_list">
+        <tr th:each="coupon : ${coupontakedtos.dtoList}" class="admin_list" th:if="${coupontakedtos.dtoList.size()} > 0">
           <td>
             <a href="#" data-modal="couponmodal" th:attr="data-coupontake-id=${coupon.couponTakenId}" th:text="${coupon.couponTakenId}" class="underline-link"></a>
           </td>
@@ -98,6 +99,10 @@
                 </span>
             </a>
           </td>
+        </tr>
+        <!-- 데이터가 없을 경우 "발급된 쿠폰이 없습니다" 메시지 출력 -->
+        <tr th:unless="${coupontakedtos.dtoList.size()} > 0">
+          <td colspan="8" style="height: 65px";>발급된 쿠폰이 없습니다</td>
         </tr>
       </table>
 

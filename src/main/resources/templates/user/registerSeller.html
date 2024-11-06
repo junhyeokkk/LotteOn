@@ -1,6 +1,10 @@
-<!--날짜 : 2024/10/25-->
-<!--이름 : 강유정(최초 작성자)-->
-<!--내용 : 회원가입 html 생성-->
+<!--
+    날짜 : 2024/10/25
+    이름 : 강유정(최초 작성자)
+    내용 : 회원가입 html 생성
+    수정내용
+        - 2024/11/06 이도영 판매자 이메일 입력
+-->
 
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
@@ -39,6 +43,18 @@
                     <th>비밀번호 확인</th>
                     <td><input type="password" name="pass2">
                         <span class="resultPass"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>EMAIL<span class="required">*</span></th>
+                    <td>
+                        <input type="email" name="email" placeholder="이메일입력"/>
+                        <button type="button" id="btnSendEmail" name="btnEmail" data-type="email" class="infobutton">인증번호 받기</button>
+                        <span id="resultEmail"></span>
+                        <div class="auth" style="display:none">
+                            <input type="text" name="userauth" class="userauth" placeholder="인증번호 입력" />
+                            <button type="button" id="btnAuthEmail"  class="infobutton">인증확인</button>
+                        </div>
                     </td>
                 </tr>
             </table>

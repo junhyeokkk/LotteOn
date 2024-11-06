@@ -8,6 +8,8 @@ import lombok.*;
     날짜 : 2024/10/25
     이름 : 이상훈
     내용 : 상점 엔티티 생성
+    수정사항
+        - 2024/11/06 이도영 판매자 이메일 추가
 */
 @Entity
 @Getter
@@ -25,6 +27,7 @@ public class Shop {
     private String eCommerceRegistration;
     private String ph;
     private String fax;
+    private String email;
     @Embedded
     private Address address;
     private int isActive;

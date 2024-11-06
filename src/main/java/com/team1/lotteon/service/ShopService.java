@@ -7,12 +7,15 @@ package com.team1.lotteon.service;
      수정이력
       - 2024/10/25 이도영 - 유효성검사
       - 2024/10/28 이도영 - 관리자 상점 페이지 출력
+      - 2024/11/06 이도영 - 이메일 존재여부,판매자 아이디 검색,판매자 비밀번호 검색 기능 추가
 */
 import com.querydsl.core.Tuple;
 import com.team1.lotteon.dto.ShopDTO;
 import com.team1.lotteon.dto.pageDTO.NewPageRequestDTO;
 import com.team1.lotteon.dto.pageDTO.NewPageResponseDTO;
+import com.team1.lotteon.entity.SellerMember;
 import com.team1.lotteon.entity.Shop;
+import com.team1.lotteon.repository.Memberrepository.SellerMemberRepository;
 import com.team1.lotteon.repository.shop.ShopRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -22,6 +25,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -31,6 +35,7 @@ import java.util.stream.Collectors;
 public class ShopService {
     private final ShopRepository shopRepository;
     private final ModelMapper modelMapper;
+    private final SellerMemberRepository sellerMemberRepository;
     // 기본 상점 화면 출력
     public NewPageResponseDTO<ShopDTO> selectshopAll(NewPageRequestDTO newPageRequestDTO) {
         // 페이징 정보를 설정합니다.
@@ -106,6 +111,22 @@ public class ShopService {
     public void deleteShops(List<Long> ids) {
         shopRepository.deleteAllById(ids);
     }
+
+    //이메일 존재여부
+    public boolean isShopEmailExist(String email) {
+        return shopRepository.existsByEmail(email);
+    }
+
+    //판매자 아이디 검색
+    public Shop findUserIdByNameAndEmail(String name, String email) {
+        return shopRepository.findByRepresentativeAndEmail(name, email);
+    }
+    //판매자 비밀번호 검색
+    public Optional<Shop> getShopByUidAndEmail(String uid, String email) {
+        return sellerMemberRepository.findByUidAndShop_Email(uid, email)
+                .map(SellerMember::getShop);
+    }
+
     // 통신판매업번호 존재 여부 확인
 //    public boolean isECommerceRegistrationExist(String eCommerceRegistration) {
 //        return shopRepository.existsByECommerceRegistration(eCommerceRegistration);

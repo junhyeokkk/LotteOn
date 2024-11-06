@@ -6,6 +6,7 @@
     - 2024/10/29 이도영 - 쿠폰 정보 출력
     - 2024/10/30 이도영 - 쿠폰 모달 출력
     - 2024/11/05 이도영 - couponchangemodal 모달 추가
+    - 2024/11/06 이도영 - 등록된 쿠폰 없습니다 출력
 -->
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
@@ -65,8 +66,8 @@
           <th>생성일</th>
           <th>관리</th>
         </tr>
-        <tr th:if="${coupondtos == null}">
-          <td colspan="7" class="td_first" style="width: 100%">등록된 쿠폰이 없습니다.</td>
+        <tr th:if="${coupondtos.dtoList.size()} == 0">
+          <td colspan="11" style="height: 65px";>등록된 쿠폰이 없습니다.</td>
         </tr>
         <tr class="admin_list" th:each="coupon : ${coupondtos.dtoList}" th:if="${coupondtos != null}">
           <td>

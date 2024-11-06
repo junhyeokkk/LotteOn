@@ -16,7 +16,8 @@ import java.time.LocalDateTime;
     내용 : 멤버를 상속받는 일반회원 엔티티 생성
 
     수정이력
-   - 2025/10/31 박서홍 - 상태변경코드 추가
+   - 2024/10/31 박서홍 - 상태변경코드 추가
+   - 2024/11/06 이도영 - 상태변경코드 수정
 */
 @Entity
 @Getter
@@ -29,13 +30,13 @@ public class GeneralMember extends Member {
     @Enumerated(EnumType.STRING)
     private Gender gender;
     @Enumerated(EnumType.STRING)
-    private Grade grade = Grade.FAMILY;
+    private Grade grade;
     private int points;
     private String email;
     private String ph;
 
-    // 1: 정상 , 2: 중지, 3: 휴면, 4: 탈퇴
-    private int status=1;
+    // 0: 정상 , 2: 중지, 3: 휴면, 4: 탈퇴, 5:관리자
+    private int status;
 
     private LocalDate birth;
     @Embedded
@@ -79,6 +80,4 @@ public class GeneralMember extends Member {
     public boolean isActive() {
         return this.status == 1;
     }
-
-
 }

@@ -2,13 +2,16 @@
      날짜 : 2024/10/25
      이름 : 강유정(최초 작성자)
      내용 : 셀러 유효성검사 생성
+
+     수정사항
+     - 2024/11/06 이도영 이메일 유효성 검사
 */
 
 window.onload = function () {
 	// 유효성 검사에 사용할 상태변수
 	let isUidOk = false;
 	let isPassOk = false;
-
+	let isEmailVerified = false;
 	let isShop_nameOk = false;
 	let isRepresentativeOk = false;
 	let isBusiness_registrationOk = false;
@@ -20,7 +23,7 @@ window.onload = function () {
 	const registerForm = document.querySelector('.sendForm');
 	const resultId = document.querySelector('.resultId');
 	const resultPass = document.querySelector('.resultPass');
-
+	const resultEmail = document.getElementById('resultEmail');
 	const resultShop_name = document.querySelector('.resultShop_name');
 	const resultRepresentative = document.querySelector('.resultRepresentative');
 	const resultBusiness_registration = document.querySelector('.resultBusiness_registration');
@@ -35,6 +38,7 @@ window.onload = function () {
 	const patterns = {
 		uid: /^[a-z]+[a-z0-9]{4,19}$/g,
 		pass: /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{5,16}$/,
+		email: /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i,
 		ph: /^01(?:0|1|[6-9])-(?:\d{4})-\d{4}$/,
 		business_registration: /^\d{3}-\d{2}-\d{5}$/
 	};
@@ -79,7 +83,46 @@ window.onload = function () {
 			isPassOk = false;
 		}
 	});
+// 이메일 유효성 검사 및 인증코드 발송
+	const btnSendEmail = document.getElementById('btnSendEmail');
+	const EmailInput = document.querySelector('input[name="email"]');
+	const btnAuthEmail = document.getElementById('btnAuthEmail');
+	const authInput = document.querySelector('.userauth'); // 인증 코드 입력 필드
 
+	btnSendEmail.addEventListener('click', async function (e) {
+		e.preventDefault(); // 기본 제출 동작 막기
+		const value = EmailInput.value;
+		if (!value.match(patterns.email)) {
+			showResult(resultEmail, '이메일 형식이 맞지 않습니다.', false);
+			isEmailOk = false;
+			return;
+		}
+		const data = await fetchGet(`/user/Register/shopemail/${value}`);
+		if (data.result) {
+			showResult(resultEmail, '이미 사용중인 이메일 입니다.', false);
+			isEmailOk = false;
+		} else {
+			showResult(resultEmail, '인증코드가 발송되었습니다.', true);
+			auth.style.display = 'block';  // 인증 필드 활성화
+			isEmailOk = true;
+		}
+	});
+
+	// 이메일 인증코드 확인
+	btnAuthEmail.addEventListener('click', async function (e) {
+		e.preventDefault();
+		const code = authInput.value;  // 사용자가 입력한 인증 코드
+		const jsonData = {"code": code};
+		const data = await fetchPost(`/user/Register/email`, jsonData);
+
+		if (!data.result) {
+			showResult(resultEmail, '인증코드가 일치하지 않습니다.', false);
+			isEmailVerified = false;
+		} else {
+			showResult(resultEmail, '이메일이 인증되었습니다.', true);
+			isEmailVerified = true;
+		}
+	});
 	// 회사 이름 유효성 검사
 	const Shop_nameInput = document.getElementsByName('shopName')[0];
 	Shop_nameInput.addEventListener('focusout', async function () {
@@ -219,10 +262,10 @@ window.onload = function () {
 		const data = await fetchGet(`/user/Register/e_commerce_registration/${fullECommerceRegistration}`);
 
 		if (data && data.result) {
-			showResult(resultE_commerce_registration, "사용할 수 없는 통신판매업번호입니다", false);
+			showResult(resultE_commerce_registration, "사용할 수 없는 번호입니다", false);
 			isE_commerce_registrationOk = false;
 		} else {
-			showResult(resultE_commerce_registration, "등록이 가능한 통신판매업번호입니다", true);
+			showResult(resultE_commerce_registration, "등록이 가능한 번호입니다", true);
 			isE_commerce_registrationOk = true;
 		}
 	}

@@ -522,6 +522,22 @@
 
             // 장바구니 등록
             function addToCart() {
+                var isAuthenticated = /*[[${isAuthenticated}]]*/ false;
+                var role = /*[[${role}]]*/ false;
+                if (!isAuthenticated) {
+                    var proceedToLogin = confirm("로그인을 해야 구매가 가능합니다. 로그인 페이지로 이동하시겠습니까?");
+
+                    if (proceedToLogin) {
+                        window.location.href = '/user/login';  // "확인"을 누르면 로그인 페이지로 이동
+                    } else {
+                        return;  // "아니요"를 누르면 현재 페이지에 머무름
+                    }
+                }
+                // 역할이 "Seller" 또는 "Admin"인 경우 처리
+                if (role === "Seller" || role === "Admin") {
+                    alert("일반 사용자만 이용 가능한 기능입니다.");
+                    return;
+                }
                 if (!validateBeforeAction()) return;
 
                 const productId = document.getElementById('prodNo').textContent.trim();
@@ -584,6 +600,23 @@
             }
 
             function saveOrderInfoToSession() {
+                var isAuthenticated = /*[[${isAuthenticated}]]*/ false;
+                var role = /*[[${role}]]*/ false;
+                // 인증되지 않은 경우 처리
+                if (!isAuthenticated) {
+                    var proceedToLogin = confirm("로그인을 해야 구매가 가능합니다. 로그인 페이지로 이동하시겠습니까?");
+
+                    if (proceedToLogin) {
+                        window.location.href = '/user/login';  // "확인"을 누르면 로그인 페이지로 이동
+                    } else {
+                        return;  // "아니요"를 누르면 현재 페이지에 머무름
+                    }
+                }
+                // 역할이 "Seller" 또는 "Admin"인 경우 처리
+                if (role === "Seller" || role === "Admin") {
+                    alert("일반 사용자만 이용 가능한 기능입니다.");
+                    return;
+                }
                 if (!validateBeforeAction()) return;
 
                 // 필요한 값을 미리 계산해서 로컬 변수로 저장

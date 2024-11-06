@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -154,7 +155,11 @@ public class OrderService {
     public List<OrderItem> getMyOrder(String uid){
 
         Order myOrder = orderRepository.findTop1ByMember_UidOrderByOrderDateDesc(uid);
-        OrderDTO orderDTO = modelMapper.map(myOrder, OrderDTO.class);
+        if (myOrder == null) {
+            // myOrder가 null인 경우 빈 리스트 반환
+            return Collections.emptyList();
+        }
+        OrderDTO orderDTO = modelMapper.map( myOrder, OrderDTO.class);
 
         List<OrderItem> orderItems = orderDTO.getOrderItems();
 
@@ -167,6 +172,11 @@ public class OrderService {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid order ID: " + orderId));
 
         return new OrderSummaryDTO(order);
+    }
+    //마이페이지 주문내역 출력(도영)
+    public int getOrderCountByUserId(String userId) {
+        List<Order> orders = orderRepository.findAllByMember_Uid(userId);
+        return orders != null ? orders.size() : 0;
     }
     // 쿠폰 추가 디벨롭
 //    private Coupon getCouponIfExists(Long couponId) {

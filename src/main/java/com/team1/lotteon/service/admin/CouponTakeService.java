@@ -45,6 +45,7 @@ import java.util.stream.Collectors;
      - 2024/11/05 이도영 발급된 쿠폰 정보 출력 모달
                         쿠폰 상태 업데이트 기능
                         판매자와 관리자에 따라 출력 방식 변경
+     - 2024/11/06 이도영 나의정보에서 다운로드한 쿠폰 수 출력
 */
 @Log4j2
 @RequiredArgsConstructor
@@ -306,5 +307,10 @@ public class CouponTakeService {
                     return true;
                 })
                 .orElse(false);
+    }
+    //2024/11/06 이도영 나의정보에서 다운로드한 쿠폰 수 출력
+    public int getCouponCountByUserId(String memberId) {
+        List<CouponTake> coupons = couponTakeRepository.findAllByMember_Uid(memberId);
+        return coupons.size();
     }
 }
