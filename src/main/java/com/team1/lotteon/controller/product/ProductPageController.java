@@ -2,7 +2,6 @@ package com.team1.lotteon.controller.product;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.team1.lotteon.dto.CouponDTO;
 import com.team1.lotteon.dto.GeneralMemberDTO;
 import com.team1.lotteon.dto.order.FinalOrderSummaryDTO;
 import com.team1.lotteon.dto.order.OrderInfoDTO;
@@ -13,9 +12,9 @@ import com.team1.lotteon.dto.order.OrderSummaryDTO;
 import com.team1.lotteon.dto.product.ProductDTO;
 import com.team1.lotteon.dto.product.ProductSearchRequestDto;
 import com.team1.lotteon.dto.product.ProductSummaryResponseDTO;
+import com.team1.lotteon.dto.review.ReviewResponseDTO;
 import com.team1.lotteon.entity.Coupon;
 import com.team1.lotteon.entity.CouponTake;
-import com.team1.lotteon.entity.GeneralMember;
 import com.team1.lotteon.security.MyUserDetails;
 import com.team1.lotteon.service.CartService;
 import com.team1.lotteon.service.CategoryService;
@@ -24,23 +23,21 @@ import com.team1.lotteon.service.ProductService;
 import com.team1.lotteon.service.UserService;
 import com.team1.lotteon.service.admin.CouponService;
 import com.team1.lotteon.service.admin.CouponTakeService;
+import com.team1.lotteon.service.review.ReviewService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /*
     날짜 : 2024/10/25
@@ -52,6 +49,8 @@ import java.util.stream.Collectors;
                         - 사용가능한 쿠폰 출력
                        @GetMapping("/product/view/{id}")
                         - 다운받은 쿠폰 리스트 출력
+    - 2024/11/06 이상훈 
+                        - 리뷰 가져오기 추가
 */
 @Log4j2
 @Controller
@@ -65,6 +64,7 @@ public class ProductPageController {
     private final CouponTakeService couponTakeService;
     private final ModelMapper modelMapper;
     private final OrderService orderService;
+    private final ReviewService reviewService;
 
     // list 페이지 이동
     @GetMapping("/product/list")
@@ -247,7 +247,7 @@ public class ProductPageController {
 
     // view 페이지 이동
     @GetMapping("/product/view/{id}")
-    public String viewProduct(@PathVariable("id") Long id, Model model) throws JsonProcessingException {
+    public String viewProduct(@PathVariable("id") Long id, Model model, @PageableDefault Pageable pageable) throws JsonProcessingException {
         log.info("컨트롤러 ㅇㅇㅇ");
         ProductDTO saveProduct = productService.getProductById(id);
         //shopid로 바꾸기
@@ -293,6 +293,14 @@ public class ProductPageController {
         int discountedPrice = (int) (saveProduct.getPrice() * (1 - saveProduct.getDiscountRate() / 100.0));
 
         saveProduct.setDiscountedPrice(discountedPrice);
+
+        // 리뷰 가져오기
+        PageResponseDTO<ReviewResponseDTO> reviews = reviewService.getReviewsByProductId(id, pageable);
+        long count =  reviewService.getReviewCountByProductId(id);
+        double reviewAvgRating = reviewService.getReviewAvgRating(id);
+        model.addAttribute("reviews", reviews);
+        model.addAttribute("reviewCount", count);
+        model.addAttribute("reviewAvgRating", reviewAvgRating);
 
         // 기본 재고 수량을 모델에 추가 (옵션이 없는 경우 참조)
         model.addAttribute("defaultStock", saveProduct.getStock());
