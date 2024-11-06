@@ -52,7 +52,7 @@
                             </tr>
                             <block>
                                 <!-- myorder 리스트가 비어있을 경우 -->
-                                <tr th:if="${myorders.size() == 0}">
+                                <tr th:if="${myorders == null or myorders.size() == 0}">
                                     <td colspan="5" class="td_first" style="width: 100%">최근 주문 내역이 없습니다.</td>
                                 </tr>
                                 <tr th:each="myorder : ${myorders}">
