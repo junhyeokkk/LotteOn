@@ -24,15 +24,15 @@ import java.time.LocalDateTime;
 @Data
 // Article DTO
 public class ArticleDTO {
-    private Long id;
-    private int views;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-    private String content;
-    private String title;
+    protected Long id;
+    protected int views;
+    protected LocalDateTime createdAt;
+    protected LocalDateTime updatedAt;
+    protected String content;
+    protected String title;
 
-    private long displayNumber;
-    private String type1;
-    private String memberId;
+    protected long displayNumber;
+    protected String type1;
+    protected String memberId;
 
 }

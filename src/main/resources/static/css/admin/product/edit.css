@@ -1,35 +1,376 @@
-/* edit.css */
+/* 기본 레이아웃 */
 .content {
+    max-width: 910px;
+    margin: auto;
     padding: 20px;
+    font-family: Arial, sans-serif;
+    color: #333;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.section {
+/* 대시보드 제목 */
+.dashboard h1 {
+    font-size: 24px;
+    color: #333;
+    text-align: center;
     margin-bottom: 20px;
+    font-weight: bold;
 }
 
-.form-table {
+/* 탭 네비게이션 스타일 */
+.tab-nav {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #ddd;
+}
+
+.tab-nav li {
+    list-style: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    color: #666;
+    font-weight: bold;
+    transition: color 0.3s, border-bottom 0.3s;
+}
+
+.tab-nav li:hover, .tab-nav li.active {
+    color: #007bff;
+    border-bottom: 2px solid #007bff;
+}
+
+/* 전체 탭 스타일 */
+.tab-content {
+    padding: 30px;
+    background: linear-gradient(135deg, #ffffff, #f7f7fa);
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    max-width: 650px;
+    margin: 30px auto;
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    transition: all 0.4s ease;
+}
+
+.tab-content h2 {
+    text-align: center;
+    font-size: 26px;
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 25px;
+    letter-spacing: 1px;
+}
+
+/* 폼 그룹과 아이콘 스타일 */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: #444;
+    margin-bottom: 8px;
+    font-size: 15px;
+}
+
+/* 입력 컨테이너 및 아이콘 */
+.input-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.input-container i {
+    position: absolute;
+    left: 15px;
+    color: #888;
+    font-size: 18px;
+    transition: color 0.3s ease;
+}
+
+.input-container input {
+    width: 100%;
+    padding: 12px 15px 12px 45px;
+    font-size: 15px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    color: #333;
+    background-color: #f0f0f5;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+/* 포커스 및 호버 효과 */
+.input-container input:focus {
+    background-color: #ffffff;
+    box-shadow: 0 6px 16px rgba(0, 123, 255, 0.3);
+    outline: none;
+    border: 1px solid #007bff;
+}
+
+.input-container input:focus + i {
+    color: #007bff;
+}
+
+/* 할인 가격 표시 스타일 */
+.discount-display {
+    text-align: center;
+    font-size: 20px;
+    color: #ff6b6b;
+    font-weight: bold;
+    padding: 15px;
+    border-radius: 12px;
+    background-color: #fff3f3;
+    box-shadow: 0 4px 10px rgba(255, 107, 107, 0.2);
+    margin-top: 25px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.discount-display:hover {
+    background-color: #ffeaea;
+    box-shadow: 0 8px 16px rgba(255, 107, 107, 0.4);
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .tab-content {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .input-container input {
+        font-size: 14px;
+        padding: 10px 12px 10px 45px;
+    }
+
+    .discount-display {
+        font-size: 18px;
+    }
+}
+/* 카테고리 선택 탭 스타일 */
+.tab-content {
+    padding: 25px;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 20px auto;
+    font-family: 'Arial', sans-serif;
+    color: #333;
+}
+
+.tab-content h2 {
+    text-align: center;
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+/* 폼 그룹과 레이블 스타일 */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #555;
+    font-size: 14px;
+}
+
+/* 선택 상자 스타일 */
+.form-group select {
+    width: 100%;
+    padding: 12px 15px;
+    font-size: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f7f8fc;
+    color: #333;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    appearance: none; /* 기본 화살표 제거 */
+    position: relative;
+    background-image: url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/svgs/solid/caret-down.svg');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 15px;
+}
+
+/* 선택 상자 포커스 및 호버 스타일 */
+.form-group select:focus {
+    border-color: #007bff;
+    background-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
+    outline: none;
+}
+
+.form-group select:hover {
+    background-color: #e8e8f1;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .tab-content {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .form-group select {
+        font-size: 14px;
+        padding: 10px;
+    }
+}
+
+.tab-content {
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    max-width: 650px;
+    margin: 20px auto;
+    font-family: 'Arial', sans-serif;
+}
+
+.tab-content h2 {
+    text-align: center;
+    font-size: 24px;
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 25px;
+}
+
+.image-upload-card {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    text-align: center;
+    background-color: #f9f9f9;
+    transition: all 0.3s ease;
+}
+
+.upload-label {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+    display: block;
+    font-size: 15px;
+}
+
+.image-preview {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin: 10px auto;
+    cursor: pointer;
+}
+
+.image-display {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    transition: transform 0.3s ease;
+}
+
+.image-preview:hover .image-display {
+    transform: scale(1.05);
+}
+
+.current-image-label {
+    font-size: 14px;
+    color: #777;
+    margin-top: 5px;
+    font-style: italic;
+}
+
+/* 숨긴 파일 입력 필드 */
+.file-input {
+    display: none;
+}
+
+.tab-content {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 700px;
+    margin: 20px auto;
+    font-family: Arial, sans-serif;
+}
+
+.add-option-btn {
+    margin-bottom: 15px;
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-option-btn:hover {
+    background-color: #0056b3;
+}
+
+table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
 }
 
-.form-table th, .form-table td {
+th, td {
     padding: 10px;
     border: 1px solid #ddd;
-}
-
-.section h2 {
-    font-size: 18px;
-    color: #333;
-}
-
-.submit-section {
     text-align: center;
+    font-size: 14px;
 }
 
-.submit-section button {
-    padding: 10px 20px;
-    font-size: 16px;
+.value-container {
+    display: flex;
+    gap: 5px;
+}
+
+.delete-btn {
+    color: #ff5c5c;
+    font-weight: bold;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.delete-btn:hover {
+    color: #ff0000;
+}
+.tab-content {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 700px;
+    margin: 20px auto;
+    font-family: Arial, sans-serif;
+}
+
+.add-option-btn {
+    margin-bottom: 15px;
+    padding: 8px 16px;
     background-color: #007bff;
     color: #fff;
     border: none;
@@ -37,10 +378,59 @@
     cursor: pointer;
 }
 
-.submit-section button:hover {
-    background-color: #0056b3;
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
 }
 
-.option-section, .combination-section {
-    display: none;
+th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+    font-size: 14px;
+}
+
+.value-container {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+.option-value {
+    padding: 5px 10px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    margin: 2px;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.option-value[contenteditable="true"] {
+    outline: 1px solid #007bff;
+    background-color: #e8f0fe;
+}
+
+.delete-value-btn {
+    margin-left: 5px;
+    background: none;
+    border: none;
+    color: #ff5c5c;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.required-checkbox {
+    cursor: pointer;
+}
+
+.delete-btn {
+    color: #ff5c5c;
+    font-weight: bold;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 18px;
 }

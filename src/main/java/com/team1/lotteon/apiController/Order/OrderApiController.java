@@ -52,41 +52,10 @@ public class OrderApiController {
         // 주문 생성 서비스 호출
         OrderSummaryDTO orderSummary = orderService.createOrder(orderRequest, member);
 
-        log.info("주문 요약 정보" + orderSummary );
+        log.info("주문 요약 정보" + orderSummary);
 
         // 주문 요약 정보를 포함한 응답 반환
         return ResponseEntity.ok(orderSummary);
     }
 
-
-
-    @PostMapping("/use")
-    public ResponseEntity<String> usePoints(@RequestBody PointDTO pointDTO) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || !(authentication.getPrincipal() instanceof UserDetails)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("인증되지 않은 사용자입니다.");
-        }
-
-        String uid = ((UserDetails) authentication.getPrincipal()).getUsername();
-        GeneralMemberDTO generalMemberDTO = adminMemberService.getMemberByUid(uid); // 회원 정보 가져오기
-
-        if (generalMemberDTO == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("존재하지 않는 회원입니다.");
-        }
-
-
-        try {
-            // 포인트 사용 메서드 호출
-            GeneralMember generalMember = new GeneralMember(); // GeneralMemberDTO를 GeneralMember로 변환 (필요한 필드만 변환)
-            generalMember.setUid(generalMemberDTO.getUid());
-            generalMember.setPoints(generalMemberDTO.getPoints());
-            pointService.userOrderPoints(pointDTO.getGivePoints(), generalMember);
-
-            return ResponseEntity.ok("포인트가 성공적으로 사용되었습니다.");
-        } catch (IllegalArgumentException e) {
-            log.error("포인트 사용 오류: {}", e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
-    }
 }
-

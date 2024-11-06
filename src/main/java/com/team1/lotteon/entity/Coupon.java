@@ -24,6 +24,7 @@ import java.time.LocalDateTime;
 
     수정사항
         - 2024/10/29 이도영 - 엔티티 전체 변경
+        - 2024/11/05 이도영 - coupondiscount (double) 변경
 */
 @Entity
 @Getter
@@ -38,7 +39,7 @@ public class Coupon {
     //single, ordersale, freedelivery
     private String coupontype; //쿠폰종류
     private String couponname; //쿠폰명
-    private int coupondiscount; // 혜택 할인
+    private double coupondiscount; // 할인혜택
 
     private LocalDateTime couponstart; //시작시간
     private LocalDateTime couponend; //종료시간

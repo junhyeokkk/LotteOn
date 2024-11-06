@@ -5,6 +5,7 @@
     수정이력
     - 2024/10/28 이도영 - 상점 모달 수정
     - 2024/10/29 이도영 - 쿠폰 모달 수정
+    - 2024/11/05 이도영 - 쿠폰 모달 데이터 출력 변경
 -->
 
 
@@ -27,1062 +28,1139 @@
 
 <body>
 
-<!-- 모달을 여는 버튼 -->
-<button id="bannerSubmitBtn" class="modal-button">배너등록</button>
-<button id="versionCheckBtn" class="modal-button">버전 체크</button>
-<button id="versionInsertBtn" class="modal-button">버전 등록</button>
-<button id="sellerInsertBtn" class="modal-button">상점 등록</button>
-<button id="userChangeBtn" class="modal-button">회원 정보 수정</button>
-<button id="orderinfomodalBtn" class="modal-button">주문상세 수정</button>
-<button id="adressinputmodalBtn" class="modal-button">배송입력</button>
-<button id="deliverinfomodalBtn" class="modal-button">배송상세</button>
-<button id="couponinfomodalBtn" class="modal-button">쿠폰정보</button>
-<button id="couponinsertmodalBtn" class="modal-button">쿠폰등록</button>
-<button id="couponmodalBtn" class="modal-button">쿠폰사용자전달정보</button>
-<button id="employmodalBtn" class="modal-button">채용등록</button>
-
-<!-- 관리자 -->
-<!-- 배너등록 모달 -->
-<div id="bannerModal" class="modal admin">
-    <div class="Bannermodal-content modalcontent">
-        <nav class="adminmodal-nav">
-            <h1>배너등록</h1>
-            <button class="adminmodal-close" id="closeModal">&times;</button>
-        </nav>
-        <section class="modal-section">
-            <form id="bannerForm" enctype="multipart/form-data">
-                <table border="0" class="heighttable">
-                    <tr>
-                        <th>배너이름</th>
-                        <td><input type="text" class="bannername" name="name"></td>
-                    </tr>
-                    <tr>
-                        <th>배너이미지</th>
-                        <td><input type="file" class="bannerfile" name="banner_img"></td>
-                    </tr>
-                    <tr>
-                        <th>배너크기</th>
-                        <td><input type="text" class="bannersize" name="size" readonly></td>
-                    </tr>
-                    <tr>
-                        <th>배경색</th>
-                        <td><input type="text" class="bannercolor" name="backgroundColor"></td>
-                    </tr>
-                    <tr>
-                        <th>배너링크</th>
-                        <td><input type="text" class="bannerlink" name="backgroundLink" readonly></td>
-                    </tr>
-                    <tr>
-                        <th>배너위치</th>
-                        <td>
-                            <select name="position" class="bannerplace">
-                                <Option value="Main">메인 상단 배너</Option>
-                                <Option value="Silder">메인 슬라이더 배너</Option>
-                                <Option value="Product">상품 상세보기 배너</Option>
-                                <Option value="Login">회원 로그인 배너</Option>
-                                <Option value="Mypage">마이 페이지 배너</Option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>노출날짜</th>
-                        <td>
-                            <input type="date" class="bannerdate" name="displayStartDate"> -
-                            <input type="date" class="bannerdate" name="displayEndDate">
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>노출시간</th>
-                        <td>
-                            <select name="hour" class="bannertime">
-                                <Option value="00">00</Option>
-                                <Option value="01">01</Option>
-                                <Option value="02">02</Option>
-                                <Option value="03">03</Option>
-                                <Option value="04">04</Option>
-                                <Option value="05">05</Option>
-                                <Option value="06">06</Option>
-                                <Option value="07">07</Option>
-                                <Option value="08">08</Option>
-                                <Option value="09">09</Option>
-                                <Option value="10">10</Option>
-                                <Option value="11">11</Option>
-                                <Option value="12">12</Option>
-                                <Option value="13">13</Option>
-                                <Option value="14">14</Option>
-                                <Option value="15">15</Option>
-                                <Option value="16">16</Option>
-                                <Option value="17">17</Option>
-                                <Option value="18">18</Option>
-                                <Option value="19">19</Option>
-                                <Option value="20">20</Option>
-                                <Option value="21">21</Option>
-                                <Option value="22">22</Option>
-                                <Option value="23">23</Option>
-                            </select> 시
-                            <select name="minute" class="bannertime">
-                                <Option value="00">00</Option>
-                                <Option value="10">10</Option>
-                                <Option value="20">20</Option>
-                                <Option value="30">30</Option>
-                                <Option value="40">40</Option>
-                                <Option value="50">50</Option>
-                            </select> 분
-                            ~
-                            <select name="endHour" class="bannertime">
-                                <Option value="00">00</Option>
-                                <Option value="01">01</Option>
-                                <Option value="02">02</Option>
-                                <Option value="03">03</Option>
-                                <Option value="04">04</Option>
-                                <Option value="05">05</Option>
-                                <Option value="06">06</Option>
-                                <Option value="07">07</Option>
-                                <Option value="08">08</Option>
-                                <Option value="09">09</Option>
-                                <Option value="10">10</Option>
-                                <Option value="11">11</Option>
-                                <Option value="12">12</Option>
-                                <Option value="13">13</Option>
-                                <Option value="14">14</Option>
-                                <Option value="15">15</Option>
-                                <Option value="16">16</Option>
-                                <Option value="17">17</Option>
-                                <Option value="18">18</Option>
-                                <Option value="19">19</Option>
-                                <Option value="20">20</Option>
-                                <Option value="21">21</Option>
-                                <Option value="22">22</Option>
-                                <Option value="23">23</Option>
-                            </select> 시
-                            <select name="endminute" class="bannertime">
-                                <Option value="00">00</Option>
-                                <Option value="10">10</Option>
-                                <Option value="20">20</Option>
-                                <Option value="30">30</Option>
-                                <Option value="40">40</Option>
-                                <Option value="50">50</Option>
-                            </select> 분
-
-                            <!-- 숨겨진 필드 -->
-                            <input type="hidden" name="displayStartTime" id="displayStartTime">
-                            <input type="hidden" name="displayEndTime" id="displayEndTime">
-                        </td>
-                    </tr>
-                </table>
-                <br>
-                <div class="modalbuttondiv">
-                    <input class="adminmodalbutton" type="button" value="작성완료" />
-                    <button type="button" id="bannermodalclose" class="modalcanclebutton">취소</button>
-                </div>
-            </form>
-        </section>
-    </div>
-</div>
-<!-- 버전확인 모달 -->
-<div id="versioncheckModal" class="modal admin">
-    <div class="VersionCheckmodal-content modalcontent">
-        <nav class="adminmodal-nav">
-            <h1>버전확인</h1>
-            <button class="adminmodal-close" id="closeModal">&times;</button>
-        </nav>
-        <section class="modal-section">
-            <form action="#" method="post" enctype="multipart/form-data">
-                <table border="0" class="heighttable">
-                    <tr>
-                        <th>버전정보</th>
-                        <td id="modalVersion"></td>
-                    </tr>
-                    <tr>
-                        <th>변경내역</th>
-                        <td class="modalcontent"><textarea id="modalContent" readonly>
-                            </textarea>
-                        </td>
-                    </tr>
-                </table>
-                <br>
-                <div class="modalbuttondiv">
-                    <button type="button" id="modalcanclebutton" class="modalcanclebutton">닫기</button>
-                </div>
-            </form>
-        </section>
-    </div>
-</div>
-<!-- 버전등록 모달 -->
-<div id="versioninsertModal" class="modal admin">
-    <div class="versioninsertmodal-content modalcontent">
-        <nav class="adminmodal-nav">
-            <h1>버전등록</h1>
-            <button class="adminmodal-close" id="closeModal">&times;</button>
-        </nav>
-        <section class="modal-section">
-            <form id="versionForm">
-                <table border="0" class="heighttable">
-                    <tr>
-                        <th>버전</th>
-                        <td><input type="text" name="version" placeholder="버전입력하기" /></td>
-                    </tr>
-                    <tr>
-                        <th>변경내역</th>
-                        <td class="modalcontent">
-                            <textarea name="content" placeholder="변경내역작성하기" required></textarea>
-                        </td>
-                    </tr>
-                </table>
-                <br>
-                <div class="modalbuttondiv">
-                    <input class="adminmodalbutton" type="submit" value="등록하기" />
-                </div>
-            </form>
-        </section>
-    </div>
-</div>
-<!-- 상점등록 모달-->
-<div id="sellerinsertmodal" class="modal admin">
-    <div class="sellerinsertmodal-content modalcontent">
-        <nav class="adminmodal-nav">
-            <h1>상점등록</h1>
-            <button class="adminmodal-close" id="closeModal">&times;</button>
-        </nav>
-        <section class="modal-section">
-            <form class="sendForm" th:action="@{/user/register/admin/seller}" method="post">
-                <table border="0" class="heighttable">
-                    <tr>
-                        <th>아이디</th>
-                        <td>
-                            <input type="text" name="uid" placeholder="아이디 입력"/>
-                            <button type="button" id="btnCheckUid" name="uidbtn" data-type="uid" class="infobutton">중복확인</button>
-                            <span class="resultId"></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>비밀번호<span class="required">*</span></th>
-                        <td><input type="password" name="pass"></td>
-                    </tr>
-                    <tr>
-                        <th>비밀번호 확인</th>
-                        <td><input type="password" name="pass2">
-                            <span class="resultPass"></span>
-                        </td>
-                    </tr>
-                </table>
-                <br>
-                <table border="0" class="heighttable">
-                    <tr>
-                        <th>회사명</th>
-                        <td><input type="text" name="shopName" placeholder="상호명입력예 ) (주)"/>
-                            <span class="resultShop_name"></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>대표</th>
-                        <td><input type="text" name="representative" placeholder="성함입력"/>
-                            <span class="resultRepresentative"></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>사업자등록번호</th>
-                        <td>
-                            <input type="text" name="business_registration_part1" id="business_registration_part1" maxlength="3" style="width: 50px;" /> -
-                            <input type="text" name="business_registration_part2" id="business_registration_part2" maxlength="2" style="width: 45px;" /> -
-                            <input type="text" name="business_registration_part3" id="business_registration_part3" maxlength="5" style="width: 60px;" />
-                            <input type="hidden" name="businessRegistration"/>
-                            <span class="resultBusiness_registration"></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>통신판매업번호</th>
-                        <td>
-                            <input type="text" name="e_commerce_registration_part1" id="e_commerce_registration_part1" maxlength="4" style="width: 70px;" /> -
-                            <input type="text" name="e_commerce_registration_part2" id="e_commerce_registration_part2" maxlength="5" style="width: 100px;" /> -
-                            <input type="text" name="e_commerce_registration_part3" id="e_commerce_registration_part3" maxlength="4" style="width: 60px;" />
-                            <input type="hidden" name="eCommerceRegistration" />
-                            <span class="resultE_commerce_registration"></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>전화번호</th>
-                        <td><input type="text" name="ph" placeholder="전화번호입력"/>
-                            <span class="resultPh"></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>팩스</th>
-                        <td><input type="text" name="fax" placeholder="팩스번호입력"/>
-                            <span class="resultFax"></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>주소<span class="required">*</span></th>
-                        <td>
-                            <div>
-                                <input type="text" name="zip" id="zip" placeholder="우편번호" readonly/>
-                                <button type="button" class="btnZip infobutton" onclick="postcode()">검색</button>
-                            </div>
-                            <div>
-                                <input type="text" name="addr1" id="address1" placeholder="주소를 검색하세요." readonly/>
-                            </div>
-                            <div>
-                                <input type="text" name="addr2" id="address2" placeholder="상세주소를 입력하세요."/>
-                                <span class="resultaddr"></span>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-
-                <div class="modalbuttondiv">
-                    <button class="adminmodalbutton" type="submit">등록하기</button>
-                </div>
-            </form>
-        </section>
-    </div>
-</div>
-<!-- 회원 수정 모달 -->
-<div id="userchangemodal" class="modal admin">
-    <div class="userchangemodal-content modalcontent">
-        <nav class="adminmodal-nav">
-            <h1>회원수정</h1>
-            <button class="adminmodal-close" id="closeModal" onclick="closeModal()">&times;</button>
-        </nav>
-        <section class="modal-section">
-            <form class="sendForm" th:action="@{/user/update/admin/user}" method="post" onsubmit="return submitForm()">
-                <table border="0" class="heighttable">
-                    <!-- 아이디 (수정 불가) -->
-                    <tr>
-                        <th>아이디</th>
-                        <td><input type="text" name="uid" readonly /></td>
-                    </tr>
-
-                    <!-- 이름 -->
-                    <tr>
-                        <th>이름</th>
-                        <td><input type="text" name="name" /></td>
-                    </tr>
-
-                    <!-- 성별 -->
-                    <tr>
-                        <th>성별</th>
-                        <td>
-                            <input class="gendermodal " type="radio" name="gender" value="MALE"> 남자
-                            <input class="gendermodal " type="radio" name="gender" value="FEMALE"> 여자
-                        </td>
-                    </tr>
-
-                    <!-- 등급 (수정 불가) -->
-                    <tr>
-                        <th>등급</th>
-                        <td>
-                            <input type="text" name="grade" readonly />
-                            <span>등급 수정은 회원 목록에서 선택 수정 가능</span>
-                        </td>
-                    </tr>
-
-                    <!-- 상태 -->
-                    <tr>
-                        <th>상태</th>
-                        <td><input type="text" name="status" readonly /></td>
-                    </tr>
-
-                    <!-- EMAIL -->
-                    <tr>
-                        <th>EMAIL</th>
-                        <td><input type="email" name="email" /></td>
-                    </tr>
-
-                    <!-- 휴대폰 -->
-                    <tr>
-                        <th>휴대폰</th>
-                        <td><input type="text" name="ph" /></td>
-                    </tr>
-                    <!-- 우편번호 -->
-                    <tr>
-                        <th>우편번호</th>
-                        <td>
-                            <div>
-                                <input type="text" name="zip" id="zip1" placeholder="우편번호" readonly/>
-                                <button id="addressButton" type="button" class="btnZip infobutton" onclick="postcode2()">우편번호검색</button>
-
-                            </div>
-                        </td>
-                    </tr>
-
-                    <!-- 기본주소 -->
-                    <tr>
-                        <th>기본주소</th>
-                        <td><input type="text" id="addr1" name="addr1" /></td> <!-- id 추가 -->
-                    </tr>
-
-                    <!-- 상세주소 -->
-                    <tr>
-                        <th>상세주소</th>
-                        <td><input type="text" id="addr2" name="addr2" /></td> <!-- id 추가 -->
-                    </tr>
-
-                    <!-- 가입일 (수정 불가) -->
-                    <tr>
-                        <th>가입일</th>
-                        <td><input type="text" name="createdAt" disabled /></td>
-                    </tr>
-
-                    <!-- 최근 로그인 날짜 (수정 불가) -->
-                    <tr>
-                        <th>최근로그인날짜</th>
-                        <td><input type="text" name="lastLoginDate" readonly disabled/></td>
-                    </tr>
-
-                    <!-- 기타 -->
-                    <tr>
-                        <th>기타</th>
-                        <td><textarea name="etc" placeholder="회원에 대한 기타 정보 입력"></textarea></td>
-                    </tr>
-                </table>
-
-                <!-- 수정 버튼 -->
-                <button class="mbbtn" type="submit">수정하기</button>
-
-            </form>
-        </section>
-    </div>
-</div>
-<!-- 주문상세 모달-->
-<div id="orderinfomodal" class="modal admin">
-    <div class="orderinfomodal-content modalcontent">
-        <nav class="adminmodal-nav">
-            <h1>주문상세</h1>
-            <button class="adminmodal-close" id="closeModal">&times;</button>
-        </nav>
-        <section class="modal-section">
-            <article>
-                <h3>주문정보</h3>
-                <table border="0" class="widthtable">
-                    <thead>
-                    <tr>
-                        <th>상품이미지</th>
-                        <th>상품번호</th>
-                        <th>상품명</th>
-                        <th>판매자</th>
-                        <th>가격</th>
-                        <th>할인</th>
-                        <th>수량</th>
-                        <th>배송비</th>
-                        <th>결제금액</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <!-- JavaScript가 이곳에 데이터를 추가합니다 -->
-                    </tbody>
-                </table>
-
-                <div class="modalprice-value">
-                    <div>
-                        <span>총상품금액</span>
-                        <span>27,000원</span>
-                    </div>
-                    <div>
-                        <span>총할인금액</span>
-                        <span>-1,350원</span>
-                    </div>
-                    <div>
-                        <span>배송비</span>
-                        <span>0원</span>
-                    </div>
-                    <div>
-                        <span>총결제금액</span>
-                        <span>25,650원</span>
-                    </div>
-                </div>
-            </article>
-            </table>
-            <!-- 주문정보 -->
-            <article>
-                <h1>주문정보</h1>
-                <table border="0" class="heighttable">
-                    <tr>
-                        <th>주문번호</th>
-                        <td>11111</td>
-                    </tr>
-                    <tr>
-                        <th>결제방법</th>
-                        <td>신용카드 결제</td>
-                    </tr>
-                    <tr>
-                        <th>주문자/연락처</th>
-                        <td>이상훈 / 010-1111-2222</td>
-                    </tr>
-                    <tr>
-                        <th>결제상태</th>
-                        <td>결제완료</td>
-                    </tr>
-                    <tr>
-                        <th>총 결제금액</th>
-                        <td style="color: red;">102,900원</td>
-                    </tr>
-                </table>
-            </article>
-            <!-- 배송정보 -->
-            <article>
-                <h1>배송정보</h1>
-                <table border="0" class="deliverytable">
-                    <tr>
-                        <th>수취인</th>
-                        <td>홍길동</td>
-                    </tr>
-                    <tr>
-                        <th>연락처</th>
-                        <td>010-1234-1234</td>
-                    </tr>
-                    <tr>
-                        <th>배송지 주소</th>
-                        <td>부산 금정구 123-11 10층</td>
-                    </tr>
-                </table>
-            </article>
-            </article>
-        </section>
-    </div>
-</div>
-<!-- 배송입력 모달 -->
-<div id="adressinputmodal" class="modal admin">
-    <div class="adressinputmodal-content modalcontent">
-        <nav class="adminmodal-nav">
-            <h1>배송입력</h1>
-            <button class="adminmodal-close" id="closeModal">&times;</button>
-        </nav>
-        <section class="modal-section">
-            <form action="#" method="post">
-                <table border="0" class="heighttable">
-                    <tr>
-                        <th>주문번호</th>
-                        <td><input type="text" placeholder="1234" /></td>
-                    </tr>
-                    <tr>
-                        <th>수령인</th>
-                        <td><input type="text" placeholder="홍길동" /></td>
-                    </tr>
-                    <tr>
-                        <th>우편번호</th>
-                        <td><input type="text" placeholder="12345" /></td>
-                    </tr>
-                    <tr>
-                        <th>주소</th>
-                        <td><input type="text" placeholder="우편번호검색클릭" />
-                            <button class="infobutton" onclick="searchPostalCode()">주소검색</button><br />
-                            <input type="text" id="address1" placeholder="기본주소입력" /><br />
-                            <input type="text" id="address2" placeholder="상세주소입력" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>택배사</th>
-                        <td><select name="delivercompany">
-                            <Option value="한진">한진</Option>
-                            <Option value="현대">현대</Option>
-                        </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>운송장번호</th>
-                        <td><input type="text" placeholder="abc1234" /></td>
-                    </tr>
-                    <tr>
-                        <th>기타</th>
-                        <td class="modalcontent2">
-                            <textarea placeholder="변경내역작성하기" required></textarea>
-                        </td>
-                    </tr>
-                </table>
-                <br>
-                <div class="modalbuttondiv">
-                    <input class="adminmodalbutton" type="submit" value="등록하기" />
-                </div>
-            </form>
-        </section>
-    </div>
-</div>
-
-<!-- 쿠폰정보 모달 -->
-<div id="couponinfomodal" class="modal admin" style="display:none;">
-    <div class="couponinfomodal-content modalcontent">
-        <nav class="adminmodal-nav">
-            <h1>쿠폰정보</h1>
-            <button class="adminmodal-close" id="closeModal">&times;</button>
-        </nav>
-        <section class="modal-section">
-            <article>
-                <table border="0" class="heighttable">
-                    <colgroup>
-                        <col style="width: 15%;">
-                        <col style="width: 40%;">
-                        <col style="width: 15%;">
-                        <col style="width: 25%;">
-                    </colgroup>
-                    <tr>
-                        <th>쿠폰번호</th>
-                        <td class="couponid">정보 없음</td>
-                        <th>발급처</th>
-                        <td class="issuerInfo">정보 없음</td>
-                    </tr>
-                    <tr>
-                        <th>쿠폰명</th>
-                        <td class="couponname">정보 없음</td>
-                    </tr>
-                    <tr>
-                        <th>쿠폰종류</th>
-                        <td class="coupontype">정보 없음</td>
-                    </tr>
-                    <tr>
-                        <th>혜택</th>
-                        <td class="coupondiscount">정보 없음</td>
-                    </tr>
-                    <tr>
-                        <th>발급기간</th>
-                        <td class="coupondate">정보 없음</td>
-                    </tr>
-                    <tr>
-                        <th>사용기간</th>
-                        <td class="couponperiod">정보 없음</td>
-                    </tr>
-                    <tr>
-                        <th>유의사항</th>
-                        <td colspan="3" class="modalcontent2">
-                            <textarea readonly class="couponetc">정보 없음</textarea>
-                        </td>
-                    </tr>
-                </table>
-                <br>
-                <div class="modalbuttondiv">
-                    <button class="modalcanclebutton">닫기</button>
-                </div>
-            </article>
-        </section>
-    </div>
-</div>
-
-
-<!-- 쿠폰등록 모달 -->
-<div id="couponinsertmodal" class="modal admin">
-    <div class="couponinsertmodal-content modalcontent">
-        <nav class="adminmodal-nav">
-            <h1>쿠폰등록</h1>
-            <button class="adminmodal-close" id="closeModal">&times;</button>
-        </nav>
-        <section class="modal-section">
-            <form th:action="@{/admin/coupon/insertcoupon}" method="POST">
-                <article>
+    <!-- 모달을 여는 버튼 -->
+    <button id="bannerSubmitBtn" class="modal-button">배너등록</button>
+    <button id="versionCheckBtn" class="modal-button">버전 체크</button>
+    <button id="versionInsertBtn" class="modal-button">버전 등록</button>
+    <button id="sellerInsertBtn" class="modal-button">상점 등록</button>
+    <button id="userChangeBtn" class="modal-button">회원 정보 수정</button>
+    <button id="orderinfomodalBtn" class="modal-button">주문상세 수정</button>
+    <button id="adressinputmodalBtn" class="modal-button">배송입력</button>
+    <button id="deliverinfomodalBtn" class="modal-button">배송상세</button>
+    <button id="couponinfomodalBtn" class="modal-button">쿠폰정보</button>
+    <button id="couponinsertmodalBtn" class="modal-button">쿠폰등록</button>
+    <button id="couponmodalBtn" class="modal-button">쿠폰사용자전달정보</button>
+    <button id="employmodalBtn" class="modal-button">채용등록</button>
+    
+    <!-- 관리자 -->
+    <!-- 배너등록 모달 -->
+    <div id="bannerModal" class="modal admin">
+        <div class="Bannermodal-content modalcontent">
+            <nav class="adminmodal-nav">
+                <h1>배너등록</h1>
+                <button class="adminmodal-close" id="closeModal">&times;</button>
+            </nav>
+            <section class="modal-section">
+                <form id="bannerForm" enctype="multipart/form-data">
                     <table border="0" class="heighttable">
                         <tr>
-                            <th>발급처</th>
-                            <td>
-                                <input type="text" readonly th:value="${name}">
-                                <input type="hidden" name="memberId" th:value="${uid}">
-                            </td>
+                            <th>배너이름</th>
+                            <td><input type="text" class="bannername" name="name"></td>
                         </tr>
                         <tr>
-                            <th>쿠폰종류</th>
+                            <th>배너이미지</th>
+                            <td><input type="file" class="bannerfile" name="banner_img"></td>
+                        </tr>
+                        <tr>
+                            <th>배너크기</th>
+                            <td><input type="text" class="bannersize" name="size" readonly></td>
+                        </tr>
+                        <tr>
+                            <th>배경색</th>
+                            <td><input type="text" class="bannercolor" name="backgroundColor"></td>
+                        </tr>
+                        <tr>
+                            <th>배너링크</th>
+                            <td><input type="text" class="bannerlink" name="backgroundLink" readonly></td>
+                        </tr>
+                        <tr>
+                            <th>배너위치</th>
                             <td>
-                                <select name="coupontype">
-                                    <option value="single">개별상품할인</option>
-                                    <option value="ordersale" th:if="${role =='Admin'}">주문상품할인</option>
-                                    <option value="freedelivery" th:if="${role =='Admin'}">배송비 무료</option>
+                                <select name="position" class="bannerplace">
+                                    <Option value="Main">메인 상단 배너</Option>
+                                    <Option value="Silder">메인 슬라이더 배너</Option>
+                                    <Option value="Product">상품 상세보기 배너</Option>
+                                    <Option value="Login">회원 로그인 배너</Option>
+                                    <Option value="Mypage">마이 페이지 배너</Option>
                                 </select>
                             </td>
                         </tr>
                         <tr>
-                            <th>쿠폰명</th>
-                            <td><input type="text" name="couponname" required></td>
-                        </tr>
-                        <tr>
-                            <th>혜택</th>
+                            <th>노출날짜</th>
                             <td>
-                                <select name="coupondiscount">
-                                    <option value="1">1,000원 할인</option>
-                                    <option value="2">2,000원 할인</option>
-                                    <option value="3">3,000원 할인</option>
-                                    <option value="4">4,000원 할인</option>
-                                    <option value="5">10% 할인</option>
-                                    <option value="6">20% 할인</option>
-                                    <option value="7">30% 할인</option>
-                                    <option value="8">40% 할인</option>
-                                    <option value="9">50% 할인</option>
-                                    <option value="10">배송비 무료</option>
-                                </select>
+                                <input type="date" class="bannerdate" name="displayStartDate"> -
+                                <input type="date" class="bannerdate" name="displayEndDate">
                             </td>
                         </tr>
                         <tr>
-                            <th>사용기간</th>
+                            <th>노출시간</th>
                             <td>
-                                <input type="date" id="startDate" class="bannerdate" name="couponstart" required> -
-                                <input type="date" id="endDate" class="bannerdate" name="couponend" required><br>
-                                발급일로부터 <input type="text" class="bannerdate2" name="couponperiod" required> 이내
+                                <select name="hour" class="bannertime">
+                                    <Option value="00">00</Option>
+                                    <Option value="01">01</Option>
+                                    <Option value="02">02</Option>
+                                    <Option value="03">03</Option>
+                                    <Option value="04">04</Option>
+                                    <Option value="05">05</Option>
+                                    <Option value="06">06</Option>
+                                    <Option value="07">07</Option>
+                                    <Option value="08">08</Option>
+                                    <Option value="09">09</Option>
+                                    <Option value="10">10</Option>
+                                    <Option value="11">11</Option>
+                                    <Option value="12">12</Option>
+                                    <Option value="13">13</Option>
+                                    <Option value="14">14</Option>
+                                    <Option value="15">15</Option>
+                                    <Option value="16">16</Option>
+                                    <Option value="17">17</Option>
+                                    <Option value="18">18</Option>
+                                    <Option value="19">19</Option>
+                                    <Option value="20">20</Option>
+                                    <Option value="21">21</Option>
+                                    <Option value="22">22</Option>
+                                    <Option value="23">23</Option>
+                                </select> 시
+                                <select name="minute" class="bannertime">
+                                    <Option value="00">00</Option>
+                                    <Option value="10">10</Option>
+                                    <Option value="20">20</Option>
+                                    <Option value="30">30</Option>
+                                    <Option value="40">40</Option>
+                                    <Option value="50">50</Option>
+                                </select> 분
+                                ~
+                                <select name="endHour" class="bannertime">
+                                    <Option value="00">00</Option>
+                                    <Option value="01">01</Option>
+                                    <Option value="02">02</Option>
+                                    <Option value="03">03</Option>
+                                    <Option value="04">04</Option>
+                                    <Option value="05">05</Option>
+                                    <Option value="06">06</Option>
+                                    <Option value="07">07</Option>
+                                    <Option value="08">08</Option>
+                                    <Option value="09">09</Option>
+                                    <Option value="10">10</Option>
+                                    <Option value="11">11</Option>
+                                    <Option value="12">12</Option>
+                                    <Option value="13">13</Option>
+                                    <Option value="14">14</Option>
+                                    <Option value="15">15</Option>
+                                    <Option value="16">16</Option>
+                                    <Option value="17">17</Option>
+                                    <Option value="18">18</Option>
+                                    <Option value="19">19</Option>
+                                    <Option value="20">20</Option>
+                                    <Option value="21">21</Option>
+                                    <Option value="22">22</Option>
+                                    <Option value="23">23</Option>
+                                </select> 시
+                                <select name="endminute" class="bannertime">
+                                    <Option value="00">00</Option>
+                                    <Option value="10">10</Option>
+                                    <Option value="20">20</Option>
+                                    <Option value="30">30</Option>
+                                    <Option value="40">40</Option>
+                                    <Option value="50">50</Option>
+                                </select> 분
+
+                                <!-- 숨겨진 필드 -->
+                                <input type="hidden" name="displayStartTime" id="displayStartTime">
+                                <input type="hidden" name="displayEndTime" id="displayEndTime">
                             </td>
                         </tr>
+                    </table>
+                    <br>
+                    <div class="modalbuttondiv">
+                        <input class="adminmodalbutton" type="button" value="작성완료" />
+                        <button type="button" id="bannermodalclose" class="modalcanclebutton">취소</button>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </div>
+    <!-- 버전확인 모달 -->
+    <div id="versioncheckModal" class="modal admin">
+        <div class="VersionCheckmodal-content modalcontent">
+            <nav class="adminmodal-nav">
+                <h1>버전확인</h1>
+                <button class="adminmodal-close" id="closeModal">&times;</button>
+            </nav>
+            <section class="modal-section">
+                <form action="#" method="post" enctype="multipart/form-data">
+                    <table border="0" class="heighttable">
                         <tr>
-                            <th>유의사항</th>
-                            <td class="modalcontent2">
-                                <textarea placeholder="변경내역작성하기" name="couponetc" required>상품 중복 할인 쿠폰 - 상품 1개에 대해 사용 가능 - 판매자 즉시할인/상품할인 쿠폰과 중복 사용 가능</textarea>
+                            <th>버전정보</th>
+                            <td id="modalVersion"></td>
+                        </tr>
+                        <tr>
+                            <th>변경내역</th>
+                            <td class="modalcontent"><textarea id="modalContent" readonly>
+                            </textarea>
+                            </td>
+                        </tr>
+                    </table>
+                    <br>
+                    <div class="modalbuttondiv">
+                        <button type="button" id="modalcanclebutton" class="modalcanclebutton">닫기</button>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </div>
+    <!-- 버전등록 모달 -->
+    <div id="versioninsertModal" class="modal admin">
+        <div class="versioninsertmodal-content modalcontent">
+            <nav class="adminmodal-nav">
+                <h1>버전등록</h1>
+                <button class="adminmodal-close" id="closeModal">&times;</button>
+            </nav>
+            <section class="modal-section">
+                <form id="versionForm">
+                    <table border="0" class="heighttable">
+                        <tr>
+                            <th>버전</th>
+                            <td><input type="text" name="version" placeholder="버전입력하기" /></td>
+                        </tr>
+                        <tr>
+                            <th>변경내역</th>
+                            <td class="modalcontent">
+                                <textarea name="content" placeholder="변경내역작성하기" required></textarea>
                             </td>
                         </tr>
                     </table>
                     <br>
                     <div class="modalbuttondiv">
                         <input class="adminmodalbutton" type="submit" value="등록하기" />
-                        <button type="button" class="modalcanclebutton" id="cancelModal">취소</button>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </div>
+    <!-- 상점등록 모달-->
+    <div id="sellerinsertmodal" class="modal admin">
+        <div class="sellerinsertmodal-content modalcontent">
+            <nav class="adminmodal-nav">
+                <h1>상점등록</h1>
+                <button class="adminmodal-close" id="closeModal">&times;</button>
+            </nav>
+            <section class="modal-section">
+                <form class="sendForm" th:action="@{/user/register/admin/seller}" method="post">
+                    <table border="0" class="heighttable">
+                        <tr>
+                            <th>아이디</th>
+                            <td>
+                                <input type="text" name="uid" placeholder="아이디 입력"/>
+                                <button type="button" id="btnCheckUid" name="uidbtn" data-type="uid" class="infobutton">중복확인</button>
+                                <span class="resultId"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>비밀번호<span class="required">*</span></th>
+                            <td><input type="password" name="pass"></td>
+                        </tr>
+                        <tr>
+                            <th>비밀번호 확인</th>
+                            <td><input type="password" name="pass2">
+                                <span class="resultPass"></span>
+                            </td>
+                        </tr>
+                    </table>
+                    <br>
+                    <table border="0" class="heighttable">
+                        <tr>
+                            <th>회사명</th>
+                            <td><input type="text" name="shopName" placeholder="상호명입력예 ) (주)"/>
+                                <span class="resultShop_name"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>대표</th>
+                            <td><input type="text" name="representative" placeholder="성함입력"/>
+                                <span class="resultRepresentative"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>사업자등록번호</th>
+                            <td>
+                                <input type="text" name="business_registration_part1" id="business_registration_part1" maxlength="3" style="width: 50px;" /> -
+                                <input type="text" name="business_registration_part2" id="business_registration_part2" maxlength="2" style="width: 45px;" /> -
+                                <input type="text" name="business_registration_part3" id="business_registration_part3" maxlength="5" style="width: 60px;" />
+                                <input type="hidden" name="businessRegistration"/>
+                                <span class="resultBusiness_registration"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>통신판매업번호</th>
+                            <td>
+                                <input type="text" name="e_commerce_registration_part1" id="e_commerce_registration_part1" maxlength="4" style="width: 70px;" /> -
+                                <input type="text" name="e_commerce_registration_part2" id="e_commerce_registration_part2" maxlength="5" style="width: 100px;" /> -
+                                <input type="text" name="e_commerce_registration_part3" id="e_commerce_registration_part3" maxlength="4" style="width: 60px;" />
+                                <input type="hidden" name="eCommerceRegistration" />
+                                <span class="resultE_commerce_registration"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>전화번호</th>
+                            <td><input type="text" name="ph" placeholder="전화번호입력"/>
+                                <span class="resultPh"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>팩스</th>
+                            <td><input type="text" name="fax" placeholder="팩스번호입력"/>
+                                <span class="resultFax"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>주소<span class="required">*</span></th>
+                            <td>
+                                <div>
+                                    <input type="text" name="zip" id="zip" placeholder="우편번호" readonly/>
+                                    <button type="button" class="btnZip infobutton" onclick="postcode()">검색</button>
+                                </div>
+                                <div>
+                                    <input type="text" name="addr1" id="address1" placeholder="주소를 검색하세요." readonly/>
+                                </div>
+                                <div>
+                                    <input type="text" name="addr2" id="address2" placeholder="상세주소를 입력하세요."/>
+                                    <span class="resultaddr"></span>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div class="modalbuttondiv">
+                        <button class="adminmodalbutton" type="submit">등록하기</button>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </div>
+    <!-- 회원 수정 모달 -->
+    <div id="userchangemodal" class="modal admin">
+        <div class="userchangemodal-content modalcontent">
+            <nav class="adminmodal-nav">
+                <h1>회원수정</h1>
+                <button class="adminmodal-close" id="closeModal" onclick="closeModal()">&times;</button>
+            </nav>
+            <section class="modal-section">
+                <form class="sendForm" th:action="@{/user/update/admin/user}" method="post" onsubmit="return submitForm()">
+                    <table border="0" class="heighttable">
+                        <!-- 아이디 (수정 불가) -->
+                        <tr>
+                            <th>아이디</th>
+                            <td><input type="text" name="uid" readonly /></td>
+                        </tr>
+
+                        <!-- 이름 -->
+                        <tr>
+                            <th>이름</th>
+                            <td><input type="text" name="name" /></td>
+                        </tr>
+
+                        <!-- 성별 -->
+                        <tr>
+                            <th>성별</th>
+                            <td>
+                                <input class="gendermodal " type="radio" name="gender" value="MALE"> 남자
+                                <input class="gendermodal " type="radio" name="gender" value="FEMALE"> 여자
+                            </td>
+                        </tr>
+
+                        <!-- 등급 (수정 불가) -->
+                        <tr>
+                            <th>등급</th>
+                            <td>
+                                <input type="text" name="grade" readonly />
+                                <span>등급 수정은 회원 목록에서 선택 수정 가능</span>
+                            </td>
+                        </tr>
+
+                        <!-- 상태 -->
+                        <tr>
+                            <th>상태</th>
+                            <td><input type="text" name="status" readonly /></td>
+                        </tr>
+
+                        <!-- EMAIL -->
+                        <tr>
+                            <th>EMAIL</th>
+                            <td><input type="email" name="email" /></td>
+                        </tr>
+
+                        <!-- 휴대폰 -->
+                        <tr>
+                            <th>휴대폰</th>
+                            <td><input type="text" name="ph" /></td>
+                        </tr>
+                        <!-- 우편번호 -->
+                        <tr>
+                            <th>우편번호</th>
+                            <td>
+                                <div>
+                                    <input type="text" name="zip" id="zip1" placeholder="우편번호" readonly/>
+                                    <button id="addressButton" type="button" class="btnZip infobutton" onclick="postcode2()">우편번호검색</button>
+
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- 기본주소 -->
+                        <tr>
+                            <th>기본주소</th>
+                            <td><input type="text" id="addr1" name="addr1" /></td> <!-- id 추가 -->
+                        </tr>
+
+                        <!-- 상세주소 -->
+                        <tr>
+                            <th>상세주소</th>
+                            <td><input type="text" id="addr2" name="addr2" /></td> <!-- id 추가 -->
+                        </tr>
+
+                        <!-- 가입일 (수정 불가) -->
+                        <tr>
+                            <th>가입일</th>
+                            <td><input type="text" name="createdAt" disabled /></td>
+                        </tr>
+
+                        <!-- 최근 로그인 날짜 (수정 불가) -->
+                        <tr>
+                            <th>최근로그인날짜</th>
+                            <td><input type="text" name="lastLoginDate" readonly disabled/></td>
+                        </tr>
+
+                        <!-- 기타 -->
+                        <tr>
+                            <th>기타</th>
+                            <td><textarea name="etc" placeholder="회원에 대한 기타 정보 입력"></textarea></td>
+                        </tr>
+                    </table>
+
+                    <!-- 수정 버튼 -->
+                    <button class="mbbtn" type="submit">수정하기</button>
+
+                </form>
+            </section>
+        </div>
+    </div>
+    <!-- 주문상세 모달-->
+    <div id="orderinfomodal" class="modal admin">
+        <div class="orderinfomodal-content modalcontent">
+            <nav class="adminmodal-nav">
+                <h1>주문상세</h1>
+                <button class="adminmodal-close" id="closeModal">&times;</button>
+            </nav>
+            <section class="modal-section">
+                <article>
+                    <h3>주문정보</h3>
+                    <table border="0" class="widthtable">
+                        <thead>
+                        <tr>
+                            <th>상품이미지</th>
+                            <th>상품번호</th>
+                            <th>상품명</th>
+                            <th>판매자</th>
+                            <th>가격</th>
+                            <th>할인</th>
+                            <th>수량</th>
+                            <th>배송비</th>
+                            <th>결제금액</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!-- JavaScript가 이곳에 데이터를 추가합니다 -->
+                        </tbody>
+                    </table>
+
+                    <div class="modalprice-value">
+                        <div>
+                            <span>총상품금액</span>
+                            <span>27,000원</span>
+                        </div>
+                        <div>
+                            <span>총할인금액</span>
+                            <span>-1,350원</span>
+                        </div>
+                        <div>
+                            <span>배송비</span>
+                            <span>0원</span>
+                        </div>
+                        <div>
+                            <span>총결제금액</span>
+                            <span>25,650원</span>
+                        </div>
                     </div>
                 </article>
-            </form>
-        </section>
-    </div>
-</div>
-<!-- 쿠폰정보 사용자전달 모달 -->
-<div id="couponmodal" class="modal admin">
-    <div class="couponmodal-content modalcontent">
-        <nav class="adminmodal-nav">
-            <h1>쿠폰정보</h1><h4>101220134</h4>
-            <button class="adminmodal-close" id="closeModal">&times;</button>
-        </nav>
-        <section class="modal-section">
-            <!-- 쿠폰정보 -->
-            <article>
-                <table border="0" class="heighttable">
-                    <!-- 열 비율을 1:1로 맞추기 위해 colgroup 사용 -->
-                    <colgroup>
-                        <col style="width: 15%;"> <!-- 첫 번째 열: 쿠폰 관련 정보 -->
-                        <col style="width: 40%;"> <!-- 두 번째 열: 쿠폰 관련 값 -->
-                        <col style="width: 15%;"> <!-- 세 번째 열: 발급처 관련 정보 -->
-                        <col style="width: 25%;"> <!-- 네 번째 열: 발급처 관련 값 -->
-                    </colgroup>
-                    <tr>
-                        <th>쿠폰번호</th>
-                        <td>11111</td>
-                        <th>발급처</th>
-                        <td>다있어</td>
-                    </tr>
-                    <tr>
-                        <th>발급번호</th>
-                        <td>김유신</td>
-                        <th>사용여부</th>
-                        <td>사용 완료</td>
-                    </tr>
-                    <tr>
-                        <th>쿠폰종류</th>
-                        <td>할인쿠폰</td>
-                        <th>발급대상</th>
-                        <td>회원</td>
-                    </tr>
-                    <tr>
-                        <th>쿠폰명</th>
-                        <td>부산진구</td>
-                        <td colspan="2"></td> <!-- 빈 셀로 공간 확보 -->
-                    </tr>
-                    <tr>
-                        <th>혜택</th>
-                        <td>10% 할인</td>
-                        <td colspan="2"></td> <!-- 빈 셀로 공간 확보 -->
-                    </tr>
-                    <tr>
-                        <th>사용기간</th>
-                        <td>2024-01-01 ~ 2024-12-31</td>
-                        <td colspan="2"></td> <!-- 빈 셀로 공간 확보 -->
-                    </tr>
-                    <tr>
-                        <th>유의사항</th>
-                        <td class="modalcontent2" colspan="3">
-                            <textarea placeholder="변경내역작성하기" readonly>상품 중복 할인 쿠폰 - 상품 1개에 대해 사용 가능 - 판매자 즉시할인/상품할인 쿠폰과 중복 사용 가능</textarea>
-                        </td>
-                    </tr>
                 </table>
-            </article>
-        </section>
+                <!-- 주문정보 -->
+                <article>
+                    <h1>주문정보</h1>
+                    <table border="0" class="heighttable">
+                        <tr>
+                            <th>주문번호</th>
+                            <td>11111</td>
+                        </tr>
+                        <tr>
+                            <th>결제방법</th>
+                            <td>신용카드 결제</td>
+                        </tr>
+                        <tr>
+                            <th>주문자/연락처</th>
+                            <td>이상훈 / 010-1111-2222</td>
+                        </tr>
+                        <tr>
+                            <th>결제상태</th>
+                            <td>결제완료</td>
+                        </tr>
+                        <tr>
+                            <th>총 결제금액</th>
+                            <td style="color: red;">102,900원</td>
+                        </tr>
+                    </table>
+                </article>
+                <!-- 배송정보 -->
+                <article>
+                    <h1>배송정보</h1>
+                    <table border="0" class="deliverytable">
+                        <tr>
+                            <th>수취인</th>
+                            <td>홍길동</td>
+                        </tr>
+                        <tr>
+                            <th>연락처</th>
+                            <td>010-1234-1234</td>
+                        </tr>
+                        <tr>
+                            <th>배송지 주소</th>
+                            <td>부산 금정구 123-11 10층</td>
+                        </tr>
+                    </table>
+                </article>
+                </article>
+            </section>
+        </div>
     </div>
-</div>
-
-<!-- 채용등록 모달 -->
-<div id="employmodal" class="modal admin">
-    <div class="employmodal-content modalcontent">
-        <nav class="adminmodal-nav">
-            <h1>채용등록</h1>
-            <button class="adminmodal-close" id="closeModal">&times;</button>
-        </nav>
-        <section class="modal-section">
-            <article>
-                <table border="0" class="heighttable">
-                    <tr>
-                        <th>제목</th>
-                        <td><input type="text"></td>
-                    </tr>
-                    <tr>
-                        <th>채용부서</th>
-                        <td>
-                            <select name="couponname">
-                                <Option value="">경영</Option>
-                                <Option value="">운영</Option>
-                                <Option value="">IT</Option>
-                                <Option value="">광고사업</Option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>경력사항</th>
-                        <td>
-                            <select name="couponname">
-                                <Option value="">신입</Option>
-                                <Option value="">무관</Option>
-                                <Option value="">경력 2~15년</Option>
-                                <Option value="">경력 4~15년</Option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>채용형태  </th>
-                        <td>
-                            <select name="couponname">
-                                <Option value="">계약직</Option>
-                                <Option value="">정규직</Option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>모집기간</th>
-                        <td>
-                            <input type="date" class="bannerdate" name="employdate-start"> -
-                            <input type="date" class="bannerdate" name="employdate-end"><br>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>비고</th>
-                        <td class="modalcontent2">
-                            <textarea placeholder="변경내역작성하기"></textarea>
-                        </td>
-                    </tr>
-                </table>
-                <br>
-                <div class="modalbuttondiv">
-                    <input class="adminmodalbutton" type="submit" value="등록하기" />
-                    <button class="modalcanclebutton">취소</button>
-                </div>
-            </article>
-        </section>
+    <!-- 배송입력 모달 -->
+    <div id="adressinputmodal" class="modal admin">
+        <div class="adressinputmodal-content modalcontent">
+            <nav class="adminmodal-nav">
+                <h1>배송입력</h1>
+                <button class="adminmodal-close" id="closeModal">&times;</button>
+            </nav>
+            <section class="modal-section">
+                <form action="#" method="post">
+                    <table border="0" class="heighttable">
+                        <tr>
+                            <th>주문번호</th>
+                            <td><input type="text" placeholder="1234" /></td>
+                        </tr>
+                        <tr>
+                            <th>수령인</th>
+                            <td><input type="text" placeholder="홍길동" /></td>
+                        </tr>
+                        <tr>
+                            <th>우편번호</th>
+                            <td><input type="text" placeholder="12345" /></td>
+                        </tr>
+                        <tr>
+                            <th>주소</th>
+                            <td><input type="text" placeholder="우편번호검색클릭" />
+                                <button class="infobutton" onclick="searchPostalCode()">주소검색</button><br />
+                                <input type="text" id="address1" placeholder="기본주소입력" /><br />
+                                <input type="text" id="address2" placeholder="상세주소입력" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>택배사</th>
+                            <td><select name="delivercompany">
+                                    <Option value="한진">한진</Option>
+                                    <Option value="현대">현대</Option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>운송장번호</th>
+                            <td><input type="text" placeholder="abc1234" /></td>
+                        </tr>
+                        <tr>
+                            <th>기타</th>
+                            <td class="modalcontent2">
+                                <textarea placeholder="변경내역작성하기" required></textarea>
+                            </td>
+                        </tr>
+                    </table>
+                    <br>
+                    <div class="modalbuttondiv">
+                        <input class="adminmodalbutton" type="submit" value="등록하기" />
+                    </div>
+                </form>
+            </section>
+        </div>
     </div>
-</div>
-<!-- 배송 등록 모달 -->
-<div id="deliveryInsertModal" class="modal user">
-    <div class="deliveryInsertModal-content modalcontent">
-        <nav class="modal-nav">
-            <h1>배송 등록</h1>
-            <button class="modal-close" id="closeModal">&times;</button>
-        </nav>
-        <section class="modal-section">
-            <h3>주문 리스트</h3>
-            <!-- 주문아이템 리스트 스크립트에서 동적 생성 ! -->
-        </section>
+
+    <!-- 쿠폰정보 모달 -->
+    <div id="couponinfomodal" class="modal admin" style="display:none;">
+        <div class="couponinfomodal-content modalcontent">
+            <nav class="adminmodal-nav">
+                <h1>쿠폰정보</h1>
+                <button class="adminmodal-close" id="closeModal">&times;</button>
+            </nav>
+            <section class="modal-section">
+                <article>
+                    <table border="0" class="heighttable">
+                        <colgroup>
+                            <col style="width: 15%;">
+                            <col style="width: 40%;">
+                            <col style="width: 15%;">
+                            <col style="width: 25%;">
+                        </colgroup>
+                        <tr>
+                            <th>쿠폰번호</th>
+                            <td class="couponid">정보 없음</td>
+                            <th>발급처</th>
+                            <td class="issuerInfo">정보 없음</td>
+                        </tr>
+                        <tr>
+                            <th>쿠폰명</th>
+                            <td class="couponname">정보 없음</td>
+                        </tr>
+                        <tr>
+                            <th>쿠폰종류</th>
+                            <td class="coupontype">정보 없음</td>
+                        </tr>
+                        <tr>
+                            <th>혜택</th>
+                            <td class="coupondiscount">정보 없음</td>
+                        </tr>
+                        <tr>
+                            <th>발급기간</th>
+                            <td class="coupondate">정보 없음</td>
+                        </tr>
+                        <tr>
+                            <th>사용기간</th>
+                            <td class="couponperiod">정보 없음</td>
+                        </tr>
+                        <tr>
+                            <th>유의사항</th>
+                            <td colspan="3" class="modalcontent2">
+                                <textarea readonly class="couponetc">정보 없음</textarea>
+                            </td>
+                        </tr>
+                    </table>
+                    <br>
+                    <div class="modalbuttondiv">
+                        <button class="modalcanclebutton">닫기</button>
+                    </div>
+                </article>
+            </section>
+        </div>
     </div>
-</div>
-<!-- 배송등록상세 모달-->
-<div id="deliveryInfoModal" class="modal admin">
-    <div class="deliverinfomodal-content modalcontent">
-        <nav class="adminmodal-nav">
-            <h1>배송상세</h1>
-            <button class="adminmodal-close" id="closeModal">&times;</button>
-        </nav>
-        <section class="modal-section">
-            <!-- 배송 상세 정보는 JavaScript에서 동적으로 추가됩니다 -->
-        </section>
+
+    <!-- 쿠폰등록 모달 -->
+    <div id="couponinsertmodal" class="modal admin">
+        <div class="couponinsertmodal-content modalcontent">
+            <nav class="adminmodal-nav">
+                <h1>쿠폰등록</h1>
+                <button class="adminmodal-close" id="closeModal">&times;</button>
+            </nav>
+            <section class="modal-section">
+                <form th:action="@{/admin/coupon/insertcoupon}" method="POST">
+                    <article>
+                        <table border="0" class="heighttable">
+                            <tr>
+                                <th>발급처</th>
+                                <td>
+                                    <input type="text" readonly th:value="${name}">
+                                    <input type="hidden" name="memberId" th:value="${uid}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>쿠폰종류</th>
+                                <td>
+                                    <select name="coupontype">
+                                        <option value="single">개별상품할인</option>
+                                        <option value="ordersale" th:if="${role =='Admin'}">주문상품할인</option>
+                                        <option value="freedelivery" th:if="${role =='Admin'}">배송비 무료</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>쿠폰명</th>
+                                <td><input type="text" name="couponname" required></td>
+                            </tr>
+                            <tr>
+                                <th>혜택</th>
+                                <td>
+                                    <select name="coupondiscount">
+                                        <option value="1000">1,000원 할인</option>
+                                        <option value="2000">2,000원 할인</option>
+                                        <option value="3000">3,000원 할인</option>
+                                        <option value="4000">4,000원 할인</option>
+                                        <option value="5000">5,000원 할인</option>
+                                        <option value="0.1">10% 할인</option>
+                                        <option value="0.2">20% 할인</option>
+                                        <option value="0.3">30% 할인</option>
+                                        <option value="0.4">40% 할인</option>
+                                        <option value="0.5">50% 할인</option>
+                                        <option value="0">배송비 무료</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>사용기간</th>
+                                <td>
+                                    <input type="date" id="startDate" class="bannerdate" name="couponstart" required> -
+                                    <input type="date" id="endDate" class="bannerdate" name="couponend" required><br>
+                                    발급일로부터 <input type="text" class="bannerdate2" name="couponperiod" required> 이내
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>유의사항</th>
+                                <td class="modalcontent2">
+                                    <textarea placeholder="변경내역작성하기" name="couponetc" required>상품 중복 할인 쿠폰 - 상품 1개에 대해 사용 가능 - 판매자 즉시할인/상품할인 쿠폰과 중복 사용 가능</textarea>
+                                </td>
+                            </tr>
+                        </table>
+                        <br>
+                        <div class="modalbuttondiv">
+                            <input class="adminmodalbutton" type="submit" value="등록하기" />
+                            <button type="button" class="modalcanclebutton" id="cancelModal">취소</button>
+                        </div>
+                    </article>
+                </form>
+            </section>
+        </div>
     </div>
-</div>
-
-<!-- 배송상세 모달 -->
-<div id="deliverydetailmodal" class="modal admin">
-    <div class="deliverinfomodal-content modalcontent">
-        <nav class="adminmodal-nav">
-            <h1>배송상세</h1><h4 id="order-number">주문번호</h4> <!-- 주문번호를 동적으로 설정 -->
-            <button class="adminmodal-close" id="closeModal">&times;</button>
-        </nav>
-        <section class="modal-section">
-            <!-- 상품정보 -->
-            <article>
-                <h3>상품정보</h3>
-                <table border="0" class="widthtable">
-                    <tr>
-                        <th>상품이미지</th>
-                        <th>상품번호</th>
-                        <th>상품명</th>
-                        <th>판매자</th>
-                        <th>가격</th>
-                        <th>수량</th>
-                        <th>배송비</th>
-                        <th>결제금액</th>
-                    </tr>
-                    <tr>
-                        <td><img class="modalimgsize" id="product-image" src="" alt="상품 이미지" /></td>
-                        <td id="product-id"></td>
-                        <td id="product-name"></td>
-                        <td id="seller-name"></td>
-                        <td id="price"></td>
-                        <td id="quantity"></td>
-                        <td id="delivery-fee"></td>
-                        <td id="total-price"></td>
-                    </tr>
-                </table>
-            </article>
-
-            <!-- 배송정보 -->
-            <article>
-                <h1>배송정보</h1>
-                <table border="0" class="heighttable">
-                    <tr>
-                        <th>주문번호</th>
-                        <td id="order-id"></td>
-                    </tr>
-                    <tr>
-                        <th>수령인</th>
-                        <td id="recipient-name"></td>
-                    </tr>
-                    <tr>
-                        <th>연락처</th>
-                        <td id="recipient-phone"></td>
-                    </tr>
-                    <tr>
-                        <th>배송지 주소</th>
-                        <td id="recipient-address"></td>
-                    </tr>
-                    <tr>
-                        <th>택배사</th>
-                        <td id="delivery-company"></td>
-                    </tr>
-                    <tr>
-                        <th>송장번호</th>
-                        <td id="invoice-number"></td>
-                    </tr>
-                    <tr>
-                        <th>기타</th>
-                        <td id="additional-memo"></td>
-                    </tr>
-                </table>
-            </article>
-        </section>
+    <!-- 쿠폰수정 모달 -->
+    <div id="couponchangemodal" class="modal admin">
+        <div class="couponchangemodal-content modalcontent">
+            <nav class="adminmodal-nav">
+                <h1>쿠폰수정</h1>
+                <button class="adminmodal-close" id="closeModal">&times;</button>
+            </nav>
+            <section class="modal-section">
+                <form th:action="@{/admin/coupon/insertcoupon}" method="POST">
+                    <article>
+                        <table border="0" class="heighttable">
+                            <tr>
+                                <th>발급처</th>
+                                <td>
+                                    <input type="text" readonly th:value="${name}">
+                                    <input type="hidden" name="memberId" th:value="${uid}">
+                                    <input type="hidden" name="couponId" th:value="${couponId}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>쿠폰종류</th>
+                                <td>
+                                    <select name="coupontype">
+                                        <option value="single">개별상품할인</option>
+                                        <option value="ordersale" th:if="${role =='Admin'}">주문상품할인</option>
+                                        <option value="freedelivery" th:if="${role =='Admin'}">배송비 무료</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>쿠폰명</th>
+                                <td><input type="text" name="couponname" required></td>
+                            </tr>
+                            <tr>
+                                <th>혜택</th>
+                                <td>
+                                    <select name="coupondiscount">
+                                        <option value="1000">1,000원 할인</option>
+                                        <option value="2000">2,000원 할인</option>
+                                        <option value="3000">3,000원 할인</option>
+                                        <option value="4000">4,000원 할인</option>
+                                        <option value="5000">5,000원 할인</option>
+                                        <option value="0.1">10% 할인</option>
+                                        <option value="0.2">20% 할인</option>
+                                        <option value="0.3">30% 할인</option>
+                                        <option value="0.4">40% 할인</option>
+                                        <option value="0.5">50% 할인</option>
+                                        <option value="0">배송비 무료</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>사용기간</th>
+                                <td>
+                                    <input type="date" id="startDate" class="bannerdate" name="couponstart" required> -
+                                    <input type="date" id="endDate" class="bannerdate" name="couponend" required><br>
+                                    발급일로부터 <input type="text" class="bannerdate2" name="couponperiod" required> 이내
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>유의사항</th>
+                                <td class="modalcontent2">
+                                    <textarea placeholder="변경내역작성하기" name="couponetc" required>상품 중복 할인 쿠폰 - 상품 1개에 대해 사용 가능 - 판매자 즉시할인/상품할인 쿠폰과 중복 사용 가능</textarea>
+                                </td>
+                            </tr>
+                        </table>
+                        <br>
+                        <div class="modalbuttondiv">
+                            <input class="adminmodalbutton" type="submit" value="수정하기" />
+                            <button class="modalbutton" type="button" value="삭제하기" onclick="confirmDelete()">삭제하기</button>
+                            <button type="button" class="modalcanclebutton" id="cancelModal">취소</button>
+                        </div>
+                    </article>
+                </form>
+            </section>
+        </div>
     </div>
-</div>
+    <!-- 쿠폰정보 사용자전달 모달 -->
+    <div id="couponmodal" class="modal admin">
+        <div class="couponmodal-content modalcontent">
+            <nav class="adminmodal-nav">
+                <h1>쿠폰정보</h1>
+                <button class="adminmodal-close" id="closeModal">&times;</button>
+            </nav>
+            <section class="modal-section">
+                <!-- 쿠폰정보 -->
+                <article>
+                    <table border="0" class="heighttable">
+                        <!-- 열 비율을 1:1로 맞추기 위해 colgroup 사용 -->
+                        <colgroup>
+                            <col style="width: 15%;"> <!-- 첫 번째 열: 쿠폰 관련 정보 -->
+                            <col style="width: 40%;"> <!-- 두 번째 열: 쿠폰 관련 값 -->
+                            <col style="width: 15%;"> <!-- 세 번째 열: 발급처 관련 정보 -->
+                            <col style="width: 25%;"> <!-- 네 번째 열: 발급처 관련 값 -->
+                        </colgroup>
+                        <tr>
+                            <th>쿠폰번호</th>
+                            <td class="couponid">11111</td>
+                            <th>발급처</th>
+                            <td class="shopname">다있어</td>
+                        </tr>
+                        <tr>
+                            <th>발급번호</th>
+                            <td class="coupontakeid">김유신</td>
+                            <th>사용여부</th>
+                            <td class="couponusecheck">사용 완료</td>
+                        </tr>
+                        <tr>
+                            <th>쿠폰종류</th>
+                            <td class="coupontype">할인쿠폰</td>
+                            <th>발급대상</th>
+                            <td>회원</td>
+                        </tr>
+                        <tr>
+                            <th>쿠폰명</th>
+                            <td class="couponname">부산진구</td>
+                            <td colspan="2"></td> <!-- 빈 셀로 공간 확보 -->
+                        </tr>
+                        <tr>
+                            <th>혜택</th>
+                            <td class="coupondiscount">10% 할인</td>
+                            <td colspan="2"></td> <!-- 빈 셀로 공간 확보 -->
+                        </tr>
+                        <tr>
+                            <th>사용기간</th>
+                            <td class="period">2024-01-01 ~ 2024-12-31</td>
+                            <td colspan="2"></td> <!-- 빈 셀로 공간 확보 -->
+                        </tr>
+                        <tr>
+                            <th>유의사항</th>
+                            <td class="modalcontent2" colspan="3">
+                                <textarea class="couponetc" placeholder="변경내역작성하기" readonly>테스트</textarea>
+                            </td>
+                        </tr>
+                    </table>
+                </article>
+            </section>
+        </div>
+    </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // 모달과 버튼을 객체로 관리
-        const modals = {
-            bannerModal: document.getElementById('bannerModal'),
-            versioncheckModal: document.getElementById('versioncheckModal'),
-            versioninsertModal: document.getElementById('versioninsertModal'),
-            sellerinsertModal: document.getElementById('sellerinsertmodal'),
-            userchangemodal: document.getElementById('userchangemodal'),
-            orderinfomodal: document.getElementById('orderinfomodal'),
-            adressinputmodal: document.getElementById('adressinputmodal'),
-            deliverinfomodal: document.getElementById('deliverinfomodal'),
-            couponmodal: document.getElementById('couponmodal'),
-            couponinfomodal: document.getElementById('couponinfomodal'),
-            couponinsertmodal: document.getElementById('couponinsertmodal'),
-            employmodal: document.getElementById('employmodal')
-        };
+    <!-- 채용등록 모달 -->
+    <div id="employmodal" class="modal admin">
+        <div class="employmodal-content modalcontent">
+            <nav class="adminmodal-nav">
+                <h1>채용등록</h1>
+                <button class="adminmodal-close" id="closeModal">&times;</button>
+            </nav>
+            <section class="modal-section">
+                <article>
+                    <table border="0" class="heighttable">
+                        <tr>
+                            <th>제목</th>
+                            <td><input type="text"></td>
+                        </tr>
+                        <tr>
+                            <th>채용부서</th>
+                            <td>
+                                <select name="couponname">
+                                    <Option value="">경영</Option>
+                                    <Option value="">운영</Option>
+                                    <Option value="">IT</Option>
+                                    <Option value="">광고사업</Option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>경력사항</th>
+                            <td>
+                                <select name="couponname">
+                                    <Option value="">신입</Option>
+                                    <Option value="">무관</Option>
+                                    <Option value="">경력 2~15년</Option>
+                                    <Option value="">경력 4~15년</Option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>채용형태  </th>
+                            <td>
+                                <select name="couponname">
+                                    <Option value="">계약직</Option>
+                                    <Option value="">정규직</Option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>모집기간</th>
+                            <td>
+                                <input type="date" class="bannerdate" name="employdate-start"> -
+                                <input type="date" class="bannerdate" name="employdate-end"><br>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>비고</th>
+                            <td class="modalcontent2">
+                                <textarea placeholder="변경내역작성하기"></textarea>
+                            </td>
+                        </tr>
+                    </table>
+                    <br>
+                    <div class="modalbuttondiv">
+                        <input class="adminmodalbutton" type="submit" value="등록하기" />
+                        <button class="modalcanclebutton">취소</button>
+                    </div>
+                </article>
+            </section>
+        </div>
+    </div>
+    <!-- 배송 등록 모달 -->
+    <div id="deliveryInsertModal" class="modal user">
+        <div class="deliveryInsertModal-content modalcontent">
+            <nav class="modal-nav">
+                <h1>배송 등록</h1>
+                <button class="modal-close" id="closeModal">&times;</button>
+            </nav>
+            <section class="modal-section">
+                <h3>주문 리스트</h3>
+                <!-- 주문아이템 리스트 스크립트에서 동적 생성 ! -->
+            </section>
+        </div>
+    </div>
+    <!-- 배송등록상세 모달-->
+    <div id="deliveryInfoModal" class="modal admin">
+        <div class="deliverinfomodal-content modalcontent">
+            <nav class="adminmodal-nav">
+                <h1>배송상세</h1>
+                <button class="adminmodal-close" id="closeModal">&times;</button>
+            </nav>
+            <section class="modal-section">
+                <!-- 배송 상세 정보는 JavaScript에서 동적으로 추가됩니다 -->
+            </section>
+        </div>
+    </div>
 
-        const buttons = {
-            bannerSubmitBtn: document.getElementById('bannerSubmitBtn'),
-            versionCheckBtn: document.getElementById('versionCheckBtn'),
-            versionInsertBtn: document.getElementById('versionInsertBtn'),
-            sellerInsertBtn: document.getElementById('sellerInsertBtn'),
-            userChangeBtn: document.getElementById('userChangeBtn'),
-            orderinfomodalBtn: document.getElementById('orderinfomodalBtn'),
-            adressinputmodalBtn: document.getElementById('adressinputmodalBtn'),
-            deliverinfomodalBtn: document.getElementById('deliverinfomodalBtn'),
-            couponmodalBtn: document.getElementById('couponmodalBtn'),
-            couponinfomodalBtn : document.getElementById('couponinfomodalBtn'),
-            couponinsertmodalBtn: document.getElementById('couponinsertmodalBtn'),
-            employmodalBtn: document.getElementById('employmodalBtn')
-        };
+    <!-- 배송상세 모달 -->
+    <div id="deliverydetailmodal" class="modal admin">
+        <div class="deliverinfomodal-content modalcontent">
+            <nav class="adminmodal-nav">
+                <h1>배송상세</h1><h4 id="order-number">주문번호</h4> <!-- 주문번호를 동적으로 설정 -->
+                <button class="adminmodal-close" id="closeModal">&times;</button>
+            </nav>
+            <section class="modal-section">
+                <!-- 상품정보 -->
+                <article>
+                    <h3>상품정보</h3>
+                    <table border="0" class="widthtable">
+                        <tr>
+                            <th>상품이미지</th>
+                            <th>상품번호</th>
+                            <th>상품명</th>
+                            <th>판매자</th>
+                            <th>가격</th>
+                            <th>수량</th>
+                            <th>배송비</th>
+                            <th>결제금액</th>
+                        </tr>
+                        <tr>
+                            <td><img class="modalimgsize" id="product-image" src="" alt="상품 이미지" /></td>
+                            <td id="product-id"></td>
+                            <td id="product-name"></td>
+                            <td id="seller-name"></td>
+                            <td id="price"></td>
+                            <td id="quantity"></td>
+                            <td id="delivery-fee"></td>
+                            <td id="total-price"></td>
+                        </tr>
+                    </table>
+                </article>
 
-        // 버튼 클릭 시 모달 열기
-        buttons.bannerSubmitBtn.onclick = function () {
-            modals.bannerModal.style.display = "block";
-        };
-        buttons.versionCheckBtn.onclick = function () {
-            modals.versioncheckModal.style.display = "block";
-        };
-        buttons.versionInsertBtn.onclick = function () {
-            modals.versioninsertModal.style.display = "block";
-        };
-        buttons.sellerInsertBtn.onclick = function () {
-            modals.sellerinsertModal.style.display = "block";
-        };
-        buttons.userChangeBtn.onclick = function () {
-            modals.userchangemodal.style.display = "block";
-        };
-        buttons.orderinfomodalBtn.onclick = function () {
-            modals.orderinfomodal.style.display = "block";
-        };
-        buttons.adressinputmodalBtn.onclick = function () {
-            modals.adressinputmodal.style.display = "block";
-        };
-        buttons.deliverinfomodalBtn.onclick = function () {
-            modals.deliverinfomodal.style.display = "block";
-        };
-        buttons.couponmodalBtn.onclick = function () {
-            modals.couponmodal.style.display = "block";
-        };
-        buttons.couponinfomodalBtn.onclick = function () {
-            modals.couponinfomodal.style.display = "block";
-        };
-        buttons.couponinsertmodalBtn.onclick = function() {
-            modals.couponinsertmodal.style.display = "block";
-        };
-        buttons.employmodalBtn.onclick = function() {
-            modals.employmodal.style.display = "block";
-        };
+                <!-- 배송정보 -->
+                <article>
+                    <h1>배송정보</h1>
+                    <table border="0" class="heighttable">
+                        <tr>
+                            <th>주문번호</th>
+                            <td id="order-id"></td>
+                        </tr>
+                        <tr>
+                            <th>수령인</th>
+                            <td id="recipient-name"></td>
+                        </tr>
+                        <tr>
+                            <th>연락처</th>
+                            <td id="recipient-phone"></td>
+                        </tr>
+                        <tr>
+                            <th>배송지 주소</th>
+                            <td id="recipient-address"></td>
+                        </tr>
+                        <tr>
+                            <th>택배사</th>
+                            <td id="delivery-company"></td>
+                        </tr>
+                        <tr>
+                            <th>송장번호</th>
+                            <td id="invoice-number"></td>
+                        </tr>
+                        <tr>
+                            <th>기타</th>
+                            <td id="additional-memo"></td>
+                        </tr>
+                    </table>
+                </article>
+            </section>
+        </div>
+    </div>
 
-        // 닫기 버튼 클릭 시 모달 닫기 (공통 클래스 기반)
-        document.querySelectorAll('#closeModal').forEach(function (closeBtn) {
-            closeBtn.onclick = function () {
-                const modal = closeBtn.closest('.modal');  // 클릭한 닫기 버튼이 속한 모달 찾기
-                modal.style.display = "none";  // 해당 모달 닫기
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // 모달과 버튼을 객체로 관리
+            const modals = {
+                bannerModal: document.getElementById('bannerModal'),
+                versioncheckModal: document.getElementById('versioncheckModal'),
+                versioninsertModal: document.getElementById('versioninsertModal'),
+                sellerinsertModal: document.getElementById('sellerinsertmodal'),
+                userchangemodal: document.getElementById('userchangemodal'),
+                orderinfomodal: document.getElementById('orderinfomodal'),
+                adressinputmodal: document.getElementById('adressinputmodal'),
+                deliverinfomodal: document.getElementById('deliverinfomodal'),
+                couponmodal: document.getElementById('couponmodal'),
+                couponinfomodal: document.getElementById('couponinfomodal'),
+                couponinsertmodal: document.getElementById('couponinsertmodal'),
+                employmodal: document.getElementById('employmodal')
             };
-        });
 
-        // 모달 외부 클릭 시 닫기
-        window.onmousedown = function (event) {
-            for (const modal of Object.values(modals)) {
-                if (event.target == modal) {
-                    modal.style.display = "none";
-                }
-            }
-        };
+            const buttons = {
+                bannerSubmitBtn: document.getElementById('bannerSubmitBtn'),
+                versionCheckBtn: document.getElementById('versionCheckBtn'),
+                versionInsertBtn: document.getElementById('versionInsertBtn'),
+                sellerInsertBtn: document.getElementById('sellerInsertBtn'),
+                userChangeBtn: document.getElementById('userChangeBtn'),
+                orderinfomodalBtn: document.getElementById('orderinfomodalBtn'),
+                adressinputmodalBtn: document.getElementById('adressinputmodalBtn'),
+                deliverinfomodalBtn: document.getElementById('deliverinfomodalBtn'),
+                couponmodalBtn: document.getElementById('couponmodalBtn'),
+                couponinfomodalBtn : document.getElementById('couponinfomodalBtn'),
+                couponinsertmodalBtn: document.getElementById('couponinsertmodalBtn'),
+                employmodalBtn: document.getElementById('employmodalBtn')
+            };
 
-        // 별 클릭 이벤트 (기존 코드 유지)
-        const modalstars = document.querySelectorAll('.modalstar');
-        modalstars.forEach((modalstar, index) => {
-            modalstar.addEventListener('click', () => {
-                modalstars.forEach(s => s.classList.remove('filled'));
-                for (let i = 0; i <= index; i++) {
-                    modalstars[i].classList.add('filled');
+            // 버튼 클릭 시 모달 열기
+            buttons.bannerSubmitBtn.onclick = function () {
+                modals.bannerModal.style.display = "block";
+            };
+            buttons.versionCheckBtn.onclick = function () {
+                modals.versioncheckModal.style.display = "block";
+            };
+            buttons.versionInsertBtn.onclick = function () {
+                modals.versioninsertModal.style.display = "block";
+            };
+            buttons.sellerInsertBtn.onclick = function () {
+                modals.sellerinsertModal.style.display = "block";
+            };
+            buttons.userChangeBtn.onclick = function () {
+                modals.userchangemodal.style.display = "block";
+            };
+            buttons.orderinfomodalBtn.onclick = function () {
+                modals.orderinfomodal.style.display = "block";
+            };
+            buttons.adressinputmodalBtn.onclick = function () {
+                modals.adressinputmodal.style.display = "block";
+            };
+            buttons.deliverinfomodalBtn.onclick = function () {
+                modals.deliverinfomodal.style.display = "block";
+            };
+            buttons.couponmodalBtn.onclick = function () {
+                modals.couponmodal.style.display = "block";
+            };
+            buttons.couponinfomodalBtn.onclick = function () {
+                modals.couponinfomodal.style.display = "block";
+            };
+            buttons.couponinsertmodalBtn.onclick = function() {
+                modals.couponinsertmodal.style.display = "block";
+            };
+            buttons.employmodalBtn.onclick = function() {
+                modals.employmodal.style.display = "block";
+            };
+            
+            // 닫기 버튼 클릭 시 모달 닫기 (공통 클래스 기반)
+            document.querySelectorAll('#closeModal').forEach(function (closeBtn) {
+                closeBtn.onclick = function () {
+                    const modal = closeBtn.closest('.modal');  // 클릭한 닫기 버튼이 속한 모달 찾기
+                    modal.style.display = "none";  // 해당 모달 닫기
+                };
+            });
+
+            // 모달 외부 클릭 시 닫기
+            window.onmousedown = function (event) {
+                for (const modal of Object.values(modals)) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
                 }
+            };
+
+            // 별 클릭 이벤트 (기존 코드 유지)
+            const modalstars = document.querySelectorAll('.modalstar');
+            modalstars.forEach((modalstar, index) => {
+                modalstar.addEventListener('click', () => {
+                    modalstars.forEach(s => s.classList.remove('filled'));
+                    for (let i = 0; i <= index; i++) {
+                        modalstars[i].classList.add('filled');
+                    }
+                });
+            });
+
+            
+            // 날짜 선택 처리 (쿠폰 등록 및 채용 등록)
+            const today = new Date().toISOString().split('T')[0];
+
+             // 쿠폰 등록 날짜 처리
+            const couponStartDateInput = document.querySelector('input[name="coupondate-start"]');
+            const couponEndDateInput = document.querySelector('input[name="coupondate-end"]');
+            couponStartDateInput.setAttribute('min', today);
+            couponStartDateInput.addEventListener('change', function () {
+                couponEndDateInput.setAttribute('min', this.value);
+            });
+
+            // 채용 등록 날짜 처리
+            const employStartDateInput = document.querySelector('input[name="employdate-start"]');
+            const employEndDateInput = document.querySelector('input[name="employdate-end"]');
+            employStartDateInput.setAttribute('min', today);
+            employStartDateInput.addEventListener('change', function () {
+                employEndDateInput.setAttribute('min', this.value);
             });
         });
 
-
-        // 날짜 선택 처리 (쿠폰 등록 및 채용 등록)
-        const today = new Date().toISOString().split('T')[0];
-
-        // 쿠폰 등록 날짜 처리
-        const couponStartDateInput = document.querySelector('input[name="coupondate-start"]');
-        const couponEndDateInput = document.querySelector('input[name="coupondate-end"]');
-        couponStartDateInput.setAttribute('min', today);
-        couponStartDateInput.addEventListener('change', function () {
-            couponEndDateInput.setAttribute('min', this.value);
-        });
-
-        // 채용 등록 날짜 처리
-        const employStartDateInput = document.querySelector('input[name="employdate-start"]');
-        const employEndDateInput = document.querySelector('input[name="employdate-end"]');
-        employStartDateInput.setAttribute('min', today);
-        employStartDateInput.addEventListener('change', function () {
-            employEndDateInput.setAttribute('min', this.value);
-        });
-    });
-
-</script>
+    </script>
 </body>
 
 </html>

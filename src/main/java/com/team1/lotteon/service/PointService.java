@@ -7,6 +7,7 @@ import com.team1.lotteon.dto.point.PointPageRequestDTO;
 import com.team1.lotteon.dto.point.PointPageResponseDTO;
 import com.team1.lotteon.entity.GeneralMember;
 import com.team1.lotteon.entity.Point;
+import com.team1.lotteon.entity.enums.TransactionType;
 import com.team1.lotteon.repository.Memberrepository.GeneralMemberRepository;
 import com.team1.lotteon.repository.PointRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -65,69 +67,45 @@ public class PointService {
     public void registerPoint(GeneralMemberDTO generalMemberDTO, int points, String pointType) {
         PointDTO pointDTO = new PointDTO();
         pointDTO.setType(pointType);
+        pointDTO.setTransactionType(TransactionType.적립); // "적립"으로 설정
         pointDTO.setGivePoints(points);
         pointDTO.setAcPoints(points); // 초기 포인트와 동일하게 설정
         pointDTO.setMember_id(generalMemberDTO.getUid());
         log.info("포인트 지급: 멤버 " + generalMemberDTO + " - 포인트: " + points + ", 타입: " + pointType);
+
+        // insertPoint에서 유효기간 설정과 엔티티 변환을 처리
         insertPoint(pointDTO);
-    }
-
-
-
-    public void userOrderPoints(int point, GeneralMember generalMember) {
-        try {
-            log.info("포인트 사용 요청: {}, 회원 UID: {}", point, generalMember.getUid());
-
-            if (point < 5000) {
-                throw new IllegalArgumentException("5000점 이상 사용가능");
-            }
-            if (generalMember.getPoints() < point) {
-                throw new IllegalArgumentException("포인트 부족!");
-            }
-
-            log.info("포인트 차감 전, 회원 포인트: {}", generalMember.getPoints());
-
-            generalMember.decreasePoints(point);
-            log.info("포인트 차감 후, 회원 포인트: {}", generalMember.getPoints());
-
-            generalMemberRepository.saveAndFlush(generalMember);
-            log.info("회원 정보 저장 완료: UID = {}, 남은 포인트 = {}", generalMember.getUid(), generalMember.getPoints());
-
-            PointDTO pointDTO = new PointDTO();
-            pointDTO.setAcPoints(generalMember.getPoints());
-            pointDTO.setMember_id(generalMember.getUid());
-            pointDTO.setGivePoints(-point);
-
-            log.info("포인트 DTO 생성 완료: {}", pointDTO);
-
-            Point pointEntity = modelMapper.map(pointDTO, Point.class);
-            pointEntity.changeMember(generalMember);
-            log.info("포인트 엔티티 변환 완료: {}", pointEntity);
-
-            pointRepository.save(pointEntity);
-            log.info("포인트 기록 저장 완료: {}", pointEntity);
-        } catch (Exception e) {
-            log.error("포인트 사용 중 오류 발생: {}", e.getMessage(), e);
-            throw e; // 예외를 다시 던져 호출자에서 처리할 수 있도록 함
-        }
-
-
-
-//        generalMember.increasePoints(point); // 사용된 포인트를 회원의 포인트 내역과 잔여 포인트에 반영하기 위한 것
-
-
     }
 
     // 포인트 insert
     public void insertPoint(PointDTO pointDTO) {
+        // PointDTO를 Point 엔티티로 변환
         Point point = modelMapper.map(pointDTO, Point.class);
+
+        // 유효기간 설정 (예: 12개월)
+        point.calculateExpirationDate();
+
+        // 회원 정보 조회 및 포인트 업데이트
         GeneralMember generalMember = generalMemberRepository.findByUid(pointDTO.getMember_id())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
         generalMember.increasePoints(pointDTO.getGivePoints());
         point.changeMember(generalMember);
+
+        // 포인트 저장
         pointRepository.save(point);
     }
 
+    // 유효기간이 지난 포인트를 소멸 상태로 업데이트
+    public void expirePoints() {
+        List<Point> points = pointRepository.findAll();
+
+        points.forEach(point -> {
+            if (point.getExpirationDate() != null && point.getExpirationDate().isBefore(LocalDateTime.now())) {
+                point.setTransactionType(TransactionType.만료); // 포인트 상태를 "만료"로 설정
+                pointRepository.save(point);
+            }
+        });
+    }
     // 포인트 차감 메서드 추가
     public void deductPoints(PointDTO pointDTO) {
         int deductionPoints = Math.abs(pointDTO.getGivePoints()); // 차감 포인트 절대값으로 처리
@@ -142,11 +120,20 @@ public class PointService {
 
         Point point = modelMapper.map(pointDTO, Point.class);
         point.setGivePoints(-deductionPoints); // 차감된 포인트는 음수로 저장
+        pointDTO.setTransactionType(TransactionType.사용); // "사용"으로 설정
         point.setAcPoints(generalMember.getPoints());
         point.changeMember(generalMember);
 
         pointRepository.save(point);
     }
+
+
+    // 포인트 합계 계산
+    public int calculateTotalAcPoints(String uid) {
+        List<Point> points = pointRepository.findByMemberUid(uid, Pageable.unpaged()).getContent();
+        return points.stream().mapToInt(Point::getAcPoints).sum();
+    }
+
 
 
     // 포인트 select 페이징 (MYPAGE) => 내 포인트 가져오기 일단 stop
@@ -257,6 +244,15 @@ public class PointService {
 
         log.info("DB에 변경 사항이 반영되었습니다.");
     }
+
+// 구매확정 포인트 지급
+    public void givePurchasePoints(String memberId, Long orderId) {
+        GeneralMember member = generalMemberRepository.findByUid(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("회원 정보 없음"));
+
+
+    }
+
 
 
 

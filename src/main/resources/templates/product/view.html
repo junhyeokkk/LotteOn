@@ -47,7 +47,7 @@
     <article class="info">
 
         <div class="image">
-            <img th:src="'/'+${appInfo.uploadDir}+'product/'+${product.productImg2}" alt="상품이미지" />
+            <img th:src="'/'+${appInfo.uploadDir}+'product/'+${product.productImg2}" alt="상품이미지"/>
         </div>
         <div class="summary">
             <nav class="summary__nav">
@@ -60,7 +60,7 @@
                 <div class="product-header">
                     <h3>[[${product.productName}]]</h3>
                     <div class="rating">
-                        <img src="/images/star-rating.png" alt="별점" />
+                        <img src="/images/star-rating.png" alt="별점"/>
                         <span>4.8</span> <span>(27건)</span>
                     </div>
                 </div>
@@ -77,7 +77,9 @@
                     </div>
                     <ins id="disPrice" class="dis_price">[[${product.discountedPrice}]] 원</ins> <!-- 최종 가격 -->
                 </div>
-                <button th:if="${coupondatas}" class="coupon-button" data-modal="couponinfoModal"><i class="fa-solid fa-tag"></i> 쿠폰 받기</button>
+                <button th:if="${coupondatas}" class="coupon-button" data-modal="couponinfoModal"><i
+                        class="fa-solid fa-tag"></i> 쿠폰 받기
+                </button>
             </nav>
 
             <h4 class="section-title">혜택 정보</h4>
@@ -112,7 +114,7 @@
                         <select id="optionSelect[[${i}]]" onchange="updateSelectedOptions()">
                             <option value="">옵션을 선택하세요</option>
                             <th:block th:each="optionitem : ${ProductOption.getOptionitems()}">
-                                <option th:value="${optionitem.id}" >[[${optionitem.value}]]</option>
+                                <option th:value="${optionitem.id}">[[${optionitem.value}]]</option>
                             </th:block>
                         </select>
                     </div>
@@ -127,7 +129,8 @@
                         <i class="fa-solid fa-minus"></i>
                     </button>
                     <!-- oninput 이벤트를 통해 키보드 입력 시 checkMaxStock 함수 호출 -->
-                    <input class="count__input" type="number" min="1" name="num" id="numInput" value="1" oninput="updateTotalPrice();"  />
+                    <input class="count__input" type="number" min="1" name="num" id="numInput" value="1"
+                           oninput="updateTotalPrice();"/>
                     <button class="count-button increase" onclick="changeNumNoOpt(1)">
                         <i class="fa-solid fa-plus"></i>
                     </button>
@@ -163,7 +166,7 @@
             </tr>
             <tr>
                 <td>상품상태</td>
-                <td>[[${product.productStatus}]]</td>
+                <td>[[${product.status}]]</td>
             </tr>
             <tr>
                 <td>부가세 면세여부</td>
@@ -217,7 +220,8 @@
                 <!-- 상품정보 및 이미지 -->
                 <div id="detail">
                     <h1>상품정보</h1>
-                    <img class="section__product-img"th:src="'/'+${appInfo.uploadDir}+'product/'+${product.productImg3}" alt="상품이미지" />
+                    <img class="section__product-img"
+                         th:src="'/'+${appInfo.uploadDir}+'product/'+${product.productImg3}" alt="상품이미지"/>
                 </div>
             </div>
 
@@ -260,7 +264,8 @@
 
                     <div class="cart-actions">
                         <button class="cart-action-btn gift-btn"><i class="fa-solid fa-gift"></i> 선물하기</button>
-                        <button class="cart-action-btn cart-btn"><i class="fa-solid fa-shopping-cart"></i> 장바구니 담기</button>
+                        <button class="cart-action-btn cart-btn"><i class="fa-solid fa-shopping-cart"></i> 장바구니 담기
+                        </button>
                         <button class="cart-action-btn buy-btn"><i class="fa-solid fa-credit-card"></i> 바로 구매하기</button>
                     </div>
                 </div>
@@ -269,38 +274,75 @@
     </section>
 
     <!-- 상품 리뷰 내용 -->
-    <nav class="section__review-nav" style="padding-bottom: 0">
-        <h1>상품 리뷰</h1>
+    <nav id="review-title" class="section__review-nav">
+        <strong>리뷰</strong>
+        <span th:text="|( ${reviewCount} )|">( 3 )</span>
     </nav>
-
+    <div class="coresArea">
+        <div class="cores">
+            <div class="staring">
+                <span class="star">
+                    <strong style="width:94%" th:style="|width: ${reviewAvgRating*100/5}%|"></strong>
+                    <span class="blind">평점</span>
+                </span>
+                <div class="score">
+                    <em th:text="${reviewAvgRating}">4.7</em>
+                    <span class="total" style="margin-top:0">/5</span>
+                </div>
+            </div>
+        </div>
+    </div>
     <article class="review">
-        <nav class="review__head">
-            <span class="review__count">리뷰 45</span>
-            <span class="review__rate">리뷰 평점 <span class="review__rate__score">4.5</span></span>
-            <button class="button-group__btn review__write" onclick="(function(){window.location.href='/product/review/write'})()">리뷰 작성</button>
-        </nav>
-        <nav class="review__list">
-            <div class="review__item">
-                <h3 class="review__item__title">리뷰 제목</h3>
-                <div class="review__item__desc">리뷰 내용입니다. 이곳에 리뷰 내용을 적어주세요.</div>
-                <span class="review__item__author">작성자: 고객 이름</span>
-                <span class="review__item__date">작성일: 2024.01.01</span>
+        <div class="review__head" th:text="|총${reviewCount}|">총3건</div>
+        <div class="review__list">
+            <div class="review__item" th:each="review : ${reviews.content}">
+                <div class="review__item__header">
+                    <div class="review__item__header__profile">
+                        <figure class="review__item__header__profile__img">
+                            <span class="blind">유저 썸네일 이미지</span>
+                        </figure>
+                        <strong class="review__item__header__profile__userName" th:text="${review.memberId}">je06****</strong>
+                    </div>
+                </div>
+                <div class="review__item__star">
+                    <span class="review__item__star__background">
+                        <strong style="width: 90%;" th:style="|width: ${review.score*100/5}%|"></strong>
+                    </span>
+                    <span class="blind">평점</span>
+                    <em th:text="${review.score}">4.5</em>
+                </div>
+                <div class="review__item__option-seller">
+<!--                    <div class="review__item__option-seller__option">옵션: 사계절 아삭 포기김치 10kg</div>-->
+                    <div class="review__item__option-seller__seller" th:text="|판매자 : ${review.sellerName}|">판매자 : (주)다호디앤아이</div>
+                </div>
+                <div class="review__item__desc" th:text="${review.content}">리뷰 내용입니다. 이곳에 리뷰 내용을 적어주세요.</div>
+                <span class="review__item__date" th:text="${#temporals.format(review.createdAt, 'yyyy.MM.dd')}">2024.01.01</span>
             </div>
-            <div class="review__item">
-                <h3 class="review__item__title">리뷰 제목</h3>
-                <div class="review__item__desc">리뷰 내용입니다. 이곳에 리뷰 내용을 적어주세요.</div>
-                <span class="review__item__author">작성자: 고객 이름</span>
-                <span class="review__item__date">작성일: 2024.01.01</span>
-            </div>
-        </nav>
+        </div>
     </article>
 
-    <!-- 버튼 -->
-    <div style="text-align:center; margin: 30px 0;">
-        <button onclick="(function(){window.location.href='/'})()" class="button-group__btn button-group__home">홈으로</button>
+    <!-- 페이지네이션 -->
+    <div class="pagingBox">
+        <div class="pagingList">
+            <!-- 이전 버튼 -->
+            <a th:if="${reviews.currentPage > 0}"
+               th:href="@{/product/view/{id}(id=${product.id}, page=${reviews.currentPage - 1})}"
+               class="prev">&lt;</a>
+
+            <!-- 페이지 번호 -->
+            <a th:each="i : ${#numbers.sequence(1, reviews.totalPages)}"
+               th:href="@{/product/view/{id}(id=${product.id}, page=${i - 1})}"
+               th:text="${i}"
+               th:classappend="${reviews.currentPage + 1 == i} ? 'active' : ''">1</a>
+
+            <!-- 다음 버튼 -->
+            <a th:if="${reviews.currentPage + 1 < reviews.totalPages}"
+               th:href="@{/product/view/{id}(id=${product.id}, page=${reviews.currentPage + 1})}"
+               class="next">&gt;</a>
+        </div>
     </div>
     <script th:inline="javascript">
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             let optionCombinations = /*[[${optionCombinations}]]*/ {};
             let selectedOptions = {}; // 사용자가 선택한 옵션을 저장하는 객체
             let unitPrice = parseFloat(document.getElementById("disPrice").textContent.replace(/[^0-9.-]+/g, "")); // 할인된 가격
@@ -344,7 +386,6 @@
             }
 
 
-
             // 선택된 옵션에 맞는 재고 및 combinationId 찾기
             function getDetailsForSelectedOptions() {
                 const optionKey = JSON.stringify(Object.values(selectedOptions).sort((a, b) => a - b));
@@ -355,9 +396,8 @@
                 if (!details) {
                     console.warn("옵션 조합을 찾을 수 없습니다:", optionKey);
                 }
-                return details || { combinationId: null, stock: 0 };
+                return details || {combinationId: null, stock: 0};
             }
-
 
 
             function getStockForSelectedOptions() {
@@ -578,7 +618,7 @@
                 // 세션에 상품 정보 저장 요청
                 fetch('/api/product/save-order-info', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify(orderInfo)
                 })
                     .then(response => {
@@ -604,11 +644,27 @@
             window.saveOrderInfoToSession = saveOrderInfoToSession;
         });
 
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // 페이지 로드 시 저장된 스크롤 위치 복원
+            const previousScrollY = sessionStorage.getItem("scrollPosition");
+            if (previousScrollY) {
+                window.scrollTo(0, parseInt(previousScrollY, 10));
+                sessionStorage.removeItem("scrollPosition"); // 복원 후 위치 삭제
+            }
+
+            // 페이징 링크 클릭 시 스크롤 위치 저장 및 review-title 위치로 이동 설정
+            document.querySelectorAll(".pagingList a").forEach(pageLink => {
+                pageLink.addEventListener("click", function (event) {
+                    event.preventDefault(); // 기본 링크 동작 중지
+                    sessionStorage.setItem("scrollPosition", document.getElementById("review-title").offsetTop);
+
+                    // 페이지 이동 (링크로 이동)
+                    window.location.href = pageLink.href;
+                });
+            });
+        });
     </script>
-
-
-
-
 
 
 </section>

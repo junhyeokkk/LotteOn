@@ -47,6 +47,9 @@ public class VersionService {
     // 가장 최근 버전 select(id가 가장 높은것으로 조회)
     public VersionDTO getLatestVersion() {
         Version version = versionRepository.findTopByOrderByIdDesc().orElse(null);
+        if(version == null) {
+            return null;
+        }
         VersionDTO versionDTO = modelMapper.map(version, VersionDTO.class);
         return versionDTO;
     }

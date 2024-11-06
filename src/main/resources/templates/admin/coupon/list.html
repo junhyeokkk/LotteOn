@@ -5,6 +5,7 @@
     수정이력
     - 2024/10/29 이도영 - 쿠폰 정보 출력
     - 2024/10/30 이도영 - 쿠폰 모달 출력
+    - 2024/11/05 이도영 - couponchangemodal 모달 추가
 -->
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
@@ -23,6 +24,7 @@
 <div class="content" layout:fragment="content">
   <div th:replace="~{admin/include/admin_modal :: #couponinfomodal}"></div>
   <div th:replace="~{admin/include/admin_modal :: #couponinsertmodal}"></div>
+  <div th:replace="~{admin/include/admin_modal :: #couponchangemodal}"></div>
   <div class="dashboard">
     <div class="content_header">
       <h1>쿠폰목록</h1>
@@ -37,7 +39,7 @@
           <select name="type">
             <Option value="cnumber">쿠폰번호</Option>
             <Option value="cname">쿠폰명</Option>
-            <Option value="cprovider">발급자</Option>
+            <Option value="cprovider" th:if="${role =='Admin'}">발급자</Option>
           </select>
           <input class="searchInput" type="text" name="keyword">
           <input type="hidden" name="prodSeller" value="ADMIN" readonly>
@@ -81,17 +83,17 @@
           <td>[[${coupon.couponname}]]</td>
           <td>
             <span th:switch="${coupon.coupondiscount}">
-                <span th:case="MINUS_1000">1000원 할인</span>
-                <span th:case="2">2000원 할인</span>
-                <span th:case="3">3000원 할인</span>
-                <span th:case="4">4000원 할인</span>
-                <span th:case="5">5000원 할인</span>
-                <span th:case="6">10% 할인</span>
-                <span th:case="7">20% 할인</span>
-                <span th:case="8">30% 할인</span>
-                <span th:case="9">40% 할인</span>
-                <span th:case="PERCENT_50">50% 할인</span>
-                <span th:case="11">배송비 무료</span>
+                <span th:case="1000">1000원 할인</span>
+                <span th:case="2000">2000원 할인</span>
+                <span th:case="3000">3000원 할인</span>
+                <span th:case="4000">4000원 할인</span>
+                <span th:case="5000">5000원 할인</span>
+                <span th:case="0.1">10% 할인</span>
+                <span th:case="0.2">20% 할인</span>
+                <span th:case="0.3">30% 할인</span>
+                <span th:case="0.4">40% 할인</span>
+                <span th:case="0.5">50% 할인</span>
+                <span th:case="0">배송비 무료</span>
                 <span th:case="*">할인 없음</span> <!-- 기본값 -->
             </span>
           </td>
@@ -114,8 +116,9 @@
             <span th:text="${coupon.couponmaketime}"></span>
           </td>
           <td>
-            <a class="deliveryBtn"
-               th:classappend="${coupon.couponstate == 'start' ? 'start-status' : 'default-status'}">
+            <a href="#" class="deliveryBtn" data-modal="couponchangemodal" th:attr="data-coupon-id=${coupon.couponid}"
+               th:classappend="${coupon.couponstate == 'start' ? 'start-status' : 'default-status'}"
+               >
               관리
             </a>
           </td>

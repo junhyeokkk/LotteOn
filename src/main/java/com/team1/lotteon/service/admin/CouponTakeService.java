@@ -4,7 +4,6 @@ package com.team1.lotteon.service.admin;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
-import com.team1.lotteon.dto.CouponDTO;
 import com.team1.lotteon.dto.CouponTakeDTO;
 import com.team1.lotteon.dto.pageDTO.NewPageRequestDTO;
 import com.team1.lotteon.dto.pageDTO.NewPageResponseDTO;
@@ -20,7 +19,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
@@ -44,6 +42,9 @@ import java.util.stream.Collectors;
      - 2024/11/03 이도영 선택된 쿠폰 저장 기능 구현
                         전체 쿠폰 저장 기능 구현
                         updateCouponUseStatusAndIncrementUse 기능 임시작업
+     - 2024/11/05 이도영 발급된 쿠폰 정보 출력 모달
+                        쿠폰 상태 업데이트 기능
+                        판매자와 관리자에 따라 출력 방식 변경
 */
 @Log4j2
 @RequiredArgsConstructor
@@ -173,30 +174,40 @@ public class CouponTakeService {
         return savedCouponTakes;
     }
 
-    public NewPageResponseDTO<CouponTakeDTO> selectcoupontakeAll(NewPageRequestDTO newPageRequestDTO) {
+    public NewPageResponseDTO<CouponTakeDTO> selectcoupontakeAll(NewPageRequestDTO newPageRequestDTO,String role, Long shopid) {
         Pageable pageable = newPageRequestDTO.getPageable("couponTakenId", false);
         Page<CouponTake> couponTakePage = null;
 
         String type = newPageRequestDTO.getType();
         String keyword = newPageRequestDTO.getKeyword();
 
-        if (type != null && keyword != null && !keyword.isEmpty()) {  // null 체크 추가
+        if (type != null && keyword != null && !keyword.isEmpty()) {  // 검색 조건이 있을 경우
             switch (type) {
                 case "couponNo":
-                    couponTakePage = couponTakeRepository.findByCouponTakenId(Long.parseLong(keyword), pageable);
+                    couponTakePage = "Seller".equals(role) && shopid != null
+                            ? couponTakeRepository.findByCouponTakenIdAndShopId(Long.parseLong(keyword), shopid, pageable)
+                            : couponTakeRepository.findByCouponTakenId(Long.parseLong(keyword), pageable);
                     break;
                 case "couponId":
-                    couponTakePage = couponTakeRepository.findByCoupon_Couponid(Long.parseLong(keyword), pageable);
+                    couponTakePage = "Seller".equals(role) && shopid != null
+                            ? couponTakeRepository.findByCoupon_CouponidAndShopId(Long.parseLong(keyword), shopid, pageable)
+                            : couponTakeRepository.findByCoupon_Couponid(Long.parseLong(keyword), pageable);
                     break;
                 case "couponName":
-                    couponTakePage = couponTakeRepository.findByCoupon_CouponnameContaining(keyword, pageable);
+                    couponTakePage = "Seller".equals(role) && shopid != null
+                            ? couponTakeRepository.findByCoupon_CouponnameContainingAndShopId(keyword, shopid, pageable)
+                            : couponTakeRepository.findByCoupon_CouponnameContaining(keyword, pageable);
                     break;
                 default:
-                    couponTakePage = couponTakeRepository.findAll(pageable);
+                    couponTakePage = "Seller".equals(role) && shopid != null
+                            ? couponTakeRepository.findByShopId(shopid, pageable)
+                            : couponTakeRepository.findAll(pageable);
                     break;
             }
-        } else {
-            couponTakePage = couponTakeRepository.findAll(pageable);
+        } else {  // 검색 조건이 없을 경우
+            couponTakePage = "Seller".equals(role) && shopid != null
+                    ? couponTakeRepository.findByShopId(shopid, pageable)
+                    : couponTakeRepository.findAll(pageable);
         }
 
         AtomicInteger startNumber = new AtomicInteger((newPageRequestDTO.getPg() - 1) * newPageRequestDTO.getSize() + 1);
@@ -232,8 +243,9 @@ public class CouponTakeService {
 
 
     // member_id와 coupon_id가 일치하는 CouponTake 엔티티를 조회 일치하면 사용 했음으로 변경 + 쿠폰에 사용횟수 증가
-    public boolean updateCouponUseStatusAndIncrementUse(String memberId, Long couponId) {
+    public boolean updateCouponUseStatusAndIncrementUse(Member member, Long couponId) {
         // 1. CouponTake 엔티티에서 couponUseCheck 값을 2로 업데이트
+        String memberId = member.getUid();
         Optional<CouponTake> optionalCouponTake = couponTakeRepository.findByMember_UidAndCoupon_Couponid(memberId, couponId);
 
         if (optionalCouponTake.isPresent()) {
@@ -258,26 +270,41 @@ public class CouponTakeService {
         return true; // 두 작업이 성공적으로 완료된 경우
     }
 
-//    public Optional<CouponTakeDTO> findCouponTakeById(Long id) {
-//        return couponRepository.findById(id)
-//                .map(coupon -> {
-//                    CouponDTO couponDTO = modelMapper.map(coupon, CouponDTO.class);
-//
-//                    // 발급자 역할에 따라 issuerInfo 설정
-//                    Member member = coupon.getMember();
-//                    if ("Admin".equals(member.getRole())) {
-//                        couponDTO.setIssuerInfo("관리자");
-//                    } else if ("Seller".equals(member.getRole())) {
-//                        // SellerMember를 안전하게 가져와 처리
-//                        Optional<SellerMember> sellerMemberOpt = sellerMemberRepository.findById(member.getUid());
-//                        sellerMemberOpt.ifPresent(sellerMember -> {
-//                            String shopName = sellerMember.getShop() != null ? sellerMember.getShop().getShopName() : "미등록 상점";
-//                            couponDTO.setIssuerInfo(shopName);
-//                        });
-//                    }
-//
-//                    return couponDTO;
-//                });
-//    }
+    //발급된 쿠폰 정보 출력 모달
+    public Optional<CouponTakeDTO> findCouponTakeById(Long id) {
+        return couponTakeRepository.findById(id)
+                .map(couponTake -> {
+                    CouponTakeDTO coupontakedto = modelMapper.map(couponTake, CouponTakeDTO.class);
+                    log.info("쿠폰 아이디 :"+coupontakedto.getCouponId());
+                    log.info("발급쿠폰 아이디 :"+coupontakedto.getCouponTakenId());
+                    Member member = couponTake.getMember();
+                    Coupon coupon = couponTake.getCoupon();
+                    Shop shop = couponTake.getShop();
+                    if (coupon != null) {
+                        coupontakedto.setCouponId(coupon.getCouponid());//쿠폰번호
+                        coupontakedto.setCouponName(coupon.getCouponname()); //쿠폰명
+                        coupontakedto.setCouponDiscount(coupon.getCoupondiscount()); // 할인율(혜택)
+                        coupontakedto.setCouponType(coupon.getCoupontype());    //쿠폰 종류
+                        coupontakedto.setCouponetc(coupon.getCouponetc()); //상세정보
+                    }
+                    if(shop!=null) {
+                        coupontakedto.setShopName(couponTake.getShop().getShopName());
+                    }else{
+                        coupontakedto.setShopName("롯데");
+                    }
+                    // 날짜 포맷 설정
+                    coupontakedto.setFormattedDates();
+                    return coupontakedto;
+                });
+    }
 
+    public boolean updateCouponStatus(Long couponId, int couponUseCheck) {
+        return couponTakeRepository.findById(couponId)
+                .map(coupon -> {
+                    coupon.setCouponUseCheck(couponUseCheck);
+                    couponTakeRepository.save(coupon);
+                    return true;
+                })
+                .orElse(false);
+    }
 }

@@ -3,6 +3,8 @@ package com.team1.lotteon.repository.coupon;
      날짜 : 2024/10/25
      이름 : 강유정(최초 작성자)
      내용 : CouponRepository 생성
+     수정이력
+     - 2024/11/05 이도영 - 판매자 일경우 데이터 출력
 */
 
 import com.team1.lotteon.entity.Coupon;
@@ -19,13 +21,13 @@ public interface CouponRepository extends JpaRepository<Coupon, Long> {
     Page<Coupon> findByCouponid(Long  couponId, Pageable pageable);
     //쿠폰 이름으로 검색
     Page<Coupon> findByCouponnameContaining(String CouponName, Pageable pageable);
-
     Page<Coupon> findByMemberRole(String admin, Pageable pageable);
-
-    Page<Coupon> findByMemberUidIn(List<String> sellerMemberIds, Pageable pageable);
-
     List<Coupon> findByMember_Uid(String memberId);
 
-    //발급자 이름으로 검색
-//    Page<Coupon> findBySellerNameContaining(String SellerName, Pageable pageable);
+    //role 이 판매자 일경우 데이터 출력
+    Page<Coupon> findByCouponidAndMemberUid(Long couponId, String uid, Pageable pageable);
+    Page<Coupon> findByCouponnameContainingAndMemberUid(String couponname, String uid, Pageable pageable);
+    Page<Coupon> findByMemberUid(String uid, Pageable pageable);
+    Page<Coupon> findByMemberUidIn(List<String> uids, Pageable pageable);
+
 }

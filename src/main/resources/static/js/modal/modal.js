@@ -6,6 +6,7 @@
     - 2024/10/30 이도영 - 관리자 쿠폰 개별 모달 수정
     - 2024/11/01 이도영 - 다운받은 개별 쿠폰 모달 수정 임시
     - 2024/11/03 이도영 - 사용자 쿠폰 다운로드 시 처리 방식 수정
+    - 2024/11/05 이도영 - 전반적인 모든 모달 기능 수정 , 삭제기능 수정기능 추가
  */
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -19,7 +20,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 openCouponModal(this);
                 return; // couponinfomodal은 데이터 처리 후 열기 때문에 여기서 일반 모달 열기 방식을 사용하지 않음
             }
-
+            if(modalId === "couponmodal"){
+                openCouponTakeModal(this);
+                return;
+            }
+            if(modalId === "couponchangemodal"){
+                openCouponChangeModal(this);
+                return;
+            }
             // 다른 모달에 대한 처리
             if (modalId === "inquiryModal") {
                 closeModal('sellerInfoModal');
@@ -27,6 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (modalId === "deliberyinsertModal") {
                 closeModal('deliberyModal');
             }
+
             console.log(modalId);
             openModal(modalId);
         });
@@ -57,7 +66,37 @@ document.addEventListener('DOMContentLoaded', function () {
             closeModal(modal.id);
         });
     });
+    // 삭제 확인 및 요청 함수
+    function confirmDelete() {
+        if (confirm("삭제하시겠습니까?")) {
+            const couponId = document.querySelector('#couponchangemodal input[name="couponId"]').value;
+            console.log("couponId : "+couponId);
+            fetch(`/admin/coupon/delete/${couponId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('삭제 요청이 실패했습니다.');
+                    }
+                    alert("쿠폰이 성공적으로 삭제되었습니다.");
+                    closeModal('couponchangemodal');
+                    location.reload();
+                })
+                .catch(error => {
+                    console.error('삭제 중 오류 발생:', error);
+                    alert('삭제 중 오류가 발생했습니다.');
+                });
+        }
+    }
 
+    // 삭제 버튼에 confirmDelete 함수 바인딩
+    const deleteButton = document.querySelector('.modalbutton[value="삭제하기"]');
+    if (deleteButton) {
+        deleteButton.addEventListener("click", confirmDelete);
+    }
     // 쿠폰 정보를 서버에서 가져와 모달을 여는 함수
     function openCouponModal(element) {
         const couponId = element.getAttribute('data-coupon-id');
@@ -82,10 +121,34 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
 
-    // 쿠폰 정보를 서버에서 가져와 모달을 여는 함수
+    // 다운받은 쿠폰 정보를 서버에서 가져와 모달을 여는 함수
     function openCouponTakeModal(element) {
         const couponId = element.getAttribute('data-coupontake-id');
-
+        console.log("TTTTT"+couponId);
+        // 서버에 쿠폰 정보를 요청하여 모달 업데이트
+        fetch(`/admin/coupontake/select/${couponId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to load coupon data');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // 받은 데이터를 모달에 업데이트합니다.
+                updateCouponTakeInfoInModal(data);
+                // 업데이트된 후 모달을 엽니다.
+                openModal('couponmodal');
+            })
+            .catch(error => {
+                console.error('Error loading coupon data:', error);
+                alert('쿠폰 정보를 불러오는 중 오류가 발생했습니다.');
+            });
+    }
+    //수정할 쿠폰에 대한 모달 출력
+    function openCouponChangeModal(element) {
+        const couponId = element.getAttribute('data-coupon-id');
+        console.log(couponId);
+        document.querySelector('#couponchangemodal input[name="couponId"]').value = couponId;
         // 서버에 쿠폰 정보를 요청하여 모달 업데이트
         fetch(`/admin/coupon/select/${couponId}`)
             .then(response => {
@@ -96,9 +159,9 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             .then(data => {
                 // 받은 데이터를 모달에 업데이트합니다.
-                updateCouponInfoInModal(data);
-                // 업데이트된 후 모달을 엽니다.
-                openModal('couponinfomodal');
+                updateCouponChangeModal(data);
+                // 데이터 처리 후 모달을 엽니다.
+                openModal('couponchangemodal');
             })
             .catch(error => {
                 console.error('Error loading coupon data:', error);
@@ -108,7 +171,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 쿠폰 정보를 모달에 업데이트하는 함수 (동적 업데이트)
     function updateCouponInfoInModal(coupon) {
-        document.querySelector('.couponid').textContent = coupon.couponid || '정보 없음';
+        document.querySelector('.couponid').textContent = coupon.couponId || '정보 없음';
         document.querySelector('.issuerInfo').textContent = coupon.issuerInfo || '정보 없음';
         document.querySelector('.couponname').textContent = coupon.couponname || '정보 없음';
 
@@ -174,6 +237,90 @@ document.addEventListener('DOMContentLoaded', function () {
         document.querySelector('.couponetc').textContent = coupon.couponetc || '정보 없음';
     }
 
+    //발급받은 쿠폰에 대한 모달 작성
+    function updateCouponTakeInfoInModal(data) {
+        // 쿠폰 번호
+        document.querySelector('.couponid').textContent = data.couponId || 'N/A';
+        // 발급처
+        document.querySelector('.shopname').textContent = data.shopName || 'N/A';
+        // 발급 번호
+        document.querySelector('.coupontakeid').textContent = data.couponTakenId || 'N/A';
+
+        // 사용 여부 상태 표시
+        const useStatusElement = document.querySelector('.couponusecheck');
+        const useStatus = {
+            0: '미사용',
+            2: '사용',
+            3: '기간 만료',
+            4: '정지'
+        };
+        useStatusElement.textContent = useStatus[data.couponUseCheck] || 'N/A';
+
+        // 상태에 따른 색상 클래스 추가
+        useStatusElement.classList.remove('status-unused', 'status-used', 'status-expired', 'status-stopped');
+        if (data.couponUseCheck === 0) {
+            useStatusElement.classList.add('status-unused');
+        } else if (data.couponUseCheck === 2) {
+            useStatusElement.classList.add('status-used');
+        } else if (data.couponUseCheck === 3) {
+            useStatusElement.classList.add('status-expired');
+        } else if (data.couponUseCheck === 4) {
+            useStatusElement.classList.add('status-stopped');
+        }
+        // 쿠폰 종류
+        const usecouponType = {
+            "single": '개별상품할인',
+            "ordersale": '주문상품할인',
+            "freedelivery": '배송비 무료',
+        };
+        document.querySelector('.coupontype').textContent = usecouponType[data.couponType] || 'N/A';
+        // 쿠폰명
+        document.querySelector('.couponname').textContent = data.couponName || 'N/A';
+        
+        // 혜택
+        const usecouponDiscount = {
+            1000:'1,000원 할인',
+            2000:'2,000원 할인',
+            3000:'3,000원 할인',
+            4000:'4,000원 할인',
+            5000:'5,000원 할인',
+            0.1:'10% 할인',
+            0.2:'20% 할인',
+            0.3:'30% 할인',
+            0.4:'40% 할인',
+            0.5:'50% 할인',
+            0:'배송비 무료'
+        };
+        document.querySelector('.coupondiscount').textContent = usecouponDiscount[data.couponDiscount] || 'N/A';
+        
+        // 사용 기간
+        document.querySelector('.period').textContent = `${data.couponGetDateFormatted} ~ ${data.couponExpireDateFormatted}` || 'N/A';
+        // 유의사항
+        document.querySelector('.couponetc').value = data.couponetc || '';
+    }
+    //수정하는 쿠폰 정보를 보여주는 곳
+    function updateCouponChangeModal(data) {
+        // 예시: 모달에 표시할 데이터 업데이트
+        // 발급처 정보
+        console.log(data.memberId);
+        document.querySelector('#couponchangemodal input[readonly]').value = data.issuerInfo || '';
+        document.querySelector('#couponchangemodal input[name="memberId"]').value = data.memberId || '';
+        // 쿠폰 종류 선택
+        const coupontypeSelect = document.querySelector('#couponchangemodal select[name="coupontype"]');
+        if (coupontypeSelect) coupontypeSelect.value = data.coupontype || 'single';
+        // 쿠폰명
+        document.querySelector('#couponchangemodal input[name="couponname"]').value = data.couponname || '';
+        // 혜택 선택
+        const coupondiscountSelect = document.querySelector('#couponchangemodal select[name="coupondiscount"]');
+        if (coupondiscountSelect) coupondiscountSelect.value = data.coupondiscount || '';
+        // 사용 기간
+        document.querySelector('#couponchangemodal input[name="couponstart"]').value = data.couponstart ? data.couponstart.split('T')[0] : '';
+        document.querySelector('#couponchangemodal input[name="couponend"]').value = data.couponend ? data.couponend.split('T')[0] : '';
+        document.querySelector('#couponchangemodal input[name="couponperiod"]').value = data.couponperiod || '';
+        // 유의사항
+        document.querySelector('#couponchangemodal textarea[name="couponetc"]').value = data.couponetc || '';
+        // 필요한 다른 필드들에 대해 같은 방식으로 설정합니다.
+    }
     // 별 클릭 이벤트
     const modalstars = document.querySelectorAll('.modalstar');
     modalstars.forEach((modalstar, index) => {
@@ -181,6 +328,39 @@ document.addEventListener('DOMContentLoaded', function () {
             modalstars.forEach(s => s.classList.remove('filled'));
             for (let i = 0; i <= index; i++) {
                 modalstars[i].classList.add('filled');
+            }
+        });
+    });
+    document.querySelectorAll('.notusedBtn').forEach(button => {
+        button.addEventListener('click', function (event) {
+            event.preventDefault();
+            event.preventDefault();
+            const couponId = this.getAttribute('data-coupon-id');
+            const useCheck = parseInt(this.getAttribute('data-use-check'), 10);
+
+            if (confirm("변경하시겠습니까?")) {
+                // 변경할 상태 설정
+                const newStatus = useCheck === 0 ? 4 : 0;
+
+                // 서버로 변경 요청 보내기
+                fetch(`/admin/coupontake/cancelorrestart/${couponId}/${newStatus}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ couponUseCheck: newStatus })
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('상태 변경에 실패했습니다.');
+                        }
+                        alert("변경이 완료되었습니다.");
+                        location.reload(); // 페이지 새로고침
+                    })
+                    .catch(error => {
+                        console.error('변경 중 오류 발생:', error);
+                        alert('변경 중 오류가 발생했습니다.');
+                    });
             }
         });
     });
@@ -217,32 +397,37 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
         });
     });
-    document.querySelector('.save-button').addEventListener('click', function() {
-        // 모든 쿠폰 ID 수집
-        const couponIds = Array.from(document.querySelectorAll('.download-coupon-btn')).map(button =>
-            button.getAttribute('data-coupon-id')
-        );
 
-        const memberId = document.querySelector('.download-coupon-btn').getAttribute('data-member-id');
-        const shopId = document.querySelector('.download-coupon-btn').getAttribute('data-shop-id');
+    const saveButton = document.querySelector('.save-button');
+    if (saveButton) {
+        saveButton.addEventListener('click', function() {
+            // 모든 쿠폰 ID 수집
+            const couponIds = Array.from(document.querySelectorAll('.download-coupon-btn')).map(button =>
+                button.getAttribute('data-coupon-id')
+            );
 
-        // 서버로 요청 보내기
-        fetch(`/coupontake/all/${memberId}/${shopId}?couponIds=` + couponIds.join(','), {
-            method: 'GET'
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('쿠폰 저장에 실패했습니다');
-                }
-                return response.json();
+            const memberId = document.querySelector('.download-coupon-btn').getAttribute('data-member-id');
+            const shopId = document.querySelector('.download-coupon-btn').getAttribute('data-shop-id');
+
+            // 서버로 요청 보내기
+            fetch(`/coupontake/all/${memberId}/${shopId}?couponIds=` + couponIds.join(','), {
+                method: 'GET'
             })
-            .then(data => {
-                alert('모든 쿠폰이 성공적으로 저장되었습니다!');
-                // 필요한 경우, 화면을 업데이트하거나 추가 알림을 표시할 수 있습니다.
-            })
-            .catch(error => {
-                console.error(error);
-                alert('쿠폰 저장 중 오류가 발생했습니다.');
-            });
-    });
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('쿠폰 저장에 실패했습니다');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    alert('모든 쿠폰이 성공적으로 저장되었습니다!');
+                })
+                .catch(error => {
+                    console.error(error);
+                    alert('쿠폰 저장 중 오류가 발생했습니다.');
+                });
+        });
+    } else {
+        console.warn("'.save-button' 요소를 찾을 수 없습니다.");
+    }
 });

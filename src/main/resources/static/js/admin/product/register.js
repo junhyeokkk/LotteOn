@@ -126,22 +126,6 @@ function loadCategories() {
         })
         .catch(error => console.error("Error loading categories:", error));
 }
-// 포인트 가격에 따라 자동설정
-function calculatePoint() {
-    const priceInput = document.getElementById('price');
-    const pointInput = document.getElementById('point');
-
-    // 가격의 1%를 포인트로 설정
-    const priceValue = parseFloat(priceInput.value) || 0;
-    const pointValue = Math.floor(priceValue * 0.01); // 소수점 버림
-
-    pointInput.value = pointValue;
-}
-
-function updateFileName(input, spanId) {
-    const span = document.getElementById(spanId);
-    span.textContent = input.files.length > 0 ? input.files[0].name : "선택된 파일 없음";
-}
 
 function loadSubCategories(parentId, targetSelectId) {
     const category2SelectId = 'category2';
@@ -165,6 +149,23 @@ function loadSubCategories(parentId, targetSelectId) {
             })
             .catch(error => console.error("Error loading subcategories:", error));
     }
+}
+
+// 포인트 가격에 따라 자동설정
+function calculatePoint() {
+    const priceInput = document.getElementById('price');
+    const pointInput = document.getElementById('point');
+
+    // 가격의 1%를 포인트로 설정
+    const priceValue = parseFloat(priceInput.value) || 0;
+    const pointValue = Math.floor(priceValue * 0.01); // 소수점 버림
+
+    pointInput.value = pointValue;
+}
+
+function updateFileName(input, spanId) {
+    const span = document.getElementById(spanId);
+    span.textContent = input.files.length > 0 ? input.files[0].name : "선택된 파일 없음";
 }
 
 function populateSelectOptions(selectId, data) {

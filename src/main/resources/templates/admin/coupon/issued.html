@@ -5,6 +5,7 @@
 
     수정내용
     - 2024/11/01 받은 쿠폰에 대한 화면 출력
+    - 2024/11/05 operate추가, 사용 가능 상태에 따라 출력 방식 변경
 -->
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
@@ -43,6 +44,12 @@
           <input class="searchBtn" type="submit" value="검색">
         </form>
       </div>
+      <div class="operate">
+        <p class="status-unused">● 미사용</p>
+        <p class="status-used">&nbsp;● 사용</p>
+        <p class="status-expired">&nbsp;● 기간 만료</p>
+        <p class="status-stopped">&nbsp;● 정지</p>
+      </div>
       <table class="admingraph">
         <tr class="admin_title">
           <th>발급번호</th>
@@ -57,7 +64,7 @@
 
         <tr th:each="coupon : ${coupontakedtos.dtoList}" class="admin_list">
           <td>
-            <a href="#" data-modal="couponmodal" th:attr="data-coupontake-id=${coupon.couponTakenId}" th:text="${coupon.couponTakenId}"></a>
+            <a href="#" data-modal="couponmodal" th:attr="data-coupontake-id=${coupon.couponTakenId}" th:text="${coupon.couponTakenId}" class="underline-link"></a>
           </td>
           <td>[[${coupon.couponId}]]</td>
           <td>
@@ -70,10 +77,26 @@
           </td>
           <td>[[${coupon.couponName}]]</td>
           <td>[[${coupon.username}]]</td>
-          <td th:style="'color:' + (${coupon.couponUseCheck == 0} ? 'red' : 'green')">[[${coupon.couponUseCheck == 0 ? '미사용' : '사용'}]]</td>
+          <td th:switch="${coupon.couponUseCheck}">
+            <span th:case="0" th:style="'color: red;'">미사용</span>
+            <span th:case="2" th:style="'color: blue;'">사용</span>
+            <span th:case="3" th:style="'color: green;'">만료</span>
+            <span th:case="4" th:style="'color: black;'">정지</span>
+            <span th:case="*">알 수 없음</span> <!-- 기본값 -->
+          </td>
           <td>[[${coupon.couponUseDateFormatted}]]</td>
           <td>
-            <a class="deliveryBtn" th:href="@{'/admin/coupon/cancel/' + ${coupon.couponTakenId}}">중단</a>
+            <a th:attr="data-coupon-id=${coupon.couponTakenId}, data-use-check=${coupon.couponUseCheck}"
+               th:classappend="${coupon.couponUseCheck == 2 || coupon.couponUseCheck == 3 ? 'usedBtn' : 'notusedBtn'}"
+               onclick="handleCouponStatusChange(this)">
+                <span th:switch="${coupon.couponUseCheck}">
+                    <span th:case="0">정지</span> <!-- 미사용일 경우 -->
+                    <span th:case="2">완료</span> <!-- 사용일 경우 -->
+                    <span th:case="3">완료</span> <!-- 만료일 경우 -->
+                    <span th:case="4">재개</span> <!-- 정지일 경우 -->
+                    <span th:case="*">알 수 없음</span> <!-- 기본값 -->
+                </span>
+            </a>
           </td>
         </tr>
       </table>

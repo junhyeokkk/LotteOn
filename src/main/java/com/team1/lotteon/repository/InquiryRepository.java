@@ -27,5 +27,6 @@ public interface InquiryRepository extends JpaRepository<Inquiry, Long> {
     // type1으로 필터링하고, type2별로 그룹화한 후, 각 type2에서 최대 10개의 기사를 반환하는 커스텀 쿼리
     @Query("SELECT q FROM Inquiry q WHERE q.type1 = :type1 ORDER BY q.type2, q.createdAt DESC")
     List<Inquiry> findByType1OrderByType2AndCreatedAt(@Param("type1") String type1);
+    List<Inquiry> findTop3ByOrderByIdDesc();
 }
 

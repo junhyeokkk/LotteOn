@@ -12,7 +12,10 @@
         <ol>
             <li><a th:href="@{/myPage/ordered}">주문<br><span>2</span></a></li>
             <li><a th:href="@{/myPage/coupon/{uid}(uid=${uid})}">쿠폰<br><span>1</span></a></li>
-            <li><a th:href="@{/myPage/point}">포인트<br><span>1,000</span></a></li>
+            <li><a th:href="@{/myPage/point}">포인트<br>
+                <span th:text="${totalAcPoints}">0</span> <!-- 총 포인트 값 -->
+            </a>
+            </li>
             <li><a th:href="@{/myPage/qna}">문의<br><span>1</span></a></li>
         </ol>
     </div>
