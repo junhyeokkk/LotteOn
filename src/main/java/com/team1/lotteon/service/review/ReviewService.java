@@ -24,7 +24,10 @@ public class ReviewService {
     }
 
     public double getReviewAvgRating(Long productId) {
-        double avgScore  = reviewRepository.findAverageScoreByProductId(productId);
+        Double avgScore  = reviewRepository.findAverageScoreByProductId(productId);
+        if(avgScore == null) {
+            return 0;
+        }
         return Math.round(avgScore * 10) / 10.0;
     }
 }

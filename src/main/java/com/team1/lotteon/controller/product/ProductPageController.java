@@ -297,7 +297,7 @@ public class ProductPageController {
         // 리뷰 가져오기
         PageResponseDTO<ReviewResponseDTO> reviews = reviewService.getReviewsByProductId(id, pageable);
         long count =  reviewService.getReviewCountByProductId(id);
-        double reviewAvgRating = reviewService.getReviewAvgRating(id);
+        Double reviewAvgRating = reviewService.getReviewAvgRating(id);
         model.addAttribute("reviews", reviews);
         model.addAttribute("reviewCount", count);
         model.addAttribute("reviewAvgRating", reviewAvgRating);
