@@ -154,7 +154,7 @@ public class OrderService {
     public List<OrderItem> getMyOrder(String uid){
 
         Order myOrder = orderRepository.findTop1ByMember_UidOrderByOrderDateDesc(uid);
-        OrderDTO orderDTO = modelMapper.map( myOrder, OrderDTO.class);
+        OrderDTO orderDTO = modelMapper.map(myOrder, OrderDTO.class);
 
         List<OrderItem> orderItems = orderDTO.getOrderItems();
 

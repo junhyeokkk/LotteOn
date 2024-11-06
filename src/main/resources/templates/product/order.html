@@ -110,12 +110,19 @@
         <p class="current-points">현재 포인트: <span id="userPoint" th:text="${member.getPoints()}">0</span>점</p>
 
         <div class="point-usage">
-          <label for="inputPoint" class="point-label">포인트 사용:</label>
-          <input type="number" name="usedPoint" id="inputPoint" placeholder="사용할 포인트 입력" readonly oninput="validatePoints()"/>
+          <label for="inputPoint" class="point-label">사용 포인트:</label>
+          <div class="input-container">
+            <input type="number" min="0" name="usedPoint" id="inputPoint" placeholder="사용 가능 포인트: 0" />
+            <button type="button" class="btn-reset" id="resetButton" onclick="resetPoints()" style="display: none;">
+              <i class="fas fa-times"></i> <!-- X 아이콘 -->
+            </button>
+          </div>
+          <input type="hidden" name="type" value="상품구매 사용"> <!-- 포인트 사용 사유 -->
           <button type="button" class="btn-apply" onclick="applyPoints()">사용하기</button>
           <p class="point-info">* 포인트 5,000점 이상 사용 가능합니다.</p>
         </div>
-<!--    쿠폰리스트 출력화면 (도영) 2024/11/03   -->
+
+        <!--    쿠폰리스트 출력화면 (도영) 2024/11/03   -->
         <div class="coupon-usage" th:if="${couponTakeList != null and !#lists.isEmpty(couponTakeList)}">
           <p class="coupon-label">쿠폰 적용:</p>
           <select name="takecoupon" id="takecoupon">
@@ -153,7 +160,7 @@
           <tr><td>배송비</td><td id="prodFee" th:text="${finalOrderSummary.totalDeliveryFee > 0 ? finalOrderSummary.totalDeliveryFee + '원' : '무료'}">0원</td></tr>
           <tr><td>쿠폰 할인</td><td id="couponDiscount" >-원</td></tr>
           <tr><td>포인트 할인</td><td id="prodPoint" >-원</td></tr>
-          <tr><td class="total-label">전체주문금액</td><td name="total" id="total" th:text="${finalOrderSummary.totalOrderAmount}" class="total-amount">24,650원</td></tr>
+          <tr><td class="total-label">전체주문금액</td><td name="total" id="total" th:text="${finalOrderSummary.totalOrderAmount + '원'}" class="total-amount">24,650원</td></tr>
           <tr><td>적립 포인트</td><td id="getPoint"  th:text="${finalOrderSummary.totalEarnedPoints}">270</td></tr>
         </table>
         <button type="submit">결제하기</button>

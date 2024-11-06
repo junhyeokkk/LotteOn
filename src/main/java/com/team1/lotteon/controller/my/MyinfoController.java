@@ -3,6 +3,8 @@ package com.team1.lotteon.controller.my;
 import com.team1.lotteon.dto.CouponTakeDTO;
 import com.team1.lotteon.dto.order.OrderDTO;
 import com.team1.lotteon.dto.order.OrderItemDTO;
+import com.team1.lotteon.dto.point.PointPageRequestDTO;
+import com.team1.lotteon.dto.point.PointPageResponseDTO;
 import com.team1.lotteon.entity.Address;
 import com.team1.lotteon.entity.GeneralMember;
 import com.team1.lotteon.entity.OrderItem;
@@ -19,8 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -35,6 +36,8 @@ import java.util.List;
 @Log4j2
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/myPage")
+
 public class MyinfoController {
 
     private final PointService pointService;
@@ -43,7 +46,7 @@ public class MyinfoController {
     private final OrderService orderService;
     private final ModelMapper modelMapper;
 
-    @GetMapping("/myPage/home")
+    @GetMapping("/home")
     public String home(@AuthenticationPrincipal MyUserDetails myUserDetails, Model model) {
         GeneralMember member = myUserDetails.getGeneralMember();
         if(member == null){
@@ -51,6 +54,9 @@ public class MyinfoController {
         }
 
         List<OrderItem> orderitems = orderService.getMyOrder(member.getUid());
+
+
+
 
         OrderItem orderItem = orderitems.get(0);
         OrderItemDTO OrderItemDTO = modelMapper.map(orderItem, OrderItemDTO.class);
@@ -60,7 +66,7 @@ public class MyinfoController {
         return "myPage/home";
     }
 
-    @GetMapping("/myPage/info")
+    @GetMapping("/info")
     public String myinfo(Model model){
         MyUserDetails userDetails = (MyUserDetails) model.getAttribute("userDetails");
         String birth = userDetails.getGeneralMember().getBirth().toString();
@@ -76,7 +82,7 @@ public class MyinfoController {
     }
     
     //멤버 아이디를 가지고 와서 쿠폰 정보 출력
-    @GetMapping("/myPage/coupon/{memberid}")
+    @GetMapping("/coupon/{memberid}")
     public String getPagedCouponsByMemberId(
             @PathVariable String memberid, Pageable pageable, Model model) {
         Page<CouponTakeDTO> coupons = couponTakeService.findPagedCouponsByMemberId(memberid, pageable);
@@ -86,23 +92,71 @@ public class MyinfoController {
         return "myPage/coupon";
     }
 
-    @GetMapping("/myPage/ordered")
-
+    @GetMapping("/ordered")
     public String myordered(Model model){
         return "myPage/ordered";
     }
-    @GetMapping("/myPage/point")
-    public String mypoint(){
+
+
+    // 모든 마이페이지 요청에 대해 totalAcPoints를 모델에 추가
+    @ModelAttribute("totalAcPoints")
+    public Integer populateTotalAcPoints(@AuthenticationPrincipal MyUserDetails myUserDetails) {
+        return pointService.calculateTotalAcPoints(myUserDetails.getGeneralMember().getUid());
+    }
+
+
+    @GetMapping("/point")
+    public String mypoint(    @RequestParam(defaultValue = "1") int pg,
+                              @RequestParam(required = false) String type,
+                              @RequestParam(required = false) String keyword,
+                              @AuthenticationPrincipal MyUserDetails myUserDetails, // 로그인된 사용자 정보 가져오기
+                              Model model) {
+
+        // DTO 생성
+        PointPageRequestDTO requestDTO = PointPageRequestDTO.builder()
+                .pg(pg)
+                .size(10)
+                .type(type) // 타입 추가
+                .keyword(keyword) // 키워드 추가
+                .build();
+
+
+        // 포인트 데이터 가져오기
+        PointPageResponseDTO responseDTO = pointService.getPoints(requestDTO);
+        model.addAttribute("points", responseDTO);
+
+        // 포인트 합계 계산 후 Model에 추가
+        Integer totalAcPoints = pointService.calculateTotalAcPoints(myUserDetails.getGeneralMember().getUid());
+        model.addAttribute("totalAcPoints", totalAcPoints);
+
+
+        // 포인트 리스트에 포맷팅된 생성일 및 유효기간 추가
+        responseDTO.getDtoList().forEach(point -> {
+            point.setFormattedCreatedAt(dateUtil.formatLocalDateTime(point.getCreatedat()));
+            point.setFormattedExpirationDate(dateUtil.formatLocalDateTime(point.getExpirationDate()));
+        });
+
+
+        // 로그: DTO 리스트 출력
+        log.info("포인트 데이터: " + responseDTO.getDtoList());
 
         return "myPage/point";
     }
 
 
-    @GetMapping("/myPage/qna")
+
+
+
+    @GetMapping("/qna")
     public String myqna(Model model){
         return "myPage/qna";
     }
-    @GetMapping("/myPage/review")
+
+
+
+
+
+    @GetMapping("/review")
     public String myreview(Model model){
         return "myPage/review";
     }

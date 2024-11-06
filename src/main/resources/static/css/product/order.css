@@ -583,3 +583,36 @@
         max-width: 100%;
     }
 }
+
+
+
+
+/* 기본 숫자 스피너 제거 */
+#inputPoint {
+    -moz-appearance: textfield; /* Firefox */
+    appearance: textfield; /* Chrome, Safari, Edge, Opera */
+    padding-right: 25px; /* X 버튼 공간 확보 */
+}
+
+#inputPoint::-webkit-outer-spin-button,
+#inputPoint::-webkit-inner-spin-button {
+    -webkit-appearance: none; /* Chrome, Safari, Edge */
+    margin: 0;
+}
+
+.input-container {
+    position: relative;
+    display: inline-block;
+}
+
+#resetButton {
+    position: absolute;
+    right: 5px; /* 입력란 오른쪽에 위치 */
+    top: 50%;
+    transform: translateY(-50%);
+    display: none; /* 초기에는 숨김 */
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #333;
+}
