@@ -123,7 +123,7 @@ button {
 }
 
 .loginFormWrapper {
-    max-height: 300px;
+    max-height: 400px;
     padding: 40px 0;
     display: flex;
     border-bottom: 2px solid #d8d8d8;

@@ -28,6 +28,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 openCouponChangeModal(this);
                 return;
             }
+
+            if(modalId === "reviewModal")
+            {
+                openReviewModal(this);
+                return;
+            }
+
             // 다른 모달에 대한 처리
             if (modalId === "inquiryModal") {
                 closeModal('sellerInfoModal');
@@ -48,6 +55,8 @@ document.addEventListener('DOMContentLoaded', function () {
             modal.style.display = 'block';
             document.body.style.overflow = 'hidden';  // 외부 스크롤 막기
         }
+
+        return modal;
     }
 
     // 모달 닫기 함수
@@ -168,6 +177,61 @@ document.addEventListener('DOMContentLoaded', function () {
                 alert('쿠폰 정보를 불러오는 중 오류가 발생했습니다.');
             });
     }
+
+    function openReviewModal(element)
+    {
+        // TODO: Review Modal
+        const itemElement = element.closest("[data-product-id]");
+        const productId = itemElement.dataset.productId;
+        const productName = itemElement.dataset.productName;
+
+        const modal = openModal("reviewModal");
+        updateReviewModal(modal, productId, productName);
+    }
+
+    function updateReviewModal(modal ,productId, productName) {
+        const productNameEl = modal.querySelector(".productName");
+        const productIdEl = modal.querySelector(".productNo");
+        const contentEl = modal.querySelector("#reviewContent");
+        const ratingEl = modal.querySelector(".rating");
+
+        productNameEl.textContent = productName;
+        productIdEl.value=productId;
+        contentEl.value="";
+        ratingEl.style.setProperty("--value", 5);
+    }
+
+    const reviewForm = document.querySelector("#reviewForm");
+    reviewForm.addEventListener("submit", async function(e) {
+        e.preventDefault();
+
+        try {
+            const response = await fetch("/api/review", {
+                method:'post',
+                body: JSON.stringify({
+                    content:e.target.content.value,
+                    score: e.target.score.value,
+                    memberId: e.target.memberId.value,
+                    productId: e.target.productId.value
+                }),
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+
+            if(!response.ok)
+            {
+                alert("리뷰 등록에 실패했습니다.")
+            }
+
+            alert("리뷰 등록 성공!!")
+        }catch (e) {
+            alert("리뷰 등록에 실패했습니다.")
+            console.error("Review Create Error :",e)
+        }finally {
+            closeModal("reviewModal")
+        }
+    })
 
     // 쿠폰 정보를 모달에 업데이트하는 함수 (동적 업데이트)
     function updateCouponInfoInModal(coupon) {

@@ -16,11 +16,8 @@ import com.team1.lotteon.dto.review.ReviewResponseDTO;
 import com.team1.lotteon.entity.Coupon;
 import com.team1.lotteon.entity.CouponTake;
 import com.team1.lotteon.security.MyUserDetails;
-import com.team1.lotteon.service.CartService;
-import com.team1.lotteon.service.CategoryService;
+import com.team1.lotteon.service.*;
 import com.team1.lotteon.service.Order.OrderService;
-import com.team1.lotteon.service.ProductService;
-import com.team1.lotteon.service.UserService;
 import com.team1.lotteon.service.admin.CouponService;
 import com.team1.lotteon.service.admin.CouponTakeService;
 import com.team1.lotteon.service.review.ReviewService;
@@ -30,6 +27,8 @@ import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -65,6 +64,7 @@ public class ProductPageController {
     private final ModelMapper modelMapper;
     private final OrderService orderService;
     private final ReviewService reviewService;
+    private final PointService pointService;
 
     // list 페이지 이동
     @GetMapping("/product/list")
@@ -247,7 +247,9 @@ public class ProductPageController {
 
     // view 페이지 이동
     @GetMapping("/product/view/{id}")
-    public String viewProduct(@PathVariable("id") Long id, Model model, @PageableDefault Pageable pageable) throws JsonProcessingException {
+    public String viewProduct(@PathVariable("id") Long id,
+                              Model model,
+                              @PageableDefault(size = 5) Pageable pageable) throws JsonProcessingException {
         log.info("컨트롤러 ㅇㅇㅇ");
         ProductDTO saveProduct = productService.getProductById(id);
         //shopid로 바꾸기
@@ -298,6 +300,15 @@ public class ProductPageController {
         PageResponseDTO<ReviewResponseDTO> reviews = reviewService.getReviewsByProductId(id, pageable);
         long count =  reviewService.getReviewCountByProductId(id);
         Double reviewAvgRating = reviewService.getReviewAvgRating(id);
+
+        int currentPage = reviews.getCurrentPage() + 1; // 타임리프는 1-based 인덱스 사용
+        int totalPages = reviews.getTotalPages();
+
+        int startPage = Math.max(1, currentPage - 2);
+        int endPage = Math.min(currentPage + 2, totalPages);
+
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
         model.addAttribute("reviews", reviews);
         model.addAttribute("reviewCount", count);
         model.addAttribute("reviewAvgRating", reviewAvgRating);
@@ -314,6 +325,23 @@ public class ProductPageController {
         return "product/view"; // 뷰 페이지로 이동
     }
 
+
+    public ResponseEntity<String> confirmOrder (@PathVariable Long orderId, @AuthenticationPrincipal MyUserDetails myUserDetails) {
+        if (myUserDetails == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
+        }
+        String memberId = myUserDetails.getUsername();
+
+        try {
+            // 주문 금액에 따라 포인트 계산 및 지급
+//            pointService.registerPoint(savedMemberDTO, points, pointType);
+            return ResponseEntity.ok("구매 확정 포인트가 지급되었습니다.");
+        } catch (Exception e) {
+            log.error("포인트 지급 중 오류 발생: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("포인트 지급에 실패했습니다.");
+        }
+
+    }
 //    @GetMapping("/product/{cate}")
 //    public String index(@PathVariable String cate, Model model, @PageableDefault Pageable pageable) {
 //

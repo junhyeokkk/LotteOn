@@ -1,10 +1,13 @@
 package com.team1.lotteon.apiController;
 
 import com.team1.lotteon.dto.GeneralMemberDTO;
+import com.team1.lotteon.service.MemberService.MemberService;
 import com.team1.lotteon.service.admin.AdminMemberService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -18,17 +21,20 @@ import java.util.Map;
      내용 : 관리자 유저 API 컨트롤러 생성
 */
 
+@Slf4j
 @RestController
 @RequestMapping("/api/admin/member")
 @RequiredArgsConstructor
 public class MemberApiController {
 
     private final AdminMemberService adminMemberService;
-
-    public static final int STATUS_ACTIVE = 1;     // 정상 상태
+    private final MemberService memberService;
+    private final PasswordEncoder passwordEncoder;
+    public static final int STATUS_ACTIVE = 0;     // 정상 상태
     public static final int STATUS_SUSPENDED = 2;   // 중지 상태
     public static final int STATUS_INACTIVE = 3;     // 휴면 상태
     public static final int STATUS_DEACTIVATED = 4;  // 비활성 상태 (탈퇴)
+    public static final int STATUS_ADMIN = 5;  // 관리자 상태
 
 
     // 모든 회원 목록 조회
@@ -55,10 +61,26 @@ public class MemberApiController {
     // 회원 정보 수정
     @PutMapping("/{uid}")
     public ResponseEntity<GeneralMemberDTO> updateMember(@PathVariable String uid, @RequestBody GeneralMemberDTO memberDTO) {
+        log.info("memberrDTO"+memberDTO);
         GeneralMemberDTO updatedMember = adminMemberService.updateMember(uid, memberDTO);
         return new ResponseEntity<>(updatedMember, HttpStatus.OK);
     }
-
+    //비밀번호 수정
+    @PostMapping("/changepassword/{uid}")
+    public ResponseEntity<String> changePassword(@PathVariable String uid, @RequestBody Map<String, String> payload) {
+        // Extract newPassword from the payload
+        String newPassword = payload.get("newPassword");
+        String encodedPassword = passwordEncoder.encode(newPassword);
+        // Call the service to update the password
+        log.info(uid);
+        log.info("newPasswordnewPassword"+newPassword);
+        boolean isUpdated = memberService.updatePassword(uid, encodedPassword);
+        if (isUpdated) {
+            return ResponseEntity.ok("비밀번호가 성공적으로 변경 되었습니다");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("비밀번호 변경에 실패 했습니다.");
+        }
+    }
     // 회원 삭제
     @DeleteMapping("/{uid}")
     public ResponseEntity<Void> deleteMember(@PathVariable String uid) {

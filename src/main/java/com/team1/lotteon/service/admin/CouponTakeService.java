@@ -243,8 +243,8 @@ public class CouponTakeService {
     }
 
 
-    // member_id와 coupon_id가 일치하는 CouponTake 엔티티를 조회 일치하면 사용 했음으로 변경 + 쿠폰에 사용횟수 증가
-    public boolean updateCouponUseStatusAndIncrementUse(Member member, Long couponId) {
+    // GeneralMember와 coupon_id가 일치하는 CouponTake 엔티티를 조회 일치하면 사용 했음으로 변경 + 쿠폰에 사용횟수 증가
+    public boolean updateCouponUseStatusAndIncrementUse(GeneralMember member, Long couponId) {
         // 1. CouponTake 엔티티에서 couponUseCheck 값을 2로 업데이트
         String memberId = member.getUid();
         Optional<CouponTake> optionalCouponTake = couponTakeRepository.findByMember_UidAndCoupon_Couponid(memberId, couponId);
@@ -267,7 +267,6 @@ public class CouponTakeService {
         } else {
             return false; // 일치하는 Coupon 항목을 찾지 못한 경우
         }
-
         return true; // 두 작업이 성공적으로 완료된 경우
     }
 

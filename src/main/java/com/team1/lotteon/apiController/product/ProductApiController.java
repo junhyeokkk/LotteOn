@@ -7,6 +7,7 @@ import com.team1.lotteon.dto.order.CarttoOrderRequestDTO;
 import com.team1.lotteon.dto.order.OrderInfoDTO;
 import com.team1.lotteon.dto.PageResponseDTO;
 import com.team1.lotteon.dto.product.ProductCreateDTO;
+import com.team1.lotteon.dto.product.ProductDTO;
 import com.team1.lotteon.dto.product.ProductSummaryResponseDTO;
 import com.team1.lotteon.entity.Product;
 import com.team1.lotteon.entity.productOption.ProductOptionCombination;
@@ -129,9 +130,9 @@ public class ProductApiController {
 
         try {
             // 파일 업로드 처리 및 저장
-            String imgPath1 = file1 != null ? productService.uploadFile(file1) : null;
-            String imgPath2 = file2 != null ? productService.uploadFile(file2) : null;
-            String imgPath3 = file3 != null ? productService.uploadFile(file3) : null;
+            String imgPath1 = file1 != null ? productService.saveFile(file1) : null;
+            String imgPath2 = file2 != null ? productService.saveFile(file2) : null;
+            String imgPath3 = file3 != null ? productService.saveFile(file3) : null;
 
             // 이미지 경로를 DTO에 설정
             productCreateDTO.setProductImg1(imgPath1);
@@ -156,7 +157,4 @@ public class ProductApiController {
         PageResponseDTO<ProductSummaryResponseDTO> products = productService.getProducts(pageable);
         return ResponseEntity.status(HttpStatus.OK).body(products);
     }
-
-
-
 }

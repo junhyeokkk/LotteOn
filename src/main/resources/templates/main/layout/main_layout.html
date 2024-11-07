@@ -19,9 +19,46 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 </head>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        let currentIndex = 0;
+        const imgContainer = document.querySelector('.main_bannerBox');
+        const totalImages = document.querySelectorAll('.main_banner__img').length;
+
+        // 이미지 업데이트 함수
+        function updateImage() {
+            imgContainer.style.transform = `translateX(-${currentIndex * 32.5}%)`;
+        }
+
+        // 다음 이미지로 넘어가기
+        function nextImage() {
+            currentIndex = (currentIndex + 1) % totalImages; // 마지막 이미지 다음에는 첫 번째로 돌아가게 함
+            updateImage();
+        }
+
+        // 자동 슬라이드 기능 (4초마다)
+        setInterval(nextImage, 4000);
+
+        updateImage(); // 초기 이미지 설정
+    });
+</script>
+
 <body>
 <!-- main banner -->
-<div class="main_banner"></div>
+<div class="main_banner">
+    <div class="main_bannerBox">
+    <a href="#">
+        <img class="main_banner__img" src="/images/main/banner.jpg" alt="banner1" />
+    </a>
+    <a href="#">
+        <img class="main_banner__img" src="/images/main/banner2.jpg" alt="banner2" />
+    </a>
+    <a href="#">
+        <img class="main_banner__img" src="/images/main/banner3.jpg" alt="banner3" />
+    </a>
+    </div>
+</div>
 <!-- header -->
 <header th:replace="~{layout/header::header}"></header>
 <header th:replace="~{layout/header-nav}"></header>

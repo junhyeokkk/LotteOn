@@ -231,52 +231,53 @@
 
 <!-- 상품평작성하기 모달 -->
 <div id="reviewModal" class="modal user">
-    <div class="reviewmodal-content modalcontent">
+    <div class="reviewmodal-content modalcontent" style="height: 440px;">
         <nav class="modal-nav">
             <h1>상품평 작성하기</h1>
             <button class="modal-close" id="closeModal">&times;</button>
         </nav>
         <section class="modal-section">
-            <form action="#" method="post" enctype="multipart/form-data">
+            <form id="reviewForm" action="#">
                 <table border="0" class="heighttable">
                     <tr>
                         <th>상품명</th>
                         <td id="productName" class="productName">상품명 출력</td>
                         <td id="productNo">
-                            <input type="hidden" class="productNo" name="prodNo">
-                            <input type="hidden" class="detailNo" name="detailNo">
+                            <input type="hidden" class="productNo" name="productId">
+                            <input type="hidden" name="memberId" th:value="${uid}" />
                         </td>
                     </tr>
                     <tr>
                         <th>만족도</th>
                         <td class="ratingTd">
-                            <input type="hidden" class="revScore" name="revScore" required>
-                            <div class="ratingValue">
-                                <span class="modalstar" data-value="1">&#9733;</span>
-                                <span class="modalstar" data-value="2">&#9733;</span>
-                                <span class="modalstar" data-value="3">&#9733;</span>
-                                <span class="modalstar" data-value="4">&#9733;</span>
-                                <span class="modalstar" data-value="5">&#9733;</span>
-                            </div>
+                                <input
+                                        class="rating"
+                                        max="5"
+                                        oninput="this.style.setProperty('--value', this.value)"
+                                        step="0.5"
+                                        type="range"
+                                        value="5"
+                                        name="score"
+                                />
                         </td>
                     </tr>
                     <tr>
                         <th>내용</th>
                         <td class="modalcontent">
-                            <textarea placeholder="내용입력" required></textarea>
+                            <textarea id="reviewContent" placeholder="내용입력" name="content" required></textarea>
                         </td>
                     </tr>
-                    <tr>
-                        <th>이미지</th>
-                        <td class="reviewImg">
-                            <input type="file" placeholder="이미지등록" required>
-                        </td>
-                    </tr>
+<!--                    <tr>-->
+<!--                        <th>이미지</th>-->
+<!--                        <td class="reviewImg">-->
+<!--                            <input type="file" placeholder="이미지등록" required>-->
+<!--                        </td>-->
+<!--                    </tr>-->
                 </table>
                 <br>
                 <div class="modalbuttondiv">
                     <input class="modalbutton" type="submit" value="작성완료"/>
-                    <button class="modalcanclebutton">취소</button>
+                    <button type="button" class="modalcanclebutton">취소</button>
                 </div>
             </form>
         </section>
@@ -607,7 +608,7 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
 
-        // 모달과 버튼을 객체로 관리
+        // 모달과 버튼을 객체로 관
         const modals = {
             orderDetailModal: document.getElementById('orderDetailModal'),
             sellerInfoModal: document.getElementById('sellerInfoModal'),

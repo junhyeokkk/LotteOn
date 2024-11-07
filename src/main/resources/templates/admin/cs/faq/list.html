@@ -11,55 +11,38 @@
 
 <!-- index.html 고유 스크립트 추가 -->
 <th:block layout:fragment="script">
-    <script>
-        const type2Options = {
-            "회원": ["가입", "탈퇴"],
-            "쿠폰/이벤트": ["이벤트 참여", "쿠폰 사용"],
-            "주문/결제": ["주문 확인", "결제 문제"],
-            "배송": ["배송 추적", "배송 지연"],
-            "취소/반품/환불": ["취소 요청", "반품 요청", "환불 요청"],
-            "여행/숙박/항공": ["호텔 예약", "항공권 예약"],
-            "안전결제": ["결제 안전 확인", "보안 문제 신고"]
-        };
-
-        function updateType2Options() {
+    <script th:inline="javascript">
+        document.addEventListener("DOMContentLoaded", function () {
             const type1Select = document.querySelector("select[name='type1']");
             const type2Select = document.querySelector("select[name='type2']");
-            const selectedType1 = type1Select.value;
+            const type2Options = {
+                "회원": ["가입", "탈퇴"],
+                "쿠폰/이벤트": ["이벤트 참여", "쿠폰 사용"],
+                "주문/결제": ["주문 확인", "결제 문제"],
+                "배송": ["배송 추적", "배송 지연"],
+                "취소/반품/환불": ["취소 요청", "반품 요청", "환불 요청"],
+                "여행/숙박/항공": ["호텔 예약", "항공권 예약"],
+                "안전결제": ["결제 안전 확인", "보안 문제 신고"]
+            };
 
-            // Clear previous options in type2
-            type2Select.innerHTML = "<option>2차선택</option>";
-
-            // Add new options based on selected type1
-            if (type2Options[selectedType1]) {
-                type2Options[selectedType1].forEach(optionText => {
-                    const option = document.createElement("option");
-                    option.value = optionText;
-                    option.textContent = optionText;
-                    type2Select.appendChild(option);
-                });
+            function updateType2Options() {
+                const selectedType1 = type1Select.value;
+                type2Select.innerHTML = "<option value='2차선택'>2차선택</option>";
+                if (type2Options[selectedType1]) {
+                    type2Options[selectedType1].forEach(optionText => {
+                        const option = document.createElement("option");
+                        option.value = optionText;
+                        option.textContent = optionText;
+                        type2Select.appendChild(option);
+                    });
+                }
             }
-        }
 
-        function redirectToCateType() {
-            const type1 = document.querySelector("select[name='type1']").value;
-            const type2 = document.querySelector("select[name='type2']").value;
-            if (type1 !== '1차선택' && type2 !== '2차선택') {
-                window.location.href = `/admin/cs/faq/list?type1=${encodeURIComponent(type1)}&type2=${encodeURIComponent(type2)}`;
-            }
-        }
-
-        document.addEventListener("DOMContentLoaded", function() {
-            const type1Select = document.querySelector("select[name='type1']");
-            const type2Select = document.querySelector("select[name='type2']");
-            type1Select.addEventListener("change", () => {
-                updateType2Options();
-                redirectToCateType();
-            });
-            type2Select.addEventListener("change", redirectToCateType);
+            type1Select.addEventListener("change", updateType2Options);
             updateType2Options();
         });
     </script>
+
 </th:block>
 
 <div class="content" layout:fragment="content">
@@ -109,27 +92,28 @@
                 </tr>
 
                 <!-- FAQ 목록 동적 처리 -->
-                <tr class="admin_list" th:each="faq : ${faqs}">
-                    <td><input type="checkbox" th:value="${faq.id}" name="RowCheck" /></td>
-                    <td th:text="${faq.displayNumber}">1</td>
-                    <td th:text="${faq.type1}">1차유형</td>
-                    <td th:text="${faq.type2}">2차유형</td>
-                    <td style="text-align: left">
-                        <span>
-                            <a th:href="|@{/admin/cs/faq/view/}${faq.id}|">
-                                <span th:text="${faq.title}" style="white-space: nowrap;">질문 제목</span>
-                            </a>
-                        </span>
-                    </td>
-                    <td th:text="${faq.views}">120</td>
-                    <td th:text="${#temporals.format(faq.createdAt, 'yy-MM-dd')}">2024-10-14</td>
-                    <td style="line-height: 20px">
-                        <a href="javascript:void(0);" th:onclick="|deleteFaq(${faq.id})|" class="cs_delete-btn">[삭제]</a>
-                        <br>
-                        <a th:href="@{/admin/cs/faq/edit(id=${faq.id})}" class="cs_modify-btn">[수정]</a>
-                    </td>
-                </tr>
-            </table>
+            <tr class="admin_list" th:each="faq, iterStat : ${faqs}">
+                <td><input type="checkbox" th:value="${faq.id}" name="RowCheck" /></td>
+                <td th:text="${iterStat.index + 1}">1</td>
+                <td th:text="${faq.type1}">1차유형</td>
+                <td th:text="${faq.type2}">2차유형</td>
+                <td style="text-align: left">
+            <span>
+                <a th:href="|@{/admin/cs/faq/view/}${faq.id}|">
+                    <span th:text="${faq.title}" style="white-space: nowrap;">질문 제목</span>
+                </a>
+            </span>
+                </td>
+                <td th:text="${faq.views}">120</td>
+                <td th:text="${#temporals.format(faq.createdAt, 'yy-MM-dd')}">2024-10-14</td>
+                <td style="line-height: 20px">
+                    <a href="javascript:void(0);" th:onclick="|deleteFaq(${faq.id})|" class="cs_delete-btn">[삭제]</a>
+                    <br>
+                    <a th:href="@{/admin/cs/faq/modify/{id}(id=${faq.id})}" class="cs_modify-btn">[수정]</a>
+                </td>
+            </tr>
+
+        </table>
 
             <a class="delete_btn" href="javascript:void(0);" onclick="deleteSelectedFaqs()">선택삭제</a>
             <a th:href="@{/admin/cs/faq/write}" class="registration_btn">작성하기</a>

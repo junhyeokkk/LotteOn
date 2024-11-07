@@ -2,8 +2,25 @@
 날짜 : 2024/10/25
 이름 : 이상훈
 내용 : 메인 페이지 컨텐츠 영역 생성
+
+수정이력
+  - 2024/10/30 강유정 - css 수정
 -->
 <script>
+  window.onload = function () {
+    // URL에서 쿼리 파라미터 가져오기 메시지 정보 전달
+    const params = new URLSearchParams(window.location.search);
+    const alertMessage = params.get('message');
+
+    if (alertMessage) {
+      alert(decodeURIComponent(alertMessage));
+
+      // 쿼리 파라미터를 제거한 새 URL로 브라우저 상태를 업데이트
+      const url = new URL(window.location);
+      url.searchParams.delete('message');
+      window.history.replaceState({}, document.title, url);
+    }
+  };
   document.addEventListener('DOMContentLoaded', () => {
     let currentIndex = 0;
 
@@ -144,7 +161,7 @@
           <h3>타미진스</h3>
           <p>니트 스웨터</p>
           <div class="org_price">
-            <del>16,800원</del>
+            <del>168,000원</del>
             <span>15%</span>
           </div>
           <div class="dis_price">
@@ -158,19 +175,19 @@
         <a href="#">
           <div class="thumb">
             <img
-                    src="/images/main/main_item3.jpg"
+                    src="/images/main/main_item33.jpg"
                     alt="t1"
                     style="width: 230px"
             />
           </div>
           <h3>타미진스</h3>
-          <p>니트 스웨터</p>
+          <p>스트라이프 니트</p>
           <div class="org_price">
-            <del>16,800원</del>
+            <del>188,000원</del>
             <span>15%</span>
           </div>
           <div class="dis_price">
-            <ins>142,800원</ins>
+            <ins>159,800원</ins>
             <!--            <span class="product__free">무료배송</span>-->
             <span class="product__free">무료배송</span>
           </div>
@@ -180,19 +197,19 @@
         <a href="#">
           <div class="thumb">
             <img
-                    src="/images/main/main_item3.jpg"
+                    src="/images/main/main_item333.jpg"
                     alt="t1"
                     style="width: 230px"
             />
           </div>
           <h3>타미진스</h3>
-          <p>니트 스웨터</p>
+          <p>박시 자켓</p>
           <div class="org_price">
-            <del>16,800원</del>
+            <del>298,000원</del>
             <span>15%</span>
           </div>
           <div class="dis_price">
-            <ins>142,800원</ins>
+            <ins>253,300원</ins>
             <!--            <span class="product__free">무료배송</span>-->
             <span class="product__free">무료배송</span>
           </div>

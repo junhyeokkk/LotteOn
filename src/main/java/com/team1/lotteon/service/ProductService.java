@@ -5,13 +5,12 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.team1.lotteon.dto.PageResponseDTO;
 import com.team1.lotteon.dto.product.*;
-import com.team1.lotteon.dto.product.productOption.OptionItemDTO;
-import com.team1.lotteon.dto.product.productOption.ProductOptionCombinationDTO;
-import com.team1.lotteon.dto.product.productOption.ProductOptionDTO;
+import com.team1.lotteon.dto.product.productOption.*;
 import com.team1.lotteon.entity.Category;
 import com.team1.lotteon.entity.Product;
 import com.team1.lotteon.entity.Productdetail;
 import com.team1.lotteon.entity.SellerMember;
+import com.team1.lotteon.entity.enums.CombinationStatus;
 import com.team1.lotteon.entity.productOption.ProductOption;
 import com.team1.lotteon.entity.productOption.OptionItem;
 import com.team1.lotteon.entity.productOption.ProductOption;
@@ -34,6 +33,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -63,12 +63,15 @@ public class ProductService {
     private final ProductOptionCombinationRepository productOptionCombinationRepository;
     private final CategoryRepository categoryRepository;
 
+    private final ProductOptionService productOptionService;
+
     // 상품 이미지 업로드
     @Value("${spring.servlet.multipart.location}")
     private String uploadDir; // YAML에서 설정한 파일 업로드 경로
 
     // 이미지 업로드 처리
     public String uploadFile(MultipartFile file) throws IOException {
+
         // 파일 업로드 경로 파일 객체 생성
         File fileUploadPath = new File(uploadDir + "/product");
 
@@ -212,6 +215,7 @@ public class ProductService {
                         .optionIdCombination(optionIdCombinationJson)
                         .optionValueCombination(optionValueCombinationJson)
                         .stock(combinationDto.getStock())
+                        .combinationStatus(CombinationStatus.SALE)
                         .build();
 
                 productOptionCombinationRepository.save(combination);
@@ -336,11 +340,15 @@ public class ProductService {
 
 
     // 상품 수정 저장
-    @Transactional
-    public void updateProduct(ProductDTO productDTO) {
-        Product product = productRepository.findById(productDTO.getId())
-                .orElseThrow(() -> new IllegalArgumentException("상품을 찾을 수 없습니다. ID: " + productDTO.getId()));
+    public void updateProduct(Long id, ProductDTO productDTO,
+                              List<ModifyRequestProductOptionDTO> options,
+                              List<ModifyRequestProductCombinationDTO> combinations,
+                              MultipartFile productImg1, MultipartFile productImg2, MultipartFile productImg3) throws IOException {
+        // 1. 상품 조회 및 검증
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 ID의 상품을 찾을 수 없습니다. ID: " + id));
 
+        // 2. 전달받은 productDTO의 데이터로 Product 필드 업데이트
         product.setProductName(productDTO.getProductName());
         product.setDescription(productDTO.getDescription());
         product.setManufacturer(productDTO.getManufacturer());
@@ -349,15 +357,69 @@ public class ProductService {
         product.setPoint(productDTO.getPoint());
         product.setStock(productDTO.getStock());
         product.setDeliveryFee(productDTO.getDeliveryFee());
+        product.setStatus(productDTO.getStatus());
         product.setWarranty(productDTO.getWarranty());
         product.setReceiptIssued(productDTO.getReceiptIssued());
         product.setBusinessType(productDTO.getBusinessType());
         product.setOrigin(productDTO.getOrigin());
 
-        if (productDTO.getProductImg1() != null) product.setProductImg1(productDTO.getProductImg1());
-        if (productDTO.getProductImg2() != null) product.setProductImg2(productDTO.getProductImg2());
-        if (productDTO.getProductImg3() != null) product.setProductImg3(productDTO.getProductImg3());
+        // 3. 이미지 파일 처리 및 기존 파일 삭제 후 저장 경로 업데이트
+        if (productImg1 != null && !productImg1.isEmpty()) {
+            deleteFile(product.getProductImg1()); // 기존 파일 삭제
+            String filePath1 = saveFile(productImg1);
+            product.setProductImg1(filePath1);
+        }
 
+        if (productImg2 != null && !productImg2.isEmpty()) {
+            deleteFile(product.getProductImg2()); // 기존 파일 삭제
+            String filePath2 = saveFile(productImg2);
+            product.setProductImg2(filePath2);
+        }
+
+        if (productImg3 != null && !productImg3.isEmpty()) {
+            deleteFile(product.getProductImg3()); // 기존 파일 삭제
+            String filePath3 = saveFile(productImg3);
+            product.setProductImg3(filePath3);
+        }
+
+        // 4. 옵션 및 옵션 조합 데이터 업데이트
+//        productOptionService.updateProductOptions(product.getId(), options, combinations);
+
+        log.info("나오니:????");
+        // 5. 업데이트된 Product 엔티티 저장
         productRepository.save(product);
     }
+
+    // 파일 저장 메서드
+    public String saveFile(MultipartFile file) throws IOException {
+        String UpdateUploadDir = uploadDir + "/product";
+
+        // 파일의 원래 이름에서 확장자를 추출
+        String originalFilename = file.getOriginalFilename();
+        String extension = "";
+
+        if (originalFilename != null && originalFilename.contains(".")) {
+            extension = originalFilename.substring(originalFilename.lastIndexOf("."));
+        }
+
+        // UUID를 사용해 랜덤 파일명 생성
+        String randomFileName = UUID.randomUUID().toString() + extension;
+
+        Path filePath = Paths.get(UpdateUploadDir, randomFileName);
+        Files.createDirectories(filePath.getParent()); // 경로가 없으면 생성
+        Files.write(filePath, file.getBytes());
+
+        return filePath.toString(); // 저장된 파일의 전체 경로 반환
+    }
+
+    // 파일 삭제 메서드 (새로운 이미지 교체이므로 저장공간 확보)
+    private void deleteFile(String filePath) {
+        if (filePath != null) {
+            File file = new File(filePath);
+            if (file.exists()) {
+                file.delete();
+            }
+        }
+    }
+
 }

@@ -3,6 +3,7 @@
     이름 : 이도영(최초 작성자)
     내용 : 관리자 모달 생성
     수정이력
+    - 2024/10/23 강유정 - 채용등록 모달 추가
     - 2024/10/28 이도영 - 상점 모달 수정
     - 2024/10/29 이도영 - 쿠폰 모달 수정
     - 2024/11/05 이도영 - 쿠폰 모달 데이터 출력 변경
@@ -882,61 +883,63 @@
             </nav>
             <section class="modal-section">
                 <article>
+                    <form th:action="@{/admin/cs/recruit/list}" method="post" id="recruitForm">
                     <table border="0" class="heighttable">
                         <tr>
                             <th>제목</th>
-                            <td><input type="text"></td>
+                            <td><input type="text" id="title" name="title"></td>
                         </tr>
                         <tr>
                             <th>채용부서</th>
                             <td>
-                                <select name="couponname">
-                                    <Option value="">경영</Option>
-                                    <Option value="">운영</Option>
-                                    <Option value="">IT</Option>
-                                    <Option value="">광고사업</Option>
+                                <select id="position" name="position">
+                                    <Option value="경영">경영</Option>
+                                    <Option value="운영">운영</Option>
+                                    <Option value="IT">IT</Option>
+                                    <Option value="광고사업">광고사업</Option>
                                 </select>
                             </td>
                         </tr>
                         <tr>
                             <th>경력사항</th>
                             <td>
-                                <select name="couponname">
-                                    <Option value="">신입</Option>
-                                    <Option value="">무관</Option>
-                                    <Option value="">경력 2~15년</Option>
-                                    <Option value="">경력 4~15년</Option>
+                                <select id="history" name="history">
+                                    <Option value="신입">신입</Option>
+                                    <Option value="무관">무관</Option>
+                                    <Option value="경력 2~15년">경력 2~15년</Option>
+                                    <Option value="경력 4~15년">경력 4~15년</Option>
                                 </select>
                             </td>
                         </tr>
                         <tr>
                             <th>채용형태  </th>
                             <td>
-                                <select name="couponname">
-                                    <Option value="">계약직</Option>
-                                    <Option value="">정규직</Option>
+                                <select id="type" name="type">
+                                    <Option value="계약직">계약직</Option>
+                                    <Option value="정규직">정규직</Option>
                                 </select>
                             </td>
                         </tr>
                         <tr>
                             <th>모집기간</th>
                             <td>
-                                <input type="date" class="bannerdate" name="employdate-start"> -
-                                <input type="date" class="bannerdate" name="employdate-end"><br>
+                                <input type="date" id="displayStartDate" name="displayStartDate"> -
+                                <input type="date" id="displayEndDate" name="displayEndDate"><br>
                             </td>
                         </tr>
                         <tr>
                             <th>비고</th>
                             <td class="modalcontent2">
-                                <textarea placeholder="변경내역작성하기"></textarea>
+                                <textarea id="etc" name="etc" placeholder="변경내역작성하기"></textarea>
                             </td>
                         </tr>
                     </table>
                     <br>
                     <div class="modalbuttondiv">
                         <input class="adminmodalbutton" type="submit" value="등록하기" />
-                        <button class="modalcanclebutton">취소</button>
+                        <button type="button" class="modalcanclebutton" id="cancelButton">취소</button>
                     </div>
+                    </form>
                 </article>
             </section>
         </div>
@@ -1152,8 +1155,8 @@
             });
 
             // 채용 등록 날짜 처리
-            const employStartDateInput = document.querySelector('input[name="employdate-start"]');
-            const employEndDateInput = document.querySelector('input[name="employdate-end"]');
+            const employStartDateInput = document.getElementById('displayStartDate');
+            const employEndDateInput = document.getElementById('displayEndDate');
             employStartDateInput.setAttribute('min', today);
             employStartDateInput.addEventListener('change', function () {
                 employEndDateInput.setAttribute('min', this.value);

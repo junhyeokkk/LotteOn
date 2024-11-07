@@ -103,10 +103,15 @@ public class AdminMemberService {
     public GeneralMemberDTO updateMember(String uid, GeneralMemberDTO memberDTO) {
         GeneralMember member = generalMemberRepository.findByUid(uid)
                 .orElseThrow(() -> new IllegalArgumentException("해당 아이디를 가진 회원이 없습니다: " + uid));
-
-        member.setName(memberDTO.getName());
-        member.setGender(Gender.valueOf(memberDTO.getGender()));
-        member.setEmail(memberDTO.getEmail());
+        if(memberDTO.getName()!=null) {
+            member.setName(memberDTO.getName());
+        }
+        if(memberDTO.getGender()!=null){
+            member.setGender(Gender.valueOf(memberDTO.getGender()));
+        }
+        if(memberDTO.getEmail()!=null){
+            member.setEmail(memberDTO.getEmail());
+        }
         member.setPh(memberDTO.getPh());
 
         // 기존 주소 객체를 가져온 후 업데이트
@@ -121,11 +126,10 @@ public class AdminMemberService {
             address.setAddr1(memberDTO.getAddr1());
             address.setAddr2(memberDTO.getAddr2());
         }
-        Address address1 = new Address(memberDTO.getZip(), memberDTO.getAddr1(), memberDTO.getAddr2());
         member.setAddress(address);
-
-        member.setEtc(memberDTO.getEtc());
-
+        if(memberDTO.getEtc()!=null){
+            member.setEtc(memberDTO.getEtc());
+        }
         GeneralMember updatedMember = generalMemberRepository.save(member);
         return modelMapper.map(updatedMember, GeneralMemberDTO.class);
     }

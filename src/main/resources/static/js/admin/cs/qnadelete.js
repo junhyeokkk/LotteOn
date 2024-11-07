@@ -1,4 +1,4 @@
-// 공통 함수로 삭제 요청 처리
+// 공통 삭제 요청 함수
 function fetchDeleteRequest(url, successMessage) {
     fetch(url, {
         method: 'DELETE',
@@ -9,7 +9,7 @@ function fetchDeleteRequest(url, successMessage) {
         .then(response => {
             if (response.ok) {
                 alert(successMessage);
-                window.location.reload();
+                window.location.href = "/admin/cs/qna/list"; // 목록 페이지로 리다이렉트
             } else {
                 alert('삭제에 실패했습니다.');
             }
@@ -22,7 +22,6 @@ function fetchDeleteRequest(url, successMessage) {
 
 // 개별 삭제 기능
 function deleteInquiry(inquiryId) {
-    console.log("Deleting Inquiry with ID:", inquiryId); // ID 확인용 콘솔 로그
     if (confirm('정말로 이 문의하기를 삭제하시겠습니까?')) {
         fetch(`/api/admin/qna/delete/${inquiryId}`, {
             method: 'DELETE',
@@ -33,7 +32,7 @@ function deleteInquiry(inquiryId) {
             .then(response => {
                 if (response.ok) {
                     alert('문의하기가 삭제되었습니다.');
-                    window.location.reload();
+                    window.location.href = "/admin/cs/qna/list"; // 삭제 후 목록으로 이동
                 } else {
                     alert('삭제에 실패했습니다.');
                 }
@@ -46,10 +45,10 @@ function deleteInquiry(inquiryId) {
 }
 
 // 선택 삭제 기능
-function deleteSelectedInquirys() {
+function deleteSelectedInquiries() {
     const selectedIds = [];
     document.querySelectorAll('input[name="RowCheck"]:checked').forEach((checkbox) => {
-        const inquiryId = checkbox.getAttribute('value'); // 체크된 항목의 ID 가져오기
+        const inquiryId = checkbox.getAttribute('value');
         selectedIds.push(Number(inquiryId));
     });
 
@@ -80,3 +79,11 @@ function deleteSelectedInquirys() {
         alert('삭제할 항목을 선택하세요.');
     }
 }
+
+// 답변 등록 후 성공 메시지 팝업
+document.addEventListener("DOMContentLoaded", function() {
+    const replySuccessMessage = document.getElementById("replySuccessMessage");
+    if (replySuccessMessage) {
+        alert(replySuccessMessage.textContent);
+    }
+});

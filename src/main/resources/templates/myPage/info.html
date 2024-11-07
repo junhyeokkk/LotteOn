@@ -1,140 +1,113 @@
 <!DOCTYPE html>
 <html
-  xmlns="http://www.w3.org/1999/xhtml"
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorate="~{myPage/layout/mypage_layout2}"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{myPage/layout/mypage_layout2}"
 >
-  <!-- index.html 고유 CSS 추가 -->
-  <th:block layout:fragment="css">
-    <link rel="stylesheet" th:href="@{/css/my/info.css}" />
-  </th:block>
-  <th:block layout:fragment="script"> </th:block>
+<!-- index.html 고유 CSS 추가 -->
+<th:block layout:fragment="css">
+  <link rel="stylesheet" th:href="@{/css/my/info.css}" />
+</th:block>
+<th:block layout:fragment="script">
+  <script th:src="@{//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js}"></script>
+  <script th:src="@{/js/login/postcode.js}"></script>
+  <script th:src="@{/js/login/utils.js}"></script>
+  <script th:src="@{/js/my/myinfo.js}"></script>
+</th:block>
 
-  <section class="content" layout:fragment="content">
-    <a href="#"
-      ><img
-        src="/images/my/my_banner_sample.png"
-        alt="롯데ON에서 드리는 다양한 결제혜택"
-        class="banner"
-    /></a>
+<section class="content" layout:fragment="content">
+  <a href="#"><img src="/images/my/my_banner_sample.png" alt="롯데ON에서 드리는 다양한 결제혜택" class="banner"/></a>
 
-    <article class="myinfomation">
-      <h3>회원정보 설정</h3>
-      <table border="0" class="myinfoheighttable">
-        <tr>
-          <th>사용자 ID</th>
-          <td>[[${uid}]]</td>
-        </tr>
-        <tr>
-          <th>비밀번호</th>
-          <td><button class="infobutton">비밀번호수정</button></td>
-        </tr>
-        <tr>
-          <th>이름</th>
-          <td>[[${name}]]</td>
-        </tr>
-        <tr>
-          <th>생년월일</th>
-          <td>[[${birth}]]</td>
-        </tr>
+  <article class="myinfomation">
+    <h3>회원정보 설정</h3>
+    <!-- 이메일 및 기타 정보 수정 form -->
+    <!-- 비밀번호 수정 폼 -->
+    <table border="0" class="myinfoheighttable">
+      <tr>
+        <th>사용자 ID</th>
+        <td>[[${uid}]]</td>
+      </tr>
+      <tr id="passwordRow">
+        <th>비밀번호</th>
+        <td>
+          <button type="button" class="infobutton" id="togglePasswordEditButton">비밀번호수정</button>
+        </td>
+      </tr>
+      <tr id="passwordEditRow" style="display: none;">
+        <th>비밀번호 수정</th>
+        <td>
+          <input type="password" id="newPassword" placeholder="새 비밀번호 입력" />
+          <input type="password" id="confirmPassword" placeholder="비밀번호 확인" />
+          <button type="button" class="infobutton" id="submitPasswordChangeButton">확인</button>
+          <button type="button" class="infobutton" id="cancelPasswordEditButton">취소</button>
+        </td>
+      </tr>
+      <tr>
+        <th>이름</th>
+        <td name="name" th:text="${name}"></td>
+      </tr>
+      <tr>
+        <th>생년월일</th>
+        <td>[[${birth}]]</td>
+      </tr>
+    </table>
+
+    <br>
+    <form id="contactInfoForm" method="post">
+      <input type="hidden" id="uid" name="uid" th:value="${uid}" />
+      <table class="myinfoheighttable">
         <tr>
           <th>Email</th>
           <td>
-            <input type="text" id="emailLocalPart" th:value="${#strings.substring(Email, 0, #strings.indexOf(Email, '@'))}" readonly/>@
-            <input type="text" id="emailDomain" th:value="${#strings.substring(Email, #strings.indexOf(Email, '@') + 1)}" readonly/>
+            <input type="text" class="emailinput" id="emailLocalPart" name="emailLocalPart" th:value="${#strings.substring(Email, 0, #strings.indexOf(Email, '@'))}" readonly/> @
+            <input type="text" class="emailinput" id="emailDomain" name="emailDomain" th:value="${#strings.substring(Email, #strings.indexOf(Email, '@') + 1)}" readonly/>
+            <input type="hidden" name="email" th:value="Email">
             <select id="domainSelect" disabled>
               <option value="직접 입력">직접 입력</option>
               <option value="naver.com" th:selected="${#strings.contains(Email, 'naver.com')}">naver.com</option>
               <option value="gmail.com" th:selected="${#strings.contains(Email, 'gmail.com')}">gmail.com</option>
               <option value="daum.net" th:selected="${#strings.contains(Email, 'daum.net')}">daum.net</option>
             </select>
-            <button class="infobutton" onclick="toggleEmailEdit(this)">수정하기</button>
+            <button type="button" class="infobutton" id="toggleEmailEditButton">수정하기</button>
+            <button style="display: none;" type="button" id="btnSendEmail" name="btnEmail" data-type="email" class="infobutton" >인증번호 받기</button>
+            <div class="auth" style="display:none; margin-top: 10px" >
+              <input type="text" name="userauth" class="userauth" placeholder="인증번호 입력" />
+              <button type="button" id="btnAuthEmail" class="infobutton">인증확인</button>
+            </div>
+            <div style="margin-top: 10px">
+              <span id="resultEmail" ></span>
+            </div>
           </td>
+
         </tr>
         <tr>
           <th>휴대폰</th>
           <td>
-            <input type="text" id="phone1" maxlength="3" th:value="${#strings.substring(#strings.replace(phonenumber, '-', ''), 0, 3)}" readonly/>-
-            <input type="text" id="phone2" maxlength="4" th:value="${#strings.substring(#strings.replace(phonenumber, '-', ''), 3, 7)}" readonly/>-
-            <input type="text" id="phone3" maxlength="4" th:value="${#strings.substring(#strings.replace(phonenumber, '-', ''), 7)}" readonly/>
-            <button class="infobutton" onclick="togglePhoneEdit(this)">수정하기</button>
+            <input type="text" class="hpinput" id="phone1" name="phone1" maxlength="3" th:value="${#strings.substring(#strings.replace(phonenumber, '-', ''), 0, 3)}" readonly/> -
+            <input type="text" class="hpinput" id="phone2" name="phone2" maxlength="4" th:value="${#strings.substring(#strings.replace(phonenumber, '-', ''), 3, 7)}" readonly/> -
+            <input type="text" class="hpinput" id="phone3" name="phone3" maxlength="4" th:value="${#strings.substring(#strings.replace(phonenumber, '-', ''), 7)}" readonly/>
+            <input type="hidden" name="ph" th:value="${phonenumber}">
+            <button type="button" class="infobutton" id="togglePhoneEditButton">수정하기</button>
           </td>
         </tr>
-
         <tr>
           <th>주소</th>
           <td>
-            <!-- Address 객체의 zip 필드를 input에 바인딩 -->
-            <input type="text" id="postalCode" th:value="${address.zip}" placeholder="우편번호"/>
-            <button class="infobutton" onclick="searchPostalCode()">주소검색</button><br />
-
-            <!-- Address 객체의 addr1 필드를 input에 바인딩 -->
-            <input type="text" id="address1" th:value="${address.addr1}" placeholder="기본주소입력"/><br />
-
-            <!-- Address 객체의 addr2 필드를 input에 바인딩 -->
-            <input type="text" id="address2" th:value="${address.addr2}" placeholder="상세주소입력"/>
+            <input type="text" class="firstaddr" name="zip" id="zip" th:value="${address.zip}" placeholder="우편번호" readonly/>
+            <button type="button" class="btnZip infobutton" onclick="postcode()">주소검색</button><br />
+            <input type="text" class="addrinput" name="addr1" id="address1" th:value="${address.addr1}" placeholder="기본주소입력" readonly/><br />
+            <input type="text" class="addrinput" name="addr2" id="address2" th:value="${address.addr2}" placeholder="상세주소입력"/>
           </td>
         </tr>
       </table>
-    </article>
-
-    <div class="memberLeave">
-      <a href="#">탈퇴하기</a>
-    </div>
-
-    <div class="myinfosubmitbutton">
-      <button>수정하기</button>
-    </div>
-    <script>
-      // 이메일 편집 토글
-      function toggleEmailEdit(button) {
-        const isEditable = document.getElementById("emailLocalPart").readOnly;
-        document.getElementById("emailLocalPart").readOnly = !isEditable;
-        document.getElementById("emailDomain").readOnly = !isEditable;
-        document.getElementById("domainSelect").disabled = !isEditable;
-        updateButtonState(button, isEditable);
-      }
-
-      // 휴대폰 편집 토글
-      function togglePhoneEdit(button) {
-        const isEditable = document.getElementById("phone1").readOnly;
-        document.getElementById("phone1").readOnly = !isEditable;
-        document.getElementById("phone2").readOnly = !isEditable;
-        document.getElementById("phone3").readOnly = !isEditable;
-        updateButtonState(button, isEditable);
-      }
-
-      // 주소 편집 토글
-      function toggleAddressEdit(button) {
-        const isEditable = document.getElementById("postalCode").readOnly;
-        document.getElementById("postalCode").readOnly = !isEditable;
-        document.getElementById("address1").readOnly = !isEditable;
-        document.getElementById("address2").readOnly = !isEditable;
-        updateButtonState(button, isEditable);
-      }
-
-      // 버튼 상태 업데이트 (텍스트 및 스타일 변경)
-      function updateButtonState(button, isEditable) {
-        if (isEditable) {
-          button.classList.add("edit-mode");
-          button.innerText = "수정완료";
-        } else {
-          button.classList.remove("edit-mode");
-          button.innerText = "수정하기";
-        }
-      }
-
-      document.getElementById("domainSelect").addEventListener("change", function () {
-        const emailDomainInput = document.getElementById("emailDomain");
-        if (this.value === "직접 입력") {
-          emailDomainInput.value = "";
-          emailDomainInput.readOnly = false;
-        } else {
-          emailDomainInput.value = this.value;
-          emailDomainInput.readOnly = true;
-        }
-      });
-    </script>
-  </section>
+      <div class="memberLeave">
+        <a href="#" id="withdrawalLink">탈퇴하기</a>
+      </div>
+      <div class="myinfosubmitbutton">
+        <button type="submit">수정하기</button>
+      </div>
+    </form>
+  </article>
+</section>
 </html>

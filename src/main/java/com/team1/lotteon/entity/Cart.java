@@ -42,6 +42,9 @@ public class Cart {
     @JoinColumn(name = "combination_id")
     private ProductOptionCombination productOptionCombination;
 
+
+    private int skuVersion; // SKU의 버전 저장
+
     private int totalPrice;
     private int quantity;
 }

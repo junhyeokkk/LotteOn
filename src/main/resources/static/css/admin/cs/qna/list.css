@@ -3,8 +3,15 @@
     display: flex;
     gap: 10px; /* 간격을 원하는 만큼 조정 가능 */
 }
-select[name="type"] {
-    width: 80px;
+select[name="type1"] {
+    width: 105px;
+    height: 40px;
+    border: 1px solid #D8D8D8;
+    text-align: center;
+    outline: none;
+}
+select[name="type2"] {
+    width: 85px;
     height: 40px;
     border: 1px solid #D8D8D8;
     text-align: center;
@@ -26,6 +33,7 @@ select[name="type"] {
     text-align: center;
     box-sizing: border-box;
     border-collapse: collapse;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 /*표 상단*/
 .admin_title {

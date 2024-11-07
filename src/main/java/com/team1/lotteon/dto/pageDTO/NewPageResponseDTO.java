@@ -8,6 +8,7 @@ package com.team1.lotteon.dto.pageDTO;
       - 2024/10/28 이도영 - 페이지 처리 추가
 */
 import lombok.*;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -29,6 +30,7 @@ public class NewPageResponseDTO<T> {
 
     private int cateType;
     private String artcateType;
+
     @Builder
     public NewPageResponseDTO(NewPageRequestDTO newPageRequestDTO, List<T> dtoList, int total) {
         this.pg = newPageRequestDTO.getPg();
@@ -47,4 +49,5 @@ public class NewPageResponseDTO<T> {
         this.prev = this.start > 1;
         this.next = total > this.end * this.size;
     }
+
 }

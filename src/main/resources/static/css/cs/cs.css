@@ -43,7 +43,7 @@
   
   .cs > .main > .cs_title > strong {
     font-size: 30px;
-    color: firebrick;
+    color: #e74c3c;
     font-weight: 700;
   }
   
@@ -209,8 +209,9 @@
     height: 300px;
     padding: 16px;
     box-sizing: border-box;
+    margin-bottom: 20px;
   }
-  
+
   .cs > .main > .tel > article > div {
     width: 100%;
     height: 100%;
@@ -219,33 +220,41 @@
     border-radius: 5px;
     box-sizing: border-box;
   }
-  
+
   .cs > .main > .tel > article h3 {
     font-size: 20px;
     font-weight: bold;
     color: #111;
-    margin-bottom: 12px;
+    margin-bottom: 20px;
   }
-  
+
   .cs > .main > .tel > article > div > p {
     margin-top: 10px;
     margin-bottom: 16px;
+    color: #333;
   }
-  
+
   .cs > .main > .tel > article span {
-    font-size: 18px;
+    font-size: 17px;
   }
   .cs > .main > .tel > article strong {
-    font-size: 26px;
+    font-size: 25px;
+    color: #111;
     font-weight: bold;
     margin-right: 6px;
   }
-  
+
   .cs > .main > .tel > article a {
-    font-size: 26px;
-    font-weight: bold;
+    font-size: 18px;
+
     margin-right: 6px;
+    color: #717171;
   }
+
+ .cs > .main > .tel > article span.tel_gray {
+   font-size: 15px;
+ }
+
   /*--------------------------------------------------- cs main ---------------------------------------------------------*/
 
   /* 버튼 공통 */

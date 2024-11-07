@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class ReviewResponseDTO {
+    private Long displayNum;
     private Long id;
     private String content;
     private BigDecimal score;
@@ -22,6 +23,7 @@ public class ReviewResponseDTO {
     private LocalDateTime createdAt;
     private String sellerName;
     private String option;
+    private String productName;
 
     public static ReviewResponseDTO fromEntity(Review review) {
         return ReviewResponseDTO.builder()
@@ -33,7 +35,9 @@ public class ReviewResponseDTO {
                 .sellerName(review.getProduct() != null ?
                         review.getProduct().getShop() != null ?
                                 review.getProduct().getShop().getShopName() : null : null)
+                .productName(review.getProduct() != null ? review.getProduct().getProductName() : null)
                 .createdAt(review.getCreatedAt())
                 .build();
     }
+
 }

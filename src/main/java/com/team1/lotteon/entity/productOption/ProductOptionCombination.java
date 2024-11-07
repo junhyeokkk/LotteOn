@@ -1,6 +1,7 @@
 package com.team1.lotteon.entity.productOption;
 
 import com.team1.lotteon.entity.Product;
+import com.team1.lotteon.entity.enums.CombinationStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@ToString
 @Table(name = "product_option_combination ")
 public class ProductOptionCombination {
     @Id
@@ -30,5 +32,12 @@ public class ProductOptionCombination {
     @Column(columnDefinition = "json")
     private String optionValueCombination;
 
+    @Enumerated(EnumType.STRING)
+    private CombinationStatus combinationStatus; // 옵션 조합 상태 추가 컬럼
+
+    private String formattedOptionValueCombination; // 가공된 형식 (옵션명: 옵션값)
+
     private int stock;
+
+    private int version; // 버전 추가
 }

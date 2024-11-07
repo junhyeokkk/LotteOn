@@ -10,6 +10,7 @@
 </th:block>
 <!-- index.html 고유 스크립트 추가 -->
 <th:block layout:fragment="script">
+
 </th:block>
 
 <div class="content" layout:fragment="content">
@@ -19,35 +20,43 @@
       <p>HOME > 고객센터 > 문의하기</p>
     </div>
     <article class="qna_article_write">
-      <form>
+      <!-- 전체를 감싸는 form 태그 -->
+      <form th:action="@{/admin/cs/qna/reply/{id}(id=${inquiry.id})}" method="post">
         <table>
           <tr>
             <td>유형</td>
-            <td>고객서비스</td>
+            <td th:text="${inquiry.type1} + ' - ' + ${inquiry.type2}">유형</td>
           </tr>
           <tr>
             <td>제목</td>
-            <td>[안내] 해외결제 사칭 문자 주의</td>
+            <td th:text="${inquiry.title}">제목</td>
           </tr>
           <tr>
             <td>내용</td>
             <td>
-              <textarea class="notice_view_content" name="qnaContent" placeholder="공지사항내용출력." readonly></textarea>
+              <textarea class="notice_view_content" name="qnaContent" readonly th:text="${inquiry.content}">내용</textarea>
             </td>
           </tr>
           <tr>
             <td>답변</td>
             <td>
-              <textarea name="qnaContent" placeholder="답변입력." required></textarea>
+              <textarea name="answer" placeholder="답변입력." required></textarea>
             </td>
           </tr>
         </table>
-        <div style="text-align: right; margin-top: 50px">
-          <a th:href="@{/admin/cs/qna/delete}"><input type="button" value="삭제" style="background-color: #9e9e9e; color: white; border: none; padding: 10px 20px; cursor: pointer;"/></a>
-          <a th:href="@{/admin/cs/qna/insert}"><input type="button" value="답변등록" style="background-color: #4291e9; color: white; border: none; padding: 10px 20px; cursor: pointer;"/></a>
-          <a th:href="@{/admin/cs/qna/list}"><input type="button" value="목록" style="background-color: #4291e9; color: white; border: none; padding: 10px 20px; cursor: pointer;"/></a>
+        <!-- 하단 버튼 영역 -->
+        <div class="button-container">
+          <!-- replySuccess 메시지 표시용 숨겨진 요소 -->
+          <div id="replySuccessMessage" th:if="${replySuccess}" th:text="${replySuccess}" style="display: none;"></div>
+
+          <!-- 삭제 버튼 -->
+          <input type="button" value="삭제" style="background-color: #9e9e9e; color: white; border: none; padding: 10px 20px; cursor: pointer;"
+                 th:onclick="|deleteInquiry(${inquiry.id})|" class="btn delete-btn" />
+          <input type="submit" value="답변등록" class="btn submit-btn" />
+          <a th:href="@{/admin/cs/qna/list}" class="btn list-btn">목록</a>
         </div>
       </form>
+      <script src="/js/admin/cs/qnadelete.js"></script>
     </article>
   </div>
 </div>

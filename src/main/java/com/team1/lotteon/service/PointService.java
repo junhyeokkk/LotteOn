@@ -10,6 +10,7 @@ import com.team1.lotteon.entity.Point;
 import com.team1.lotteon.entity.enums.TransactionType;
 import com.team1.lotteon.repository.Memberrepository.GeneralMemberRepository;
 import com.team1.lotteon.repository.PointRepository;
+import com.team1.lotteon.service.Order.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
@@ -23,7 +24,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -38,6 +41,7 @@ import java.util.stream.Collectors;
 * 수정이력
 *   - 2025/11/03 박서홍 - 포인트 차감코드 추가
 *   - 2025/11/04 박서홍 - 주문하기 - 포인트 사용 추가
+*   - 2025/11/06 박서홍 - 마이페이지 - 포인트내역 추가
 *
 */
 @Log4j2
@@ -48,6 +52,7 @@ public class PointService {
     private final GeneralMemberRepository generalMemberRepository;
     private final PointRepository pointRepository;
     private final ModelMapper modelMapper;
+    private final OrderService orderService;
 
 //    // 회원가입 축하 포인트
 //    public void registerPoint(GeneralMemberDTO generalMemberDTO) {
@@ -69,9 +74,15 @@ public class PointService {
         pointDTO.setType(pointType);
         pointDTO.setTransactionType(TransactionType.적립); // "적립"으로 설정
         pointDTO.setGivePoints(points);
-        pointDTO.setAcPoints(points); // 초기 포인트와 동일하게 설정
+        pointDTO.setAcPoints(generalMemberDTO.getPoints() + points);
         pointDTO.setMember_id(generalMemberDTO.getUid());
+        // 유효기간 설정: 현재 날짜로부터 12개월 후
+        LocalDateTime expirationDate = LocalDateTime.now().plusMonths(12);
+        pointDTO.setExpirationDate(expirationDate);
+
         log.info("포인트 지급: 멤버 " + generalMemberDTO + " - 포인트: " + points + ", 타입: " + pointType);
+
+
 
         // insertPoint에서 유효기간 설정과 엔티티 변환을 처리
         insertPoint(pointDTO);
@@ -136,30 +147,43 @@ public class PointService {
 
 
 
-    // 포인트 select 페이징 (MYPAGE) => 내 포인트 가져오기 일단 stop
+    // 포인트 select 페이징 (MYPAGE) => 내 포인트 가져오기
     public PointPageResponseDTO getMyPoints(PointPageRequestDTO pointPageRequestDTO) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String uid = (authentication != null && authentication.getPrincipal() instanceof UserDetails)
                 ? ((UserDetails) authentication.getPrincipal()).getUsername()
                 : null;
 
-        log.info("현재 로그인한 사용자 uid: " + uid);
+        log.info("현재 로그인한 사용자 uid: {}", uid);
+        log.info("Service 검색 조건 - startDate: {}, endDate: {}", pointPageRequestDTO.getStartDate(), pointPageRequestDTO.getEndDate());
 
-        // Pageable 생성
         Pageable pageable = pointPageRequestDTO.getPageable("createdat");
+        Page<Point> pointPage;
 
-        // 포인트 데이터 가져오기 (member_id가 uid인 포인트만)
-        Page<Point> pointPage = pointRepository.findByMemberUid(uid, pageable);
+        // 날짜 조건에 따른 조회
+        if (pointPageRequestDTO.getStartDate() != null && !pointPageRequestDTO.getStartDate().isEmpty()) {
+            LocalDateTime startDateTime = LocalDate.parse(pointPageRequestDTO.getStartDate()).atStartOfDay();
+            LocalDateTime endDateTime = (pointPageRequestDTO.getEndDate() != null && !pointPageRequestDTO.getEndDate().isEmpty())
+                    ? LocalDate.parse(pointPageRequestDTO.getEndDate()).atTime(LocalTime.MAX)
+                    : LocalDateTime.now();
+
+
+            pointPage = pointRepository.findByMember_UidAndCreatedatBetween(uid, startDateTime, endDateTime, pageable);
+        } else {
+            pointPage = pointRepository.findByMemberUid(uid, pageable);
+        }
+
 
         // Point 엔티티를 DTO로 변환
         List<PointDTO> dtoList = pointPage.getContent().stream()
                 .map(point -> modelMapper.map(point, PointDTO.class))
                 .collect(Collectors.toList());
 
-
         // PointPageResponseDTO 생성 및 반환
         return new PointPageResponseDTO(pointPageRequestDTO, dtoList, (int) pointPage.getTotalElements());
     }
+
+
 
 
     // 포인트 select 페이징 (ADMIN) + 검색기능
@@ -243,14 +267,6 @@ public class PointService {
         }
 
         log.info("DB에 변경 사항이 반영되었습니다.");
-    }
-
-// 구매확정 포인트 지급
-    public void givePurchasePoints(String memberId, Long orderId) {
-        GeneralMember member = generalMemberRepository.findByUid(memberId)
-                .orElseThrow(() -> new IllegalArgumentException("회원 정보 없음"));
-
-
     }
 
 

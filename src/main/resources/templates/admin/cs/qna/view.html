@@ -19,35 +19,40 @@
       <p>HOME > 고객센터 > 문의하기</p>
     </div>
     <article class="qna_article_write">
+      <!-- form 태그 시작 -->
       <form>
         <table>
           <tr>
             <td>유형</td>
-            <td>회원 - 가입</td>
+            <td th:text="${inquiry.type1} + ' - ' + ${inquiry.type2}">유형</td>
           </tr>
           <tr>
             <td>제목</td>
-            <td>아이디를 여러개 사용할 수 있나요?</td>
+            <td th:text="${inquiry.title}">제목</td>
           </tr>
           <tr>
             <td>내용</td>
             <td>
-              <textarea class="notice_view_content" name="qnaContent" placeholder="공지사항내용출력." readonly>개인적인 사정으로 아이디를 3개 사용했으면 하는데 사용할수 있나요?</textarea>
+              <textarea class="notice_view_content" name="qnaContent" readonly th:text="${inquiry.content}">내용</textarea>
             </td>
           </tr>
           <tr>
             <td>답변</td>
             <td>
-              <textarea style="height: 300px" class="notice_view_content" placeholder="답변입력." readonly>대한민국 No1 오픈마켓 LotteOn 안녕하세요. __ 고객님 저희 LotteOn을 이용해주셔서 감사합니다. 안타깝게도 개인회원은 1개의 계정만 사용할 수 있습니다. 문의하신 내용 만족하셨나요?</textarea>
+              <textarea style="height: 300px" class="notice_view_content" readonly th:text="${inquiry.answer}">답변</textarea>
             </td>
           </tr>
         </table>
-        <div style="text-align: right; margin-top: 50px">
-          <a th:href="@{/admin/cs/qna/delete}"><input type="button" value="삭제" style="background-color: #9e9e9e; color: white; border: none; padding: 10px 20px; cursor: pointer;"/></a>
-          <a th:href="@{/admin/cs/qna/insert}"><input type="button" value="답변등록" style="background-color: #4291e9; color: white; border: none; padding: 10px 20px; cursor: pointer;"/></a>
-          <a th:href="@{/admin/cs/qna/list}"><input type="button" value="목록" style="background-color: #4291e9; color: white; border: none; padding: 10px 20px; cursor: pointer;"/></a>
+
+        <!-- 버튼 영역 -->
+        <div class="button-container">
+          <!-- 삭제 버튼 -->
+          <input type="button" value="삭제" style="background-color: #9e9e9e; color: white; border: none; padding: 10px 20px; cursor: pointer;"
+                 th:onclick="|deleteInquiry(${inquiry.id})|" class="btn delete-btn" />
+          <a th:href="@{/admin/cs/qna/list}" class="btn list-btn">목록</a>
         </div>
       </form>
+      <script src="/js/admin/cs/qnadelete.js"></script>
     </article>
   </div>
 </div>

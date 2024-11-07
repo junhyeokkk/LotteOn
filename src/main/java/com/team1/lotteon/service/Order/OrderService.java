@@ -1,5 +1,6 @@
 package com.team1.lotteon.service.Order;
 
+import com.team1.lotteon.dto.GeneralMemberDTO;
 import com.team1.lotteon.dto.order.OrderDTO;
 import com.team1.lotteon.dto.order.OrderItemDTO;
 import com.team1.lotteon.dto.order.OrderRequestDTO;
@@ -9,11 +10,14 @@ import com.team1.lotteon.entity.enums.DeliveryStatus;
 import com.team1.lotteon.entity.enums.OrderStatus;
 import com.team1.lotteon.entity.productOption.ProductOptionCombination;
 import com.team1.lotteon.repository.*;
+import com.team1.lotteon.repository.Memberrepository.GeneralMemberRepository;
 import com.team1.lotteon.repository.coupon.CouponRepository;
 import com.team1.lotteon.security.MyUserDetails;
+import com.team1.lotteon.service.PointService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -154,7 +158,7 @@ public class OrderService {
     // Mypage 메인에 띄울 가장 최근 Orderitem 들고오기
     public List<OrderItem> getMyOrder(String uid){
 
-        Order myOrder = orderRepository.findTop1ByMember_UidOrderByOrderDateDesc(uid);
+        Order myOrder = orderRepository.findTop5ByMember_UidOrderByOrderDateDesc(uid);
         if (myOrder == null) {
             // myOrder가 null인 경우 빈 리스트 반환
             return Collections.emptyList();
@@ -185,4 +189,9 @@ public class OrderService {
 //                        .orElseThrow(() -> new IllegalArgumentException("Invalid coupon ID: " + couponId))
 //                : null;
 //    }
+
+
+
+
+
 }

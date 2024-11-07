@@ -10,10 +10,14 @@
 </th:block>
 <!-- index.html 고유 스크립트 추가 -->
 <th:block layout:fragment="script">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/modal/modal.js}"></script>
+    <script type="text/javascript" th:src="@{/js/admin/recruit/recruit.js}"></script>
 </th:block>
 
 <div class="content" layout:fragment="content">
-<!--    추후 모달 replace 삽입 -->
+    <div th:replace="~{admin/include/admin_modal :: #employmodal}"></div>
     <div class="dashboard">
         <div class="content_header">
             <h1>채용하기 목록</h1>
@@ -27,9 +31,9 @@
                 <form action="/admin/recruit/list" class="search_bar">
                     <select name="type">
                         <option value="orderNo">번호</option>
-                        <option value="orderId">채용부서</option>
-                        <option value="orderName">채용형태</option>
-                        <option value="orderName">제목</option>
+                        <option value="orderPosition">채용부서</option>
+                        <option value="orderType">채용형태</option>
+                        <option value="orderTitle">제목</option>
                     </select>
                     <input class="searchInput" type="text" name="keyword">
                     <input type="hidden" name="prodSeller" value="ADMIN" readonly>
@@ -38,7 +42,7 @@
             </div>
             <table class="admingraph">
                 <tr class="admin_title">
-                    <th><input type="checkbox" name="allCheck" /></th>
+                    <th><input type="checkbox" name="allCheck" id="selectAll"/></th>
                     <th>번호</th>
                     <th>채용부서</th>
                     <th>경력사항</th>
@@ -50,36 +54,33 @@
                     <th>작성일</th>
                 </tr>
 
-                <tr class="admin_list">
-                    <td><input type="checkbox" value="noticeNo" name="RowCheck" /></td>
-                    <td>120</td>
-                    <td>광고사업</td>
-                    <td>경력 4~15년</td>
-                    <td>정규직</td>
-                    <td>광고 플랫폼 기획</td>
-                    <td>관리자</td>
-                    <td>모집중</td>
-                    <td>2024-10-27 ~ 2024-11-01</td>
-                    <td>2024-10-27 12:00:00</td>
+                <tr class="admin_list" th:each="recruit : ${recruitResponses.dtoList}">
+                    <th><input type="checkbox" class="delete-checkbox" th:value="${recruit.recruitid}" /></th>
+                    <td th:text="${recruit.recruitid}-9">120</td>
+                    <td th:text="${recruit.position}">광고사업</td>
+                    <td th:text="${recruit.history}">경력 4~15년</td>
+                    <td th:text="${recruit.type}">정규직</td>
+                    <td th:text="${recruit.title}">광고 플랫폼 기획</td>
+                    <th:block th:if="${role} == 'Admin' ">
+                        <td>관리자</td> <!-- member 객체의 name 속성 표시 -->
+                    </th:block>
+                    <td th:text="${recruit.status}">모집중</td>
+                    <td th:text="${recruit.displayStartDate} + ' ~ ' + ${recruit.displayEndDate}">2024-10-27 ~ 2024-11-01</td>
+                    <td th:text="${#strings.replace(recruit.rDate, 'T', ' ')}">2024-10-27 12:00:00</td>
                 </tr>
+
             </table>
-            <a class="delete_btn">선택삭제</a>
-            <a class="registration_btn">채용등록</a>
+            <a class="delete_btn" href="javascript:void(0)">선택삭제</a>
+            <a href="#" data-modal="employmodal" class="registration_btn">채용등록</a>
 
             <div class="pagingBox">
                 <div class="pagingList">
-                    <!-- 이전 버튼 -->
-                    <a href="#" class="prev"><</a>
-
-                    <!-- 페이지 링크 -->
-                    <a href="#" class="active">1</a>
-                    <a href="#">2</a>
-                    <a href="#">3</a>
-                    <a href="#">4</a>
-                    <a href="#">5</a>
-
-                    <!-- 다음 버튼 -->
-                    <a href="#" class="next">></a>
+                    <a th:href="@{/admin/cs/recruit/list(pg=${recruitResponses.start - 1}, type=${type}, keyword=${keyword})}" th:if="${recruitResponses.prev}" class="prev">&#60;</a>
+                    <th:block th:each="num : ${#numbers.sequence(recruitResponses.start, recruitResponses.end)}">
+                        <a th:href="@{/admin/cs/recruit/list(pg=${num}, type=${type}, keyword=${keyword})}"
+                           th:classappend="${num == recruitResponses.pg} ? 'active' : ''">[[${num}]]</a>
+                    </th:block>
+                    <a th:href="@{/admin/cs/recruit/list(pg=${recruitResponses.end + 1}, type=${type}, keyword=${keyword})}" th:if="${recruitResponses.next}" class="next">&#62;</a>
                 </div>
             </div>
 

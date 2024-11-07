@@ -1,14 +1,5 @@
 package com.team1.lotteon.dto.product;
 
-import com.team1.lotteon.entity.Category;
-import com.team1.lotteon.entity.GeneralMember;
-import com.team1.lotteon.entity.Product;
-import com.team1.lotteon.entity.Shop;
-import com.team1.lotteon.entity.enums.ProductStatus;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

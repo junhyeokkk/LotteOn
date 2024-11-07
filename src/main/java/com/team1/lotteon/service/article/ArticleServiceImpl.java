@@ -209,6 +209,15 @@ public class ArticleServiceImpl implements ArticleService {
         return PageResponseDTO.fromList(faqDTOList, pageable);
     }
 
+    @Override
+    public void incrementFaqViews(Long id) {
+        FAQ faq = faqRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("FAQ not found"));
+        faq.setViews(faq.getViews() + 1); // 조회수 증가
+        faqRepository.save(faq); // 변경사항 저장
+    }
+
+
 
 
 
@@ -294,6 +303,15 @@ public class ArticleServiceImpl implements ArticleService {
 
         return PageResponseDTO.fromPage(qnasPage.map(this::convertToInquiryDTO));
     }
+
+    @Override
+    public void updateInquiryAnswer(Long id, String answer) {
+        Inquiry inquiry = inquiryRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid inquiry ID"));
+        inquiry.setAnswer(answer);
+        inquiryRepository.save(inquiry);
+    }
+
 
 
 
@@ -385,6 +403,7 @@ public class ArticleServiceImpl implements ArticleService {
                 .type2(faq.getType2())
                 .createdAt(faq.getCreatedAt())
                 .updatedAt(faq.getUpdatedAt())
+                .views(faq.getViews())
                 .memberId(faq.getMember() !=null ? faq.getMember().getUid() : null)
                 .build();
 
@@ -398,6 +417,7 @@ public class ArticleServiceImpl implements ArticleService {
                 .type2(faqDTO.getType2())
                 .createdAt(faqDTO.getCreatedAt())
                 .updatedAt(faqDTO.getUpdatedAt())
+                .views(faqDTO.getViews())
                 .member(member)
                 .build();
     }
@@ -439,6 +459,7 @@ public class ArticleServiceImpl implements ArticleService {
                 .type1(notice.getType1())
                 .createdAt(notice.getCreatedAt())
                 .updatedAt(notice.getUpdatedAt())
+                .views(notice.getViews())
                 .memberId(notice.getMember() != null ? notice.getMember().getUid() : null) // null 체크 추가
                 .build();
     }
@@ -451,6 +472,7 @@ public class ArticleServiceImpl implements ArticleService {
                 .type1(noticeDTO.getType1())
                 .createdAt(noticeDTO.getCreatedAt())
                 .updatedAt(noticeDTO.getUpdatedAt())
+                .views(noticeDTO.getViews())
                 .member(member)
                 .build();
     }

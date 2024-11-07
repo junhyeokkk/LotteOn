@@ -1,29 +1,36 @@
 package com.team1.lotteon.controller.my;
 
 import com.team1.lotteon.dto.CouponTakeDTO;
+import com.team1.lotteon.dto.PageResponseDTO;
 import com.team1.lotteon.dto.order.OrderDTO;
 import com.team1.lotteon.dto.order.OrderItemDTO;
 import com.team1.lotteon.dto.point.PointPageRequestDTO;
 import com.team1.lotteon.dto.point.PointPageResponseDTO;
+import com.team1.lotteon.dto.review.ReviewResponseDTO;
 import com.team1.lotteon.entity.Address;
 import com.team1.lotteon.entity.GeneralMember;
 import com.team1.lotteon.entity.OrderItem;
 import com.team1.lotteon.security.MyUserDetails;
+import com.team1.lotteon.service.MemberService.GeneralMemberService;
 import com.team1.lotteon.service.Order.OrderService;
 import com.team1.lotteon.service.PointService;
 import com.team1.lotteon.service.admin.CouponTakeService;
+import com.team1.lotteon.service.review.ReviewService;
 import com.team1.lotteon.util.DateUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /*
@@ -36,6 +43,7 @@ import java.util.stream.Collectors;
         - 2024/11/06 이도영 나의정보 전체 화면 보유쿠폰,구매상품 숫자 출력
                            나의정보 홈 화면에서 상품 최대 3개까지 출력 하도록 수정
                            나의정보 수정 화면에서 가지고 오는 데이터 방식 리펙토링
+        - 2024/11/07 이상훈 리뷰 추가
 */
 @Log4j2
 @Controller
@@ -48,7 +56,9 @@ public class MyinfoController {
     private final CouponTakeService couponTakeService;
     private final OrderService orderService;
     private final CouponTakeService coupontakeService;
+    private final GeneralMemberService generalMemberService;
     private final ModelMapper modelMapper;
+    private final ReviewService reviewService;
 
     @ModelAttribute("couponCount")
     public int getCouponCount(@AuthenticationPrincipal MyUserDetails myUserDetails) {
@@ -78,14 +88,14 @@ public class MyinfoController {
 
         // 최대 3개의 OrderItem만 가져오고, DTO로 변환
         List<OrderItemDTO> OrderItemDTO = orderitems.stream()
-                .limit(3) // 최대 3개 제한
+                .limit(5) // 최대 3개 제한
                 .map(orderItem -> modelMapper.map(orderItem, OrderItemDTO.class)) // DTO로 매핑
                 .collect(Collectors.toList());
 
         // 나의 정보
         Address address = member.getAddress();
 
-        model.addAttribute("myorders", OrderItemDTO);
+        model.addAttribute("myOrderItems", OrderItemDTO);
         model.addAttribute("member", member);
         model.addAttribute("address", address);
         return "myPage/home";
@@ -93,11 +103,12 @@ public class MyinfoController {
 
     @GetMapping("/info")
     public String myinfo(@AuthenticationPrincipal MyUserDetails myUserDetails,Model model){
-        GeneralMember member = myUserDetails.getGeneralMember();
-        String birth = member.getBirth().toString();
-        String Email = member.getEmail().toString();
-        String phonenumber = member.getPh();
-        Address address = member.getAddress();
+        Optional<GeneralMember> member = generalMemberService.findByUid(myUserDetails.getGeneralMember().getUid());
+
+        String birth = String.valueOf(member.get().getBirth());
+        String Email = member.get().getEmail();
+        String phonenumber = member.get().getPh();
+        Address address = member.get().getAddress();
 
         model.addAttribute("birth", birth);
         model.addAttribute("Email", Email);
@@ -105,7 +116,11 @@ public class MyinfoController {
         model.addAttribute("address", address);
         return "myPage/info";
     }
-    
+    @PostMapping("/info/delete/{uid}")
+    public ResponseEntity<String> myinfoDelete(@PathVariable String uid) {
+        generalMemberService.deactivateMember(uid);  // 서비스 계층에서 탈퇴 처리
+        return ResponseEntity.ok("탈퇴가 성공적으로 처리되었습니다. 이용해 주셔서 감사합니다.");
+    }
     //멤버 아이디를 가지고 와서 쿠폰 정보 출력
     @GetMapping("/coupon/{memberid}")
     public String getPagedCouponsByMemberId(
@@ -128,36 +143,40 @@ public class MyinfoController {
 
     @GetMapping("/point")
     public String mypoint(@RequestParam(defaultValue = "1") int pg,
-                          @RequestParam(required = false) String type,
-                          @RequestParam(required = false) String keyword,
-                          @AuthenticationPrincipal MyUserDetails myUserDetails, // 로그인된 사용자 정보 가져오기
+                          @RequestParam(required = false) String startDate, // 추가된 필드
+                          @RequestParam(required = false) String endDate,   // 추가된 필드
+                          @AuthenticationPrincipal MyUserDetails myUserDetails,
                           Model model) {
+
         // DTO 생성
         PointPageRequestDTO requestDTO = PointPageRequestDTO.builder()
-                                                            .pg(pg)
-                                                            .size(10)
-                                                            .type(type) // 타입 추가
-                                                            .keyword(keyword) // 키워드 추가
-                                                            .build();
+                .pg(pg)
+                .size(10)
+                .startDate(startDate) // 추가
+                .endDate(endDate)     // 추가
+                .build();
+
+
+
 
         // 포인트 데이터 가져오기
-        PointPageResponseDTO responseDTO = pointService.getPoints(requestDTO);
+        PointPageResponseDTO responseDTO = pointService.getMyPoints(requestDTO);
         model.addAttribute("points", responseDTO);
 
         // 포인트 합계 계산 후 Model에 추가
         Integer totalAcPoints = pointService.calculateTotalAcPoints(myUserDetails.getGeneralMember().getUid());
         model.addAttribute("totalAcPoints", totalAcPoints);
 
-        // 포인트 리스트에 포맷팅된 생성일 및 유효기간 추가
+        // 포맷팅된 생성일 및 유효기간 추가
         responseDTO.getDtoList().forEach(point -> {
             point.setFormattedCreatedAt(dateUtil.formatLocalDateTime(point.getCreatedat()));
             point.setFormattedExpirationDate(dateUtil.formatLocalDateTime(point.getExpirationDate()));
         });
 
-        // 로그: DTO 리스트 출력
         log.info("포인트 데이터: " + responseDTO.getDtoList());
         return "myPage/point";
     }
+
 
     @GetMapping("/qna")
     public String myqna(Model model){
@@ -165,7 +184,24 @@ public class MyinfoController {
     }
 
     @GetMapping("/review")
-    public String myreview(Model model){
+    public String myreview(Model model, @PageableDefault Pageable pageable, @AuthenticationPrincipal MyUserDetails myUserDetails) {
+        if(myUserDetails == null)
+        {
+            return "redirect:/user/login";
+        }
+
+        PageResponseDTO<ReviewResponseDTO> reviews = reviewService.getReviewsByUid(myUserDetails.getUsername(), pageable);
+        model.addAttribute("reviews", reviews);
+
+        int currentPage = reviews.getCurrentPage() + 1; // 타임리프는 1-based 인덱스 사용
+        int totalPages = reviews.getTotalPages();
+
+        int startPage = Math.max(1, currentPage - 2);
+        int endPage = Math.min(currentPage + 2, totalPages);
+
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+
         return "myPage/review";
     }
 }

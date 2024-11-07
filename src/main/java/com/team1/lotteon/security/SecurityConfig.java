@@ -54,7 +54,7 @@ public class SecurityConfig {
         http.logout(logout -> logout
                 .invalidateHttpSession(true)
                 .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
-                .logoutSuccessUrl("/?success=101"));
+                .logoutSuccessHandler(new CustomLogoutSuccessHandler()));
 
 
         //Oauth2 설정
