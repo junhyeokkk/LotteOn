@@ -25,13 +25,12 @@ public interface OrderRepository extends JpaRepository<Order, Long>, OrderReposi
 
 
     // 가장 최근 주문 1개를 반환
-    public Order findTop1ByMember_UidOrderByOrderDateDesc(String uid);
+    public Order findTop5ByMember_UidOrderByOrderDateDesc(String uid);
 
     //2024/11/06 이도영 나의정보 전체화면에 주문량 출력
     List<Order> findAllByMember_Uid(String userId);
 
 
     Optional<Order> findByOrderNumber(String orderNumber);
-
 
 }

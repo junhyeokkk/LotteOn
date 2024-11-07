@@ -4,6 +4,20 @@
 내용 : 메인 페이지 컨텐츠 영역 생성
 -->
 <script>
+  window.onload = function () {
+    // URL에서 쿼리 파라미터 가져오기 메시지 정보 전달
+    const params = new URLSearchParams(window.location.search);
+    const alertMessage = params.get('message');
+
+    if (alertMessage) {
+      alert(decodeURIComponent(alertMessage));
+
+      // 쿼리 파라미터를 제거한 새 URL로 브라우저 상태를 업데이트
+      const url = new URL(window.location);
+      url.searchParams.delete('message');
+      window.history.replaceState({}, document.title, url);
+    }
+  };
   document.addEventListener('DOMContentLoaded', () => {
     let currentIndex = 0;
 

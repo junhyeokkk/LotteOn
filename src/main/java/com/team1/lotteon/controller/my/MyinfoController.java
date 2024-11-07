@@ -9,6 +9,7 @@ import com.team1.lotteon.entity.Address;
 import com.team1.lotteon.entity.GeneralMember;
 import com.team1.lotteon.entity.OrderItem;
 import com.team1.lotteon.security.MyUserDetails;
+import com.team1.lotteon.service.MemberService.GeneralMemberService;
 import com.team1.lotteon.service.Order.OrderService;
 import com.team1.lotteon.service.PointService;
 import com.team1.lotteon.service.admin.CouponTakeService;
@@ -18,12 +19,14 @@ import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /*
@@ -48,6 +51,7 @@ public class MyinfoController {
     private final CouponTakeService couponTakeService;
     private final OrderService orderService;
     private final CouponTakeService coupontakeService;
+    private final GeneralMemberService generalMemberService;
     private final ModelMapper modelMapper;
 
     @ModelAttribute("couponCount")
@@ -78,7 +82,7 @@ public class MyinfoController {
 
         // 최대 3개의 OrderItem만 가져오고, DTO로 변환
         List<OrderItemDTO> OrderItemDTO = orderitems.stream()
-                .limit(3) // 최대 3개 제한
+                .limit(5) // 최대 3개 제한
                 .map(orderItem -> modelMapper.map(orderItem, OrderItemDTO.class)) // DTO로 매핑
                 .collect(Collectors.toList());
 
@@ -93,11 +97,12 @@ public class MyinfoController {
 
     @GetMapping("/info")
     public String myinfo(@AuthenticationPrincipal MyUserDetails myUserDetails,Model model){
-        GeneralMember member = myUserDetails.getGeneralMember();
-        String birth = member.getBirth().toString();
-        String Email = member.getEmail().toString();
-        String phonenumber = member.getPh();
-        Address address = member.getAddress();
+        Optional<GeneralMember> member = generalMemberService.findByUid(myUserDetails.getGeneralMember().getUid());
+
+        String birth = String.valueOf(member.get().getBirth());
+        String Email = member.get().getEmail();
+        String phonenumber = member.get().getPh();
+        Address address = member.get().getAddress();
 
         model.addAttribute("birth", birth);
         model.addAttribute("Email", Email);
@@ -105,7 +110,11 @@ public class MyinfoController {
         model.addAttribute("address", address);
         return "myPage/info";
     }
-    
+    @PostMapping("/info/delete/{uid}")
+    public ResponseEntity<String> myinfoDelete(@PathVariable String uid) {
+        generalMemberService.deactivateMember(uid);  // 서비스 계층에서 탈퇴 처리
+        return ResponseEntity.ok("탈퇴가 성공적으로 처리되었습니다. 이용해 주셔서 감사합니다.");
+    }
     //멤버 아이디를 가지고 와서 쿠폰 정보 출력
     @GetMapping("/coupon/{memberid}")
     public String getPagedCouponsByMemberId(

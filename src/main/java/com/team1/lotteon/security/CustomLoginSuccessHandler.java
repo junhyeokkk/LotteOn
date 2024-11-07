@@ -13,6 +13,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.time.LocalDateTime;
 
 @Component
@@ -31,9 +32,23 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
             response.sendRedirect("/");
             return;
         }
+
         // GeneralMember일 때만 로그인 시간을 설정
         if (role.equals("General")) {
             GeneralMember generalMember = (GeneralMember) member;
+            if(generalMember.getStatus()==4){
+                String errorMessage = "로그인 할수 없는 탈퇴한 계정입니다";
+                response.sendRedirect("/member/logout?message=" + URLEncoder.encode(errorMessage, "UTF-8"));
+                return;
+            }else if(generalMember.getStatus()==3){
+                String errorMessage = "휴면 계정입니다 관리자에게 문의 해주세요";
+                response.sendRedirect("/member/logout?message=" + URLEncoder.encode(errorMessage, "UTF-8"));
+                return;
+            }else if(generalMember.getStatus()==2){
+                String errorMessage = "정지된 계정입니다";
+                response.sendRedirect("/member/logout?message=" + URLEncoder.encode(errorMessage, "UTF-8"));
+                return;
+            }
             generalMember.setLastLoginDate(LocalDateTime.now());
             memberRepository.save(generalMember);  // 로그인 시간을 DB에 저장
             response.sendRedirect("/");  // General 사용자 리다이렉트

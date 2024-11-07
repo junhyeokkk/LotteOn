@@ -7,6 +7,8 @@ import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 /*
   날짜 : 2024/10/25
   이름 : 이도영
@@ -42,4 +44,15 @@ public class GeneralMemberService {
     }
 
 
+    public Optional<GeneralMember> findByUid(String uid) {
+        return generalMemberRepository.findByUid(uid);
+    }
+
+    public void deactivateMember(String uid) {
+        GeneralMember member = generalMemberRepository.findByUid(uid)
+                .orElseThrow(() -> new IllegalArgumentException("해당 회원을 찾을 수 없습니다: " + uid));
+
+        member.setStatus(4);  // status 값을 4로 설정
+        generalMemberRepository.save(member);  // 변경된 상태를 DB에 저장
+    }
 }
