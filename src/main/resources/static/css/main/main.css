@@ -2,6 +2,9 @@
     날짜 : 2024/10/25
     이름 : 이상훈
     내용 : 메인 페이지 css 생성
+
+    수정이력
+  - 2024/10/30 강유정 - css 수정
 */
 
 /* 메인영역 */
@@ -228,7 +231,7 @@ main {
 
 
   .product__free {
-      background-color: #5394df;
+      background-color: #e74c3c;
       color:white;
       padding: 2px;
       border-radius: 4px;

@@ -150,3 +150,15 @@ button[type=submit] {
 .pagingList>a:hover {
     background-color: #35373d;
 }
+
+.search_bar > input.searchInput {
+    height: 35px;
+    width: 170px;
+    border: 1px solid #D9D9D9;
+}
+
+.search_bar > input.searchBtn {
+    height: 35px;
+    width: 50px;
+    border: 1px solid #D9D9D9;
+}

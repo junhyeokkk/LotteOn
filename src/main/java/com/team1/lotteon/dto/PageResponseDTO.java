@@ -1,5 +1,6 @@
 package com.team1.lotteon.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -41,6 +42,7 @@ public class PageResponseDTO<T> {
                 .isLast(page.isLast())
                 .build();
     }
+
 
     public static <T> PageResponseDTO<T> fromList(List<T> list, Pageable pageable) {
         int pageSize = pageable.getPageSize();

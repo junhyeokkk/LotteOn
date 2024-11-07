@@ -2,5 +2,17 @@
     width: 1200px;
     height: 80px;
     margin: 0 auto;
-    background-color: black;
+    overflow: hidden; /* 슬라이드가 보이는 영역만 표시 */
+    position: relative;
+}
+
+.main_bannerBox {
+    display: flex;
+    width: 300%; /* 이미지가 3개이므로 300%로 설정 */
+    transition: transform 0.5s ease;
+}
+
+.main_banner__img {
+    width: 1200px; /* 한 번에 하나의 이미지가 차지하는 영역 */
+    flex-shrink: 0;
 }
