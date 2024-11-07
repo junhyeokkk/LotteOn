@@ -55,8 +55,8 @@
                         </a>
                     </li>
                     <li>
-                        <a th:href="@{/cs/layout/faq/list(type1='취소/반품/교환')}">
-                            <span style="font-size: 13px">취소 / 반품 / 교환</span>
+                        <a th:href="@{/cs/layout/faq/list(type1='취소/반품/환불')}">
+                            <span style="font-size: 13px">취소 / 반품 / 환불</span>
                         </a>
                     </li>
                     <li>
@@ -65,8 +65,8 @@
                         </a>
                     </li>
                     <li>
-                        <a th:href="@{/cs/layout/faq/list(type1='안전거래')}">
-                            <span style="font-size: 13px">안전거래</span>
+                        <a th:href="@{/cs/layout/faq/list(type1='안전결제')}">
+                            <span style="font-size: 13px">안전결제</span>
                         </a>
                     </li>
 
@@ -80,19 +80,24 @@
                 <a th:href="@{/cs/layout/qna/list}">전체보기</a>
             </h1>
             <ul>
-                <li th:each="inquiry : ${inquiries}">
+                <!-- 로그인한 사용자의 문의사항을 필터링 -->
+                <li th:each="inquiry : ${inquiries}" th:if="${inquiry.memberId == #authentication.name}">
                     <a th:href="@{/cs/layout/qna/view/{id}(id=${inquiry.id})}" th:text="${inquiry.title}" style="font-size: 17px;"></a>
                     <p>
 <!--                        <span class="uid" th:text="|${inquiry.memberId.substring(0, 3)}***|">익명</span>-->
                         <span th:text="${#temporals.format(inquiry.createdAt, 'yy-MM-dd')}" style="font-size: 17px"></span>
                     </p>
                 </li>
-                <li th:if="${inquiries.empty}">
+
+                <!-- 일치하는 문의사항이 없을 경우 메시지 표시 -->
+                <li th:if="${inquiries.?[memberId == #authentication.name].isEmpty()}">
                     문의사항이 없습니다.
                 </li>
             </ul>
             <a th:href="@{/cs/layout/qna/write}" class="ask">문의글 작성 ></a>
         </section>
+
+
 
 
         <!-- 상담 안내 -->
