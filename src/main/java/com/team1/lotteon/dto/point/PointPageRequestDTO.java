@@ -24,6 +24,9 @@ public class PointPageRequestDTO {
     private String type;
     private String keyword;
 
+    private String startDate; // 추가된 필드
+    private String endDate;   // 추가된 필드
+
     public Pageable getPageable(String sort) {
         return PageRequest.of(this.pg -1 , this.size, Sort.by(sort).descending());
     }

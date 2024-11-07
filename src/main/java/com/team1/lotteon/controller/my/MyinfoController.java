@@ -128,36 +128,40 @@ public class MyinfoController {
 
     @GetMapping("/point")
     public String mypoint(@RequestParam(defaultValue = "1") int pg,
-                          @RequestParam(required = false) String type,
-                          @RequestParam(required = false) String keyword,
-                          @AuthenticationPrincipal MyUserDetails myUserDetails, // 로그인된 사용자 정보 가져오기
+                          @RequestParam(required = false) String startDate, // 추가된 필드
+                          @RequestParam(required = false) String endDate,   // 추가된 필드
+                          @AuthenticationPrincipal MyUserDetails myUserDetails,
                           Model model) {
+
         // DTO 생성
         PointPageRequestDTO requestDTO = PointPageRequestDTO.builder()
-                                                            .pg(pg)
-                                                            .size(10)
-                                                            .type(type) // 타입 추가
-                                                            .keyword(keyword) // 키워드 추가
-                                                            .build();
+                .pg(pg)
+                .size(10)
+                .startDate(startDate) // 추가
+                .endDate(endDate)     // 추가
+                .build();
+
+
+
 
         // 포인트 데이터 가져오기
-        PointPageResponseDTO responseDTO = pointService.getPoints(requestDTO);
+        PointPageResponseDTO responseDTO = pointService.getMyPoints(requestDTO);
         model.addAttribute("points", responseDTO);
 
         // 포인트 합계 계산 후 Model에 추가
         Integer totalAcPoints = pointService.calculateTotalAcPoints(myUserDetails.getGeneralMember().getUid());
         model.addAttribute("totalAcPoints", totalAcPoints);
 
-        // 포인트 리스트에 포맷팅된 생성일 및 유효기간 추가
+        // 포맷팅된 생성일 및 유효기간 추가
         responseDTO.getDtoList().forEach(point -> {
             point.setFormattedCreatedAt(dateUtil.formatLocalDateTime(point.getCreatedat()));
             point.setFormattedExpirationDate(dateUtil.formatLocalDateTime(point.getExpirationDate()));
         });
 
-        // 로그: DTO 리스트 출력
         log.info("포인트 데이터: " + responseDTO.getDtoList());
         return "myPage/point";
     }
+
 
     @GetMapping("/qna")
     public String myqna(Model model){

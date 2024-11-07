@@ -1,6 +1,5 @@
 package com.team1.lotteon.controller.admin.point;
 
-
 import com.team1.lotteon.dto.GeneralMemberDTO;
 import com.team1.lotteon.dto.PointDTO;
 import com.team1.lotteon.dto.point.PointPageRequestDTO;
@@ -59,20 +58,11 @@ public class PointController {
     }
 
 
-
-
     // 포인트 차감
     @PostMapping("/deduct")
     public ResponseEntity<String> deductPoints(@RequestBody PointDTO pointDTO) {
         pointService.deductPoints(pointDTO);
         return ResponseEntity.ok("포인트가 성공적으로 차감되었습니다.");
-    }
-
-    // 내 포인트 조회 (MYPAGE)
-    @GetMapping("/my")
-    public ResponseEntity<PointPageResponseDTO> getMyPoints(@RequestBody PointPageRequestDTO pointPageRequestDTO) {
-        PointPageResponseDTO response = pointService.getMyPoints(pointPageRequestDTO);
-        return ResponseEntity.ok(response);
     }
 
     // 포인트 목록 조회 (ADMIN)

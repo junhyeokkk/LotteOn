@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /*
@@ -21,5 +22,8 @@ public interface PointRepository extends JpaRepository<Point, Long>, PointReposi
     Page<Point> findByMemberUid(String uid, Pageable pageable);
 
     List<Point> findByMemberOrderByCreatedatAsc(GeneralMember member);
+
+
+    Page<Point> findByMember_UidAndCreatedatBetween(String uid, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable);
 
 }

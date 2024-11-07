@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 /*
     날짜 : 2024/10/31
@@ -25,6 +26,12 @@ public interface OrderRepository extends JpaRepository<Order, Long>, OrderReposi
 
     // 가장 최근 주문 1개를 반환
     public Order findTop1ByMember_UidOrderByOrderDateDesc(String uid);
+
     //2024/11/06 이도영 나의정보 전체화면에 주문량 출력
     List<Order> findAllByMember_Uid(String userId);
+
+
+    Optional<Order> findByOrderNumber(String orderNumber);
+
+
 }

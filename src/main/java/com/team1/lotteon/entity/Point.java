@@ -78,14 +78,15 @@ public class Point{
 
 
     // 지급일로부터 12개월 후 유효기간 설정
+    @PrePersist
     public void calculateExpirationDate() {
-        if (this.createdat != null) {
-            this.expirationDate = this.createdat.plusMonths(12);
-            System.out.println("유효기간 설정됨: " + this.expirationDate); // 로그 추가
-        } else {
-            System.out.println("createdat이 null입니다. 유효기간을 설정할 수 없습니다.");
+        if (this.createdat == null) {
+            this.createdat = LocalDateTime.now(); // createdat이 null인 경우 현재 시간으로 설정
         }
+        this.expirationDate = this.createdat.plusMonths(12);
+        System.out.println("유효기간 설정됨: " + this.expirationDate); // 로그 추가
     }
+
         public static PointDTO fromEntity(Point point) {
             GeneralMember member = point.getMember();
             return PointDTO.builder()

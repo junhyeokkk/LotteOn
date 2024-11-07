@@ -25,37 +25,30 @@
       <h3>포인트내역</h3>
       <!-- 포인트내역 검색바 -->
       <div class="myinfoSearch">
+
         <p>기간별 조회</p>
-        <a href="/my/point">전체</a>
-        <a href="/my/point?cate=week">일주일</a>
-        <a href="/my/point?cate=halfmonth">15일</a>
-        <a href="/my/point?cate=month">1개월</a>
-        <select id="monthSelect">
-          <productOption value="">검색 기간 선택</productOption>
-        </select>
+        <button class="period-btn" id="allButton" data-period="all">전체</button>
+        <button class="period-btn" data-period="week">일주일</button>
+        <button class="period-btn" data-period="halfmonth">15일</button>
+        <button class="period-btn" data-period="month">1개월</button>
+
+
         <div class="date-wrapper">
+
           <div class="start-date-wrapper">
             시작날짜 :
-            <input
-              type="date"
-              id="startDate"
-              class="start-date"
-              placeholder="시작 날짜 선택"
-            />
+            <input type="date" id="startDate" class="start-date" placeholder="시작 날짜 선택" />
           </div>
 
           <div class="end-date-wrapper">
             종료날짜 :
-            <input
-              type="date"
-              id="endDate"
-              class="end-date"
-              placeholder="종료 날짜 선택"
-            />
+            <input type="date" id="endDate" class="end-date" placeholder="종료 날짜 선택" />
           </div>
+
         </div>
         <button onclick="searchOrders()">검색</button>
       </div>
+
 
       <!-- 포인트 있을 때 -->
       <h3>포인트적립내역</h3>
@@ -79,8 +72,8 @@
           <td th:text="${point.type}"></td>
           <td th:text="${point.formattedExpirationDate}">2025-10-24</td>
         </tr>
-
-
+        <tbody id="resultContainer">
+        </tbody>
       </table>
 
       <div class="pagingBox">
