@@ -247,7 +247,9 @@ public class ProductPageController {
 
     // view 페이지 이동
     @GetMapping("/product/view/{id}")
-    public String viewProduct(@PathVariable("id") Long id, Model model, @PageableDefault Pageable pageable) throws JsonProcessingException {
+    public String viewProduct(@PathVariable("id") Long id,
+                              Model model,
+                              @PageableDefault(size = 5) Pageable pageable) throws JsonProcessingException {
         log.info("컨트롤러 ㅇㅇㅇ");
         ProductDTO saveProduct = productService.getProductById(id);
         //shopid로 바꾸기
@@ -298,6 +300,15 @@ public class ProductPageController {
         PageResponseDTO<ReviewResponseDTO> reviews = reviewService.getReviewsByProductId(id, pageable);
         long count =  reviewService.getReviewCountByProductId(id);
         Double reviewAvgRating = reviewService.getReviewAvgRating(id);
+
+        int currentPage = reviews.getCurrentPage() + 1; // 타임리프는 1-based 인덱스 사용
+        int totalPages = reviews.getTotalPages();
+
+        int startPage = Math.max(1, currentPage - 2);
+        int endPage = Math.min(currentPage + 2, totalPages);
+
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
         model.addAttribute("reviews", reviews);
         model.addAttribute("reviewCount", count);
         model.addAttribute("reviewAvgRating", reviewAvgRating);

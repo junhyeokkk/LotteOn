@@ -52,23 +52,23 @@
                             </tr>
                             <block>
                                 <!-- myorder 리스트가 비어있을 경우 -->
-                                <tr th:if="${myorders == null or myorders.size() == 0}">
+                                <tr th:if="${myOrderItems == null or myOrderItems.size() == 0}">
                                     <td colspan="5" class="td_first" style="width: 100%">최근 주문 내역이 없습니다.</td>
                                 </tr>
-                                <tr th:each="myorder : ${myorders}">
+                                <tr th:each="myOrderItem : ${myOrderItems}" th:data-product-id="${myOrderItem.product.id}" th:data-product-name="${myOrderItem.product.productName}" >
                                     <td class="date">2022-12-13</td>
-                                    <td><a href="#" class="recentproductorderimg"><img  th:src="'/'+${appInfo.uploadDir}+'product/'+${myorder.getProduct().getProductImg1()}" alt="상품이미지"></a></td>
+                                    <td><a href="#" class="recentproductorderimg"><img  th:src="'/'+${appInfo.uploadDir}+'product/'+${myOrderItem.getProduct().getProductImg1()}" alt="상품이미지"></a></td>
                                     <td class="order-info">
                                         <div class="order-number">
-                                            주문번호: <a href="#" th:text="${myorder.getOrder().getId()}" data-modal="orderDetailModal"></a>
+                                            주문번호: <a href="#" th:text="${myOrderItem.getOrder().getId()}" data-modal="orderDetailModal"></a>
                                         </div>
-                                        <div class="company-name" th:text="${myorder.getProduct().getShop().getShopName()}" data-modal="sellerInfoModal">실바니안패밀리</div>
-                                        <div class="product-name" th:text="${myorder.getProductName()}">플로라 토끼 남매의 꽃 가꾸기</div>
-                                        <div>수량 : <span th:text="${myorder.getQuantity()}"></span>1 개</div>
-                                        <div class="product-price" style="font-size: 18px; font-weight: bold;" th:text="${myorder.getOrder().getTotalPrice()}">25,900원</div>
+                                        <div class="company-name" th:text="${myOrderItem.getProduct().getShop().getShopName()}" data-modal="sellerInfoModal">실바니안패밀리</div>
+                                        <div class="product-name" th:text="${myOrderItem.getProductName()}">플로라 토끼 남매의 꽃 가꾸기</div>
+                                        <div>수량 : <span th:text="${myOrderItem.getQuantity()}"></span>1 개</div>
+                                        <div class="product-price" style="font-size: 18px; font-weight: bold;" th:text="${myOrderItem.getOrder().getTotalPrice()}">25,900원</div>
                                     </td>
 
-                                    <td class="status">[[${myorder.deliveryStatus}]]</td>
+                                    <td class="status">[[${myOrderItem.deliveryStatus}]]</td>
                                     <td >
                                         <!-- 수취확인 -->
                                         <button class="receivebutton" data-modal="receiptConfirmModal">수취확인</button><br>
@@ -225,6 +225,9 @@
         </div>
     </div>
     <footer th:replace="~{layout/footer::footer}"></footer>
+    <script>
+
+    </script>
 </body>
 
 </html>

@@ -219,3 +219,18 @@ table.widthtable tr:last-child td {
 .pagingList>a:hover {
     background-color: #35373d;
 }
+
+.ratingValue__background {
+    display: block;
+    width: 130px;
+    height: 26px;
+    background: url(/images/review/icon_star.svg) repeat-x 0 / 26px 26px;
+    margin: 0 auto;
+}
+
+.ratingValue__background > strong {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: url(/images/review/icon_star_full.svg) repeat-x 0 / 26px 26px;
+}

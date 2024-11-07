@@ -83,7 +83,7 @@
                 <li th:each="inquiry : ${inquiries}">
                     <a th:href="@{/cs/layout/qna/view/{id}(id=${inquiry.id})}" th:text="${inquiry.title}" style="font-size: 17px;"></a>
                     <p>
-                        <span class="uid" th:text="|${inquiry.memberId.substring(0, 3)}***|">익명</span>
+<!--                        <span class="uid" th:text="|${inquiry.memberId.substring(0, 3)}***|">익명</span>-->
                         <span th:text="${#temporals.format(inquiry.createdAt, 'yy-MM-dd')}" style="font-size: 17px"></span>
                     </p>
                 </li>
