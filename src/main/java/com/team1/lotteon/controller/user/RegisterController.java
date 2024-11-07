@@ -137,25 +137,32 @@ public class RegisterController {
             response.put("result", exists);
             return response;
         }
-
+        //2024/11/07 이도영 이메일 검사시 판매자 이메일도 검사 하도록 수정
         if (type.equals("email")) {
-            boolean exists = generalMemberService.isEmailExist(value);
-            if (!exists) {
+            boolean existsgeneral = generalMemberService.isEmailExist(value);
+            boolean existsshop = shopService.isShopEmailExist(value);
+            if (!existsgeneral && !existsshop) {
                 // 이메일 중복이 없으면 이메일 코드 전송
                 memberService.sendEmailCode(session, value);
+                response.put("result", false);
+                return response;
             }
-            response.put("result", exists);
+            response.put("result", true);
             return response;
         }
         //2024/11/06 이도영 판매자 이메일 검사
         if (type.equals("shopemail")) {
-            boolean exists = shopService.isShopEmailExist(value);
-            if (!exists) {
+            boolean existsgeneral = generalMemberService.isEmailExist(value);
+            boolean existsshop = shopService.isShopEmailExist(value);
+            if (!existsgeneral && !existsshop) {
                 // 이메일 중복이 없으면 이메일 코드 전송
                 memberService.sendEmailCode(session, value);
+                response.put("result", false);
+                return response;
             }
-            response.put("result", exists);
+            response.put("result", true);
             return response;
+
         }
         //2024/11/04 이도영 아이디 비밀번호 찾기 기능
         if (type.equals("sendemail")) {

@@ -11,6 +11,7 @@ import com.team1.lotteon.entity.enums.Grade;
 import com.team1.lotteon.repository.Memberrepository.GeneralMemberRepository;
 import com.team1.lotteon.repository.Memberrepository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,19 +30,21 @@ import java.util.stream.Collectors;
 
     수정이력
    - 2025/10/31 박서홍 - 상태변경(정상,중지,휴면,비활성)코드 추가
+   - 2024/11/07 이도영 - 상태변경(관리자) 코드 추가
 */
 
-
+@Log4j2
 @Service
 @RequiredArgsConstructor
 public class AdminMemberService {
 
     private final GeneralMemberRepository generalMemberRepository;
     private final ModelMapper modelMapper;
-    public static final int STATUS_ACTIVE = 1;     // 정상 상태
+    public static final int STATUS_ACTIVE = 0;     // 정상 상태
     public static final int STATUS_SUSPENDED = 2;   // 중지 상태
     public static final int STATUS_INACTIVE = 3;     // 휴면 상태
     public static final int STATUS_DEACTIVATED = 4;  // 비활성 상태 (탈퇴);
+    public static final int STATUS_ADMIN = 5;  // 관리자 상태
     private final MemberRepository memberRepository;
 
 
@@ -198,6 +201,20 @@ public class AdminMemberService {
             Grade gradeEnum = Grade.valueOf(grade.toUpperCase());
             member.setGrade(gradeEnum);
 
+            //- 2024/11/07 이도영 - 상태변경(관리자) 코드 추가
+            if ("General".equals(member.getRole())) {
+                // gradeEnum이 ADMIN인 경우에만 Role과 Status를 변경
+                if (gradeEnum == Grade.ADMIN) {
+                    member.setStatus(STATUS_ADMIN);
+                    member.setRole("Admin");
+                }
+            } else if ("Admin".equals(member.getRole())) {
+                // gradeEnum이 ADMIN이 아닌 경우에만 Role과 Status를 변경
+                if (gradeEnum != Grade.ADMIN) {
+                    member.setStatus(STATUS_ACTIVE);
+                    member.setRole("General");
+                }
+            }
             // 변경 사항 저장
             generalMemberRepository.save(member);
 

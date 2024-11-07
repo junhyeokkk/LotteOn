@@ -78,6 +78,6 @@ public class GeneralMember extends Member {
     }
 
     public boolean isActive() {
-        return this.status == 1;
+        return this.status == 0;
     }
 }

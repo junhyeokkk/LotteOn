@@ -2,6 +2,9 @@
      날짜 : 2024/10/28
      이름 : 박서홍
      내용 : 멤버 js 파일 생성
+
+     수정내역
+     - 2024/11/07 이도영 관리자 변경 기능 추가
 */
 
 
@@ -9,7 +12,7 @@
 // 상태 값을 한글로 변환하는 함수
 function getStatusText(status) {
     switch (status) {
-        case 1:
+        case 0:
             return '정상';
         case 2:
             return '중지';
@@ -216,7 +219,7 @@ document.addEventListener("DOMContentLoaded", function () {
     insertBtn.addEventListener("click", function () {
         const selectedMembers = [];
         const checkboxes = document.querySelectorAll("input[name='RowCheck']:checked");
-        const validGrades = ["vvip", "vip", "gold", "silver", "family"];
+        const validGrades = ["vvip", "vip", "gold", "silver", "family", "admin"];
 
         checkboxes.forEach(checkbox => {
             const memberRow = checkbox.closest("tr");
@@ -419,7 +422,7 @@ function getStatusClass(action) {
 // 현재 상태에 따라 필요한 액션 반환 (중지 기능 포함)
 function getStatusAction(currentStatus) {
     switch (parseInt(currentStatus)) {
-        case 1:
+        case 0:
             return 'suspend';      // 정상인 경우 중지
         case 2:
         case 3:
@@ -435,7 +438,7 @@ function getStatusAction(currentStatus) {
 function getStatusLabel(status) {
     console.log(`Received status: ${status}`); // 함수가 호출될 때 상태 출력
     switch (parseInt(status)) {
-        case 1:
+        case 0:
             return '정상';
         case 2:
             return '중지';
@@ -454,11 +457,11 @@ function getStatusValue(action) {
         case 'suspend':
             return 2;      // 중지
         case 'reactivate':
-            return 1;    // 정상으로 재개
+            return 0;    // 정상으로 재개
         case 'deactivate':
             return 4;    // 탈퇴
         default:
-            return 0;              // 알 수 없음
+            return 1;              // 알 수 없음
     }
 }
 
