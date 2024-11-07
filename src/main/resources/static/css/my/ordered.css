@@ -46,7 +46,6 @@
 .myinfotopside {
     height: 75px;
     background-color: #f2f2f2;
-    padding: 10x 20px;
 }
 .myinfotopside div {
     display: flex;
@@ -62,6 +61,7 @@
     /* 더 안쪽으로 밀어 넣기 */
     font-size: 25px;
     font-weight: bold;
+    margin-bottom: 12px;
 }
 /* 마이페이지 메뉴 */
 .myinfotopside ol {
@@ -106,11 +106,19 @@
     gap: 5px;
     flex-wrap: nowrap;
     background-color: #f2f2f2;
-    padding-left: 15px;
+    padding-left: 40px;
     width: 100%;
     height: 75px;
 }
+.myinfoSearch > p {
+    margin-right: 25px;
+}
 
+
+.end-date-wrapper {
+    margin-left: 15px;
+    margin-right: 12px;
+}
 
 /*상품정보*/
 /* 숫자 출력 스타일 */
@@ -198,16 +206,20 @@
 }
 
 .myinfoSearch button {
-    background-color: #007bff;
-    color: white;
-    border: none;
+    text-decoration: none;
+    color: #007bff;
+    border: 1px solid #007bff;
+    background-color: white;
     cursor: pointer;
+    font-size: 15px;
+    margin-left: 3px;
 }
 
 .date-wrapper {
     display: flex;
     justify-content: space-between;
     gap: 3px;
+    margin-left: 50px;
 }
 
 #startDate,
@@ -224,6 +236,7 @@
     font-weight: bold;
     display: block;
     margin-bottom: 6px;
+
 }
 
 /* widthtable 클래스가 적용된 테이블의 모든 tr에 얇은 하단 선 추가 */

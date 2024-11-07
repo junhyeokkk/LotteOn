@@ -1,10 +1,7 @@
 package com.team1.lotteon.service.Order;
 
 import com.team1.lotteon.dto.GeneralMemberDTO;
-import com.team1.lotteon.dto.order.OrderDTO;
-import com.team1.lotteon.dto.order.OrderItemDTO;
-import com.team1.lotteon.dto.order.OrderRequestDTO;
-import com.team1.lotteon.dto.order.OrderSummaryDTO;
+import com.team1.lotteon.dto.order.*;
 import com.team1.lotteon.entity.*;
 import com.team1.lotteon.entity.enums.DeliveryStatus;
 import com.team1.lotteon.entity.enums.OrderStatus;
@@ -18,15 +15,20 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /*
  *   날짜 : 2024/10/31
@@ -190,6 +192,28 @@ public class OrderService {
 //                : null;
 //    }
 
+    public OrderPageResponseDTO getOrdersByDateRange(String uid, OrderPageRequestDTO requestDTO) {
+        Pageable pageable = requestDTO.getPageable("orderDate");
+
+        // 기본 날짜 설정
+        LocalDateTime start = (requestDTO.getStartDate() != null && !requestDTO.getStartDate().isEmpty())
+                ? LocalDate.parse(requestDTO.getStartDate()).atStartOfDay()
+                : LocalDateTime.now().minusMonths(5); // 기본값: 최근 5개월 전부터
+
+        LocalDateTime end = (requestDTO.getEndDate() != null && !requestDTO.getEndDate().isEmpty())
+                ? LocalDate.parse(requestDTO.getEndDate()).atTime(LocalTime.MAX)
+                : LocalDateTime.now(); // 기본값: 오늘 날짜
+
+        // 조건에 맞는 주문 목록 조회
+        Page<Order> orderPage = orderRepository.findByMember_UidAndOrderDateBetween(uid, start, end, pageable);
+
+        // 주문 목록을 DTO로 변환
+        List<OrderDTO> orderDTOs = orderPage.getContent().stream()
+                .map(order -> modelMapper.map(order, OrderDTO.class))
+                .collect(Collectors.toList());
+
+        return new OrderPageResponseDTO(requestDTO, orderDTOs, (int) orderPage.getTotalElements());
+    }
 
 
 

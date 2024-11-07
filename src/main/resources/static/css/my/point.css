@@ -46,7 +46,6 @@
 .myinfotopside {
     height: 75px;
     background-color: #f2f2f2;
-    padding: 10x 20px;
 }
 .myinfotopside div {
     display: flex;
@@ -62,6 +61,8 @@
     /* 더 안쪽으로 밀어 넣기 */
     font-size: 25px;
     font-weight: bold;
+    margin-bottom: 12px;
+
 }
 /* 마이페이지 메뉴 */
 .myinfotopside ol {
@@ -128,18 +129,29 @@
 
 /* 검색기능 (전체주문내역, 포인트내역) */
 .myinfoSearch {
+
+    margin-top: 10px;
+    margin-bottom: 20px;
     display: flex;
     align-items: center;
     gap: 5px;
-    /* 요소 간의 간격 */
     flex-wrap: nowrap;
-    /* 모든 요소를 한 줄에 유지 */
     background-color: #f2f2f2;
-    padding-left: 15px;
+    padding-left: 35px;
     width: 100%;
     height: 75px;
+
 }
 
+.myinfoSearch > p {
+    margin-right: 25px;
+}
+
+
+.end-date-wrapper {
+    margin-left: 15px;
+    margin-right: 12px;
+}
 
 /* 공통 스타일 */
 .myinfoSearch input,
@@ -170,17 +182,22 @@
 }
 
 .myinfoSearch button {
-    background-color: #007bff;
-    color: white;
-    border: none;
+    text-decoration: none;
+    color: #007bff;
+    border: 1px solid #007bff;
+    background-color: white;
     cursor: pointer;
+    font-size: 15px;
+    margin-left: 3px;
 }
 
 .date-wrapper {
     display: flex;
     justify-content: space-between;
     gap: 3px;
+    margin-left: 50px;
 }
+
 #startDate,
 #endDate {
     text-align: center;

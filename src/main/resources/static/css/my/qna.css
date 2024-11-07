@@ -46,7 +46,6 @@
 .myinfotopside {
     height: 75px;
     background-color: #f2f2f2;
-    padding: 10x 20px;
 }
 .myinfotopside div {
     display: flex;
@@ -62,6 +61,8 @@
     /* 더 안쪽으로 밀어 넣기 */
     font-size: 25px;
     font-weight: bold;
+    margin-bottom: 12px;
+
 }
 /* 마이페이지 메뉴 */
 .myinfotopside ol {

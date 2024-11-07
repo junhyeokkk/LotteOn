@@ -67,20 +67,21 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-function searchOrders() {
+function searchRecords(baseUrl) {
     const startDate = document.getElementById('startDate').value;
     const endDate = document.getElementById('endDate').value;
 
     if (!startDate && !endDate) {
-        // 전체 조회
-        const url = `/myPage/point`;
+        // 전체 조회 URL (기본 경로로 이동)
+        const url = baseUrl;
         window.location.href = url;
     } else if (startDate && endDate) {
-        // 특정 날짜 범위 조회
-        const url = `/myPage/point?startDate=${startDate}&endDate=${endDate}`;
+        // 특정 날짜 범위 조회 URL
+        const url = `${baseUrl}?startDate=${startDate}&endDate=${endDate}`;
         window.location.href = url;
     } else {
         // 시작 날짜 또는 종료 날짜 중 하나만 선택된 경우 경고 메시지
         alert("시작 날짜와 종료 날짜를 모두 선택하거나, 날짜를 비워 전체 조회를 선택하세요.");
     }
 }
+

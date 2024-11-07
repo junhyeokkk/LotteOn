@@ -4,6 +4,8 @@ import com.team1.lotteon.dto.CouponTakeDTO;
 import com.team1.lotteon.dto.PageResponseDTO;
 import com.team1.lotteon.dto.order.OrderDTO;
 import com.team1.lotteon.dto.order.OrderItemDTO;
+import com.team1.lotteon.dto.order.OrderPageRequestDTO;
+import com.team1.lotteon.dto.order.OrderPageResponseDTO;
 import com.team1.lotteon.dto.point.PointPageRequestDTO;
 import com.team1.lotteon.dto.point.PointPageResponseDTO;
 import com.team1.lotteon.dto.review.ReviewResponseDTO;
@@ -12,9 +14,11 @@ import com.team1.lotteon.entity.GeneralMember;
 import com.team1.lotteon.entity.OrderItem;
 import com.team1.lotteon.security.MyUserDetails;
 import com.team1.lotteon.service.MemberService.GeneralMemberService;
+import com.team1.lotteon.service.MemberService.GeneralMemberService;
 import com.team1.lotteon.service.Order.OrderService;
 import com.team1.lotteon.service.PointService;
 import com.team1.lotteon.service.admin.CouponTakeService;
+import com.team1.lotteon.service.review.ReviewService;
 import com.team1.lotteon.service.review.ReviewService;
 import com.team1.lotteon.util.DateUtil;
 import lombok.RequiredArgsConstructor;
@@ -95,7 +99,7 @@ public class MyinfoController {
         // 나의 정보
         Address address = member.getAddress();
 
-        model.addAttribute("myOrderItems", OrderItemDTO);
+        model.addAttribute("myorders", OrderItemDTO);
         model.addAttribute("member", member);
         model.addAttribute("address", address);
         return "myPage/home";
@@ -133,7 +137,27 @@ public class MyinfoController {
     }
 
     @GetMapping("/ordered")
-    public String myordered(Model model){
+    public String getOrderHistory(
+            @RequestParam(defaultValue = "1") int pg,
+            @RequestParam(required = false) String startDate,
+            @RequestParam(required = false) String endDate,
+            @AuthenticationPrincipal MyUserDetails myUserDetails,
+            Model model) {
+
+        String uid = myUserDetails.getGeneralMember().getUid();
+
+        // OrderPageRequestDTO 객체 생성
+        OrderPageRequestDTO orderRequestDTO = OrderPageRequestDTO.builder()
+                .pg(pg)
+                .size(10)
+                .startDate(startDate)
+                .endDate(endDate)
+                .build();
+
+        // 주문 내역 조회
+        OrderPageResponseDTO orderResponseDTO = orderService.getOrdersByDateRange(uid, orderRequestDTO);
+        model.addAttribute("orders", orderResponseDTO);
+
         return "myPage/ordered";
     }
 
