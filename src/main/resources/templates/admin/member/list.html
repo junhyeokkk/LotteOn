@@ -23,6 +23,7 @@
 
 <!-- index.html 고유 스크립트 추가 -->
 <th:block layout:fragment="script">
+    <script type="text/javascript" th:src="@{/js/modal/modal.js}"></script>
     <script type="text/javascript" th:src="@{/js/admin/member/Member.js}"></script>
     <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </th:block>
@@ -77,12 +78,13 @@
                     <td th:text="${member.name}">이름</td>
                     <td th:text="${member.gender == 'FEMALE' ? '여' : (member.gender == 'MALE' ? '남' : '')}">성별</td>
                     <td>
-                        <select name="grade">
+                        <select name="grade" th:disabled="${member.status == 2 || member.status == 3 || member.status == 4}">
                             <option value="vvip" th:selected="${member.grade == 'vvip'}">VVIP</option>
                             <option value="vip" th:selected="${member.grade == 'vip'}">VIP</option>
                             <option value="gold" th:selected="${member.grade == 'gold'}">GOLD</option>
                             <option value="silver" th:selected="${member.grade == 'silver'}">SILVER</option>
                             <option value="family" th:selected="${member.grade == 'family'}">FAMILY</option>
+                            <option value="admin" th:selected="${member.grade == 'admin'}">ADMIN</option>
                         </select>
                     </td>
 
@@ -91,8 +93,8 @@
                     <td th:text="${member.ph}">전화번호</td>
                     <!-- 가입일 (포맷 지정) -->
                     <td th:text="${#temporals.format(member.createdAt, 'yyyy-MM-dd HH:mm:ss')}">가입일</td>
-                    <td th:text="${member.status == 1 ? '정상' : (member.status == 2 ? '중지' : (member.status == 3 ? '휴면' : (member.status == 4 ? '탈퇴' : '상태없음')))}"
-                        th:classappend="${member.status == 1 ? 'status-normal' : (member.status == 2 ? 'status-stopped' : (member.status == 3 ? 'status-sleep' : (member.status == 4 ? 'status-exit' : 'status-unknown')))}">
+                    <td th:text="${member.status == 0 ? '정상' : (member.status == 2 ? '중지' : (member.status == 3 ? '휴면' : (member.status == 4 ? '탈퇴' : (member.status == 5 ? '관리자' : '상태없음'))))}"
+                        th:classappend="${member.status == 0 ? 'status-normal' : (member.status == 2 ? 'status-stopped' : (member.status == 3 ? 'status-sleep' : (member.status == 4 ? 'status-exit' : (member.status == 5 ? 'status-admin' : 'status-unknown'))))}">
                         상태
                     </td>
 
@@ -104,7 +106,7 @@
                             </a>
 
                             <div style="margin-top: 5px;">
-                                <a th:if="${member.status == 1}" href="#"
+                                <a th:if="${member.status == 0 ||member.status == 5}" href="#"
                                    th:id="'change-status-btn-' + ${member.uid}"
                                    class="cs_delete-btn styled-button delete-button"
                                    th:attr="data-uid=${member.uid}, data-status=${member.status}"
