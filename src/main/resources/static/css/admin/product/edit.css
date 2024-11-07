@@ -434,3 +434,126 @@ th, td {
     cursor: pointer;
     font-size: 18px;
 }
+
+/* 옵션 테이블 */
+/* 테이블 스타일 */
+#optionTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-family: Arial, sans-serif;
+}
+
+#optionTable thead tr {
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+#optionTable th, #optionTable td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+/* 옵션 값 태그 스타일 */
+.option-tag {
+    display: inline-flex;
+    align-items: center;
+    background-color: #e0e0e0;
+    color: #333;
+    padding: 5px;
+    margin: 2px;
+    border-radius: 4px;
+}
+
+.option-tag span {
+    margin-right: 5px;
+}
+
+.remove-value-btn {
+    background: none;
+    border: none;
+    color: #ff4d4d;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.add-option-value-input {
+    width: 70%;
+    padding: 5px;
+    margin-top: 5px;
+}
+
+.remove-option-btn {
+    background-color: transparent;
+    color: #ff4d4d;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.remove-option-btn:hover {
+    color: #c0392b;
+}
+
+.add-option-btn {
+    margin-top: 10px;
+    padding: 6px 12px;
+    font-size: 13px;
+    color: #ffffff;
+    background-color: #007acc;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.add-option-btn:hover {
+    background-color: #005fa3;
+}
+
+/* 옵션 조합 테이블 */
+/* 옵션 조합 테이블 스타일 */
+#combinationTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    font-family: Arial, sans-serif;
+}
+
+#combinationTable thead tr {
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+#combinationTable th, #combinationTable td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+.option-price, .combination-stock, .additional-stock, .sku {
+    width: 80px;
+    padding: 5px;
+    margin: 5px 0;
+    text-align: center;
+}
+
+.status-select {
+    padding: 5px;
+    width: 100%;
+}
+
+.add-combination-btn {
+    margin-top: 10px;
+    padding: 8px 16px;
+    font-size: 14px;
+    color: #ffffff;
+    background-color: #007acc;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.add-combination-btn:hover {
+    background-color: #005fa3;
+}

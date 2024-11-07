@@ -16,6 +16,8 @@ import java.util.Optional;
 */
 public interface OptionItemRepository extends JpaRepository<OptionItem, Long> {
 
+    Optional<OptionItem> findByProductOptionNameAndValue(String productOptionName, String value);
+
     // value 필드를 기준으로 OptionItem을 검색
     List<OptionItem> findByValue(String value); // 변경된 부분
 

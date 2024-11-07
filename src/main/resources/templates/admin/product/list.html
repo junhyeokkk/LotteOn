@@ -50,7 +50,7 @@
                 <!-- 상품 리스트를 동적으로 출력 -->
                 <tr class="admin_list" th:each="product : ${products.content}">
                     <td><input type="checkbox" th:name="'productCode' + ${product.id}" /></td>
-                    <td><img th:src="'/'+${appInfo.uploadDir}+'product/'+${product.imageUrl}" class="thumb" style="width: 70px; height: 70px" /></td>
+                    <td><img th:src="'/'+${product.imageUrl}" class="thumb" style="width: 70px; height: 70px"  alt="상품이미지"/></td>
                     <td th:text="${product.id}">상품코드</td>
                     <td th:text="${product.name}">상품명</td>
                     <td th:text="${product.price} + '원'">32,000원</td>

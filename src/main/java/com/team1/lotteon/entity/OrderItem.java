@@ -11,6 +11,8 @@ import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.util.List;
+
 /*
     날짜 : 2024/10/25
     이름 : 이상훈
@@ -53,6 +55,8 @@ public class OrderItem {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "option_combination_id")
     private ProductOptionCombination productOptionCombination; // 옵션 조합
+
+    private int skuVersion; // SKU의 버전 저장
 
     @OneToOne(mappedBy = "orderItem", cascade = CascadeType.ALL)
     private Delivery delivery; // 개별 배송 정보 설정

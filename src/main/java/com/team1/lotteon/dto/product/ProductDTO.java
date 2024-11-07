@@ -1,7 +1,7 @@
 package com.team1.lotteon.dto.product;
 
+import com.team1.lotteon.dto.product.productOption.ModifyProductOptionCombinationDTO;
 import com.team1.lotteon.entity.*;
-import com.team1.lotteon.entity.enums.ProductStatus;
 import com.team1.lotteon.entity.productOption.ProductOption;
 import com.team1.lotteon.entity.productOption.ProductOptionCombination;
 import lombok.*;
@@ -55,7 +55,7 @@ public class ProductDTO extends BaseEntity {
     private boolean hasOptions; // 옵션 여부 판단
     private int stock;  // 재고 (옵션이 존재하면 옵션 재고의 총합)
 
-    private List<ProductOptionCombination> productOptionCombinations; // 조합리스트
+    private List<ModifyProductOptionCombinationDTO> productOptionCombinations; // 조합리스트
 
     // 추가컬럼
     private int discountedPrice;

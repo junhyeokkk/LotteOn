@@ -1,5 +1,8 @@
 package com.team1.lotteon.controller.admin.product;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.team1.lotteon.dto.PageResponseDTO;
 import com.team1.lotteon.dto.product.ProductDTO;
 import com.team1.lotteon.dto.product.ProductSearchRequestDto;
@@ -13,6 +16,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.Map;
+import java.util.stream.Collectors;
 /*
      날짜 : 2024/10/23
      이름 : 최준혁
@@ -54,23 +61,32 @@ public class AdminProductPageController {
     @GetMapping("/admin/product/edit/{id}")
     public String showEditProductForm(@PathVariable Long id, Model model) {
         ProductDTO productDTO = productService.getProductById(id);
+
+        log.info("콤비네이션~~~~~~~~~~~~~~~" + productDTO.getProductOptionCombinations().toString());
+
+        // 옵션 조합 데이터를 보기 좋은 형식으로 가공
+        productDTO.getProductOptionCombinations().forEach(combination -> {
+            String formattedCombination = parseOptionCombination(combination.getOptionValueCombination());
+            combination.setFormattedOptionValueCombination(formattedCombination); // 새로운 필드에 가공된 데이터 저장
+        });
+
         model.addAttribute("product", productDTO);
-        log.info("sfaddddddddddddddddddddd" + productDTO);
+        log.info("Product details for editing: " + productDTO);
         return "admin/product/edit";
     }
 
-    // 상품 수정 처리
-    @PostMapping("/admin/product/update")
-    public String updateProduct(@ModelAttribute ProductDTO productDTO,
-                                @RequestParam(value = "productImg1", required = false) MultipartFile productImg1,
-                                @RequestParam(value = "productImg2", required = false) MultipartFile productImg2,
-                                @RequestParam(value = "productImg3", required = false) MultipartFile productImg3) {
-
-        if (!productImg1.isEmpty()) productDTO.setProductImg1(productImg1.getOriginalFilename());
-        if (!productImg2.isEmpty()) productDTO.setProductImg2(productImg2.getOriginalFilename());
-        if (!productImg3.isEmpty()) productDTO.setProductImg3(productImg3.getOriginalFilename());
-
-        productService.updateProduct(productDTO);
-        return "redirect:/admin/product/list";
+    // JSON 문자열을 "옵션명: 옵션값" 형식으로 변환하는 헬퍼 메서드
+    private String parseOptionCombination(String optionValueCombination) {
+        try {
+            // JSON 문자열을 Map 형태로 파싱
+            Map<String, String> combinationMap = new ObjectMapper().readValue(optionValueCombination, new TypeReference<>() {});
+            // 각 항목을 "옵션명: 옵션값" 형식으로 변환 후, 콤마로 구분
+            return combinationMap.entrySet().stream()
+                    .map(entry -> entry.getKey() + ": " + entry.getValue())
+                    .collect(Collectors.joining(", "));
+        } catch (JsonProcessingException e) {
+            log.error("Error parsing option combination JSON", e);
+            return optionValueCombination; // 파싱 실패 시 원본 JSON 문자열 반환
+        }
     }
 }
