@@ -43,6 +43,7 @@ public interface ArticleService {
     Map<String, List<FaqDTO>> getFaqsGroupedByType2(String type1);
     public List<FaqDTO> getFaqsSortedByViewsAndType1();
     PageResponseDTO<FaqDTO> getAllFaqs(Pageable pageable);
+    void incrementFaqViews(Long id);
 
 
 
@@ -57,6 +58,7 @@ public interface ArticleService {
     PageResponseDTO<InquiryDTO> findQnaByType(String type1, String type2, Pageable pageable);
     Map<String, List<InquiryDTO>> getQnasGroupedByType2(String type1);
     PageResponseDTO<InquiryDTO> getQnasByType1(String type1, Pageable pageable);
+    void updateInquiryAnswer(Long id, String answer);
 
     // Notice
     NoticeDTO createNotice(NoticeDTO noticeDTO);

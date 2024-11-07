@@ -117,3 +117,34 @@
     outline: none;
     resize: none;
 }
+
+/* 기존 view.css 스타일 유지 */
+
+/* 버튼 컨테이너 스타일 */
+.qna_article_write .button-container {
+    text-align: right;
+    margin-top: 50px;
+}
+
+.qna_article_write .button-container .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+.qna_article_write .button-container .delete-btn {
+    background-color: #9e9e9e;
+}
+
+.qna_article_write .button-container .reply-btn {
+    background-color: #4291e9;
+}
+
+.qna_article_write .button-container .list-btn {
+    background-color: #4291e9;
+}

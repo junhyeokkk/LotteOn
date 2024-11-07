@@ -21,14 +21,15 @@
         <section class="sectionBox">
             <div>
                 <select name="type" id="typeSelect" onchange="filterNotices()">
-                    <option value="all">전체</option>
-                    <option value="고객서비스">고객서비스</option>
-                    <option value="안전거래">안전거래</option>
-                    <option value="위해상품">위해상품</option>
-                    <option value="이벤트당첨">이벤트당첨</option>
+                    <option value="all" th:selected="${selectedType1 == 'all'}">전체</option>
+                    <option value="고객서비스" th:selected="${selectedType1 == '고객서비스'}">고객서비스</option>
+                    <option value="안전거래" th:selected="${selectedType1 == '안전거래'}">안전거래</option>
+                    <option value="위해상품" th:selected="${selectedType1 == '위해상품'}">위해상품</option>
+                    <option value="이벤트당첨" th:selected="${selectedType1 == '이벤트당첨'}">이벤트당첨</option>
                 </select>
             </div>
-            <script>
+
+            <script th:inline="javascript">
                 function filterNotices() {
                     const type = document.getElementById('typeSelect').value;
                     window.location.href = `/admin/cs/notice/list?type1=${encodeURIComponent(type)}`;
@@ -66,10 +67,9 @@
                     <td th:text="${notice.views} != null ? ${notice.views} : '조회수 없음'">조회수</td>
                     <td th:text="${#temporals.format(notice.createdAt, 'yy-MM-dd')}">2024-10-14</td>
                     <td style="line-height: 20px">
-                        <a href="javascript:void(0);" th:onclick="|deleteNotice(${notice.id})|">[삭제]</a>
+                        <a href="javascript:void(0);" th:onclick="|deleteNotice(${notice.id})|" class="cs_delete-btn">[삭제]</a>
                         <br>
-                        <a th:href="@{/admin/cs/notice/modify/{id}(id=${notice.id})}">[수정]</a>
-<!--                        <a th:href="@{/admin/cs/notice/modify(id=${notice.id})}">[수정]</a>-->
+                        <a th:href="@{/admin/cs/notice/modify/{id}(id=${notice.id})}" class="cs_modify-btn">[수정]</a>
                     </td>
                 </tr>
             </table>

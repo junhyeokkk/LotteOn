@@ -4,14 +4,13 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{admin/layout/adminlayout}">
 
-<!-- index.html 고유 CSS 추가 -->
-<th:block layout:fragment="css">
+<head>
+  <meta charset="UTF-8">
+  <title>자주묻는질문 수정</title>
   <link rel="stylesheet" th:href="@{/css/admin/cs/faq/modify.css}" />
-</th:block>
-<!-- index.html 고유 스크립트 추가 -->
-<th:block layout:fragment="script">
-</th:block>
+</head>
 
+<body>
 <div class="content" layout:fragment="content">
   <div class="dashboard">
     <div class="content_header">
@@ -19,49 +18,86 @@
       <p>HOME > 고객센터 > 자주묻는질문</p>
     </div>
     <article class="qna_article_write">
-      <form>
+      <form th:action="@{/admin/cs/faq/modify/{id}(id=${faq.id})}" method="post">
         <table>
           <tr>
             <td>문의유형</td>
             <td>
-              <select name="qnaCate" onchange="firstOption()">
-                <productOption>1차선택</productOption>
-                <productOption value="user">회원</productOption>
-                <productOption value="coupon">쿠폰/이벤트</productOption>
-                <productOption value="order">주문/결제</productOption>
-                <productOption value="delivery">배송</productOption>
-                <productOption value="cancel">취소/반품/환불</productOption>
-                <productOption value="travel">여행/숙박/항공</productOption>
-                <productOption value="safe">안전결제</productOption>
+              <select name="type1" id="type1Select" onchange="updateType2Options()" required>
+                <option value="">1차선택</option>
+                <option value="회원" th:selected="${faq.type1 == '회원'}">회원</option>
+                <option value="쿠폰/이벤트" th:selected="${faq.type1 == '쿠폰/이벤트'}">쿠폰/이벤트</option>
+                <option value="주문/결제" th:selected="${faq.type1 == '주문/결제'}">주문/결제</option>
+                <option value="배송" th:selected="${faq.type1 == '배송'}">배송</option>
+                <option value="취소/반품/환불" th:selected="${faq.type1 == '취소/반품/환불'}">취소/반품/환불</option>
+                <option value="여행/숙박/항공" th:selected="${faq.type1 == '여행/숙박/항공'}">여행/숙박/항공</option>
+                <option value="안전결제" th:selected="${faq.type1 == '안전결제'}">안전결제</option>
               </select>
-              <select name="qnaType">
-                <productOption>2차선택</productOption>
-                <productOption value="regi">고객서비스</productOption>
-                <productOption value="leave">이벤트당첨</productOption>
-                <productOption value="leave">안전거래</productOption>
-                <productOption value="login">위해상품</productOption>
+              <select name="type2" id="type2Select">
+                <option value="">2차선택</option>
+                <!-- JavaScript에 의해 동적으로 채워짐 -->
               </select>
+              <script th:inline="javascript">
+                const type2Options = {
+                  "회원": ["가입", "탈퇴"],
+                  "쿠폰/이벤트": ["이벤트 참여", "쿠폰 사용"],
+                  "주문/결제": ["주문 확인", "결제 문제"],
+                  "배송": ["배송 추적", "배송 지연"],
+                  "취소/반품/환불": ["취소 요청", "반품 요청", "환불 요청"],
+                  "여행/숙박/항공": ["호텔 예약", "항공권 예약"],
+                  "안전결제": ["결제 안전 확인", "보안 문제 신고"]
+                };
+
+                function updateType2Options() {
+                  const type1Select = document.getElementById("type1Select");
+                  const type2Select = document.getElementById("type2Select");
+                  const selectedType1 = type1Select.value;
+
+                  // Clear previous options in type2
+                  type2Select.innerHTML = "<option value=''>2차선택</option>";
+
+                  // Add new options based on selected type1
+                  if (type2Options[selectedType1]) {
+                    type2Options[selectedType1].forEach(optionText => {
+                      const option = document.createElement("option");
+                      option.value = optionText;
+                      option.textContent = optionText;
+                      type2Select.appendChild(option);
+                    });
+                  }
+
+                  // Set previously selected type2
+                  const selectedType2 = /*[[${faq.type2}]]*/ '';
+                  if (selectedType2) {
+                    type2Select.value = selectedType2;
+                  }
+                }
+
+                document.addEventListener("DOMContentLoaded", updateType2Options);
+              </script>
             </td>
           </tr>
           <tr>
             <td>제목</td>
             <td>
-              <input type="text" name="qnaTitle" placeholder="제목을 입력하세요." required/>
+              <input type="text" name="title" placeholder="제목을 입력하세요." th:value="${faq.title}" required />
             </td>
           </tr>
           <tr>
             <td>내용</td>
             <td>
-              <textarea name="qnaContent" placeholder="내용을 입력하세요." required></textarea>
+              <textarea name="content" placeholder="내용을 입력하세요." required
+                        th:text="${faq.content}"></textarea>
             </td>
           </tr>
         </table>
         <div style="text-align: center; margin-top: 50px">
           <a th:href="@{/admin/cs/faq/list}"><input type="button" value="취소하기" style="background-color: #9e9e9e; color: white; border: none; padding: 10px 20px; cursor: pointer;"/></a>
-          <input type="submit" value="등록하기" style="background-color: #4291e9; color: white; border: none; padding: 10px 20px; cursor: pointer;"/>
+          <input type="submit" value="수정하기" style="background-color: #4291e9; color: white; border: none; padding: 10px 20px; cursor: pointer;"/>
         </div>
       </form>
     </article>
   </div>
 </div>
+</body>
 </html>

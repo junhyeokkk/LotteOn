@@ -40,10 +40,12 @@
           </tr>
         </table>
         <div style="text-align: center; margin-top: 50px">
-          <a th:href="@{/admin/cs/faq/delete(id=${faq.id})}">
-            <button type="button" style="background-color: #9e9e9e; color: white; border: none; padding: 10px 20px; cursor: pointer;">삭제</button>
-          </a>
-          <a th:href="@{/admin/cs/faq/modify(id=${faq.id})}">
+          <input type="button" value="삭제" style="background-color: #9e9e9e; color: white; border: none; padding: 10px 20px; cursor: pointer;"
+                 th:onclick="|deleteFaq(${faq.id})|" />
+<!--          <a th:href="@{/admin/cs/faq/delete(id=${faq.id})}">-->
+<!--            <button type="button" style="background-color: #9e9e9e; color: white; border: none; padding: 10px 20px; cursor: pointer;">삭제</button>-->
+<!--          </a>-->
+          <a th:href="@{/admin/cs/faq/modify/{id}(id=${faq.id})}">
             <button type="button" style="background-color: #9e9e9e; color: white; border: none; padding: 10px 20px; cursor: pointer;">수정</button>
           </a>
           <a th:href="@{/admin/cs/faq/list}">
@@ -51,6 +53,7 @@
           </a>
         </div>
       </form>
+      <script src="/js/admin/cs/faqdelete.js"></script>
     </article>
   </div>
 </div>

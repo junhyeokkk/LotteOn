@@ -11,44 +11,97 @@
 
 <!-- index.html 고유 스크립트 추가 -->
 <th:block layout:fragment="script">
+    <script th:inline="javascript">
+        const type2Options = {
+            "회원": ["가입", "탈퇴", "회원정보", "로그인"],
+            "쿠폰/이벤트": ["이벤트 참여", "쿠폰 사용"],
+            "주문/결제": ["주문 확인", "결제 문제"],
+            "배송": ["배송 추적", "배송 지연"],
+            "취소/반품/환불": ["취소 요청", "반품 요청", "환불 요청"],
+            "여행/숙박/항공": ["호텔 예약", "항공권 예약"],
+            "안전결제": ["결제 안전 확인", "보안 문제 신고"]
+        };
+
+        function updateType2Options(selectedType2 = null) {
+            const type1Select = document.querySelector("select[name='type1']");
+            const type2Select = document.querySelector("select[name='type2']");
+            const selectedType1 = type1Select.value;
+
+            type2Select.innerHTML = "<option value='2차선택'>2차선택</option>";
+
+            if (type2Options[selectedType1]) {
+                type2Options[selectedType1].forEach(optionText => {
+                    const option = document.createElement("option");
+                    option.value = optionText;
+                    option.textContent = optionText;
+                    if (optionText === selectedType2) {
+                        option.selected = true;
+                    }
+                    type2Select.appendChild(option);
+                });
+            }
+        }
+
+        function redirectToCateType() {
+            const type1 = document.querySelector("select[name='type1']").value;
+            const type2 = document.querySelector("select[name='type2']").value;
+            window.location.href = `/admin/cs/qna/list?type1=${encodeURIComponent(type1)}&type2=${encodeURIComponent(type2)}`;
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const type1Select = document.querySelector("select[name='type1']");
+            const type2Select = document.querySelector("select[name='type2']");
+            const selectedType2 = /*[[${selectedType2}]]*/ '2차선택';
+
+            updateType2Options(selectedType2);
+
+            type1Select.addEventListener("change", () => {
+                updateType2Options();
+            });
+
+            type2Select.addEventListener("change", redirectToCateType);
+            type1Select.addEventListener("change", redirectToCateType);
+        });
+        function toggleAllCheckboxes(source) {
+            const checkboxes = document.querySelectorAll('input[name="RowCheck"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = source.checked;
+            });
+        }
+    </script>
 </th:block>
 
 <div class="content" layout:fragment="content">
     <div class="dashboard">
         <div class="content_header">
             <h1>문의하기 목록</h1>
-            <p>
-                HOME > 고객센터 > <strong>문의하기</strong>
-            </p>
+            <p>HOME > 고객센터 > <strong>문의하기</strong></p>
         </div>
 
         <section class="sectionBox">
             <div class="select-container">
                 <div>
-                    <select name="type" onchange="firstOption()">
-                        <option>1차선택</option>
-                        <option value="user">회원</option>
-                        <option value="coupon">쿠폰/이벤트</option>
-                        <option value="order">주문/결제</option>
-                        <option value="delivery">배송</option>
-                        <option value="cancel">취소/반품/환불</option>
-                        <option value="travel">여행/숙박/항공</option>
-                        <option value="safe">안전결제</option>
+                    <select name="type1">
+                        <option value="1차선택" th:selected="${selectedType1 == '1차선택'}">1차선택</option>
+                        <option value="회원" th:selected="${selectedType1 == '회원'}">회원</option>
+                        <option value="쿠폰/이벤트" th:selected="${selectedType1 == '쿠폰/이벤트'}">쿠폰/이벤트</option>
+                        <option value="주문/결제" th:selected="${selectedType1 == '주문/결제'}">주문/결제</option>
+                        <option value="배송" th:selected="${selectedType1 == '배송'}">배송</option>
+                        <option value="취소/반품/환불" th:selected="${selectedType1 == '취소/반품/환불'}">취소/반품/환불</option>
+                        <option value="여행/숙박/항공" th:selected="${selectedType1 == '여행/숙박/항공'}">여행/숙박/항공</option>
+                        <option value="안전결제" th:selected="${selectedType1 == '안전결제'}">안전결제</option>
                     </select>
                 </div>
                 <div>
-                    <select name="type" onchange="redirectToCateType()">
-                        <option>2차선택</option>
-                        <option value="regi">가입</option>
-                        <option value="leave">탈퇴</option>
-                        <option value="info">회원정보</option>
-                        <option value="login">로그인</option>
+                    <select name="type2">
+                        <option value="2차선택">2차선택</option>
                     </select>
                 </div>
             </div>
+
             <table class="admingraph">
                 <tr class="admin_title">
-                    <th><input type="checkbox" name="allCheck" /></th>
+                    <th><input type="checkbox" name="allCheck" onclick="toggleAllCheckboxes(this)" /></th>
                     <th>번호</th>
                     <th>1차유형</th>
                     <th>2차유형</th>
@@ -59,47 +112,41 @@
                 </tr>
 
                 <!-- 문의 목록 동적 처리 -->
-                <tr class="admin_list" th:each="inquiry : ${inquiries}">
+                <tr th:if="${inquiries.isEmpty()}" class="admin_list">
+                    <td colspan="8">문의사항이 없습니다.</td>
+                </tr>
+                <tr class="admin_list" th:each="inquiry, iterStat : ${inquiries}">
                     <td><input type="checkbox" th:value="${inquiry.id}" name="RowCheck" /></td>
-                    <td th:text="${inquiry.displayNumber}">10</td>
-                    <td th:text="${inquiry.type1}">[유형선택]</td>
-                    <td th:text="${inquiry.type2}">[유형선택]</td>
+                    <td th:text="${iterStat.index + 1}">1</td> <!-- 순차적으로 번호를 증가 -->
+                    <td th:text="${inquiry.type1}">1차유형</td>
+                    <td th:text="${inquiry.type2}">2차유형</td>
                     <td style="text-align: left">
-                        <span>
-                            <a th:href="@{/admin/cs/qna/reply(id=${inquiry.id})}">
-                                <span th:text="${inquiry.title}" style="white-space: nowrap;">개인회원과 법인회원에 차이가 있나요?</span>
-                            </a>
-                        </span>
+                    <span>
+                        <!-- 답변이 완료된 경우 view.html로 이동 -->
+                        <a th:if="${inquiry.answer != null}"
+                           th:href="@{/admin/cs/qna/view/{id}(id=${inquiry.id})}">
+                            <span th:text="${inquiry.title}" style="white-space: nowrap;"></span>
+                        </a>
+
+                        <!-- 답변이 검토 중인 경우 reply.html로 이동 -->
+                        <a th:unless="${inquiry.answer != null}"
+                           th:href="@{/admin/cs/qna/reply/{id}(id=${inquiry.id})}">
+                            <span th:text="${inquiry.title}" style="white-space: nowrap;"></span>
+                        </a>
+                    </span>
                     </td>
                     <td th:text="${inquiry.memberId}">chh**</td>
-                    <td th:text="${#temporals.format(inquiry.createdAt, 'yyyy-MM-dd')}">2024-10-14</td>
+                    <td th:text="${#temporals.format(inquiry.createdAt, 'yy-MM-dd')}">2024-10-14</td>
                     <td th:text="${inquiry.answer != null ? '답변완료' : '검토중'}"
                         th:style="${inquiry.answer != null} ? 'color: #4291e9;' : ''"></td>
-
                 </tr>
-
             </table>
-            <a class="delete_btn" href="javascript:void(0);" onclick="deleteSelectedInquirys()">선택삭제</a>
 
-            <div class="pagingBox">
-                <div class="pagingList">
-                    <!-- 이전 버튼 -->
-                    <a th:unless="${currentPage == 0}"
-                       th:href="@{/admin/cs/qna/list(page=${currentPage - 1}, size=${pageSize})}"
-                       class="prev">‹</a>
+            <a class="delete_btn" href="javascript:void(0);" onclick="deleteSelectedInquiries()">선택삭제</a>
 
-                    <!-- 페이지 번호 링크 동적 처리 -->
-                    <a th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}"
-                       th:href="@{/admin/cs/qna/list(page=${pageNum}, size=${pageSize})}"
-                       th:text="${pageNum + 1}"
-                       th:classappend="${pageNum == currentPage} ? 'active'">1</a>
+            <!-- 성공 메시지가 있을 경우 팝업 표시 -->
+            <div th:if="${replySuccess}" id="replySuccessMessage" th:text="${replySuccess}" style="display: none;"></div>
 
-                    <!-- 다음 버튼 -->
-                    <a th:if="${!isLast}"
-                       th:href="@{/admin/cs/qna/list(page=${currentPage + 1}, size=${pageSize})}"
-                       class="next">›</a>
-                </div>
-            </div>
             <script src="/js/admin/cs/qnadelete.js"></script>
         </section>
     </div>

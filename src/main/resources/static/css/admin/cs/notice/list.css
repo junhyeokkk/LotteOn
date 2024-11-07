@@ -4,7 +4,7 @@
     gap: 10px; /* 간격을 원하는 만큼 조정 가능 */
 }
 select[name="type"] {
-    width: 75px;
+    width: 85px;
     height: 40px;
     border: 1px solid #D8D8D8;
     text-align: center;
@@ -12,7 +12,7 @@ select[name="type"] {
 }
 /* 유형선택 */
 .sectionBox > div {
-    margin-top: 30px;
+    margin-top: 15px;
     margin-bottom: 10px;
 }
 
