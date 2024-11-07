@@ -9,32 +9,12 @@ function loadQnasByType(type1, page = 0) {
     document.querySelector('.qna_article h1').textContent = type1;
     document.querySelector('.qna_article h2').textContent = `${type1} 관련 문의내용입니다.`;
 
-    // // QNA 데이터를 서버에서 가져옴
-    // fetch(`/api/cs/qna/list?type1=${type1}&page=${page}`)
-    //     .then(response => response.json())
-    //     .then(data => {
-    //         const qnaContainer = document.querySelector('.qna_article table tbody');
-    //         const paginationContainer = document.querySelector('.pagination');
-    //
-    //         // QNA 목록 초기화
-    //         qnaContainer.innerHTML = '';
-    //
-    //         // QNA 항목 추가
-    //         if (data.content && Array.isArray(data.content)) {
-    //             data.content.forEach(inquiry => {
-    //                 qnaContainer.insertAdjacentHTML('beforeend', `
-    //                     <tr>
-    //                         <td><a href="/cs/layout/qna/view/${inquiry.id}">${inquiry.title}</a></td>
-    //                         <td class="${inquiry.answer ? 'done' : 'ing'}">${inquiry.answer ? '답변 완료' : '검토 중'}</td>
-    //                         <td>${inquiry.memberId || '비회원'}</td>
-    //                         <td style="text-align: right;">${new Date(inquiry.createdAt).toLocaleDateString('ko-KR')}</td>
-    //                     </tr>
-    //                 `);
-    //             });
-    //         } else {
-    //             qnaContainer.innerHTML = '<tr><td colspan="4">문의 내용이 없습니다.</td></tr>';
-    //         }
+    const paginationContainer = document.querySelector('.pagination');
 
+    // Fetch QNA data from the server
+    fetch(`/api/cs/qna?type1=${type1}&page=${page}`)
+        .then(response => response.json())
+        .then(data => {
             // 페이지네이션 버튼 초기화
             paginationContainer.innerHTML = '';
 

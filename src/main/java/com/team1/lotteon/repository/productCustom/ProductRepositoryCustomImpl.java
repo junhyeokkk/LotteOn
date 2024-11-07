@@ -41,8 +41,8 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom {
                 predicate = switch (searchRequestDto.getType()) {
                     case "prodName" -> product.productName.containsIgnoreCase(searchRequestDto.getKeyword());
                     case "prodNo" -> product.id.eq(Long.valueOf(searchRequestDto.getKeyword()));
-                    case "sellerNo" -> product.member.uid.eq(searchRequestDto.getKeyword());
-                    case "prodCompany" -> product.manufacturer.eq(searchRequestDto.getKeyword());
+                    case "sellerNo" -> product.member.shop.shopName.containsIgnoreCase(searchRequestDto.getKeyword());
+                    case "prodCompany" -> product.manufacturer.containsIgnoreCase(searchRequestDto.getKeyword());
                     default -> product.productName.containsIgnoreCase(searchRequestDto.getKeyword());
                 };
             }else {

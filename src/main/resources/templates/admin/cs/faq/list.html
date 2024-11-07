@@ -38,7 +38,28 @@
                 }
             }
 
-            type1Select.addEventListener("change", updateType2Options);
+            // 새롭게 정의한 redirectToCateType 함수
+            function redirectToCateType() {
+                const type1 = type1Select.value;
+                const type2 = type2Select.value;
+
+                let url = `/admin/cs/faq/list`;
+                if (type1 !== '1차선택') {
+                    url += `?type1=${encodeURIComponent(type1)}`;
+                }
+                if (type2 !== '2차선택' && type2) {
+                    url += `${url.includes('?') ? '&' : '?'}type2=${encodeURIComponent(type2)}`;
+                }
+
+                window.location.href = url;
+            }
+
+            type1Select.addEventListener("change", () => {
+                updateType2Options();
+                redirectToCateType();
+            });
+
+            type2Select.addEventListener("change", redirectToCateType);
             updateType2Options();
         });
     </script>

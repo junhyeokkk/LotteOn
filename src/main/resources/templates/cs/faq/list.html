@@ -23,9 +23,9 @@
                 <li><a th:href="@{/cs/layout/faq/list?type1=쿠폰/이벤트}">쿠폰 / 이벤트</a></li>
                 <li><a th:href="@{/cs/layout/faq/list?type1=주문/결제}" >주문 / 결제</a></li>
                 <li><a th:href="@{/cs/layout/faq/list?type1=배송}">배송</a></li>
-                <li><a th:href="@{/cs/layout/faq/list?type1=취소/반품/교환}">취소 / 반품 / 교환</a></li>
+                <li><a th:href="@{/cs/layout/faq/list?type1=취소/반품/환불}">취소 / 반품 / 환불</a></li>
                 <li><a th:href="@{/cs/layout/faq/list?type1=여행/숙박/항공}">여행 / 숙박 / 항공</a></li>
-                <li><a th:href="@{/cs/layout/faq/list?type1=안전거래}">안전거래</a></li>
+                <li><a th:href="@{/cs/layout/faq/list?type1=안전결제}">안전결제</a></li>
             </ul>
         </aside>
         <article class="faq_article">
@@ -39,6 +39,9 @@
                 </div>
 
                 <!-- FAQ 목록 동적 처리 -->
+                <div th:if="${faqs.isEmpty()}">
+                    <p>현재 선택한 카테고리에 대한 자주 묻는 질문이 없습니다.</p>
+                </div>
                 <div th:each="entry : ${faqs}">
                     <script th:inline="javascript">
                         var a = /*[[${entry}]]*/ 'aaa'
@@ -52,7 +55,10 @@
                         </div>
                         <!-- 간단히 보기 / 더 보기 버튼 -->
                         <button class="simple-view" th:onclick="toggleFaqView([[${entry.key}]], 'simple')">간단히 보기</button>
-                        <button class="more-view" th:onclick="toggleFaqView([[${entry.key}]], 'more')">더 보기 <span class="count" th:text="${entry.value.size()}">0</span></button>
+                        <button class="more-view" th:onclick="toggleFaqView([[${entry.key}]], 'more')">더 보기
+                            <span class="count" th:text="${entry.value.size() > 3 ? entry.value.size() - 3 : 0}">0</span>
+                        </button>
+
                     </div>
                 </div>
             </div>

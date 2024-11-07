@@ -45,9 +45,6 @@ private final InquiryRepository inquiryRepository;
         log.info("qna size :{}",inquiries.size());
         model.addAttribute("inquiries", inquiries);
 
-//        List<InquiryDTO> inquiries = articleService.getAllInquiries(Pageable.unpaged()).getContent();
-//        model.addAttribute("inquireis", inquiries);
-
         return "cs/index";
     }
 
@@ -181,13 +178,19 @@ private final InquiryRepository inquiryRepository;
     public String listFaqs(
             @RequestParam(required = false, defaultValue = "회원") String type1,
             Model model) {
+        log.info("Requested FAQ category: {}", type1); // 요청된 type1 값 로그 출력
         Map<String, List<FaqDTO>> groupedFaqs = articleService.getFaqsGroupedByType2(type1);
+
+        // 반환된 groupedFaqs의 데이터 확인
+        groupedFaqs.forEach((key, value) -> log.info("Category: {}, FAQ count: {}", key, value.size()));
+
         model.addAttribute("type1", type1);
         model.addAttribute("group", "faq");
         model.addAttribute("cate", "list");
         model.addAttribute("faqs", groupedFaqs);
         return "cs/layout/cs_layout";
     }
+
     // 자주묻는질문 view
     @GetMapping("/cs/layout/faq/view/{id}")
     public String viewFaq(@PathVariable Long id, Model model) {
