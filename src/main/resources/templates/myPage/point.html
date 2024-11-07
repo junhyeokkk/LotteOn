@@ -10,7 +10,7 @@
   </th:block>
   <th:block layout:fragment="script">
     <script type="text/javascript" th:src="@{/js/my/searchPeriod.js}"></script>
-    <script type="text/javascript" th:src="@{/js/my/mypoint.js}"></script>
+    <script type="text/javascript" th:src="@{/js/my/myserarch.js}"></script>
   </th:block>
   <section class="content" layout:fragment="content">
     <!-- 회원정보 섹션 -->
@@ -22,7 +22,7 @@
     /></a>
     <!-- 810x86 배너 이미지 -->
     <article class="latest">
-      <h3>포인트내역</h3>
+      <h3>포인트적립내역</h3>
       <!-- 포인트내역 검색바 -->
       <div class="myinfoSearch">
 
@@ -46,12 +46,11 @@
           </div>
 
         </div>
-        <button onclick="searchOrders()">검색</button>
+        <button onclick="searchRecords('/myPage/point')">검색</button>
       </div>
 
 
       <!-- 포인트 있을 때 -->
-      <h3>포인트적립내역</h3>
       <table border="0" class="widthtable">
         <tr>
           <th><input type="checkbox" name="all" onchange="toggleAllChecks(this)" /></th>

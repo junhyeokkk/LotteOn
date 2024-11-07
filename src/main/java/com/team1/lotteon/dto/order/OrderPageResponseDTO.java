@@ -23,6 +23,7 @@ public class OrderPageResponseDTO {
     private String keyword;
 
 
+
     // 생성자 수정: builder() 메서드 대신 이 생성자를 사용
     public OrderPageResponseDTO(OrderPageRequestDTO orderPageRequestDTO, List<OrderDTO> dtoList, int total) {
         this.pg = orderPageRequestDTO.getPg();

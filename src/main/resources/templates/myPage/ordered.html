@@ -11,7 +11,7 @@
 </th:block>
 <th:block layout:fragment="script">
     <script type="text/javascript" th:src="@{/js/modal/modal.js}"></script>
-    <script type="text/javascript" th:src="@{/js/my/searchPeriod.js}"></script>
+    <script type="text/javascript" th:src="@{/js/my/myserarch.js}"></script>
 </th:block>
 
 <!-- 회원정보 섹션 -->
@@ -30,13 +30,11 @@
             <!-- 주문내역 검색바 -->
             <div class="myinfoSearch">
                 <p>기간별 조회</p>
-                <a href="/my/order">전체</a>
-                <a href="/my/order?cate=week">일주일</a>
-                <a href="/my/order?cate=halfmonth">15일</a>
-                <a href="/my/order?cate=month">1개월</a>
-                <select id="monthSelect">
-                    <productOption value="">검색 기간 선택</productOption>
-                </select>
+                <button class="period-btn" id="allButton" data-period="all">전체</button>
+                <button class="period-btn" data-period="week">일주일</button>
+                <button class="period-btn" data-period="halfmonth">15일</button>
+                <button class="period-btn" data-period="month">1개월</button>
+
                 <div class="date-wrapper">
                     <div class="start-date-wrapper">
                         시작날짜 : <input type="date" id="startDate" class="start-date" placeholder="시작 날짜 선택">
@@ -46,9 +44,9 @@
                         종료날짜 : <input type="date" id="endDate" class="end-date" placeholder="종료 날짜 선택">
                     </div>
                 </div>
-                <button onclick="searchOrders()">검색</button>
+                <button onclick="searchRecords('/myPage/ordered')">검색</button>
             </div>
-            <h3>최근주문내역</h3>
+
             <table border="0" class="widthtable">
                 <tr>
                     <th>날짜</th>
@@ -124,17 +122,20 @@
         <div class="pagingBox">
             <div class="pagingList">
                 <!-- 이전 버튼 -->
-                <a href="#" class="prev"><</a>
+                <th:block th:if="${orders.prev}">
+                    <a th:href="@{/admin/order/list(pg=${orders.pg - 1})}" class="prev">←</a>
+                </th:block>
 
                 <!-- 페이지 링크 -->
-                <a href="#">1</a>
-                <a href="#" class="active">2</a>
-                <a href="#">3</a>
-                <a href="#">4</a>
-                <a href="#">5</a>
+                <th:block th:each="num : ${#numbers.sequence(orders.start, orders.end)}">
+                    <a th:href="@{/admin/order/list(pg=${num})}" th:text="${num}"
+                       th:classappend="${orders.pg == num} ? 'active'"></a>
+                </th:block>
 
                 <!-- 다음 버튼 -->
-                <a href="#" class="next">></a>
+                <th:block th:if="${orders.next}">
+                    <a th:href="@{/admin/order/list(pg=${orders.pg + 1})}" class="next">></a>
+                </th:block>
             </div>
         </div>
     </section>

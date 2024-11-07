@@ -1,3 +1,7 @@
+<!--날짜 : 2024/11/01-->
+<!--이름 : 강유정-->
+<!--내용 : 채용 서비스 생성-->
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
@@ -17,7 +21,7 @@
 </th:block>
 
 <div class="content" layout:fragment="content">
-    <div th:replace="~{admin/include/admin_modal :: #employmodal}"></div>
+    <div th:replace="admin/include/admin_modal :: #employmodal"></div>
     <div class="dashboard">
         <div class="content_header">
             <h1>채용하기 목록</h1>
@@ -28,12 +32,12 @@
 
         <section class="sectionBox">
             <div>
-                <form action="/admin/recruit/list" class="search_bar">
+                <form action="/admin/cs/recruit/list" class="search_bar">
                     <select name="type">
-                        <option value="orderNo">번호</option>
-                        <option value="orderPosition">채용부서</option>
-                        <option value="orderType">채용형태</option>
-                        <option value="orderTitle">제목</option>
+                        <option value="recruitId">번호</option>
+                        <option value="recruitPosition">채용부서</option>
+                        <option value="recruitType">채용형태</option>
+                        <option value="recruitTitle">제목</option>
                     </select>
                     <input class="searchInput" type="text" name="keyword">
                     <input type="hidden" name="prodSeller" value="ADMIN" readonly>
@@ -54,9 +58,9 @@
                     <th>작성일</th>
                 </tr>
 
-                <tr class="admin_list" th:each="recruit : ${recruitResponses.dtoList}">
+                <tr class="admin_list" th:each="recruit,number : ${recruitResponses.dtoList}">
                     <th><input type="checkbox" class="delete-checkbox" th:value="${recruit.recruitid}" /></th>
-                    <td th:text="${recruit.recruitid}-9">120</td>
+                    <td th:text="${currentPage * newPageRequestDTO.size + number.index - 4}">번호</td>
                     <td th:text="${recruit.position}">광고사업</td>
                     <td th:text="${recruit.history}">경력 4~15년</td>
                     <td th:text="${recruit.type}">정규직</td>
