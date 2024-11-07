@@ -51,24 +51,33 @@ public class RecruitService {
 
     // 채용 select 페이징 (ADMIN) + 검색기능
     public NewPageResponseDTO<RecruitDTO> getRecruitsWithPagination(NewPageRequestDTO newPageRequestDTO) {
-        // Pageable 생성
-        Pageable pageable = newPageRequestDTO.getPageable("recruitid",false);
+        Pageable pageable = newPageRequestDTO.getPageable("recruitid", false);
+        Page<Recruit> recruitPage = recruitRepository.findAll(pageable);
 
-        Page<Recruit> recruitPage;
-        //검색 유형
         String type = newPageRequestDTO.getType();
-        //검색 키워드
         String keyword = newPageRequestDTO.getKeyword();
-        if(type != null && keyword != null && !keyword.isEmpty()) {
-            recruitPage = recruitRepository.findAll(pageable);
-        }else {
-            recruitPage = recruitRepository.findAll(pageable);
-        }
-        // Recruit 엔티티를 DTO로 변환
-        List<RecruitDTO> recruitDTOList = recruitPage.getContent().stream().map(recruit -> {
-                    RecruitDTO recruitDTO = modelMapper.map(recruit, RecruitDTO.class);
-                    return recruitDTO;
-                }).collect(Collectors.toList());
+
+        List<RecruitDTO> recruitDTOList = recruitPage.getContent()
+                .stream()
+                .filter(recruit -> {
+                    if (type == null || keyword == null || keyword.isEmpty()) {
+                        return true;
+                    }
+                    switch (type) {
+                        case "recruitId":
+                            return String.valueOf(recruit.getRecruitid()).contains(keyword);
+                        case "recruitPosition":
+                            return recruit.getPosition() != null && recruit.getPosition().contains(keyword);
+                        case "recruitType":
+                            return recruit.getType() != null && recruit.getType().contains(keyword);
+                        case "recruitTitle":
+                            return recruit.getTitle() != null && recruit.getTitle().contains(keyword);
+                        default:
+                            return true;
+                    }
+                })
+                .map(recruit -> modelMapper.map(recruit, RecruitDTO.class))
+                .collect(Collectors.toList());
 
         // 타입이 "all"인 경우 모든 데이터 가져오기
 //        if ("all".equals(newPageRequestDTO.getType())) {

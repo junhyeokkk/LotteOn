@@ -23,6 +23,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/*
+    날짜 : 2024/11/01
+    이름 : 강유정
+    내용 : 채용 컨트롤러 생성
+*/
 
 @Log4j2
 @Controller
@@ -42,11 +47,13 @@ public class RecruitController {
         newPageRequestDTO.setKeyword(keyword);
         // 검색 및 페이지네이션 처리된 결과 받기
         NewPageResponseDTO<RecruitDTO> recruitResponse = recruitService.getRecruitsWithPagination(newPageRequestDTO);
-        recruitResponse.getDtoList().get(0).getPosition();
+
+
         // 모델에 데이터 추가
         model.addAttribute("recruitResponses", recruitResponse);  // 현재 페이지 번호
         model.addAttribute("keyword", keyword);  // 검색 키워드 전달
         model.addAttribute("type", type);  // 검색 타입 전달
+        model.addAttribute("currentPage", newPageRequestDTO.getPg());  // 현재 페이지 번호 전달
         return "/admin/cs/recruit/list";  // view로 반환
     }
 
