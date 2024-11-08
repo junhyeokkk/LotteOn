@@ -54,7 +54,7 @@ public class RecruitController {
         model.addAttribute("keyword", keyword);  // 검색 키워드 전달
         model.addAttribute("type", type);  // 검색 타입 전달
         model.addAttribute("currentPage", newPageRequestDTO.getPg());  // 현재 페이지 번호 전달
-        return "/admin/cs/recruit/list";  // view로 반환
+        return "admin/cs/recruit/list";  // view로 반환
     }
 
     // 채용 등록 모달에서 데이터 저장
