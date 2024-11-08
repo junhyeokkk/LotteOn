@@ -37,6 +37,6 @@ public interface CouponTakeRepository extends JpaRepository<CouponTake, Long> {
     //발급받은 쿠폰 수량 출력
     List<CouponTake> findAllByMember_Uid(String uid);
 
-    List<CouponTake> findByCouponexpiredateBetweenAndCouponusecheck(LocalDateTime startOfYesterday, LocalDateTime endOfYesterday, int i);
+    List<CouponTake> findByCouponExpireDateBetweenAndCouponUseCheck(LocalDateTime startDate, LocalDateTime endDate, int useCheck);
 }
 
