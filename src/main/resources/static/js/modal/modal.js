@@ -202,36 +202,39 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     const reviewForm = document.querySelector("#reviewForm");
-    reviewForm.addEventListener("submit", async function(e) {
-        e.preventDefault();
+    if (reviewForm) {
+        reviewForm.addEventListener("submit", async function(e) {
+            e.preventDefault();
 
-        try {
-            const response = await fetch("/api/review", {
-                method:'post',
-                body: JSON.stringify({
-                    content:e.target.content.value,
-                    score: e.target.score.value,
-                    memberId: e.target.memberId.value,
-                    productId: e.target.productId.value
-                }),
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-            });
+            try {
+                const response = await fetch("/api/review", {
+                    method: 'post',
+                    body: JSON.stringify({
+                        content: e.target.content.value,
+                        score: e.target.score.value,
+                        memberId: e.target.memberId.value,
+                        productId: e.target.productId.value
+                    }),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                });
 
-            if(!response.ok)
-            {
-                alert("리뷰 등록에 실패했습니다.")
+                if (!response.ok) {
+                    alert("리뷰 등록에 실패했습니다.");
+                } else {
+                    alert("리뷰 등록 성공!!");
+                }
+            } catch (error) {
+                alert("리뷰 등록에 실패했습니다.");
+                console.error("Review Create Error:", error);
+            } finally {
+                closeModal("reviewModal");
             }
-
-            alert("리뷰 등록 성공!!")
-        }catch (e) {
-            alert("리뷰 등록에 실패했습니다.")
-            console.error("Review Create Error :",e)
-        }finally {
-            closeModal("reviewModal")
-        }
-    })
+        });
+    } else {
+        console.warn("#reviewForm 요소를 찾을 수 없습니다.");
+    }
 
     // 쿠폰 정보를 모달에 업데이트하는 함수 (동적 업데이트)
     function updateCouponInfoInModal(coupon) {

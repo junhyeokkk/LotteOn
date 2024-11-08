@@ -25,6 +25,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -169,5 +171,31 @@ public class CouponService {
     //쿠폰 삭제하기 기능
     public void deleteCouponById(Long id) {
         couponRepository.deleteById(id);
+    }
+
+    public void checkCoupons() {
+        LocalDateTime startOfToday = LocalDate.now().atStartOfDay();
+        LocalDateTime endOfToday = startOfToday.withHour(23).withMinute(59).withSecond(59).withNano(999999999);
+
+        LocalDateTime startOfYesterday = LocalDate.now().minusDays(1).atStartOfDay();
+        LocalDateTime endOfYesterday = startOfYesterday.withHour(23).withMinute(59).withSecond(59).withNano(999999999);
+
+        // 조건에 맞는 쿠폰만 조회
+        List<Coupon> coupons = couponRepository.findByCouponstartBetweenOrCouponendBetween(
+                startOfToday, endOfToday,
+                startOfYesterday, endOfYesterday
+        );
+
+        // 상태 변경
+        for (Coupon coupon : coupons) {
+            if (coupon.getCouponstart().toLocalDate().isEqual(LocalDate.now())) {
+                coupon.setCouponstate("start");
+            } else if (coupon.getCouponend().toLocalDate().isEqual(LocalDate.now().minusDays(1))) {
+                coupon.setCouponstate("stopped");
+            }
+        }
+
+        // 변경 사항 저장
+        couponRepository.saveAll(coupons);
     }
 }

@@ -3,6 +3,8 @@ package com.team1.lotteon.scheduling;
 import com.team1.lotteon.entity.GeneralMember;
 import com.team1.lotteon.repository.Memberrepository.GeneralMemberRepository;
 import com.team1.lotteon.service.PointService;
+import com.team1.lotteon.service.admin.CouponService;
+import com.team1.lotteon.service.admin.CouponTakeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,8 @@ public class SchedulingService {
     public static final int STATUS_ACTIVE = 1;     // 정상 상태
     public static final int STATUS_INACTIVE = 3;     // 휴면 상태
     private final PointService pointService;
+    private final CouponService couponService;
+    private final CouponTakeService couponTakeService;
 
 
     @Scheduled(cron = "0 0 0 * * ?") // 매일 자정에 실행
@@ -57,9 +61,18 @@ public class SchedulingService {
     }
 
     // 포인트 만료 처리 (매일 자정 실행)
-    @Scheduled(cron = "0 0 0 * * ?")
+    @Scheduled(cron = "1 0 0 * * ?")
     public void expirePoints() {
         pointService.expirePoints(); // 포인트 만료 처리 메서드 호출
         System.out.println("만료된 포인트가 처리되었습니다.");
     }
+    @Scheduled(cron = "1 0 0 * * ?")
+    public void Coupons() {
+        couponService.checkCoupons();
+    }
+    @Scheduled(cron = "1 0 0 * * ?")
+    public void CouponTakes() {
+        couponTakeService.checkCouponTakes();
+    }
+
 }

@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -30,4 +31,5 @@ public interface CouponRepository extends JpaRepository<Coupon, Long> {
     Page<Coupon> findByMemberUid(String uid, Pageable pageable);
     Page<Coupon> findByMemberUidIn(List<String> uids, Pageable pageable);
 
+    List<Coupon> findByCouponstartBetweenOrCouponendBetween(LocalDateTime startOfToday, LocalDateTime endOfToday, LocalDateTime startOfYesterday, LocalDateTime endOfYesterday);
 }
