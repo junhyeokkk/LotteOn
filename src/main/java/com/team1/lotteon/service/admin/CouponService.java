@@ -160,13 +160,15 @@ public class CouponService {
     }
     
     //상점 아이디를 활용해서 쿠폰 정보 가지고 오기
+    //2024/11/08 이도영 상점 아이디 + 쿠폰 상태 로 변경
     public List<Coupon> findCouponsByMemberId(String memberId) {
-        log.info("dsfaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-        // memberId로 쿠폰을 조회하여 전체 엔티티를 반환
-        List<Coupon> DDD = couponRepository.findByMember_Uid(memberId);
-        log.info("adfsdfsafda" + DDD.toString());
+        log.info("조회 시작 - memberId로 'start' 상태 쿠폰 검색");
 
-        return DDD;
+        // 'start' 상태의 쿠폰 조회
+        List<Coupon> coupons = couponRepository.findByMember_UidAndCouponstate(memberId, "start");
+        log.info("조회 결과: " + coupons.toString());
+
+        return coupons;
     }
     //쿠폰 삭제하기 기능
     public void deleteCouponById(Long id) {

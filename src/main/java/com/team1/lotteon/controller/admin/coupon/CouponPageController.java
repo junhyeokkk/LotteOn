@@ -20,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -33,6 +34,7 @@ import java.util.List;
       - 2024/10/30 이도영 - 쿠폰 개별 출력
       - 2024/11/01 이도영 - 다운로드한 쿠폰 출력
       - 2024/11/05 이도영 - 쿠폰삭제, 관리자와 판매자에 따라 쿠폰 정보 출력 변경
+      - 2024/11/08 이도영 - 쿠폰 등록일이 오늘이면 시작으로 변경
 */
 @Log4j2
 @Controller
@@ -91,8 +93,14 @@ public class CouponPageController {
         coupon.setMember(member); // 쿠폰에 발급자 설정
         coupon.setCoupongive(0L);
         coupon.setCouponuse(0L);
-        coupon.setCouponstate("ready");
-        // 4. 쿠폰 저장
+        // 4. startDateTime이 오늘이라면 couponstate를 "start"로 설정
+        if (startDateTime.toLocalDate().isEqual(LocalDate.now())) {
+            coupon.setCouponstate("start");
+        } else {
+            coupon.setCouponstate("ready");
+        }
+
+        // 5. 쿠폰 저장
         couponService.insertCoupon(coupon);
 
         // 5. 성공 메시지를 추가하고, 리다이렉션 또는 뷰 반환

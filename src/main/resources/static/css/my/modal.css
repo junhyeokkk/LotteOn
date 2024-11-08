@@ -362,6 +362,7 @@
 .modal input[type="text"],
 .modal input[type="date"],
 .modal input[type="password"],
+.modal input[type="email"],
 .modal select
 {
     height: 30px;
@@ -385,6 +386,7 @@
 .admin input[type="text"]:focus,
 .admin input[type="date"]:focus,
 .admin input[type="password"]:focus,
+.modal input[type="email"]:focus,
 .admin select:focus,
 .admin textarea:focus{
     outline: none; /* 기본 아웃라인 제거 */

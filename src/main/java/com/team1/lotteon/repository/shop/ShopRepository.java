@@ -14,6 +14,8 @@ import com.team1.lotteon.entity.Shop;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -39,6 +41,11 @@ public interface ShopRepository extends JpaRepository<Shop, Long> , ShopReposito
     //판매자 의 이름과 이메일 검색
 
     Shop findByRepresentativeAndEmail(String name, String email);
-
-
+    //통신 판매자 번호 검색
+    @Query("SELECT COUNT(s.id) > 0 FROM Shop s WHERE s.eCommerceRegistration = :eco")
+    boolean existsByECommerceRegistration(@Param("eco") String eco);
+    //전화 번호 존재 여부 검색
+    boolean existsByph(String ph);
+    //팩스 번호 존재 여부 검색
+    boolean existsByFax(String fax);
 }

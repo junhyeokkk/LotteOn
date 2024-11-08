@@ -576,9 +576,11 @@
         </nav>
         <section class="modal-section">
             <h3>사용가능한 쿠폰</h3>
-            
+            <div th:if="${coupondatas.size() == 0}">
+                <p>사용 가능한 쿠폰이 없습니다.</p>
+            </div>
             <!-- 배송지 카드 -->
-            <div th:each="coupon : ${coupondatas}" class="delivery-card">
+            <div th:each="coupon : ${coupondatas}" th:unless="${coupondatas.size() == 0}" class="delivery-card">
                 <div class="delivery-card-header">
                     <div class="delivery-title">
                         <strong th:text="${coupon.couponname}">쿠폰 이름</strong>

@@ -433,8 +433,17 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     document.querySelectorAll('.download-coupon-btn').forEach(button => {
         button.addEventListener('click', function() {
-            const couponId = this.getAttribute('data-coupon-id');
             const memberId = this.getAttribute('data-member-id');
+            // memberId가 null 또는 없을 경우 로그인 페이지로 이동 안내
+            if (!memberId) {
+                const goToLogin = confirm("로그인 이후 쿠폰을 다운받을 수 있습니다. 로그인 페이지로 이동하시겠습니까?");
+                if (goToLogin) {
+                    window.location.href = "/user/login";
+                }
+                return;
+            }
+
+            const couponId = this.getAttribute('data-coupon-id');
             const shopId = this.getAttribute('data-shop-id');
             console.log("couponId: " + couponId);
             console.log("memberId: " + memberId);
@@ -468,13 +477,22 @@ document.addEventListener('DOMContentLoaded', function () {
     const saveButton = document.querySelector('.save-button');
     if (saveButton) {
         saveButton.addEventListener('click', function() {
+            //2024/11/08 이도영 비로그인 쿠폰 사용 처리
+            const memberId = document.querySelector('.download-coupon-btn').getAttribute('data-member-id');
+            if (!memberId) {
+                const goToLogin = confirm("로그인 이후 쿠폰을 다운받을 수 있습니다. 로그인 페이지로 이동하시겠습니까?");
+                if (goToLogin) {
+                    window.location.href = "/user/login";
+                }
+                return;
+            }
             // 모든 쿠폰 ID 수집
             const couponIds = Array.from(document.querySelectorAll('.download-coupon-btn')).map(button =>
                 button.getAttribute('data-coupon-id')
             );
 
-            const memberId = document.querySelector('.download-coupon-btn').getAttribute('data-member-id');
             const shopId = document.querySelector('.download-coupon-btn').getAttribute('data-shop-id');
+            // memberId가 null 또는 없을 경우 로그인 페이지로 이동 안내
 
             // 서버로 요청 보내기
             fetch(`/coupontake/all/${memberId}/${shopId}?couponIds=` + couponIds.join(','), {

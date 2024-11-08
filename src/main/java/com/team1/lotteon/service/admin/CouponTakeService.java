@@ -309,11 +309,11 @@ public class CouponTakeService {
                 .orElse(false);
     }
     //2024/11/06 이도영 나의정보에서 다운로드한 쿠폰 수 출력
+    //2024/11/08 이도영 나의정보에서 다운로드한 쿠폰중 사용하지 않는 내용만 출력
     public int getCouponCountByUserId(String memberId) {
-        List<CouponTake> coupons = couponTakeRepository.findAllByMember_Uid(memberId);
+        List<CouponTake> coupons = couponTakeRepository.findAllByMember_UidAndCouponUseCheck(memberId, 0);
         return coupons.size();
     }
-
     public void checkCouponTakes() {
         LocalDateTime startOfYesterday = LocalDate.now().minusDays(1).atStartOfDay();
         LocalDateTime endOfYesterday = LocalDate.now().minusDays(1).atTime(23, 59, 59, 999999999);
@@ -329,5 +329,20 @@ public class CouponTakeService {
 
         // 변경된 쿠폰 정보를 DB에 저장
         couponTakeRepository.saveAll(coupons);
+    }
+
+    public List<CouponTakeDTO> findCouponsByMemberIdAndCouponUseCheck(String memberId) {
+        // Repository에서 CouponTake 엔티티 리스트를 가져옴
+        List<CouponTake> coupons = couponTakeRepository.findByMember_UidAndCouponUseCheck(memberId, 0);
+
+        // CouponTake 엔티티 리스트를 CouponTakeDTO 리스트로 변환하여 반환
+        return coupons.stream()
+                .map(coupon -> new CouponTakeDTO(
+                        coupon.getCoupon().getCouponname(),
+                        coupon.getCoupon().getCoupondiscount(),
+                        coupon.getShop() != null ? coupon.getShop().getShopName() : "모든 상점 이용 가능",
+                        coupon.getCouponExpireDate()
+                ))
+                .collect(Collectors.toList());
     }
 }

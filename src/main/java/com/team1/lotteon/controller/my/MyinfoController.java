@@ -123,11 +123,12 @@ public class MyinfoController {
         return ResponseEntity.ok("탈퇴가 성공적으로 처리되었습니다. 이용해 주셔서 감사합니다.");
     }
     //멤버 아이디를 가지고 와서 쿠폰 정보 출력
+    //2024/11/08 이도영 사용자 아이디와 사용 여부에 따라 출력 변경
     @GetMapping("/coupon/{memberid}")
-    public String getPagedCouponsByMemberId(
-            @PathVariable String memberid, Pageable pageable, Model model) {
-        Page<CouponTakeDTO> coupons = couponTakeService.findPagedCouponsByMemberId(memberid, pageable);
-        // Model에 페이징된 데이터 추가
+    public String getCouponsByMemberId(
+            @PathVariable String memberid, Model model) {
+        List<CouponTakeDTO> coupons = couponTakeService.findCouponsByMemberIdAndCouponUseCheck(memberid);
+        // Model에 쿠폰 데이터 추가
         model.addAttribute("coupons", coupons);
         // 뷰 리턴
         return "myPage/coupon";

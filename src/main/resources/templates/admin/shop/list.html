@@ -4,7 +4,9 @@
     내용 : 상점목록
     수정이력
         - 2024/10/21 최준혁,김소희 - html 작성
-        - 2024/10/28 이도영 - 상점 목록 출력 + Page 정리-->
+        - 2024/10/28 이도영 - 상점 목록 출력 + Page 정리
+        - 2024/11/08 이도영 상점이 없으면 출력되지 않는 현상 처리
+-->
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
@@ -21,9 +23,9 @@
     <script th:src="@{//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js}"></script>
     <script th:src="@{/js/login/postcode.js}"></script>
     <script th:src="@{/js/login/utils.js}"></script>
-    <script th:src="@{/js/login/validationSeller.js}"></script>
     <script th:src="@{/js/shop/deleteShop.js}"></script>
     <script type="text/javascript" th:src="@{/js/modal/modal.js}"></script>
+    <script th:src="@{/js/login/validationSeller.js}"></script>
 </th:block>
 
 <div class="content" layout:fragment="content">
@@ -73,12 +75,12 @@
                 </tr>
                 <tr class="admin_list" th:each="shop, stat : ${shopdtos.getDtoList()}" th:if="${shopdtos != null}">
                     <td><input type="checkbox" value="noticeNo" name="RowCheck" th:value="${shop.id}"/></td>
-                    <td>[[${shop.shopNumber}]]</td> <!-- 연속적인 번호 -->
-                    <td>[[${shop.shopName}]]</td>
-                    <td>[[${shop.representative}]]</td>
-                    <td>[[${shop.businessRegistration}]]</td>
-                    <td>[[${shop.eCommerceRegistration}]]</td>
-                    <td>[[${shop.ph}]]</td>
+                    <td th:text="${shop.shopNumber}">연속적인 번호</td> <!-- 연속적인 번호 -->
+                    <td th:text="${shop.shopName}">상점 이름</td>
+                    <td th:text="${shop.representative}">대표자</td>
+                    <td th:text="${shop.businessRegistration}">사업자 등록번호</td>
+                    <td th:text="${shop.eCommerceRegistration}">전자상거래 등록번호</td>
+                    <td th:text="${shop.ph}">전화번호</td>
                     <td th:style="${shop.isActive == 1 ? 'color:green' : shop.isActive == 0 ? 'color:blue' : 'color:red'}">
                         ●
                     </td>
