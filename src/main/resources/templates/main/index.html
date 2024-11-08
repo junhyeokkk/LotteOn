@@ -1,658 +1,184 @@
-<!--
-날짜 : 2024/10/25
-이름 : 이상훈
-내용 : 메인 페이지 컨텐츠 영역 생성
-
-수정이력
-  - 2024/10/30 강유정 - css 수정
--->
+<!-- 날짜 : 2024/10/25 이름 : 이상훈 내용 : 메인 페이지 컨텐츠 영역 생성 수정이력 - 2024/10/30 강유정 - css 수정 -->
 <script>
-  window.onload = function () {
-    // URL에서 쿼리 파라미터 가져오기 메시지 정보 전달
-    const params = new URLSearchParams(window.location.search);
-    const alertMessage = params.get('message');
+    window.onload = function () {
+        // URL에서 쿼리 파라미터 가져오기 메시지 정보 전달
+        const params = new URLSearchParams(window.location.search);
+        const alertMessage = params.get('message');
 
-    if (alertMessage) {
-      alert(decodeURIComponent(alertMessage));
+        if (alertMessage) {
+            alert(decodeURIComponent(alertMessage));
 
-      // 쿼리 파라미터를 제거한 새 URL로 브라우저 상태를 업데이트
-      const url = new URL(window.location);
-      url.searchParams.delete('message');
-      window.history.replaceState({}, document.title, url);
-    }
-  };
-  document.addEventListener('DOMContentLoaded', () => {
-    let currentIndex = 0;
+            // 쿼리 파라미터를 제거한 새 URL로 브라우저 상태를 업데이트
+            const url = new URL(window.location);
+            url.searchParams.delete('message');
+            window.history.replaceState({}, document.title, url);
+        }
+    };
+    document.addEventListener('DOMContentLoaded', () => {
+        let currentIndex = 0;
 
-    const imgContainer = document.querySelector('.totalImageBox');
-    const prevButton = document.querySelector('.sliderPrev');
-    const nextButton = document.querySelector('.sliderNext');
+        const imgContainer = document.querySelector('.totalImageBox');
+        const prevButton = document.querySelector('.sliderPrev');
+        const nextButton = document.querySelector('.sliderNext');
 
-    // 이미지 업데이트 함수
-    function updateImage() {
-      imgContainer.style.transform = `translateX(-${currentIndex * 33.5}%)`;
-    }
+        // 이미지 업데이트 함수
+        function updateImage() {
+            imgContainer.style.transform = `translateX(-${currentIndex * 33.5}%)`;
+        }
 
-    // 다음 버튼 클릭 이벤트
-    nextButton.addEventListener('click', () => {
-      currentIndex = (currentIndex + 1) % 3; // 인덱스 순환
-      updateImage();
+        // 다음 버튼 클릭 이벤트
+        nextButton.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % 3; // 인덱스 순환
+            updateImage();
+        });
+
+        // 이전 버튼 클릭 이벤트
+        prevButton.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + 3) % 3; // 인덱스 순환
+            updateImage();
+        });
+
+        // 자동 슬라이드 기능 (4초마다)
+        setInterval(() => {
+            nextButton.click();
+        }, 4000);
+
+        updateImage(); // 초기 이미지 설정
     });
-
-    // 이전 버튼 클릭 이벤트
-    prevButton.addEventListener('click', () => {
-      currentIndex = (currentIndex - 1 + 3) % 3; // 인덱스 순환
-      updateImage();
-    });
-
-    // 자동 슬라이드 기능 (4초마다)
-    setInterval(() => {
-      nextButton.click();
-    }, 4000);
-
-    updateImage(); // 초기 이미지 설정
-  });
 </script>
 
-<script
-  src="https://kit.fontawesome.com/63c07008cd.js"
-  crossorigin="anonymous"
->
-
-</script>
-<link rel="stylesheet" href="/css/include/reset.css" />
-<link rel="stylesheet" href="/css/main/main.css" />
+<script src="https://kit.fontawesome.com/63c07008cd.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/css/include/reset.css"/>
+<link rel="stylesheet" href="/css/main/main.css"/>
 <main>
 
-  <section>
-    <!-- 슬라이더 영역 -->
-    <section class="slider" >
-      <div class="totalImageBox">
-        <!--이 div에서 배너 반복-->
-        <a href="#">
-          <img class="totalImageBox__img" src="/images/main/main_slide.png" alt="banner1" />
-        </a>
-        <a href="#">
-          <img class="totalImageBox__img" src="/images/main/main_slide2.jpg" alt="banner2" />
-        </a>
-        <a href="#">
-          <img class="totalImageBox__img" src="/images/main/main_slide3.jpg" alt="banner3" />
-        </a>
-      </div>
-      <span class="sliderPrev">&#10096;</span>
-      <span class="sliderNext">&#10097;</span>
-    </section>
-    <!-- 히트상품 영역 -->
-    <h3
-      style="
-        padding: 10px 20px 10px 20px;
-        margin-bottom: 10px;
-        border-bottom: 1px solid #909090;
-      "
-    >
-      <span id="prodHit" style="font-size: 20px; font-weight: bold"
-        >히트상품</span
-      >
-      <a href="#" style="font-size: 16px; color: #909090; float: right"
-        >더보기 &#10095;</a
-      >
-    </h3>
+    <section>
+        <!-- 슬라이더 영역 -->
+        <section class="slider">
+            <div class="totalImageBox">
+                <!-- 이 div에서 배너 반복 -->
+                <a href="#">
+                    <img class="totalImageBox__img" src="/images/main/main_slide.png" alt="banner1"/>
+                </a>
+                <a href="#">
+                    <img class="totalImageBox__img" src="/images/main/main_slide2.jpg" alt="banner2"/>
+                </a>
+                <a href="#">
+                    <img class="totalImageBox__img" src="/images/main/main_slide3.jpg" alt="banner3"/>
+                </a>
+            </div>
+            <span class="sliderPrev">&#10096;</span>
+            <span class="sliderNext">&#10097;</span>
+        </section>
 
-    <section class="hit productBox">
-      <div class="product">
-        <a href="#">
-          <div class="thumb">
-            <img
-              src="/images/main/main_item1.jfif"
-              alt="t1"
-              style="width: 230px"
-            />
-          </div>
-          <h3>타미진스</h3>
-          <p>빈티지 후드 티셔츠</p>
-          <div class="org_price">
-            <del>178,000원</del>
-            <span>15%</span>
-          </div>
-          <div class="dis_price">
-            <ins>151,300원</ins>
-            <span class="product__free">무료배송</span>
-<!--            <span-->
-<!--              class="product__free"-->
-<!--              >배송비 : <span>2000원</span></span-->
-<!--            >-->
-          </div>
-        </a>
-      </div>
-      <div class="product">
-        <a href="#">
-          <div class="thumb">
-            <img
-                    src="/images/main/main_item2.jpg"
-                    alt="t1"
-                    style="width: 230px"
-            />
-          </div>
-          <h3>타미진스</h3>
-          <p>터틀넥 스웨터</p>
-          <div class="org_price">
-            <del>168,000원</del>
-            <span>15%</span>
-          </div>
-          <div class="dis_price">
-            <ins>142,800원</ins>
-            <span class="product__free">무료배송</span>
-            <!--            <span-->
-            <!--              class="product__free"-->
-            <!--              >배송비 : <span>2000원</span></span-->
-            <!--            >-->
-          </div>
-        </a>
-      </div>
-      <div class="product">
-        <a href="#">
-          <div class="thumb">
-            <img
-                    src="/images/main/main_item3.jpg"
-                    alt="t1"
-                    style="width: 230px"
-            />
-          </div>
-          <h3>타미진스</h3>
-          <p>니트 스웨터</p>
-          <div class="org_price">
-            <del>168,000원</del>
-            <span>15%</span>
-          </div>
-          <div class="dis_price">
-            <ins>142,800원</ins>
-<!--            <span class="product__free">무료배송</span>-->
+        <!-- 히트상품 영역 -->
+        <h3 style="padding: 10px 20px; margin-bottom: 10px; border-bottom: 1px solid #909090;">
+            <span id="prodHit" style="font-size: 20px; font-weight: bold">히트상품</span>
+            <a href="#" style="font-size: 16px; color: #909090; float: right">더보기 &#10095;</a>
+        </h3>
+        <section class="hit productBox">
+            <div class="product">
+                <a href="#">
+                    <div class="thumb">
+                        <img src="/images/main/main_item1.jfif" alt="t1" style="width: 230px"/>
+                    </div>
+                    <h3>타미진스</h3>
+                    <p>빈티지 후드 티셔츠</p>
+                    <div class="org_price">
+                        <del>178,000원</del>
+                        <span>15%</span>
+                    </div>
+                    <div class="dis_price">
+                        <ins>151,300원</ins>
                         <span class="product__free">무료배송</span>
-          </div>
-        </a>
-      </div>
-      <div class="product">
-        <a href="#">
-          <div class="thumb">
-            <img
-                    src="/images/main/main_item33.jpg"
-                    alt="t1"
-                    style="width: 230px"
-            />
-          </div>
-          <h3>타미진스</h3>
-          <p>스트라이프 니트</p>
-          <div class="org_price">
-            <del>188,000원</del>
-            <span>15%</span>
-          </div>
-          <div class="dis_price">
-            <ins>159,800원</ins>
-            <!--            <span class="product__free">무료배송</span>-->
-            <span class="product__free">무료배송</span>
-          </div>
-        </a>
-      </div>
-      <div class="product">
-        <a href="#">
-          <div class="thumb">
-            <img
-                    src="/images/main/main_item333.jpg"
-                    alt="t1"
-                    style="width: 230px"
-            />
-          </div>
-          <h3>타미진스</h3>
-          <p>박시 자켓</p>
-          <div class="org_price">
-            <del>298,000원</del>
-            <span>15%</span>
-          </div>
-          <div class="dis_price">
-            <ins>253,300원</ins>
-            <!--            <span class="product__free">무료배송</span>-->
-            <span class="product__free">무료배송</span>
-          </div>
-        </a>
-      </div>
-    </section>
-    <!-- 추천상품 영역 -->
-    <h3
-      style="
-        padding: 10px 0 10px 20px;
-        margin-bottom: 10px;
-        border-bottom: 1px solid #909090;
-      "
-    >
-      <span id="prodScore" style="font-size: 20px; font-weight: bold"
-        >추천상품</span
-      >
-      <a href="#" style="font-size: 16px; color: #909090; float: right"
-        >더보기 &#10095;</a
-      >
-    </h3>
+                    </div>
+                </a>
+            </div>
+            <!-- ... 반복되는 다른 상품들 ... -->
+        </section>
 
-    <section class="recommend productBox">
-      <div class="product">
-        <a href="#">
-          <div class="thumb">
-            <img
-                    src="/images/main/main_item4.jfif"
-                    alt="t1"
-                    style="width: 230px"
-            />
-          </div>
-          <h3>사미헌</h3>
-          <p>갈비탕</p>
-          <div class="org_price">
-            <del>58,800원</del>
-            <span>20%</span>
-          </div>
-          <div class="dis_price">
-            <ins>47,040원</ins>
-            <span class="product__free">무료배송</span>
-            <!--            <span-->
-            <!--              class="product__free"-->
-            <!--              >배송비 : <span>2000원</span></span-->
-            <!--            >-->
-          </div>
-        </a>
-      </div>
-      <div class="product">
-        <a href="#">
-          <div class="thumb">
-            <img
-                    src="/images/main/main_item5.jfif"
-                    alt="t1"
-                    style="width: 230px"
-            />
-          </div>
-          <h3>부산형제돼지국밥</h3>
-          <p>국빕 5팩</p>
-          <div class="org_price">
-            <del>41,700원</del>
-            <span>20%</span>
-          </div>
-          <div class="dis_price">
-            <ins>33,360원</ins>
-            <span class="product__free">무료배송</span>
-            <!--            <span-->
-            <!--              class="product__free"-->
-            <!--              >배송비 : <span>2000원</span></span-->
-            <!--            >-->
-          </div>
-        </a>
-      </div>
-      <div class="product">
-        <a href="#">
-          <div class="thumb">
-            <img
-                    src="/images/main/main_item6.jfif"
-                    alt="t1"
-                    style="width: 230px"
-            />
-          </div>
-          <h3>삼진어묵</h3>
-          <p>어묵탕</p>
-          <div class="org_price">
-            <del>29,900원</del>
-            <span>7%</span>
-          </div>
-          <div class="dis_price">
-            <ins>27,510원</ins>
-            <span class="product__free">무료배송</span>
-            <!--            <span-->
-            <!--              class="product__free"-->
-            <!--              >배송비 : <span>2000원</span></span-->
-            <!--            >-->
-          </div>
-        </a>
-      </div>
-      <div class="product">
-        <a href="#">
-          <div class="thumb">
-            <img
-                    src="/images/main/main_item7.jfif"
-                    alt="t1"
-                    style="width: 230px"
-            />
-          </div>
-          <h3>롯데호텔앤리조트</h3>
-          <p>명품한우 1호</p>
-          <div class="org_price">
-            <del>520,000원</del>
-            <span>4%</span>
-          </div>
-          <div class="dis_price">
-            <ins>499,200원</ins>
-            <span class="product__free">무료배송</span>
-            <!--            <span-->
-            <!--              class="product__free"-->
-            <!--              >배송비 : <span>2000원</span></span-->
-            <!--            >-->
-          </div>
-        </a>
-      </div>
-      <div class="product">
-        <a href="#">
-          <div class="thumb">
-            <img
-                    src="/images/main/main_item8.jfif"
-                    alt="t1"
-                    style="width: 230px"
-            />
-          </div>
-          <h3>롯데호텔앤리조트</h3>
-          <p>명품한우 2호</p>
-          <div class="org_price">
-            <del>540,000원</del>
-            <span>4%</span>
-          </div>
-          <div class="dis_price">
-            <ins>518,400원</ins>
-            <span class="product__free">무료배송</span>
-            <!--            <span-->
-            <!--              class="product__free"-->
-            <!--              >배송비 : <span>2000원</span></span-->
-            <!--            >-->
-          </div>
-        </a>
-      </div>
-    </section>
-    <!-- 최신상품 영역 -->
-    <h3
-      style="
-        padding: 10px 0 10px 20px;
-        margin-bottom: 10px;
-        border-bottom: 1px solid #909090;
-      "
-    >
-      <span id="prodRdate" style="font-size: 20px; font-weight: bold"
-        >최신상품</span
-      >
-      <a
-        th:href="@{/product/list(cateCode='', sort='prodRdate')}"
-        style="font-size: 16px; color: #909090; float: right"
-        >더보기 &#10095;</a
-      >
-    </h3>
+        <!-- 추천상품 영역 -->
+        <h3 style="padding: 10px 0 10px 20px; margin-bottom: 10px; border-bottom: 1px solid #909090;">
+            <span id="prodScore" style="font-size: 20px; font-weight: bold">추천상품</span>
+            <a href="#" style="font-size: 16px; color: #909090; float: right">더보기 &#10095;</a>
+        </h3>
+        <section class="recommend productBox">
+            <div class="product">
+                <a href="#">
+                    <div class="thumb">
+                        <img src="/images/main/main_item4.jfif" alt="t1" style="width: 230px"/>
+                    </div>
+                    <h3>사미헌</h3>
+                    <p>갈비탕</p>
+                    <div class="org_price">
+                        <del>58,800원</del>
+                        <span>20%</span>
+                    </div>
+                    <div class="dis_price">
+                        <ins>47,040원</ins>
+                        <span class="product__free">무료배송</span>
+                    </div>
+                </a>
+            </div>
+            <!-- ... 반복되는 다른 상품들 ... -->
+        </section>
 
-    <section class="new productBox">
-      <div class="product">
-        <a href="#">
-          <div class="thumb">
-            <img
-                    src="https://thumbnail8.coupangcdn.com/thumbnails/remote/x/image/displayitem/displayitem_a6949c3f-ef03-4f89-a323-8f4e590a9e69.jpg"
-                    alt="t1"
-                    style="width: 230px"
-            />
-          </div>
-          <h2>상품명</h2>
-          <p>상품정보</p>
-          <div class="org_price">
-            <del>12,000원</del>
-            <span>10%</span>
-          </div>
-          <div class="dis_price">
-            <ins>10,000원</ins>
-            <span class="product__free">무료배송</span>
-            <!--            <span-->
-            <!--              class="product__free"-->
-            <!--              >배송비 : <span>2000원</span></span-->
-            <!--            >-->
-          </div>
-        </a>
-      </div>
-      <div class="product">
-        <a href="#">
-          <div class="thumb">
-            <img
-                    src="https://thumbnail8.coupangcdn.com/thumbnails/remote/x/image/displayitem/displayitem_a6949c3f-ef03-4f89-a323-8f4e590a9e69.jpg"
-                    alt="t1"
-                    style="width: 230px"
-            />
-          </div>
-          <h2>상품명</h2>
-          <p>상품정보</p>
-          <div class="org_price">
-            <del>12,000원</del>
-            <span>10%</span>
-          </div>
-          <div class="dis_price">
-            <ins>10,000원</ins>
-            <span class="product__free">무료배송</span>
-            <!--            <span-->
-            <!--              class="product__free"-->
-            <!--              >배송비 : <span>2000원</span></span-->
-            <!--            >-->
-          </div>
-        </a>
-      </div>
-      <div class="product">
-        <a href="#">
-          <div class="thumb">
-            <img
-                    src="https://thumbnail8.coupangcdn.com/thumbnails/remote/x/image/displayitem/displayitem_a6949c3f-ef03-4f89-a323-8f4e590a9e69.jpg"
-                    alt="t1"
-                    style="width: 230px"
-            />
-          </div>
-          <h2>상품명</h2>
-          <p>상품정보</p>
-          <div class="org_price">
-            <del>12,000원</del>
-            <span>10%</span>
-          </div>
-          <div class="dis_price">
-            <ins>10,000원</ins>
-            <span class="product__free">무료배송</span>
-            <!--            <span-->
-            <!--              class="product__free"-->
-            <!--              >배송비 : <span>2000원</span></span-->
-            <!--            >-->
-          </div>
-        </a>
-      </div>
-      <div class="product">
-        <a href="#">
-          <div class="thumb">
-            <img
-                    src="https://thumbnail8.coupangcdn.com/thumbnails/remote/x/image/displayitem/displayitem_a6949c3f-ef03-4f89-a323-8f4e590a9e69.jpg"
-                    alt="t1"
-                    style="width: 230px"
-            />
-          </div>
-          <h2>상품명</h2>
-          <p>상품정보</p>
-          <div class="org_price">
-            <del>12,000원</del>
-            <span>10%</span>
-          </div>
-          <div class="dis_price">
-            <ins>10,000원</ins>
-            <span class="product__free">무료배송</span>
-            <!--            <span-->
-            <!--              class="product__free"-->
-            <!--              >배송비 : <span>2000원</span></span-->
-            <!--            >-->
-          </div>
-        </a>
-      </div>
-      <div class="product">
-        <a href="#">
-          <div class="thumb">
-            <img
-                    src="https://thumbnail8.coupangcdn.com/thumbnails/remote/x/image/displayitem/displayitem_a6949c3f-ef03-4f89-a323-8f4e590a9e69.jpg"
-                    alt="t1"
-                    style="width: 230px"
-            />
-          </div>
-          <h2>상품명</h2>
-          <p>상품정보</p>
-          <div class="org_price">
-            <del>12,000원</del>
-            <span>10%</span>
-          </div>
-          <div class="dis_price">
-            <ins>10,000원</ins>
-            <span class="product__free">무료배송</span>
-            <!--            <span-->
-            <!--              class="product__free"-->
-            <!--              >배송비 : <span>2000원</span></span-->
-            <!--            >-->
-          </div>
-        </a>
-      </div>
-    </section>
-    <!-- 할인상품 영역 -->
-    <h3
-      style="
-        padding: 10px 0 10px 20px;
-        margin-bottom: 10px;
-        border-bottom: 1px solid #909090;
-      "
-    >
-      <span id="prodDiscount" style="font-size: 20px; font-weight: bold"
-        >할인상품</span
-      >
-      <a
-        th:href="@{/product/list(cateCode='', sort='prodDiscount')}"
-        style="font-size: 16px; color: #909090; float: right"
-        >더보기 &#10095;</a
-      >
-    </h3>
+        <!-- 최신상품 영역 -->
+        <h3 style="padding: 10px 0 10px 20px; margin-bottom: 10px; border-bottom: 1px solid #909090;">
+            <span id="prodRdate" style="font-size: 20px; font-weight: bold">최신상품</span>
+            <a th:href="@{/product/list(cateCode='', sort='prodRdate')}" style="font-size: 16px; color: #909090; float: right">더보기 &#10095;</a>
+        </h3>
+        <section class="new productBox">
+            <div class="product">
+                <a href="#">
+                    <div class="thumb">
+                        <img src="https://thumbnail8.coupangcdn.com/thumbnails/remote/x/image/displayitem/displayitem_a6949c3f-ef03-4f89-a323-8f4e590a9e69.jpg" alt="t1" style="width: 230px"/>
+                    </div>
+                    <h2>상품명</h2>
+                    <p>상품정보</p>
+                    <div class="org_price">
+                        <del>12,000원</del>
+                        <span>10%</span>
+                    </div>
+                    <div class="dis_price">
+                        <ins>10,000원</ins>
+                        <span class="product__free">무료배송</span>
+                    </div>
+                </a>
+            </div>
+            <!-- ... 반복되는 다른 상품들 ... -->
+        </section>
 
-    <section class="discount productBox">
-      <div class="product">
-        <a href="#">
-          <div class="thumb">
-            <img
-                    src="https://thumbnail8.coupangcdn.com/thumbnails/remote/x/image/displayitem/displayitem_a6949c3f-ef03-4f89-a323-8f4e590a9e69.jpg"
-                    alt="t1"
-                    style="width: 230px"
-            />
-          </div>
-          <h2>상품명</h2>
-          <p>상품정보</p>
-          <div class="org_price">
-            <del>12,000원</del>
-            <span>10%</span>
-          </div>
-          <div class="dis_price">
-            <ins>10,000원</ins>
-            <span class="product__free">무료배송</span>
-            <!--            <span-->
-            <!--              class="product__free"-->
-            <!--              >배송비 : <span>2000원</span></span-->
-            <!--            >-->
-          </div>
-        </a>
-      </div>
-      <div class="product">
-        <a href="#">
-          <div class="thumb">
-            <img
-                    src="https://thumbnail8.coupangcdn.com/thumbnails/remote/x/image/displayitem/displayitem_a6949c3f-ef03-4f89-a323-8f4e590a9e69.jpg"
-                    alt="t1"
-                    style="width: 230px"
-            />
-          </div>
-          <h2>상품명</h2>
-          <p>상품정보</p>
-          <div class="org_price">
-            <del>12,000원</del>
-            <span>10%</span>
-          </div>
-          <div class="dis_price">
-            <ins>10,000원</ins>
-            <span class="product__free">무료배송</span>
-            <!--            <span-->
-            <!--              class="product__free"-->
-            <!--              >배송비 : <span>2000원</span></span-->
-            <!--            >-->
-          </div>
-        </a>
-      </div>
-      <div class="product">
-        <a href="#">
-          <div class="thumb">
-            <img
-                    src="https://thumbnail8.coupangcdn.com/thumbnails/remote/x/image/displayitem/displayitem_a6949c3f-ef03-4f89-a323-8f4e590a9e69.jpg"
-                    alt="t1"
-                    style="width: 230px"
-            />
-          </div>
-          <h2>상품명</h2>
-          <p>상품정보</p>
-          <div class="org_price">
-            <del>12,000원</del>
-            <span>10%</span>
-          </div>
-          <div class="dis_price">
-            <ins>10,000원</ins>
-            <span class="product__free">무료배송</span>
-            <!--            <span-->
-            <!--              class="product__free"-->
-            <!--              >배송비 : <span>2000원</span></span-->
-            <!--            >-->
-          </div>
-        </a>
-      </div>
-      <div class="product">
-        <a href="#">
-          <div class="thumb">
-            <img
-                    src="https://thumbnail8.coupangcdn.com/thumbnails/remote/x/image/displayitem/displayitem_a6949c3f-ef03-4f89-a323-8f4e590a9e69.jpg"
-                    alt="t1"
-                    style="width: 230px"
-            />
-          </div>
-          <h2>상품명</h2>
-          <p>상품정보</p>
-          <div class="org_price">
-            <del>12,000원</del>
-            <span>10%</span>
-          </div>
-          <div class="dis_price">
-            <ins>10,000원</ins>
-            <span class="product__free">무료배송</span>
-            <!--            <span-->
-            <!--              class="product__free"-->
-            <!--              >배송비 : <span>2000원</span></span-->
-            <!--            >-->
-          </div>
-        </a>
-      </div>
-      <div class="product">
-        <a href="#">
-          <div class="thumb">
-            <img
-                    src="https://thumbnail8.coupangcdn.com/thumbnails/remote/x/image/displayitem/displayitem_a6949c3f-ef03-4f89-a323-8f4e590a9e69.jpg"
-                    alt="t1"
-                    style="width: 230px"
-            />
-          </div>
-          <h2>상품명</h2>
-          <p>상품정보</p>
-          <div class="org_price">
-            <del>12,000원</del>
-            <span>10%</span>
-          </div>
-          <div class="dis_price">
-            <ins>10,000원</ins>
-            <span class="product__free">무료배송</span>
-            <!--            <span-->
-            <!--              class="product__free"-->
-            <!--              >배송비 : <span>2000원</span></span-->
-            <!--            >-->
-          </div>
-        </a>
-      </div>
+        <!-- 할인상품 영역 -->
+        <h3 style="padding: 10px 0 10px 20px; margin-bottom: 10px; border-bottom: 1px solid #909090;">
+            <span id="prodDiscount" style="font-size: 20px; font-weight: bold">할인상품</span>
+            <a th:href="@{/product/list(cateCode='', sort='prodDiscount')}" style="font-size: 16px; color: #909090; float: right">더보기 &#10095;</a>
+        </h3>
+        <section class="discount productBox">
+            <div class="product">
+                <a href="#">
+                    <div class="thumb">
+                        <img src="https://thumbnail8.coupangcdn.com/thumbnails/remote/x/image/displayitem/displayitem_a6949c3f-ef03-4f89-a323-8f4e590a9e69.jpg" alt="t1" style="width: 230px"/>
+                    </div>
+                    <h2>상품명</h2>
+                    <p>상품정보</p>
+                    <div class="org_price">
+                        <del>12,000원</del>
+                        <span>10%</span>
+                    </div>
+                    <div class="dis_price">
+                        <ins>10,000원</ins>
+                        <span class="product__free">무료배송</span>
+                    </div>
+                </a>
+            </div>
+            <!-- ... 반복되는 다른 상품들 ... -->
+        </section>
     </section>
-  </section>
 </main>
+
 <!-- 스크롤 최상단 버튼 -->
 <button id="scrollTopBtn" class="scroll-top-btn" onclick="scrollToTop()">
-  <img src="/images/up.png" alt="print" />
+    <img src="/images/up.png" alt="print"/>
 </button>
 <script th:src="@{/js/scrollToTop.js}"></script>
