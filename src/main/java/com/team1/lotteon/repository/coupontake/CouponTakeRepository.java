@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,5 +36,7 @@ public interface CouponTakeRepository extends JpaRepository<CouponTake, Long> {
 
     //발급받은 쿠폰 수량 출력
     List<CouponTake> findAllByMember_Uid(String uid);
+
+    List<CouponTake> findByCouponexpiredateBetweenAndCouponusecheck(LocalDateTime startOfYesterday, LocalDateTime endOfYesterday, int i);
 }
 

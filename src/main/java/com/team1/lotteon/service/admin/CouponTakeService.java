@@ -21,6 +21,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -311,5 +312,22 @@ public class CouponTakeService {
     public int getCouponCountByUserId(String memberId) {
         List<CouponTake> coupons = couponTakeRepository.findAllByMember_Uid(memberId);
         return coupons.size();
+    }
+
+    public void checkCouponTakes() {
+        LocalDateTime startOfYesterday = LocalDate.now().minusDays(1).atStartOfDay();
+        LocalDateTime endOfYesterday = LocalDate.now().minusDays(1).atTime(23, 59, 59, 999999999);
+
+        // 어제 날짜 범위 내에 있고, couponusecheck가 0인 쿠폰만 조회
+        List<CouponTake> coupons = couponTakeRepository.findByCouponexpiredateBetweenAndCouponusecheck(
+                startOfYesterday, endOfYesterday, 0);
+
+        // 조회된 쿠폰들의 couponusecheck를 3으로 변경
+        for (CouponTake coupon : coupons) {
+            coupon.setCouponUseCheck(3);
+        }
+
+        // 변경된 쿠폰 정보를 DB에 저장
+        couponTakeRepository.saveAll(coupons);
     }
 }
