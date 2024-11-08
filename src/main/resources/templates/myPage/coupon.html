@@ -6,6 +6,7 @@
     수정이력
     - 2024/11/01 이도영 - 다운로드한 쿠폰 출력 기능
     - 2024/11/01 이도영 - 쿠폰이 없으면 없음 출력
+    - 2024/11/08 이도영 - 쿠폰 출력 방식 변경
 -->
 <!DOCTYPE html>
 <html
@@ -37,30 +38,31 @@
           <th>상태</th>
           <th>유효기간</th>
         </tr>
-        <tr th:if="${#lists.isEmpty(coupons.content)}">
+        <tr th:if="${#lists.isEmpty(coupons)}">
           <td colspan="5" class="td_first" style="width: 100%">등록된 쿠폰이 없습니다.</td>
         </tr>
-        <tr th:each="coupon : ${coupons.content}" th:if="${coupons != null}">
-          <td>[[${coupon.couponName}]]</td>
+        <tr th:each="coupon : ${coupons}">
+          <td th:text="${coupon.couponName}">쿠폰 이름</td>
           <td>
             <th:block th:switch="${coupon.couponDiscount}">
-              <span th:case="1">1000원 할인</span>
-              <span th:case="2">2000원 할인</span>
-              <span th:case="3">3000원 할인</span>
-              <span th:case="4">4000원 할인</span>
-              <span th:case="5">5000원 할인</span>
-              <span th:case="6">10% 할인</span>
-              <span th:case="7">20% 할인</span>
-              <span th:case="8">30% 할인</span>
-              <span th:case="9">40% 할인</span>
-              <span th:case="10">50% 할인</span>
-              <span th:case="11">배송비 무료</span>
-              <span th:case="*">할인 없음</span> <!-- 기본값 -->
+              <span th:case="1000" th:text="'1000원 할인'">1000원 할인</span>
+              <span th:case="2000" th:text="'2000원 할인'">2000원 할인</span>
+              <span th:case="3000" th:text="'3000원 할인'">3000원 할인</span>
+              <span th:case="4000" th:text="'4000원 할인'">4000원 할인</span>
+              <span th:case="5000" th:text="'5000원 할인'">5000원 할인</span>
+              <span th:case="0.1" th:text="'10% 할인'">10% 할인</span>
+              <span th:case="0.2" th:text="'20% 할인'">20% 할인</span>
+              <span th:case="0.3" th:text="'30% 할인'">30% 할인</span>
+              <span th:case="0.4" th:text="'40% 할인'">40% 할인</span>
+              <span th:case="0.5" th:text="'50% 할인'">50% 할인</span>
+              <span th:case="0" th:text="'배송비 무료'">배송비 무료</span>
+              <span th:case="*" th:text="'할인 없음'">할인 없음</span> <!-- 기본값 -->
             </th:block>
           </td>
-          <td>[[${coupon.shopName}]]</td>
+          <td th:text="${coupon.shopName}">상점 이름</td>
           <td>사용가능</td>
-          <td>[[${coupon.couponExpireDateFormatted}]]</td>
+          <td th:text="${coupon.couponExpireDateshow}">만료일</td>
+
         </tr>
       </table>
 

@@ -174,10 +174,15 @@ public class RegisterController {
             response.put("result", exists);
             return response;
         }
-
+        //2024/11/08 이도영 전화번호 존재 여부 추가
         if (type.equals("ph")) {
-            boolean exists = generalMemberService.isphExist(value);
-            response.put("result", exists);
+            boolean existGeneral = generalMemberService.isphExist(value);
+            boolean existSeller = shopService.isphExist(value);
+            if (!existGeneral && !existSeller) {
+                response.put("result", false);
+                return response;
+            }
+            response.put("result", true);
             return response;
         }
         if(type.equals("shop")){
@@ -191,12 +196,17 @@ public class RegisterController {
             response.put("result", exists);
             return response;
         }
-//        if(type.equals("e_commerce_registration")){
-//            boolean exists = shopService.isECommerceRegistrationExist(value);
-//            log.info(exists);
-//            response.put("result", exists);
-//            return response;
-//        }
+        if(type.equals("e_commerce_registration")){
+            boolean exists = shopService.isECommerceRegistrationExist(value);
+            log.info(exists);
+            response.put("result", exists);
+            return response;
+        }
+        if(type.equals("fax")){
+            boolean exists = shopService.isFaxExist(value);
+            response.put("result", exists);
+            return response;
+        }
         response.put("result", false); // 기본값
         return response;
     }

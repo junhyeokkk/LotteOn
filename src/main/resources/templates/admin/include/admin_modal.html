@@ -7,6 +7,7 @@
     - 2024/10/28 이도영 - 상점 모달 수정
     - 2024/10/29 이도영 - 쿠폰 모달 수정
     - 2024/11/05 이도영 - 쿠폰 모달 데이터 출력 변경
+    - 2024/11/06 이도영 - 회원가입 모달 이메일 추가
 -->
 
 
@@ -265,6 +266,18 @@
                             <th>비밀번호 확인</th>
                             <td><input type="password" name="pass2">
                                 <span class="resultPass"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>EMAIL<span class="required">*</span></th>
+                            <td>
+                                <input type="email" name="email" placeholder="이메일입력"/>
+                                <button type="button" id="btnSendEmail" name="btnEmail" data-type="email" class="infobutton">인증번호 받기</button>
+                                <span id="resultEmail"></span>
+                                <div class="auth" style="display:none">
+                                    <input type="text" name="userauth" class="userauth" placeholder="인증번호 입력" />
+                                    <button type="button" id="btnAuthEmail"  class="infobutton">인증확인</button>
+                                </div>
                             </td>
                         </tr>
                     </table>

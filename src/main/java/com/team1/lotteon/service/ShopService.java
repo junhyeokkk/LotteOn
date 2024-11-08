@@ -8,6 +8,7 @@ package com.team1.lotteon.service;
       - 2024/10/25 이도영 - 유효성검사
       - 2024/10/28 이도영 - 관리자 상점 페이지 출력
       - 2024/11/06 이도영 - 이메일 존재여부,판매자 아이디 검색,판매자 비밀번호 검색 기능 추가
+      - 2024/11/08 이도영 - 통신판매업번호,전화번호,팩스번호 존재 여부
 */
 import com.querydsl.core.Tuple;
 import com.team1.lotteon.dto.ShopDTO;
@@ -126,9 +127,16 @@ public class ShopService {
         return sellerMemberRepository.findByUidAndShop_Email(uid, email)
                 .map(SellerMember::getShop);
     }
-
     // 통신판매업번호 존재 여부 확인
-//    public boolean isECommerceRegistrationExist(String eCommerceRegistration) {
-//        return shopRepository.existsByECommerceRegistration(eCommerceRegistration);
-//    }
+    public boolean isECommerceRegistrationExist(String value) {
+        return shopRepository.existsByECommerceRegistration(value);
+    }
+    //전화번호 존재 여부 확인
+    public boolean isphExist(String ph) {
+        return shopRepository.existsByph(ph);
+    }
+    //팩스번호 존재 여부 확인
+    public boolean isFaxExist(String fax) {
+        return shopRepository.existsByFax(fax);
+    }
 }

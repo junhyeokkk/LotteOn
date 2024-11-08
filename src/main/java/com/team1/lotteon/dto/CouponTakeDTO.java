@@ -8,6 +8,7 @@ package com.team1.lotteon.dto;
         - 2024/10/31 이도영 shopid 추가
         - 2024/11/01 이도영 DTO 추가
         - 2024/11/05 이도영 받은 날짜에 대한 처리 방식 추가
+        - 2024/11/08 이도영 발급 받은 쿠폰 날짜 처리
 */
 import lombok.*;
 
@@ -39,6 +40,17 @@ public class CouponTakeDTO {
     private String couponUseDateFormatted;      //사용 날짜 수정
     private String couponType;        //쿠폰 종류
     private String couponetc;       //상세정보
+
+    private String couponExpireDateshow;
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+    public CouponTakeDTO(String couponName, double couponDiscount, String shopName, LocalDateTime couponExpireDate) {
+        this.couponName = couponName;
+        this.couponDiscount = couponDiscount;
+        this.shopName = shopName;
+        this.couponExpireDateshow = couponExpireDate != null ? couponExpireDate.format(FORMATTER) : null;
+    }
+
     public void setFormattedDates() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         this.couponGetDateFormatted = couponGetDate != null ? formatter.format(couponGetDate) : "N/A";

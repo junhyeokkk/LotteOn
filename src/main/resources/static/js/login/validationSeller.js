@@ -5,6 +5,7 @@
 
      수정사항
      - 2024/11/06 이도영 이메일 유효성 검사
+     - 2024/11/08 이도영 통신판매업번호,전화번호,팩스번호 유효성 검사
 */
 
 window.onload = function () {
@@ -17,7 +18,7 @@ window.onload = function () {
 	let isBusiness_registrationOk = false;
 	let isE_commerce_registrationOk = false;
 	let isPhOk = false;
-	let isFaxOk = false;
+	let isFaxOk = true;
 	let isAddressOk = false;
 
 	const registerForm = document.querySelector('.sendForm');
@@ -270,25 +271,36 @@ window.onload = function () {
 		}
 	}
 
-	// // 휴대폰 번호 유효성 검사
-	// const phInput = document.getElementById('ph');
-	// phInput.addEventListener('focusout', async function () {
-	// 	const value = phInput.value;
-	// 	if (!value.match(patterns.hp)) {
-	// 		showResult(resultHp, '전화번호가 유효하지 않습니다.', false);
-	// 		isHpOk = false;
-	// 		return;
-	// 	}
-	// 	const data = await fetchGet(`/user/Register/ph/${value}`);
-	// 	if (data.result) {
-	// 		showResult(resultHp, '이미 사용중인 휴대폰번호입니다.', false);
-	// 		isHpOk = false;
-	// 	} else {
-	// 		showResult(resultHp, '사용할 수 있는 번호입니다.', true);
-	// 		isHpOk = true;
-	// 	}
-	// });
-
+	// 휴대폰 번호 유효성 검사
+	const phInput = document.getElementsByName('ph')[0];
+	phInput.addEventListener('focusout', async function () {
+		const value = phInput.value;
+		if (!value.match(patterns.hp)) {
+			showResult(resultPh, '전화번호가 유효하지 않습니다.', false);
+			isPhOk = false;
+			return;
+		}
+		const data = await fetchGet(`/user/Register/ph/${value}`);
+		if (data.result) {
+			showResult(resultPh, '이미 사용중인 휴대폰번호입니다.', false);
+			isPhOk = false;
+		} else {
+			showResult(resultPh, '사용할 수 있는 번호입니다.', true);
+			isPhOk = true;
+		}
+	});
+	const faxInput = document.getElementsByName('fax')[0];
+	faxInput.addEventListener('focusout', async function () {
+		const value = faxInput.value;
+		const data = await fetchGet(`/user/Register/fax/${value}`);
+		if (data.result) {
+			showResult(resultFax, '이미 사용중인 FAX 번호입니다.', false);
+			isFaxOk = false;
+		} else {
+			showResult(resultFax, "", true);
+			isFaxOk = true;
+		}
+	});
 	// 주소 유효성 검사
 	const address1Input = document.getElementById('address1');
 	const address2Input = document.getElementById('address2');
@@ -302,57 +314,74 @@ window.onload = function () {
 		}
 	});
 
-	// 최종 폼 전송 유효성 검사
-	// registerForm.onsubmit = function (e) {
-	// 	// 아이디 유효성 검사 완료 여부
-	// 	if (!isUidOk) {
-	// 		alert('아이디가 유효하지 않습니다.');
-	// 		e.preventDefault(); // 폼 전송 취소
-	// 		return false;
-	// 	}
-	//
-	// 	// 비밀번호 유효성 검사 완료 여부
-	// 	if (!isPassOk) {
-	// 		alert('비밀번호가 유효하지 않습니다.');
-	// 		e.preventDefault(); // 폼 전송 취소
-	// 		return false;
-	// 	}
-	//
-	// 	// 이름 유효성 검사 완료 여부
-	// 	if (!isNameOk) {
-	// 		alert('이름이 유효하지 않습니다.');
-	// 		e.preventDefault(); // 폼 전송 취소
-	// 		return false;
-	// 	}
-	//
-	// 	// 성별 유효성 검사 완료 여부
-	// 	if (!isGenderOk) {
-	// 		alert('성별을 선택해주세요.');
-	// 		e.preventDefault(); // 폼 전송 취소
-	// 		return false;
-	// 	}
-	//
-	// 	// 이메일 유효성 검사 완료 여부
-	// 	if (!isEmailOk || !isEmailVerified) {
-	// 		alert('이메일이 인증되지 않았습니다.');
-	// 		e.preventDefault(); // 폼 전송 취소
-	// 		return false;
-	// 	}
-	//
-	// 	// 휴대폰 유효성 검사 완료 여부
-	// 	if (!isHpOk) {
-	// 		alert('휴대폰 번호가 유효하지 않습니다.');
-	// 		e.preventDefault(); // 폼 전송 취소
-	// 		return false;
-	// 	}
-	//
-	// 	// 주소 유효성 검사 완료 여부
-	// 	if (!isAddressOk) {
-	// 		alert('주소가 유효하지 않습니다.');
-	// 		e.preventDefault(); // 폼 전송 취소
-	// 		return false;
-	// 	}
-	//
-	// 	return true;
-	// }
+	//최종 폼 전송 유효성 검사
+	registerForm.onsubmit = function (e) {
+		alert('here!');
+
+		// 아이디 유효성 검사 완료 여부
+		if (!isUidOk) {
+			alert('아이디가 유효하지 않습니다.');
+			e.preventDefault(); // 폼 전송 취소
+			return false;
+		}
+
+		// 비밀번호 유효성 검사 완료 여부
+		if (!isPassOk) {
+			alert('비밀번호가 유효하지 않습니다.');
+			e.preventDefault(); // 폼 전송 취소
+			return false;
+		}
+		// 이메일 유효성 검사 완료 여부
+		if (!isEmailOk || !isEmailVerified) {
+			alert('이메일이 인증되지 않았습니다.');
+			e.preventDefault(); // 폼 전송 취소
+			return false;
+		}
+
+		// 회사명 유효성 검사 완료 여부
+		if (!isShop_nameOk) {
+			alert('회사명이 유효하지 않습니다.');
+			e.preventDefault(); // 폼 전송 취소
+			return false;
+		}
+		// 대표 유효성 검사 완료 여부
+		if(!isRepresentativeOk){
+			alert('대표님의 성함이 유효하지 않습니다.');
+			e.preventDefault();
+			return false;
+		}
+		// 사업자 등록 번호 검사 완료 여부
+		if(!isBusiness_registrationOk){
+			alert('사업자 등록 번호가 유효하지 않습니다.')
+			e.preventDefault();
+			return false;
+		}
+		// 통신판매업번호 검사 완료 여부
+		if(!isE_commerce_registrationOk){
+			alert('통신판매업번호 번호가 유효하지 않습니다.')
+			e.preventDefault();
+			return false;
+		}
+
+		// 휴대폰 유효성 검사 완료 여부
+		if (!isPhOk) {
+			alert('휴대폰 번호가 유효하지 않습니다.');
+			e.preventDefault(); // 폼 전송 취소
+			return false;
+		}
+		// 휴대폰 유효성 검사 완료 여부
+		if (!isFaxOk) {
+			alert('FAX 번호가 유효하지 않습니다.');
+			e.preventDefault(); // 폼 전송 취소
+			return false;
+		}
+		// 주소 유효성 검사 완료 여부
+		if (!isAddressOk) {
+			alert('주소가 유효하지 않습니다.');
+			e.preventDefault(); // 폼 전송 취소
+			return false;
+		}
+
+		return true;
+	}
 }
