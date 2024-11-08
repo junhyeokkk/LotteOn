@@ -134,6 +134,10 @@ public class CartService {
                     .quantity(cartRequestDTO.getQuantity())
                     .totalPrice(cartRequestDTO.getTotalPrice())
                     .build();
+
+            if(optionCombination != null){
+                cartItem.setOptionCombinationSnapshot(optionCombination.getOptionValueCombination());  // 장바구니 조합 정보 스냅샷
+            }
             cartRepository.save(cartItem);
         }
 

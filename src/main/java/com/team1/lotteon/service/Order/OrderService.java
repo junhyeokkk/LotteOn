@@ -95,6 +95,7 @@ public class OrderService {
                 ProductOptionCombination optionCombination = productOptionCombinationRepository.findById(itemDTO.getProductOptionCombinationId())
                         .orElseThrow(() -> new IllegalArgumentException("Invalid combination ID: " + itemDTO.getProductOptionCombinationId()));
                 orderItemBuilder.productOptionCombination(optionCombination);
+                orderItemBuilder.optionCombinationSnapshot(optionCombination.getOptionValueCombination());  // 조합 정보 스냅샷 저장
 
                 // 옵션 조합의 재고 업데이트
                 updateCombinationStock(optionCombination, itemDTO.getQuantity());
