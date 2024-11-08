@@ -29,4 +29,7 @@ public interface CartRepository extends JpaRepository<Cart, Integer> {
 
     // 옵션이 없는 경우: member와 product만 기준으로 검색 (productOptionCombination은 null)
     Optional<Cart> findByMemberAndProductAndProductOptionCombinationIsNull(Member member, Product product);
+
+    // 조합삭제경우
+    List<Cart> findByProductOptionCombination(ProductOptionCombination combination);
 }

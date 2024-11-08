@@ -382,8 +382,8 @@ public class ProductService {
             product.setProductImg3(filePath3);
         }
 
-        // 4. 옵션 및 옵션 조합 데이터 업데이트
-//        productOptionService.updateProductOptions(product.getId(), options, combinations);
+//        // 4. 옵션 및 옵션 조합 데이터 업데이트
+        productOptionService.updateProductOptions(product.getId(), options, combinations);
 
         log.info("나오니:????");
         // 5. 업데이트된 Product 엔티티 저장

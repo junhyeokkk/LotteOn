@@ -42,6 +42,8 @@ public class Cart {
     @JoinColumn(name = "combination_id")
     private ProductOptionCombination productOptionCombination;
 
+    @Column(columnDefinition = "TEXT")
+    private String optionCombinationSnapshot;  // 장바구니에 담을 당시 조합 정보 스냅샷
 
     private int skuVersion; // SKU의 버전 저장
 

@@ -17,9 +17,10 @@ public class OptionCombinationHistory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "combination_id")
-    private ProductOptionCombination productOptionCombination;
+
+    // JSON 또는 조합 정보를 저장할 필드
+    @Column(columnDefinition = "TEXT")
+    private String combinationSnapshot;
 
     @Column(columnDefinition = "json")
     private String optionCombinationValues; // 기존 조합 값 저장 (JSON)

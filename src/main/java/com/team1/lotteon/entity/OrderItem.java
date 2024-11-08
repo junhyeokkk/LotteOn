@@ -56,6 +56,10 @@ public class OrderItem {
     @JoinColumn(name = "option_combination_id")
     private ProductOptionCombination productOptionCombination; // 옵션 조합
 
+    @Column(columnDefinition = "TEXT")
+    private String optionCombinationSnapshot;  // 주문 당시 조합 정보 스냅샷
+
+
     private int skuVersion; // SKU의 버전 저장
 
     @OneToOne(mappedBy = "orderItem", cascade = CascadeType.ALL)
