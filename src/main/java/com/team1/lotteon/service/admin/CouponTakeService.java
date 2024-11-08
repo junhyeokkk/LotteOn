@@ -319,7 +319,7 @@ public class CouponTakeService {
         LocalDateTime endOfYesterday = LocalDate.now().minusDays(1).atTime(23, 59, 59, 999999999);
 
         // 어제 날짜 범위 내에 있고, couponusecheck가 0인 쿠폰만 조회
-        List<CouponTake> coupons = couponTakeRepository.findByCouponexpiredateBetweenAndCouponusecheck(
+        List<CouponTake> coupons = couponTakeRepository.findByCouponExpireDateBetweenAndCouponUseCheck(
                 startOfYesterday, endOfYesterday, 0);
 
         // 조회된 쿠폰들의 couponusecheck를 3으로 변경
