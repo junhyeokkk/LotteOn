@@ -160,14 +160,11 @@ public class OrderService {
     // Mypage 메인에 띄울 가장 최근 Orderitem 들고오기
     public List<OrderItem> getMyOrder(String uid){
 
-        Order myOrder = orderRepository.findTop5ByMember_UidOrderByOrderDateDesc(uid);
-        if (myOrder == null) {
-            // myOrder가 null인 경우 빈 리스트 반환
-            return Collections.emptyList();
-        }
-        OrderDTO orderDTO = modelMapper.map( myOrder, OrderDTO.class);
+        List<Order> myOrder = orderRepository.findTop5ByMember_UidOrderByOrderDateDesc(uid);
 
-        List<OrderItem> orderItems = orderDTO.getOrderItems();
+        List<OrderItem> orderItems = myOrder.stream()
+                .flatMap(order -> order.getOrderItems().stream())
+                .collect(Collectors.toList());
 
         return orderItems;
     }

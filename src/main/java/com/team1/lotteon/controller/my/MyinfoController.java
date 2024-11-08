@@ -89,17 +89,14 @@ public class MyinfoController {
         }
         //구매 정보
         List<OrderItem> orderitems = orderService.getMyOrder(member.getUid());
-
-        // 최대 3개의 OrderItem만 가져오고, DTO로 변환
-        List<OrderItemDTO> OrderItemDTO = orderitems.stream()
-                .limit(5) // 최대 3개 제한
-                .map(orderItem -> modelMapper.map(orderItem, OrderItemDTO.class)) // DTO로 매핑
+        List<OrderItemDTO> orderItemDTOs = orderitems.stream()
+                .map(orderItem -> modelMapper.map(orderItem, OrderItemDTO.class))
                 .collect(Collectors.toList());
 
         // 나의 정보
         Address address = member.getAddress();
 
-        model.addAttribute("myorders", OrderItemDTO);
+        model.addAttribute("myOrderItems", orderItemDTOs);
         model.addAttribute("member", member);
         model.addAttribute("address", address);
         return "myPage/home";
