@@ -5,11 +5,11 @@
 
     수정이력
    - 2024/11/06 이도영 - 구매내용 출력, 나의정보 출력
+   - 2024/11/07 박서홍 - 포인트적립 출력, 일자별 검색 기능, 전체주문 페이징처리
+
 -->
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<html lang="en">
-
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>롯데ON::대한민국 1등 온라인 쇼핑몰</title>
@@ -17,6 +17,7 @@
     <link rel="stylesheet" th:href="@{/css/reset.css}" />
     <link rel="stylesheet" th:href="@{/css/my/modal.css}">
     <script type="text/javascript" th:src="@{/js/modal/modal.js}"></script>
+    <script type="text/javascript" th:src="@{/js/my/searchPeriod.js}"></script>
     <div th:replace="layout/modal :: #orderDetailModal"></div>
     <div th:replace="layout/modal :: #sellerInfoModal"></div>
     <div th:replace="layout/modal :: #inquiryModal"></div>
@@ -83,9 +84,11 @@
 
                     <article class="point">
                         <h3>포인트적립내역</h3>
+
                         <a th:href="@{/myPage/point}" class="more">더보기 &gt;</a>
                         <table border="0" class="widthtable">
                             <tr>
+                                <th><input type="checkbox" name="all" onchange="toggleAllChecks(this)" /></th>
                                 <th>날짜</th>
                                 <th>구분</th>
                                 <th>주문번호</th>
@@ -93,22 +96,15 @@
                                 <th>비고</th>
                                 <th>유효기간</th>
                             </tr>
-                            <tr>
-                                <td>2022-12-10</td>
-                                <td>적립</td>
-                                <td>2022121001</td>
-                                <td>340</td>
-                                <td>상품 구매확정</td>
-                                <td>2024-12-10</td>
-                            </tr>
-                            <tr>
-                                <td>2022-12-10</td>
-                                <td>적립</td>
-                                <td>2022121001</td>
-                                <td>340</td>
-                                <td>상품 구매확정</td>
-                                <td>2024-12-10</td>
-                            </tr>
+                            <tr th:each="point : ${points}" class="admin_list">
+                                    <td><input type="checkbox" name="RowCheck" th:value="${point.id}" /></td>
+                                    <td th:text="${point.formattedCreatedAt}"></td> <!-- 날짜 포맷 -->
+                                    <td th:text="${point.transactionType.toString()}"></td>
+                                    <td th:text="${point.order_id != null ? point.order_id : point.type}">2022121001</td>
+                                    <td th:text="${point.acPoints}"></td>
+                                    <td th:text="${point.type}"></td>
+                                    <td th:text="${point.formattedExpirationDate}">2025-10-24</td>
+                                </tr>
                         </table>
                     </article>
                     <article class="review">

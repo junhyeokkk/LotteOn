@@ -2,6 +2,7 @@ package com.team1.lotteon.controller.my;
 
 import com.team1.lotteon.dto.CouponTakeDTO;
 import com.team1.lotteon.dto.PageResponseDTO;
+import com.team1.lotteon.dto.PointDTO;
 import com.team1.lotteon.dto.order.OrderDTO;
 import com.team1.lotteon.dto.order.OrderItemDTO;
 import com.team1.lotteon.dto.order.OrderPageRequestDTO;
@@ -82,7 +83,10 @@ public class MyinfoController {
     }
 
     @GetMapping("/home")
-    public String home(@AuthenticationPrincipal MyUserDetails myUserDetails, Model model) {
+    public String home(@AuthenticationPrincipal MyUserDetails myUserDetails,
+                       @RequestParam(required = false) String startDate,
+                       @RequestParam(required = false) String endDate,
+                       Model model) {
         GeneralMember member = myUserDetails.getGeneralMember();
         if(member == null){
             throw new IllegalArgumentException("로그인이 필요합니다!");
@@ -92,6 +96,38 @@ public class MyinfoController {
         List<OrderItemDTO> orderItemDTOs = orderitems.stream()
                 .map(orderItem -> modelMapper.map(orderItem, OrderItemDTO.class))
                 .collect(Collectors.toList());
+
+        // 포인트
+        PointPageRequestDTO requestDTO = PointPageRequestDTO.builder()
+                .pg(1)  // 기본 페이지 번호 설정
+                .size(10)  // 페이지 사이즈 설정
+                .startDate(startDate) // 추가된 startDate
+                .endDate(endDate)     // 추가된 endDate
+                .build();
+        // 포인트 데이터 가져오기
+
+        PointPageResponseDTO responseDTO = pointService.getMyPoints(requestDTO);
+        model.addAttribute("points", responseDTO.getDtoList());
+
+        // 포맷팅된 생성일 및 유효기간 리스트 생성
+        List<String> formattedCreatedAtList = responseDTO.getDtoList().stream()
+                .map(point -> dateUtil.formatDate(point.getCreatedat()))
+                .collect(Collectors.toList());
+
+        List<String> formattedExpirationDateList = responseDTO.getDtoList().stream()
+                .map(point -> dateUtil.formatDate(point.getExpirationDate()))
+                .collect(Collectors.toList());
+
+
+        // 포인트 합계 계산 후 Model에 추가
+        Integer totalAcPoints = pointService.calculateTotalAcPoints(myUserDetails.getGeneralMember().getUid());
+        model.addAttribute("totalAcPoints", totalAcPoints);
+
+        // 포맷된 날짜 리스트를 모델에 추가
+        model.addAttribute("formattedCreatedAtList", formattedCreatedAtList);
+        model.addAttribute("formattedExpirationDateList", formattedExpirationDateList);
+
+
 
         // 나의 정보
         Address address = member.getAddress();
@@ -117,6 +153,7 @@ public class MyinfoController {
         model.addAttribute("address", address);
         return "myPage/info";
     }
+
     @PostMapping("/info/delete/{uid}")
     public ResponseEntity<String> myinfoDelete(@PathVariable String uid) {
         generalMemberService.deactivateMember(uid);  // 서비스 계층에서 탈퇴 처리
@@ -159,41 +196,33 @@ public class MyinfoController {
         return "myPage/ordered";
     }
 
-
-
-
-
     @GetMapping("/point")
     public String mypoint(@RequestParam(defaultValue = "1") int pg,
-                          @RequestParam(required = false) String startDate, // 추가된 필드
-                          @RequestParam(required = false) String endDate,   // 추가된 필드
+                          @RequestParam(required = false) String startDate,
+                          @RequestParam(required = false) String endDate,
                           @AuthenticationPrincipal MyUserDetails myUserDetails,
                           Model model) {
 
-        // DTO 생성
         PointPageRequestDTO requestDTO = PointPageRequestDTO.builder()
                 .pg(pg)
                 .size(10)
-                .startDate(startDate) // 추가
-                .endDate(endDate)     // 추가
+                .startDate(startDate)
+                .endDate(endDate)
                 .build();
 
-
-
-
-        // 포인트 데이터 가져오기
         PointPageResponseDTO responseDTO = pointService.getMyPoints(requestDTO);
         model.addAttribute("points", responseDTO);
 
-        // 포인트 합계 계산 후 Model에 추가
-        Integer totalAcPoints = pointService.calculateTotalAcPoints(myUserDetails.getGeneralMember().getUid());
-        model.addAttribute("totalAcPoints", totalAcPoints);
+        List<String> formattedCreatedAtList = responseDTO.getDtoList().stream()
+                .map(point -> dateUtil.formatDate(point.getCreatedat()))
+                .collect(Collectors.toList());
 
-        // 포맷팅된 생성일 및 유효기간 추가
-        responseDTO.getDtoList().forEach(point -> {
-            point.setFormattedCreatedAt(dateUtil.formatLocalDateTime(point.getCreatedat()));
-            point.setFormattedExpirationDate(dateUtil.formatLocalDateTime(point.getExpirationDate()));
-        });
+        List<String> formattedExpirationDateList = responseDTO.getDtoList().stream()
+                .map(point -> dateUtil.formatDate(point.getExpirationDate()))
+                .collect(Collectors.toList());
+
+        model.addAttribute("formattedCreatedAtList", formattedCreatedAtList);
+        model.addAttribute("formattedExpirationDateList", formattedExpirationDateList);
 
         log.info("포인트 데이터: " + responseDTO.getDtoList());
         return "myPage/point";
