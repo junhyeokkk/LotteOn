@@ -18,6 +18,7 @@
     <link rel="stylesheet" th:href="@{/css/my/modal.css}">
     <link rel="stylesheet" th:href="@{/css/my/myPage_sidebar.css}" />
 
+    <script type="text/javascript" th:src="@{/js/my/home.js}"></script>
     <script type="text/javascript" th:src="@{/js/modal/modal.js}"></script>
     <script type="text/javascript" th:src="@{/js/my/searchPeriod.js}"></script>
     <div th:replace="layout/modal :: #orderDetailModal"></div>
@@ -58,26 +59,61 @@
                                 <tr th:if="${myOrderItems == null or myOrderItems.size() == 0}">
                                     <td colspan="5" class="td_first" style="width: 100%">최근 주문 내역이 없습니다.</td>
                                 </tr>
-                                <tr th:each="myOrderItem : ${myOrderItems}" th:data-product-id="${myOrderItem.product.id}" th:data-product-name="${myOrderItem.product.productName}" >
-                                    <td class="date">2022-12-13</td>
-                                    <td><a href="#" class="recentproductorderimg"><img  th:src="'/'+${appInfo.uploadDir}+'product/'+${myOrderItem.getProduct().getProductImg1()}" alt="상품이미지"></a></td>
+                                <tr th:each="myOrderItem : ${myOrderItems}"
+                                    th:data-product-id="${myOrderItem.product.id}"
+                                    th:data-product-name="${myOrderItem.product.productName}"
+                                    th:data-order-status="${myOrderItem.getDeliveryStatus().name()}">
+
+                                    <td class="date" th:text="${myOrderItem.getOrder().getOrderDate()}">2022-12-13</td>
+                                    <td>
+                                        <a href="#" class="recentproductorderimg">
+                                            <img th:src="'/'+${myOrderItem.getProduct().getProductImg1()}" alt="상품이미지">
+                                        </a>
+                                    </td>
                                     <td class="order-info">
                                         <div class="order-number">
                                             주문번호: <a href="#" th:text="${myOrderItem.getOrder().getId()}" data-modal="orderDetailModal"></a>
                                         </div>
                                         <div class="company-name" th:text="${myOrderItem.getProduct().getShop().getShopName()}" data-modal="sellerInfoModal">실바니안패밀리</div>
                                         <div class="product-name" th:text="${myOrderItem.getProductName()}">플로라 토끼 남매의 꽃 가꾸기</div>
-                                        <div>수량 : <span th:text="${myOrderItem.getQuantity()}"></span>1 개</div>
+                                        <div>수량 : <span th:text="${myOrderItem.getQuantity()}">1 개</span></div>
                                         <div class="product-price" style="font-size: 18px; font-weight: bold;" th:text="${myOrderItem.getOrder().getTotalPrice()}">25,900원</div>
                                     </td>
 
-                                    <td class="status">[[${myOrderItem.deliveryStatus}]]</td>
-                                    <td >
+                                    <td class="status" th:text="${myOrderItem.getDeliveryStatus().getKoreanLabel()}"></td>
+                                    <td>
                                         <!-- 수취확인 -->
-                                        <button class="receivebutton" data-modal="receiptConfirmModal">수취확인</button><br>
-                                        <button class="receivebutton" data-modal="reviewModal">상품평쓰기</button><br>
-                                        <button class="reviewbutton" data-modal="refundModal">반품신청</button><br>
-                                        <button class="reviewbutton" data-modal="returnModal">교환신청</button>
+                                        <button id="receive" class="receivebutton"
+                                                th:data-order-status="${myOrderItem.getDeliveryStatus()}"
+                                                th:data-order-item-id="${myOrderItem.getId()}">
+                                            수취확인
+                                        </button><br>
+                                        <button id="review" class="receivebutton" data-modal="reviewModal">상품평쓰기</button><br>
+                                        <button id="refund" class="reviewbutton"
+                                                th:data-order-item-id="${myOrderItem.getId()}"
+                                                th:data-product-img="'/'+ ${myOrderItem.getProduct().getProductImg1()}"
+                                                th:data-order-date="${myOrderItem.getOrder().getOrderDate()}"
+                                                th:data-order-number="${myOrderItem.getOrder().getId()}"
+                                                th:data-shop-name="${myOrderItem.getProduct().getShop().getShopName()}"
+                                                th:data-product-name="${myOrderItem.getProductName()}"
+                                                th:data-quantity="${myOrderItem.getQuantity()}"
+                                                th:data-total-price="${myOrderItem.getOrderPrice()}"
+                                                th:data-status="${myOrderItem.getDeliveryStatus().getKoreanLabel()}"
+                                                onclick="openRefundModal(this)">
+                                            반품신청
+                                        </button><br>
+                                        <button id="exchange" class="reviewbutton"
+                                                th:data-order-item-id="${myOrderItem.getId()}"
+                                                th:data-product-img="'/'+ ${myOrderItem.getProduct().getProductImg1()}"
+                                                th:data-order-date="${myOrderItem.getOrder().getOrderDate()}"
+                                                th:data-order-number="${myOrderItem.getOrder().getId()}"
+                                                th:data-shop-name="${myOrderItem.getProduct().getShop().getShopName()}"
+                                                th:data-product-name="${myOrderItem.getProductName()}"
+                                                th:data-quantity="${myOrderItem.getQuantity()}"
+                                                th:data-total-price="${myOrderItem.getOrderPrice()}"
+                                                th:data-status="${myOrderItem.getDeliveryStatus().getKoreanLabel()}"
+                                                onclick="openReturnModal(this)">
+                                            교환신청</button>
                                     </td>
                                 </tr>
                             </block>
@@ -90,6 +126,7 @@
                         <a th:href="@{/myPage/point}" class="more">더보기 &gt;</a>
                         <table border="0" class="widthtable">
                             <tr>
+                                <th><input type="checkbox" name="all" onchange="toggleAllChecks(this)" /></th>
                                 <th>날짜</th>
                                 <th>구분</th>
                                 <th>주문번호</th>

@@ -39,5 +39,6 @@ public class Delivery {
     private LocalDateTime deliveryDate; // 배송 접수일자
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "status", length = 20) // Enum의 최대 길이에 맞게 조정
     private DeliveryStatus status; // 배송 상태 (예: 준비, 배송 중, 배송 완료)
 }

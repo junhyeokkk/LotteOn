@@ -512,7 +512,5 @@ document.addEventListener('DOMContentLoaded', function () {
                     alert('쿠폰 저장 중 오류가 발생했습니다.');
                 });
         });
-    } else {
-        console.warn("'.save-button' 요소를 찾을 수 없습니다.");
     }
 });

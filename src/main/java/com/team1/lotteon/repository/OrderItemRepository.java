@@ -11,4 +11,6 @@ import java.util.List;
 @Repository
 public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
     List<OrderItem> findByProductOptionCombination(ProductOptionCombination combination);
+    // 특정 Order에 속한 모든 OrderItem을 찾기 위한 메서드
+    List<OrderItem> findByOrder_Id(Long orderId);
 }

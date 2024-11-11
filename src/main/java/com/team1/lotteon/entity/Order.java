@@ -42,6 +42,7 @@ public class Order {
     private int usedPoint;  // 사용 포인트
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "status", length = 20) // Enum의 최대 길이에 맞게 조정
     private OrderStatus status; // 주문상태
 
     private int deliveryFee; // 전체 배달료

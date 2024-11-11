@@ -85,4 +85,15 @@ public class DeliveryService {
             throw new IllegalArgumentException("해당 배송 정보가 존재하지 않습니다.");
         }
     }
+
+    // 배송 완료처리
+    @Transactional
+    public boolean completeDelivery(Long deliveryId) {
+        return deliveryRepoistory.findById(Math.toIntExact(deliveryId)).map(delivery -> {
+            delivery.setStatus(DeliveryStatus.SHIPPED); // 배송완료 상태로 설정 (DB에 맞는 값 사용)
+            delivery.getOrderItem().setDeliveryStatus(DeliveryStatus.SHIPPED);
+            deliveryRepoistory.save(delivery);
+            return true;
+        }).orElse(false);
+    }
 }

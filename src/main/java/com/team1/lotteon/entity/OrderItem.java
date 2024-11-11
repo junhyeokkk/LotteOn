@@ -39,7 +39,7 @@ public class OrderItem {
     private int orderPrice;        // 최종 구매 가격
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "delivery_status", length = 10) // Enum의 최대 길이에 맞게 조정
+    @Column(name = "delivery_status", length = 20) // Enum의 최대 길이에 맞게 조정
     private DeliveryStatus deliveryStatus;  // 배달상태
 
     @OnDelete(action = OnDeleteAction.CASCADE)

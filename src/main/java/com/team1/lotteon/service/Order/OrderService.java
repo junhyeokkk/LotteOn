@@ -1,31 +1,30 @@
 package com.team1.lotteon.service.Order;
 
-import com.team1.lotteon.dto.GeneralMemberDTO;
 import com.team1.lotteon.dto.order.*;
 import com.team1.lotteon.entity.*;
 import com.team1.lotteon.entity.enums.DeliveryStatus;
 import com.team1.lotteon.entity.enums.OrderStatus;
 import com.team1.lotteon.entity.productOption.ProductOptionCombination;
 import com.team1.lotteon.repository.*;
-import com.team1.lotteon.repository.Memberrepository.GeneralMemberRepository;
 import com.team1.lotteon.repository.coupon.CouponRepository;
-import com.team1.lotteon.security.MyUserDetails;
-import com.team1.lotteon.service.PointService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -52,6 +51,9 @@ public class OrderService {
     // 서비스
     private final DeliveryService deliveryService;
     private final CartRepository cartRepository;
+    private final OrderItemRepository orderItemRepository;
+    private final RefundRepository refundRepository;
+    private final ExchangeRepository exchangeRepository;
 
     // insert 오더
     public OrderSummaryDTO createOrder(@ModelAttribute OrderRequestDTO request, GeneralMember member) {
@@ -213,7 +215,103 @@ public class OrderService {
         return new OrderPageResponseDTO(requestDTO, orderDTOs, (int) orderPage.getTotalElements());
     }
 
+    // 오더 아이템 수취확인
+    @Transactional
+    public boolean updateDeliveryStatus(Long orderItemId) {
+        return orderItemRepository.findById(orderItemId).map(orderItem -> {
+            // 1. 해당 OrderItem의 상태를 COMPLETE로 설정
+            orderItem.getDelivery().setStatus(DeliveryStatus.COMPLETE);
+            orderItem.setDeliveryStatus(DeliveryStatus.COMPLETE);
+            orderItemRepository.save(orderItem); // 변경 사항 저장
 
+            log.info("1111");
+            // 2. 주문 ID 가져오기
+            Long orderId = orderItem.getOrder().getId();
 
+            log.info("2222");
+            log.info("dddddd" + orderId);
+            // 3. 해당 주문의 모든 OrderItem이 COMPLETE 상태인지 확인
+            boolean allItemsComplete = orderItemRepository
+                    .findByOrder_Id(orderId)
+                    .stream()
+                    .allMatch(item -> item.getDeliveryStatus() == DeliveryStatus.COMPLETE);
+
+            log.info("3333");
+            log.info("4444"+ allItemsComplete);
+            // 4. 모든 OrderItem이 COMPLETE이면 주문 상태를 COMPLETE로 변경
+            if (allItemsComplete) {
+                orderItem.getOrder().setStatus(OrderStatus.COMPLETE);
+                orderRepository.save(orderItem.getOrder());
+            }
+            return true;
+        }).orElse(false); // orderItem을 찾지 못한 경우 false 반환
+    }
+
+    @Transactional
+    public boolean requestRefund(Long orderItemId, String refundReason, String reasonText, MultipartFile imageFile) {
+        return orderItemRepository.findById(orderItemId).map(orderItem -> {
+            // OrderItem 상태를 RETURNREQ로 설정
+            orderItem.setDeliveryStatus(DeliveryStatus.valueOf("REFUNDREQ"));
+            orderItemRepository.save(orderItem);
+
+            // Refund 엔티티 생성 및 필드 설정
+            Refund refund = new Refund();
+            refund.setOrderItem(orderItem);
+            refund.setRefundReason(refundReason);
+            refund.setReasonText(reasonText);
+
+            // 이미지 파일 저장 및 경로 설정
+            if (imageFile != null && !imageFile.isEmpty()) {
+                String imagePath = saveImageFile(imageFile);
+                refund.setImagePath(imagePath);
+            }
+
+            refundRepository.save(refund); // Refund 정보 저장
+            return true;
+        }).orElse(false);
+    }
+
+    @Transactional
+    public boolean requestReturn(Long orderItemId, String returnReason, String reasonText, MultipartFile imageFile) {
+        return orderItemRepository.findById(orderItemId).map(orderItem -> {
+            // OrderItem 상태를 RETURNREQ로 설정
+            orderItem.setDeliveryStatus(DeliveryStatus.valueOf("RETURNREQ"));
+            orderItemRepository.save(orderItem);
+
+            // Refund 엔티티 생성 및 필드 설정
+            Exchange p_exchange = new Exchange();
+            p_exchange.setOrderItem(orderItem);
+            p_exchange.setReturnReason(returnReason);
+            p_exchange.setReasonText(reasonText);
+
+            // 이미지 파일 저장 및 경로 설정
+            if (imageFile != null && !imageFile.isEmpty()) {
+                String imagePath = saveImageFile(imageFile);
+                p_exchange.setImagePath(imagePath);
+            }
+
+            exchangeRepository.save(p_exchange); // Refund 정보 저장
+            return true;
+        }).orElse(false);
+    }
+
+    // 이미지 파일 저장 메서드
+    private String saveImageFile(MultipartFile imageFile) {
+        try {
+            // 파일 저장 경로 설정 (예: "/uploads/" 디렉토리)
+            String uploadDir = "uploads/";
+            String fileName = imageFile.getOriginalFilename();
+            Path filePath = Paths.get(uploadDir + fileName);
+
+            // 디렉토리가 없으면 생성
+            Files.createDirectories(filePath.getParent());
+
+            // 파일 저장
+            Files.write(filePath, imageFile.getBytes());
+            return filePath.toString(); // 저장된 파일 경로 반환
+        } catch (IOException e) {
+            throw new RuntimeException("이미지 파일 저장 중 오류 발생", e);
+        }
+    }
 
 }
