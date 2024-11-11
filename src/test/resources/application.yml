@@ -22,8 +22,8 @@ spring:
             enable: true
   data:
     redis:
-      host:
-      port:
-      password:
+      host: asd
+      port: 3333
+      password: asd
 app:
   version: '1조 - 0.0.4-SNAPSHOT'
