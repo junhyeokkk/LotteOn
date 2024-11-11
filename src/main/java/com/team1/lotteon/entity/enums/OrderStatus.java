@@ -2,6 +2,8 @@ package com.team1.lotteon.entity.enums;
 
 public enum OrderStatus {
     ORDERED("주문완료"),
+    DELIVERING("배송중"),
+    DELIVERED("배송완료"),
     CANCELLED("주문취소");
 
     private final String koreanLabel;

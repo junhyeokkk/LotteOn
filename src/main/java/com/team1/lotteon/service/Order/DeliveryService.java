@@ -7,6 +7,7 @@ import com.team1.lotteon.entity.Delivery;
 import com.team1.lotteon.entity.Order;
 import com.team1.lotteon.entity.OrderItem;
 import com.team1.lotteon.entity.enums.DeliveryStatus;
+import com.team1.lotteon.entity.enums.OrderStatus;
 import com.team1.lotteon.repository.DeliveryRepoistory;
 import com.team1.lotteon.repository.OrderItemRepository;
 import com.team1.lotteon.repository.OrderRepository;
@@ -64,6 +65,10 @@ public class DeliveryService {
         // OrderItem 상태 업데이트
         orderItem.setDelivery(delivery);
         orderItem.setDeliveryStatus(DeliveryStatus.DELIVERED);
+
+        // 하나의 orderitem이라도 배송 시작했으면 Order 상태 deliverd로 change
+        orderItem.getOrder().setStatus(OrderStatus.DELIVERING);
+
         orderItemRepository.save(orderItem);
     }
 

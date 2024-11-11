@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 
     - 수정내역
     - 자식 카테고리 가져오기 <캐싱 추가> getSubCategoriesByParentId() 추가 (10/25)
+    - 2024/11/08 박서홍 - redis 캐싱작업
 */
 @Slf4j
 @Service
@@ -46,6 +47,7 @@ public class CategoryService {
     }
 
     // 모든 1차 카테고리 조회 (상훈)
+
     @Cacheable(value = "allCategories", key = "'getAllRootCategories'")
     public ResultDTO<List<CategoryWithChildrenResponseDTO>> getAllRootCategories() {
         List<Category> allCate = categoryRepository.findAllRootWithChildren();
