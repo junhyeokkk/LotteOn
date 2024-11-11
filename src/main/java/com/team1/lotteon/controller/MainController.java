@@ -20,7 +20,7 @@ public class MainController {
     @GetMapping
     public String main(Model model) {
 
-        List<CategoryWithChildrenResponseDTO> allCategories = categoryService.getAllRootCategories();
+        List<CategoryWithChildrenResponseDTO> allCategories = categoryService.getAllRootCategories().getData();
 
         //히트 상품 조회수 가장 많은 순
         List<Product> producthit = productService.getMainproductsBybesthit();

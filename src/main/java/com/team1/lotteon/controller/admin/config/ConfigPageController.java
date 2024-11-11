@@ -71,7 +71,7 @@ public class ConfigPageController {
 
     @GetMapping("/admin/config/category")
     public String category(Model model){
-        List<CategoryWithChildrenResponseDTO> allRootCategories = categoryService.getAllRootCategories();
+        List<CategoryWithChildrenResponseDTO> allRootCategories = categoryService.getAllRootCategories().getData();
         model.addAttribute("categories", allRootCategories);
         System.out.println("allRootCategories = " + allRootCategories);
         return "admin/config/category";

@@ -1,5 +1,6 @@
 package com.team1.lotteon.apiController.category;
 
+import com.team1.lotteon.dto.ResultDTO;
 import com.team1.lotteon.dto.category.*;
 import com.team1.lotteon.entity.Category;
 import com.team1.lotteon.service.CategoryService;
@@ -27,9 +28,9 @@ public class CategoryApiController {
     private final CategoryService categoryService;
 
     @GetMapping("/all")
-    public ResponseEntity<List<CategoryWithChildrenResponseDTO>> getAllCategory() {
-        List<CategoryWithChildrenResponseDTO> allCategories = categoryService.getAllRootCategories();
-        return ResponseEntity.status(HttpStatus.OK).body(allCategories);
+    public ResponseEntity<ResultDTO<List<CategoryWithChildrenResponseDTO>>> getAllCategory() {
+        List<CategoryWithChildrenResponseDTO> allCategories = categoryService.getAllRootCategories().getData();
+        return ResponseEntity.status(HttpStatus.OK).body(new ResultDTO<>(allCategories));
     }
 
     // id 값을 이용하여 해당 id값을 parent를 가지는 자식 카테고리 조회 (준혁)
@@ -48,7 +49,7 @@ public class CategoryApiController {
     // 모든 1차 카테고리 조회 (준혁)
     @GetMapping("/root")
     public ResponseEntity<List<CategoryWithChildrenResponseDTO>> getAllRootCategories() {
-        List<CategoryWithChildrenResponseDTO> allCategories = categoryService.getAllRootCategories();
+        List<CategoryWithChildrenResponseDTO> allCategories = categoryService.getAllRootCategories().getData();
         return ResponseEntity.status(HttpStatus.OK).body(allCategories);
     }
 
