@@ -18,9 +18,6 @@
     /></a>
     <!-- 810x86 배너 이미지 -->
     <article class="latest">
-      <!--문의하기 출력-->
-
-      <!--문의하기가 있을떄-->
       <h3>문의하기</h3>
       <table border="0" class="widthtable">
         <tr>
@@ -31,46 +28,34 @@
           <th>작성일</th>
           <th>상태</th>
         </tr>
-        <tr>
-          <td>1</td>
-          <td>고객센터</td>
-          <td>주문 / 결제</td>
-          <td>신용카드 결제 중 오류가 난 경우 어떻게 하나요?</td>
-          <td>2022-12-12</td>
-          <td>검토중</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>고객센터</td>
-          <td>주문 / 결제</td>
-          <td>신용카드 결제 중 오류가 난 경우 어떻게 하나요?</td>
-          <td>2022-12-12</td>
-          <td>답변완료</td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>판매자 게시판</td>
-          <td>배송</td>
-          <td>배송기간이 보통 얼마나 걸리나요?</td>
-          <td>2022-12-12</td>
-          <td>답변완료</td>
+        <tr th:each="inquiry, iterStat : ${inquiries.content}">
+          <td th:text="${iterStat.index + 1}"></td>
+          <td th:text="${inquiry.type1}"></td>
+          <td th:text="${inquiry.type2}"></td>
+          <td>
+            <a th:href="@{/cs/layout/qna/view/{id}(id=${inquiry.id})}" th:text="${inquiry.title}"></a>
+          </td>
+          <td th:text="${#temporals.format(inquiry.createdAt, 'yyyy-MM-dd')}"></td>
+          <td th:text="${inquiry.answer != null ? '답변완료' : '검토중'}"></td>
         </tr>
       </table>
 
-      <div class="pagingBox">
+      <!-- 페이지네이션 -->
+      <div class="pagingBox" th:if="${inquiries.totalPages > 1}">
         <div class="pagingList">
           <!-- 이전 버튼 -->
-          <a href="#" class="prev"><</a>
+          <a th:href="@{/myPage/qna(pg=${inquiries.currentPage - 1})}"
+             class="prev" th:if="${!inquiries.isFirst}"><</a>
 
-          <!-- 페이지 링크 -->
-          <a href="#">1</a>
-          <a href="#" class="active">2</a>
-          <a href="#">3</a>
-          <a href="#">4</a>
-          <a href="#">5</a>
+          <!-- 페이지 번호 버튼 -->
+          <a th:href="@{/myPage/qna(pg=${pageNumber - 1})}"
+             th:each="pageNumber : ${#numbers.sequence(1, inquiries.totalPages)}"
+             th:text="${pageNumber}"
+             th:classappend="${pageNumber == inquiries.currentPage + 1 ? 'active' : ''}"></a>
 
           <!-- 다음 버튼 -->
-          <a href="#" class="next">></a>
+          <a th:href="@{/myPage/qna(pg=${inquiries.currentPage + 1})}"
+             class="next" th:if="${!inquiries.isLast}">></a>
         </div>
       </div>
     </article>

@@ -5,6 +5,7 @@ import com.team1.lotteon.dto.cs.ArticleDTO;
 import com.team1.lotteon.dto.cs.FaqDTO;
 import com.team1.lotteon.dto.cs.InquiryDTO;
 import com.team1.lotteon.dto.cs.NoticeDTO;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -46,7 +47,6 @@ public interface ArticleService {
     void incrementFaqViews(Long id);
 
 
-
     // Inquiry
     InquiryDTO createInquiry(InquiryDTO inquiryDTO);
     InquiryDTO getInquiryById(Long id);
@@ -59,6 +59,8 @@ public interface ArticleService {
     Map<String, List<InquiryDTO>> getQnasGroupedByType2(String type1);
     PageResponseDTO<InquiryDTO> getQnasByType1(String type1, Pageable pageable);
     void updateInquiryAnswer(Long id, String answer);
+    PageResponseDTO<InquiryDTO> getInquiriesByMemberId(String memberId, Pageable pageable);
+
 
     // Notice
     NoticeDTO createNotice(NoticeDTO noticeDTO);

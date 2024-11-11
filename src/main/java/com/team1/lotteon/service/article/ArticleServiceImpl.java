@@ -312,8 +312,11 @@ public class ArticleServiceImpl implements ArticleService {
         inquiryRepository.save(inquiry);
     }
 
-
-
+    @Override
+    public PageResponseDTO<InquiryDTO> getInquiriesByMemberId(String memberId, Pageable pageable) {
+        Page<Inquiry> inquiriesPage = inquiryRepository.findByMember_Uid(memberId, pageable);
+        return PageResponseDTO.fromPage(inquiriesPage.map(this::convertToInquiryDTO));
+    }
 
 
     //  Notice 공지사항
