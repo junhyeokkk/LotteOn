@@ -22,7 +22,7 @@
             const response = await fetch('/api/cate/all');
             if (!response.ok) throw new Error('카테고리 데이터를 가져오는 데 실패했습니다.');
             const categories = await response.json();
-            renderCategories(categories);
+            renderCategories(categories.data);
         } catch (error) {
             console.error(error);
         }

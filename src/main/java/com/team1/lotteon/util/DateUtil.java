@@ -16,4 +16,11 @@ public class DateUtil {
     public String formatLocalDateTime(LocalDateTime dateTime) {
         return dateTime != null ? dateTime.format(formatter) : "";
     }
-}
+        // "yyyy-MM-dd" 형식으로 날짜만 포맷하는 메서드
+        private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        public String formatDate(LocalDateTime dateTime) {
+            return dateTime != null ? dateTime.format(dateFormatter) : "";
+        }
+    }
+

@@ -20,6 +20,9 @@ spring:
           auth: true
           starttls:
             enable: true
-
+  data:
+    redis:
+      host: localhost
+      port: 6379
 app:
   version: '1조 - 0.0.4-SNAPSHOT'

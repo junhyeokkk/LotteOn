@@ -30,10 +30,7 @@
 
             </div>
         </div>
-        <!-- 스크롤 최상단 버튼 -->
-        <button id="scrollTopBtn" class="scroll-top-btn" onclick="scrollToTop()">
-            <img src="/images/up.png" alt="print" />
-        </button>
+
         <main>
             <div class="blogMainText">
                 <p>
@@ -156,9 +153,10 @@
                     </div>
                 </div>
             </div>
-
-
         </main>
+        <button id="scrollTopBtn" class="scroll-top-btn" onclick="scrollToTop()">
+            <i class="fas fa-arrow-up"></i>
+        </button>
         <script th:src="@{/js/scrollToTop.js}"></script>
     </div>
 </html>

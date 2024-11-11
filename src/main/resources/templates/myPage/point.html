@@ -53,7 +53,6 @@
       <!-- 포인트 있을 때 -->
       <table border="0" class="widthtable">
         <tr>
-          <th><input type="checkbox" name="all" onchange="toggleAllChecks(this)" /></th>
           <th>날짜</th>
           <th>구분</th>
           <th>주문번호</th>
@@ -63,7 +62,6 @@
         </tr>
         <!-- 10개 출력이나 5개만 -->
         <tr th:each="point, stat : ${points.dtoList}" class="admin_list">
-          <td><input type="checkbox" name="RowCheck" th:value="${point.id}" /></td>
           <td th:text="${point.formattedCreatedAt}"></td> <!-- 날짜 포맷 -->
           <td th:text="${point.transactionType.toString()}"></td>
           <td th:text="${point.order_id != null ? point.order_id : point.type}">2022121001</td>

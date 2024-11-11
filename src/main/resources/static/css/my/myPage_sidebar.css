@@ -1,0 +1,51 @@
+
+/* 기본 스타일 */
+#mypage_sidebar li a {
+    display: block;
+    padding: 12px 16px;
+    margin-bottom: 5px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+    transition: all 0.3s ease; /* 부드러운 애니메이션 */
+}
+
+/* 활성화된 메뉴 항목 (active 클래스) */
+#mypage_sidebar li a.active {
+    background-color: #d9201f; /* 메인 색상 (빨간색) */
+    color: #fff; /* 글자색을 흰색으로 */
+    font-weight: 600;
+    border-left: 6px solid #b71c1c; /* 더 진한 빨간색 테두리 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
+    transform: scale(1.02); /* 살짝 확대 효과 */
+}
+
+/* 마우스 오버 시 효과 */
+#mypage_sidebar li a:hover {
+    background-color: #e53935; /* 살짝 더 밝은 빨간색 */
+    color: #fff;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* 그림자 강화 */
+}
+
+/* 활성화된 메뉴 항목의 왼쪽 강조선 애니메이션 */
+#mypage_sidebar li a.active::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 80%;
+    width: 6px;
+    background-color: #b71c1c;
+    border-radius: 4px;
+    transition: height 0.3s ease;
+}
+
+/* 전체 스타일 */
+#mypage_sidebar {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}

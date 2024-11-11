@@ -258,9 +258,12 @@ public class ProductService {
 
         log.info("서비스 입성");
         Product product = productRepository.findById(id).orElse(null);
-
+        //2024/11/08 이도영 상품 조회수 증가
+        if(product != null){
+            product.setViews(product.getViews()+1);
+            productRepository.save(product);
+        }
         ProductDTO savedproductDTO = modelMapper.map(product, ProductDTO.class);
-
         return savedproductDTO;
     }
 
@@ -422,4 +425,24 @@ public class ProductService {
         }
     }
 
+    //히트 상품 조회수 가장 많은 순 8개
+    public List<Product> getMainproductsBybesthit() {
+        return productRepository.findTop8ByOrderByViewsDesc();
+    }
+    //추천 상품 리뷰가 가장 많으면서 평점이 높은 순서대로 8개
+    public List<Product> getTopProductsByReviewCountAndScore() {
+        return productRepository.findTopProductsByReviewCountAndScore();
+    }
+    //최신상품 가장 최근에 등록된 상품 순서 대로 8개
+    public List<Product> getLatestProducts() {
+        return productRepository.findTop8ByOrderByCreatedAtDesc();
+    }
+    //인기 상품 구매율이 가장 높으면서 평점이 높은순
+    public List<Product> getTopSellingAndRatedProducts() {
+        return productRepository.findTopSellingAndRatedProducts();
+    }
+
+    public List<Product> getTopDiscountedProducts() {
+        return productRepository.findTop8ByOrderByDiscountRateDesc(); // 또는 findTop10ByOrderByDiscountRateDesc() 호출
+    }
 }

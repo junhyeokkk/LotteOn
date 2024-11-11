@@ -1,5 +1,6 @@
 package com.team1.lotteon.service;
 
+import com.team1.lotteon.dto.ResultDTO;
 import com.team1.lotteon.dto.category.CategoryCreateDTO;
 import com.team1.lotteon.dto.category.CategoryResponseDTO;
 import com.team1.lotteon.dto.category.CategoryWithChildrenResponseDTO;
@@ -45,9 +46,10 @@ public class CategoryService {
     }
 
     // 모든 1차 카테고리 조회 (상훈)
-    public List<CategoryWithChildrenResponseDTO> getAllRootCategories() {
+    @Cacheable(value = "allCategories", key = "'getAllRootCategories'")
+    public ResultDTO<List<CategoryWithChildrenResponseDTO>> getAllRootCategories() {
         List<Category> allCate = categoryRepository.findAllRootWithChildren();
-        return allCate.stream().map(CategoryWithChildrenResponseDTO::fromEntity).toList();
+        return  new ResultDTO<>(allCate.stream().map(CategoryWithChildrenResponseDTO::fromEntity).toList());
     }
 
     public CategoryWithParentAndChildrenResponseDTO getDetailById(Long id) {

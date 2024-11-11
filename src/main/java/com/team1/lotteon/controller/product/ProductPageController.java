@@ -250,6 +250,7 @@ public class ProductPageController {
     public String viewProduct(@PathVariable("id") Long id,
                               Model model,
                               @PageableDefault(size = 5) Pageable pageable) throws JsonProcessingException {
+
         log.info("컨트롤러 ㅇㅇㅇ");
         ProductDTO saveProduct = productService.getProductById(id);
         //shopid로 바꾸기
