@@ -14,16 +14,16 @@ import java.util.Optional;
     내용 : 카테고리 리파지토리 생성
 */
 public interface CategoryRepository extends JpaRepository<Category, Long> {
-    @Query("SELECT c FROM Category c left join fetch c.children WHERE c.parent IS NULL AND c.level=1 ORDER BY c.displayOrder ASC")
-    public List<Category> findAllRootWithChildren();
+    @Query("SELECT c FROM Category c  WHERE c.parent IS NULL AND c.level=1 ORDER BY c.displayOrder ASC")
+    public List<Category> findAllRoot();
 
-    @Query("SELECT c FROM Category c left join fetch c.children left join fetch c.parent WHERE c.id = :id")
+    @Query("SELECT c FROM Category c  left join fetch c.parent WHERE c.id = :id")
     public Optional<Category>  findWithChildrenAndParentById(@Param("id") Long id);
 
     @Query("SELECT c FROM Category c left join fetch c.parent WHERE c.id = :id")
     public Optional<Category> findWithParentById(@Param("id") Long id);
 
-    @Query("SELECT c FROM Category c left join fetch c.children WHERE c.id = :id")
+    @Query("SELECT c FROM Category c  WHERE c.id = :id")
     public Optional<Category>  findWithChildrenById(@Param("id") Long id);
 
     @Query("SELECT COALESCE(MAX(c.displayOrder), 0) FROM Category c WHERE c.level=1 AND c.parent IS NULL")

@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /*
@@ -50,7 +49,7 @@ public class CategoryService {
 
     @Cacheable(value = "allCategories", key = "'getAllRootCategories'")
     public ResultDTO<List<CategoryWithChildrenResponseDTO>> getAllRootCategories() {
-        List<Category> allCate = categoryRepository.findAllRootWithChildren();
+        List<Category> allCate = categoryRepository.findAllRoot();
         return  new ResultDTO<>(allCate.stream().map(CategoryWithChildrenResponseDTO::fromEntity).toList());
     }
 

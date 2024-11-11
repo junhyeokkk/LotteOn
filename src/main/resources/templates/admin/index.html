@@ -171,27 +171,33 @@
             </div>
         </div>
     </div>
-    <script>
+    <script th:inline="javascript">
+        const orderDailyQueryDtoList = /*[[${orderDailyQueryDtoList}]]*/ []
+        const labels = orderDailyQueryDtoList.map(dto => dto.orderDate)
+        const orderedData = orderDailyQueryDtoList.map(dto => dto.orderCount)
+        const deliveredData = orderDailyQueryDtoList.map(dto => dto.deliveredCount)
+        const completeData = orderDailyQueryDtoList.map(dto => dto.completeCount)
+
         // Bar chart for orders, payments, and cancellations
         const ctxBar = document.getElementById('barChart').getContext('2d');
         const barChart = new Chart(ctxBar, {
             type: 'bar',
             data: {
-                labels: ['10-11', '10-12', '10-13', '10-14'], // Replace with actual dates
+                labels: labels, // Replace with actual dates
                 datasets: [
                     {
-                        label: '주문',
-                        data: [120, 150, 170, 130], // Replace with actual order data
+                        label: '주문완료',
+                        data: orderedData, // Replace with actual order data
                         backgroundColor: 'rgba(54, 162, 235, 0.6)',
                     },
                     {
-                        label: '결제',
-                        data: [100, 140, 160, 110], // Replace with actual payment data
+                        label: '배송완료',
+                        data: deliveredData, // Replace with actual payment data
                         backgroundColor: 'rgba(255, 99, 132, 0.6)',
                     },
                     {
-                        label: '취소',
-                        data: [20, 30, 15, 25], // Replace with actual cancellation data
+                        label: '수취완료',
+                        data: completeData, // Replace with actual cancellation data
                         backgroundColor: 'rgba(75, 192, 192, 0.6)',
                     }
                 ]

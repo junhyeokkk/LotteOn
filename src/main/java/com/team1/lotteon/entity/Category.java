@@ -1,5 +1,6 @@
 package com.team1.lotteon.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -31,6 +32,7 @@ public class Category {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent")
+    @JsonIgnore
     private Category parent;
 
     @Builder.Default
