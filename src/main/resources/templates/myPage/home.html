@@ -16,6 +16,8 @@
     <link rel="stylesheet" th:href="@{/css/my/home.css}"/>
     <link rel="stylesheet" th:href="@{/css/reset.css}" />
     <link rel="stylesheet" th:href="@{/css/my/modal.css}">
+    <link rel="stylesheet" th:href="@{/css/my/myPage_sidebar.css}" />
+
     <script type="text/javascript" th:src="@{/js/modal/modal.js}"></script>
     <script type="text/javascript" th:src="@{/js/my/searchPeriod.js}"></script>
     <div th:replace="layout/modal :: #orderDetailModal"></div>
@@ -88,7 +90,6 @@
                         <a th:href="@{/myPage/point}" class="more">더보기 &gt;</a>
                         <table border="0" class="widthtable">
                             <tr>
-                                <th><input type="checkbox" name="all" onchange="toggleAllChecks(this)" /></th>
                                 <th>날짜</th>
                                 <th>구분</th>
                                 <th>주문번호</th>
@@ -97,8 +98,7 @@
                                 <th>유효기간</th>
                             </tr>
                             <tr th:each="point : ${points}" class="admin_list">
-                                    <td><input type="checkbox" name="RowCheck" th:value="${point.id}" /></td>
-                                    <td th:text="${point.formattedCreatedAt}"></td> <!-- 날짜 포맷 -->
+                                <td th:text="${point.formattedCreatedAt }"></td>
                                     <td th:text="${point.transactionType.toString()}"></td>
                                     <td th:text="${point.order_id != null ? point.order_id : point.type}">2022121001</td>
                                     <td th:text="${point.acPoints}"></td>

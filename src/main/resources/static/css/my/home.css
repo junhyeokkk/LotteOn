@@ -1,101 +1,181 @@
+/* #wrapper 유지 */
 #wrapper {
-    width: 1200px; /* 원하는 너비로 설정 */
-    margin: 0 auto; /* 가운데 정렬 */
-
+    width: 1200px;
+    margin: 0 auto;
 }
 
 /* 나의 쇼핑정보 */
 .info {
     display: flex;
     align-items: flex-start;
-    /* 회원정보 설정과 사이드바를 수평으로 배치 */
-    margin-left: 15px;
-    margin-bottom: 10px;
+    margin: 10px;
 }
 .info ul {
     list-style: none;
     padding: 0;
-    margin: 0;
     width: 200px;
-    /* 어사이드 너비 */
-    padding: 10px;
-    border-right: 1px solid #ccc;
-    height: 1200px
-    /* 전체 높이 설정 */
+    border-right: 1px solid #e0e0e0;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    border-radius: 0 10px 10px 0;
 }
 .info ul li {
-    padding: 20px 0;
+    padding: 12px 0;
     text-align: center;
-    font-weight: bold;
+    font-weight: 600;
+    color: #333;
+    transition: all 0.2s ease;
 }
-.info section {
-    margin-top: 20px;
-    margin-left: 20px;
-    flex-grow: 1;
+
+.info ul li:hover {
+    background-color: #ffe5e5;
+    color: #d9201f;
+    cursor: pointer;
 }
+
+/* 버튼 스타일 */
 .info .infobutton {
     height: 30px;
     background-color: #343b4d;
     color: white;
     border: none;
     cursor: pointer;
-    border-radius: 5px
+    border-radius: 5px;
+}
+.info .infobutton:hover {
+    background-color: #ef2a23;
 }
 
-/*나의 정보 상단 사이드*/
+/* 상단 영역 스타일 */
 .myinfotopside {
-    height: 75px;
-    background-color: #f2f2f2;
+    height: 80px;
+    background-color: #fff5f5; /* 연한 라이트 레드 배경 */
+    padding: 10px 20px;
+    border-bottom: 2px solid #ef2a23;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 0 0 10px 10px;
 }
-.myinfotopside div {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+section {
     margin-left: 10px;
 }
-.myinfotopside .shopping-info {
-    flex-grow: 1;
-    /* 공간 차지 */
-    text-align: left;
-    padding-left: 50px;
-    /* 더 안쪽으로 밀어 넣기 */
-    font-size: 25px;
-    font-weight: bold;
-    margin-bottom: 12px;
 
+
+    /* 상단 링크 스타일 */
+.myinfotopside .shopping-info {
+    font-size: 22px;
+    font-weight: 700;
+    color: #d9201f;
+    text-decoration: none;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    line-height: 2.5; /* 줄 간격을 조정하여 아래로 내림 */
 }
-/* 마이페이지 메뉴 */
+ h3 {
+    padding-left: 30px;
+    margin-bottom: 0;
+}
+
+
+/* 네비게이션 리스트 스타일 */
 .myinfotopside ol {
     display: flex;
+    gap: 20px;
     list-style: none;
     margin-left: auto;
+    padding: 0;
+    float: right;
+    margin-top: auto;
 }
+
+/* 네비게이션 항목 스타일 */
 .myinfotopside ol li {
-    border-right: 0.4px solid #97989b;
-    margin-right: 20px;
     text-align: center;
-    padding-right: 20px;
-}
-.myinfotopside ol li:last-child {
-    border-right: none;
-    /* 마지막 항목에는 경계선 제거 */
-}
-/* 최근주문내역, 전체주문내역 상품정보 이미지 */
-.myinfotopside img {
-    height: 75px;
+    font-size: 14px;
+    color: #555;
 }
 
+.myinfotopside ol li a {
+    display: block;
+    color: #333;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+.myinfotopside ol li a:hover {
+    background-color: #ef2a23;
+    color: #fff;
+}
+/* 숫자 출력 스타일 */
+.myinfotopside ol li a span {
+    display: block;
+    font-size: 16px;
+    font-weight: bold;
+    color: #d9201f; /* 다크 레드 컬러 */
+    margin-top: 5px;
+}
 
-/* 광고배너 */
+/* 마이페이지 메뉴 링크 스타일 */
+.myinfotopside ol li a {
+    color: inherit;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+.myinfotopside ol li a span:nth-child(2) {
+    margin-left: 10px;
+}
+
+.myinfotopside ol li a span:nth-child(4) {
+    margin-right: 10px;
+}
+
+.myinfotopside ol li a:hover {
+    color: #ff5733; /* 부드러운 레드-오렌지 컬러 */
+}
+
+/* 배너 스타일 */
 .banner {
     display: block;
-    margin: 0 auto;
-    margin-bottom: 20px;
-    width: 965px;
-    height: 86px;
+    margin: 20px auto;
+    width: 950px;
+    height: 100px;
     object-fit: cover;
-    /* 이미지가 비율을 유지하며 크기에 맞게 조정되도록 설정 */
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 배너에 그림자 추가 */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-left: 20px;
 }
+.banner:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+
+
+
+
+/* 테이블 스타일 */
+.widthtable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+.widthtable th {
+    background-color: #d50e0e;
+    color: #fff;
+    padding: 15px;
+    font-size: 16px;
+}
+.widthtable td {
+    padding: 15px;
+    color: #343b4d;
+    border-bottom: 1px solid #e9ecef;
+}
+.widthtable tr:hover {
+    background-color: #fff0f0;
+}
+
 /* 더보기 */
 .more {
     float: right;
@@ -106,253 +186,185 @@
     margin-bottom: 10px;
     font-weight: bolder;
 }
-
-/*상품정보*/
-/* 숫자 출력 스타일 */
-.myinfotopside ol li span {
-    display: block;
-    font-size: 18px;
-    /* 숫자의 크기 */
-    font-weight: bold;
-    /* 숫자 굵게 */
-}
-
-/* 테이블 */
-.widthtable {
-    border-top: 1.7px solid #000000;
-    /* 위쪽 테두리 */
-    border-bottom: 0.4px solid #A6A6A6;
-    /* 아래쪽 테두리 */
-    border-collapse: collapse;
-    width: 100%;
-    text-align: center;
-    margin-bottom: 20px;
-}
-.widthtable th {
-    height: 40px;
-    background-color: #A6A6A6;
-    color: white;
-    width: auto;
-    text-align: center;
-}
-.widthtable td {
-    padding: 10px;
-}
-
-.recentproductorderimg img {
-    height: 120px;
-    width: 115px;
-}
-
-/* 주문내역 확인/신청 */
-.receivebutton {
-    background-color: #558ED5;
-    border: 0px;
+/* 메인 버튼 스타일 */
+.receivebutton,
+.returnbutton,
+.exchangebutton {
+    background-color: #d50e0e; /* 메인 레드 컬러 */
+    border: 0;
     width: 133px;
     height: 40px;
     color: white;
     margin-bottom: 3px;
-    border-radius: 5px
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 약간의 그림자 추가 */
+    transition: background-color 0.3s ease;
 }
+
+/* 메인 버튼 호버 효과 */
+.receivebutton:hover,
+.returnbutton:hover,
+.exchangebutton:hover {
+    background-color: #b50909; /* 살짝 더 진한 레드 */
+    color: #f1f1f1; /* 약간 더 밝은 텍스트 색상 */
+}
+
+/* 리뷰 버튼 스타일 */
 .reviewbutton {
-    background-color: #BFBFBF;
-    border: 0px;
+    background-color: #bfbfbf; /* 중립적인 그레이 컬러 */
+    border: 0;
     width: 133px;
     height: 40px;
     color: white;
     margin-bottom: 3px;
-    border-radius: 5px
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
 }
 
-/* 나의 설정 */
-.myinfo {
-    width: 100%;
-    height: 140px;
-    background-color: #f5f5f5;
-    border: 1px solid #e5e5e5;
-    margin: 10px 0;
-    overflow: hidden;
-}
-.address {
-    float: left;
-    width: 33.33%;
-    height: 100%;
-    padding: 16px;
-    border-right: 1px solid #eaeaea;
-    border-left: 1px solid #fdfdfd;
-    box-sizing: border-box;
-}
-.email {
-    float: left;
-    width: 33.33%;
-    height: 100%;
-    padding: 16px;
-    border-right: 1px solid #eaeaea;
-    border-left: 1px solid #fdfdfd;
-    box-sizing: border-box;
-}
-.hp {
-    float: left;
-    width: 33.33%;
-    height: 100%;
-    padding: 16px;
-    border-right: 1px solid #eaeaea;
-    border-left: 1px solid #fdfdfd;
-    box-sizing: border-box;
+/* 리뷰 버튼 호버 효과 */
+.reviewbutton:hover {
+    background-color: #9e9e9e; /* 진한 그레이 */
+    color: #f1f1f1;
 }
 
-.myinfosetting div>span:first-child {
-    font-weight: bold;
-    font-size: 16px;
+
+
+/* 버튼 정렬 */
+.button-container {
+    display: flex;
+    justify-content: space-around; /* 버튼 간격 균등 분배 */
+    align-items: center;
+    margin-top: 15px;
 }
 
-/* 검색기능 (전체주문내역, 포인트내역) */
+
+/* 검색바 스타일 */
 .myinfoSearch {
     display: flex;
     align-items: center;
-    gap: 5px;
-    /* 요소 간의 간격 */
-    flex-wrap: nowrap;
-    /* 모든 요소를 한 줄에 유지 */
-    background-color: #f2f2f2;
-    padding-left: 15px;
-    width: 100%;
-    height: 75px;
+    gap: 15px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+}
+.myinfoSearch p {
+    font-size: 18px;
+    font-weight: 700;
+    color: #ef2a23;
 }
 
-/* 공통 스타일 */
-.myinfoSearch input,
-.myinfoSearch button,
-.myinfoSearch a {
-    width: 60px;
-    height: 35px;
-    padding: 5px 0px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    text-align: center;
-}
-
-.myinfoSearch #monthSelect {
-    width: 130px;
-    padding: 5px 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    text-align: center;
-}
-
-.myinfoSearch a {
-    text-decoration: none;
-    color: #007bff;
-    border: 1px solid #007bff;
-    background-color: white;
-    cursor: pointer;
-}
-
-.myinfoSearch button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-.date-wrapper {
-    display: flex;
-    justify-content: space-between;
-    gap: 3px;
-}
-
+/* 날짜 입력 필드 */
 #startDate,
 #endDate {
-    text-align: center;
-    width: 100px;
-    /* 원하는 너비로 설정 */
+    width: 150px;
+    padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 6px;
+    border-radius: 8px;
+    text-align: center;
 }
 
-/* 라벨 스타일 */
-.myinfoSearch label {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 6px;
+/* 페이징 스타일 */
+.pagingBox {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+.pagingList a {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: #f0f0f0;
+    color: #343b4d;
+    text-align: center;
+    line-height: 32px;
+    transition: background-color 0.3s;
+}
+.pagingList a.active {
+    background-color: #ef2a23;
+    color: #fff;
+}
+.pagingList a:hover {
+    background-color: #ff6666;
 }
 
-/* widthtable 클래스가 적용된 테이블의 모든 tr에 얇은 하단 선 추가 */
-table.widthtable tr td {
-    border-bottom: 0.4px solid #ccc;
-    /* 얇은 하단 선 */
-}
-
-/* widthtable 클래스가 적용된 테이블의 마지막 tr에 두꺼운 하단 선 추가 */
-table.widthtable tr:last-child td {
-    border-bottom: 1px solid #333;
-    /* 마지막 행에 두꺼운 하단 선 */
-
-}
-
-/* 나의 리뷰 평점 */
+/* 별점 스타일 */
 .star {
-    font-size: 15px;
-    cursor: pointer;
+    font-size: 20px;
     color: #ccc;
-    /* 기본 색상 (회색) */
 }
 .star.filled {
     color: gold;
-    /* 클릭 시 색상이 노란색으로 변경 */
 }
 
 
-/* 버튼 */
-.myinfosubmitbutton {
+/* 나의 설정 */
+.myinfo {
     display: flex;
-    /* 플렉스 박스 활성화 */
-    justify-content: center;
-    /* 가로 중앙 정렬 */
-    gap: 5px;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #fff5f5;
+    border: 1px solid #ef2a23;
+    border-radius: 10px;
+    margin: 15px 0;
+    box-sizing: border-box;
+}
+
+/* 각 섹션 (주소, 이메일, 휴대폰) 스타일 */
+.address, .email, .hp {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+}
+
+/* 섹션 제목 스타일 */
+.myinfosetting div > span:first-child {
+    display: block;
+    font-weight: bold;
+    font-size: 18px;
+    color: #343b4d;
     margin-bottom: 10px;
 }
-.myinfosubmitbutton button {
-    background-color: #ef2a23;
-    /* 343b4d */
-    border: 0px;
-    width: 133px;
-    height: 40px;
-    color: white;
-    cursor: pointer;
-    border-radius: 5px
+
+/* 내용 텍스트 스타일 */
+.myinfosetting p {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #555;
 }
 
-.myinfomation input[type="text"],
-.myinfomation select {
-    height: 30px;
-}
-
-/* 페이징 */
-.pagingBox {
-    display: flex;
-    position: relative;
-    margin-top: 40px;
-    justify-content: center;
-}
-.pagingList>a {
+/* 변경 버튼 스타일 */
+.myinfosetting a.setting {
     display: inline-block;
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    color: #999;
-    line-height: 26px;
-    margin: 0 2px;
-    text-indent: -1px;
-    font-family: Roboto, NotoSansKR, Malgun Gothic, AppleSDGothicNeo, Helvetica, sans-serif;
-    text-align: center;
-}
-.pagingList>a.active {
-    margin: 0 4px;
-    background-color: #343b4d;
-    border: 1px solid #343b4d;
+    margin-top: 10px;
+    padding: 8px 20px;
+    background-color: #ef2a23;
     color: #fff;
+    border-radius: 5px;
+    font-size: 15px;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
-.pagingList>a:hover {
-    background-color: #35373d;
+
+.myinfosetting a.setting:hover {
+    background-color: #d9201f;
+}
+
+/* Flexbox 레이아웃 강제 적용 */
+.myinfosetting {
+    display: flex;
+    gap: 30px;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+/* 텍스트 중앙 정렬 */
+.myinfosetting p,
+.myinfosetting span {
+    text-align: center;
 }

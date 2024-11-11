@@ -123,10 +123,12 @@ public class MyinfoController {
         Integer totalAcPoints = pointService.calculateTotalAcPoints(myUserDetails.getGeneralMember().getUid());
         model.addAttribute("totalAcPoints", totalAcPoints);
 
-        // 포맷된 날짜 리스트를 모델에 추가
-        model.addAttribute("formattedCreatedAtList", formattedCreatedAtList);
-        model.addAttribute("formattedExpirationDateList", formattedExpirationDateList);
 
+        // 포인트 리스트에 포맷팅된 생성일 및 유효기간 추가
+        responseDTO.getDtoList().forEach(point -> {
+            point.setFormattedCreatedAt(dateUtil.formatDate(point.getCreatedat()));
+            point.setFormattedExpirationDate(dateUtil.formatDate(point.getExpirationDate()));
+        });
 
 
         // 나의 정보
@@ -210,19 +212,19 @@ public class MyinfoController {
                 .endDate(endDate)
                 .build();
 
+        // 포인트 데이터 가져오기
         PointPageResponseDTO responseDTO = pointService.getMyPoints(requestDTO);
         model.addAttribute("points", responseDTO);
 
-        List<String> formattedCreatedAtList = responseDTO.getDtoList().stream()
-                .map(point -> dateUtil.formatDate(point.getCreatedat()))
-                .collect(Collectors.toList());
+        // 포인트 합계 계산 후 Model에 추가
+        Integer totalAcPoints = pointService.calculateTotalAcPoints(myUserDetails.getGeneralMember().getUid());
+        model.addAttribute("totalAcPoints", totalAcPoints);
 
-        List<String> formattedExpirationDateList = responseDTO.getDtoList().stream()
-                .map(point -> dateUtil.formatDate(point.getExpirationDate()))
-                .collect(Collectors.toList());
-
-        model.addAttribute("formattedCreatedAtList", formattedCreatedAtList);
-        model.addAttribute("formattedExpirationDateList", formattedExpirationDateList);
+        // 포맷팅된 생성일 및 유효기간 추가
+        responseDTO.getDtoList().forEach(point -> {
+            point.setFormattedCreatedAt(dateUtil.formatDate(point.getCreatedat()));
+            point.setFormattedExpirationDate(dateUtil.formatDate(point.getExpirationDate()));
+        });
 
         log.info("포인트 데이터: " + responseDTO.getDtoList());
         return "myPage/point";

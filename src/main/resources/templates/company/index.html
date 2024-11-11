@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" th:href="@{/css/company/company.css}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 </head>
 
@@ -204,9 +205,10 @@
 
         </main>
         <!-- 스크롤 최상단 버튼 -->
-        <button id="scrollTopBtn" class="scroll-top-btn" onclick="scrollToTop()">
-            <img src="/images/up.png" alt="print" />
-        </button>
+<button id="scrollTopBtn" class="scroll-top-btn" onclick="scrollToTop()">
+    <i class="fas fa-arrow-up"></i>
+</button>
+
         <script th:src="@{/js/scrollToTop.js}"></script>
         <footer th:replace="~{layout/footer1::footer}"></footer>
     </div>

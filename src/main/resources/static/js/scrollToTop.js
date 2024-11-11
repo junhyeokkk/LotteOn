@@ -1,6 +1,9 @@
-// 페이지 상단으로 즉시 스크롤하는 함수
+// 페이지 상단으로 부드럽게 스크롤하는 함수
 function scrollToTop() {
-    window.scrollTo(0, 0);  // 최상단으로 즉시 이동
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'  // 부드러운 스크롤
+    });
 }
 
 // 스크롤 이벤트 리스너로 버튼 표시 제어
@@ -11,9 +14,9 @@ window.onscroll = function() {
 
     // 현재 스크롤 위치와 푸터의 위치를 기반으로 버튼 표시 제어
     if ((document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) && footerRect.top > window.innerHeight) {
-        scrollTopBtn.style.display = "block";  // 버튼 표시
+        scrollTopBtn.classList.add("show");  // 버튼 표시
     } else {
-        scrollTopBtn.style.display = "none";   // 버튼 숨김
+        scrollTopBtn.classList.remove("show");   // 버튼 숨김
     }
 };
 
