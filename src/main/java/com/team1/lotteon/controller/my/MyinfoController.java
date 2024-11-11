@@ -3,6 +3,7 @@ package com.team1.lotteon.controller.my;
 import com.team1.lotteon.dto.CouponTakeDTO;
 import com.team1.lotteon.dto.PageResponseDTO;
 import com.team1.lotteon.dto.PointDTO;
+import com.team1.lotteon.dto.cs.InquiryDTO;
 import com.team1.lotteon.dto.order.OrderDTO;
 import com.team1.lotteon.dto.order.OrderItemDTO;
 import com.team1.lotteon.dto.order.OrderPageRequestDTO;
@@ -19,6 +20,7 @@ import com.team1.lotteon.service.MemberService.GeneralMemberService;
 import com.team1.lotteon.service.Order.OrderService;
 import com.team1.lotteon.service.PointService;
 import com.team1.lotteon.service.admin.CouponTakeService;
+import com.team1.lotteon.service.article.ArticleService;
 import com.team1.lotteon.service.review.ReviewService;
 import com.team1.lotteon.service.review.ReviewService;
 import com.team1.lotteon.util.DateUtil;
@@ -26,6 +28,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
@@ -64,6 +67,7 @@ public class MyinfoController {
     private final GeneralMemberService generalMemberService;
     private final ModelMapper modelMapper;
     private final ReviewService reviewService;
+    private final ArticleService articleService;
 
     @ModelAttribute("couponCount")
     public int getCouponCount(@AuthenticationPrincipal MyUserDetails myUserDetails) {
@@ -232,9 +236,16 @@ public class MyinfoController {
 
 
     @GetMapping("/qna")
-    public String myqna(Model model){
+    public String myqna(@AuthenticationPrincipal MyUserDetails myUserDetails,
+                        @RequestParam(defaultValue = "0") int pg,
+                        Model model) {
+        Pageable pageable = PageRequest.of(pg, 10);
+        String memberId = myUserDetails.getGeneralMember().getUid();
+        PageResponseDTO<InquiryDTO> inquiries = articleService.getInquiriesByMemberId(memberId, pageable);
+        model.addAttribute("inquiries", inquiries);
         return "myPage/qna";
     }
+
 
     @GetMapping("/review")
     public String myreview(Model model, @PageableDefault Pageable pageable, @AuthenticationPrincipal MyUserDetails myUserDetails) {

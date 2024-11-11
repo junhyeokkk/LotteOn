@@ -28,5 +28,8 @@ public interface InquiryRepository extends JpaRepository<Inquiry, Long> {
     @Query("SELECT q FROM Inquiry q WHERE q.type1 = :type1 ORDER BY q.type2, q.createdAt DESC")
     List<Inquiry> findByType1OrderByType2AndCreatedAt(@Param("type1") String type1);
     List<Inquiry> findTop3ByOrderByIdDesc();
+
+    // 새로운 메서드: 특정 회원 ID로 문의 데이터 조회
+    Page<Inquiry> findByMember_Uid(String memberId, Pageable pageable);
 }
 
