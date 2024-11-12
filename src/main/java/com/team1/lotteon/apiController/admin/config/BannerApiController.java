@@ -1,9 +1,11 @@
 package com.team1.lotteon.apiController.admin.config;
 
 import com.team1.lotteon.dto.BannerDTO;
+import com.team1.lotteon.entity.Banner;
 import com.team1.lotteon.service.admin.BannerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -15,6 +17,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 /*
     날짜 : 2024/10/24
     이름 : 최준혁
@@ -27,6 +31,7 @@ import java.util.Map;
 public class BannerApiController {
 
     private final BannerService bannerService;
+    private final ModelMapper modelMapper;
 
     // 배너 등록
     @PostMapping("/banner")
@@ -94,4 +99,18 @@ public class BannerApiController {
         }
     }
 
+    @GetMapping("/api/banner/main")
+    public List<BannerDTO> getMainBanners() {
+        List<Banner> mainBanners = bannerService.getBannersByPosition("Main");
+        return mainBanners.stream()
+                .map(banner -> modelMapper.map(banner, BannerDTO.class))
+                .collect(Collectors.toList());
+    }
+    @GetMapping("/api/banner/slider")
+    public List<BannerDTO> getSliderBanners() {
+        List<Banner> banners = bannerService.getBannersByPosition("Silder"); // position이 "Slider"인 활성 배너만 조회
+        return banners.stream()
+                .map(banner -> modelMapper.map(banner, BannerDTO.class))
+                .collect(Collectors.toList());
+    }
 }

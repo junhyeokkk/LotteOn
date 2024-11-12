@@ -80,10 +80,10 @@ public class SchedulingService {
         couponTakeService.checkCouponTakes();
     }
     //배너 상태 변경(도영) 2024/11/12
-    @Scheduled(cron = "0 0 * * * *")
-    public void bannerSetting() {
-        bannerService.changeBannerStatues();
-        log.info("Start bannerSetting");
-    }
+//    @Scheduled(cron = "0 0 * * * *")
+//    public void bannerSetting() {
+//        bannerService.changeBannerStatues();
+//        log.info("Start bannerSetting");
+//    }
 
 }

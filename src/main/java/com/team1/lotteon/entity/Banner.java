@@ -33,7 +33,7 @@ public class Banner {
     private LocalDate displayEndDate;
     private LocalTime displayStartTime;
     private LocalTime displayEndTime;
-    public void setIsActive(boolean isActive){
+    public void setIsActive(int isActive){
         this.isActive = isActive;
     }
 }

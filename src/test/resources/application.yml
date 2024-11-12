@@ -20,6 +20,9 @@ spring:
           auth: true
           starttls:
             enable: true
+  cache:
+    redis:
+      time-to-live: 1800000
   data:
     redis:
       host: asd

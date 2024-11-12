@@ -46,12 +46,5 @@ public class MainController {
 
         return "main/layout/main_layout";
 
-
-
-
-
-
-
-
     }
 }
