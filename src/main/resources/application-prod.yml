@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://43.200.191.196:3306/lotteon
+    url: jdbc:mysql://43.200.191.196:3306/lotteon?serverTimezone=Asia/Seoul
     username: root
     password: "qwer1234!Q"
     hikari:
