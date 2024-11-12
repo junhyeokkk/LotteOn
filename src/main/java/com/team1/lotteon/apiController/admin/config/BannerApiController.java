@@ -108,7 +108,15 @@ public class BannerApiController {
     }
     @GetMapping("/api/banner/slider")
     public List<BannerDTO> getSliderBanners() {
-        List<Banner> banners = bannerService.getBannersByPosition("Silder"); // position이 "Slider"인 활성 배너만 조회
+        List<Banner> banners = bannerService.getBannersByPosition("Silder");
+        return banners.stream()
+                .map(banner -> modelMapper.map(banner, BannerDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/api/banner/product")
+    public List<BannerDTO> getProductBanners() {
+        List<Banner> banners = bannerService.getBannersByPosition("Product");
         return banners.stream()
                 .map(banner -> modelMapper.map(banner, BannerDTO.class))
                 .collect(Collectors.toList());
