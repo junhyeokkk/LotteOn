@@ -34,6 +34,8 @@ import java.util.stream.Collectors;
  *   이름 : 최준혁
  *   내용 : 오더 서비스 생성
  *
+ *   수정사항
+ *   - 2024/11/12 이도영 OrderItemPageResponseDTO 페이지 처리 수정
  */
 @Log4j2
 @RequiredArgsConstructor
@@ -192,7 +194,7 @@ public class OrderService {
 //                : null;
 //    }
 
-    public OrderPageResponseDTO getOrdersByDateRange(String uid, OrderPageRequestDTO requestDTO) {
+    public OrderItemPageResponseDTO getOrdersByDateRange(String uid, OrderItemPageRequestDTO requestDTO) {
         Pageable pageable = requestDTO.getPageable("orderDate");
 
         // 기본 날짜 설정
@@ -204,16 +206,18 @@ public class OrderService {
                 ? LocalDate.parse(requestDTO.getEndDate()).atTime(LocalTime.MAX)
                 : LocalDateTime.now(); // 기본값: 오늘 날짜
 
-        // 조건에 맞는 주문 목록 조회
-        Page<Order> orderPage = orderRepository.findByMember_UidAndOrderDateBetween(uid, start, end, pageable);
+        // 1단계: 조건에 맞는 Order 목록 조회
+        Page<Order> orderPage = orderRepository.findByMemberUidAndOrderDateBetween(uid, start, end, pageable);
 
-        // 주문 목록을 DTO로 변환
-        List<OrderDTO> orderDTOs = orderPage.getContent().stream()
-                .map(order -> modelMapper.map(order, OrderDTO.class))
+        // 2단계: 조회된 Order 목록을 기반으로 OrderItem 조회 및 변환
+        List<OrderItemDTO> orderItemDTOs = orderPage.getContent().stream()
+                .flatMap(order -> order.getOrderItems().stream()) // Order의 OrderItems를 스트림으로 변환
+                .map(orderItem -> modelMapper.map(orderItem, OrderItemDTO.class))
                 .collect(Collectors.toList());
 
-        return new OrderPageResponseDTO(requestDTO, orderDTOs, (int) orderPage.getTotalElements());
+        return new OrderItemPageResponseDTO(requestDTO, orderItemDTOs, (int) orderPage.getTotalElements());
     }
+
 
     // 오더 아이템 수취확인
     @Transactional

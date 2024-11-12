@@ -22,6 +22,7 @@ import java.util.List;
 
     - 수정내역
     - 수령자 정보, 배달, 쿠폰 컬럼 추가 및 수정 (10/31 준혁)
+    - 주문일자 명칭 정확하게 매핑 하도록 변경 (11/12 도영)
 */
 @Entity
 @Getter
@@ -35,6 +36,7 @@ public class Order {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "order_date")
     private LocalDateTime orderDate; // 주문 일자
 
     private String orderNumber;  // 주문 번호

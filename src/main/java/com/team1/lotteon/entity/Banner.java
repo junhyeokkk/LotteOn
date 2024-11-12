@@ -10,7 +10,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 /*
@@ -40,4 +39,7 @@ public class Banner {
     private LocalDate displayEndDate;
     private LocalTime displayStartTime;
     private LocalTime displayEndTime;
+    public void setIsActive(boolean isActive){
+        this.isActive = isActive;
+    }
 }

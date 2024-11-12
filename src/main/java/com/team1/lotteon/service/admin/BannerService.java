@@ -16,6 +16,9 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -29,6 +32,7 @@ import java.util.stream.Collectors;
     - 배너 이미지 업로드 (10/22)
     - 배너 db 저장 (10/22)
     - 모든 배너 select (10/22)
+    - 시간별 배너 동작 상태 변경 (11/12 이도영)
 */
 
 @Log4j2
@@ -101,5 +105,33 @@ public class BannerService {
         return bannerDTOList;
     }
 
+    //배너 실행 여부 변경
+    public void changeBannerStatues() {
+        LocalDate currentDate = LocalDate.now();
+        LocalTime currentTime = LocalTime.now().truncatedTo(ChronoUnit.SECONDS); // 초 단위까지 자르기
+        List<Banner> banners = bannerRepository.findAll();
+        for (Banner banner : banners) {
+            LocalDate startDate = banner.getDisplayStartDate();
+            LocalTime startTime = banner.getDisplayStartTime().truncatedTo(ChronoUnit.SECONDS); // 초 단위까지 자르기
+            LocalDate endDate = banner.getDisplayEndDate();
+            LocalTime endTime = banner.getDisplayEndTime().truncatedTo(ChronoUnit.SECONDS); // 초 단위까지 자르기
 
+            boolean shouldActivate = (currentDate.isAfter(startDate) || currentDate.isEqual(startDate)) &&
+                    (currentTime.isAfter(startTime) || currentTime.equals(startTime));
+            boolean shouldDeactivate = (currentDate.isAfter(endDate) || currentDate.isEqual(endDate)) &&
+                    (currentTime.isAfter(endTime) || currentTime.equals(endTime));
+
+            log.info("Banner activation check: " + shouldActivate);
+            log.info("Banner deactivation check: " + shouldDeactivate);
+
+            if (shouldActivate && !banner.isActive()) {
+                banner.setIsActive(true);
+                bannerRepository.save(banner);
+            } else if (shouldDeactivate && banner.isActive()) {
+                banner.setIsActive(false);
+                bannerRepository.save(banner);
+            }
+        }
+
+    }
 }

@@ -72,107 +72,105 @@
         </section>
 
         <!-- 히트상품 영역 -->
-        <h3 style="padding: 10px 20px; margin-bottom: 10px; border-bottom: 1px solid #909090;">
-            <span id="prodHit" style="font-size: 20px; font-weight: bold">히트상품</span>
-            <a href="#" style="font-size: 16px; color: #909090; float: right">더보기 &#10095;</a>
+        <h3 class="prod_h3">
+            <span id="prodHit" class="prod_span">히트상품</span>
+            <a href="#" class="prod_a">더보기 &#10095;</a>
         </h3>
         <section class="hit productBox">
-            <div class="product">
-                <a href="#">
+            <div class="product" th:each="product : ${producthits}">
+                <a th:href="@{/product/view/{id}(id=${product.id})}">
                     <div class="thumb">
-                        <img src="/images/main/main_item1.jfif" alt="t1" style="width: 230px"/>
+                        <img th:src="${product.productImg1}" alt="상품 이미지" style="width: 230px"/>
                     </div>
-                    <h3>타미진스</h3>
-                    <p>빈티지 후드 티셔츠</p>
+                    <h3 th:text="${product.shop.shopName}">브랜드명</h3>
+                    <p th:text="${product.productName}">상품명</p>
                     <div class="org_price">
-                        <del>178,000원</del>
-                        <span>15%</span>
+                        <del th:text="${product.price} + '원'">원래 가격</del>
+                        <span th:text="${product.discountRate} + '%'">할인율</span>
                     </div>
                     <div class="dis_price">
-                        <ins>151,300원</ins>
-                        <span class="product__free">무료배송</span>
+                        <ins th:text="${product.price - (product.price * (product.discountRate / 100))} + '원'">할인가</ins>
+                        <span class="product__free" th:if="${product.deliveryFee== 0}">무료배송</span>
                     </div>
                 </a>
             </div>
-            <!-- ... 반복되는 다른 상품들 ... -->
         </section>
 
+
         <!-- 추천상품 영역 -->
-        <h3 style="padding: 10px 0 10px 20px; margin-bottom: 10px; border-bottom: 1px solid #909090;">
-            <span id="prodScore" style="font-size: 20px; font-weight: bold">추천상품</span>
-            <a href="#" style="font-size: 16px; color: #909090; float: right">더보기 &#10095;</a>
+        <h3 class="prod_h3">
+            <span id="prodScore" class="prod_span">추천상품</span>
+            <a href="#" class="prod_a">더보기 &#10095;</a>
         </h3>
+        <div th:if="${#lists.isEmpty(productreviews)}">추천 상품이 없습니다.</div>
         <section class="recommend productBox">
-            <div class="product">
-                <a href="#">
+            <div class="product" th:each="product : ${productreviews}">
+                <a th:href="@{/product/view/{id}(id=${product.id})}">
                     <div class="thumb">
-                        <img src="/images/main/main_item4.jfif" alt="t1" style="width: 230px"/>
+                        <img th:src="${product.productImg1}" alt="상품 이미지" style="width: 230px"/>
                     </div>
-                    <h3>사미헌</h3>
-                    <p>갈비탕</p>
+                    <h3 th:text="${product.shop.shopName}">브랜드명</h3>
+                    <p th:text="${product.productName}">상품명</p>
                     <div class="org_price">
-                        <del>58,800원</del>
-                        <span>20%</span>
+                        <del th:text="${product.price} + '원'">원래 가격</del>
+                        <span th:text="${product.discountRate} + '%'">할인율</span>
                     </div>
                     <div class="dis_price">
-                        <ins>47,040원</ins>
-                        <span class="product__free">무료배송</span>
+                        <ins th:text="${product.price - (product.price * (product.discountRate / 100))} + '원'">할인가</ins>
+                        <span class="product__free" th:if="${product.deliveryFee== 0}">무료배송</span>
                     </div>
                 </a>
             </div>
-            <!-- ... 반복되는 다른 상품들 ... -->
         </section>
 
         <!-- 최신상품 영역 -->
-        <h3 style="padding: 10px 0 10px 20px; margin-bottom: 10px; border-bottom: 1px solid #909090;">
-            <span id="prodRdate" style="font-size: 20px; font-weight: bold">최신상품</span>
-            <a th:href="@{/product/list(cateCode='', sort='prodRdate')}" style="font-size: 16px; color: #909090; float: right">더보기 &#10095;</a>
+        <h3 class="prod_h3">
+            <span id="prodRdate" class="prod_span">최신상품</span>
+            <a href="#" class="prod_a">더보기 &#10095;</a>
         </h3>
         <section class="new productBox">
-            <div class="product">
-                <a href="#">
+            <div class="product" th:each="product : ${productresents}">
+                <a th:href="@{/product/view/{id}(id=${product.id})}">
                     <div class="thumb">
-                        <img src="https://thumbnail8.coupangcdn.com/thumbnails/remote/x/image/displayitem/displayitem_a6949c3f-ef03-4f89-a323-8f4e590a9e69.jpg" alt="t1" style="width: 230px"/>
+                        <img th:src="${product.productImg1}" alt="상품 이미지" style="width: 230px"/>
                     </div>
-                    <h2>상품명</h2>
-                    <p>상품정보</p>
+                    <h3 th:text="${product.shop.shopName}">브랜드명</h3>
+                    <p th:text="${product.productName}">상품명</p>
                     <div class="org_price">
-                        <del>12,000원</del>
-                        <span>10%</span>
+                        <del th:text="${product.price} + '원'">원래 가격</del>
+                        <span th:text="${product.discountRate} + '%'">할인율</span>
                     </div>
                     <div class="dis_price">
-                        <ins>10,000원</ins>
-                        <span class="product__free">무료배송</span>
+                        <ins th:text="${product.price - (product.price * (product.discountRate / 100))} + '원'">할인가</ins>
+                        <span class="product__free" th:if="${product.deliveryFee== 0}">무료배송</span>
                     </div>
                 </a>
             </div>
-            <!-- ... 반복되는 다른 상품들 ... -->
         </section>
 
         <!-- 할인상품 영역 -->
-        <h3 style="padding: 10px 0 10px 20px; margin-bottom: 10px; border-bottom: 1px solid #909090;">
-            <span id="prodDiscount" style="font-size: 20px; font-weight: bold">할인상품</span>
-            <a th:href="@{/product/list(cateCode='', sort='prodDiscount')}" style="font-size: 16px; color: #909090; float: right">더보기 &#10095;</a>
+        <h3 class="prod_h3">
+            <span id="prodDiscount" class="prod_span">할인상품</span>
+            <a href="#" class="prod_a">더보기 &#10095;</a>
         </h3>
         <section class="discount productBox">
-            <div class="product">
-                <a href="#">
+            <div class="product" th:each="product : ${productbestdiscount}">
+                <a th:href="@{/product/view/{id}(id=${product.id})}">
                     <div class="thumb">
-                        <img src="https://thumbnail8.coupangcdn.com/thumbnails/remote/x/image/displayitem/displayitem_a6949c3f-ef03-4f89-a323-8f4e590a9e69.jpg" alt="t1" style="width: 230px"/>
+                        <img th:src="${product.productImg1}" alt="상품 이미지" style="width: 230px"/>
                     </div>
-                    <h2>상품명</h2>
-                    <p>상품정보</p>
+                    <h3 th:text="${product.shop.shopName}">브랜드명</h3>
+                    <p th:text="${product.productName}">상품명</p>
                     <div class="org_price">
-                        <del>12,000원</del>
-                        <span>10%</span>
+                        <del th:text="${product.price} + '원'">원래 가격</del>
+                        <span th:text="${product.discountRate} + '%'">할인율</span>
                     </div>
                     <div class="dis_price">
-                        <ins>10,000원</ins>
-                        <span class="product__free">무료배송</span>
+                        <ins th:text="${product.price - (product.price * (product.discountRate / 100))} + '원'">할인가</ins>
+                        <span class="product__free" th:if="${product.deliveryFee== 0}">무료배송</span>
                     </div>
                 </a>
             </div>
-            <!-- ... 반복되는 다른 상품들 ... -->
         </section>
     </section>
 </main>

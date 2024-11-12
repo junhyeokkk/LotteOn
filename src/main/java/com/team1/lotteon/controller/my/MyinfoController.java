@@ -4,10 +4,7 @@ import com.team1.lotteon.dto.CouponTakeDTO;
 import com.team1.lotteon.dto.PageResponseDTO;
 import com.team1.lotteon.dto.PointDTO;
 import com.team1.lotteon.dto.cs.InquiryDTO;
-import com.team1.lotteon.dto.order.OrderDTO;
-import com.team1.lotteon.dto.order.OrderItemDTO;
-import com.team1.lotteon.dto.order.OrderPageRequestDTO;
-import com.team1.lotteon.dto.order.OrderPageResponseDTO;
+import com.team1.lotteon.dto.order.*;
 import com.team1.lotteon.dto.point.PointPageRequestDTO;
 import com.team1.lotteon.dto.point.PointPageResponseDTO;
 import com.team1.lotteon.dto.review.ReviewResponseDTO;
@@ -37,6 +34,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -188,7 +188,7 @@ public class MyinfoController {
         String uid = myUserDetails.getGeneralMember().getUid();
 
         // OrderPageRequestDTO 객체 생성
-        OrderPageRequestDTO orderRequestDTO = OrderPageRequestDTO.builder()
+        OrderItemPageRequestDTO orderRequestDTO = OrderItemPageRequestDTO.builder()
                 .pg(pg)
                 .size(10)
                 .startDate(startDate)
@@ -196,11 +196,13 @@ public class MyinfoController {
                 .build();
 
         // 주문 내역 조회
-        OrderPageResponseDTO orderResponseDTO = orderService.getOrdersByDateRange(uid, orderRequestDTO);
-        model.addAttribute("orders", orderResponseDTO);
+        OrderItemPageResponseDTO orderResponseDTO = orderService.getOrdersByDateRange(uid, orderRequestDTO);
+
+        model.addAttribute("myOrderItems", orderResponseDTO);
 
         return "myPage/ordered";
     }
+
 
     @GetMapping("/point")
     public String mypoint(@RequestParam(defaultValue = "1") int pg,
