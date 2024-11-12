@@ -82,6 +82,16 @@ public class BannerApiController {
         return ResponseEntity.ok(response); // JSON 형태로 반환
     }
 
+    @PostMapping("/api/banners/{bannerId}/toggleActive")
+    public ResponseEntity<?> toggleBannerActive(@PathVariable Long bannerId, @RequestBody Map<String, Integer> request) {
+        int newState = request.get("isActive"); // 0 또는 1
+        boolean success = bannerService.updateBannerActiveState(bannerId, newState);
 
+        if (success) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("상태 업데이트에 실패했습니다.");
+        }
+    }
 
 }

@@ -207,7 +207,7 @@ function submitOrder() {
             recipientAddr1: formData.get("recipientAddr1"),
             recipientAddr2: formData.get("recipientAddr2"),
             usedPoint: parseInt(formData.get("usedPoint") || "0", 10),
-            couponId: formData.get("couponId") !== "쿠폰선택" ? parseInt(formData.get("couponId"), 10) : null,
+            couponId: formData.get("takecoupon") !== "쿠폰선택" ? parseInt(formData.get("takecoupon"), 10) : null,
             paymentMethod: formData.get("paymentMethod"),
             orderItems: orderItems,
             pointDiscount: parseInt(document.getElementById("prodPoint").textContent.trim().replace(/[^\d]/g, ""), 10),

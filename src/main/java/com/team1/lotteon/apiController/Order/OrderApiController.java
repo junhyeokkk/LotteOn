@@ -99,7 +99,7 @@ public class OrderApiController {
 
         boolean success = orderService.requestReturn(orderItemId, returnReason, reasonText, imageFile);
 
-        ResponseMessageDTO response = new ResponseMessageDTO(success ? "교환신청이 완료되었습니다." : "반품신청 처리에 실패했습니다.", success);
+        ResponseMessageDTO response = new ResponseMessageDTO(success ? "교환신청이 완료되었습니다." : "교환신청 처리에 실패했습니다.", success);
 
         return ResponseEntity.ok(response);
     }

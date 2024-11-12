@@ -62,6 +62,7 @@ function openRefundModal(button) {
     // 각 속성에서 값을 가져옵니다
     const orderDate = button.getAttribute("data-order-date").split("T")[0];
     const orderNumber = button.getAttribute("data-order-number");
+    const orderItemNumber = button.getAttribute("data-order-item-id");
     const shopName = button.getAttribute("data-shop-name");
     const productName = button.getAttribute("data-product-name");
     const quantity = button.getAttribute("data-quantity");
@@ -71,6 +72,7 @@ function openRefundModal(button) {
 
     // 모달의 각 요소에 데이터를 설정합니다
     document.querySelector("#refundModal .modal-section .order-date").textContent = orderDate;
+    document.querySelector("#refundModal .modal-section .order-item-number").value = orderItemNumber;
     document.querySelector("#refundModal .modal-section .order-number").textContent = `주문번호 : ${orderNumber}`;
     document.querySelector("#refundModal .modal-section .shop-name").textContent = shopName;
     document.querySelector("#refundModal .modal-section .product-name").textContent = productName;
@@ -87,6 +89,7 @@ function openReturnModal(button) {
     // 각 속성에서 값을 가져옵니다
     const orderDate = button.getAttribute("data-order-date").split("T")[0];
     const orderNumber = button.getAttribute("data-order-number");
+    const orderItemNumber = button.getAttribute("data-order-item-id");
     const shopName = button.getAttribute("data-shop-name");
     const productName = button.getAttribute("data-product-name");
     const quantity = button.getAttribute("data-quantity");
@@ -96,6 +99,7 @@ function openReturnModal(button) {
 
     // 모달의 각 요소에 데이터를 설정합니다
     document.querySelector("#returnModal .modal-section .order-date").textContent = orderDate;
+    document.querySelector("#returnModal .modal-section #order-item-number").value = orderItemNumber;
     document.querySelector("#returnModal .modal-section .order-number").textContent = `주문번호 : ${orderNumber}`;
     document.querySelector("#returnModal .modal-section .shop-name").textContent = shopName;
     document.querySelector("#returnModal .modal-section .product-name").textContent = productName;
@@ -120,7 +124,7 @@ function submitRefundRequest() {
     const imageFile = document.getElementById("refundImage").files[0];
 
     const formData = new FormData();
-    formData.append("orderItemId", localStorage.getItem("orderItemId")); // orderItem ID 설정
+    formData.append("orderItemId", document.getElementsByClassName("order-item-number")[0].value); // orderItem ID 설정
     formData.append("refundReason", refundReason);
     formData.append("reasonText", reasonText);
     if (imageFile) {
@@ -150,7 +154,7 @@ function submitReturnRequest() {
     const imageFile = document.getElementById("returnImage").files[0];
 
     const formData = new FormData();
-    formData.append("orderItemId", localStorage.getItem("orderItemId")); // orderItem ID 설정
+    formData.append("orderItemId", document.getElementById("order-item-number").value); // orderItem ID 설정
     formData.append("returnReason", returnReason);
     formData.append("reasonText", reasonText);
     if (imageFile) {

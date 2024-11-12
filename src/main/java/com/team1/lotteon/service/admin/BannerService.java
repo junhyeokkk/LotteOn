@@ -3,6 +3,7 @@ package com.team1.lotteon.service.admin;
 import com.team1.lotteon.dto.BannerDTO;
 import com.team1.lotteon.entity.Banner;
 import com.team1.lotteon.repository.BannerRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
@@ -105,33 +106,43 @@ public class BannerService {
         return bannerDTOList;
     }
 
-    //배너 실행 여부 변경
-    public void changeBannerStatues() {
-        LocalDate currentDate = LocalDate.now();
-        LocalTime currentTime = LocalTime.now().truncatedTo(ChronoUnit.SECONDS); // 초 단위까지 자르기
-        List<Banner> banners = bannerRepository.findAll();
-        for (Banner banner : banners) {
-            LocalDate startDate = banner.getDisplayStartDate();
-            LocalTime startTime = banner.getDisplayStartTime().truncatedTo(ChronoUnit.SECONDS); // 초 단위까지 자르기
-            LocalDate endDate = banner.getDisplayEndDate();
-            LocalTime endTime = banner.getDisplayEndTime().truncatedTo(ChronoUnit.SECONDS); // 초 단위까지 자르기
+//    //배너 실행 여부 변경(스케줄 사용)
+//    public void changeBannerStatues() {
+//        LocalDate currentDate = LocalDate.now();
+//        LocalTime currentTime = LocalTime.now().truncatedTo(ChronoUnit.SECONDS); // 초 단위까지 자르기
+//        List<Banner> banners = bannerRepository.findAll();
+//        for (Banner banner : banners) {
+//            LocalDate startDate = banner.getDisplayStartDate();
+//            LocalTime startTime = banner.getDisplayStartTime().truncatedTo(ChronoUnit.SECONDS); // 초 단위까지 자르기
+//            LocalDate endDate = banner.getDisplayEndDate();
+//            LocalTime endTime = banner.getDisplayEndTime().truncatedTo(ChronoUnit.SECONDS); // 초 단위까지 자르기
+//
+//            boolean shouldActivate = (currentDate.isAfter(startDate) || currentDate.isEqual(startDate)) &&
+//                    (currentTime.isAfter(startTime) || currentTime.equals(startTime));
+//            boolean shouldDeactivate = (currentDate.isAfter(endDate) || currentDate.isEqual(endDate)) &&
+//                    (currentTime.isAfter(endTime) || currentTime.equals(endTime));
+//
+//            log.info("Banner activation check: " + shouldActivate);
+//            log.info("Banner deactivation check: " + shouldDeactivate);
+//
+//            if (shouldActivate && !banner.isActive()) {
+//                banner.setIsActive(true);
+//                bannerRepository.save(banner);
+//            } else if (shouldDeactivate && banner.isActive()) {
+//                banner.setIsActive(false);
+//                bannerRepository.save(banner);
+//            }
+//        }
+//    }
+//
 
-            boolean shouldActivate = (currentDate.isAfter(startDate) || currentDate.isEqual(startDate)) &&
-                    (currentTime.isAfter(startTime) || currentTime.equals(startTime));
-            boolean shouldDeactivate = (currentDate.isAfter(endDate) || currentDate.isEqual(endDate)) &&
-                    (currentTime.isAfter(endTime) || currentTime.equals(endTime));
-
-            log.info("Banner activation check: " + shouldActivate);
-            log.info("Banner deactivation check: " + shouldDeactivate);
-
-            if (shouldActivate && !banner.isActive()) {
-                banner.setIsActive(true);
-                bannerRepository.save(banner);
-            } else if (shouldDeactivate && banner.isActive()) {
-                banner.setIsActive(false);
-                bannerRepository.save(banner);
-            }
-        }
-
+    //배너js 상태변경
+    @Transactional
+    public boolean updateBannerActiveState(Long bannerId, int newState) {
+        return bannerRepository.findById(Math.toIntExact(bannerId)).map(banner -> {
+            banner.setIsActive(newState); // 0 또는 1로 설정
+            bannerRepository.save(banner);
+            return true;
+        }).orElse(false);
     }
 }

@@ -144,13 +144,47 @@ window.onload =function (){
                 <td>${banner.displayStartTime}</td>
                 <td>${banner.displayEndTime}</td>
                 <td>
-                    <a ${banner.isActive ? '' : 'style="display:none;"'}>활성</a>
-                    <a ${banner.isActive ? 'style="display:none;"' : ''}>비활성</a>
+                     <a href="#" class="toggle-active" data-id="${banner.id}" data-active="${banner.isActive}">
+                        ${banner.isActive === 1 ? '활성' : '비활성'}
+                    </a>
                 </td>
             </tr>
         `;
             bannerList.insertAdjacentHTML('beforeend', row);
         });
+        // 활성화/비활성 토글 이벤트 추가
+        document.querySelectorAll('.toggle-active').forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                const bannerId = this.getAttribute('data-id');
+                const currentState = parseInt(this.getAttribute('data-active'), 10);
+
+                // 서버에 활성화 상태를 업데이트 요청
+                toggleBannerActive(bannerId, currentState === 1 ? 0 : 1).then(success => {
+                    if (success) {
+                        this.textContent = currentState === 1 ? '비활성' : '활성';
+                        this.setAttribute('data-active', currentState === 1 ? '0' : '1');
+                    } else {
+                        alert("상태 변경에 실패했습니다.");
+                    }
+                });
+            });
+        });
+    }
+    // 서버에 활성화 상태 업데이트 요청
+    function toggleBannerActive(bannerId, newState) {
+        return fetch(`/admin/config/api/banners/${bannerId}/toggleActive`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ isActive: newState })
+        })
+            .then(response => response.ok)
+            .catch(error => {
+                console.error("Error updating banner active state:", error);
+                return false;
+            });
     }
 
     // 페이지네이션 함수

@@ -49,7 +49,7 @@
                         <table border="0" class="widthtable">
                             <tr>
                                 <th>날짜</th>
-                                <th></th>
+                                <th>상품이미지</th>
                                 <th>상품정보</th>
                                 <th>상태</th>
                                 <th>확인/신청</th>
@@ -64,10 +64,10 @@
                                     th:data-product-name="${myOrderItem.product.productName}"
                                     th:data-order-status="${myOrderItem.getDeliveryStatus().name()}">
 
-                                    <td class="date" th:text="${myOrderItem.getOrder().getOrderDate()}">2022-12-13</td>
+                                    <td class="date" th:text="${#temporals.format(myOrderItem.getOrder().getOrderDate(), 'yyyy-MM-dd')}">2022-12-13</td>
                                     <td>
                                         <a href="#" class="recentproductorderimg">
-                                            <img th:src="'/'+${myOrderItem.getProduct().getProductImg1()}" alt="상품이미지">
+                                            <img style="width: 200px; height: 200px;" th:src="'/'+${myOrderItem.getProduct().getProductImg1()}" alt="상품이미지">
                                         </a>
                                     </td>
                                     <td class="order-info">

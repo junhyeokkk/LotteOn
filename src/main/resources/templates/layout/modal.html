@@ -298,7 +298,7 @@
                     <table border="0" class="widthtable">
                         <tr>
                             <th>날짜</th>
-                            <th></th>
+                            <th>상품 이미지</th>
                             <th>상품정보</th>
                             <th>결제금액</th>
                             <th>상태</th>
@@ -307,6 +307,7 @@
                             <td class="order-date">20xx-01-01</td> <!-- JavaScript로 날짜 업데이트 -->
                             <td><img  alt="" class="modalimgsize"></td>
                             <td class="modalprice-info">
+                                <input type="hidden" class="order-item-number"></input><br>
                                 <span class="order-number">주문번호 : 101221341</span><br>
                                 <span class="shop-name">(주) 상호명</span><br>
                                 <span class="product-name">상품명</span><br>
@@ -379,7 +380,7 @@
                     <table border="0" class="widthtable">
                         <tr>
                             <th>날짜</th>
-                            <th></th>
+                            <th>상품 이미지</th>
                             <th>상품정보</th>
                             <th>결제금액</th>
                             <th>상태</th>
@@ -388,6 +389,7 @@
                             <td class="order-date">20xx-01-01</td> <!-- JavaScript로 날짜 업데이트 -->
                             <td><img  alt="" class="modalimgsize"></td>
                             <td class="modalprice-info">
+                                <input type="hidden" id="order-item-number"></input><br>
                                 <span class="order-number">주문번호 : 101221341</span><br>
                                 <span class="shop-name">(주) 상호명</span><br>
                                 <span class="product-name">상품명</span><br>
@@ -438,7 +440,7 @@
                 </article>
                 <br>
                 <div class="modalbuttondiv">
-                    <input class="modalbutton" onclick="submitReturnRequest()" type="submit" value="반품신청"/>
+                    <input class="modalbutton" onclick="submitReturnRequest()" type="submit" value="교환신청"/>
                     <button class="modalcanclebutton">취소</button>
                 </div>
             </form>

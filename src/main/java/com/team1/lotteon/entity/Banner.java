@@ -1,13 +1,7 @@
 package com.team1.lotteon.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -19,6 +13,7 @@ import java.time.LocalTime;
 */
 @Entity
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -31,8 +26,7 @@ public class Banner {
     private String backgroundLink;
     private String img;
 
-    // 기본값을 false로 설정
-    private boolean isActive = false;
+    private int isActive; // 활성화 상태: 1 = 활성, 0 = 비활성
 
     private String position;
     private LocalDate displayStartDate;

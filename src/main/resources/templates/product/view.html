@@ -47,7 +47,7 @@
     <article class="info">
 
         <div class="image">
-            <img th:src="'/'+${appInfo.uploadDir}+'product/'+${product.productImg2}" alt="상품이미지"/>
+            <img th:src="'/'+${product.productImg2}" alt="상품이미지"/>
         </div>
         <div class="summary">
             <nav class="summary__nav">
@@ -136,7 +136,9 @@
                     </button>
                 </div>
             </div>
+            <div class="banner" style="height: 100px; background-color: red;">
 
+            </div>
             <!-- 총 금액 표시 -->
             <div class="total">
                 <span class="total__price-name">총 상품금액</span>
@@ -221,7 +223,7 @@
                 <div id="detail">
                     <h1>상품정보</h1>
                     <img class="section__product-img"
-                         th:src="'/'+${appInfo.uploadDir}+'product/'+${product.productImg3}" alt="상품이미지"/>
+                         th:src="'/'+${product.productImg3}" alt="상품이미지"/>
                 </div>
             </div>
 
@@ -229,18 +231,22 @@
                 <div class="bottom_cart">
                     <div class="cart-option">
                         <label for="optionSelect1">상품명</label>
-                        <select id="optionSelect1">
-                            <option>01_제주감귤 소자 2.5kg</option>
-                            <option value="option1">옵션 1</option>
-                            <option value="option2">옵션 2</option>
-                        </select>
+                        <label for="optionSelect1">[[${product.productName}]]</label>
 
                         <label for="optionSelect2">선택옵션</label>
-                        <select id="optionSelect2">
-                            <option>1BOX</option>
-                            <option value="2box">2BOX</option>
-                            <option value="3box">3BOX</option>
-                        </select>
+                        <div class="selectedOption">
+                            <th:block th:each="ProductOption, i:${product.getProductOptions()}">
+                                <div class="options_choose">
+                                    <label for="optionSelect[[${i}]]">[[${ProductOption.name}]]:</label>
+                                    <select id="optionSelect[[${i}]]" onchange="updateSelectedOptions()">
+                                        <option value="">옵션을 선택하세요</option>
+                                        <th:block th:each="optionitem : ${ProductOption.getOptionitems()}">
+                                            <option th:value="${optionitem.id}">[[${optionitem.value}]]</option>
+                                        </th:block>
+                                    </select>
+                                </div>
+                            </th:block>
+                        </div>
                     </div>
 
                     <div class="cart-info">
@@ -263,7 +269,6 @@
                     </div>
 
                     <div class="cart-actions">
-                        <button class="cart-action-btn gift-btn"><i class="fa-solid fa-gift"></i> 선물하기</button>
                         <button class="cart-action-btn cart-btn"><i class="fa-solid fa-shopping-cart"></i> 장바구니 담기
                         </button>
                         <button class="cart-action-btn buy-btn"><i class="fa-solid fa-credit-card"></i> 바로 구매하기</button>

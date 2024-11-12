@@ -7,6 +7,8 @@ import com.team1.lotteon.entity.enums.OrderStatus;
 import com.team1.lotteon.entity.productOption.ProductOptionCombination;
 import com.team1.lotteon.repository.*;
 import com.team1.lotteon.repository.coupon.CouponRepository;
+import com.team1.lotteon.service.PointService;
+import com.team1.lotteon.service.admin.CouponTakeService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -56,6 +58,8 @@ public class OrderService {
     private final OrderItemRepository orderItemRepository;
     private final RefundRepository refundRepository;
     private final ExchangeRepository exchangeRepository;
+    private final CouponTakeService couponTakeService;
+    private final PointService pointService;
 
     // insert 오더
     public OrderSummaryDTO createOrder(@ModelAttribute OrderRequestDTO request, GeneralMember member) {
@@ -126,6 +130,13 @@ public class OrderService {
         order.setOrderItems(orderItems);
         order.calculateTotalDeliveryFee();
 
+        // 4. 쿠폰 및 포인트 적용
+        if(request.getCouponId() != null) {
+            couponTakeService.updateCouponUseStatusAndIncrementUse(member, request.getCouponId());
+        }
+        if(request.getPointDiscount() > 0) {
+            pointService.deductPoints(member, request.getPointDiscount());
+        }
         // 5. 주문 저장
         orderRepository.save(order);
 
@@ -294,7 +305,7 @@ public class OrderService {
                 p_exchange.setImagePath(imagePath);
             }
 
-            exchangeRepository.save(p_exchange); // Refund 정보 저장
+            exchangeRepository.save(p_exchange); // Return 정보 저장
             return true;
         }).orElse(false);
     }
