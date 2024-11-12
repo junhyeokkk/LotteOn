@@ -81,7 +81,7 @@
             <div class="product" th:each="product : ${producthits}">
                 <a th:href="@{/product/view/{id}(id=${product.id})}">
                     <div class="thumb">
-                        <img th:src="${product.productImg1}" alt="상품 이미지" style="width: 230px"/>
+                        <img th:src="${product.productImg1}" alt="상품 이미지" style="width: 230px; height:240px"/>
                     </div>
                     <h3 th:text="${product.shop.shopName}">브랜드명</h3>
                     <p th:text="${product.productName}">상품명</p>
@@ -108,7 +108,7 @@
             <div class="product" th:each="product : ${productreviews}">
                 <a th:href="@{/product/view/{id}(id=${product.id})}">
                     <div class="thumb">
-                        <img th:src="${product.productImg1}" alt="상품 이미지" style="width: 230px"/>
+                        <img th:src="${product.productImg1}" alt="상품 이미지" style="width: 230px; height:240px"/>
                     </div>
                     <h3 th:text="${product.shop.shopName}">브랜드명</h3>
                     <p th:text="${product.productName}">상품명</p>
@@ -133,7 +133,7 @@
             <div class="product" th:each="product : ${productresents}">
                 <a th:href="@{/product/view/{id}(id=${product.id})}">
                     <div class="thumb">
-                        <img th:src="${product.productImg1}" alt="상품 이미지" style="width: 230px"/>
+                        <img th:src="${product.productImg1}" alt="상품 이미지" style="width: 230px; height:240px"/>
                     </div>
                     <h3 th:text="${product.shop.shopName}">브랜드명</h3>
                     <p th:text="${product.productName}">상품명</p>
@@ -148,7 +148,30 @@
                 </a>
             </div>
         </section>
-
+        <!-- 인기상품 영역 -->
+        <h3 class="prod_h3">
+            <span id="productbestofbest" class="prod_span">인기상품</span>
+            <a href="#" class="prod_a">더보기 &#10095;</a>
+        </h3>
+        <section class="discount productBox">
+            <div class="product" th:each="product : ${productbestofbest}">
+                <a th:href="@{/product/view/{id}(id=${product.id})}">
+                    <div class="thumb">
+                        <img th:src="${product.productImg1}" alt="상품 이미지" style="width: 230px; height:240px"/>
+                    </div>
+                    <h3 th:text="${product.shop.shopName}">브랜드명</h3>
+                    <p th:text="${product.productName}">상품명</p>
+                    <div class="org_price">
+                        <del th:text="${product.price} + '원'">원래 가격</del>
+                        <span th:text="${product.discountRate} + '%'">할인율</span>
+                    </div>
+                    <div class="dis_price">
+                        <ins th:text="${product.price - (product.price * (product.discountRate / 100))} + '원'">할인가</ins>
+                        <span class="product__free" th:if="${product.deliveryFee== 0}">무료배송</span>
+                    </div>
+                </a>
+            </div>
+        </section>
         <!-- 할인상품 영역 -->
         <h3 class="prod_h3">
             <span id="prodDiscount" class="prod_span">할인상품</span>
@@ -158,7 +181,7 @@
             <div class="product" th:each="product : ${productbestdiscount}">
                 <a th:href="@{/product/view/{id}(id=${product.id})}">
                     <div class="thumb">
-                        <img th:src="${product.productImg1}" alt="상품 이미지" style="width: 230px"/>
+                        <img th:src="${product.productImg1}" alt="상품 이미지" style="width: 230px; height:240px"/>
                     </div>
                     <h3 th:text="${product.shop.shopName}">브랜드명</h3>
                     <p th:text="${product.productName}">상품명</p>
