@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 /*
     날짜 : 2024/11/2
@@ -66,17 +67,23 @@ public class AdminOrderApiController {
     }
 
     @GetMapping("/daily")
-    public List<OrderDailyQueryDTO> getOrderDaily() {
-        return adminQueryRepository.findOrderDailyQueryLastFourDays();
+    public ResponseEntity<List<OrderDailyQueryDTO>> getOrderDaily() {
+        return ResponseEntity.status(HttpStatus.OK).body(adminQueryRepository.findOrderDailyQueryLastFourDays());
     }
 
     @GetMapping("/ratio")
-    public List<OrderItemSalesRatioQueryDTO> getOrderItemSalesRatio() {
-        return adminQueryRepository.findOrderItemSalesRatioQuery();
+    public ResponseEntity<List<OrderItemSalesRatioQueryDTO>> getOrderItemSalesRatio() {
+        return ResponseEntity.status(HttpStatus.OK).body(adminQueryRepository.findOrderItemSalesRatioQuery());
     }
 
     @GetMapping("/operating")
-    public OperatingStatusQueryDTO getOperatingStatus() {
-        return adminQueryRepository.findOperatingStatusQuery();
+    public ResponseEntity<OperatingStatusQueryDTO> getOperatingStatus() {
+        Optional<OperatingStatusQueryDTO> operatingStatusQueryOpt = adminQueryRepository.findOperatingStatusQuery();
+
+        if(operatingStatusQueryOpt.isPresent()){
+            return ResponseEntity.status(HttpStatus.OK).body(operatingStatusQueryOpt.get());
+        }else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }

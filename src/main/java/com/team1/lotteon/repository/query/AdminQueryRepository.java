@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import static com.querydsl.jpa.JPAExpressions.select;
 
@@ -89,7 +90,7 @@ public class AdminQueryRepository {
         return orderItemSalesRatioQueryDTOList;
     }
 
-    public OperatingStatusQueryDTO findOperatingStatusQuery() {
+    public Optional<OperatingStatusQueryDTO> findOperatingStatusQuery() {
         OperatingStatusQueryDTO operatingStatusQueryDTO = queryFactory
                 .select(new QOperatingStatusQueryDTO(
                         select(order.count()).from(order),
@@ -101,6 +102,6 @@ public class AdminQueryRepository {
                 .from(order)
                 .fetchFirst();
 
-        return operatingStatusQueryDTO;
+        return Optional.ofNullable(operatingStatusQueryDTO);
     }
 }

@@ -20,7 +20,7 @@ public class AdminController {
     public String info(Model model){
         List<OrderDailyQueryDTO> orderDailyQueryDtoList = adminQueryRepository.findOrderDailyQueryLastFourDays();
         List<OrderItemSalesRatioQueryDTO> orderItemSalesRatioQueryDTOList = adminQueryRepository.findOrderItemSalesRatioQuery();
-        OperatingStatusQueryDTO operatingStatusQueryDTO = adminQueryRepository.findOperatingStatusQuery();
+        OperatingStatusQueryDTO operatingStatusQueryDTO = adminQueryRepository.findOperatingStatusQuery().orElse(new OperatingStatusQueryDTO());
 
         model.addAttribute("orderDailyQueryDtoList", orderDailyQueryDtoList);
         model.addAttribute("orderItemSalesRatioQueryDtoList", orderItemSalesRatioQueryDTOList);
