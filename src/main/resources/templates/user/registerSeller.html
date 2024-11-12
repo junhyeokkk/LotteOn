@@ -28,7 +28,7 @@
         <form class="sendForm" th:action="@{/user/register/seller}" method="post">
             <table border="0" class="heighttable">
                 <tr>
-                    <th>아이디</th>
+                    <th>아이디<span class="required">*</span></th>
                     <td>
                         <input type="text" name="uid" placeholder="아이디 입력"/>
                         <button type="button" id="btnCheckUid" name="uidbtn" data-type="uid" class="infobutton">중복확인</button>
@@ -61,19 +61,19 @@
             <br>
             <table border="0" class="heighttable">
                 <tr>
-                    <th>회사명</th>
+                    <th>회사명<span class="required">*</span></th>
                     <td><input type="text" name="shopName" placeholder="상호명입력예 ) (주)"/>
                         <span class="resultShop_name"></span>
                     </td>
                 </tr>
                 <tr>
-                    <th>대표</th>
+                    <th>대표<span class="required">*</span></th>
                     <td><input type="text" name="representative" placeholder="성함입력"/>
                         <span class="resultRepresentative"></span>
                     </td>
                 </tr>
                 <tr>
-                    <th>사업자등록번호</th>
+                    <th>사업자등록번호<span class="required">*</span></th>
                     <td>
                         <input type="text" name="business_registration_part1" id="business_registration_part1" maxlength="3" style="width: 50px;" /> -
                         <input type="text" name="business_registration_part2" id="business_registration_part2" maxlength="2" style="width: 45px;" /> -
@@ -93,7 +93,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>전화번호</th>
+                    <th>전화번호<span class="required">*</span></th>
                     <td><input type="text" name="ph" placeholder="전화번호입력"/>
                         <span class="resultPh"></span>
                     </td>
