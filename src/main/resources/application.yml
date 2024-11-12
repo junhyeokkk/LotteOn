@@ -34,3 +34,5 @@ spring:
     security:
         remember-me:
             key: "1234Asd@"
+    jackson:
+        time-zone: Asia/Seoul
