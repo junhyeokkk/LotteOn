@@ -18,6 +18,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script type="text/javascript" th:src="@{/js/modal/modal.js}"></script>
     <script type="text/javascript" th:src="@{/js/admin/recruit/recruit.js}"></script>
+    <script type="text/javascript" th:src="@{/js/modal/adminSearchPeriod.js}"></script>
 </th:block>
 
 <div class="content" layout:fragment="content">
@@ -78,6 +79,7 @@
             <a href="#" data-modal="employmodal" class="registration_btn">채용등록</a>
 
             <div class="pagingBox">
+                <!-- 검색어가 없을 때만 페이징 버튼을 표시 -->
                 <div class="pagingList">
                     <a th:href="@{/admin/cs/recruit/list(pg=${recruitResponses.start - 1}, type=${type}, keyword=${keyword})}" th:if="${recruitResponses.prev}" class="prev">&#60;</a>
                     <th:block th:each="num : ${#numbers.sequence(recruitResponses.start, recruitResponses.end)}">

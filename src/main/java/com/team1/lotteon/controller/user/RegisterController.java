@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -63,6 +64,8 @@ public class RegisterController {
                 // 일반 사용자 회원가입 처리
                 if (memberService.insertGeneralMember(generalMemberDTO, memberDTO) != null){
                     generalMemberDTO.setGrade(String.valueOf(Grade.FAMILY));
+                    //2024/11/12 자동 생성 처리 수동으로 변경 (도영)
+                    generalMemberDTO.setCreatedAt(LocalDateTime.now());
                     GeneralMember savedMember = memberService.insertGeneralMember(generalMemberDTO, memberDTO);
                     GeneralMemberDTO savedMemberDTO = modelMapper.map(savedMember, GeneralMemberDTO.class);
                     // 회원가입 축하 기념 포인트 지급
@@ -166,12 +169,15 @@ public class RegisterController {
         }
         //2024/11/04 이도영 아이디 비밀번호 찾기 기능
         if (type.equals("sendemail")) {
-            boolean exists = generalMemberService.isEmailExist(value);
-            if (exists) {
+            boolean existsgeneral = generalMemberService.isEmailExist(value);
+            boolean existsshop = shopService.isShopEmailExist(value);
+            if (existsgeneral || existsshop) {
                 // 이메일이 있으면 이메일 코드 전송
                 memberService.sendEmailCode(session, value);
+                response.put("result", true);
+                return response;
             }
-            response.put("result", exists);
+            response.put("result", false);
             return response;
         }
         //2024/11/08 이도영 전화번호 존재 여부 추가

@@ -35,4 +35,5 @@ public interface OrderRepository extends JpaRepository<Order, Long>, OrderReposi
     Page<Order> findByMember_UidAndOrderDateBetween(String uid, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable);
 
 
+    Page<Order> findByMemberUidAndOrderDateBetween(String uid, LocalDateTime start, LocalDateTime end, Pageable pageable);
 }

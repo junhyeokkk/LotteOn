@@ -1,10 +1,14 @@
 package com.team1.lotteon.controller.company;
 
+import com.team1.lotteon.dto.RecruitDTO;
+import com.team1.lotteon.service.admin.RecruitService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.List;
 
 
 /*
@@ -39,6 +43,7 @@ public class PageController {
         model.addAttribute("category", category);
         return "company/layout/company_layout";
     }
+
 }
 
 

@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,60 +46,92 @@ public class RecruitService {
 
     // 채용 db 저장
     public void saveRecruitDetails(RecruitDTO recruitDTO) {
+        LocalDate startday = recruitDTO.getDisplayStartDate();
+        LocalDate today = LocalDate.now();
+        log.info("startday"+startday);
+        log.info("today"+today);
+        if (startday.equals(today)) {
+            recruitDTO.setStatus("접수중");
+        }else {
+            recruitDTO.setStatus("접수준비");
+        }
         Recruit recruit = modelMapper.map(recruitDTO, Recruit.class);
         recruitRepository.save(recruit);
     }
 
     // 채용 select 페이징 (ADMIN) + 검색기능
     public NewPageResponseDTO<RecruitDTO> getRecruitsWithPagination(NewPageRequestDTO newPageRequestDTO) {
-        Pageable pageable = newPageRequestDTO.getPageable("recruitid", false);
-        Page<Recruit> recruitPage = recruitRepository.findAll(pageable);
-
         String type = newPageRequestDTO.getType();
         String keyword = newPageRequestDTO.getKeyword();
+        Pageable pageable = newPageRequestDTO.getPageable("recruitid", false);
+        Page<Recruit> recruitPage;
 
+        if (keyword != null && !keyword.isEmpty()) {
+
+            // 검색어가 있을 경우, 페이징을 무시하고 모든 결과를 필터링하여 반환
+            switch (type) {
+                case "recruitId":
+                    try {
+                        Long ID = Long.parseLong(keyword);
+                        recruitPage = recruitRepository.findByRecruitid(keyword,pageable);
+                    } catch (NumberFormatException e) {
+                        recruitPage = Page.empty(pageable);
+                    }
+                    break;
+
+                case "recruitPosition":
+                    try {
+                        recruitPage = recruitRepository.findByPositionContaining(keyword,pageable);
+                    } catch (NumberFormatException e) {
+                        recruitPage = Page.empty(pageable);
+                    }
+                    break;
+
+                case "recruitType":
+                    try {
+                        recruitPage = recruitRepository.findByTypeContaining(keyword,pageable);
+                    } catch (NumberFormatException e) {
+                        recruitPage = Page.empty(pageable);
+                    }
+                    break;
+                case "recruitTitle":
+                    try {
+                        recruitPage = recruitRepository.findByTitleContaining(keyword,pageable);
+                    } catch (NumberFormatException e) {
+                        recruitPage = Page.empty(pageable);
+                    }
+                    break;
+                default:
+                    recruitPage = recruitRepository.findAll(pageable);
+                    break;
+            }
+
+        } else {
+            // 검색어가 없을 경우 기본 페이징 처리
+            recruitPage = recruitRepository.findAll(pageable);
+        }
+        // Recruit 엔티티를 DTO로 변환
         List<RecruitDTO> recruitDTOList = recruitPage.getContent()
-                .stream()
-                .filter(recruit -> {
-                    if (type == null || keyword == null || keyword.isEmpty()) {
-                        return true;
-                    }
-                    switch (type) {
-                        case "recruitId":
-                            return String.valueOf(recruit.getRecruitid()).contains(keyword);
-                        case "recruitPosition":
-                            return recruit.getPosition() != null && recruit.getPosition().contains(keyword);
-                        case "recruitType":
-                            return recruit.getType() != null && recruit.getType().contains(keyword);
-                        case "recruitTitle":
-                            return recruit.getTitle() != null && recruit.getTitle().contains(keyword);
-                        default:
-                            return true;
-                    }
-                })
-                .map(recruit -> modelMapper.map(recruit, RecruitDTO.class))
-                .collect(Collectors.toList());
+                    .stream()
+                    .map(recruit -> modelMapper.map(recruit, RecruitDTO.class))
+                    .collect(Collectors.toList());
 
-        // 타입이 "all"인 경우 모든 데이터 가져오기
-//        if ("all".equals(newPageRequestDTO.getType())) {
-//            recruitPage = recruitRepository.findAll(pageable);
-//        } else {
-//            // 검색 조건이 있을 때 필터링
-//            recruitPage = recruitRepository.findByDynamicType(
-//                    newPageRequestDTO.getKeyword(),
-//                    newPageRequestDTO.getType(),
-//                    pageable);
-//        }
-
-
-        // PageResponseDTO 생성 및 반환
-        // PageResponseDTO의 fromPage 메서드를 활용
-        return NewPageResponseDTO.<RecruitDTO>builder()
-                .newPageRequestDTO(newPageRequestDTO) // 요청 정보 설정
-                .dtoList(recruitDTOList) // DTO 리스트 설정
-                .total((int) recruitPage.getTotalElements()) // 총 요소 수 설정
-                .build();
+            return NewPageResponseDTO.<RecruitDTO>builder()
+                    .newPageRequestDTO(newPageRequestDTO)
+                    .dtoList(recruitDTOList)
+                    .total((int) recruitPage.getTotalElements())
+                    .build();
     }
 
+
+    // 회사소개
+    public List<RecruitDTO> getActiveRecruits() {
+        List<Recruit> allRecruits = recruitRepository.findAll(); // 모든 데이터 조회
+        List<RecruitDTO> activeRecruits = allRecruits.stream()
+                .filter(recruit -> "접수중".equals(recruit.getStatus())) // "접수중"인 항목만 필터링
+                .map(recruit -> modelMapper.map(recruit, RecruitDTO.class))
+                .collect(Collectors.toList());
+        return activeRecruits;
+    }
 
 }

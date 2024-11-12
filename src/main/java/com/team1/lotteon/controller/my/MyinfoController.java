@@ -4,10 +4,7 @@ import com.team1.lotteon.dto.CouponTakeDTO;
 import com.team1.lotteon.dto.PageResponseDTO;
 import com.team1.lotteon.dto.PointDTO;
 import com.team1.lotteon.dto.cs.InquiryDTO;
-import com.team1.lotteon.dto.order.OrderDTO;
-import com.team1.lotteon.dto.order.OrderItemDTO;
-import com.team1.lotteon.dto.order.OrderPageRequestDTO;
-import com.team1.lotteon.dto.order.OrderPageResponseDTO;
+import com.team1.lotteon.dto.order.*;
 import com.team1.lotteon.dto.point.PointPageRequestDTO;
 import com.team1.lotteon.dto.point.PointPageResponseDTO;
 import com.team1.lotteon.dto.review.ReviewResponseDTO;
@@ -37,6 +34,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -85,6 +85,13 @@ public class MyinfoController {
     public Integer populateTotalAcPoints(@AuthenticationPrincipal MyUserDetails myUserDetails) {
         return pointService.calculateTotalAcPoints(myUserDetails.getGeneralMember().getUid());
     }
+    @ModelAttribute("qnaCount")
+    public int getQnaCount(@AuthenticationPrincipal MyUserDetails myUserDetails) {
+        // 로그인한 사용자의 QnA 개수를 가져옴
+        String memberId = myUserDetails.getGeneralMember().getUid();
+        return articleService.countInquiriesByMemberId(memberId);
+    }
+
 
     @GetMapping("/home")
     public String home(@AuthenticationPrincipal MyUserDetails myUserDetails,
@@ -134,6 +141,9 @@ public class MyinfoController {
             point.setFormattedExpirationDate(dateUtil.formatDate(point.getExpirationDate()));
         });
 
+        // QnA 개수 가져오기
+        int qnaCount = articleService.countInquiriesByMemberId(member.getUid()); // inquiryService에서 멤버의 QnA 개수를 가져옴
+        model.addAttribute("qnaCount", qnaCount);
 
         // 나의 정보
         Address address = member.getAddress();
@@ -186,9 +196,10 @@ public class MyinfoController {
             Model model) {
 
         String uid = myUserDetails.getGeneralMember().getUid();
+        GeneralMember generalMember = myUserDetails.getGeneralMember();
 
         // OrderPageRequestDTO 객체 생성
-        OrderPageRequestDTO orderRequestDTO = OrderPageRequestDTO.builder()
+        OrderItemPageRequestDTO orderRequestDTO = OrderItemPageRequestDTO.builder()
                 .pg(pg)
                 .size(10)
                 .startDate(startDate)
@@ -196,8 +207,12 @@ public class MyinfoController {
                 .build();
 
         // 주문 내역 조회
-        OrderPageResponseDTO orderResponseDTO = orderService.getOrdersByDateRange(uid, orderRequestDTO);
+        OrderItemPageResponseDTO orderResponseDTO = orderService.getOrdersByDateRange(uid, orderRequestDTO);
         model.addAttribute("orders", orderResponseDTO);
+
+        model.addAttribute("generalMember",generalMember);
+
+        model.addAttribute("myOrderItems", orderResponseDTO);
 
         return "myPage/ordered";
     }
@@ -245,6 +260,23 @@ public class MyinfoController {
         model.addAttribute("inquiries", inquiries);
         return "myPage/qna";
     }
+
+    @PostMapping("/qna/inquiry")
+    public String submitInquiry(@AuthenticationPrincipal MyUserDetails myUserDetails,
+                                @ModelAttribute InquiryDTO inquiryDTO,
+                                Model model) {
+        // 로그인한 회원의 UID를 InquiryDTO에 설정
+        String memberId = myUserDetails.getGeneralMember().getUid();
+        inquiryDTO.setMemberId(memberId);
+        inquiryDTO.setType1("판매자"); // 고정값 설정
+
+        // 문의 생성
+        articleService.createInquiry(inquiryDTO);
+
+        // 완료 후 QNA 페이지로 리다이렉트
+        return "redirect:/myPage/qna";
+    }
+
 
 
     @GetMapping("/review")

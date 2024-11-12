@@ -16,8 +16,8 @@ $(document).ready(function () {
             position: document.getElementById('position').value,
             history: document.getElementById('history').value,
             type: document.getElementById('type').value,
-            displayStartDate: document.getElementById('displayStartDate').value,
-            displayEndDate: document.getElementById('displayEndDate').value,
+            displayStartDate: document.getElementById('startDate').value,
+            displayEndDate: document.getElementById('endDate').value,
             etc: document.getElementById('etc').value
         };
 

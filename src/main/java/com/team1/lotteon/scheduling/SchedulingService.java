@@ -3,9 +3,11 @@ package com.team1.lotteon.scheduling;
 import com.team1.lotteon.entity.GeneralMember;
 import com.team1.lotteon.repository.Memberrepository.GeneralMemberRepository;
 import com.team1.lotteon.service.PointService;
+import com.team1.lotteon.service.admin.BannerService;
 import com.team1.lotteon.service.admin.CouponService;
 import com.team1.lotteon.service.admin.CouponTakeService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +20,7 @@ import java.util.List;
     내용 : Scheduling 을 위한 Service 작성
 
 */
-
+@Log4j2
 @Service
 @RequiredArgsConstructor
 public class SchedulingService {
@@ -30,6 +32,7 @@ public class SchedulingService {
     private final PointService pointService;
     private final CouponService couponService;
     private final CouponTakeService couponTakeService;
+    private final BannerService bannerService;
 
 
     @Scheduled(cron = "0 0 0 * * ?") // 매일 자정에 실행
@@ -66,13 +69,21 @@ public class SchedulingService {
         pointService.expirePoints(); // 포인트 만료 처리 메서드 호출
         System.out.println("만료된 포인트가 처리되었습니다.");
     }
+    //쿠폰 기간 처리 (도영)
     @Scheduled(cron = "1 0 0 * * ?")
     public void Coupons() {
         couponService.checkCoupons();
     }
+    //발급받은 쿠폰 기간 처리 (도영)
     @Scheduled(cron = "1 0 0 * * ?")
     public void CouponTakes() {
         couponTakeService.checkCouponTakes();
+    }
+    //배너 상태 변경(도영) 2024/11/12
+    @Scheduled(cron = "0 0 * * * *")
+    public void bannerSetting() {
+        bannerService.changeBannerStatues();
+        log.info("Start bannerSetting");
     }
 
 }

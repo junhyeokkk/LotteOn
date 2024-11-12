@@ -2,6 +2,8 @@
 날짜 : 2024/10/25
 이름 : 이상훈
 내용 : 메인 페이지 레이아웃 html 생성
+    수정내용
+    - 2024/11/12 이도영 사이드 베스트 상품 제거
 -->
 
 <!DOCTYPE html>
@@ -37,8 +39,8 @@
             updateImage();
         }
 
-        // 자동 슬라이드 기능 (4초마다)
-        setInterval(nextImage, 4000);
+        // 자동 슬라이드 기능 (10초마다)
+        setInterval(nextImage, 10000);
 
         updateImage(); // 초기 이미지 설정
     });
@@ -65,9 +67,9 @@
 
 <div class="layout-container">
     <!-- aside  -->
-    <div class="layout-left">
-        <th:block th:replace="~{layout/aside-best}"></th:block>
-    </div>
+<!--    <div class="layout-left">-->
+<!--        <th:block th:replace="~{layout/aside-best}"></th:block>-->
+<!--    </div>-->
 
     <div class="layout-right">
         <!-- content -->

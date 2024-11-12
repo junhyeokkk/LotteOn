@@ -318,6 +318,11 @@ public class ArticleServiceImpl implements ArticleService {
         return PageResponseDTO.fromPage(inquiriesPage.map(this::convertToInquiryDTO));
     }
 
+    @Override
+    public int countInquiriesByMemberId(String memberId) {
+        return inquiryRepository.countByMember_Uid(memberId);
+    }
+
 
     //  Notice 공지사항
     @Override
