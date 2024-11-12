@@ -52,7 +52,6 @@ public class PointService {
     private final GeneralMemberRepository generalMemberRepository;
     private final PointRepository pointRepository;
     private final ModelMapper modelMapper;
-    private final OrderService orderService;
 
 //    // 회원가입 축하 포인트
 //    public void registerPoint(GeneralMemberDTO generalMemberDTO) {
@@ -81,8 +80,6 @@ public class PointService {
         pointDTO.setExpirationDate(expirationDate);
 
         log.info("포인트 지급: 멤버 " + generalMemberDTO + " - 포인트: " + points + ", 타입: " + pointType);
-
-
 
         // insertPoint에서 유효기간 설정과 엔티티 변환을 처리
         insertPoint(pointDTO);
@@ -117,6 +114,7 @@ public class PointService {
             }
         });
     }
+
     // 포인트 차감 메서드 추가
     public void deductPoints(PointDTO pointDTO) {
         int deductionPoints = Math.abs(pointDTO.getGivePoints()); // 차감 포인트 절대값으로 처리
@@ -268,6 +266,41 @@ public class PointService {
 
         log.info("DB에 변경 사항이 반영되었습니다.");
     }
+
+    @Transactional
+    public void deductPoints(GeneralMember member, int discountPoint) {
+        // 1. 차감할 포인트 값 (절대값으로 처리)
+        discountPoint = Math.abs(discountPoint);
+
+        // 2. 잔여 포인트 확인
+        if (member.getPoints() < discountPoint) {
+            throw new IllegalArgumentException("포인트가 부족하여 차감할 수 없습니다.");
+        }
+
+        // 3. GeneralMember의 포인트 차감
+        member.decreasePoints(discountPoint);
+        generalMemberRepository.save(member); // 변경 사항 저장
+
+        // 4. 포인트 기록 생성 (차감된 포인트 기록)
+        Point point = new Point();
+        point.setGivePoints(0); // 지급 포인트는 0으로 설정
+        point.setTransactionType(TransactionType.사용); // 트랜잭션 타입을 "사용"으로 설정
+        point.setAcPoints(member.getPoints()); // 차감 후 잔여 포인트 설정
+        point.changeMember(member);
+
+        pointRepository.save(point); // 포인트 기록 저장
+
+        // 로그 출력
+        log.info("포인트 차감: 멤버 {} - 차감 포인트: {}, 잔여 포인트: {}", member.getUid(), discountPoint, member.getPoints());
+
+    }
+
+
+
+
+
+
+
 
 
 

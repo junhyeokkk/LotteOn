@@ -31,7 +31,7 @@ public class BannerDTO {
     private String backgroundColor;
     private String backgroundLink;
 
-    private boolean isActive;
+    private int isActive;
 
     private String position;
     private LocalDate displayStartDate;

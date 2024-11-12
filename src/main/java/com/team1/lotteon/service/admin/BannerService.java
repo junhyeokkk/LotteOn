@@ -3,12 +3,16 @@ package com.team1.lotteon.service.admin;
 import com.team1.lotteon.dto.BannerDTO;
 import com.team1.lotteon.entity.Banner;
 import com.team1.lotteon.repository.BannerRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -89,10 +93,10 @@ public class BannerService {
     }
 
     // 배너 db 저장 (준혁)
+    @CacheEvict(value = "activeBanners", allEntries = true)
     public void saveBannerDetails(BannerDTO bannerDTO) {
         log.info("Sav image????????????????????");
         Banner banner = modelMapper.map(bannerDTO, Banner.class);
-
         bannerRepository.save(banner);
     }
 
@@ -105,33 +109,50 @@ public class BannerService {
         return bannerDTOList;
     }
 
-    //배너 실행 여부 변경
-    public void changeBannerStatues() {
-        LocalDate currentDate = LocalDate.now();
-        LocalTime currentTime = LocalTime.now().truncatedTo(ChronoUnit.SECONDS); // 초 단위까지 자르기
-        List<Banner> banners = bannerRepository.findAll();
-        for (Banner banner : banners) {
-            LocalDate startDate = banner.getDisplayStartDate();
-            LocalTime startTime = banner.getDisplayStartTime().truncatedTo(ChronoUnit.SECONDS); // 초 단위까지 자르기
-            LocalDate endDate = banner.getDisplayEndDate();
-            LocalTime endTime = banner.getDisplayEndTime().truncatedTo(ChronoUnit.SECONDS); // 초 단위까지 자르기
+    // 현재 활성화된 배너 조회하여 캐싱
+    @Cacheable(value = "activeBanners", key = "'bannerCache'")
+    public List<Banner> getActiveBanners() {
+        return bannerRepository.findActiveBannersByDateAndTime(LocalDate.now(), LocalTime.now());
+    }
 
-            boolean shouldActivate = (currentDate.isAfter(startDate) || currentDate.isEqual(startDate)) &&
-                    (currentTime.isAfter(startTime) || currentTime.equals(startTime));
-            boolean shouldDeactivate = (currentDate.isAfter(endDate) || currentDate.isEqual(endDate)) &&
-                    (currentTime.isAfter(endTime) || currentTime.equals(endTime));
+    // 매분마다 스케줄 실행 - 활성화/비활성화 시간을 기준으로 캐시 갱신
+    @Scheduled(cron = "0 * * * * *") // 매 1분마다 실행
+    @CacheEvict(value = "activeBanners", allEntries = true, condition = "@bannerService.isUpdateNeeded()")
+    public void updateBannerCacheIfNeeded() {
+        // 조건에 따라 캐시 갱신
+    }
 
-            log.info("Banner activation check: " + shouldActivate);
-            log.info("Banner deactivation check: " + shouldDeactivate);
+    // 활성화/비활성화 시간 확인 후 갱신이 필요한지 체크하는 메서드
+    public boolean isUpdateNeeded() {
+        List<Banner> activeBanners = bannerRepository.findActiveBannersByDateAndTime(LocalDate.now(), LocalTime.now());
+        // 현재 캐시에 저장된 배너 목록과 DB에서 조회한 활성 배너 목록을 비교하여 차이가 있으면 true 반환
+        return true; // 예시 - 실제로는 캐시와 DB 상태 비교 구현 필요
+    }
 
-            if (shouldActivate && !banner.isActive()) {
-                banner.setIsActive(true);
-                bannerRepository.save(banner);
-            } else if (shouldDeactivate && banner.isActive()) {
-                banner.setIsActive(false);
-                bannerRepository.save(banner);
-            }
-        }
+    // 수정이나 삭제 이벤트 시 캐시 무효화
+    @CacheEvict(value = "activeBanners", allEntries = true)
+    public void updateBanner(Banner banner) {
+        bannerRepository.save(banner); // 배너 저장 또는 수정
+    }
 
+    @CacheEvict(value = "activeBanners", allEntries = true)
+    public void deleteBanner(Long bannerId) {
+        bannerRepository.deleteById(Math.toIntExact(bannerId)); // 배너 삭제
+    }
+
+    public List<Banner> getBannersByPosition(String position) {
+        // position이 지정된 배너 중 활성화된(isActive = 1) 배너만 조회
+        return bannerRepository.findByPositionAndIsActive(position, 1);
+    }
+
+    // 배너의 활성 상태를 갱신 (캐시 무효화 추가)
+    @Transactional
+    @CacheEvict(value = "activeBanners", allEntries = true)
+    public boolean updateBannerActiveState(Long bannerId, int newState) {
+        return bannerRepository.findById(Math.toIntExact(bannerId)).map(banner -> {
+            banner.setIsActive(newState); // 0 또는 1로 설정
+            bannerRepository.save(banner);
+            return true;
+        }).orElse(false);
     }
 }

@@ -62,7 +62,7 @@
                 <!--                    <a th:href="@{/product/view}" class="product__link">-->
                 <div class="thumb">
                     <img class="thumb__img"
-                         th:src="'/'+${appInfo.uploadDir}+'product/'+${product.imageUrl}" alt="상품 이미지"/>
+                         th:src="'/'+${product.imageUrl}" alt="상품 이미지"/>
                 </div>
                 <div class="prodcut__desc">
                     <h2 th:text="${product.name}">상품명</h2>

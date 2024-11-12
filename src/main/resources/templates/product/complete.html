@@ -109,7 +109,7 @@
         <tr th:each="orderitem : ${orderSummary.getOrderItems()}">
           <td>
             <div class="product-info">
-              <img th:src="'/'+${appInfo.uploadDir}+'product/'+${orderitem.productImage}" alt="상품 이미지" />
+              <img th:src="'/'+${orderitem.productImage}" alt="상품 이미지" />
               <div>
                 <p class="product-name">[[${orderitem.productName}]]</p>
                 <p class="product-description">[[${orderitem.optionCombination}]]</p>
