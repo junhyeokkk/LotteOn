@@ -2,8 +2,10 @@ package com.team1.lotteon.apiController.admin.order;
 
 import com.team1.lotteon.dto.order.*;
 import com.team1.lotteon.entity.Order;
-import com.team1.lotteon.repository.query.OrderQueryRepository;
+import com.team1.lotteon.repository.query.AdminQueryRepository;
+import com.team1.lotteon.repository.query.dto.OperatingStatusQueryDTO;
 import com.team1.lotteon.repository.query.dto.OrderDailyQueryDTO;
+import com.team1.lotteon.repository.query.dto.OrderItemSalesRatioQueryDTO;
 import com.team1.lotteon.service.Order.DeliveryService;
 import com.team1.lotteon.service.admin.AdminOrderService;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +29,7 @@ public class AdminOrderApiController {
 
     private final AdminOrderService adminOrderService;
     private final DeliveryService deliveryService;
-    private final OrderQueryRepository orderQueryRepository;
+    private final AdminQueryRepository adminQueryRepository;
 
     // 주문내역 상세
     @GetMapping("/detail")
@@ -65,6 +67,16 @@ public class AdminOrderApiController {
 
     @GetMapping("/daily")
     public List<OrderDailyQueryDTO> getOrderDaily() {
-        return orderQueryRepository.findOrderDailyQueryLastFourDays();
+        return adminQueryRepository.findOrderDailyQueryLastFourDays();
+    }
+
+    @GetMapping("/ratio")
+    public List<OrderItemSalesRatioQueryDTO> getOrderItemSalesRatio() {
+        return adminQueryRepository.findOrderItemSalesRatioQuery();
+    }
+
+    @GetMapping("/operating")
+    public OperatingStatusQueryDTO getOperatingStatus() {
+        return adminQueryRepository.findOperatingStatusQuery();
     }
 }

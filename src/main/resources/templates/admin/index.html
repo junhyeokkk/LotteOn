@@ -54,23 +54,27 @@
                 <div class="status-grid">
                     <div class="status-item">
                         <span>주문건수</span>
-                        <strong>131</strong>
+                        <strong th:text="${operatingStatusQueryDTO.orderCount}">131</strong>
                     </div>
                     <div class="status-item">
                         <span>주문금액</span>
-                        <strong>1,130,000</strong>
+                        <strong th:text="${#numbers.formatInteger(operatingStatusQueryDTO.orderPrice, 4, 'COMMA')}">1,130,000</strong>
+
+
+
+
                     </div>
                     <div class="status-item">
                         <span>회원가입</span>
-                        <strong>1,014</strong>
+                        <strong th:text="${operatingStatusQueryDTO.memberRegistration}">1,014</strong>
                     </div>
                     <div class="status-item">
                         <span>방문자 수</span>
-                        <strong>1,014</strong>
+                        <strong th:text="${operatingStatusQueryDTO.visitCount}">1,014</strong>
                     </div>
                     <div class="status-item">
                         <span>신규 게시물</span>
-                        <strong>14</strong>
+                        <strong th:text="${operatingStatusQueryDTO.newPostCount}">14</strong>
                     </div>
                 </div>
             </div>
@@ -211,15 +215,18 @@
             }
         });
 
+        const orderItemSalesRatioQueryDTOList = /*[[${orderItemSalesRatioQueryDtoList}]]*/ []
+        const labelsData = orderItemSalesRatioQueryDTOList.map(dto => dto.cateName);
+        const salesData = orderItemSalesRatioQueryDTOList.map(dto => dto.salesPrice);
         // Pie chart for sales categories
         const ctxPie = document.getElementById('pieChart').getContext('2d');
         const pieChart = new Chart(ctxPie, {
             type: 'pie',
             data: {
-                labels: ['가전', '식품', '의류', '기타'], // Sales categories
+                labels: labelsData, // Sales categories
                 datasets: [{
                     label: '주요 매출',
-                    data: [300, 500, 200, 100], // Replace with actual sales data
+                    data: salesData, // Replace with actual sales data
                     backgroundColor: [
                         'rgba(255, 206, 86, 0.6)',
                         'rgba(75, 192, 192, 0.6)',

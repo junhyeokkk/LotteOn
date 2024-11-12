@@ -1,32 +1,37 @@
 package com.team1.lotteon.repository.query;
 
-import com.querydsl.core.types.ConstantImpl;
-import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.*;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.team1.lotteon.entity.QArticle;
+import com.team1.lotteon.entity.QMember;
 import com.team1.lotteon.entity.QOrder;
+import com.team1.lotteon.entity.QOrderItem;
 import com.team1.lotteon.entity.enums.OrderStatus;
-import com.team1.lotteon.repository.query.dto.OrderDailyQueryDTO;
-import com.team1.lotteon.repository.query.dto.QOrderDailyQueryDTO;
+import com.team1.lotteon.repository.query.dto.*;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Repository
-public class OrderQueryRepository {
-    private final JPAQueryFactory queryFactory;
+import static com.querydsl.jpa.JPAExpressions.select;
 
-    public OrderQueryRepository(JPAQueryFactory queryFactory) {
+@Repository
+public class AdminQueryRepository {
+    private final JPAQueryFactory queryFactory;
+    private final QOrder order = QOrder.order;
+    private final QOrderItem orderItem = QOrderItem.orderItem;
+    private final QMember member = QMember.member;
+    private final QArticle article = QArticle.article;
+
+    public AdminQueryRepository(JPAQueryFactory queryFactory) {
         this.queryFactory = queryFactory;
     }
 
     public List<OrderDailyQueryDTO> findOrderDailyQueryLastFourDays() {
-        QOrder order = QOrder.order;
+
         LocalDateTime today = LocalDateTime.now();
         LocalDateTime fourDaysAgo = today.minusDays(3);
 
@@ -68,5 +73,34 @@ public class OrderQueryRepository {
         return dailyMap.values().stream()
                 .sorted((a, b) -> LocalDate.parse(a.getOrderDate()).compareTo(LocalDate.parse(b.getOrderDate())))
                 .toList();
+    }
+
+    public List<OrderItemSalesRatioQueryDTO> findOrderItemSalesRatioQuery() {
+        List<OrderItemSalesRatioQueryDTO> orderItemSalesRatioQueryDTOList = queryFactory
+                .select(
+                        new QOrderItemSalesRatioQueryDTO(
+                                orderItem.product.category.name,
+                                orderItem.product.price.sum()
+                        )
+                )
+                .from(orderItem)
+                .groupBy(orderItem.product.category.id)
+                .fetch();
+        return orderItemSalesRatioQueryDTOList;
+    }
+
+    public OperatingStatusQueryDTO findOperatingStatusQuery() {
+        OperatingStatusQueryDTO operatingStatusQueryDTO = queryFactory
+                .select(new QOperatingStatusQueryDTO(
+                        select(order.count()).from(order),
+                        select(Expressions.asNumber(order.totalPrice.sum()).longValue()).from(order),
+                        select(member.count()).from(member),
+                        select(member.count()).from(member),
+                        select(article.count()).from(article).where(article.createdAt.between(LocalDateTime.now().minusDays(1), LocalDateTime.now()))
+                ))
+                .from(order)
+                .fetchFirst();
+
+        return operatingStatusQueryDTO;
     }
 }
