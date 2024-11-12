@@ -64,7 +64,7 @@
                                 <td th:text="${delivery.orderItem.quantity}">건수</td>
                                 <td th:text="${delivery.orderItem.orderPrice}">물품합계</td>
                                 <td th:text="${delivery.orderItem.getDeliveryFee()}">배송비</td>
-                                <td th:text="${delivery.status}">배송상태</td>
+                                <td th:text="${delivery.getStatus().getKoreanLabel()}">배송상태</td>
                                 <td th:text="${delivery.deliveryDate}">접수일</td>
                             </tr>
                         </table>

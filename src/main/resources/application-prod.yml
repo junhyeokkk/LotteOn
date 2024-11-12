@@ -9,7 +9,7 @@ spring:
       connection-timeout: 10000
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
@@ -23,3 +23,7 @@ spring:
       host: 43.200.191.196
       port: 6379
       password: 'qwer1234!Q'
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: false

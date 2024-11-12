@@ -222,7 +222,7 @@
             <div class="modalbuttondiv">
                 <input type="hidden" class="header" name="prodNo">
                 <input type="hidden" class="detailNo" name="detailNo">
-                <button class="modalbutton">수취 확인</button>
+                <button id="receipt_btn" class="modalbutton">수취 확인</button>
                 <button class="modalcanclebutton">취소</button>
             </div>
         </section>
@@ -304,20 +304,19 @@
                             <th>상태</th>
                         </tr>
                         <tr>
-                            <td>20xx-01-01</td>
-                            <td><img src="/main/resources/static/images/AA.jpg" alt="" class="modalimgsize"></td>
-    
+                            <td class="order-date">20xx-01-01</td> <!-- JavaScript로 날짜 업데이트 -->
+                            <td><img  alt="" class="modalimgsize"></td>
                             <td class="modalprice-info">
-                                <span>주문번호 : 101221341</span><br>
-                                <span>(주) 상호명</span><br>
-                                <span>상품평</span><br>
-                                <span>수량 : 1개</span><br>
-                                <span class="modaltotal-price">34,000원</span>
+                                <span class="order-number">주문번호 : 101221341</span><br>
+                                <span class="shop-name">(주) 상호명</span><br>
+                                <span class="product-name">상품명</span><br>
+                                <span class="quantity">수량 : 1개</span><br>
+                                <span class="modaltotal-price total-price">34,000원</span>
                             </td>
                             <td class="modalprice-info">
                                 <div class="modalprice-row">
                                     <span>판매가</span>
-                                    <span class="modalprice-value">34,000원</span>
+                                    <span class="modalprice-value total-price">34,000원</span>
                                 </div>
                                 <div class="modalprice-row">
                                     <span>할인</span>
@@ -325,11 +324,10 @@
                                 </div><br>
                                 <div class="modalprice-row total-price">
                                     <span>결제금액</span>
-                                    <span class="modaltotal-price">31,000원</span>
+                                    <span class="modaltotal-price total-price">31,000원</span>
                                 </div>
-    
                             </td>
-                            <td>배송완료</td>
+                            <td class="delivery-status">배송완료</td>
                         </tr>
                     </table>
                 </article>
@@ -348,18 +346,18 @@
                         <tr>
                             <th>사유 입력</th>
                             <td class="modalcontent2">
-                                <textarea placeholder="변경내역작성하기" required></textarea>
+                                <textarea id="refundReasonText" placeholder="변경내역작성하기" required></textarea>
                             </td>
                         </tr>
                         <tr>
                             <th>사진첨부(선택)</th>
-                            <td><input type="file"></td>
+                            <td><input type="file" id="refundImage"></td>
                         </tr>
                     </table>
                 </article>
                 <br>
                 <div class="modalbuttondiv">
-                    <input class="modalbutton" type="submit" value="반품신청"/>
+                    <input class="modalbutton" onclick="submitRefundRequest()" type="submit" value="반품신청"/>
                     <button class="modalcanclebutton">취소</button>
                 </div>
             </form>
@@ -387,20 +385,19 @@
                             <th>상태</th>
                         </tr>
                         <tr>
-                            <td>20xx-01-01</td>
-                            <td><img src="/main/resources/static/images/AA.jpg" alt="" class="modalimgsize"></td>
-    
+                            <td class="order-date">20xx-01-01</td> <!-- JavaScript로 날짜 업데이트 -->
+                            <td><img  alt="" class="modalimgsize"></td>
                             <td class="modalprice-info">
-                                <span>주문번호 : 101221341</span><br>
-                                <span>(주) 상호명</span><br>
-                                <span>상품평</span><br>
-                                <span>수량 : 1개</span><br>
-                                <span class="modaltotal-price">34,000원</span>
+                                <span class="order-number">주문번호 : 101221341</span><br>
+                                <span class="shop-name">(주) 상호명</span><br>
+                                <span class="product-name">상품명</span><br>
+                                <span class="quantity">수량 : 1개</span><br>
+                                <span class="modaltotal-price total-price">34,000원</span>
                             </td>
                             <td class="modalprice-info">
                                 <div class="modalprice-row">
                                     <span>판매가</span>
-                                    <span class="modalprice-value">34,000원</span>
+                                    <span class="modalprice-value total-price">34,000원</span>
                                 </div>
                                 <div class="modalprice-row">
                                     <span>할인</span>
@@ -408,40 +405,40 @@
                                 </div><br>
                                 <div class="modalprice-row total-price">
                                     <span>결제금액</span>
-                                    <span class="modaltotal-price">31,000원</span>
+                                    <span class="modaltotal-price total-price">31,000원</span>
                                 </div>
-    
                             </td>
-                            <td>배송완료</td>
+                            <td class="delivery-status">배송완료</td>
                         </tr>
                     </table>
                 </article>
                 <article>
-                    <h3>반품사유 작성</h3>
+                    <h3>교환사유 작성</h3>
                     <table border="0" class="heighttable">
                         <tr>
-                            <th>반품유형</th>
+                            <th>교환유형</th>
                             <td>
-                                <input type="radio" name="refundreason" value="otherproduct">오배송
-                                <input type="radio" name="refundreason" value="broken">파손 및 불량
-                                <input type="radio" name="refundreason" value="other">기타
+                                <input type="radio" name="returnreason" value="simple">단순 교환
+                                <input type="radio" name="returnreason" value="broken">파손 및 불량
+                                <input type="radio" name="returnreason" value="mistake">주문 실수
+                                <input type="radio" name="returnreason" value="other">기타
                             </td>
                         </tr>
                         <tr>
-                            <th>사유 입력</th>
+                            <th>교환 입력</th>
                             <td class="modalcontent2">
-                                <textarea placeholder="변경내역작성하기" required></textarea>
+                                <textarea id="returnReasonText" placeholder="변경내역작성하기" required></textarea>
                             </td>
                         </tr>
                         <tr>
                             <th>사진첨부(선택)</th>
-                            <td><input type="file"></td>
+                            <td><input type="file" id="returnImage"></td>
                         </tr>
                     </table>
                 </article>
                 <br>
                 <div class="modalbuttondiv">
-                    <input class="modalbutton" type="submit" value="교환신청"/>
+                    <input class="modalbutton" onclick="submitReturnRequest()" type="submit" value="반품신청"/>
                     <button class="modalcanclebutton">취소</button>
                 </div>
             </form>

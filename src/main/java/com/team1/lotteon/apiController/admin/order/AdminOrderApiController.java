@@ -1,16 +1,20 @@
 package com.team1.lotteon.apiController.admin.order;
 
-import com.team1.lotteon.controller.admin.order.OrderPageController;
 import com.team1.lotteon.dto.order.*;
 import com.team1.lotteon.entity.Order;
+import com.team1.lotteon.repository.query.AdminQueryRepository;
+import com.team1.lotteon.repository.query.dto.OperatingStatusQueryDTO;
+import com.team1.lotteon.repository.query.dto.OrderDailyQueryDTO;
+import com.team1.lotteon.repository.query.dto.OrderItemSalesRatioQueryDTO;
 import com.team1.lotteon.service.Order.DeliveryService;
-import com.team1.lotteon.service.Order.OrderService;
 import com.team1.lotteon.service.admin.AdminOrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /*
     날짜 : 2024/11/2
@@ -25,6 +29,7 @@ public class AdminOrderApiController {
 
     private final AdminOrderService adminOrderService;
     private final DeliveryService deliveryService;
+    private final AdminQueryRepository adminQueryRepository;
 
     // 주문내역 상세
     @GetMapping("/detail")
@@ -60,5 +65,18 @@ public class AdminOrderApiController {
         }
     }
 
+    @GetMapping("/daily")
+    public List<OrderDailyQueryDTO> getOrderDaily() {
+        return adminQueryRepository.findOrderDailyQueryLastFourDays();
+    }
 
+    @GetMapping("/ratio")
+    public List<OrderItemSalesRatioQueryDTO> getOrderItemSalesRatio() {
+        return adminQueryRepository.findOrderItemSalesRatioQuery();
+    }
+
+    @GetMapping("/operating")
+    public OperatingStatusQueryDTO getOperatingStatus() {
+        return adminQueryRepository.findOperatingStatusQuery();
+    }
 }

@@ -7,6 +7,7 @@ import com.team1.lotteon.entity.Delivery;
 import com.team1.lotteon.entity.Order;
 import com.team1.lotteon.entity.OrderItem;
 import com.team1.lotteon.entity.enums.DeliveryStatus;
+import com.team1.lotteon.entity.enums.OrderStatus;
 import com.team1.lotteon.repository.DeliveryRepoistory;
 import com.team1.lotteon.repository.OrderItemRepository;
 import com.team1.lotteon.repository.OrderRepository;
@@ -64,6 +65,10 @@ public class DeliveryService {
         // OrderItem 상태 업데이트
         orderItem.setDelivery(delivery);
         orderItem.setDeliveryStatus(DeliveryStatus.DELIVERED);
+
+        // 하나의 orderitem이라도 배송 시작했으면 Order 상태 deliverd로 change
+        orderItem.getOrder().setStatus(OrderStatus.DELIVERING);
+
         orderItemRepository.save(orderItem);
     }
 
@@ -79,5 +84,16 @@ public class DeliveryService {
         } else {
             throw new IllegalArgumentException("해당 배송 정보가 존재하지 않습니다.");
         }
+    }
+
+    // 배송 완료처리
+    @Transactional
+    public boolean completeDelivery(Long deliveryId) {
+        return deliveryRepoistory.findById(Math.toIntExact(deliveryId)).map(delivery -> {
+            delivery.setStatus(DeliveryStatus.SHIPPED); // 배송완료 상태로 설정 (DB에 맞는 값 사용)
+            delivery.getOrderItem().setDeliveryStatus(DeliveryStatus.SHIPPED);
+            deliveryRepoistory.save(delivery);
+            return true;
+        }).orElse(false);
     }
 }

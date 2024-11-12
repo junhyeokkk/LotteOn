@@ -1,5 +1,179 @@
+document.addEventListener("DOMContentLoaded", function() {
+    const receiveButton = document.getElementById("receive");
+    const receiptConfirmModal = document.getElementById("receiptConfirmModal");
+    const refundModal = document.getElementById("refundModal");
+    const closeModalButton = document.getElementById("closeModal");
+    const confirmReceiptButton = document.getElementById("receipt_btn");
 
-    // 리뷰 팝업
+    // 수취확인 클릭 리스너
+    document.querySelectorAll("#receive").forEach(function(button) {
+        button.addEventListener("click", function(event) {
+            const orderStatus = event.target.getAttribute("data-order-status");
+            console.log(orderStatus)
+            if (orderStatus === "SHIPPED") {
+                console.log("배송완료 상태입니다. 모달을 엽니다.");
+                // 버튼의 data-order-item-id에서 orderItemId를 가져와 localStorage에 저장
+                const orderItemId = button.getAttribute("data-order-item-id");
+                localStorage.setItem("orderItemId", orderItemId);
+                receiptConfirmModal.style.display = "block"; // 모달 열기
+            }else if(orderStatus === "COMPLETE") {
+                alert("이미 수취완료된 상품입니다.")
+            }else if(orderStatus === "RETURNREQ") {
+                alert("반품 진행중인 상품입니다.")
+            }else{
+                console.log("배송되지 않은 상태입니다.");
+                alert("상품이 아직 배송되지 않았습니다.");
+            }
+        });
+    });
+
+    // 모달 닫기
+    closeModalButton.addEventListener("click", function() {
+        receiptConfirmModal.style.display = "none";
+    });
+
+    // 수취확인 클릭 시 상태 변경
+    confirmReceiptButton.addEventListener("click", function() {
+        // localStorage에서 orderItemId 가져오기
+        const orderItemId = localStorage.getItem("orderItemId");
+
+        fetch(`/api/order/updateDeliveryStatus`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(orderItemId)  // orderItemId만 전송
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("수취확인이 완료되었습니다.");
+                    document.getElementById("receiptConfirmModal").style.display = "none";
+                    location.reload(); // 페이지 새로고침
+                } else {
+                    alert("수취확인 처리에 실패했습니다.");
+                }
+            })
+            .catch(error => console.error("Error:", error));
+    });
+});
+// 반품
+function openRefundModal(button) {
+    // 각 속성에서 값을 가져옵니다
+    const orderDate = button.getAttribute("data-order-date").split("T")[0];
+    const orderNumber = button.getAttribute("data-order-number");
+    const shopName = button.getAttribute("data-shop-name");
+    const productName = button.getAttribute("data-product-name");
+    const quantity = button.getAttribute("data-quantity");
+    const totalPrice = button.getAttribute("data-total-price");
+    const productImg = button.getAttribute("data-product-img");
+    const deliveryStatus = button.getAttribute("data-status");
+
+    // 모달의 각 요소에 데이터를 설정합니다
+    document.querySelector("#refundModal .modal-section .order-date").textContent = orderDate;
+    document.querySelector("#refundModal .modal-section .order-number").textContent = `주문번호 : ${orderNumber}`;
+    document.querySelector("#refundModal .modal-section .shop-name").textContent = shopName;
+    document.querySelector("#refundModal .modal-section .product-name").textContent = productName;
+    document.querySelector("#refundModal .modal-section .quantity").textContent = `${quantity} 개`;
+    document.querySelector("#refundModal .modal-section .total-price").textContent = `${totalPrice}원`;
+    document.querySelector("#refundModal .modalimgsize").src = productImg;
+    document.querySelector("#refundModal .modal-section .delivery-status").textContent = deliveryStatus;
+    // 모달 열기
+    document.getElementById("refundModal").style.display = "block";
+}
+
+// 교환
+function openReturnModal(button) {
+    // 각 속성에서 값을 가져옵니다
+    const orderDate = button.getAttribute("data-order-date").split("T")[0];
+    const orderNumber = button.getAttribute("data-order-number");
+    const shopName = button.getAttribute("data-shop-name");
+    const productName = button.getAttribute("data-product-name");
+    const quantity = button.getAttribute("data-quantity");
+    const totalPrice = button.getAttribute("data-total-price");
+    const productImg = button.getAttribute("data-product-img");
+    const deliveryStatus = button.getAttribute("data-status");
+
+    // 모달의 각 요소에 데이터를 설정합니다
+    document.querySelector("#returnModal .modal-section .order-date").textContent = orderDate;
+    document.querySelector("#returnModal .modal-section .order-number").textContent = `주문번호 : ${orderNumber}`;
+    document.querySelector("#returnModal .modal-section .shop-name").textContent = shopName;
+    document.querySelector("#returnModal .modal-section .product-name").textContent = productName;
+    document.querySelector("#returnModal .modal-section .quantity").textContent = `${quantity} 개`;
+    document.querySelector("#returnModal .modal-section .total-price").textContent = `${totalPrice}원`;
+    document.querySelector("#returnModal .modalimgsize").src = productImg;
+    document.querySelector("#returnModal .modal-section .delivery-status").textContent = deliveryStatus;
+    // 모달 열기
+    document.getElementById("returnModal").style.display = "block";
+}
+
+// 모달 닫기 기능 추가
+document.getElementById("closeModal").addEventListener("click", function() {
+    document.getElementById("returnModal").style.display = "none";
+
+});
+
+// 반품 요청
+function submitRefundRequest() {
+    const refundReason = document.querySelector('input[name="refundreason"]:checked').value;
+    const reasonText = document.getElementById("refundReasonText").value;
+    const imageFile = document.getElementById("refundImage").files[0];
+
+    const formData = new FormData();
+    formData.append("orderItemId", localStorage.getItem("orderItemId")); // orderItem ID 설정
+    formData.append("refundReason", refundReason);
+    formData.append("reasonText", reasonText);
+    if (imageFile) {
+        formData.append("imageFile", imageFile);
+    }
+
+    fetch("/api/order/requestRefund", {
+        method: "POST",
+        body: formData
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("반품신청이 완료되었습니다.");
+                location.reload(); // 페이지 새로고침 또는 모달 닫기
+            } else {
+                alert("반품신청에 실패했습니다.");
+            }
+        })
+        .catch(error => console.error("Error:", error));
+}
+
+// 교환 요청
+function submitReturnRequest() {
+    const returnReason = document.querySelector('input[name="returnreason"]:checked').value;
+    const reasonText = document.getElementById("returnReasonText").value;
+    const imageFile = document.getElementById("returnImage").files[0];
+
+    const formData = new FormData();
+    formData.append("orderItemId", localStorage.getItem("orderItemId")); // orderItem ID 설정
+    formData.append("returnReason", returnReason);
+    formData.append("reasonText", reasonText);
+    if (imageFile) {
+        formData.append("imageFile", imageFile);
+    }
+
+    fetch("/api/order/requestReturn", {
+        method: "POST",
+        body: formData
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("교환신청이 완료되었습니다.");
+                location.reload(); // 페이지 새로고침 또는 모달 닫기
+            } else {
+                alert("교환신청에 실패했습니다.");
+            }
+        })
+        .catch(error => console.error("Error:", error));
+}
+
+// 리뷰 팝업
     function reviewPop(prodNo, no, price) {
     const popReview = $('#popReview');
     popReview.empty();

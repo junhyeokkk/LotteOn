@@ -1,9 +1,13 @@
+// 전역 변수로 deliveryId를 저장할 변수를 선언
+let currentDeliveryId = null;
 document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".delivery-detail-btn").forEach(button => {
         button.addEventListener("click", event => {
             event.preventDefault();
+
             console.log('찍히니?')
             const deliveryId = button.getAttribute("data-delivery-id");
+            currentDeliveryId = button.getAttribute("data-delivery-id");
 
             fetch(`/api/admin/delivery/detail?id=${deliveryId}`)
                 .then(response => response.json())
@@ -39,4 +43,28 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("deliverydetailmodal").style.display = "block";
     }
 
+    // 배송 완료 버튼 이벤트 리스너
+    document.getElementById("complete-delivery-btn").addEventListener("click", function() {
+        if (currentDeliveryId) { // 현재 deliveryId가 설정되어 있는지 확인
+            fetch(`/api/admin/delivery/complete`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ deliveryId: currentDeliveryId }) // JSON으로 deliveryId 전송
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("배송이 완료되었습니다.");
+                        location.reload(); // 페이지 새로고침 또는 모달 닫기
+                    } else {
+                        alert("배송 완료 처리에 실패했습니다.");
+                    }
+                })
+                .catch(error => console.error("Error:", error));
+        } else {
+            alert("배송 ID가 설정되지 않았습니다.");
+        }
+    });
 });
