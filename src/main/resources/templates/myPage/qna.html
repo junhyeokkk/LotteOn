@@ -45,7 +45,7 @@
         <div class="pagingList">
           <!-- 이전 버튼 -->
           <a th:href="@{/myPage/qna(pg=${inquiries.currentPage - 1})}"
-             class="prev" th:if="${!inquiries.isFirst}"><</a>
+             class="prev" th:if="${!inquiries.isFirst}">&lt;</a>
 
           <!-- 페이지 번호 버튼 -->
           <a th:href="@{/myPage/qna(pg=${pageNumber - 1})}"
@@ -55,8 +55,11 @@
 
           <!-- 다음 버튼 -->
           <a th:href="@{/myPage/qna(pg=${inquiries.currentPage + 1})}"
-             class="next" th:if="${!inquiries.isLast}">></a>
-        </div>
+             class="next" th:if="${!inquiries.isLast}">&gt;</a>
+
+          <div class="pagingBox" th:if="${inquiries.totalPages > 1}">
+
+          </div>
       </div>
     </article>
   </section>

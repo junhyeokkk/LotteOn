@@ -19,7 +19,8 @@
             "배송": ["배송 추적", "배송 지연"],
             "취소/반품/환불": ["취소 요청", "반품 요청", "환불 요청"],
             "여행/숙박/항공": ["호텔 예약", "항공권 예약"],
-            "안전결제": ["결제 안전 확인", "보안 문제 신고"]
+            "안전결제": ["결제 안전 확인", "보안 문제 신고"],
+            "판매자": ["상품", "배송", "반품/취소", "교환", "기타"]
         };
 
         function updateType2Options(selectedType2 = null) {
@@ -90,6 +91,7 @@
                         <option value="취소/반품/환불" th:selected="${selectedType1 == '취소/반품/환불'}">취소/반품/환불</option>
                         <option value="여행/숙박/항공" th:selected="${selectedType1 == '여행/숙박/항공'}">여행/숙박/항공</option>
                         <option value="안전결제" th:selected="${selectedType1 == '안전결제'}">안전결제</option>
+                        <option value="판매자" th:selected="${selectedType1 == '판매자'}">판매자</option>
                     </select>
                 </div>
                 <div>

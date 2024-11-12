@@ -31,5 +31,10 @@ public interface InquiryRepository extends JpaRepository<Inquiry, Long> {
 
     // 새로운 메서드: 특정 회원 ID로 문의 데이터 조회
     Page<Inquiry> findByMember_Uid(String memberId, Pageable pageable);
+
+    // 특정 회원 ID로 문의 개수 조회
+    int countByMember_Uid(String memberId);
+
+
 }
 

@@ -164,22 +164,22 @@
             <button class="modal-close" id="closeModal">&times;</button>
         </nav>
         <section class="modal-section">
-            <form action="#" method="post">
+            <form action="/myPage/qna/inquiry" method="post">
                 <table border="0" class="heighttable">
                     <tr>
                         <th>문의종류</th>
                         <td>
-                            <label><input type="radio" name="inquiryType" value="product"/>상품</label>
-                            <label><input type="radio" name="inquiryType" value="delivery"/>배송</label>
-                            <label><input type="radio" name="inquiryType" value="returnCancel"/>반품/취소</label>
-                            <label><input type="radio" name="inquiryType" value="exchange"/>교환</label>
-                            <label><input type="radio" name="inquiryType" value="other"/>기타</label>
+                            <label><input type="radio" name="type2" value="상품" />상품</label>
+                            <label><input type="radio" name="type2" value="배송" />배송</label>
+                            <label><input type="radio" name="type2" value="반품/취소" />반품/취소</label>
+                            <label><input type="radio" name="type2" value="교환" />교환</label>
+                            <label><input type="radio" name="type2" value="기타" />기타</label>
                         </td>
                     </tr>
                     <tr>
                         <th>Email</th>
                         <td class="modalemail">
-                            <input type="text" name="email" value="chh**@gmail.com"/>
+                            <input type="text" name="email" value="${#}"/>
                             <input type="hidden" name="prodNo" class="prodNo">
                             <input type="hidden" name="userId" class="userId">
                         </td>
@@ -187,13 +187,13 @@
                     <tr>
                         <th>제목</th>
                         <td class="title">
-                            <input type="text" placeholder="제목입력"/>
+                            <input type="text" name="title" placeholder="제목입력" required />
                         </td>
                     </tr>
                     <tr>
                         <th>내용</th>
                         <td class="modalcontent">
-                            <textarea name="prodQnaContent" placeholder="내용입력"></textarea>
+                            <textarea name="content" placeholder="내용입력" required></textarea>
                         </td>
                     </tr>
                 </table>

@@ -60,6 +60,8 @@ public interface ArticleService {
     PageResponseDTO<InquiryDTO> getQnasByType1(String type1, Pageable pageable);
     void updateInquiryAnswer(Long id, String answer);
     PageResponseDTO<InquiryDTO> getInquiriesByMemberId(String memberId, Pageable pageable);
+    int countInquiriesByMemberId(String uid);
+
 
 
     // Notice
