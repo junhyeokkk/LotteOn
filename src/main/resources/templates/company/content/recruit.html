@@ -60,6 +60,14 @@
                         </div>
                         <div>상시채용</div>
                     </a>
+
+                    <a th:each="recruit : ${activeRecruits}" th:href="@{/company/content/recruit/{id}(id=${recruit.recruitid})}">
+                        <div>
+                            <p th:text="${recruit.title}">포지션 제목</p>
+                            <span th:text="${recruit.position + ' | ' + recruit.history + ' | ' + recruit.type}"></span>
+                        </div>
+                        <div th:text="${recruit.status}">상시채용</div>
+                    </a>
                 </div>
             </div>
         </main>

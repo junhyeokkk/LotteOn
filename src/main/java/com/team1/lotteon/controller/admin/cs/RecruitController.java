@@ -88,4 +88,12 @@ public class RecruitController {
     }
 
 
+    // 회사소개
+    @GetMapping("/company/content/recruit")
+    public String showActiveRecruits(Model model) {
+        List<RecruitDTO> activeRecruits = recruitService.getActiveRecruits();
+        model.addAttribute("activeRecruits", activeRecruits);
+        return "company/content/recruit";  // recruit.html 경로
+    }
+
 }

@@ -1,3 +1,12 @@
+/*
+    날짜 : 2024/10/25
+    이름 : 이상훈
+    내용 : 메인 페이지 css 생성
+
+    수정이력
+  - 2024/10/30 강유정 - css 수정
+*/
+
 /* 메인영역 */
 main {
   width: 1200px;
@@ -138,3 +147,26 @@ main {
 .prod_a:hover {
   color: #2980b9;
 }
+
+  /*.thumb > img {*/
+  /*  height: 250px;*/
+  /*  border-radius: 4px;*/
+  /*  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);*/
+  /*}*/
+
+  /*.h3 > .prod_h3 {*/
+  /*  padding: 10px 20px;*/
+  /*  margin-bottom: 10px;*/
+  /*  border-bottom: 1px solid #909090;*/
+  /*}*/
+
+  /*span > .prod_span {*/
+  /*  font-size: 20px;*/
+  /*  font-weight: bold;*/
+  /*}*/
+
+  /*a > .prod_a{*/
+  /*  font-size: 16px;*/
+  /*  color: #909090;*/
+  /*  float: right;*/
+  /*}*/
