@@ -7,6 +7,7 @@
 <!-- index.html 고유 CSS 추가 -->
 <th:block layout:fragment="css">
     <link rel="stylesheet" th:href="@{/css/admin/order/list.css}"/>
+
     <link rel="stylesheet" th:href="@{/css/my/modal.css}"/>
 </th:block>
 <!-- index.html 고유 스크립트 추가 -->
@@ -68,7 +69,8 @@
                     <!-- 신용카드, 계좌이체, 휴대폰 등등 -->
                     <td style="color: green;" th:text="${order.getStatus().getKoreanLabel()}"></td>
                     <!-- 결제완료, 결제대기, 주문취소 -->
-                    <td th:text="${order.getOrderDate()}."></td>
+                    <td th:text="${#strings.substringBefore(order.getOrderDate().toString(), 'T')}"></td>
+
                     <!-- 연월일시간초 -->
                     <td>
                         <a href="#" class="deliveryBtn" th:data-order-id="${order.id}" data-modal="deliveryInsertModal">보기</a>
