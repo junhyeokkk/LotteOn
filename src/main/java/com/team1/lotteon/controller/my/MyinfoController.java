@@ -141,9 +141,13 @@ public class MyinfoController {
             point.setFormattedExpirationDate(dateUtil.formatDate(point.getExpirationDate()));
         });
 
-        // QnA 개수 가져오기
-        int qnaCount = articleService.countInquiriesByMemberId(member.getUid()); // inquiryService에서 멤버의 QnA 개수를 가져옴
+        // QnA 개수 및 상위 5개 데이터 가져오기
+        int qnaCount = articleService.countInquiriesByMemberId(member.getUid());
+        Pageable pageable = PageRequest.of(0, 5);
+        PageResponseDTO<InquiryDTO> qnaLimit5 = articleService.getInquiriesByMemberId(member.getUid(), pageable);
+
         model.addAttribute("qnaCount", qnaCount);
+        model.addAttribute("qnaLimit5", qnaLimit5.getContent());  // 상위 5개 QnA 내용 전달
 
         // 나의 정보
         Address address = member.getAddress();

@@ -126,7 +126,7 @@
                         <a th:href="@{/myPage/point}" class="more">더보기 &gt;</a>
                         <table border="0" class="widthtable">
                             <tr>
-                                <th><input type="checkbox" name="all" onchange="toggleAllChecks(this)" /></th>
+<!--                                <th><input type="checkbox" name="all" onchange="toggleAllChecks(this)" /></th>-->
                                 <th>날짜</th>
                                 <th>구분</th>
                                 <th>주문번호</th>
@@ -204,30 +204,28 @@
                                 <th>작성일</th>
                                 <th>상태</th>
                             </tr>
-                            <block each="qna,loop:${qnaLimit5}">
-                                <tr>
-                                    <td text="${loop.index+1}">5</td>
-                                    <block if="${qna.cate1 == qna}">
-                                        <td class="channel">고객센터</td>
-                                    </block>
-                                    <block if="${qna.cate1 != qna}">
-                                        <td class="channel">판매자게시판</td>
-                                    </block>
-                                    <!-- <td text="${qna.detail}">주문/결제</td> -->
-                                    <td text="${qna.title}">신용카드 결제 중 오류가 난 경우 어떻게 하나요?</td>
-                                    <td text="${qna.rdate.toLocalDate()}">2024-12-12</td>
-                                    <td class="status">
-                                        <block if="${qna.comment ==1}">
-                                            <span class="answered">답변완료</span>
-                                        </block>
-                                        <block if="${qna.comment ==0}">
-                                            <span class="answered">검토중</span>
-                                        </block>
-                                    </td>
-                                </tr>
-                            </block>
+
+                            <!-- 데이터가 없을 경우 -->
+                            <tr th:if="${qnaLimit5 == null or #lists.isEmpty(qnaLimit5)}">
+                                <td colspan="6" class="td_first">문의 내용이 없습니다.</td>
+                            </tr>
+
+                            <!-- 데이터가 있을 경우 -->
+                            <tr th:each="qna, loop : ${qnaLimit5}">
+                                <td th:text="${loop.index + 1}">번호</td>
+                                <td class="channel" th:text="${qna.type1 == '고객센터' ? '고객센터' : '판매자게시판'}">문의채널</td>
+                                <td th:text="${qna.type2}">문의유형</td>
+                                <td th:text="${qna.title}">문의 제목</td>
+                                <td th:text="${#temporals.format(qna.createdAt, 'yyyy-MM-dd')}">작성일</td>
+                                <td class="status">
+                <span th:text="${qna.answer != null ? '답변완료' : '검토중'}"
+                      th:classappend="${qna.answer != null ? 'answered' : ''}">답변상태</span>
+                                </td>
+                            </tr>
                         </table>
                     </article>
+
+
                     <h3>나의설정</h3>
                     <article class="myinfo">
                         <div class="myinfosetting">
