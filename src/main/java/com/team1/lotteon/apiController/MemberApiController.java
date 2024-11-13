@@ -61,10 +61,11 @@ public class MemberApiController {
     // 회원 정보 수정
     @PutMapping("/{uid}")
     public ResponseEntity<GeneralMemberDTO> updateMember(@PathVariable String uid, @RequestBody GeneralMemberDTO memberDTO) {
-        log.info("memberrDTO"+memberDTO);
+        log.info("memberrDTO" + memberDTO);
         GeneralMemberDTO updatedMember = adminMemberService.updateMember(uid, memberDTO);
         return new ResponseEntity<>(updatedMember, HttpStatus.OK);
     }
+
     //비밀번호 수정
     @PostMapping("/changepassword/{uid}")
     public ResponseEntity<String> changePassword(@PathVariable String uid, @RequestBody Map<String, String> payload) {
@@ -73,7 +74,7 @@ public class MemberApiController {
         String encodedPassword = passwordEncoder.encode(newPassword);
         // Call the service to update the password
         log.info(uid);
-        log.info("newPasswordnewPassword"+newPassword);
+        log.info("newPasswordnewPassword" + newPassword);
         boolean isUpdated = memberService.updatePassword(uid, encodedPassword);
         if (isUpdated) {
             return ResponseEntity.ok("비밀번호가 성공적으로 변경 되었습니다");
@@ -81,12 +82,15 @@ public class MemberApiController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("비밀번호 변경에 실패 했습니다.");
         }
     }
+
     // 회원 삭제
     @DeleteMapping("/{uid}")
     public ResponseEntity<Void> deleteMember(@PathVariable String uid) {
         adminMemberService.deleteMember(uid);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+
 
     @PostMapping("/update-grade")
     public ResponseEntity<Map<String, Object>> updateMemberGrade(@RequestBody List<GeneralMemberDTO> memberUpdates) {

@@ -2,6 +2,7 @@ package com.team1.lotteon.repository;
 
 import com.team1.lotteon.entity.GeneralMember;
 import com.team1.lotteon.entity.Point;
+import com.team1.lotteon.entity.enums.TransactionType;
 import com.team1.lotteon.repository.custom.PointRepositoryCustom;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,5 +26,8 @@ public interface PointRepository extends JpaRepository<Point, Long>, PointReposi
 
 
     Page<Point> findByMember_UidAndCreatedatBetween(String uid, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable);
+
+    List<Point> findByExpirationDateBeforeAndTransactionType(LocalDateTime dateTime, TransactionType transactionType);
+
 
 }

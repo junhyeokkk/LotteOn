@@ -3,7 +3,7 @@
     margin: 0 auto; /* 가운데 정렬 */
 }
 section {
-    margin-left: 10px;
+    margin-left: 20px;
 }
 
 
@@ -29,7 +29,6 @@ section {
     transition: all 0.2s ease;
 }
 .info ul li:hover {
-    background-color: #ffe5e5;
     color: #d9201f;
     cursor: pointer;
 }
@@ -45,6 +44,7 @@ section {
     border-radius: 0 0 10px 10px;
 }
 
+
 /* 쇼핑 정보 링크 스타일 */
 .myinfotopside .shopping-info {
     font-size: 22px;
@@ -56,9 +56,7 @@ section {
 }
 
 
-.latest h3 {
-    padding-left: 30px;
-}
+
 /* 네비게이션 리스트 스타일 */
 .myinfotopside ol {
     display: flex;
@@ -117,7 +115,7 @@ section {
     transition: color 0.3s ease;
 }
 .myinfotopside ol li a span:nth-child(2) {
-    margin-left: 10px;
+    margin-left: 3px;
 }
 
 .myinfotopside ol li a span:nth-child(4) {
@@ -133,13 +131,12 @@ section {
 .banner {
     display: block;
     margin: 20px auto;
-    width: 950px;
+    width: 970px;
     height: 100px;
     object-fit: cover;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 배너에 그림자 추가 */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    margin-left: 20px;
 }
 
 .banner:hover {
@@ -147,15 +144,7 @@ section {
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); /* 호버 시 그림자 강화 */
 }
 
-/*상품정보*/
-/* 숫자 출력 스타일 */
-.myinfotopside ol li span {
-    display: block;
-    font-size: 18px;
-    /* 숫자의 크기 */
-    font-weight: bold;
-    /* 숫자 굵게 */
-}
+
 
 
 /* 테이블 스타일 */

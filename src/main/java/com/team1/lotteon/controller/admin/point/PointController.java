@@ -4,6 +4,7 @@ import com.team1.lotteon.dto.GeneralMemberDTO;
 import com.team1.lotteon.dto.PointDTO;
 import com.team1.lotteon.dto.point.PointPageRequestDTO;
 import com.team1.lotteon.dto.point.PointPageResponseDTO;
+import com.team1.lotteon.entity.GeneralMember;
 import com.team1.lotteon.repository.Memberrepository.GeneralMemberRepository;
 import com.team1.lotteon.service.MemberService.MemberService;
 import com.team1.lotteon.service.PointService;
@@ -34,13 +35,12 @@ import java.util.List;
 @Log4j2
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/admin/member")
 public class PointController {
     private final PointService pointService;
     private final GeneralMemberRepository generalMemberRepository;
     private final ModelMapper getModelMapper;
 
-    @PostMapping("/give")
+    @PostMapping("/admin/member/give")
     public ResponseEntity<String> givePoints(@RequestBody PointDTO pointDTO) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !(authentication.getPrincipal() instanceof UserDetails)) {
@@ -57,23 +57,15 @@ public class PointController {
         return ResponseEntity.ok("포인트가 성공적으로 지급되었습니다.");
     }
 
-
-    // 포인트 차감
-    @PostMapping("/deduct")
-    public ResponseEntity<String> deductPoints(@RequestBody PointDTO pointDTO) {
-        pointService.deductPoints(pointDTO);
-        return ResponseEntity.ok("포인트가 성공적으로 차감되었습니다.");
-    }
-
-    // 포인트 목록 조회 (ADMIN)
-    @GetMapping("/")
-    public ResponseEntity<PointPageResponseDTO> getPoints(PointPageRequestDTO pointPageRequestDTO) {
-        PointPageResponseDTO response = pointService.getPoints(pointPageRequestDTO);
-        return ResponseEntity.ok(response);
+    @GetMapping("/my/points")
+    public ResponseEntity<PointPageResponseDTO> getMyPoints(PointPageRequestDTO requestDTO) {
+        PointPageResponseDTO responseDTO = pointService.getMyPoints(requestDTO);
+        return ResponseEntity.ok(responseDTO);
     }
 
 
-    @PostMapping("/delete")
+
+    @PostMapping("/admin/member/delete")
     public ResponseEntity<String> deleteSelectedPoints(@RequestBody List<Long> pointIds) {
         log.info("deleteSelectedPoints 호출 - pointIds: {}", pointIds);
         if (pointIds == null || pointIds.isEmpty()) {

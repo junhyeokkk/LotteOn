@@ -19,15 +19,16 @@
         <aside class="cs_sidebar">
             <h2>자주묻는질문</h2>
             <ul>
-                <li><a th:href="@{/cs/layout/faq/list?type1=회원}">회원</a></li>
-                <li><a th:href="@{/cs/layout/faq/list?type1=쿠폰/이벤트}">쿠폰 / 이벤트</a></li>
-                <li><a th:href="@{/cs/layout/faq/list?type1=주문/결제}" >주문 / 결제</a></li>
-                <li><a th:href="@{/cs/layout/faq/list?type1=배송}">배송</a></li>
-                <li><a th:href="@{/cs/layout/faq/list?type1=취소/반품/환불}">취소 / 반품 / 환불</a></li>
-                <li><a th:href="@{/cs/layout/faq/list?type1=여행/숙박/항공}">여행 / 숙박 / 항공</a></li>
-                <li><a th:href="@{/cs/layout/faq/list?type1=안전결제}">안전결제</a></li>
+                <li><a th:href="@{/cs/layout/faq/list?type1=회원}" th:classappend="${type1 == '회원'} ? 'active'">회원</a></li>
+                <li><a th:href="@{/cs/layout/faq/list?type1=쿠폰/이벤트}" th:classappend="${type1 == '쿠폰/이벤트'} ? 'active'">쿠폰 / 이벤트</a></li>
+                <li><a th:href="@{/cs/layout/faq/list?type1=주문/결제}" th:classappend="${type1 == '주문/결제'} ? 'active'">주문 / 결제</a></li>
+                <li><a th:href="@{/cs/layout/faq/list?type1=배송}" th:classappend="${type1 == '배송'} ? 'active'">배송</a></li>
+                <li><a th:href="@{/cs/layout/faq/list?type1=취소/반품/환불}" th:classappend="${type1 == '취소/반품/환불'} ? 'active'">취소 / 반품 / 환불</a></li>
+                <li><a th:href="@{/cs/layout/faq/list?type1=여행/숙박/항공}" th:classappend="${type1 == '여행/숙박/항공'} ? 'active'">여행 / 숙박 / 항공</a></li>
+                <li><a th:href="@{/cs/layout/faq/list?type1=안전결제}" th:classappend="${type1 == '안전결제'} ? 'active'">안전결제</a></li>
             </ul>
         </aside>
+
         <article class="faq_article">
             <nav>
                 <h1 th:text="${type1}">카테고리 이름</h1>

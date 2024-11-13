@@ -305,32 +305,71 @@
   .btnSubmit:hover {
     background-color: #0954f6;
   }
-  
-  
-  /* sidebar */
-  .cs_sidebar > h2 {
-    font-size: 20px;
-    font-weight: bold;
-    color: #111;
-    margin-bottom: 20px;
-  }
 
-  .cs_sidebar > ul > li {
-    margin-bottom: 16px;
-  }
-  .cs_sidebar > ul > li > a {
-    font-size: 16px;
-    font-weight: 600;
-    color: #111;
-  }
-  .cs_sidebar > ul > li > a:hover {
-    color: #111;
-    text-decoration: underline;
-  }
-  .cs_sidebar > ul > .on > a {
-    color: #111;
-    text-decoration: underline;
-  }
+
+ /* sidebar 기본 스타일 */
+ .cs_sidebar {
+     padding: 20px;
+     background-color: #f9f9f9;
+     border-radius: 12px;
+     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+ }
+
+ .cs_sidebar > h2 {
+     font-size: 20px;
+     font-weight: bold;
+     color: #111;
+     margin-bottom: 20px;
+ }
+
+ /* sidebar 항목 스타일 */
+ .cs_sidebar > ul > li {
+     margin-bottom: 5px;
+ }
+
+ .cs_sidebar > ul > li > a {
+     display: block;
+     padding: 12px 16px;
+     margin-bottom: 5px;
+     border-radius: 8px;
+     text-decoration: none;
+     color: #333;
+     font-size: 14px;
+     transition: all 0.3s ease;
+ }
+
+ /* 활성화된 메뉴 항목 */
+ .cs_sidebar > ul > li > a.on,
+ .cs_sidebar > ul > li > a.active {
+     background-color: #d9201f;
+     color: #fff;
+     font-weight: 600;
+     border-left: 6px solid #b71c1c;
+     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+     transform: scale(1.02);
+ }
+
+ /* 마우스 오버 시 효과 */
+ .cs_sidebar > ul > li > a:hover {
+     background-color: #e53935;
+     color: #fff;
+     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+ }
+
+ /* 활성화된 메뉴 항목의 강조선 */
+ .cs_sidebar > ul > li > a.active::before {
+     content: "";
+     position: absolute;
+     left: 0;
+     top: 50%;
+     transform: translateY(-50%);
+     height: 80%;
+     width: 6px;
+     background-color: #b71c1c;
+     border-radius: 4px;
+     transition: height 0.3s ease;
+ }
+
 
   /* notice 위 nav */
   .notice > nav {
@@ -945,26 +984,8 @@
     width: 980px;
     min-height: 600px;
   }
-  
- .qna > section > aside > h2 {
-    font-size: 24px;
-    font-weight: bold;
-    margin: 26px 0;
-  }
-  
- .qna > section > aside > ul {}
- .qna > section > aside > ul > li {
-    margin-bottom: 16px;
-  }
-  .qna > section > aside > ul > li > a {
-    font-size: 16px;
-    font-weight: bold;
-    color: black;
-  }
-  .qna > section > aside > ul > li > a:hover {
-    color: #111;
-    text-decoration: underline;
-  }
+
+
   .qna > section > aside > ul > .on > a {
     color: #111;
     text-decoration: underline;
@@ -1000,11 +1021,6 @@
     min-height: 600px;
   }
   
-  .qna > section > .qna_article {
-    float: right;
-    width: 980px;
-    min-height: 600px;
-  }
 
   .qna > section > .cs_sidebar > h2 {
     font-size: 24px;

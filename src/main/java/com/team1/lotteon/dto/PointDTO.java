@@ -29,6 +29,8 @@ public class PointDTO {
 
     private int givePoints;  // 지급 포인트
     private int acPoints;   // 잔여 포인트
+    private int discountPoint; // 사용포인트
+
 
     private LocalDateTime createdat; // 지급날짜
     private String formattedCreatedAt; // 포맷된 날짜 필드
@@ -52,7 +54,7 @@ public class PointDTO {
         }
     }
 
-    public PointDTO(GeneralMemberDTO member, String type, TransactionType transactionType, int givePoints, int acPoints, LocalDateTime createdat, Long order_id, LocalDateTime expirationDate) {
+    public PointDTO(GeneralMemberDTO member, String type, TransactionType transactionType, int givePoints, int acPoints, LocalDateTime createdat, Long order_id, LocalDateTime expirationDate, int discountPoint) {
         this.member = member;
         this.type = type;
         this.transactionType = transactionType; // 새 필드 초기화
@@ -60,6 +62,7 @@ public class PointDTO {
         this.acPoints = acPoints;
         this.createdat = createdat;
         this.expirationDate = expirationDate; // 유효기간 필드 추가
+        this.discountPoint =  discountPoint;
 
         this.order_id = order_id; // order_id 초기화
 
