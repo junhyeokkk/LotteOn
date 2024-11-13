@@ -68,9 +68,15 @@
     <section class="order__section-wrapper">
     <!-- 왼쪽 섹션 -->
     <div class="order__left-section">
+      <!-- Hidden 필드로 주소 데이터 전달 --> 
+      <input type="hidden" id="hiddenZip" th:value="${member.getAddress().getZip()}" />
+      <input type="hidden" id="hiddenAddr1" th:value="${member.getAddress().getAddr1()}" />
+      <input type="hidden" id="hiddenAddr2" th:value="${member.getAddress().getAddr2()}" />
+
       <!-- 배송정보 -->
       <section class="order__section">
         <h2>배송정보</h2>
+        <button type="button" class="btn-set-default" onclick="setDefaultAddress()">기본배송지로 설정</button>
         <table class="order__info-table">
           <tr>
             <td>수령자</td>
@@ -168,6 +174,7 @@
 </section>
   </form>
 </section>
+
 <!-- 주문 페이지 끝 -->
 </body>
 </html>

@@ -68,10 +68,10 @@
                     <!-- 신용카드, 계좌이체, 휴대폰 등등 -->
                     <td style="color: green;" th:text="${order.getStatus().getKoreanLabel()}"></td>
                     <!-- 결제완료, 결제대기, 주문취소 -->
-                    <td th:text="${order.getOrderDate()}"></td>
+                    <td th:text="${order.getOrderDate()}."></td>
                     <!-- 연월일시간초 -->
                     <td>
-                        <a href="#" class="deliveryBtn" th:data-order-id="${order.id}"data-modal="deliveryInsertModal">보기</a>
+                        <a href="#" class="deliveryBtn" th:data-order-id="${order.id}" data-modal="deliveryInsertModal">보기</a>
                         <!-- 배송하기, 입력완료, 주문취소 -->
                     </td>
                 </tr>

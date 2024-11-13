@@ -1,5 +1,6 @@
 package com.team1.lotteon.dto;
 
+import com.team1.lotteon.entity.Address;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -27,4 +28,6 @@ public class GeneralMemberDTO {
     private String gender;
     private String grade;
     private LocalDate birth;
+
+    private Address address;
 }
