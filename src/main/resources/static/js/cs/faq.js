@@ -34,4 +34,20 @@ function toggleFaqView(type2, viewType) {
             countSpan.style.visibility = 'hidden';
         }
     }
+    document.addEventListener("DOMContentLoaded", () => {
+        const sidebarLinks = document.querySelectorAll(".cs_sidebar > ul > li > a");
+        const currentUrl = window.location.pathname + window.location.search;
+
+        sidebarLinks.forEach(link => {
+            const linkUrl = new URL(link.href);
+            const linkPath = linkUrl.pathname + linkUrl.search;
+
+            // 현재 URL과 링크 URL이 일치할 경우 `active` 클래스 추가
+            if (currentUrl === linkPath) {
+                link.classList.add("active");
+            }
+        });
+    });
+
+
 }

@@ -2,11 +2,9 @@
     width: 1200px; /* 원하는 너비로 설정 */
     margin: 0 auto; /* 가운데 정렬 */
 }
-
 section {
-    margin-left: 10px;
+    margin-left: 20px;
 }
-
 
 /* 나의 쇼핑정보 */
 .info {
@@ -30,7 +28,6 @@ section {
     transition: all 0.2s ease;
 }
 .info ul li:hover {
-    background-color: #ffe5e5;
     color: #d9201f;
     cursor: pointer;
 }
@@ -53,13 +50,16 @@ section {
     border-radius: 0 0 10px 10px;
 }
 
-.myinfotopside div {
-    display: flex;
-    align-items: center;
-    /* 세로 가운데 정렬 */
-    justify-content: space-between;
-    /* 좌우로 배치 */
-    margin-left: 10px;
+
+
+/* 쇼핑 정보 링크 스타일 */
+.myinfotopside .shopping-info {
+    font-size: 22px;
+    font-weight: 700;
+    color: #d9201f;
+    text-decoration: none;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    line-height: 2.5; /* 줄 간격을 조정하여 아래로 내림 */
 }
 
 /* 쇼핑 정보 링크 스타일 */
@@ -72,12 +72,8 @@ section {
     line-height: 2.5; /* 줄 간격을 조정하여 아래로 내림 */
 }
 
-.latest h3 {
-    padding-left: 30px;
-}
 
-
-/* 마이페이지 메뉴 */
+/* 네비게이션 리스트 스타일 */
 .myinfotopside ol {
     display: flex;
     gap: 20px;
@@ -87,12 +83,27 @@ section {
     float: right;
     margin-top: auto;
 }
-
+/* 네비게이션 항목 스타일 */
 .myinfotopside ol li {
     text-align: center;
     font-size: 14px;
     color: #555;
 }
+
+.myinfotopside ol li a {
+    display: block;
+    color: #333;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.myinfotopside ol li a:hover {
+    background-color: #ef2a23;
+    color: #fff;
+}
+
 
 .myinfotopside ol li:last-child {
     border-right: none;
@@ -109,41 +120,40 @@ section {
 }
 
 
+
+.myinfotopside ol li a {
+    color: inherit;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.myinfotopside ol li a span:nth-child(2) {
+    margin-left: 3px;
+}
+
+.myinfotopside ol li a span:nth-child(4) {
+    margin-right: 10px;
+}
+
+
 /* 광고배너 */
 .banner {
     display: block;
     margin: 20px auto;
-    width: 950px;
+    width: 970px;
     height: 100px;
     object-fit: cover;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 배너에 그림자 추가 */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    margin-left: 20px;
 }
-
-
 
 .banner:hover {
     transform: scale(1.02); /* 호버 시 약간 확대 효과 */
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); /* 호버 시 그림자 강화 */
 }
 
-/* 숫자 출력 스타일 */
-.myinfotopside ol li span {
-    display: block;
-    font-size: 18px;
-    /* 숫자의 크기 */
-    font-weight: bold;
-    /* 숫자 굵게 */
-}
-
-.myinfotopside ol li small {
-    display: block;
-    font-size: 14px;
-    /* 설명 텍스트 크기 */
-    color: #555;
-}
 
 
 /* 사이드영역 */
@@ -166,25 +176,6 @@ section {
 }
 .widthtable td {
     padding: 10px;
-}
-
-
-.myinfotopside {
-    height: 75px;
-}
-.myinfotopside div {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-.myinfotopside ol {
-    display: flex;
-    list-style: none;
-    margin-left: auto;
-}
-.myinfotopside ol li {
-    margin-right: 20px;
-    /* 각 li 요소 간의 간격 */
 }
 
 

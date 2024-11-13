@@ -33,6 +33,7 @@ public class Point{
 
     private int givePoints;  // 지급 포인트
     private int acPoints;   // 잔여 포인트
+    private int discountPoint; // 할인 포인트 필드 추가
 
 
     @Enumerated(EnumType.STRING)
@@ -70,10 +71,20 @@ public class Point{
     }
 
 
-
+    public void setExpirationDate(LocalDateTime expirationDate) {
+        this.expirationDate = expirationDate;
+    }
     // TransactionType 설정 메서드 추가
     public void setTransactionType(TransactionType transactionType) {
         this.transactionType = transactionType;
+    }
+
+    public int getDiscountPoint() {
+        return discountPoint;
+    }
+
+    public void setDiscountPoint(int discountPoint) {
+        this.discountPoint = discountPoint;
     }
 
 
@@ -87,19 +98,22 @@ public class Point{
         System.out.println("유효기간 설정됨: " + this.expirationDate); // 로그 추가
     }
 
-        public static PointDTO fromEntity(Point point) {
-            GeneralMember member = point.getMember();
-            return PointDTO.builder()
-                    .member_id(member != null ? member.getUid() : null)
-                    .type(point.getType())
-                    .transactionType(point.getTransactionType()) // 추가된 부분
-                    .givePoints(point.getGivePoints())
-                    .acPoints(point.getAcPoints())
-                    .createdat(point.getCreatedat())
-                    .order_id(point.getOrder() != null ? point.getOrder().getId() : null) // 주문 번호가 있는 경우 설정
-                    .build();
-        }
+    public static PointDTO fromEntity(Point point) {
+        GeneralMember member = point.getMember();
+        return PointDTO.builder()
+                .member_id(member != null ? member.getUid() : null)
+                .type(point.getType())
+                .transactionType(point.getTransactionType()) // 추가된 부분
+                .givePoints(point.getGivePoints())
+                .acPoints(point.getAcPoints())
+                .discountPoint(point.getDiscountPoint()) // discountPoint 필드 추가
+                .createdat(point.getCreatedat())
+                .expirationDate(point.getExpirationDate()) // 유효기간 매핑 추가
+                .order_id(point.getOrder() != null ? point.getOrder().getId() : null) // 주문 번호가 있는 경우 설정
+                .build();
     }
+
+}
 
 
 

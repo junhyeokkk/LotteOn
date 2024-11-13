@@ -56,7 +56,7 @@
           <th>날짜</th>
           <th>구분</th>
           <th>주문번호</th>
-          <th>적립금액</th>
+          <th>포인트</th>
           <th>비고</th>
           <th>유효기간</th>
         </tr>
@@ -65,7 +65,7 @@
           <td th:text="${point.formattedCreatedAt}"></td> <!-- 날짜 포맷 -->
           <td th:text="${point.transactionType.toString()}"></td>
           <td th:text="${point.order_id != null ? point.order_id : point.type}">2022121001</td>
-          <td th:text="${point.acPoints}"></td>
+          <td th:text="${point.givePoints < 0 ? point.givePoints : '+' + point.givePoints}"></td>
           <td th:text="${point.type}"></td>
           <td th:text="${point.formattedExpirationDate}">2025-10-24</td>
         </tr>

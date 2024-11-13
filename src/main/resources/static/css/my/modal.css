@@ -186,13 +186,16 @@
     width: 100%;
     text-align: center;
     margin-bottom: 15px;
+
+
 }
 .widthtable th {
     height: 40px;
-    background-color: #A6A6A6;
+    background-color: #d50e0e;
     color: white;
     width: auto;
     text-align: center;
+
 }
 .widthtable td {padding: 10px;}
 .widthtable td:nth-child(3),.widthtable th:nth-child(3) {text-align: left;}

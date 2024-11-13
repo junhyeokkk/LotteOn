@@ -53,18 +53,7 @@ public class PointService {
     private final PointRepository pointRepository;
     private final ModelMapper modelMapper;
 
-//    // 회원가입 축하 포인트
-//    public void registerPoint(GeneralMemberDTO generalMemberDTO) {
-//
-//        PointDTO pointDTO = new PointDTO();
-//        pointDTO.setType("회원가입 축하 포인트");
-//        pointDTO.setGivePoints(1000);
-//        // default 0이기 때문에 setGivePoints == setAcPoints
-//        pointDTO.setAcPoints(1000);
-//        pointDTO.setMember_id(generalMemberDTO.getUid());
-//        log.info("포인트 서비스쪽 dto 멤버 " + generalMemberDTO);
-//        insertPoint(pointDTO);
-//    }
+
 
 
     // 포인트 지급 메서드
@@ -80,6 +69,8 @@ public class PointService {
         pointDTO.setExpirationDate(expirationDate);
 
         log.info("포인트 지급: 멤버 " + generalMemberDTO + " - 포인트: " + points + ", 타입: " + pointType);
+
+
 
         // insertPoint에서 유효기간 설정과 엔티티 변환을 처리
         insertPoint(pointDTO);
@@ -103,45 +94,93 @@ public class PointService {
         pointRepository.save(point);
     }
 
-    // 유효기간이 지난 포인트를 소멸 상태로 업데이트
-    public void expirePoints() {
-        List<Point> points = pointRepository.findAll();
 
-        points.forEach(point -> {
-            if (point.getExpirationDate() != null && point.getExpirationDate().isBefore(LocalDateTime.now())) {
-                point.setTransactionType(TransactionType.만료); // 포인트 상태를 "만료"로 설정
-                pointRepository.save(point);
-            }
+
+
+    @Transactional
+    public void expirePoints() {
+        List<Point> expiredPoints = pointRepository.findByExpirationDateBeforeAndTransactionType(LocalDateTime.now(), TransactionType.적립);
+
+        expiredPoints.forEach(point -> {
+            GeneralMember member = point.getMember();
+            int expiredValue = point.getGivePoints();
+
+            // 로그 추가 - 만료될 포인트 값 확인
+            log.info("만료 처리 중 - 기존 givePoints 값: {}", expiredValue);
+
+            // 회원의 잔여 포인트에서 만료된 포인트 차감
+            member.decreasePoints(Math.min(member.getPoints(), expiredValue));
+            generalMemberRepository.save(member);
+
+            // 만료된 포인트 내역 생성 (음수 값으로 설정)
+            Point expiredPoint = new Point();
+            expiredPoint.setGivePoints(-Math.abs(expiredValue)); // 음수 값으로 설정
+            expiredPoint.setTransactionType(TransactionType.만료);
+            expiredPoint.setAcPoints(member.getPoints());
+            expiredPoint.changeMember(member);
+            expiredPoint.setExpirationDate(point.getExpirationDate());
+
+            // 로그 추가 - 생성된 만료 포인트 값 확인
+            log.info("생성된 만료 포인트 - givePoints 값: {}", expiredPoint.getGivePoints());
+
+            pointRepository.save(expiredPoint);
         });
+
+        log.info("모든 만료 포인트 처리가 완료되었습니다.");
     }
 
-    // 포인트 차감 메서드 추가
-    public void deductPoints(PointDTO pointDTO) {
-        int deductionPoints = Math.abs(pointDTO.getGivePoints()); // 차감 포인트 절대값으로 처리
-        GeneralMember generalMember = generalMemberRepository.findByUid(pointDTO.getMember_id())
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
 
-        if (generalMember.getPoints() < deductionPoints) {
+    @Transactional
+    public boolean deductPoints(GeneralMember member, int discountPoint) {
+        // 1. 차감할 포인트 값 (절대값으로 처리)
+        discountPoint = Math.abs(discountPoint);
+
+        // 2. 잔여 포인트 확인
+        if (member.getPoints() < discountPoint) {
             throw new IllegalArgumentException("포인트가 부족하여 차감할 수 없습니다.");
         }
 
-        generalMember.decreasePoints(deductionPoints);
+        // 3. GeneralMember의 포인트 차감
+        member.decreasePoints(discountPoint);
+        generalMemberRepository.save(member); // 변경 사항 저장
 
-        Point point = modelMapper.map(pointDTO, Point.class);
-        point.setGivePoints(-deductionPoints); // 차감된 포인트는 음수로 저장
-        pointDTO.setTransactionType(TransactionType.사용); // "사용"으로 설정
-        point.setAcPoints(generalMember.getPoints());
-        point.changeMember(generalMember);
+        // 4. 포인트 기록 생성 (차감된 포인트 기록)
+        Point point = new Point();
+        point.setGivePoints(-discountPoint); // 차감된 포인트를 음수로 설정
+        point.setTransactionType(TransactionType.사용); // 트랜잭션 타입을 "사용"으로 설정
+        point.setAcPoints(member.getPoints()); // 차감 후 잔여 포인트 설정
+        point.changeMember(member);
 
-        pointRepository.save(point);
+        pointRepository.save(point); // 포인트 기록 저장
+
+        // 로그 출력
+        log.info("포인트 차감: 멤버 {} - 차감 포인트: {}, 잔여 포인트: {}", member.getUid(), discountPoint, member.getPoints());
+
+        return true;
     }
 
-
-    // 포인트 합계 계산
     public int calculateTotalAcPoints(String uid) {
+        // 모든 포인트 내역 조회
         List<Point> points = pointRepository.findByMemberUid(uid, Pageable.unpaged()).getContent();
-        return points.stream().mapToInt(Point::getAcPoints).sum();
+
+        // 적립 포인트 합계 (만료된 포인트 제외)
+        int totalEarned = points.stream()
+                .filter(point -> point.getTransactionType() == TransactionType.적립)
+                .mapToInt(Point::getGivePoints)
+                .sum();
+
+        // 사용 포인트 합계
+        int totalUsed = points.stream()
+                .filter(point -> point.getTransactionType() == TransactionType.사용)
+                .mapToInt(Point::getGivePoints)
+                .sum();
+
+        // 실제 잔여 포인트 계산
+        return totalEarned - totalUsed;
     }
+
+
+
 
 
 
@@ -228,40 +267,29 @@ public class PointService {
         }
 
         for (Point point : pointsToDelete) {
-            GeneralMember generalMember = point.getMember();
-            int deductionPoints = point.getGivePoints();
+            GeneralMember member = point.getMember();
+            int pointValue = point.getGivePoints();
 
-            log.info("Member ID: {}, 현재 포인트: {}, 차감 포인트: {}",
-                    generalMember.getUid(), generalMember.getPoints(), deductionPoints);
+            log.info("Member ID: {}, 현재 포인트: {}, 삭제할 포인트: {}, 트랜잭션 타입: {}",
+                    member.getUid(), member.getPoints(), pointValue, point.getTransactionType());
 
-            // 포인트 차감 및 업데이트
-            if (generalMember.getPoints() >= deductionPoints) {
-                generalMember.decreasePoints(deductionPoints);
-                generalMemberRepository.saveAndFlush(generalMember); // DB에 즉시 반영
-
-                log.info("Member ID: {}, 포인트 차감 후 포인트: {}", generalMember.getUid(), generalMember.getPoints());
-
-                // 현재 상태를 기준으로 포인트 내역 재정렬 및 갱신
-                int currentAcPoints = 0; // 초기화 후 재계산
-                List<Point> remainingPoints = pointRepository.findByMemberOrderByCreatedatAsc(generalMember);
-
-                // 중간 내역 삭제 후, 그 이후 내역의 acPoints를 재계산
-                for (Point p : remainingPoints) {
-                    if (!pointIds.contains(p.getId())) {
-                        currentAcPoints += p.getGivePoints(); // 갱신된 포인트 값 적용
-                        p.setAcPoints(currentAcPoints); // 갱신된 acPoints 설정
-                        log.info("Point ID: {}, 갱신된 acPoints: {}", p.getId(), p.getAcPoints());
-                        pointRepository.saveAndFlush(p); // 갱신된 내역 저장
-                    }
-                }
-
-                // 포인트 내역 삭제
-                pointRepository.delete(point);
-                log.info("Point ID: {}, 포인트 내역이 삭제되었습니다.", point.getId());
-            } else {
-                log.warn("차감할 포인트가 현재 포인트보다 많습니다. Member ID: {}, 현재 포인트: {}, 차감 포인트: {}",
-                        generalMember.getUid(), generalMember.getPoints(), deductionPoints);
+            // 적립된 포인트 삭제 시: 잔여 포인트에서 차감
+            if (point.getTransactionType() == TransactionType.적립) {
+                member.decreasePoints(Math.min(member.getPoints(), pointValue));
+                log.info("적립된 포인트 삭제 - 차감 후 잔여 포인트: {}", member.getPoints());
             }
+            // 사용된 포인트 삭제 시: 잔여 포인트 복구
+            else if (point.getTransactionType() == TransactionType.사용) {
+                member.increasePoints(pointValue);
+                log.info("사용된 포인트 삭제 - 복구 후 잔여 포인트: {}", member.getPoints());
+            }
+
+            // 회원 정보 업데이트
+            generalMemberRepository.saveAndFlush(member);
+
+            // 포인트 내역 삭제
+            pointRepository.delete(point);
+            log.info("Point ID: {}, 포인트 내역이 삭제되었습니다.", point.getId());
         }
 
         log.info("DB에 변경 사항이 반영되었습니다.");

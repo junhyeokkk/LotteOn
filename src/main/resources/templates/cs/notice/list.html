@@ -18,13 +18,14 @@
     <aside class="cs_sidebar">
       <h2>공지사항</h2>
       <ul>
-        <li><a th:href="@{/cs/layout/notice/list(type1='전체')}">전체</a></li>
-        <li><a th:href="@{/cs/layout/notice/list(type1='고객서비스')}">고객서비스</a></li>
-        <li><a th:href="@{/cs/layout/notice/list(type1='안전거래')}">안전거래</a></li>
-        <li><a th:href="@{/cs/layout/notice/list(type1='위해상품')}">위해상품</a></li>
-        <li><a th:href="@{/cs/layout/notice/list(type1='이벤트당첨')}">이벤트당첨</a></li>
+        <li><a th:href="@{/cs/layout/notice/list(type1='전체')}" th:classappend="${type1 == '전체'} ? 'active'">전체</a></li>
+        <li><a th:href="@{/cs/layout/notice/list(type1='고객서비스')}" th:classappend="${type1 == '고객서비스'} ? 'active'">고객서비스</a></li>
+        <li><a th:href="@{/cs/layout/notice/list(type1='안전거래')}" th:classappend="${type1 == '안전거래'} ? 'active'">안전거래</a></li>
+        <li><a th:href="@{/cs/layout/notice/list(type1='위해상품')}" th:classappend="${type1 == '위해상품'} ? 'active'">위해상품</a></li>
+        <li><a th:href="@{/cs/layout/notice/list(type1='이벤트당첨')}" th:classappend="${type1 == '이벤트당첨'} ? 'active'">이벤트당첨</a></li>
       </ul>
     </aside>
+
     <article class="no_article">
       <nav>
         <h1 th:text="${type1}">전체</h1>
