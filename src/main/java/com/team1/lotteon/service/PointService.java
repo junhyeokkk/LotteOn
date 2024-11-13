@@ -161,29 +161,36 @@ public class PointService {
 
 
 
-
-
     public int calculateTotalAcPoints(String uid) {
         // 모든 포인트 내역 조회
         List<Point> points = pointRepository.findByMemberUid(uid, Pageable.unpaged()).getContent();
 
-        // 적립 포인트 합계 (만료된 포인트 제외)
+        // 적립된 포인트 합계
         int totalEarned = points.stream()
                 .filter(point -> point.getTransactionType() == TransactionType.적립)
                 .mapToInt(Point::getGivePoints)
                 .sum();
 
-        // 사용 포인트 합계
+        // 사용된 포인트 합계 (음수 값)
         int totalUsed = points.stream()
                 .filter(point -> point.getTransactionType() == TransactionType.사용)
                 .mapToInt(Point::getGivePoints)
                 .sum();
 
-        // 실제 잔여 포인트 계산
-        return totalEarned - totalUsed;
+        // 만료된 포인트 합계 (음수 값)
+        int totalExpired = points.stream()
+                .filter(point -> point.getTransactionType() == TransactionType.만료)
+                .mapToInt(Point::getGivePoints)
+                .sum();
+
+        // 실제 잔여 포인트 계산 (적립 포인트 - 사용된 포인트 - 만료된 포인트)
+        int remainingPoints = totalEarned + totalUsed + totalExpired;
+
+        log.info("총 적립 포인트: {}, 총 사용 포인트: {}, 총 만료 포인트: {}, 잔여 포인트: {}",
+                totalEarned, totalUsed, totalExpired, remainingPoints);
+
+        return remainingPoints;
     }
-
-
 
 
     // 포인트 select 페이징 (MYPAGE) => 내 포인트 가져오기
