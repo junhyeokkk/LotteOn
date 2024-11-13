@@ -115,8 +115,8 @@ public class MyinfoController {
                 .startDate(startDate) // 추가된 startDate
                 .endDate(endDate)     // 추가된 endDate
                 .build();
-        // 포인트 데이터 가져오기
 
+        // 포인트 데이터 가져오기
         PointPageResponseDTO responseDTO = pointService.getMyPoints(requestDTO);
         model.addAttribute("points", responseDTO.getDtoList());
 

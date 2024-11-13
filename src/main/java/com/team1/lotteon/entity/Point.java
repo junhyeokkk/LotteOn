@@ -33,7 +33,6 @@ public class Point{
 
     private int givePoints;  // 지급 포인트
     private int acPoints;   // 잔여 포인트
-    private int discountPoint ; // 할인 포인트 필드 추가
 
 
     @Enumerated(EnumType.STRING)
@@ -83,14 +82,6 @@ public class Point{
     // TransactionType 설정 메서드 추가
     public void setTransactionType(TransactionType transactionType) {
         this.transactionType = transactionType;
-    }
-
-    public int getDiscountPoint() {
-        return discountPoint;
-    }
-
-    public void setDiscountPoint(int discountPoint) {
-        this.discountPoint = discountPoint;
     }
 
 

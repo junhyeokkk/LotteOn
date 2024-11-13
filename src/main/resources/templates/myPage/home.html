@@ -141,12 +141,12 @@
                             </tr>
                             <tr th:each="point : ${points}" class="admin_list">
                                 <td th:text="${point.formattedCreatedAt }"></td>
-                                    <td th:text="${point.transactionType.toString()}"></td>
+                                <td th:text="${point.transactionType}"></td>
                                 <td th:text="${point.order?.id != null ? point.order.id : point.type}">123</td>
                                 <td th:text="${point.givePoints < 0 ? point.givePoints : '+' + point.givePoints}"></td>
                                 <td th:text="${point.type != null ? point.type : '비고 없음'}"></td>
-                                <td th:text="${point.transactionType.toString() == '사용' || point.transactionType.toString() == '만료' ? '없음' : point.formattedExpirationDate}">유효기간</td>
-                                </tr>
+                                <td th:text="${point.transactionType == '사용' || point.transactionType == '만료' ? '없음' : point.formattedExpirationDate}">유효기간</td>
+                            </tr>
                         </table>
                     </article>
                     <article class="review">
