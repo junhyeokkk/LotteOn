@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const nextButton = document.querySelector('.sliderNext');
 
     // 서버에서 메인 배너 이미지 가져오기
-    fetch('/admin/config/api/banner/product')
+    fetch('/api/banner/product')
         .then(response => response.json())
         .then(banners => {
             imgContainer.innerHTML = ''; // 기존 이미지 제거

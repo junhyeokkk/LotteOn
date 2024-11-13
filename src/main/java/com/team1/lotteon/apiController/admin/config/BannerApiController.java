@@ -99,28 +99,4 @@ public class BannerApiController {
         }
     }
 
-    @GetMapping("/api/banner/main")
-    public List<BannerDTO> getMainBanners() {
-        List<Banner> mainBanners = bannerService.getBannersByPosition("Main");
-
-        log.info("배너ㅓㅓㅓ " + mainBanners);
-        return mainBanners.stream()
-                .map(banner -> modelMapper.map(banner, BannerDTO.class))
-                .collect(Collectors.toList());
-    }
-    @GetMapping("/api/banner/slider")
-    public List<BannerDTO> getSliderBanners() {
-        List<Banner> banners = bannerService.getBannersByPosition("Silder");
-        return banners.stream()
-                .map(banner -> modelMapper.map(banner, BannerDTO.class))
-                .collect(Collectors.toList());
-    }
-
-    @GetMapping("/api/banner/product")
-    public List<BannerDTO> getProductBanners() {
-        List<Banner> banners = bannerService.getBannersByPosition("Product");
-        return banners.stream()
-                .map(banner -> modelMapper.map(banner, BannerDTO.class))
-                .collect(Collectors.toList());
-    }
 }

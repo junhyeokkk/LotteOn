@@ -5,6 +5,48 @@ document.addEventListener("DOMContentLoaded", function() {
     const closeModalButton = document.getElementById("closeModal");
     const confirmReceiptButton = document.getElementById("receipt_btn");
 
+    // 배너 출력
+    async function loadBanners() {
+        try {
+            const response = await fetch('/api/banner/mypage');
+            const banners = await response.json();
+
+            if (banners.length > 0) {
+                let currentIndex = 0;
+                const bannerLink = document.getElementById("bannerLink");
+                const bannerImage = document.getElementById("bannerImage");
+
+                // 배너를 업데이트하는 함수
+                function updateBanner() {
+                    const banner = banners[currentIndex];
+                    bannerLink.href = banner.backgroundLink || "#";
+                    bannerImage.src = banner.img;
+                    bannerImage.alt = banner.altText || "배너 이미지";
+
+                    // 슬라이드 애니메이션을 위해 클래스를 추가 및 제거
+                    bannerImage.classList.remove("fade-in");
+                    void bannerImage.offsetWidth;  // reflow를 강제하여 애니메이션 재생
+                    bannerImage.classList.add("fade-in");
+                }
+
+                // 초기 배너 설정
+                updateBanner();
+
+                // 슬라이더 설정: 배너가 여러 개 있을 때만 실행
+                if (banners.length > 1) {
+                    setInterval(() => {
+                        currentIndex = (currentIndex + 1) % banners.length;
+                        updateBanner();
+                    }, 5000); // 5초마다 배너 전환
+                }
+            }
+        } catch (error) {
+            console.error('Error loading banners:', error);
+        }
+    }
+
+    loadBanners();
+
     // 수취확인 클릭 리스너
     document.querySelectorAll("#receive").forEach(function(button) {
         button.addEventListener("click", function(event) {
@@ -31,6 +73,35 @@ document.addEventListener("DOMContentLoaded", function() {
     closeModalButton.addEventListener("click", function() {
         receiptConfirmModal.style.display = "none";
     });
+
+    const bannerContainer = document.getElementById("bannerContainer");
+
+    if (banners && banners.length > 0) {
+        // 배너 이미지 요소를 추가
+        banners.forEach((banner, index) => {
+            const bannerImage = document.createElement("img");
+            bannerImage.src = banner.imageUrl;
+            bannerImage.alt = banner.altText || "배너 이미지";
+            bannerImage.className = index === 0 ? "active" : ""; // 첫 번째 배너만 활성화
+            bannerContainer.appendChild(bannerImage);
+        });
+
+        // 슬라이더 기능 구현
+        let currentIndex = 0;
+
+        setInterval(() => {
+            const images = bannerContainer.querySelectorAll("img");
+            images[currentIndex].classList.remove("active"); // 현재 이미지 비활성화
+            images[currentIndex].classList.add("prev"); // 이전 이미지로 설정
+
+            // 다음 이미지 활성화
+            currentIndex = (currentIndex + 1) % images.length;
+            images[currentIndex].classList.add("active"); // 다음 이미지 활성화
+            images[currentIndex].classList.remove("prev"); // 다음 이미지에서 이전 클래스 제거
+        }, 3000); // 3초 간격으로 슬라이드
+    } else {
+        console.log("배너 데이터가 없습니다.");
+    }
 
     // 수취확인 클릭 시 상태 변경
     confirmReceiptButton.addEventListener("click", function() {
