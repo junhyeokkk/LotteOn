@@ -64,12 +64,14 @@
         <tr th:each="point, stat : ${points.dtoList}" class="admin_list">
           <td th:text="${point.formattedCreatedAt}"></td> <!-- 날짜 포맷 -->
           <td th:text="${point.transactionType.toString()}"></td>
-          <td th:text="${point.order_id != null ? point.order_id : point.type}">2022121001</td>
+          <td th:text="${point.order?.id != null ? point.order.id : point.type}">123</td>
           <td th:text="${point.givePoints < 0 ? point.givePoints : '+' + point.givePoints}"></td>
-          <td th:text="${point.type}"></td>
-          <td th:text="${point.formattedExpirationDate}">2025-10-24</td>
+          <td th:text="${point.type != null ? point.type : '비고 없음'}"></td>
+          <td th:text="${point.transactionType == '사용' || point.transactionType == '만료' ? '없음' : point.formattedExpirationDate}">유효기간</td>
         </tr>
         <tbody id="resultContainer">
+
+
         </tbody>
       </table>
 

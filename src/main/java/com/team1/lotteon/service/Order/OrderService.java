@@ -130,15 +130,16 @@ public class OrderService {
         order.setOrderItems(orderItems);
         order.calculateTotalDeliveryFee();
 
+        // 5. 주문 저장
+        orderRepository.save(order);
+
         // 4. 쿠폰 및 포인트 적용
         if(request.getCouponId() != null) {
             couponTakeService.updateCouponUseStatusAndIncrementUse(member, request.getCouponId());
         }
         if(request.getPointDiscount() > 0) {
-            pointService.deductPoints(member, request.getPointDiscount());
+            pointService.deductPoints(member, request.getPointDiscount(), order);
         }
-        // 5. 주문 저장
-        orderRepository.save(order);
 
         // 최종 주문 요약 정보 반환
         return new OrderSummaryDTO(order);

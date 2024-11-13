@@ -242,6 +242,7 @@ public class MyinfoController {
         PointPageResponseDTO responseDTO = pointService.getMyPoints(requestDTO);
         model.addAttribute("points", responseDTO);
 
+
         // 포인트 합계 계산 후 Model에 추가
         Integer totalAcPoints = pointService.calculateTotalAcPoints(myUserDetails.getGeneralMember().getUid());
         model.addAttribute("totalAcPoints", totalAcPoints);
