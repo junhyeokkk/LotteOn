@@ -232,8 +232,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 closeModal("reviewModal");
             }
         });
-    } else {
-        console.warn("#reviewForm 요소를 찾을 수 없습니다.");
     }
 
     // 쿠폰 정보를 모달에 업데이트하는 함수 (동적 업데이트)

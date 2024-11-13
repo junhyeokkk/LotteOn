@@ -6,10 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.team1.lotteon.dto.PageResponseDTO;
 import com.team1.lotteon.dto.product.*;
 import com.team1.lotteon.dto.product.productOption.*;
-import com.team1.lotteon.entity.Category;
-import com.team1.lotteon.entity.Product;
-import com.team1.lotteon.entity.Productdetail;
-import com.team1.lotteon.entity.SellerMember;
+import com.team1.lotteon.entity.*;
 import com.team1.lotteon.entity.enums.CombinationStatus;
 import com.team1.lotteon.entity.productOption.ProductOption;
 import com.team1.lotteon.entity.productOption.OptionItem;
@@ -17,6 +14,7 @@ import com.team1.lotteon.entity.productOption.ProductOption;
 import com.team1.lotteon.entity.productOption.ProductOptionCombination;
 import com.team1.lotteon.repository.*;
 import com.team1.lotteon.repository.review.ReviewRepository;
+import com.team1.lotteon.repository.shop.ShopRepository;
 import com.team1.lotteon.util.MemberUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
@@ -66,7 +64,7 @@ public class ProductService {
 
     private final ProductOptionCombinationRepository productOptionCombinationRepository;
     private final CategoryRepository categoryRepository;
-
+    private final ShopRepository shopRepository;
     private final ProductOptionService productOptionService;
     private final ReviewRepository reviewRepository;
     // 상품 이미지 업로드
@@ -112,6 +110,13 @@ public class ProductService {
 
         // 로그인 한 seller 멤버 객체 저장
         SellerMember seller = MemberUtil.getLoggedInSellerMember();
+
+        //2024/11/13 이도영 상품 등록시 상점 활성화 여부 변경
+        if(seller.getShop().getIsActive()==0){
+            Shop shop = seller.getShop();
+            shop.setIsActive(1);
+            shopRepository.save(shop);
+        }
 
         // Product 엔티티 생성 및 저장
         Product product = Product.builder()
