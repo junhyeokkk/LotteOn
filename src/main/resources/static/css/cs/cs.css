@@ -550,9 +550,9 @@
     right: 0;
     background-color: #6585a7;
     color: white;
-    border-radius: 0;
-    width: 150px;
-    height: 30px;
+    border-radius: 4px;
+    width: 100px;
+    height: 40px;
   }
 
   /* notice - 글보기 */
@@ -1161,32 +1161,78 @@
     border-radius: 17px;
     color: #fff;
   }
-  
-  /* qna - 글보기 */
+
+ /* 페이징 링크 스타일 */
+ .pagination > a {
+     display: inline-block;
+     width: 28px;
+     height: 28px;
+     border-radius: 50%;
+     color: #999;
+     line-height: 26px;
+     margin: 0 2px;
+     text-align: center;
+     font-family: Roboto, NotoSansKR, Malgun Gothic, AppleSDGothicNeo, Helvetica, sans-serif;
+ }
+
+ /* 현재 페이지 활성화 스타일 */
+ .pagination > a.active {
+     margin: 0 4px;
+     background-color: #343b4d;
+     border: 1px solid #343b4d;
+     color: #fff;
+ }
+
+ /* 호버 효과 */
+ .pagination > a:hover {
+     background-color: #35373d;
+ }
+
+
+
+
+ /* qna - 글보기 */
 
   .qna-section {
     width: 80%;
     margin: 20px auto;
   }
 
-  .qna-item {
-      margin-bottom: 10px;
-  }
+ .qna-item {
+     background-color: #ffffff;
+     border: 1px solid #ddd;
+     padding: 20px;
+     margin-bottom: 10px;
+     border-radius: 5px;
+ }
 
-  .qna-question {
-      background-color: #fff;
-      border: 1px solid #ddd;
-      padding: 15px;
-      width: 100%;
-      text-align: left;
-      font-size: 16px;
-      cursor: pointer;
-      outline: none;
-  }
+ .qna-question {
+     font-size: 18px;
+     font-weight: bold;
+     color: #333;
+     outline: none;
+     padding: 20px;
+     width: 100%;
+     text-align: left;
+     cursor: pointer;
+     background-color: #fffbfb;
+     position: relative;
+     transition: all 0.3s ease;
+     border-radius: 5px;
+ }
+
+ .qna-question:hover {
+     background-color: #fdf3f2;
+ }
 
   .qna-question:after {
       content: '\002B'; /* plus sign */
-      float: right;
+      font-size: 24px;
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      transition: transform 0.3s;
   }
 
   .qna-question.active:after {
@@ -1194,16 +1240,59 @@
   }
 
   .qna-answer {
-      background-color: #f1f1f1;
-      border: 1px solid #ddd;
+      background-color: #f9f9f9;
+      /*border: 1px solid #ddd;*/
       border-top: none;
-      padding: 15px;
+      padding: 20px;
       display: none;
+      font-size: 16px;
+      line-height: 1.6;
+      border-radius: 0 0 5px 5px;
+      margin-top: 10px;
   }
 
   .qna-answer p {
       margin: 0;
+      /*font-style: italic;*/
   }
+
+ .highlight {
+     display: block;
+     font-size: 20px;
+     color: #4285f4;
+     font-weight: bold;
+     margin-bottom: 10px;
+ }
+
+ .date {
+     display: block;
+     color: #777;
+     font-size: 14px;
+     margin-top: 5px;
+     margin-bottom: 10px;
+ }
+
+ /* 강조 스타일 */
+ .qna-question .highlight {
+     color: #d9534f;
+     font-weight: bold;
+ }
+
+ .qna-question .date {
+     color: #777;
+     font-size: 14px;
+ }
+
+ .qna-answer-title {
+     font-size: 18px;
+     font-weight: bold;
+     color: #d9534f;
+     margin-bottom: 20px;
+ }
+
+ .qna-answer .content-gap {
+     margin-top: 15px;
+ }
 
   .qna-answer ul {
       padding-left: 20px;
@@ -1220,7 +1309,7 @@
     border-bottom: 1px solid #e9e9e9;
     box-sizing: border-box;
   }
-  
+
   .qna > .view > .qna_article_view > nav:nth-of-type(1){
     margin-left: 20px;
     border-bottom: 2px solid #111;
@@ -1252,34 +1341,34 @@
     margin-top: 15px;
     font-size: 16px;
   }
-  
-  .qna > .view > .qna_article_view > nav > .date {        
+
+  .qna > .view > .qna_article_view > nav > .date {
     font-size: 14px;
-    color: #777;        
+    color: #777;
   }
-  
+
   .qna > .view > .qna_article_view > .content {
     height: 20%;
     border-bottom: 1px solid #e9e9e9;
     padding: 26px;
     box-sizing: border-box;
   }
-  
+
   .qna > .view > .qna_article_view > .content * {
     font-size: 16px;
-    line-height: 32px;
+    /*line-height: 32px;*/
   }
   .qna .view .qna_article_view .btnList {
     display: flex;
     text-align: center;
     background-color: #9e9e9e;
     color: white;
-    border-radius: 0;
+    border-radius: 4px;
     margin-top: 20%;
     align-items: center;
     justify-content: center;
   }
-  
+
   /* qna - 글쓰기 */
 
   .qna > .write > .qna_article_write > nav {
