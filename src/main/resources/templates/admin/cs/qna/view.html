@@ -47,7 +47,7 @@
         <!-- 버튼 영역 -->
         <div class="button-container">
           <!-- 삭제 버튼 -->
-          <input type="button" value="삭제" style="background-color: #9e9e9e; color: white; border: none; padding: 10px 20px; cursor: pointer;"
+          <input type="button" value="삭제" style="background-color: #9e9e9e; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 4px;"
                  th:onclick="|deleteInquiry(${inquiry.id})|" class="btn delete-btn" />
           <a th:href="@{/admin/cs/qna/list}" class="btn list-btn">목록</a>
         </div>

@@ -21,18 +21,21 @@
   #wrapper {
     width: 100%;
   }
-  
+
   /* 메인 */
   .cs {
     width: 100%;
     height: auto;
+    background-color: #fdfdfd;
   }
-  
-  .cs > .main {
-    width: 100%;
-    height: auto;
-  }
-  
+
+ .cs > .main {
+     width: 100%;
+     margin: 0 auto;
+     max-width: 1200px;
+     padding: 0 20px;
+ }
+
   .cs > .main > .cs_title {
     font-size: 30px;
     text-align: center;
@@ -40,13 +43,13 @@
     color: #222;
     font-weight: 700;
   }
-  
+
   .cs > .main > .cs_title > strong {
     font-size: 30px;
     color: #e74c3c;
     font-weight: 700;
   }
-  
+
   .cs > .main > section {
     width: 1200px;
     height: auto;
@@ -56,20 +59,29 @@
     padding-top: 10px;
     box-sizing: border-box;
   }
-  
+
     /* 각 목록별 제목 */
-  .cs > .main > section > h1 {
-    font-size: 22px;
-    font-weight: 600;
-    margin-left: 10px;
-  }
-  
+ .cs > .main > section > h1 {
+     font-size: 22px;
+     font-weight: 600;
+     color: #444;
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     margin-bottom: 15px;
+ }
+
   .cs > .main > section > h1 > a {
     float: right;
     font-size: 16px;
     margin-top: 6px;
     color: #555;
+    text-decoration: none;
   }
+
+ .cs > .main > section > h1 > a:hover {
+     color: #0056b3;
+ }
 
   /* 전체보기 */
   .cs > .main > section > h1 > a::after {
@@ -84,8 +96,11 @@
     margin-left: 6px;
   }
   /* 공통 ul 안 요소 style */
-  .cs > .main > section > ul {
-  }
+ .cs > .main > section > ul {
+     padding: 0;
+     list-style: none;
+     margin: 0;
+ }
 
   .cs > .main > section > ul > li {
     text-indent: 10px;
@@ -104,7 +119,7 @@
     margin-left: 10px;
     font-size: 17px;
   }
-  
+
   .cs > .main > section > ul > li > p {
     float: right;
     margin-right: 10px;
@@ -121,6 +136,9 @@
     height: auto;
     margin: 60px auto;
     overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
   }
   .cs > .main > .faq > ul > li {
     float: left;
@@ -143,8 +161,10 @@
     top: 100px;
     font-size: 14px;
     right: 8px;
+    color: #333;
+    display: block;
   }
-  
+
   .cs > .main > .faq > ul > li:nth-child(1) > a {
     background-position: 0 0;
   }
@@ -166,7 +186,7 @@
   .cs > .main > .faq > ul > li:nth-child(7) > a {
     background-position: -644px 0px;
   }
-  
+
   .cs > .main > .faq > ul > li:nth-child(1) > a:hover {
     background-position: 0 -92px;
   }
@@ -188,7 +208,7 @@
   .cs > .main > .faq > ul > li:nth-child(7) > a:hover {
     background-position: -644px -92px;
   }
-  
+
   /* qna style */
   .cs > .main > .qna > .ask {
     display: inline-block;
@@ -200,62 +220,85 @@
   }
 
    /* tel style */
-  .cs > .main > .tel {
-    overflow: hidden;
-  }
-  .cs > .main > .tel > article {
-    float: left;
-    width: 50%;
-    height: 300px;
-    padding: 16px;
-    box-sizing: border-box;
-    margin-bottom: 20px;
-  }
-
-  .cs > .main > .tel > article > div {
-    width: 100%;
-    height: 100%;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-  }
-
-  .cs > .main > .tel > article h3 {
-    font-size: 20px;
-    font-weight: bold;
-    color: #111;
-    margin-bottom: 20px;
-  }
-
-  .cs > .main > .tel > article > div > p {
-    margin-top: 10px;
-    margin-bottom: 16px;
-    color: #333;
-  }
-
-  .cs > .main > .tel > article span {
-    font-size: 17px;
-  }
-  .cs > .main > .tel > article strong {
-    font-size: 25px;
-    color: #111;
-    font-weight: bold;
-    margin-right: 6px;
-  }
-
-  .cs > .main > .tel > article a {
-    font-size: 18px;
-
-    margin-right: 6px;
-    color: #717171;
-  }
-
- .cs > .main > .tel > article span.tel_gray {
-   font-size: 15px;
+ /* 상담 안내 섹션 */
+ .cs > .main > .tel {
+     overflow: hidden;
+     background-color: #f9f9f9;
+     padding: 20px;
+     border-radius: 10px;
  }
 
-  /*--------------------------------------------------- cs main ---------------------------------------------------------*/
+ /* article 박스 스타일 */
+ .cs > .main > .tel > article {
+     float: left;
+     width: 48%;
+     margin: 0 1%;
+     padding: 20px;
+     box-sizing: border-box;
+     transition: all 0.3s ease;
+ }
+
+ /* box shadow와 배경색으로 입체감 추가 */
+ .cs > .main > .tel > article > div {
+     background-color: #ffffff;
+     padding: 25px;
+     border-radius: 10px;
+     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+     transition: transform 0.3s ease;
+ }
+
+ .cs > .main > .tel > article:hover > div {
+     transform: translateY(-5px);
+ }
+
+ /* 제목 스타일 */
+ .cs > .main > .tel > article h3 {
+     font-size: 22px;
+     font-weight: 600;
+     color: #333;
+     margin-bottom: 16px;
+ }
+
+ /* 주요 텍스트 스타일 */
+ .cs > .main > .tel > article > div > p {
+     margin: 12px 0;
+     color: #555;
+ }
+
+ .cs > .main > .tel > article span.title {
+     font-size: 18px;
+     font-weight: 500;
+     color: #555;
+ }
+
+ .cs > .main > .tel > article strong {
+     font-size: 28px;
+     color: #111;
+     font-weight: bold;
+     margin-right: 10px;
+ }
+
+ .cs > .main > .tel > article a {
+     font-size: 16px;
+     color: #0077cc;
+     font-weight: 500;
+     text-decoration: underline;
+ }
+
+ .cs > .main > .tel > article span.tel_gray {
+     font-size: 15px;
+     color: #888;
+ }
+
+ /* 반응형 설정 */
+ @media (max-width: 768px) {
+     .cs > .main > .tel > article {
+         width: 100%;
+         margin: 10px 0;
+     }
+ }
+
+ /*--------------------------------------------------- cs main ---------------------------------------------------------*/
 
   /* 버튼 공통 */
   .btnWrite {
@@ -273,7 +316,7 @@
   
   .btnList {
     display: inline-block;
-    width: 200px;
+    width: 120px;
     height: 60px;
     margin: 40px auto 0;
     border: 1px solid #ccc;
@@ -613,8 +656,8 @@
     text-align: center;
     background-color: #9e9e9e;
     color: white;
-    border-radius: 0;
-    width: 150px;
+    border-radius: 4px;
+    width: 120px;
   }
 
   /* faq 위 nav */
@@ -1421,6 +1464,7 @@
     font-size: 16px;
     box-sizing: border-box;
     text-indent: 10px;
+    border-radius: 4px;
   }
   
   .qna > .write > .qna_article_write table select {
@@ -1428,6 +1472,7 @@
     height: 40px;
     font-size: 16px;
     box-sizing: border-box;
+    border-radius: 4px;
   }
   
   .qna > .write > .qna_article_write table select * {
@@ -1441,4 +1486,5 @@
     font-size: 16px;
     padding: 10px;
     box-sizing: border-box;
+    border-radius: 4px;
   }
