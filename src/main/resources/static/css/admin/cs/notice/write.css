@@ -57,6 +57,7 @@
     font-size: 16px;
     box-sizing: border-box;
     text-indent: 10px;
+    border-radius: 4px;
 }
 
 .qna_article_write table select {
@@ -64,6 +65,7 @@
     height: 40px;
     font-size: 16px;
     box-sizing: border-box;
+    border-radius: 4px;
 }
 
 .qna_article_write table select * {
@@ -77,6 +79,7 @@
     font-size: 16px;
     padding: 10px;
     box-sizing: border-box;
+    border-radius: 4px;
 }
 
 /* 페이징 */

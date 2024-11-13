@@ -40,7 +40,12 @@
                 <div th:replace="~{myPage/include/mypagesidebar::sidebar}"></div>
 
                 <section>
-                    <a href="#"><img src="/images/my/my_banner_sample.png" alt="롯데ON에서 드리는 다양한 결제혜택" class="banner"></a>
+                    <!-- 배너 영역 -->
+                    <div id="bannerContainer">
+                        <a href="#" id="bannerLink">
+                            <img src="/images/my/my_banner_sample.png" alt="롯데ON에서 드리는 다양한 결제혜택" class="banner" id="bannerImage">
+                        </a>
+                    </div>
 
                     <!-- 사이드 영역 -->
                     <article class="latest">
@@ -75,7 +80,7 @@
                                             주문번호: <a href="#" th:text="${myOrderItem.getOrder().getId()}" data-modal="orderDetailModal"></a>
                                         </div>
                                         <div class="company-name" th:text="${myOrderItem.getProduct().getShop().getShopName()}" data-modal="sellerInfoModal">실바니안패밀리</div>
-                                        <div class="product-name" th:text="${myOrderItem.getProductName()}">플로라 토끼 남매의 꽃 가꾸기</div>
+                                        <div class="product-name" th:text="${myOrderItem.product.productName}">플로라 토끼 남매의 꽃 가꾸기</div>
                                         <div>수량 : <span th:text="${myOrderItem.getQuantity()}">1 개</span></div>
                                         <div class="product-price" style="font-size: 18px; font-weight: bold;" th:text="${myOrderItem.getOrder().getTotalPrice()}">25,900원</div>
                                     </td>

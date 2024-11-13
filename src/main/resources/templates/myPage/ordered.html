@@ -77,7 +77,7 @@
                                 주문번호: <a href="#" th:text="${myOrderItem.getOrder().getId()}" data-modal="orderDetailModal"></a>
                             </div>
                             <div class="company-name" th:text="${myOrderItem.getProduct().getShop().getShopName()}" data-modal="sellerInfoModal">실바니안패밀리</div>
-                            <div class="product-name" th:text="${myOrderItem.getProductName()}">플로라 토끼 남매의 꽃 가꾸기</div>
+                            <div class="product-name" th:text="${myOrderItem.getProduct().getProductName()}">플로라 토끼 남매의 꽃 가꾸기</div>
                             <div>수량 : <span th:text="${myOrderItem.getQuantity()}">1 개</span></div>
                             <div class="product-price" style="font-size: 18px; font-weight: bold;" th:text="${myOrderItem.getOrder().getTotalPrice()}">25,900원</div>
                         </td>

@@ -9,6 +9,7 @@ select[name="type1"] {
     border: 1px solid #D8D8D8;
     text-align: center;
     outline: none;
+    border-radius: 4px;
 }
 select[name="type2"] {
     width: 85px;
@@ -16,6 +17,7 @@ select[name="type2"] {
     border: 1px solid #D8D8D8;
     text-align: center;
     outline: none;
+    border-radius: 4px;
 }
 /* 유형선택 */
 .sectionBox > div {
@@ -86,7 +88,7 @@ button[type=submit] {
 /* 삭제버튼 */
 .delete_btn {
     float: left;
-    width: 100px;
+    width: 80px;
     height: 37px;
     padding: 6px;
     margin-top: 10px;
@@ -98,6 +100,7 @@ button[type=submit] {
     vertical-align: middle;
     box-sizing: border-box;
     cursor: pointer;
+    border-radius: 4px;
 }
 /* 등록버튼 */
 .registration_btn {
@@ -114,6 +117,7 @@ button[type=submit] {
     vertical-align: middle;
     box-sizing: border-box;
     cursor: pointer;
+    border-radius: 4px;
 }
 
 

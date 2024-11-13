@@ -37,14 +37,14 @@
 <!--        문의 -->
         <div class="qna-item">
           <button class="qna-question" onclick="toggleFaq(this)">
-            <span th:text="|[${inquiry.type2}] ${inquiry.title}|"></span><br>
-            <span th:text="|${inquiry.memberId.substring(0, 3)}***|"></span>
-            <span th:text="${#temporals.format(inquiry.createdAt, 'yy-MM-dd')}"></span><br>
+            <span class="highlight" th:text="|[${inquiry.type2}] ${inquiry.title}|"></span>
+            <span class="highlight" th:text="|${inquiry.memberId.substring(0, 3)}***|"></span>
+            <span class="date" th:text="${#temporals.format(inquiry.createdAt, 'yy-MM-dd')}"></span><br>
             <span th:text="${inquiry.content}"></span>
           </button>
 <!--          답변 -->
           <div class="qna-answer">
-            <span th:text="|☛ [답변] ${inquiry.title}|"></span><br>
+            <div class="qna-answer-title" th:text="|☛ [답변] ${inquiry.title}|"></div>
             <p th:text="${inquiry.answer ?: '답변이 없습니다.'}"></p>
           </div>
           <script>
