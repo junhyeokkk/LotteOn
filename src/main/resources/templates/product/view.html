@@ -60,8 +60,8 @@
                 <div class="product-header">
                     <h3>[[${product.productName}]]</h3>
                     <div class="rating">
-                        <img src="/images/star-rating.png" alt="별점"/>
-                        <span>4.8</span> <span>(27건)</span>
+                        <img src="https://static.lotteon.com/p/product/assets/img/icon_seller_star_black.svg" alt="별점"/>
+                        <span th:text="${reviewAvgRating}">4.8</span> <span th:text="|( ${reviewCount} )|">(27건)</span>
                     </div>
                 </div>
                 <p class="summary__product-info">[[${product.description}]]</p>

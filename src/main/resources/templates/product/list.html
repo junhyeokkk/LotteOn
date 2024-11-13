@@ -79,8 +79,8 @@
                     </div>
                 </div>
                 <div class="score_review">
-                    <b>★ <span>4</span></b>
-                    <b>리뷰 <span th:text="${product.views}">10</span></b>
+                    <b>★ <span th:text="${product.rating}">4</span></b>
+                    <b>리뷰 <span th:text="${product.reviewCount}">10</span></b>
                     <span th:if="${product.sellerReputation}" th:text="${product.sellerReputation}">고객만족우수</span>
                 </div>
             </a>

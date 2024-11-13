@@ -157,39 +157,16 @@
                                 <th>평점</th>
                                 <th>작성일</th>
                             </tr>
-                            <block each="review , loop:${reviewLimit5}">
-                                <tr>
-                                    <td text="${loop.index+1}">1</td>
-                                    <td text="${review.prodName}">상품명</td>
-                                    <td text="${review.content}">배송이 빠릅니다. 잘 사용하겠습니다.</td>
+                                <tr th:each="review : ${reviews}">
+                                    <td th:text="${review.id}">1</td>
+                                    <td th:text="${review.productName}">상품명</td>
+                                    <td th:text="${review.content}">배송이 빠릅니다. 잘 사용하겠습니다.</td>
                                     <td class="score">
-                                        <span class="rating" if="${review.rating == 1}" classappend="star1">평점</span>
-                                        <!-- <span class="rating" if="${review.rating == 2}" classappend="star2">평점</span>
-                                    <span class="rating" if="${review.rating == 3}" classappend="star3">평점</span>
-                                    <span class="rating" if="${review.rating == 4}" classappend="star4">평점</span>
-                                    <span class="rating" if="${review.rating == 5}" classappend="star5">평점</span> -->
+                                        <span class="rating" th:text="${review.score}">평점</span>
+
                                     </td>
-                                    <td text="${review.rdate.toLocalDate()}">2022-12-10</td>
+                                    <td th:text="${review.createdAt}">2022-12-10</td>
                                 </tr>
-                                <tr>
-                                    <td text="${loop.index+1}">2</td>
-                                    <td text="${review.prodName}">상품명</td>
-                                    <td text="${review.content}">배송이 빠릅니다. 잘 사용하겠습니다.</td>
-                                    <td class="score">
-                                        <span class="rating" if="${review.rating == 1}" classappend="star1">평점</span>
-                                    </td>
-                                    <td text="${review.rdate.toLocalDate()}">2022-12-10</td>
-                                </tr>
-                                <tr>
-                                    <td text="${loop.index+1}">3</td>
-                                    <td text="${review.prodName}">상품명</td>
-                                    <td text="${review.content}">배송이 빠릅니다. 잘 사용하겠습니다.</td>
-                                    <td class="score">
-                                        <span class="rating" if="${review.rating == 1}" classappend="star1">평점</span>
-                                    </td>
-                                    <td text="${review.rdate.toLocalDate()}">2022-12-10</td>
-                                </tr>
-                            </block>
                         </table>
                     </article>
                     <article class="qna">

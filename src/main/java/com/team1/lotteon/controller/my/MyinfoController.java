@@ -152,6 +152,9 @@ public class MyinfoController {
         // 나의 정보
         Address address = member.getAddress();
 
+        List<ReviewResponseDTO> reviews = reviewService.getReviewsTop3ByUid(member.getUid());
+
+        model.addAttribute("reviews", reviews);
         model.addAttribute("myOrderItems", orderItemDTOs);
         model.addAttribute("member", member);
         model.addAttribute("address", address);

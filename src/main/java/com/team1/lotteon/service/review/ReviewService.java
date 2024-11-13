@@ -65,4 +65,9 @@ public class ReviewService {
 
         return PageResponseDTO.fromPage(reviewResponseDTOPage);
     }
+
+    public List<ReviewResponseDTO> getReviewsTop3ByUid(String uid) {
+        List<Review> reviews = reviewRepository.findTop3ByMemberUidOrderByCreatedAtDesc(uid);
+        return reviews.stream().map(ReviewResponseDTO::fromEntity).toList();
+    }
 }
