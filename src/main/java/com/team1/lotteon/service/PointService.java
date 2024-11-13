@@ -6,6 +6,7 @@ import com.team1.lotteon.dto.PointDTO;
 import com.team1.lotteon.dto.point.PointPageRequestDTO;
 import com.team1.lotteon.dto.point.PointPageResponseDTO;
 import com.team1.lotteon.entity.GeneralMember;
+import com.team1.lotteon.entity.Order;
 import com.team1.lotteon.entity.Point;
 import com.team1.lotteon.entity.enums.TransactionType;
 import com.team1.lotteon.repository.Memberrepository.GeneralMemberRepository;
@@ -129,7 +130,7 @@ public class PointService {
         log.info("모든 만료 포인트 처리가 완료되었습니다.");
     }
     @Transactional
-    public void deductPoints(GeneralMember member, int discountPoint) {
+    public void deductPoints(GeneralMember member, int discountPoint, Order order) {
         // 1. 차감할 포인트 값 (절대값으로 처리)
         discountPoint = Math.abs(discountPoint);
 
@@ -144,10 +145,12 @@ public class PointService {
 
         // 4. 포인트 기록 생성 (차감된 포인트 기록)
         Point point = new Point();
-        point.setGivePoints(0); // 지급 포인트는 0으로 설정
+        point.setGivePoints(-discountPoint); // 지급 포인트는 0으로 설정
         point.setTransactionType(TransactionType.사용); // 트랜잭션 타입을 "사용"으로 설정
         point.setAcPoints(member.getPoints()); // 차감 후 잔여 포인트 설정
         point.changeMember(member);
+        point.setOrder(order); // 주문 정보 설정
+        point.setType("상품구매시 사용");
 
         pointRepository.save(point); // 포인트 기록 저장
 
@@ -183,8 +186,6 @@ public class PointService {
 
 
 
-
-
     // 포인트 select 페이징 (MYPAGE) => 내 포인트 가져오기
     public PointPageResponseDTO getMyPoints(PointPageRequestDTO pointPageRequestDTO) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -216,6 +217,7 @@ public class PointService {
         List<PointDTO> dtoList = pointPage.getContent().stream()
                 .map(point -> modelMapper.map(point, PointDTO.class))
                 .collect(Collectors.toList());
+
 
         // PointPageResponseDTO 생성 및 반환
         return new PointPageResponseDTO(pointPageRequestDTO, dtoList, (int) pointPage.getTotalElements());

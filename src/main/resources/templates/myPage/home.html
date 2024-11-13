@@ -142,9 +142,9 @@
                             <tr th:each="point : ${points}" class="admin_list">
                                 <td th:text="${point.formattedCreatedAt }"></td>
                                     <td th:text="${point.transactionType.toString()}"></td>
-                                    <td th:text="${point.order_id != null ? point.order_id : point.type}">2022121001</td>
+                                    <td th:text="${point.order.id}">2022121001</td>
                                     <td th:text="${point.acPoints}"></td>
-                                    <td th:text="${point.type}"></td>
+                                <td th:text="${point.type != null ? point.type : '비고 없음'}"></td>
                                     <td th:text="${point.formattedExpirationDate}">2025-10-24</td>
                                 </tr>
                         </table>

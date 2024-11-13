@@ -72,4 +72,46 @@ window.onload = function () {
     document.getElementById('modalcanclebutton').addEventListener('click', function () {
         document.getElementById('versioncheckModal').style.display = 'none';
     });
+
 };
+
+// 전체 선택 및 해제 기능
+function toggleSelectAll(selectAllCheckbox) {
+    const checkboxes = document.querySelectorAll('.versionCheckbox');
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = selectAllCheckbox.checked;
+    });
+}
+// 선택된 버전을 삭제하는 기능
+function deleteSelectedVersions() {
+    // 선택된 버전 ID들을 수집
+    const selectedIds = Array.from(document.querySelectorAll('.versionCheckbox:checked'))
+        .map(checkbox => checkbox.value);
+
+    if (selectedIds.length === 0) {
+        alert("삭제할 버전을 선택하세요.");
+        return;
+    }
+
+    // 서버로 삭제 요청
+    fetch('/admin/config/api/version/delete', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ ids: selectedIds })
+    })
+        .then(response => {
+            if (response.ok) {
+                alert("선택된 버전이 삭제되었습니다.");
+                // 삭제된 항목을 화면에서 제거
+                selectedIds.forEach(id => {
+                    const row = document.querySelector(`.versionCheckbox[value="${id}"]`).closest('tr');
+                    row.parentNode.removeChild(row);
+                });
+            } else {
+                alert("버전 삭제에 실패했습니다.");
+            }
+        })
+        .catch(error => console.error("삭제 요청 중 오류:", error));
+}

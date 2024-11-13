@@ -1,9 +1,9 @@
-package com.team1.lotteon.apiController;
+package com.team1.lotteon.apiController.admin.config;
 
+import com.team1.lotteon.dto.RequestDTO.VersionDeleteRequestDTO;
 import com.team1.lotteon.dto.VersionDTO;
 import com.team1.lotteon.entity.Version;
 import com.team1.lotteon.service.admin.VersionService;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +30,12 @@ public class VersionApiController {
         VersionDTO saveVersionDTO = modelMapper.map(savedVersion, VersionDTO.class);
 
         return ResponseEntity.ok(saveVersionDTO);
+    }
+
+    @PostMapping("/api/version/delete")
+    public ResponseEntity<String> deleteVersions(@RequestBody VersionDeleteRequestDTO request) {
+        versionService.deleteVersionsByIds(request.getIds());
+        return ResponseEntity.ok("선택된 버전이 삭제되었습니다.");
     }
 
 }

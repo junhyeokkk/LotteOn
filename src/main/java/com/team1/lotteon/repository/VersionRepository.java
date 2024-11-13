@@ -4,6 +4,7 @@ import com.team1.lotteon.entity.Version;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 /*
@@ -15,4 +16,7 @@ import java.util.Optional;
 public interface VersionRepository extends JpaRepository<Version, Long> {
     // ID를 기준으로 가장 높은 레코드 1개 가져오기
     public Optional<Version> findTopByOrderByIdDesc();
+
+    // 버전 삭제
+    void deleteAllByIdIn(List<Long> ids);
 }
