@@ -91,17 +91,22 @@ public class AdminQueryRepository {
     }
 
     public Optional<OperatingStatusQueryDTO> findOperatingStatusQuery() {
-        OperatingStatusQueryDTO operatingStatusQueryDTO = queryFactory
-                .select(new QOperatingStatusQueryDTO(
-                        select(order.count()).from(order),
-                        select(Expressions.asNumber(order.totalPrice.sum()).longValue()).from(order),
-                        select(member.count()).from(member),
-                        select(member.count()).from(member),
-                        select(article.count()).from(article).where(article.createdAt.between(LocalDateTime.now().minusDays(1), LocalDateTime.now()))
-                ))
-                .from(order)
-                .fetchFirst();
+        try {
+            OperatingStatusQueryDTO operatingStatusQueryDTO = queryFactory
+                    .select(new QOperatingStatusQueryDTO(
+                            select(order.count()).from(order),
+                            select(Expressions.asNumber(order.totalPrice.sum()).longValue()).from(order),
+                            select(member.count()).from(member),
+                            select(member.count()).from(member),
+                            select(article.count()).from(article).where(article.createdAt.between(LocalDateTime.now().minusDays(1), LocalDateTime.now()))
+                    ))
+                    .from(order)
+                    .fetchFirst();
 
-        return Optional.ofNullable(operatingStatusQueryDTO);
+            return Optional.ofNullable(operatingStatusQueryDTO);
+
+        } catch (Exception e) {
+            return Optional.of(new OperatingStatusQueryDTO());
+        }
     }
 }
