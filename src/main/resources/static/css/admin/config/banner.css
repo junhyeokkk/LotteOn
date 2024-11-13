@@ -169,9 +169,9 @@
 
 .pagingList span a.active,
 .pagingList span a:hover {
-    background-color: #5bc0de;
+    background-color: #343b4d;
     color: #ffffff;
-    border: 1px solid #5bc0de;
+    border: 1px solid #343b4d;
 }
 
 /* 모달 스타일 */

@@ -3,6 +3,7 @@ package com.team1.lotteon.service.admin;
 import com.team1.lotteon.dto.VersionDTO;
 import com.team1.lotteon.entity.Version;
 import com.team1.lotteon.repository.VersionRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
@@ -61,5 +62,11 @@ public class VersionService {
 
         // Version 객체를 VersionDTO로 변환
         return versions.map(version -> modelMapper.map(version, VersionDTO.class));
+    }
+
+    // 버전 삭제ㄴ
+    @Transactional
+    public void deleteVersionsByIds(List<Long> ids) {
+        versionRepository.deleteAllByIdIn(ids);
     }
 }

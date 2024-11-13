@@ -7,6 +7,7 @@
 <!-- index.html 고유 CSS 추가 -->
 <th:block layout:fragment="css">
     <link rel="stylesheet" th:href="@{/css/admin/list.css}" />
+    <link rel="stylesheet" th:href="@{/css/admin/config/banner.css}" />
 </th:block>
 <!-- index.html 고유 스크립트 추가 -->
 <th:block layout:fragment="script">
@@ -30,7 +31,7 @@
             </div>
             <table class="admingraph">
                 <tr class="admin_title">
-                    <th><input type="checkbox" name="allCheck" /></th>
+                    <th><input type="checkbox" id="selectAll" onclick="toggleSelectAll(this)"></th>
                     <th>번호</th>
                     <th>버전</th>
                     <th>작성자</th>
@@ -40,7 +41,7 @@
 
                 <th:block th:each="version : ${versions}">
                     <tr class="admin_list"> <!-- 첫 페이지의 경우 10개만 출력 -->
-                        <td><input type="checkbox" value="noticeNo" name="RowCheck" /></td>
+                        <td><input type="checkbox" class="versionCheckbox" th:value="${version.id}"></td>
                         <td th:text="${version.id}"></td>
                         <td th:text="${version.version}"></td>
                         <td th:text="${version.uid}"></td>
@@ -56,17 +57,26 @@
                 </th:block>
 
             </table>
-            <a class="delete_btn">선택삭제</a>
+            <a class="delete_btn" onclick="deleteSelectedVersions()">선택삭제</a>
 
             <a href="#" data-modal="versioninsertModal" class="registration_btn">등록</a>
 
             <div class="pagingBox">
                 <div class="pagingList">
                     <a href="#" th:if="${currentPage > 0}" th:href="@{/admin/config/version(page=${currentPage - 1})}" class="prev">&#60;</a>
-                    <div id="pageLinks"></div>
+
+                    <!-- 페이지 링크 생성 -->
+                    <span th:each="page : ${#numbers.sequence(0, totalPages - 1)}">
+            <a th:href="@{/admin/config/version(page=${page})}"
+               th:text="${page + 1}"
+               th:classappend="${page == currentPage} ? 'active' : ''">
+            </a>
+        </span>
+
                     <a href="#" th:if="${currentPage < totalPages - 1}" th:href="@{/admin/config/version(page=${currentPage + 1})}" class="next">&#62;</a>
                 </div>
             </div>
+
 
             <script>
                 const totalPages = /*[[${totalPages}]]*/ 1; // Thymeleaf로 totalPages 값을 가져옵니다.
