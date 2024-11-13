@@ -155,4 +155,17 @@ public class BannerService {
             return true;
         }).orElse(false);
     }
+
+    // 배너삭제
+    @Transactional
+    public boolean deleteBannersByIds(List<Long> ids) {
+        try {
+            bannerRepository.deleteAllByIdIn(ids);
+            return true;
+        } catch (Exception e) {
+            // 예외 로그 처리
+            System.err.println("Error deleting banners: " + e.getMessage());
+            return false;
+        }
+    }
 }

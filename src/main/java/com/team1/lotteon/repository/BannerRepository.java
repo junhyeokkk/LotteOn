@@ -25,4 +25,7 @@ public interface BannerRepository extends JpaRepository<Banner, Integer> {
 
     // position과 isActive 값으로 배너 조회
     List<Banner> findByPositionAndIsActive(String position, int isActive);
+
+    // 선택된 배너 삭제
+    void deleteAllByIdIn(List<Long> ids);
 }

@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
             order.orderItems.forEach(item => {
                 const tr = document.createElement("tr");
                 tr.innerHTML = `
-                <td><img class="modalimgsize" src="/uploads/product/${item.productImage}" alt="상품 이미지" /></td>
+                <td><img class="modalimgsize" src="/${item.productImage}" alt="상품 이미지" /></td>
                 <td>${item.productId}</td>
                 <td>${item.productName}</td>
                 <td>${item.shopName}</td>

@@ -1,6 +1,7 @@
 package com.team1.lotteon.apiController.admin.config;
 
 import com.team1.lotteon.dto.BannerDTO;
+import com.team1.lotteon.dto.RequestDTO.BannerDeleteRequestDTO;
 import com.team1.lotteon.entity.Banner;
 import com.team1.lotteon.service.admin.BannerService;
 import lombok.RequiredArgsConstructor;
@@ -98,5 +99,14 @@ public class BannerApiController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("상태 업데이트에 실패했습니다.");
         }
     }
+    @PostMapping("/api/banners/delete")
+    public ResponseEntity<String> deleteBanners(@RequestBody BannerDeleteRequestDTO request) {
+        boolean success = bannerService.deleteBannersByIds(request.getIds());
 
+        if (success) {
+            return ResponseEntity.ok("배너가 성공적으로 삭제되었습니다.");
+        } else {
+            return ResponseEntity.status(500).body("배너 삭제에 실패했습니다.");
+        }
+    }
 }

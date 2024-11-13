@@ -44,7 +44,7 @@
 
             <table class="admingraph">
                 <tr class="admin_title">
-                    <th><input type="checkbox" name="allCheck" /></th>
+                    <th><input type="checkbox" onclick="toggleSelectAll(this)" /></th>
                     <th>번호</th>
                     <th>이미지</th>
                     <th>배너정보</th>
@@ -62,7 +62,7 @@
                 </tfoot>
 
             </table>
-            <a class="delete_btn">선택삭제</a>
+            <a class="delete_btn" onclick="deleteSelectedBanners()">선택삭제</a>
             <!-- 모달 버튼 출력 -->
 
             <a href="#" data-modal="bannerModal" class="registration_btn">배너등록</a>

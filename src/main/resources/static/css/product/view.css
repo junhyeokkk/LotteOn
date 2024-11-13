@@ -6,6 +6,7 @@ h4 {
 
 /* 슬라이더 영역 */
 .slider {
+    display: flex;
     width: 100%;
     height: 425px;
     position: relative;
@@ -16,15 +17,21 @@ h4 {
 
 .totalImageBox {
     display: flex;
-    width: 300%;
+    width: 100%;
     height: 100%;
     transition: transform 0.5s ease;
 }
 
-.totalImageBox__img {
-    width: 1200px;
+.totalImageBox a {
+    width: 100%;
     height: 100%;
-    object-fit: cover;
+    flex-shrink: 0; /* 이미지가 슬라이더에 맞게 개별적으로 배치 */
+    display: block;
+}
+
+.totalImageBox a img {
+    width: 100%;
+    height: 100%;
     border-radius: 8px;
 }
 
@@ -44,7 +51,6 @@ h4 {
     align-items: center;
     justify-content: center;
 }
-
 .sliderPrev { left: 15px; }
 .sliderNext { right: 15px; }
 
