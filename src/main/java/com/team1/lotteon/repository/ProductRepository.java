@@ -13,6 +13,8 @@ import java.util.List;
     날짜 : 2024/10/25
     이름 : 이상훈
     내용 : 상품 리파지토리 생성
+    수정사항
+    - 2024/11/13 이도영 메인 화면에 출력할 상품 방식 기능 구현
 */
 public interface ProductRepository extends JpaRepository<Product, Long>, ProductRepositoryCustom {
     Page<Product> findByCategoryId(Long categoryId, Pageable pageable);
@@ -45,7 +47,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>, Product
         JOIN (
             SELECT oi.product_id, SUM(oi.quantity) AS total_quantity
             FROM order_item oi
-            WHERE oi.delivery_status = 'DELIVERED'
+            WHERE oi.delivery_status IN ('SHIPPED', 'COMPLETE')
             GROUP BY oi.product_id
         ) AS order_stats ON p.id = order_stats.product_id
         LEFT JOIN (

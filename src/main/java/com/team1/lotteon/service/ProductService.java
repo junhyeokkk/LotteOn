@@ -16,6 +16,7 @@ import com.team1.lotteon.entity.productOption.OptionItem;
 import com.team1.lotteon.entity.productOption.ProductOption;
 import com.team1.lotteon.entity.productOption.ProductOptionCombination;
 import com.team1.lotteon.repository.*;
+import com.team1.lotteon.repository.review.ReviewRepository;
 import com.team1.lotteon.util.MemberUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
@@ -32,6 +33,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -48,6 +51,7 @@ import java.util.stream.Collectors;
 */
 @RequiredArgsConstructor
 @Service
+@Transactional
 public class ProductService {
     private static final Logger log = LogManager.getLogger(ProductService.class);
     private final ProductRepository productRepository;
@@ -64,7 +68,7 @@ public class ProductService {
     private final CategoryRepository categoryRepository;
 
     private final ProductOptionService productOptionService;
-
+    private final ReviewRepository reviewRepository;
     // 상품 이미지 업로드
     @Value("${spring.servlet.multipart.location}")
     private String uploadDir; // YAML에서 설정한 파일 업로드 경로
@@ -231,7 +235,11 @@ public class ProductService {
 
     public PageResponseDTO<ProductSummaryResponseDTO> getProducts(Pageable pageable) {
         Page<Product> products = productRepository.findAll(pageable);
-        return PageResponseDTO.fromPage(products.map(ProductSummaryResponseDTO::fromEntity));
+        return PageResponseDTO.fromPage(products.map(product -> {
+            double score = getRoundedAverageScore(product.getId());
+            long reviewCount = reviewRepository.countByProductId(product.getId());
+            return ProductSummaryResponseDTO.fromEntity(product, score, reviewCount);
+        } ));
     }
 
     public PageResponseDTO<ProductSummaryResponseDTO> searchProducts(ProductSearchRequestDto productSearchRequestDto) {
@@ -251,7 +259,11 @@ public class ProductService {
 
         Pageable pageable = productSearchRequestDto.toPageable();
         Page<Product> products = productRepository.searchProducts(productSearchRequestDto, categoryIds, pageable);
-        return PageResponseDTO.fromPage(products.map(ProductSummaryResponseDTO::fromEntity));
+        return PageResponseDTO.fromPage(products.map(product -> {
+            double score = getRoundedAverageScore(product.getId());
+            long reviewCount = reviewRepository.countByProductId(product.getId());
+            return ProductSummaryResponseDTO.fromEntity(product, score, reviewCount);
+        } ));
     }
 
     public ProductDTO getProductById(Long id) {
@@ -328,7 +340,11 @@ public class ProductService {
         Page<Product> products = productRepository.findByCategoryIdIn(categoryIds, pageable);
 
         // 조회한 상품을 ProductSummaryResponseDTO로 변환하고 페이지 응답으로 반환
-        return PageResponseDTO.fromPage(products.map(ProductSummaryResponseDTO::fromEntity));
+        return PageResponseDTO.fromPage(products.map(product -> {
+            double score = getRoundedAverageScore(product.getId());
+            long reviewCount = reviewRepository.countByProductId(product.getId());
+            return ProductSummaryResponseDTO.fromEntity(product, score, reviewCount);
+        } ));
     }
 
     //도영 2024/11/03 상품 아이디를 활용해서 상점 아이디 검색 기능
@@ -444,5 +460,11 @@ public class ProductService {
 
     public List<Product> getTopDiscountedProducts() {
         return productRepository.findTop8ByOrderByDiscountRateDesc(); // 또는 findTop10ByOrderByDiscountRateDesc() 호출
+    }
+
+    public double getRoundedAverageScore(Long productId) {
+        double averageScore = reviewRepository.findAverageScoreByProductId(productId);
+        BigDecimal roundedScore = BigDecimal.valueOf(averageScore).setScale(1, RoundingMode.HALF_UP);
+        return roundedScore.doubleValue();
     }
 }
