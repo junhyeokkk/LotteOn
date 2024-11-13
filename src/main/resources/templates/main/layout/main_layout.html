@@ -28,7 +28,7 @@
         const imgContainer = document.querySelector('.main_bannerBox');
 
         // 서버에서 Slider 배너 이미지 가져오기
-        fetch('/api/banner/slider')
+        fetch('/api/banner/main')
             .then(response => response.json())
             .then(banners => {
                 imgContainer.innerHTML = ''; // 기존 이미지 제거
