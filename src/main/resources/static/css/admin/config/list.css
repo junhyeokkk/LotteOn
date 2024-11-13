@@ -1,5 +1,9 @@
 /* 배너관리 , 버전이력 */
-
+/* Section containing the table */
+.sectionBox {
+    width: 100%; /* Make sectionBox take up full width of content */
+    box-sizing: border-box;
+}
 /*버전 */
 .sectionBox > div {
     margin-top: 20px;

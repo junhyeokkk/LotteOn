@@ -129,7 +129,7 @@ window.onload =function (){
         banners.forEach(banner => {
             const row = `
             <tr>
-                <td><input type="checkbox" name="상품코드" /></td>
+                <td><input type="checkbox" class="banner-checkbox" data-id="${banner.id}" /></td>
                 <td>${banner.id}</td>
                 <td><img src="${banner.img}" class="thumb" style="width: 70px; height: 70px;"></td>
                 <td style="text-align: left;">
@@ -144,7 +144,7 @@ window.onload =function (){
                 <td>${banner.displayStartTime}</td>
                 <td>${banner.displayEndTime}</td>
                 <td>
-                     <a href="#" class="toggle-active" data-id="${banner.id}" data-active="${banner.isActive}">
+                    <a href="#" class="toggle-active" data-id="${banner.id}" data-active="${banner.isActive}">
                         ${banner.isActive === 1 ? '활성' : '비활성'}
                     </a>
                 </td>
@@ -152,6 +152,7 @@ window.onload =function (){
         `;
             bannerList.insertAdjacentHTML('beforeend', row);
         });
+
         // 활성화/비활성 토글 이벤트 추가
         document.querySelectorAll('.toggle-active').forEach(button => {
             button.addEventListener('click', function(event) {
@@ -341,6 +342,7 @@ window.onload =function (){
                 if (response.ok) {
                     alert('배너 등록 완료');
                     closeModal();  // 모달 닫기 함수 호출
+                    location.reload();
                 } else {
                     alert('배너 등록 실패');
                 }
@@ -359,3 +361,40 @@ window.onload =function (){
         document.getElementById('bannerModal').style.display = 'none'; // Hide the modal
     }
 };
+// 전체 선택
+function toggleSelectAll(source) {
+    const checkboxes = document.querySelectorAll('.admin_list input[type="checkbox"]');
+    checkboxes.forEach(checkbox => checkbox.checked = source.checked);
+}
+
+// 선택된 배너 삭제 기능
+function deleteSelectedBanners() {
+    const selectedCheckboxes = document.querySelectorAll('.admin_list .banner-checkbox:checked');
+    const selectedIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.getAttribute('data-id'));
+
+    if (selectedIds.length > 0) {
+        fetch('/admin/config/api/banners/delete', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ ids: selectedIds }) // 선택된 ID를 서버로 전송
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert(`${selectedIds.length}개의 배너가 삭제되었습니다.`);
+                    // 삭제된 행을 화면에서 제거
+                    selectedCheckboxes.forEach(checkbox => checkbox.closest('tr').remove());
+                    location.reload();
+                } else {
+                    alert("배너 삭제에 실패했습니다.");
+                }
+            })
+            .catch(error => {
+                console.error("Error deleting banners:", error);
+                alert("삭제 요청 중 오류가 발생했습니다.");
+            });
+    } else {
+        alert("삭제할 배너를 선택하세요.");
+    }
+}

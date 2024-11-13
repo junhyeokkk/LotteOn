@@ -18,6 +18,22 @@
     font-size: 14px;
 }
 
+
+
+/* 테이블 셀 내의 긴 텍스트 줄바꿈 설정 */
+.admingraph td {
+    word-break: break-all; /* 긴 단어가 있을 때 줄바꿈 */
+    white-space: normal; /* 텍스트가 셀 안에서 줄바꿈되도록 */
+    overflow-wrap: break-word; /* 텍스트가 셀 너비에 맞춰 줄바꿈되도록 */
+}
+
+/* 예시로 이미지가 들어가는 셀의 최대 너비를 제한 */
+.admingraph td img {
+    max-width: 100%; /* 이미지가 셀의 크기를 넘지 않도록 설정 */
+    height: auto; /* 비율을 유지하면서 크기 조절 */
+}
+
+
 /* 배너 제목 */
 .banner_title {
     font-size: 20px;
