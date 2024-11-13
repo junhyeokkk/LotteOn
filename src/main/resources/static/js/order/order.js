@@ -89,7 +89,24 @@ function cancelCoupon() {
     deliveryFeeElement.textContent = `${originalValues.deliveryFee.toLocaleString()}원`;
     totalElement.textContent = `${originalValues.totalOrderPrice.toLocaleString()}원`;
 }
+function setDefaultAddress() {
+    // Hidden 필드에서 값 가져오기
+    const zip = document.getElementById('hiddenZip').value;
+    const addr1 = document.getElementById('hiddenAddr1').value;
+    const addr2 = document.getElementById('hiddenAddr2').value;
 
+    // 입력 필드에 값 설정
+    document.getElementById('zip').value = zip;
+    document.getElementById('zip').textContent = zip;
+
+    document.getElementById('addr1').value = addr1;
+    document.getElementById('addr1').textContent = addr1;
+
+    document.getElementById('addr2').value = addr2;
+    document.getElementById('addr2').textContent = addr2;
+
+    alert("기본 배송지 정보가 설정되었습니다.");
+}
 
 // 주문 총 금액을 반환하는 함수 추가
 function getTotalAmount() {
@@ -124,6 +141,7 @@ function isValidPoint(usedPoints, userPoints, orderTotalAmount) {
     }
     return true;
 }
+
 
 // 포인트 적용 함수
 function applyPoints() {

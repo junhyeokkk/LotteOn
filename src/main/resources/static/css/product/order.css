@@ -1,3 +1,29 @@
+
+/* Flex layout for header */
+.order__section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+/* 기본배송지로 설정 버튼 스타일 */
+.btn-set-default {
+    float: right;
+    padding: 8px 12px;
+    background-color: #ff6b6b;
+    border: none;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-set-default:hover {
+    background-color: #d9534f;
+}
+
 /* 장바구니 네비게이션 스타일 */
 .order__nav {
     display: flex;
