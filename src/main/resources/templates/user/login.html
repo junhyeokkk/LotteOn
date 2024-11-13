@@ -30,6 +30,41 @@
                 window.history.replaceState({}, document.title, url);
             }
         };
+        document.addEventListener('DOMContentLoaded', () => {
+            const bannerContainer = document.getElementById('loginBanner');
+            let currentBannerIndex = 0;
+
+            // API로 로그인 배너 데이터를 가져오기
+            fetch('/api/banner/login')
+                .then(response => response.json())
+                .then(banners => {
+                    if (banners.length > 0) {
+                        // 첫 번째 배너로 설정
+                        updateBanner(banners[currentBannerIndex]);
+
+                        // 배너가 여러 개일 경우 슬라이더 기능 추가
+                        if (banners.length > 1) {
+                            setInterval(() => {
+                                currentBannerIndex = (currentBannerIndex + 1) % banners.length;
+                                updateBanner(banners[currentBannerIndex]);
+                            }, 4000); // 4초마다 변경
+                        }
+                    } else {
+                        console.warn('배너 데이터가 없습니다.');
+                    }
+                })
+                .catch(error => console.error('배너 데이터를 가져오는 중 오류 발생:', error));
+
+            // 배너를 업데이트하는 함수
+            function updateBanner(banner) {
+                bannerContainer.innerHTML = `
+            <a href="${banner.backgroundLink || '#'}">
+                <img class="login-right__img" src="${banner.img}" alt="${banner.name}">
+            </a>
+        `;
+            }
+        });
+
     </script>
 </head>
 
@@ -80,9 +115,10 @@
                     </div>
 
                 </div>
-                <div class="login-right">
-                    <img class="login-right__img" th:src="@{/images/member/login_ad.jpg}" alt="샘플광고" >
+                <div class="login-right" id="loginBanner">
+                    <img class="login-right__img" src="/images/member/login_ad.jpg" alt="샘플광고">
                 </div>
+
             </div>
             <div class="awards-container">
                 <img src="https://png.pngtree.com/png-clipart/20191121/original/pngtree-awards-ceremony-golden-wheat-ear-logo-png-image_5137378.jpg" alt="awards img" />
