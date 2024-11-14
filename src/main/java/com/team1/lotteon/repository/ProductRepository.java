@@ -1,6 +1,8 @@
 package com.team1.lotteon.repository;
 
 import com.team1.lotteon.entity.Product;
+import com.team1.lotteon.entity.SellerMember;
+import com.team1.lotteon.entity.Shop;
 import com.team1.lotteon.repository.productCustom.ProductRepositoryCustom;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +21,7 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<Product, Long>, ProductRepositoryCustom {
     Page<Product> findByCategoryId(Long categoryId, Pageable pageable);
     Page<Product> findByCategoryIdIn(List<Long> categoryIds, Pageable pageable);
+    Page<Product> findByShop(Shop shop, Pageable pageable);
 
     //히트 상품 조회수 가장 많은 순 8개
     List<Product> findTop8ByOrderByViewsDesc();
@@ -62,4 +65,5 @@ public interface ProductRepository extends JpaRepository<Product, Long>, Product
 
     //할인상품 할인율이 가장 많은 순서
     List<Product> findTop8ByOrderByDiscountRateDesc();
+
 }

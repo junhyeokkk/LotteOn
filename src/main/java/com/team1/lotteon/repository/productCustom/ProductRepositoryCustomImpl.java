@@ -109,4 +109,59 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom {
         orderSpecifiers.add(product.createdAt.desc());
         return orderSpecifiers;
     }
+
+    public Page<Product> searchProductsBySeller(ProductSearchRequestDto searchRequestDto, List<Long> categoryIds, Pageable pageable, Long shopId) {
+        QProduct product = QProduct.product;
+        QOrderItem orderItem = QOrderItem.orderItem;
+        QReview review = QReview.review;
+
+        BooleanBuilder builder = new BooleanBuilder();
+
+        // 키워드 검색 조건
+        if (searchRequestDto.getKeyword() != null && !searchRequestDto.getKeyword().isEmpty()) {
+            Predicate predicate;
+            if(searchRequestDto.getType() != null) {
+                predicate = switch (searchRequestDto.getType()) {
+                    case "prodName" -> product.productName.containsIgnoreCase(searchRequestDto.getKeyword());
+                    case "prodNo" -> product.id.eq(Long.valueOf(searchRequestDto.getKeyword()));
+                    case "sellerNo" -> product.member.shop.shopName.containsIgnoreCase(searchRequestDto.getKeyword());
+                    case "prodCompany" -> product.manufacturer.containsIgnoreCase(searchRequestDto.getKeyword());
+                    default -> product.productName.containsIgnoreCase(searchRequestDto.getKeyword());
+                };
+            } else {
+                predicate = product.productName.containsIgnoreCase(searchRequestDto.getKeyword());
+            }
+            builder.and(predicate);
+        }
+
+        // 카테고리 필터 조건
+        if (categoryIds != null && !categoryIds.isEmpty()) {
+            builder.and(product.category.id.in(categoryIds));
+        }
+
+        // 판매자의 Shop ID 조건 추가
+        builder.and(product.shop.id.eq(shopId));
+
+        // 정렬 조건 설정
+        List<OrderSpecifier<?>> orderSpecifiers = getOrderSpecifiers(searchRequestDto.getSortBy(), product, orderItem, review);
+
+        List<Product> products = queryFactory
+                .selectFrom(product)
+                .leftJoin(orderItem).on(orderItem.product.id.eq(product.id))
+                .leftJoin(review).on(review.product.id.eq(product.id))
+                .where(builder)
+                .groupBy(product.id)
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .orderBy(orderSpecifiers.toArray(new OrderSpecifier[0]))
+                .fetch();
+
+        long total = queryFactory
+                .selectFrom(product)
+                .where(builder)
+                .fetchCount();
+
+        return PageableExecutionUtils.getPage(products, pageable, () -> total);
+    }
+
 }

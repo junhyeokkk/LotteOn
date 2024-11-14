@@ -9,4 +9,5 @@ import java.util.List;
 
 public interface ProductRepositoryCustom {
     Page<Product> searchProducts(ProductSearchRequestDto searchRequestDto, List<Long> categoryIds, Pageable pageable);
+    Page<Product> searchProductsBySeller(ProductSearchRequestDto searchRequestDto, List<Long> categoryIds, Pageable pageable, Long shopId);
 }

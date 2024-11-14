@@ -237,6 +237,33 @@ public class ProductService {
         return product;
     }
 
+    public PageResponseDTO<ProductSummaryResponseDTO> searchProductsBySeller(ProductSearchRequestDto productSearchRequestDto, SellerMember sellerMember) {
+        // 판매자의 Shop ID 가져오기
+        Long shopId = sellerMember.getShop().getId();
+
+        Category category = null;
+        if (productSearchRequestDto.getCategoryId() != null) {
+            category = categoryRepository.findById(productSearchRequestDto.getCategoryId())
+                    .orElseThrow(() -> new IllegalArgumentException("Category not found"));
+        }
+
+        List<Long> categoryIds = new ArrayList<>();
+        if (category != null) {
+            category.getCategoryIds(categoryIds);
+        }
+
+        Pageable pageable = productSearchRequestDto.toPageable();
+        Page<Product> products = productRepository.searchProductsBySeller(productSearchRequestDto, categoryIds, pageable, shopId);
+
+        return PageResponseDTO.fromPage(products.map(product -> {
+            double score = getRoundedAverageScore(product.getId());
+            long reviewCount = reviewRepository.countByProductId(product.getId());
+            return ProductSummaryResponseDTO.fromEntity(product, score, reviewCount);
+        }));
+    }
+
+
+
 
     public PageResponseDTO<ProductSummaryResponseDTO> getProducts(Pageable pageable) {
         Page<Product> products = productRepository.findAll(pageable);
@@ -257,10 +284,6 @@ public class ProductService {
         if (category != null) {
             category.getCategoryIds(categoryIds);
         }
-
-//        if (category != null && category.getLevel() == 3) {
-//            categoryIds.add(category.getId());
-//        }
 
         Pageable pageable = productSearchRequestDto.toPageable();
         Page<Product> products = productRepository.searchProducts(productSearchRequestDto, categoryIds, pageable);

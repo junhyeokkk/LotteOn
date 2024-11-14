@@ -11,19 +11,19 @@
     <div class="footer__info">
         <p class="footer__logo"><img src="/static/images/footer_logo.png" th:src="@{'/'+${appInfo.uploadDir}+'logo/'+${config.footerlogo}}" alt="로고"></p>
         <p class="footer__company-info">
-            <strong>(주)LotteON</strong><br>
-            부산시 강남구 테헤란로 152 (역삼동 강남파이낸스센터)<br>
-            대표이사 : 홍길동<br>
-            사업자등록번호 : 220-81-83676 사업자정보확인<br>
-            통신판매업신고 : 강남 10630호 Fax : 02-589-8842
+            <strong>[[${config.b_name}]]</strong><br>
+            [[${config.addr1}]] [[${config.addr2}]]<br>
+            대표이사 : [[${config.ceo}]]<br>
+            사업자등록번호 : [[${config.b_num}]] 사업자정보확인<br>
+            통신판매업신고 : [[${config.dispute}]] Fax : 02-589-8842
         </p>
         <p class="footer__customer-service">
             <strong>고객센터</strong><br>
         <div style="font-size: 11px; line-height: 15px; color: #676767;">
-            Tel : 1234-5678 (평일 09:00~18:00)<br>
-            스마일클럽/SVIP 전용 : 1522-5700 (365일 09:00~18:00)<br>
+            Tel : [[${config.cs_num}]] (평일 09:00~18:00)<br>
+            스마일클럽/SVIP 전용 : 1522-5700 (365일 [[${config.cs_time}]])<br>
             경기도 부천시 원미구 부일로 223(상동) 투나빌딩 11층<br>
-            Fax : 051-123-4567 | Mail : LotteON@LotteON.co.kr<br>
+            Fax : 051-123-4567 | Mail : [[${config.cs_email}]]<br>
             <span th:text="|Version: ${@environment.getProperty('app.version')}|">Version : 1.11..</span>
         </div>
         </p>

@@ -51,7 +51,7 @@
         </div>
         <div class="summary">
             <nav class="summary__nav">
-                <h1 class="summary__nav__company">(주)상호명</h1>
+                <h1 class="summary__nav__company"  th:text="${product.getShop().getShopName()}"></h1>
                 <h2 class="summary__nav__product">상품번호&nbsp;:&nbsp;<span id="prodNo">[[${product.id}]]</span></h2>
             </nav>
 
