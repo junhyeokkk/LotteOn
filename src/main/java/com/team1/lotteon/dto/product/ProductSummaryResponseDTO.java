@@ -6,8 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-
 /*
     날짜 : 2024/10/25
     이름 : 이상훈
@@ -35,6 +33,24 @@ public class ProductSummaryResponseDTO {
     private int discountedPrice;
     private double rating;
     private long reviewCount;
+
+    public ProductSummaryResponseDTO(Product product) {
+        this.id = product.getId();
+        this.name = product.getProductName();
+        this.description = product.getDescription();
+        this.price = product.getPrice();
+        this.discountRate = product.getDiscountRate();
+        this.discountedPrice = calculateDiscountedPrice(product.getPrice(), product.getDiscountRate());
+        this.deliveryFee = product.getDeliveryFee();
+        this.point = product.getPoint();
+        this.stock = product.getStock();
+        this.sellerName = (product.getMember() != null && product.getMember().getShop() != null)
+                ? product.getMember().getShop().getShopName() : null;
+        this.imageUrl = product.getProductImg1();
+        this.views = product.getViews();
+    }
+
+
 
     public static ProductSummaryResponseDTO fromEntity(Product product, double rating, long reviewCount) {
         return ProductSummaryResponseDTO.builder()

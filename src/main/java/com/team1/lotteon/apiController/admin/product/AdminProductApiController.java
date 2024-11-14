@@ -20,7 +20,7 @@ import java.util.List;
 /*
     날짜 : 2024/11/6
     이름 : 최준혁
-    내용 : ADMIN 상품ㅇ,ㄹ 관리하는 api controller 생성
+    내용 : ADMIN 상품을 관리하는 api controller 생성
 */
 @Log4j2
 @RequiredArgsConstructor

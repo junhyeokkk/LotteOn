@@ -67,7 +67,7 @@
           <input type="hidden" th:value="${cart.product.id}"/>
           <td class="product-details">
             <a href="#" class="product-image">
-              <img th:src="'/'+${appInfo.uploadDir}+'product/'+${cart.product.productImg1}" alt="상품 이미지">
+              <img th:src="'/'+${cart.product.productImg1}" alt="상품 이미지">
             </a>
             <div class="product-info">
               <p><a href="#">[[${cart.product.productName}]]</a></p>
