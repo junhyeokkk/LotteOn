@@ -74,6 +74,33 @@ document.addEventListener("DOMContentLoaded", function() {
         receiptConfirmModal.style.display = "none";
     });
 
+
+    // 수취확인 클릭 시 상태 변경
+    confirmReceiptButton.addEventListener("click", function() {
+        // localStorage에서 orderItemId 가져오기
+        const orderItemId = localStorage.getItem("orderItemId");
+
+       console.log("dsfsfds");
+        fetch(`/api/order/updateDeliveryStatus`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(orderItemId)  // orderItemId만 전송
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("수취확인이 완료되었습니다.");
+                    document.getElementById("receiptConfirmModal").style.display = "none";
+                    location.reload(); // 페이지 새로고침
+                } else {
+                    alert("수취확인 처리에 실패했습니다.");
+                }
+            })
+            .catch(error => console.error("Error:", error));
+    });
+
     const bannerContainer = document.getElementById("bannerContainer");
 
     if (banners && banners.length > 0) {
@@ -102,31 +129,6 @@ document.addEventListener("DOMContentLoaded", function() {
     } else {
         console.log("배너 데이터가 없습니다.");
     }
-
-    // 수취확인 클릭 시 상태 변경
-    confirmReceiptButton.addEventListener("click", function() {
-        // localStorage에서 orderItemId 가져오기
-        const orderItemId = localStorage.getItem("orderItemId");
-
-        fetch(`/api/order/updateDeliveryStatus`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(orderItemId)  // orderItemId만 전송
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert("수취확인이 완료되었습니다.");
-                    document.getElementById("receiptConfirmModal").style.display = "none";
-                    location.reload(); // 페이지 새로고침
-                } else {
-                    alert("수취확인 처리에 실패했습니다.");
-                }
-            })
-            .catch(error => console.error("Error:", error));
-    });
 });
 // 반품
 function openRefundModal(button) {

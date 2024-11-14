@@ -68,7 +68,8 @@
     <section class="order__section-wrapper">
     <!-- 왼쪽 섹션 -->
     <div class="order__left-section">
-      <!-- Hidden 필드로 주소 데이터 전달 --> 
+      <!-- Hidden 필드로 주소 데이터 전달 -->
+
       <input type="hidden" id="hiddenZip" th:value="${member.getAddress().getZip()}" />
       <input type="hidden" id="hiddenAddr1" th:value="${member.getAddress().getAddr1()}" />
       <input type="hidden" id="hiddenAddr2" th:value="${member.getAddress().getAddr2()}" />
