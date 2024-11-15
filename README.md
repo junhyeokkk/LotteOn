@@ -78,13 +78,13 @@ LotteOn 프로젝트는 **롯데 e-커머스** 환경과 유사한 **쇼핑몰 �
 ---
 
 ## 🎥 기능 시연
-[시연 영상 바로가기](https://placeholder.com/demo-video) <!-- 여기에 실제 시연 영상 링크를 추가하세요 -->
+[시연 영상 바로가기](https://youtu.be/3lCmbhZeRjE) 
 
 ---
 
 ## 🤝 질문 및 답변
 프로젝트에 대한 문의는 아래 연락처로 부탁드립니다:
-- **팀장**: [이상훈](mailto:your_email@example.com)
+- **최준혁**: (mailto:loveu9911111@gmail.com)
 - **GitHub Issues**: 프로젝트 관련 이슈나 버그는 [GitHub Issues](https://github.com/team1-lotteon/issues)에서 보고해주세요.
 
 ---
