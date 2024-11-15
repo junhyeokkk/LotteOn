@@ -239,17 +239,6 @@
 
                         <label>선택옵션</label>
                         <div class="selectedOption">
-                            <th:block th:each="ProductOption, i:${product.getProductOptions()}">
-                                <div class="options_choose">
-                                    <label for="optionSelect[[${i}]]">[[${ProductOption.name}]]:</label>
-                                    <select onchange="updateSelectedOptions()">
-                                        <option value="">옵션을 선택하세요</option>
-                                        <th:block th:each="optionitem : ${ProductOption.getOptionitems()}">
-                                            <option th:value="${optionitem.id}">[[${optionitem.value}]]</option>
-                                        </th:block>
-                                    </select>
-                                </div>
-                            </th:block>
                         </div>
                     </div>
 
@@ -385,16 +374,7 @@
                 }
             }
 
-            // 옵션 모두 체크했는지 검사하는 유효성검사 메서드
-            function areAllOptionsSelected() {
-                if (Object.keys(selectedOptions).length !== productOptionsCount) {
-                    return false;
-                }
-                return Object.values(selectedOptions).every(value => value !== null && !isNaN(value));
-            }
-
-
-            // 선택된 옵션에 맞는 재고 및 combinationId 찾기
+// 선택된 옵션에 맞는 재고 및 combinationId 찾기
             function getDetailsForSelectedOptions() {
                 const optionKey = JSON.stringify(Object.values(selectedOptions).sort((a, b) => a - b));
                 console.log('확인된 옵션 키:', optionKey);
@@ -405,6 +385,16 @@
                     console.warn("옵션 조합을 찾을 수 없습니다:", optionKey);
                 }
                 return details || {combinationId: null, stock: 0};
+            }
+
+
+
+            // 옵션 모두 체크했는지 검사하는 유효성검사 메서드
+            function areAllOptionsSelected() {
+                if (Object.keys(selectedOptions).length !== productOptionsCount) {
+                    return false;
+                }
+                return Object.values(selectedOptions).every(value => value !== null && !isNaN(value));
             }
 
 
