@@ -191,7 +191,8 @@ document.getElementById("closeModal").addEventListener("click", function() {
 });
 
 // 반품 요청
-function submitRefundRequest() {
+function submitRefundRequest(event) {
+    event.preventDefault();
     const refundReason = document.querySelector('input[name="refundreason"]:checked').value;
     const reasonText = document.getElementById("refundReasonText").value;
     const imageFile = document.getElementById("refundImage").files[0];
