@@ -44,7 +44,7 @@
                         </div>
                         <table class="admingraph">
                             <tr class="admin_title">
-                                <th>송장번호</th>
+                                <th>배송번호</th>
                                 <th>택배사</th>
                                 <th>주문번호</th>
                                 <th>수령인</th>
@@ -56,7 +56,7 @@
                                 <th>접수일</th>
                             </tr>
                             <tr th:each="delivery : ${deliveries}" class="admin_list">
-                                <td><a href="#" class="delivery-detail-btn" th:data-delivery-id="${delivery.id}" th:text="${delivery.id}">송장번호</a></td>
+                                <td><a href="#" class="delivery-detail-btn" th:data-delivery-id="${delivery.id}" th:text="${delivery.id}"></a></td>
                                 <td th:text="${delivery.delCompany}">택배사</td>
                                 <td th:text="${delivery.orderItem.order.id}">주문번호</td>
                                 <td th:text="${delivery.orderItem.order.recipientName}">수령인</td>
