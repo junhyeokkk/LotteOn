@@ -59,7 +59,7 @@ LotteOn 프로젝트는 **롯데 e-커머스** 환경과 유사한 **쇼핑몰 �
 - **3계층 구조**: Presentation, Service, Repository
 - **RESTful API** 설계
 - **ERD**
-  ![ERD](https://placeholder.com/example-erd) <!-- 여기에 실제 ERD 이미지를 추가하세요 -->
+  ![ERD](./LotteERD.png) <!-- 여기에 실제 ERD 이미지를 추가하세요 -->
 
 ### 주요 기능
 #### 사용자
