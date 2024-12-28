@@ -1,4 +1,4 @@
-# Team 1 - LotteOn Project
+# LotteOn 
 
 ![header](https://capsule-render.vercel.app/api?type=wave&color=gradient&height=250&section=header&text=🛒LotteOn%20Project🛒&fontSize=70&fontAlign=50)
 
